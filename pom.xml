@@ -61,6 +61,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- Pretty URLs dependencies -->
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+                
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>br.gov.frameworkdemoiselle.component</groupId>

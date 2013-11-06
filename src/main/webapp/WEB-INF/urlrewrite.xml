@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+
+	<rule>
+		<from>(.+)\.html</from>
+		<set type="status">404</set>
+		<to>null</to>
+	</rule>
+
+	<rule>
+		<from>^/login$</from>
+		<to>/login.html</to>
+	</rule>
+
+	<rule>
+		<from>^/home$</from>
+		<to>/home.html</to>
+	</rule>
+
+	<rule>
+		<from>^/mobile$</from>
+		<to>/mobile.html</to>
+	</rule>
+
+	<rule>
+		<from>^/teste$</from>
+		<to>/teste.html</to>
+	</rule>
+	<!--
+	<rule>
+		<from>^(?:(?!\.\w+).)*$</from>
+		<to>$1.html</to>
+	</rule>
+
+	<rule>
+		<from>(/api/.+)$</from>
+		<to>$0</to>
+	</rule>
+	-->
+
+	<rule>
+		<from>^/$</from>
+		<to type="redirect">%{context-path}/home</to>
+	</rule>
+
+	<rule>
+		<from>^/(.+)/$</from>
+		<to type="redirect">%{context-path}/$1</to>
+	</rule>
+
+</urlrewrite>
