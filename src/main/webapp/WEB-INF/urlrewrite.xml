@@ -26,8 +26,8 @@
 	</rule>
 
 	<rule>
-		<from>^/teste$</from>
-		<to>/teste.html</to>
+		<from>^/index$</from>
+		<to>/index.html</to>
 	</rule>
 	<!--
 	<rule>
