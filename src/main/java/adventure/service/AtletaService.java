@@ -1,5 +1,7 @@
 package adventure.service;
 
+import static adventure.entity.TipoTelefone.CELULAR;
+import static adventure.entity.TipoTelefone.RESIDENCIAL;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.ArrayList;
@@ -66,7 +68,6 @@ public class AtletaService {
 		Atleta atleta;
 
 		atleta = new Atleta();
-		atleta.setId(Long.valueOf(1));
 		atleta.setNome("Urtzi Iglesias");
 		atleta.setEmail("urtzi.iglesias@vidaraid.com");
 
@@ -76,9 +77,8 @@ public class AtletaService {
 
 		atleta.setRg(null);
 		atleta.setCpf(null);
-		atleta.setCelular(new Telefone("61", "1234-4567"));
-		atleta.setResidencial(null);
-		atleta.setComercial(new Telefone("61", "0011-2233"));
+		atleta.addTelefone(new Telefone("61", "1234-4567", CELULAR));
+		atleta.addTelefone(new Telefone("61", "1234-4567", RESIDENCIAL));
 
 		create(atleta);
 	}

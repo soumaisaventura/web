@@ -1,6 +1,9 @@
 package adventure.entity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class Atleta {
 
@@ -16,11 +19,11 @@ public class Atleta {
 
 	private String cpf;
 
-	private Telefone celular;
+	private List<Telefone> telefones = Collections.synchronizedList(new ArrayList<Telefone>());
 
-	private Telefone residencial;
-
-	private Telefone comercial;
+	public void addTelefone(Telefone telefone) {
+		telefones.add(telefone);
+	}
 
 	public Long getId() {
 		return id;
@@ -70,27 +73,11 @@ public class Atleta {
 		this.cpf = cpf;
 	}
 
-	public Telefone getCelular() {
-		return celular;
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 
-	public void setCelular(Telefone celular) {
-		this.celular = celular;
-	}
-
-	public Telefone getResidencial() {
-		return residencial;
-	}
-
-	public void setResidencial(Telefone residencial) {
-		this.residencial = residencial;
-	}
-
-	public Telefone getComercial() {
-		return comercial;
-	}
-
-	public void setComercial(Telefone comercial) {
-		this.comercial = comercial;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 }
