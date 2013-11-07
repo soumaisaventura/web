@@ -71,11 +71,13 @@
 		</dependency>
 
 		<!-- Pretty URLs dependencies -->
+		<!--
 		<dependency>
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 			<version>${urlrewritefilter.version}</version>
 		</dependency>
+		-->
                 
 		<!-- Test dependencies -->
 		<dependency>
