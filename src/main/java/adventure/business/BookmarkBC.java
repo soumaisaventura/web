@@ -1,19 +1,17 @@
 package adventure.business;
 
-import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import adventure.domain.Bookmark;
+import adventure.persistence.BookmarkDAO;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-import adventure.domain.Bookmark;
-import adventure.persistence.BookmarkDAO;
-
 @BusinessController
 public class BookmarkBC extends DelegateCrud<Bookmark, Long, BookmarkDAO> {
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	@Startup
+
+	// @Startup
 	@Transactional
 	public void load() {
 		if (findAll().isEmpty()) {
@@ -29,5 +27,5 @@ public class BookmarkBC extends DelegateCrud<Bookmark, Long, BookmarkDAO> {
 			insert(new Bookmark("Downloads", "http://download.frameworkdemoiselle.gov.br"));
 		}
 	}
-	
+
 }

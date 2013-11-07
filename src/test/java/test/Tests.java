@@ -44,6 +44,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
 import adventure.entity.Atleta;
+import adventure.entity.Telefone;
+import adventure.entity.TipoTelefone;
 import adventure.service.AtletaService;
 
 @Ignore
@@ -57,17 +59,23 @@ public final class Tests {
 	}
 
 	public static WebArchive createDeployment() {
-		File[] libs = Maven.resolver().offline().loadPomFromFile("pom.xml", "arquillian-test")
-				.importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile();
+		File[] libs = Maven.resolver()
+				.offline()
+				.loadPomFromFile("pom.xml")
+				.importCompileAndRuntimeDependencies()
+				.resolve()
+				.withTransitivity()
+				.asFile();
 
 		return ShrinkWrap.create(WebArchive.class)
 				.addClass(Atleta.class)
 				.addClass(AtletaService.class)
+				.addClass(Telefone.class)
+				.addClass(TipoTelefone.class)
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))
-				.addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
-				.addAsResource(new File("src/main/resources/demoiselle.properties"))
+//				.addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
 				.addAsResource(new File("src/main/resources/demoiselle.properties"))
 				.addAsResource(new File("src/main/resources/messages.properties"))
 				.addAsResource(new File("src/main/resources/ValidationMessages.properties"))
