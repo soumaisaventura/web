@@ -38,6 +38,8 @@ package test;
 
 import java.io.File;
 
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -51,38 +53,27 @@ import adventure.service.AtletaService;
 @Ignore
 public final class Tests {
 
+	{
+		ResteasyProviderFactory.setRegisterBuiltinByDefault(false);
+		ResteasyProviderFactory.getInstance().registerProvider(JacksonJsonProvider.class);
+	}
+
 	private Tests() {
 	}
 
-	public static WebArchive createDeployment(final Class<?> baseClass) {
-		return createDeployment().addPackages(true, baseClass.getPackage()).addClass(Tests.class);
-	}
-
 	public static WebArchive createDeployment() {
-		File[] libs = Maven.resolver()
-				.offline()
-				.loadPomFromFile("pom.xml")
-				.importCompileAndRuntimeDependencies()
-				.resolve()
-				.withTransitivity()
-				.asFile();
+		File[] libs = Maven.resolver().offline().loadPomFromFile("pom.xml").importCompileAndRuntimeDependencies()
+				.resolve().withTransitivity().asFile();
 
-		return ShrinkWrap.create(WebArchive.class)
-				.addClass(Atleta.class)
-				.addClass(AtletaService.class)
+		return ShrinkWrap.create(WebArchive.class).addClass(Atleta.class).addClass(AtletaService.class)
 				.addClass(Telefone.class)
 				.addClass(TipoTelefone.class)
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))
-//				.addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
+				// .addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
 				.addAsResource(new File("src/main/resources/demoiselle.properties"))
 				.addAsResource(new File("src/main/resources/messages.properties"))
-				.addAsResource(new File("src/main/resources/ValidationMessages.properties"))
-				.addAsLibraries(libs);
+				.addAsResource(new File("src/main/resources/ValidationMessages.properties")).addAsLibraries(libs);
 	}
-
-	// public static FileAsset createFileAsset(final String pathname) {
-	// return new FileAsset(new File(pathname));
-	// }
 }
