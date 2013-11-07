@@ -46,12 +46,12 @@ public class AtletaServiceTest {
 		}
 
 		AtletaServiceClient client = createClient();
-		client.create(atletaLocal);
+		client.criar(atletaLocal);
 
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
 		assertEquals(atletaLocal.getEmail(), atletaRemote.getEmail());
 
-		client.delete(atletaRemote.getId());
+		client.excluir(atletaRemote.getId());
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
 		assertNull(atletaRemote);
 	}
@@ -60,7 +60,7 @@ public class AtletaServiceTest {
 		Atleta result = null;
 		AtletaServiceClient client = createClient();
 
-		for (Atleta aux : client.findAll()) {
+		for (Atleta aux : client.obterTodos()) {
 			if (email.equals(aux.getEmail())) {
 				if (result != null) {
 					throw new IllegalStateException("E-mail duplicado: " + email);

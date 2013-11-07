@@ -18,16 +18,16 @@ import adventure.entity.Atleta;
 public interface AtletaServiceClient {
 
 	@POST
-	Long create(Atleta atleta);
+	Long criar(Atleta atleta);
 
 	@DELETE
 	@Path("/{id}")
-	void delete(@PathParam("id") Long id);
+	void excluir(@PathParam("id") Long id);
 
 	@GET
-	List<Atleta> findAll();
+	List<Atleta> obterTodos();
 
 	@GET
 	@Path("/{id}")
-	public Atleta load(@PathParam("id") Long id);
+	Atleta obter(@PathParam("id") Long id);
 }
