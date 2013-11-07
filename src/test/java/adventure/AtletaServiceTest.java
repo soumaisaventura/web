@@ -1,5 +1,9 @@
 package adventure;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -11,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
+import adventure.entity.Atleta;
 
 @RunWith(Arquillian.class)
 public class AtletaServiceTest {
@@ -28,9 +33,43 @@ public class AtletaServiceTest {
 	}
 
 	@Test
-	public void x() {
+	public void crudBemSucedidoApenasComCamposObrigatorios() {
+		Atleta atletaLocal = new Atleta();
+		atletaLocal.setNome("Cleverson Sacramento");
+		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
+
+		Atleta atletaRemote;
+		atletaRemote = obterPorEmail(atletaLocal.getEmail());
+
+		if (atletaRemote != null) {
+			fail("O atleta já está cadastrado e não deveria");
+		}
+
+		AtletaServiceClient client = createClient();
+		client.create(atletaLocal);
+
+		atletaRemote = obterPorEmail(atletaLocal.getEmail());
+		assertEquals(atletaLocal.getEmail(), atletaRemote.getEmail());
+
+		client.delete(atletaRemote.getId());
+		atletaRemote = obterPorEmail(atletaLocal.getEmail());
+		assertNull(atletaRemote);
+	}
+
+	private Atleta obterPorEmail(String email) {
+		Atleta result = null;
 		AtletaServiceClient client = createClient();
 
-		System.out.println(client.search());
+		for (Atleta aux : client.findAll()) {
+			if (email.equals(aux.getEmail())) {
+				if (result != null) {
+					throw new IllegalStateException("E-mail duplicado: " + email);
+				} else {
+					result = aux;
+				}
+			}
+		}
+
+		return result;
 	}
 }
