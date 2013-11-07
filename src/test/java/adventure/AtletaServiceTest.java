@@ -23,9 +23,14 @@ public class AtletaServiceTest {
 		return Tests.createDeployment();
 	}
 
+	private AtletaServiceClient createClient() {
+		return ProxyFactory.create(AtletaServiceClient.class, url.toString());
+	}
+
 	@Test
 	public void x() {
-		AtletaServiceClient client = ProxyFactory.create(AtletaServiceClient.class, url.toString());
+		AtletaServiceClient client = createClient();
+
 		System.out.println(client.search());
 	}
 }
