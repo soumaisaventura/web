@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +21,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.jboss.resteasy.spi.validation.ValidateRequest;
+
 import adventure.entity.Atleta;
 import adventure.entity.Telefone;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
@@ -27,12 +30,14 @@ import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("/atleta")
 @Produces(APPLICATION_JSON)
+@ValidateRequest
 public class AtletaService {
 
 	private static Map<Long, Atleta> database = Collections.synchronizedMap(new HashMap<Long, Atleta>());
 
 	@POST
-	public Long create(Atleta atleta) {
+	@ValidateRequest
+	public Long create(@Valid Atleta atleta) {
 		Random generator = new Random();
 		Long id = Long.valueOf(generator.nextInt(99999999));
 
@@ -92,8 +97,8 @@ public class AtletaService {
 
 		atleta.setRg(null);
 		atleta.setCpf(null);
-		atleta.addTelefone(new Telefone("61", "1234-4567", CELULAR));
-		atleta.addTelefone(new Telefone("61", "1234-4567", RESIDENCIAL));
+		atleta.addTelefone(new Telefone("61", "1234-4567", null), CELULAR);
+		atleta.addTelefone(new Telefone("61", "1234-4567", null), RESIDENCIAL);
 
 		create(atleta);
 	}
