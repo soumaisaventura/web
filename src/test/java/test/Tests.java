@@ -46,7 +46,6 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
 import adventure.entity.Atleta;
-import adventure.entity.DadosPessoais;
 import adventure.entity.Telefone;
 import adventure.entity.TipoTelefone;
 import adventure.service.AtletaService;
@@ -82,7 +81,6 @@ public final class Tests {
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/jboss-deployment-structure.xml"))
-				// .addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
 				.addAsResource(new File("src/main/resources/demoiselle.properties"))
 				.addAsResource(new File("src/main/resources/messages.properties"))
 				.addAsResource(new File("src/main/resources/ValidationMessages.properties"))
