@@ -1,12 +1,17 @@
 package adventure.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Telefone {
 
+	@NotBlank
 	private String area;
 
+	@NotBlank
 	private String numero;
 
-	private TipoTelefone tipo;
+	// @NotNull
+	// private TipoTelefone tipo;
 
 	public Telefone() {
 	}
@@ -14,7 +19,7 @@ public class Telefone {
 	public Telefone(String area, String numero, TipoTelefone tipo) {
 		this.area = area;
 		this.numero = numero;
-		this.tipo = tipo;
+		// this.tipo = tipo;
 	}
 
 	public String getArea() {
@@ -33,11 +38,11 @@ public class Telefone {
 		this.numero = numero;
 	}
 
-	public TipoTelefone getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoTelefone tipo) {
-		this.tipo = tipo;
-	}
+	// public TipoTelefone getTipo() {
+	// return tipo;
+	// }
+	//
+	// public void setTipo(TipoTelefone tipo) {
+	// this.tipo = tipo;
+	// }
 }

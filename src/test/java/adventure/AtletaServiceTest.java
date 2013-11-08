@@ -1,21 +1,30 @@
 package adventure;
 
-import static org.junit.Assert.assertEquals;
+import static adventure.entity.TipoTelefone.COMERCIAL;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.resteasy.client.ClientResponseFailure;
 import org.jboss.resteasy.client.ProxyFactory;
+import org.jboss.resteasy.util.GenericType;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
 import adventure.entity.Atleta;
+import adventure.entity.Telefone;
+import adventure.service.Validation;
 
 @RunWith(Arquillian.class)
 public class AtletaServiceTest {
@@ -54,6 +63,35 @@ public class AtletaServiceTest {
 		client.excluir(atletaRemote.getId());
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
 		assertNull(atletaRemote);
+	}
+
+	@Test
+	public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
+		AtletaServiceClient client = createClient();
+
+		Atleta atleta = new Atleta();
+		atleta.addTelefone(new Telefone(), COMERCIAL);
+
+		try {
+			client.criar(atleta);
+			fail("Deveria ter ocorrido erro ao tentar inserir");
+
+		} catch (ClientResponseFailure cause) {
+			assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
+
+			@SuppressWarnings("unchecked")
+			List<Validation> validations = (List<Validation>) cause.getResponse().getEntity(
+					new GenericType<List<Validation>>() {
+					});
+
+			List<Validation> expected = new ArrayList<Validation>();
+			expected.add(new Validation("nome", "Não pode ser vazio."));
+			expected.add(new Validation("email", "Não pode ser vazio."));
+			expected.add(new Validation("telefones.comercial.area", "Não pode ser vazio."));
+			expected.add(new Validation("telefones.comercial.numero", "Não pode ser vazio."));
+
+			assertEquals(new HashSet<Validation>(expected), new HashSet<Validation>(validations));
+		}
 	}
 
 	private Atleta obterPorEmail(String email) {

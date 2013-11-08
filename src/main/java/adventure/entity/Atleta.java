@@ -1,16 +1,23 @@
 package adventure.entity;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class Atleta {
 
 	private Long id;
 
+	@NotBlank
 	private String nome;
 
+	@NotBlank
 	private String email;
 
 	private Date nascimento;
@@ -19,10 +26,12 @@ public class Atleta {
 
 	private String cpf;
 
-	private List<Telefone> telefones = Collections.synchronizedList(new ArrayList<Telefone>());
+	@Valid
+	@NotEmpty
+	private Map<TipoTelefone, Telefone> telefones = Collections.synchronizedMap(new HashMap<TipoTelefone, Telefone>());
 
-	public void addTelefone(Telefone telefone) {
-		telefones.add(telefone);
+	public void addTelefone(Telefone telefone, TipoTelefone tipo) {
+		telefones.put(tipo, telefone);
 	}
 
 	public Long getId() {
@@ -73,11 +82,11 @@ public class Atleta {
 		this.cpf = cpf;
 	}
 
-	public List<Telefone> getTelefones() {
+	public Map<TipoTelefone, Telefone> getTelefones() {
 		return telefones;
 	}
 
-	public void setTelefones(List<Telefone> telefones) {
+	public void setTelefones(Map<TipoTelefone, Telefone> telefones) {
 		this.telefones = telefones;
 	}
 }
