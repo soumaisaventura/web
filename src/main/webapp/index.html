@@ -4,89 +4,58 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Adventure | Gerencie seu Evento de Aventura</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet" href="css/bootstrap.min.css" rel="stylesheet">
+		<style>
+		body {
+  		min-height: 2000px;
+  		padding-top: 70px;
+		}
+		</style>
 	</head>
 	<body>
-		<!-- Cabeçalho -->
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-	    	<h2 class="panel-title">Adventure</h2>
-			</div>
+		
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Adventure</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="atleta.html">Meu Cadastro</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2>15/11 - Pé Laskado</h2>
+          <p>Descrição do evento ....</p>
+          <p><a class="btn btn-default" href="#" role="button">Detalhes &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>22/11 - Noite do Perrengue</h2>
+          <p>Descrição do evento ....</p>
+          <p><a class="btn btn-default" href="#" role="button">Detalhes &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>25/12 - Natal Assombrado</h2>
+          <p>Descrição do evento ....</p>
+          <p><a class="btn btn-default" href="#" role="button">Detalhes &raquo;</a></p>
+        </div>
+      </div>
 		</div>
-			
-		<div class="container">
-			<form role="form">
-				<div class="row">
-	  			<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="nome">Nome</label>
-    					<input type="text" class="form-control" id="nome">
-  					</div>
-	  			</div>
-					<div class="col-xs-6">
-						<div class="form-group">
- 							<input type="radio" id="sexo" name="sexo" value="M">Masculino
- 						</div>
-	  			</div>
-	  			<div class="col-xs-6">
-	  				<div class="form-group">
- 							<input type="radio" id="sexo" name="sexo" value="F">Feminino
- 						</div>
-	  			</div>
-	  			<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="email">E-mail</label>
-    					<input type="email" class="form-control" id="email">
-  					</div>
-	  			</div>
-					<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="data">Data de Nascimento</label>
-    					<input type="date" class="form-control" id="data">
-  					</div>
-	  			</div>
-					<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="rg">RG</label>
-    					<input type="text" class="form-control" id="rg">
-  					</div>
-	  			</div>
-	  			<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="cpf">CPF</label>
-    					<input type="text" class="form-control" id="cpf">
-  					</div>
-	  			</div>
-	  			<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="celular">Tel. Celular</label>
-    					<input type="tel" class="form-control" id="celular">
-  					</div>
-	  			</div>
-					<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="residencial">Tel. Residencial</label>
-    					<input type="tel" class="form-control" id="residencial">
-  					</div>
-	  			</div>
-	  			<div class="col-xs-12">
-	  				<div class="form-group">
-    					<label for="comercial">Tel. Comercial</label>
-    					<input type="tel" class="form-control" id="comercial">
-  					</div>
-	  			</div>
-					<div class="col-xs-12">
-						<button type="button" class="btn btn-primary btn-lg">Salvar</button>
- 					</div>
-				</div>
-			</form>
-		</div>
-	     
-				     
-	     	
-		<!-- jQuery (necessário para os plugins JavaScript do Bootstrap) -->
+		
     <script src="js/jquery-1.10.2.js"></script>
-    <!-- Inclui todos os plugins compilados (abaixo), ou pode-se incluir arquivos individuais, conforme necessário -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.js"></script>    
 	</body>
 </html>

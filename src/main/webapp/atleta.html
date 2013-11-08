@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Adventure | Gerencie seu Evento de Aventura</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" rel="stylesheet">
+		<style>
+		body {
+  		min-height: 2000px;
+  		padding-top: 70px;
+		}
+		</style>
+	</head>
+	<body>
+	
+		<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Adventure</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="/atleta">Meu Cadastro</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+		<div class="container">
+			<form role="form">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="nome">Nome</label> 
+							<input type="text" id="nome" class="form-control">
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<input type="radio" id="sexo" name="sexo" value="M" required>Masculino
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<input type="radio" id="sexo" name="sexo" value="F" required>Feminino
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="email">E-mail</label> 
+							<input type="email" id="email" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="data">Data de Nascimento</label> 
+							<input type="date" id="data" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="rg">RG</label> 
+							<input type="text" id="rg" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="cpf">CPF</label> 
+							<input type="text" id="cpf" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="celular">Tel. Celular</label> 
+							<input type="tel" id="celular" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="residencial">Tel. Residencial</label> 
+							<input type="tel"	id="residencial" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="comercial">Tel. Comercial</label> 
+							<input type="tel" id="comercial" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-xs-6 text-center">
+						<button type="button" id="salvar" class="btn btn-primary btn-lg">Salvar</button>
+					</div>
+					<div class="col-xs-6 text-center">
+						<button type="button" id="limpar" class="btn btn-danger btn-lg">Limpar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>    
+	</body>
+</html>		
