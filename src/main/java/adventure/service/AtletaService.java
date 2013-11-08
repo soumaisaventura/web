@@ -15,34 +15,38 @@ import java.util.Random;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import adventure.entity.Atleta;
 import adventure.entity.Telefone;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("/atleta")
+@Produces(APPLICATION_JSON)
 public class AtletaService {
 
 	private static Map<Long, Atleta> database = Collections.synchronizedMap(new HashMap<Long, Atleta>());
 
 	@POST
-	public void create(Atleta atleta) {
+	public Long create(Atleta atleta) {
 		Random generator = new Random();
 		Long id = Long.valueOf(generator.nextInt(99999999));
 
 		atleta.setId(id);
 		database.put(id, atleta);
+
+		return id;
 	}
 
-	@PUT
-	@Path("/{id}")
-	public void update(Atleta atleta) {
-		database.put(atleta.getId(), atleta);
-	}
+	// @PUT
+	// @Path("/{id}")
+	// public void update(Atleta atleta) {
+	// database.put(atleta.getId(), atleta);
+	// }
 
 	@DELETE
 	@Path("/{id}")
@@ -50,17 +54,28 @@ public class AtletaService {
 		database.remove(id);
 	}
 
-	@GET
-	@Path("/{id}")
-	@Produces(APPLICATION_JSON)
-	public Atleta load(@PathParam("id") Long id) {
-		return database.get(id);
-	}
+	// @GET
+	// @Path("/{id}")
+	// public Atleta load(@PathParam("id") Long id) {
+	// return database.get(id);
+	// }
 
 	@GET
-	@Produces(APPLICATION_JSON)
-	public List<Atleta> search() {
-		return new ArrayList<Atleta>(database.values());
+	public List<Atleta> search(@QueryParam("email") String email) {
+		List<Atleta> result = new ArrayList<Atleta>();
+
+		if (Strings.isEmpty(email)) {
+			result.addAll(database.values());
+
+		} else {
+			for (Atleta atleta : database.values()) {
+				if (atleta.getEmail().equals(email)) {
+					result.add(atleta);
+				}
+			}
+		}
+
+		return result;
 	}
 
 	@Startup
