@@ -24,12 +24,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Adventure</a>
+          <a class="navbar-brand" href="#">Adventure - Meu Cadastro</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="/atleta">Meu Cadastro</a></li>
+            <li><a href="atleta.html">Meu Cadastro</a></li>
           </ul>
         </div>
       </div>
@@ -46,7 +46,7 @@
 					</div>
 					<div class="col-xs-6">
 						<div class="form-group">
-							<input type="radio" id="sexo" name="sexo" value="M" required>Masculino
+							<input type="radio" id="sexo" name="sexo" value="M" required checked>Masculino
 						</div>
 					</div>
 					<div class="col-xs-6">
@@ -63,7 +63,7 @@
 					<div class="col-xs-12">
 						<div class="form-group">
 							<label for="data">Data de Nascimento</label> 
-							<input type="date" id="data" class="form-control" required>
+							<input type="date" id="nascimento" class="form-control" required>
 						</div>
 					</div>
 					<div class="col-xs-12">
@@ -80,20 +80,41 @@
 					</div>
 					<div class="col-xs-12">
 						<div class="form-group">
-							<label for="celular">Tel. Celular</label> 
-							<input type="tel" id="celular" class="form-control" required>
+							<label for="celular">Tel. Celular</label>
+								<div class="row">
+									<div class="col-xs-3">
+										<input type="tel" id="area-celular" class="form-control" required>
+									</div>
+									<div class="col-xs-9">
+										<input type="tel" id="celular" class="form-control" required>
+									</div>
+								</div>
 						</div>
 					</div>
 					<div class="col-xs-12">
 						<div class="form-group">
-							<label for="residencial">Tel. Residencial</label> 
-							<input type="tel"	id="residencial" class="form-control" required>
+							<label for="residencial">Tel. Residencial</label>
+							<div class="row">
+									<div class="col-xs-3">
+										<input type="tel" id="area-residencial" class="form-control" required>
+									</div>
+									<div class="col-xs-9"> 
+										<input type="tel"	id="residencial" class="form-control" required>
+									</div>
+							</div>										
 						</div>
 					</div>
 					<div class="col-xs-12">
 						<div class="form-group">
-							<label for="comercial">Tel. Comercial</label> 
-							<input type="tel" id="comercial" class="form-control" required>
+							<label for="residencial">Tel. Comercial</label>
+							<div class="row">
+									<div class="col-xs-3">
+										<input type="tel" id="area-comercial" class="form-control" required>
+									</div>
+									<div class="col-xs-9"> 
+										<input type="tel"	id="comercial" class="form-control" required>
+									</div>
+							</div>										
 						</div>
 					</div>
 					<div class="col-xs-6 text-center">
@@ -108,5 +129,49 @@
 		
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>    
+    <script src="js/persistence-service.js"></script>
+    <script src="js/model/telefone.js"></script>
+    <script src="js/model/telefones.js"></script>
+    <script src="js/model/celular.js"></script>
+    <script src="js/model/residencial.js"></script>
+    <script src="js/model/comercial.js"></script>
+    <script src="js/model/atleta.js"></script>
+    <script>
+    $("#nome").val("Luciano Santos Borges");
+    $("#email").val("lucianosantosborges@gmail.com");
+    $("#rg").val("6597650-98");
+    $("#cpf").val("935.795.515-15");
+    $("[id^='area']").val("71");
+    $("#celular").val("9357-9865");
+    $("#comercial").val("9357-9865");
+    $("#residencial").val("9357-9865");
+    
+		$(function(){
+			$("#salvar").click(function(){
+				var celular = new Celular($("#area-celular").val(), $("#celular").val());
+				var residencial = new Residencial($("#area-residencial").val(), $("#residencial").val());
+				var comercial = new Comercial($("#area-comercial").val(), $("#comercial").val());
+				var telefones = new Telefones(celular, residencial, comercial);
+
+				var atleta = new Atleta();
+				atleta.nome = $("#nome").val();
+				atleta.sexo = $("#sexo").val();
+				atleta.email = $("#email").val();
+				atleta.nascimento = $("#nascimento").val();
+				atleta.rg = $("#rg").val();
+				atleta.cpf = $("#cpf").val();
+				atleta.telefones = telefones;
+				console.log(JSON.stringify(atleta));
+/*
+				var persistenceService = new PersistenceService("api");
+				$.when(
+					persistenceService.create("bookmarks", bookmark) 
+        ).done(function(){
+					location.href = "home.html";
+        });
+*/				
+			});
+		});
+		</script>
 	</body>
 </html>		
