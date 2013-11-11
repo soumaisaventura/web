@@ -86,8 +86,8 @@ public class AtletaServiceTest {
 			List<Validation> expected = new ArrayList<Validation>();
 			expected.add(new Validation("nome", "Não pode ser vazio."));
 			expected.add(new Validation("email", "Não pode ser vazio."));
-			expected.add(new Validation("telefones.comercial.area", "Não pode ser vazio."));
-			expected.add(new Validation("telefones.comercial.numero", "Não pode ser vazio."));
+			expected.add(new Validation("telefoneComercial.area", "Não pode ser vazio."));
+			expected.add(new Validation("telefoneComercial.numero", "Não pode ser vazio."));
 
 			assertEquals(new HashSet<Validation>(expected), new HashSet<Validation>(validations));
 		}

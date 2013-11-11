@@ -19,13 +19,13 @@ public class Atleta {
 	@NotBlank
 	private String nome;
 
-	@NotBlank
+	// @NotBlank
 	private Date nascimento;
 
-	@NotBlank
+	// @NotBlank
 	private String rg;
 
-	@NotBlank
+	// @NotBlank
 	private String cpf;
 
 	@Valid
