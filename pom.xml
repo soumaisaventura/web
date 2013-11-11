@@ -40,13 +40,16 @@
 
 	<dependencies>
 		<!-- Demoiselle dependencies -->
-		<!--
 		<dependency>
 			<groupId>br.gov.frameworkdemoiselle</groupId>
 			<artifactId>demoiselle-jpa</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		-->
+		<dependency>
+			<groupId>br.gov.frameworkdemoiselle</groupId>
+			<artifactId>demoiselle-jta</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- RESTful Web Services dependencies -->
 		<dependency>

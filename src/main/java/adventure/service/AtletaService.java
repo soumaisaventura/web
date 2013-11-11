@@ -1,17 +1,14 @@
 package adventure.service;
 
 import static adventure.entity.Sexo.MASCULINO;
-import static java.lang.Integer.MAX_VALUE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,6 +23,7 @@ import org.jboss.resteasy.spi.validation.ValidateRequest;
 import adventure.entity.Atleta;
 import adventure.entity.Telefone;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("/atleta")
@@ -33,67 +31,44 @@ import br.gov.frameworkdemoiselle.util.Strings;
 @ValidateRequest
 public class AtletaService {
 
-	private static Map<Long, Atleta> database = Collections.synchronizedMap(new HashMap<Long, Atleta>());
+	@Inject
+	private EntityManager em;
 
 	@POST
+	@Transactional
 	@ValidateRequest
 	public Long create(@Valid Atleta atleta) {
-		// if (atleta.getTelefoneCelular() == null && atleta.getTelefoneComercial() == null
-		// && atleta.getTelefoneResidencial() == null) {
-		// ValidationException exception = new ValidationException();
-		// exception.addConstraintViolation("telefoneCelular", "Informe pelo menos um telefone para contato.");
-		// exception.addConstraintViolation("telefoneComercial", "Informe pelo menos um telefone para contato.");
-		// exception.addConstraintViolation("telefoneResidencial", "Informe pelo menos um telefone para contato.");
-		//
-		// throw exception;
-		// }
-
-		Random generator = new Random();
-		Long id = Long.valueOf(generator.nextInt(MAX_VALUE));
-
-		atleta.setId(id);
-		database.put(id, atleta);
-
-		return id;
+		em.persist(atleta);
+		return atleta.getId();
 	}
-
-	// @PUT
-	// @Path("/{id}")
-	// public void update(Atleta atleta) {
-	// database.put(atleta.getId(), atleta);
-	// }
 
 	@DELETE
 	@Path("/{id}")
+	@Transactional
 	public void delete(@PathParam("id") Long id) {
-		database.remove(id);
+		em.remove(em.find(Atleta.class, id));
 	}
-
-	// @GET
-	// @Path("/{id}")
-	// public Atleta load(@PathParam("id") Long id) {
-	// return database.get(id);
-	// }
 
 	@GET
 	public List<Atleta> search(@QueryParam("email") String email) {
-		List<Atleta> result = new ArrayList<Atleta>();
+		StringBuffer jpql = new StringBuffer();
+		jpql.append("from Atleta a ");
 
-		if (Strings.isEmpty(email)) {
-			result.addAll(database.values());
-
-		} else {
-			for (Atleta atleta : database.values()) {
-				if (atleta.getEmail().equals(email)) {
-					result.add(atleta);
-				}
-			}
+		if (!Strings.isEmpty(email)) {
+			jpql.append(" where a.email = :email ");
 		}
 
-		return result;
+		TypedQuery<Atleta> query = em.createQuery(jpql.toString(), Atleta.class);
+
+		if (!Strings.isEmpty(email)) {
+			query.setParameter("email", email);
+		}
+
+		return query.getResultList();
 	}
 
 	@Startup
+	@Transactional
 	public void cargarTemporariaInicial() {
 		Atleta atleta;
 

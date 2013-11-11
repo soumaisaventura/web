@@ -1,7 +1,10 @@
 package adventure.entity;
 
+import javax.persistence.Embeddable;
+
 import org.hibernate.validator.constraints.NotBlank;
 
+@Embeddable
 public class Telefone {
 
 	@NotBlank

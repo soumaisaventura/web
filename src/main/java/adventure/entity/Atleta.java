@@ -1,14 +1,28 @@
 package adventure.entity;
 
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.AUTO;
+
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
 public class Atleta {
 
+	@Id
+	@GeneratedValue(strategy = AUTO)
 	private Long id;
 
 	@NotBlank
@@ -27,16 +41,26 @@ public class Atleta {
 	private String cpf;
 
 	@NotNull
+	@Enumerated(STRING)
 	private Sexo sexo;
 
 	@Valid
 	@NotNull
+	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneCelularArea")),
+			@AttributeOverride(name = "numero", column = @Column(name = "telefoneCelularNumero")) })
+	@Embedded
 	private Telefone telefoneCelular;
 
 	@Valid
+	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneResidencialArea")),
+			@AttributeOverride(name = "numero", column = @Column(name = "telefoneResidencialNumero")) })
+	@Embedded
 	private Telefone telefoneResidencial;
 
 	@Valid
+	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneComercialArea")),
+			@AttributeOverride(name = "numero", column = @Column(name = "telefoneComercialNumero")) })
+	@Embedded
 	private Telefone telefoneComercial;
 
 	public Long getId() {

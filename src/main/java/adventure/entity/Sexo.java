@@ -13,9 +13,4 @@ public enum Sexo {
 	public String toString() {
 		return this.value;
 	}
-	//
-	// @JsonCreator
-	// public static Sexo fromValue(String value) {
-	// return Sexo.valueOf(value.toUpperCase());
-	// }
 }
