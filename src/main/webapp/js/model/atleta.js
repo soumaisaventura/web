@@ -6,5 +6,7 @@ var Atleta = function() {
 	this.nascimento;
 	this.rg;
 	this.cpf;
-	this.telefones;
+	this.telefoneCelular;
+	this.telefoneResidencial;
+	this.telefoneComercial;
 };

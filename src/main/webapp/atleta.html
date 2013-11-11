@@ -83,11 +83,11 @@
 								<div class="row">
 									<div class="col-xs-3">
 										<label class="control-label" for="telefones.celular.area">DDD</label>
-										<input type="tel" id="telefones.celular.area" class="form-control" required>
+										<input type="tel" id="telefoneCelular.area" class="form-control" required>
 									</div>
 									<div class="col-xs-9">
 										<label class="control-label" for="telefones.celular.numero">Tel. Celular</label>
-										<input type="tel" id="telefones.celular.numero" class="form-control" required>
+										<input type="tel" id="telefoneCelular.numero" class="form-control" required>
 									</div>
 								</div>
 						</div>
@@ -97,11 +97,11 @@
 							<div class="row">
 									<div class="col-xs-3">
 										<label class="control-label" for="telefones.residencial.area">DDD</label>
-										<input type="tel" id="telefones.residencial.area" class="form-control" required>
+										<input type="tel" id="telefoneResidencial.area" class="form-control" required>
 									</div>
 									<div class="col-xs-9">
 										<label class="control-label" for="telefones.residencial.numero">Tel. Residencial</label>
-										<input type="tel"	id="telefones.residencial.numero" class="form-control" required>
+										<input type="tel"	id="telefoneResidencial.numero" class="form-control" required>
 									</div>
 							</div>										
 						</div>
@@ -111,13 +111,13 @@
 									<div class="col-xs-3">
 										<div class="form-group">
 											<label class="control-label" for="telefones.comercial.area">DDD</label>
-											<input type="tel" id="telefones.comercial.area" class="form-control" required>
+											<input type="tel" id="telefoneComercial.area" class="form-control" required>
 										</div>
 									</div>
 									<div class="col-xs-9">
 										<div class="form-group">
 											<label class="control-label" for="telefones.comercial.numero">Tel. Comercial</label> 
-											<input type="tel"	id="telefones.comercial.numero" class="form-control" required>
+											<input type="tel"	id="telefoneComercial.numero" class="form-control" required>
 										</div>
 									</div>
 							</div>										
@@ -134,67 +134,75 @@
 			</form>
 		</div>
 		
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-dialog">
+    		<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      		</div>
+      		<div class="modal-body">
+        		<p>Cadastro efetuado com sucesso.</p>
+      		</div>
+    		</div><!-- /.modal-content -->
+  		</div><!-- /.modal-dialog -->
+		</div>		
+		
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>    
     <script src="js/persistence-service.js"></script>
     <script src="js/model/telefone.js"></script>
-    <script src="js/model/telefones.js"></script>
-    <script src="js/model/celular.js"></script>
-    <script src="js/model/residencial.js"></script>
-    <script src="js/model/comercial.js"></script>
     <script src="js/model/atleta.js"></script>
     <script>
-    //$("#nome").val("Luciano Santos Borges");
+    $("#nome").val("Luciano Santos Borges");
     $("#email").val("lucianosantosborges@gmail.com");
     $("#rg").val("6597650-98");
     $("#cpf").val("935.795.515-15");
     $("[id$='area']").val("71");
     $("[id$='numero']").val("8989-6565");
-    
+
+		function trataSucesso(data){
+			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
+				window.location = 'index.html';
+			})
+		}
+
+		function trataErro(data){
+			$.each(data.responseJSON, function( index, value ) {
+				$("input[id='"+ value.property + "']").parent().addClass('has-error');
+			});
+		}
     
 		$(function(){
-			function trataSucesso(x){
-				console.log('SUCESSO');
-				console.log(x);
-			}
-
-			function trataErro(x){
-				$.each(x.responseJSON, function( index, value ) {
-					//$('label[for="'+value.property+'"]').append("&nbsp;<span style='color:red'>" + value.message + "</span>");
-					$("input[id='"+ value.property + "']").parent().addClass('has-error');
-				});
-			}
 			
 			$("#salvar").click(function(){
 				$(".has-error").removeClass('has-error');
 				var celular, residencial, comercial;
 				
-				if (!($("#telefones\\.celular\\.area").val() === "" && $("#telefones\\.celular\\.numero").val() === "")) {
-					celular = new Celular($("#telefones\\.celular\\.area").val(), $("#telefones\\.celular\\.numero").val());
+				if (!($("#telefoneCelular\\.area").val() === "" && $("#telefonesCelular\\.numero").val() === "")) {
+					celular = new Telefone($("#telefoneCelular\\.area").val(), $("#telefoneCelular\\.numero").val());
 				}
 
-				if (!($("#telefones\\.residencial\\.area").val() === "" && $("#telefones\\.residencial\\.numero").val() === "")) {
-					residencial = new Residencial($("#telefones\\.residencial\\.area").val(), $("#telefones\\.residencial\\.numero").val());
+				if (!($("#telefoneResidencial\\.area").val() === "" && $("#telefoneResidencial\\.numero").val() === "")) {
+					residencial = new Telefone($("#telefoneResidencial\\.area").val(), $("#telefoneResidencial\\.numero").val());
 				}
 
-				if (!($("#telefones\\.comercial\\.area").val() === "" && $("#telefones\\.comercial\\.numero").val() === "")) {
-					comercial = new Comercial($("#telefones\\.comercial\\.area").val(), $("#telefones\\.comercial\\.numero").val());
+				if (!($("#telefoneComercial\\.area").val() === "" && $("#telefoneComercial\\.numero").val() === "")) {
+					comercial = new Telefone($("#telefoneComercial\\.area").val(), $("#telefoneComercial\\.numero").val());
 				}
 				
-				var telefones = new Telefones(celular, residencial, comercial);
-
 				var atleta = new Atleta();
-				atleta.nome = $("#nome").val();
-				//atleta.sexo = $("#sexo").val();
-				atleta.email = $("#email").val();
-				//atleta.nascimento = $("#nascimento").val();
-				//atleta.rg = $("#rg").val();
-				//atleta.cpf = $("#cpf").val();
-				atleta.telefones = telefones;
-				console.log(JSON.stringify(atleta));
+					atleta.nome = $("#nome").val();
+					atleta.sexo = $("#sexo").val();
+					atleta.email = $("#email").val();
+					atleta.nascimento = $("#nascimento").val();
+					atleta.rg = $("#rg").val();
+					atleta.cpf = $("#cpf").val();
+					atleta.telefoneCelular = celular;
+					atleta.telefoneResidencial = residencial;
+					atleta.telefoneComercial = comercial;
 
 				var persistenceService = new PersistenceService("api");
-				persistenceService.create("atleta", atleta, trataSucesso, trataErro);
+					persistenceService.create("atleta", atleta, trataSucesso, trataErro);
 				
 			});
 		});
