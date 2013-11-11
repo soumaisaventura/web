@@ -1,5 +1,6 @@
 package adventure.service;
 
+import static adventure.entity.Sexo.MASCULINO;
 import static java.lang.Integer.MAX_VALUE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -89,6 +90,7 @@ public class AtletaService {
 		atleta = new Atleta();
 		atleta.setNome("Urtzi Iglesias");
 		atleta.setEmail("urtzi.iglesias@vidaraid.com");
+		atleta.setSexo(MASCULINO);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(1980, 01, 01);

@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
@@ -20,9 +21,12 @@ public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 	{
 		objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		objectMapper.configure(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING, true);
+		objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, true);
+
 		objectMapper.setSerializationInclusion(NON_NULL);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		objectMapper.setDateFormat(dateFormat);
 	}
 

@@ -1,5 +1,6 @@
 package adventure;
 
+import static adventure.entity.Sexo.MASCULINO;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -45,6 +46,7 @@ public class AtletaServiceTest {
 		Atleta atletaLocal = new Atleta();
 		atletaLocal.setNome("Cleverson Sacramento");
 		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
+		atletaLocal.setSexo(MASCULINO);
 
 		Atleta atletaRemote;
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
