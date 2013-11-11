@@ -29,12 +29,15 @@ public class Atleta {
 	private String cpf;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneCelular;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneResidencial;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneComercial;
 
 	public Long getId() {
