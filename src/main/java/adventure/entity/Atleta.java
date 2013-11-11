@@ -1,9 +1,12 @@
 package adventure.entity;
 
+import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL;
+
 import java.util.Date;
 
 import javax.validation.Valid;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class Atleta {
@@ -26,22 +29,16 @@ public class Atleta {
 	private String cpf;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneCelular;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneResidencial;
 
 	@Valid
+	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneComercial;
-
-	// @Valid
-	// @NotEmpty
-	// private Map<TipoTelefone, Telefone> telefones = Collections.synchronizedMap(new HashMap<TipoTelefone,
-	// Telefone>());
-
-	// public void addTelefone(Telefone telefone, TipoTelefone tipo) {
-	// telefones.put(tipo, telefone);
-	// }
 
 	public Long getId() {
 		return id;
@@ -114,12 +111,4 @@ public class Atleta {
 	public void setTelefoneComercial(Telefone telefoneComercial) {
 		this.telefoneComercial = telefoneComercial;
 	}
-
-	// public Map<TipoTelefone, Telefone> getTelefones() {
-	// return telefones;
-	// }
-	//
-	// public void setTelefones(Map<TipoTelefone, Telefone> telefones) {
-	// this.telefones = telefones;
-	// }
 }
