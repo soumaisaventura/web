@@ -1,5 +1,6 @@
 package adventure;
 
+import static adventure.entity.Sexo.MASCULINO;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -45,6 +46,7 @@ public class AtletaServiceTest {
 		Atleta atletaLocal = new Atleta();
 		atletaLocal.setNome("Cleverson Sacramento");
 		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
+		atletaLocal.setSexo(MASCULINO);
 
 		Atleta atletaRemote;
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
@@ -86,6 +88,7 @@ public class AtletaServiceTest {
 			List<Validation> expected = new ArrayList<Validation>();
 			expected.add(new Validation("nome", "Não pode ser vazio."));
 			expected.add(new Validation("email", "Não pode ser vazio."));
+			expected.add(new Validation("sexo", "Não pode ser nulo."));
 			expected.add(new Validation("telefoneComercial.area", "Não pode ser vazio."));
 			expected.add(new Validation("telefoneComercial.numero", "Não pode ser vazio."));
 

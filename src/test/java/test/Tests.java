@@ -46,6 +46,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
 import adventure.entity.Atleta;
+import adventure.entity.Sexo;
 import adventure.entity.Telefone;
 import adventure.entity.TipoTelefone;
 import adventure.service.AtletaService;
@@ -72,6 +73,7 @@ public final class Tests {
 
 		return ShrinkWrap.create(WebArchive.class)
 				.addClass(Atleta.class)
+				.addClass(Sexo.class)
 				.addClass(AtletaService.class)
 				.addClass(ValidationExceptionMapper.class)
 				.addClass(Telefone.class)

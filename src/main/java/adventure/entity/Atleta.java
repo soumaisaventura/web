@@ -1,12 +1,10 @@
 package adventure.entity;
 
-import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL;
-
 import java.util.Date;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class Atleta {
@@ -28,16 +26,16 @@ public class Atleta {
 	// @NotBlank
 	private String cpf;
 
+	@NotNull
+	private Sexo sexo;
+
 	@Valid
-	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneCelular;
 
 	@Valid
-	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneResidencial;
 
 	@Valid
-	@JsonSerialize(include = NON_NULL)
 	private Telefone telefoneComercial;
 
 	public Long getId() {
@@ -86,6 +84,14 @@ public class Atleta {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
 	}
 
 	public Telefone getTelefoneCelular() {
