@@ -1,38 +1,47 @@
 package adventure.entity;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Atleta {
 
 	private Long id;
 
 	@NotBlank
+	private String email;
+
+	@NotBlank
 	private String nome;
 
 	@NotBlank
-	private String email;
-
 	private Date nascimento;
 
+	@NotBlank
 	private String rg;
 
+	@NotBlank
 	private String cpf;
 
 	@Valid
-	@NotEmpty
-	private Map<TipoTelefone, Telefone> telefones = Collections.synchronizedMap(new HashMap<TipoTelefone, Telefone>());
+	private Telefone telefoneCelular;
 
-	public void addTelefone(Telefone telefone, TipoTelefone tipo) {
-		telefones.put(tipo, telefone);
-	}
+	@Valid
+	private Telefone telefoneResidencial;
+
+	@Valid
+	private Telefone telefoneComercial;
+
+	// @Valid
+	// @NotEmpty
+	// private Map<TipoTelefone, Telefone> telefones = Collections.synchronizedMap(new HashMap<TipoTelefone,
+	// Telefone>());
+
+	// public void addTelefone(Telefone telefone, TipoTelefone tipo) {
+	// telefones.put(tipo, telefone);
+	// }
 
 	public Long getId() {
 		return id;
@@ -42,20 +51,20 @@ public class Atleta {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Date getNascimento() {
@@ -82,11 +91,35 @@ public class Atleta {
 		this.cpf = cpf;
 	}
 
-	public Map<TipoTelefone, Telefone> getTelefones() {
-		return telefones;
+	public Telefone getTelefoneCelular() {
+		return telefoneCelular;
 	}
 
-	public void setTelefones(Map<TipoTelefone, Telefone> telefones) {
-		this.telefones = telefones;
+	public void setTelefoneCelular(Telefone telefoneCelular) {
+		this.telefoneCelular = telefoneCelular;
 	}
+
+	public Telefone getTelefoneResidencial() {
+		return telefoneResidencial;
+	}
+
+	public void setTelefoneResidencial(Telefone telefoneResidencial) {
+		this.telefoneResidencial = telefoneResidencial;
+	}
+
+	public Telefone getTelefoneComercial() {
+		return telefoneComercial;
+	}
+
+	public void setTelefoneComercial(Telefone telefoneComercial) {
+		this.telefoneComercial = telefoneComercial;
+	}
+
+	// public Map<TipoTelefone, Telefone> getTelefones() {
+	// return telefones;
+	// }
+	//
+	// public void setTelefones(Map<TipoTelefone, Telefone> telefones) {
+	// this.telefones = telefones;
+	// }
 }

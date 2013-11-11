@@ -10,16 +10,12 @@ public class Telefone {
 	@NotBlank
 	private String numero;
 
-	// @NotNull
-	// private TipoTelefone tipo;
-
 	public Telefone() {
 	}
 
 	public Telefone(String area, String numero, TipoTelefone tipo) {
 		this.area = area;
 		this.numero = numero;
-		// this.tipo = tipo;
 	}
 
 	public String getArea() {
@@ -37,12 +33,4 @@ public class Telefone {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-
-	// public TipoTelefone getTipo() {
-	// return tipo;
-	// }
-	//
-	// public void setTipo(TipoTelefone tipo) {
-	// this.tipo = tipo;
-	// }
 }

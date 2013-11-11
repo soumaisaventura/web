@@ -1,7 +1,6 @@
 package adventure.service;
 
-import static adventure.entity.TipoTelefone.CELULAR;
-import static adventure.entity.TipoTelefone.RESIDENCIAL;
+import static java.lang.Integer.MAX_VALUE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class AtletaService {
 	@ValidateRequest
 	public Long create(@Valid Atleta atleta) {
 		Random generator = new Random();
-		Long id = Long.valueOf(generator.nextInt(99999999));
+		Long id = Long.valueOf(generator.nextInt(MAX_VALUE));
 
 		atleta.setId(id);
 		database.put(id, atleta);
@@ -97,8 +96,8 @@ public class AtletaService {
 
 		atleta.setRg(null);
 		atleta.setCpf(null);
-		atleta.addTelefone(new Telefone("61", "1234-4567", null), CELULAR);
-		atleta.addTelefone(new Telefone("61", "1234-4567", null), RESIDENCIAL);
+		atleta.setTelefoneCelular(new Telefone("61", "1234-4567", null));
+		atleta.setTelefoneResidencial(new Telefone("61", "1234-4567", null));
 
 		create(atleta);
 	}

@@ -1,6 +1,5 @@
 package adventure;
 
-import static adventure.entity.TipoTelefone.COMERCIAL;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -70,7 +69,7 @@ public class AtletaServiceTest {
 		AtletaServiceClient client = createClient();
 
 		Atleta atleta = new Atleta();
-		atleta.addTelefone(new Telefone(), COMERCIAL);
+		atleta.setTelefoneComercial(new Telefone());
 
 		try {
 			client.criar(atleta);

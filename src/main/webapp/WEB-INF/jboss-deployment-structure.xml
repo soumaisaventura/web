@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-deployment-structure>
-<!-- <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2"> -->
+<!-- <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0"> -->
 
-	<!--
 	<deployment>
 		<dependencies>
+			<!--
+			
 			<module name="org.jboss.resteasy.resteasy-hibernatevalidator-provider" />
+			-->
+			<module name="org.codehaus.jackson.jackson-jaxrs" />
+			<module name="org.codehaus.jackson.jackson-core-asl" />
+			<module name="org.codehaus.jackson.jackson-mapper-asl" />
 		</dependencies>
 	</deployment>
-	-->
-	
+
 </jboss-deployment-structure>
 
 
