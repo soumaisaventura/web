@@ -14,7 +14,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 @Provider
 @Produces(APPLICATION_JSON)
-public class JacksonConfig implements ContextResolver<ObjectMapper> {
+public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 
 	private static ObjectMapper objectMapper;
 	{
