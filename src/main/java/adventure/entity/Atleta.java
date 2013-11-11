@@ -5,15 +5,10 @@ import static javax.persistence.GenerationType.AUTO;
 
 import java.util.Date;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -44,24 +39,12 @@ public class Atleta {
 	@Enumerated(STRING)
 	private Sexo sexo;
 
-	@Valid
-	@NotNull
-	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneCelularArea")),
-			@AttributeOverride(name = "numero", column = @Column(name = "telefoneCelularNumero")) })
-	@Embedded
-	private Telefone telefoneCelular;
+	@NotBlank
+	private String telefoneCelular;
 
-	@Valid
-	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneResidencialArea")),
-			@AttributeOverride(name = "numero", column = @Column(name = "telefoneResidencialNumero")) })
-	@Embedded
-	private Telefone telefoneResidencial;
+	private String telefoneResidencial;
 
-	@Valid
-	@AttributeOverrides({ @AttributeOverride(name = "area", column = @Column(name = "telefoneComercialArea")),
-			@AttributeOverride(name = "numero", column = @Column(name = "telefoneComercialNumero")) })
-	@Embedded
-	private Telefone telefoneComercial;
+	private String telefoneComercial;
 
 	public Long getId() {
 		return id;
@@ -119,27 +102,27 @@ public class Atleta {
 		this.sexo = sexo;
 	}
 
-	public Telefone getTelefoneCelular() {
+	public String getTelefoneCelular() {
 		return telefoneCelular;
 	}
 
-	public void setTelefoneCelular(Telefone telefoneCelular) {
+	public void setTelefoneCelular(String telefoneCelular) {
 		this.telefoneCelular = telefoneCelular;
 	}
 
-	public Telefone getTelefoneResidencial() {
+	public String getTelefoneResidencial() {
 		return telefoneResidencial;
 	}
 
-	public void setTelefoneResidencial(Telefone telefoneResidencial) {
+	public void setTelefoneResidencial(String telefoneResidencial) {
 		this.telefoneResidencial = telefoneResidencial;
 	}
 
-	public Telefone getTelefoneComercial() {
+	public String getTelefoneComercial() {
 		return telefoneComercial;
 	}
 
-	public void setTelefoneComercial(Telefone telefoneComercial) {
+	public void setTelefoneComercial(String telefoneComercial) {
 		this.telefoneComercial = telefoneComercial;
 	}
 }

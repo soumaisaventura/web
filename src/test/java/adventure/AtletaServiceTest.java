@@ -23,7 +23,6 @@ import org.junit.runner.RunWith;
 
 import test.Tests;
 import adventure.entity.Atleta;
-import adventure.entity.Telefone;
 import adventure.service.Validation;
 
 @RunWith(Arquillian.class)
@@ -47,7 +46,7 @@ public class AtletaServiceTest {
 		atletaLocal.setNome("Cleverson Sacramento");
 		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
 		atletaLocal.setSexo(MASCULINO);
-		atletaLocal.setTelefoneCelular(new Telefone("71", "8888-9999"));;
+		atletaLocal.setTelefoneCelular("71 8888-9999");;
 
 		Atleta atletaRemote;
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
@@ -72,7 +71,6 @@ public class AtletaServiceTest {
 		AtletaServiceClient client = createClient();
 
 		Atleta atleta = new Atleta();
-		atleta.setTelefoneComercial(new Telefone());
 
 		try {
 			client.criar(atleta);
@@ -90,9 +88,7 @@ public class AtletaServiceTest {
 			expected.add(new Validation("nome", "Não pode ser vazio."));
 			expected.add(new Validation("email", "Não pode ser vazio."));
 			expected.add(new Validation("sexo", "Não pode ser nulo."));
-			expected.add(new Validation("telefoneCelular", "Não pode ser nulo."));
-			expected.add(new Validation("telefoneComercial.area", "Não pode ser vazio."));
-			expected.add(new Validation("telefoneComercial.numero", "Não pode ser vazio."));
+			expected.add(new Validation("telefoneCelular", "Não pode ser vazio."));
 
 			assertEquals(new HashSet<Validation>(expected), new HashSet<Validation>(validations));
 		}

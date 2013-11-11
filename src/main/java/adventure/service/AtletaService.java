@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,14 +22,13 @@ import javax.ws.rs.QueryParam;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.Atleta;
-import adventure.entity.Telefone;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
 
+@ValidateRequest
 @Path("/atleta")
 @Produces(APPLICATION_JSON)
-@ValidateRequest
 public class AtletaService {
 
 	@Inject
@@ -37,7 +37,7 @@ public class AtletaService {
 	@POST
 	@Transactional
 	@ValidateRequest
-	public Long create(@Valid Atleta atleta) {
+	public Long create(@NotNull @Valid Atleta atleta) {
 		em.persist(atleta);
 		return atleta.getId();
 	}
@@ -46,7 +46,8 @@ public class AtletaService {
 	@Path("/{id}")
 	@Transactional
 	public void delete(@PathParam("id") Long id) {
-		em.remove(em.find(Atleta.class, id));
+		Atleta atleta = em.find(Atleta.class, id);
+		em.remove(atleta);
 	}
 
 	@GET
@@ -83,8 +84,8 @@ public class AtletaService {
 
 		atleta.setRg(null);
 		atleta.setCpf(null);
-		atleta.setTelefoneCelular(new Telefone("61", "1234-4567"));
-		atleta.setTelefoneResidencial(new Telefone("61", "1234-4567"));
+		atleta.setTelefoneCelular("61 1234-4567");
+		atleta.setTelefoneResidencial("61 1234-4567");
 
 		create(atleta);
 	}

@@ -7,7 +7,6 @@
 
 		<class>adventure.entity.Atleta</class>
 		<class>adventure.entity.Sexo</class>
-		<class>adventure.entity.Telefone</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
