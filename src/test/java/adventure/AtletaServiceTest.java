@@ -47,6 +47,7 @@ public class AtletaServiceTest {
 		atletaLocal.setNome("Cleverson Sacramento");
 		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
 		atletaLocal.setSexo(MASCULINO);
+		atletaLocal.setTelefoneCelular(new Telefone("71", "8888-9999"));;
 
 		Atleta atletaRemote;
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
@@ -89,6 +90,7 @@ public class AtletaServiceTest {
 			expected.add(new Validation("nome", "Não pode ser vazio."));
 			expected.add(new Validation("email", "Não pode ser vazio."));
 			expected.add(new Validation("sexo", "Não pode ser nulo."));
+			expected.add(new Validation("telefoneCelular", "Não pode ser nulo."));
 			expected.add(new Validation("telefoneComercial.area", "Não pode ser vazio."));
 			expected.add(new Validation("telefoneComercial.numero", "Não pode ser vazio."));
 

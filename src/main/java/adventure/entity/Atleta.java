@@ -30,6 +30,7 @@ public class Atleta {
 	private Sexo sexo;
 
 	@Valid
+	@NotNull
 	private Telefone telefoneCelular;
 
 	@Valid

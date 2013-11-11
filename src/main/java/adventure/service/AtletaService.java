@@ -38,6 +38,16 @@ public class AtletaService {
 	@POST
 	@ValidateRequest
 	public Long create(@Valid Atleta atleta) {
+		// if (atleta.getTelefoneCelular() == null && atleta.getTelefoneComercial() == null
+		// && atleta.getTelefoneResidencial() == null) {
+		// ValidationException exception = new ValidationException();
+		// exception.addConstraintViolation("telefoneCelular", "Informe pelo menos um telefone para contato.");
+		// exception.addConstraintViolation("telefoneComercial", "Informe pelo menos um telefone para contato.");
+		// exception.addConstraintViolation("telefoneResidencial", "Informe pelo menos um telefone para contato.");
+		//
+		// throw exception;
+		// }
+
 		Random generator = new Random();
 		Long id = Long.valueOf(generator.nextInt(MAX_VALUE));
 
@@ -98,8 +108,8 @@ public class AtletaService {
 
 		atleta.setRg(null);
 		atleta.setCpf(null);
-		atleta.setTelefoneCelular(new Telefone("61", "1234-4567", null));
-		atleta.setTelefoneResidencial(new Telefone("61", "1234-4567", null));
+		atleta.setTelefoneCelular(new Telefone("61", "1234-4567"));
+		atleta.setTelefoneResidencial(new Telefone("61", "1234-4567"));
 
 		create(atleta);
 	}

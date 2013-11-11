@@ -15,15 +15,25 @@ import org.hibernate.validator.method.MethodConstraintViolationException;
 
 @Provider
 @SuppressWarnings("deprecation")
-public class ValidationExceptionMapper implements ExceptionMapper<MethodConstraintViolationException> {
+public class ValidationExceptionMapper implements ExceptionMapper<javax.validation.ValidationException> {
 
 	@Override
-	public Response toResponse(MethodConstraintViolationException exception) {
+	public Response toResponse(javax.validation.ValidationException exception) {
 		List<Validation> validations = new ArrayList<Validation>();
 
-		for (MethodConstraintViolation<?> violation : exception.getConstraintViolations()) {
+		// if (exception instanceof MethodConstraintViolationException) {
+		MethodConstraintViolationException cause = ((MethodConstraintViolationException) exception);
+
+		for (MethodConstraintViolation<?> violation : cause.getConstraintViolations()) {
 			validations.add(new Validation(getProperty(violation), violation.getMessage()));
 		}
+		// } else {
+		// ValidationException cause = ((ValidationException) exception);
+		//
+		// for (Violation violation : cause.getConstraintViolations()) {
+		// validations.add(new Validation(violation.getProperty(), violation.getMessage()));
+		// }
+		// }
 
 		return Response.ok(validations).status(SC_PRECONDITION_FAILED).build();
 	}

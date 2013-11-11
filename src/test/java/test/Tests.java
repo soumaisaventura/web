@@ -48,7 +48,6 @@ import org.junit.Ignore;
 import adventure.entity.Atleta;
 import adventure.entity.Sexo;
 import adventure.entity.Telefone;
-import adventure.entity.TipoTelefone;
 import adventure.service.AtletaService;
 import adventure.service.Validation;
 import adventure.service.ValidationExceptionMapper;
@@ -77,7 +76,6 @@ public final class Tests {
 				.addClass(AtletaService.class)
 				.addClass(ValidationExceptionMapper.class)
 				.addClass(Telefone.class)
-				.addClass(TipoTelefone.class)
 				.addClass(Validation.class)
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))

@@ -13,7 +13,7 @@ public class Telefone {
 	public Telefone() {
 	}
 
-	public Telefone(String area, String numero, TipoTelefone tipo) {
+	public Telefone(String area, String numero) {
 		this.area = area;
 		this.numero = numero;
 	}
