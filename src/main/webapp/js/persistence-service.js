@@ -3,16 +3,21 @@ var PersistenceService = function(baseUrl) {
 	return this;
 };
 
-PersistenceService.prototype.create = function(type, data, callback) {
+PersistenceService.prototype.create = function($type, $data, $success, $error) {
 	return $.ajax({
 		type : "POST",
-		url : this.url + "/" + type,
-		data : JSON.stringify(data),
+		url : this.url + "/" + $type,
+		data : JSON.stringify($data),
 		contentType : "application/json;charset=utf8",
 		dataType : "json",
 		success : function(respData) {
-			if (callback) {
-				callback(respData);
+			if ($success) {
+				$success(respData);
+			}
+		},
+		error : function(respData){
+			if ($error){
+				$error(respData);
 			}
 		}
 	});
