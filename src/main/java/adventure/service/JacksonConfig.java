@@ -1,6 +1,7 @@
 package adventure.service;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL;
 
 import java.text.SimpleDateFormat;
 
@@ -19,6 +20,7 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
 	{
 		objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		objectMapper.setSerializationInclusion(NON_NULL);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d yyyy");
 		objectMapper.setDateFormat(dateFormat);
