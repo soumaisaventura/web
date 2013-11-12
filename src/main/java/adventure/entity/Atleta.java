@@ -11,7 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -21,6 +23,7 @@ public class Atleta {
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
+	@Email
 	@NotBlank
 	@Column(unique = true)
 	private String email;
@@ -28,6 +31,7 @@ public class Atleta {
 	@NotBlank
 	private String nome;
 
+	@Past
 	@NotNull
 	private Date nascimento;
 
