@@ -164,6 +164,44 @@
 							<groupId>org.javassist</groupId>
 							<artifactId>javassist</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>commons-configuration</groupId>
+							<artifactId>commons-configuration</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>br.gov.frameworkdemoiselle</groupId>
+					<artifactId>demoiselle-servlet</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>javax.servlet</groupId>
+							<artifactId>javax.servlet-api</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>commons-codec</groupId>
+							<artifactId>commons-codec</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>br.gov.frameworkdemoiselle</groupId>
+					<artifactId>demoiselle-jpa</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.eclipse.persistence</groupId>
+							<artifactId>javax.persistence</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>br.gov.frameworkdemoiselle</groupId>
+					<artifactId>demoiselle-jta</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>javax.transaction</groupId>
+							<artifactId>jta</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
 			</dependencies>

@@ -6,7 +6,6 @@
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
 		<class>adventure.entity.Atleta</class>
-		<class>adventure.entity.Sexo</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
