@@ -73,13 +73,23 @@ public class AtletaService {
 
 	@GET
 	@Path("/check")
-	public Response check(@NotBlank @QueryParam("property") String property, @NotBlank @QueryParam("value") String value) {
+	public Response check(@NotBlank @QueryParam("property") String property,
+			@NotBlank @QueryParam("value") String value, @QueryParam("id") Long id) {
 		Validation validation = null;
-		Response response;
 
-		if (property.equals("email") && !dao.findByEmail(value).isEmpty()) {
-			validation = new Validation("email", "E-mail duplicado");
+		if (property.equals("email")) {
+			List<Atleta> atletas = dao.findByEmail(value);
+
+			if (id != null) {
+				atletas.remove(new Atleta(id));
+			}
+
+			if (!atletas.isEmpty()) {
+				validation = new Validation("email", "E-mail duplicado");
+			}
 		}
+
+		Response response;
 
 		if (validation == null) {
 			response = Response.ok().build();
