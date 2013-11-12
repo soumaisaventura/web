@@ -44,14 +44,13 @@
 							<input type="text" id="nome" class="form-control">
 						</div>
 					</div>
-					<div class="col-xs-6">
+					<div class="col-xs-12">
 						<div class="form-group">
-							<input type="radio" id="sexo" name="sexo" value="M" required checked>Masculino
-						</div>
-					</div>
-					<div class="col-xs-6">
-						<div class="form-group">
-							<input type="radio" id="sexo" name="sexo" value="F" required>Feminino
+							<label class="control-label" for="sexo">Sexo</label>
+							<select id="sexo" class="form-control">
+								<option value="M">Masculino</option>
+								<option value="F">Feminino</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-xs-12">
@@ -81,13 +80,9 @@
 					<div class="col-xs-12">
 						<div class="form-group">
 								<div class="row">
-									<div class="col-xs-3">
-										<label class="control-label" for="telefones.celular.area">DDD</label>
-										<input type="tel" id="telefoneCelular.area" class="form-control" required>
-									</div>
-									<div class="col-xs-9">
-										<label class="control-label" for="telefones.celular.numero">Tel. Celular</label>
-										<input type="tel" id="telefoneCelular.numero" class="form-control" required>
+									<div class="col-xs-12">
+										<label class="control-label" for="telefoneCelular">Telefone Celular</label>
+										<input type="tel" id="telefoneCelular" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
 									</div>
 								</div>
 						</div>
@@ -95,30 +90,18 @@
 					<div class="col-xs-12">
 						<div class="form-group">
 							<div class="row">
-									<div class="col-xs-3">
-										<label class="control-label" for="telefones.residencial.area">DDD</label>
-										<input type="tel" id="telefoneResidencial.area" class="form-control" required>
-									</div>
-									<div class="col-xs-9">
-										<label class="control-label" for="telefones.residencial.numero">Tel. Residencial</label>
-										<input type="tel"	id="telefoneResidencial.numero" class="form-control" required>
+									<div class="col-xs-12">
+										<label class="control-label" for="telefoneResidencial">Telefone Residencial</label>
+										<input type="tel" id="telefoneResidencial" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
 									</div>
 							</div>										
 						</div>
 					</div>
 					<div class="col-xs-12">
 							<div class="row">
-									<div class="col-xs-3">
-										<div class="form-group">
-											<label class="control-label" for="telefones.comercial.area">DDD</label>
-											<input type="tel" id="telefoneComercial.area" class="form-control" required>
-										</div>
-									</div>
-									<div class="col-xs-9">
-										<div class="form-group">
-											<label class="control-label" for="telefones.comercial.numero">Tel. Comercial</label> 
-											<input type="tel"	id="telefoneComercial.numero" class="form-control" required>
-										</div>
+									<div class="col-xs-12">
+										<label class="control-label" for="telefoneComercial">Telefone Comercial</label>
+										<input type="tel" id="telefoneComercial" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
 									</div>
 							</div>										
 					</div>
@@ -157,8 +140,7 @@
     $("#email").val("lucianosantosborges@gmail.com");
     $("#rg").val("6597650-98");
     $("#cpf").val("935.795.515-15");
-    $("[id$='area']").val("71");
-    $("[id$='numero']").val("8989-6565");
+    $("#telefoneCelular, #telefoneResidencial, #telefoneComercial").val("(71) 8989-6565");
 
 		function trataSucesso(data){
 			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
@@ -176,19 +158,6 @@
 			
 			$("#salvar").click(function(){
 				$(".has-error").removeClass('has-error');
-				var celular, residencial, comercial;
-				
-				if (!($("#telefoneCelular\\.area").val() === "" && $("#telefonesCelular\\.numero").val() === "")) {
-					celular = new Telefone($("#telefoneCelular\\.area").val(), $("#telefoneCelular\\.numero").val());
-				}
-
-				if (!($("#telefoneResidencial\\.area").val() === "" && $("#telefoneResidencial\\.numero").val() === "")) {
-					residencial = new Telefone($("#telefoneResidencial\\.area").val(), $("#telefoneResidencial\\.numero").val());
-				}
-
-				if (!($("#telefoneComercial\\.area").val() === "" && $("#telefoneComercial\\.numero").val() === "")) {
-					comercial = new Telefone($("#telefoneComercial\\.area").val(), $("#telefoneComercial\\.numero").val());
-				}
 				
 				var atleta = new Atleta();
 					atleta.nome = $("#nome").val();
@@ -197,9 +166,9 @@
 					atleta.nascimento = $("#nascimento").val();
 					atleta.rg = $("#rg").val();
 					atleta.cpf = $("#cpf").val();
-					atleta.telefoneCelular = celular;
-					atleta.telefoneResidencial = residencial;
-					atleta.telefoneComercial = comercial;
+					atleta.telefoneCelular = $("#telefoneCelular").val();
+					atleta.telefoneResidencial = $("#telefoneResidencial").val();
+					atleta.telefoneComercial = $("#telefoneComercial").val();
 
 				var persistenceService = new PersistenceService("api");
 					persistenceService.create("atleta", atleta, trataSucesso, trataErro);
