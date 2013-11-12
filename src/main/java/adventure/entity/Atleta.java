@@ -1,10 +1,11 @@
 package adventure.entity;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,11 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Atleta {
 
 	@Id
-	@GeneratedValue(strategy = AUTO)
+	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
 	@NotBlank
+	@Column(unique = true)
 	private String email;
 
 	@NotBlank
@@ -30,9 +32,11 @@ public class Atleta {
 	private Date nascimento;
 
 	@NotBlank
+	@Column(unique = true)
 	private String rg;
 
 	@NotBlank
+	@Column(unique = true)
 	private String cpf;
 
 	@NotNull

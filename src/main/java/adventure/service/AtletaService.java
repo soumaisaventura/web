@@ -26,7 +26,6 @@ import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
 
-@ValidateRequest
 @Path("/atleta")
 @Produces(APPLICATION_JSON)
 public class AtletaService {
@@ -71,18 +70,18 @@ public class AtletaService {
 	@Startup
 	@Transactional
 	public void cargarTemporariaInicial() {
-		Atleta atleta;
+		if (search(null).isEmpty()) {
+			Atleta atleta = new Atleta();
+			atleta.setNome("Urtzi Iglesias");
+			atleta.setEmail("urtzi.iglesias@vidaraid.com");
+			atleta.setSexo(MASCULINO);
+			atleta.setNascimento(new Date());
+			atleta.setRg("99887766-55");
+			atleta.setCpf("987654321-00");
+			atleta.setTelefoneCelular("61 1234-4567");
+			atleta.setTelefoneResidencial("61 1234-4567");
 
-		atleta = new Atleta();
-		atleta.setNome("Urtzi Iglesias");
-		atleta.setEmail("urtzi.iglesias@vidaraid.com");
-		atleta.setSexo(MASCULINO);
-		atleta.setNascimento(new Date());
-		atleta.setRg("99887766-55");
-		atleta.setCpf("987654321-00");
-		atleta.setTelefoneCelular("61 1234-4567");
-		atleta.setTelefoneResidencial("61 1234-4567");
-
-		create(atleta);
+			create(atleta);
+		}
 	}
 }

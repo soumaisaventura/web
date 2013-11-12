@@ -1,12 +1,7 @@
 package adventure.service;
 
-import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
-
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class Validation {
 
-	@JsonSerialize(include = NON_EMPTY)
 	public String property;
 
 	public String message;
