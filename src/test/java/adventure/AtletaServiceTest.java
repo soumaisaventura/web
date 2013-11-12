@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -46,7 +47,10 @@ public class AtletaServiceTest {
 		atletaLocal.setNome("Cleverson Sacramento");
 		atletaLocal.setEmail("cleverson.sacramento@gmail.com");
 		atletaLocal.setSexo(MASCULINO);
-		atletaLocal.setTelefoneCelular("71 8888-9999");;
+		atletaLocal.setTelefoneCelular("71 8888-9999");
+		atletaLocal.setNascimento(new Date());
+		atletaLocal.setCpf("123456789-00");
+		atletaLocal.setRg("11223344-55");
 
 		Atleta atletaRemote;
 		atletaRemote = obterPorEmail(atletaLocal.getEmail());
@@ -87,6 +91,9 @@ public class AtletaServiceTest {
 			List<Validation> expected = new ArrayList<Validation>();
 			expected.add(new Validation("nome", "Não pode ser vazio."));
 			expected.add(new Validation("email", "Não pode ser vazio."));
+			expected.add(new Validation("cpf", "Não pode ser vazio."));
+			expected.add(new Validation("rg", "Não pode ser vazio."));
+			expected.add(new Validation("nascimento", "Não pode ser nulo."));
 			expected.add(new Validation("sexo", "Não pode ser nulo."));
 			expected.add(new Validation("telefoneCelular", "Não pode ser vazio."));
 

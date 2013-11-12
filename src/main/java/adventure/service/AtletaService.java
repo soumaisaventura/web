@@ -3,7 +3,7 @@ package adventure.service;
 import static adventure.entity.Sexo.MASCULINO;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,13 +77,9 @@ public class AtletaService {
 		atleta.setNome("Urtzi Iglesias");
 		atleta.setEmail("urtzi.iglesias@vidaraid.com");
 		atleta.setSexo(MASCULINO);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(1980, 01, 01);
-		atleta.setNascimento(calendar.getTime());
-
-		atleta.setRg(null);
-		atleta.setCpf(null);
+		atleta.setNascimento(new Date());
+		atleta.setRg("99887766-55");
+		atleta.setCpf("987654321-00");
 		atleta.setTelefoneCelular("61 1234-4567");
 		atleta.setTelefoneResidencial("61 1234-4567");
 
