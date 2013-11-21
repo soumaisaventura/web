@@ -13,6 +13,8 @@ import javax.ws.rs.ext.Provider;
 import org.hibernate.validator.method.MethodConstraintViolation;
 import org.hibernate.validator.method.MethodConstraintViolationException;
 
+import adventure.service.ValidationException.Violation;
+
 @Provider
 @SuppressWarnings("deprecation")
 public class ValidationExceptionMapper implements ExceptionMapper<javax.validation.ValidationException> {
@@ -21,19 +23,19 @@ public class ValidationExceptionMapper implements ExceptionMapper<javax.validati
 	public Response toResponse(javax.validation.ValidationException exception) {
 		List<Validation> validations = new ArrayList<Validation>();
 
-		// if (exception instanceof MethodConstraintViolationException) {
-		MethodConstraintViolationException cause = ((MethodConstraintViolationException) exception);
+		if (exception instanceof MethodConstraintViolationException) {
+			MethodConstraintViolationException cause = ((MethodConstraintViolationException) exception);
 
-		for (MethodConstraintViolation<?> violation : cause.getConstraintViolations()) {
-			validations.add(new Validation(getProperty(violation), violation.getMessage()));
+			for (MethodConstraintViolation<?> violation : cause.getConstraintViolations()) {
+				validations.add(new Validation(getProperty(violation), violation.getMessage()));
+			}
+		} else {
+			ValidationException cause = ((ValidationException) exception);
+
+			for (Violation violation : cause.getConstraintViolations()) {
+				validations.add(new Validation(violation.getProperty(),	violation.getMessage()));
+			}
 		}
-		// } else {
-		// ValidationException cause = ((ValidationException) exception);
-		//
-		// for (Violation violation : cause.getConstraintViolations()) {
-		// validations.add(new Validation(violation.getProperty(), violation.getMessage()));
-		// }
-		// }
 
 		return Response.ok(validations).status(SC_PRECONDITION_FAILED).build();
 	}

@@ -1,7 +1,6 @@
 package adventure.service;
 
 import static adventure.entity.Sexo.MASCULINO;
-import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.ArrayList;
@@ -74,30 +73,48 @@ public class AtletaService {
 	@GET
 	@Path("/check")
 	public Response check(@NotBlank @QueryParam("property") String property,
-			@NotBlank @QueryParam("value") String value, @QueryParam("id") Long id) {
-		Validation validation = null;
+			@QueryParam("value") String value, @QueryParam("id") Long id) {
 
-		if (property.equals("email")) {
-			List<Atleta> atletas = dao.findByEmail(value);
-
-			if (id != null) {
-				atletas.remove(new Atleta(id));
-			}
-
-			if (!atletas.isEmpty()) {
-				validation = new Validation("email", "E-mail duplicado");
-			}
-		}
-
-		Response response;
-
-		if (validation == null) {
-			response = Response.ok().build();
+		ValidationException exception = new ValidationException();
+		List<Atleta> atletas = null;
+		
+		if (Strings.isEmpty(value)){
+			exception.addViolation(property, "Não pode ser vazio");
 		} else {
-			response = Response.ok(validation).status(SC_PRECONDITION_FAILED).build();
+			if (property.equals("email")){
+				atletas = dao.findByEmail(value);
+				if (id != null) {
+					atletas.remove(new Atleta(id));
+				}
+				if (!atletas.isEmpty()) {
+					exception.addViolation("email", "E-mail duplicado");
+				}
+			} else 
+			if (property.equals("cpf")){
+				atletas = dao.findByCpf(value);
+				if (id != null) {
+					atletas.remove(new Atleta(id));
+				}
+				if (!atletas.isEmpty()) {
+					exception.addViolation("cpf", "CPF duplicado");
+				}
+			} else 
+			if (property.equals("rg")){
+				atletas = dao.findByRg(value);
+				if (id != null) {
+					atletas.remove(new Atleta(id));
+				}
+				if (!atletas.isEmpty()) {
+					exception.addViolation("rg", "RG duplicado");
+				}
+			}
+		}
+		
+		if (!exception.getConstraintViolations().isEmpty()) {
+			throw exception;
 		}
 
-		return response;
+		return Response.ok().build();
 	}
 
 	@Startup

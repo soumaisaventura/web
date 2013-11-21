@@ -19,4 +19,22 @@ public class AtletaDAO extends JPACrud<Atleta, Long> {
 
 		return query.getResultList();
 	}
+
+	public List<Atleta> findByCpf(String cpf) {
+		String jpql = "from Atleta a where a.cpf = :cpf";
+
+		TypedQuery<Atleta> query = getEntityManager().createQuery(jpql, Atleta.class);
+		query.setParameter("cpf", cpf);
+
+		return query.getResultList();
+	}
+
+	public List<Atleta> findByRg(String rg) {
+		String jpql = "from Atleta a where a.rg = :rg";
+
+		TypedQuery<Atleta> query = getEntityManager().createQuery(jpql, Atleta.class);
+		query.setParameter("rg", rg);
+
+		return query.getResultList();
+	}
 }
