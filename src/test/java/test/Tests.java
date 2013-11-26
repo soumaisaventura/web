@@ -47,8 +47,10 @@ import org.junit.Ignore;
 
 import adventure.entity.Atleta;
 import adventure.entity.Sexo;
+import adventure.persistence.AtletaDAO;
 import adventure.service.AtletaService;
 import adventure.service.Validation;
+import adventure.service.ValidationException;
 import adventure.service.ValidationExceptionMapper;
 
 @Ignore
@@ -73,7 +75,9 @@ public final class Tests {
 				.addClass(Atleta.class)
 				.addClass(Sexo.class)
 				.addClass(AtletaService.class)
+				.addClass(AtletaDAO.class)
 				.addClass(ValidationExceptionMapper.class)
+				.addClass(ValidationException.class)
 				.addClass(Validation.class)
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
