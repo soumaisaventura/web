@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 
 	private static ObjectMapper objectMapper;
+
 	{
 		objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);

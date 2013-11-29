@@ -99,7 +99,7 @@
 					</div>
 					<div class="clearfix"></div>
 					<div class="col-xs-1 text-center">
-						<button type="button" id="salvar" class="btn btn-primary">Salvar</button>
+						<button type="button" id="salvar" class="btn btn-primary">Criar conta</button>
 					</div>
 				</div>
 			</form>
@@ -123,11 +123,11 @@
     <script src="js/persistence-service.js"></script>
     <script src="js/model/atleta.js"></script>
     <script>
-    $("#nome").val("Luciano Santos Borges");
-    $("#email").val("lucianosantosborges@gmail.com");
-    $("#rg").val("6597650-98");
-    $("#cpf").val("935.795.515-15");
-    $("#telefoneCelular, #telefoneResidencial, #telefoneComercial").val("(71) 8989-6565");
+	    $("#nome").val("Luciano Santos Borges");
+	    $("#email").val("lucianosantosborges@gmail.com");
+	    $("#rg").val("6597650-98");
+	    $("#cpf").val("935.795.515-15");
+	    $("#telefoneCelular, #telefoneResidencial, #telefoneComercial").val("(71) 8989-6565");
 
 		function trataSucesso(data){
 			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
@@ -169,19 +169,18 @@
 				$(".has-error").removeClass('has-error');
 				
 				var atleta = new Atleta();
-					atleta.nome = $("#nome").val();
-					atleta.sexo = $("#sexo").val();
-					atleta.email = $("#email").val();
-					atleta.nascimento = $("#nascimento").val();
-					atleta.rg = $("#rg").val();
-					atleta.cpf = $("#cpf").val();
-					atleta.telefoneCelular = $("#telefoneCelular").val();
-					atleta.telefoneResidencial = $("#telefoneResidencial").val();
-					atleta.telefoneComercial = $("#telefoneComercial").val();
+				atleta.nome = $("#nome").val();
+				atleta.sexo = $("#sexo").val();
+				atleta.email = $("#email").val();
+				atleta.nascimento = $("#nascimento").val();
+				atleta.rg = $("#rg").val();
+				atleta.cpf = $("#cpf").val();
+				atleta.telefoneCelular = $("#telefoneCelular").val();
+				atleta.telefoneResidencial = $("#telefoneResidencial").val();
+				atleta.telefoneComercial = $("#telefoneComercial").val();
 
 				var persistenceService = new PersistenceService("api");
-					persistenceService.create("atleta", atleta, trataSucesso, trataErro);
-				
+				persistenceService.create("atleta", atleta, trataSucesso, trataErro);
 			});
 		});
 		</script>
