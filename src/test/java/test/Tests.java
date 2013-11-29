@@ -48,7 +48,7 @@ import org.junit.Ignore;
 import adventure.entity.Atleta;
 import adventure.entity.Sexo;
 import adventure.persistence.AtletaDAO;
-import adventure.service.AtletaService;
+import adventure.service.RegistroService;
 import adventure.service.Validation;
 import adventure.service.ValidationException;
 import adventure.service.ValidationExceptionMapper;
@@ -74,7 +74,7 @@ public final class Tests {
 		return ShrinkWrap.create(WebArchive.class)
 				.addClass(Atleta.class)
 				.addClass(Sexo.class)
-				.addClass(AtletaService.class)
+				.addClass(RegistroService.class)
 				.addClass(AtletaDAO.class)
 				.addClass(ValidationExceptionMapper.class)
 				.addClass(ValidationException.class)

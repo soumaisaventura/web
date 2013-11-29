@@ -16,7 +16,7 @@
 	</head>
 	<body>
 	
-		<!-- Fixed navbar -->
+    <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -30,8 +30,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="atleta.html">Meu Cadastro</a></li>
+            <li><a href="registro-atleta.html">Cadastre-se</a></li>
           </ul>
         </div>
       </div>
@@ -48,17 +47,14 @@
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="form-group">
-							<label class="control-label" for="sexo">Sexo</label>
-							<select id="sexo" class="form-control">
-								<option value="M">Masculino</option>
-								<option value="F">Feminino</option>
-							</select>
+							<label class="control-label" for="email">E-mail</label> 
+							<input type="email" id="email" class="form-control" required data-unique>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="form-group">
-							<label class="control-label" for="email">E-mail</label> 
-							<input type="email" id="email" class="form-control" required data-unique>
+							<label class="control-label" for="senha">Senha</label> 
+							<input type="password" id="senha" class="form-control" required data-unique>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
@@ -69,32 +65,11 @@
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="form-group">
-							<label class="control-label" for="rg">RG</label> 
-							<input type="text" id="rg" class="form-control" required data-unique>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="cpf">CPF</label> 
-							<input type="text" id="cpf" class="form-control" required data-unique>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="telefoneCelular"><span class="glyphicon glyphicon-phone"></span> Celular</label>
-							<input type="tel" id="telefoneCelular" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
-						</div>
-					</div>
-					<div class="col-md-4 hidden-xs hidden-sm">
-						<div class="form-group">
-							<label class="control-label" for="telefoneResidencial"><span class="glyphicon glyphicon-earphone"></span> Residencial</label>
-							<input type="tel" id="telefoneResidencial" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
-						</div>
-					</div>
-					<div class="col-md-4 hidden-xs hidden-sm">
-						<div class="form-group">
-							<label class="control-label" for="telefoneComercial"><span class="glyphicon glyphicon-phone-alt"></span> Comercial</label>
-							<input type="tel" id="telefoneComercial" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
+							<label class="control-label" for="sexo">Sexo</label>
+							<select id="sexo" class="form-control">
+								<option value="M">Masculino</option>
+								<option value="F">Feminino</option>
+							</select>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -121,13 +96,11 @@
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>    
     <script src="js/persistence-service.js"></script>
-    <script src="js/model/atleta.js"></script>
+    <script src="js/model/pessoa.js"></script>
     <script>
 	    $("#nome").val("Luciano Santos Borges");
+	    $("#senha").val("132456");
 	    $("#email").val("lucianosantosborges@gmail.com");
-	    $("#rg").val("6597650-98");
-	    $("#cpf").val("935.795.515-15");
-	    $("#telefoneCelular, #telefoneResidencial, #telefoneComercial").val("(71) 8989-6565");
 
 		function trataSucesso(data){
 			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
@@ -168,19 +141,15 @@
 			$("#salvar").click(function(){
 				$(".has-error").removeClass('has-error');
 				
-				var atleta = new Atleta();
-				atleta.nome = $("#nome").val();
-				atleta.sexo = $("#sexo").val();
-				atleta.email = $("#email").val();
-				atleta.nascimento = $("#nascimento").val();
-				atleta.rg = $("#rg").val();
-				atleta.cpf = $("#cpf").val();
-				atleta.telefoneCelular = $("#telefoneCelular").val();
-				atleta.telefoneResidencial = $("#telefoneResidencial").val();
-				atleta.telefoneComercial = $("#telefoneComercial").val();
+				var pessoa = new Pessoa();
+				pessoa.nome = $("#nome").val();
+				pessoa.senha = $("#senha").val();
+				pessoa.email = $("#email").val();
+				pessoa.nascimento = $("#nascimento").val();
+				pessoa.sexo = $("#sexo").val();
 
 				var persistenceService = new PersistenceService("api");
-				persistenceService.create("atleta", atleta, trataSucesso, trataErro);
+				persistenceService.create("registro", pessoa, trataSucesso, trataErro);
 			});
 		});
 		</script>
