@@ -3,7 +3,13 @@ package adventure.rest.service;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.Extension;
+import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import javax.persistence.Entity;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,7 +23,17 @@ import br.gov.frameworkdemoiselle.util.Reflections;
 @Path("/js/model/{entity}.js")
 @Produces("text/javascript")
 @Cache(maxAge = 10)
-public class JSEntityService {
+public class JSEntityService implements Extension {
+
+	private Map<String, Class<?>> entities = new HashMap<String, Class<?>>();
+
+	protected <T> void vetoCustomContexts(@Observes ProcessAnnotatedType<T> event) {
+		Class<T> type = event.getAnnotatedType().getJavaClass();
+
+		if (type.isAnnotationPresent(Entity.class)) {
+			entities.put(type.getSimpleName(), type);
+		}
+	}
 
 	@GET
 	public Response getEntityMetadata(@PathParam("entity") String entity) {
@@ -28,8 +44,12 @@ public class JSEntityService {
 		}
 	}
 
-	private static String parse(String entity) throws ClassNotFoundException {
-		Class<?> type = Class.forName("adventure.entity." + entity);
+	private String parse(String entity) throws ClassNotFoundException {
+		Class<?> type = entities.get(entity);
+
+		if (type == null) {
+			throw new ClassNotFoundException(entity);
+		}
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("var ");
