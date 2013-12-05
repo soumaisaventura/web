@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 
 import test.Tests;
 import adventure.entity.Atleta;
-import adventure.service.Validation;
+import adventure.persistence.ValidationException.Violation;
 
 @RunWith(Arquillian.class)
 public class AtletaServiceTest {
@@ -84,20 +84,20 @@ public class AtletaServiceTest {
 			assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
 
 			@SuppressWarnings("unchecked")
-			List<Validation> validations = (List<Validation>) cause.getResponse().getEntity(
-					new GenericType<List<Validation>>() {
+			List<Violation> validations = (List<Violation>) cause.getResponse().getEntity(
+					new GenericType<List<Violation>>() {
 					});
 
-			List<Validation> expected = new ArrayList<Validation>();
-			expected.add(new Validation("nome", "Não pode ser vazio."));
-			expected.add(new Validation("email", "Não pode ser vazio."));
-			expected.add(new Validation("cpf", "Não pode ser vazio."));
-			expected.add(new Validation("rg", "Não pode ser vazio."));
-			expected.add(new Validation("nascimento", "Não pode ser nulo."));
-			expected.add(new Validation("sexo", "Não pode ser nulo."));
-			expected.add(new Validation("telefoneCelular", "Não pode ser vazio."));
+			List<Violation> expected = new ArrayList<Violation>();
+			expected.add(new Violation("nome", "Não pode ser vazio."));
+			expected.add(new Violation("email", "Não pode ser vazio."));
+			expected.add(new Violation("cpf", "Não pode ser vazio."));
+			expected.add(new Violation("rg", "Não pode ser vazio."));
+			expected.add(new Violation("nascimento", "Não pode ser nulo."));
+			expected.add(new Violation("sexo", "Não pode ser nulo."));
+			expected.add(new Violation("telefoneCelular", "Não pode ser vazio."));
 
-			assertEquals(new HashSet<Validation>(expected), new HashSet<Validation>(validations));
+			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
 		}
 	}
 

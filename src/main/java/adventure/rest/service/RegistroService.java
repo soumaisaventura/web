@@ -1,4 +1,4 @@
-package adventure.service;
+package adventure.rest.service;
 
 import static adventure.entity.Sexo.MASCULINO;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -18,8 +18,9 @@ import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotBlank;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
-import adventure.entity.Pessoa;
-import adventure.persistence.PessoaDAO;
+import adventure.entity.Usuario;
+import adventure.persistence.UsuarioDAO;
+import adventure.persistence.ValidationException;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
@@ -30,33 +31,32 @@ import br.gov.frameworkdemoiselle.util.Strings;
 public class RegistroService {
 
 	@Inject
-	private PessoaDAO dao;
+	private UsuarioDAO dao;
 
 	@POST
 	@Transactional
-	public Long create(@NotNull @Valid Pessoa pessoa) {
+	public Long create(@NotNull @Valid Usuario pessoa) {
 		return dao.insert(pessoa).getId();
 	}
 
 	@GET
 	@Path("/check")
 	public Response check(@NotBlank @QueryParam("property") String property, @QueryParam("value") String value) {
-
-		ValidationException exception = new ValidationException();
+		ValidationException validation = new ValidationException();
 
 		if (Strings.isEmpty(value)) {
-			exception.addViolation(property, "Não pode ser vazio");
+			validation.addViolation(property, "Não pode ser vazio");
 
 		} else {
 			if (property.equals("email")) {
 				if (!dao.findByEmail(value).isEmpty()) {
-					exception.addViolation("email", "E-mail duplicado");
+					validation.addViolation("email", "E-mail duplicado");
 				}
 			}
 		}
 
-		if (!exception.getConstraintViolations().isEmpty()) {
-			throw exception;
+		if (!validation.getConstraintViolations().isEmpty()) {
+			throw validation;
 		}
 
 		return Response.ok().build();
@@ -66,7 +66,7 @@ public class RegistroService {
 	@Transactional
 	public void cargarTemporariaInicial() {
 		if (dao.findAll().isEmpty()) {
-			Pessoa pessoa = new Pessoa();
+			Usuario pessoa = new Usuario();
 			pessoa.setNome("Urtzi Iglesias");
 			pessoa.setEmail("urtzi.iglesias@vidaraid.com");
 			pessoa.setSenha("abcde");

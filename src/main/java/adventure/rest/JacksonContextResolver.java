@@ -1,4 +1,4 @@
-package adventure.service;
+package adventure.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL;

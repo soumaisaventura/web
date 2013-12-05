@@ -14,24 +14,24 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Pessoa {
+public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
-	@NotBlank
+	@NotEmpty
 	private String nome;
 
 	@Email
-	@NotBlank
+	@NotEmpty
 	@Column(unique = true)
 	private String email;
 
-	@NotBlank
+	@NotEmpty
 	private String senha;
 
 	@Past

@@ -1,4 +1,4 @@
-package adventure.service;
+package adventure.rest.service;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 

@@ -1,4 +1,4 @@
-package adventure.service;
+package adventure.rest.service;
 
 import static adventure.entity.Sexo.MASCULINO;
 
@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import adventure.entity.Atleta;
 import adventure.persistence.AtletaDAO;
+import adventure.persistence.ValidationException;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 //@Path("/registro/atleta")

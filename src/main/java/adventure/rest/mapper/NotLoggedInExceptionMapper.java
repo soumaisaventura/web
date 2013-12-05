@@ -1,4 +1,4 @@
-package adventure.service;
+package adventure.rest.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;

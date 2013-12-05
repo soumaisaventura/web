@@ -4,17 +4,17 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import adventure.entity.Pessoa;
+import adventure.entity.Usuario;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
-public class PessoaDAO extends JPACrud<Pessoa, Long> {
+public class UsuarioDAO extends JPACrud<Usuario, Long> {
 
 	private static final long serialVersionUID = 1L;
 
-	public List<Pessoa> findByEmail(String email) {
+	public List<Usuario> findByEmail(String email) {
 		String jpql = "from " + this.getBeanClass().getName() + " where email = :email";
 
-		TypedQuery<Pessoa> query = getEntityManager().createQuery(jpql, Pessoa.class);
+		TypedQuery<Usuario> query = getEntityManager().createQuery(jpql, Usuario.class);
 		query.setParameter("email", email);
 
 		return query.getResultList();
