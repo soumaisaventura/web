@@ -117,7 +117,7 @@
     <script src="js/bootstrap-datepicker.js"></script>
     <script src="js/bootstrap-datepicker.pt-BR.js"></script>
     <script src="js/persistence-service.js"></script>
-    <script src="api/js/model/Pessoa.js"></script>
+    <script src="js/model/Usuario.js"></script>
     
     <script>
 		function trataSucesso(data){
@@ -165,15 +165,19 @@
 
 			$("#salvar").click(function(){
 				$("[id|='erro']").html("");
-				var pessoa = new Pessoa();
+				var usuario = new Usuario();
 				var persistenceService = new PersistenceService("api");
 
-				pessoa.nome = $("#nome").val();
-				pessoa.senha = $("#senha").val();
-				pessoa.email = $("#email").val();
-				pessoa.nascimento = $("#nascimento").val();
-				pessoa.sexo = $("#sexo").val();
-				persistenceService.create("registro", pessoa, trataSucesso, trataErro);
+				usuario.nome = $("#nome").val();
+				usuario.senha = $("#senha").val();
+				usuario.email = $("#email").val();
+				// É preciso testar se o usuário digitou na mão sem o HTML5, não sendo preciso fazer
+				// a conversão a baixo e sim apenas setar o valor do campo no objeto
+				// usuario.nascimento = $("#nascimento").val().substr(8,2) + '/' + $("#nascimento").val().substr(5,2) + '/' + $("#nascimento").val().substr(0,4);
+				usuario.nascimento = $("#nascimento").val();
+				
+				usuario.sexo = $("#sexo").val();
+				persistenceService.create("registro", usuario, trataSucesso, trataErro);
 			});
 		});
 		</script>

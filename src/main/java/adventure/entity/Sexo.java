@@ -2,8 +2,6 @@ package adventure.entity;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
-import br.gov.frameworkdemoiselle.util.Strings;
-
 public enum Sexo {
 
 	MASCULINO("M"), FEMININO("F");
@@ -20,14 +18,14 @@ public enum Sexo {
 
 	@JsonCreator
 	public static Sexo fromValue(String value) {
-		Sexo sexo;
+		Sexo result = null;
 
-		if (Strings.isEmpty(value)) {
-			sexo = null;
-		} else {
-			sexo = Sexo.valueOf(value.toUpperCase());
+		for (Sexo sexo : values()) {
+			if (sexo.toString().equalsIgnoreCase(value)) {
+				result = sexo;
+			}
 		}
 
-		return sexo;
+		return result;
 	}
 }
