@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<title>Adventure | Gerencie seu Evento de Aventura</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/datepicker.css" rel="stylesheet">
 		<style>
 		body {
   		padding-top: 70px;
@@ -12,6 +13,8 @@
 		.error{
 			color: red;
 		}
+		#choice option { color: black; }
+		.empty { color: gray; }
 		</style>
 	</head>
 	<body>
@@ -37,46 +40,55 @@
     </div>
     
 		<div class="container">
-			<form role="form">
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="nome">Nome</label> 
-							<input type="text" id="nome" class="form-control" autofocus>
+			<h1>Cadastre-se</h1>
+			<form class="form-horizontal" role="form">
+					
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-3">
+							<input type="text" id="nome" class="form-control input-lg" placeholder="Nome" autofocus required>
+							<div id="erro-nome" class="label label-danger"></div>
+						</div>
+						
+					</div>
+							
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-3">
+							<input type="email" id="email" class="form-control input-lg" placeholder="E-mail" required>
+							<div id="erro-email" class="label label-danger"></div>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="email">E-mail</label> 
-							<input type="email" id="email" class="form-control" required data-unique>
+					
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-3">
+							<input type="password" id="senha" class="form-control input-lg" placeholder="Senha" required>
+							<div id="erro-senha" class="label label-danger"></div>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="senha">Senha</label> 
-							<input type="password" id="senha" class="form-control" required data-unique>
+ 
+					<div class="form-group">
+						<div class="col-md-3 col-md-offset-3">
+							<div class="input-group input-group-lg date" data-date-format="dd/mm/yyyy">
+   							<input type="text" id="nascimento" class="form-control" placeholder="Data de Nascimento" readonly required>
+   							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+   						</div>
+   						<div id="erro-nascimento" class="label label-danger"></div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="data">Data de Nascimento</label> 
-							<input type="date" id="nascimento" class="form-control" required>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="sexo">Sexo</label>
-							<select id="sexo" class="form-control">
+						
+						<div class="col-md-3">
+							<select id="sexo" class="form-control input-lg" required>
+								<option value="" selected="selected">Sexo</option>
 								<option value="M">Masculino</option>
 								<option value="F">Feminino</option>
 							</select>
+   						<div id="erro-sexo" class="label label-danger"></div>
+						</div>			
+					</div>
+					
+					<div class="form-group">
+						<div class="col-md-3 col-md-offset-3">
+							<input type="button" id="salvar" class="btn btn-primary btn-lg" value="Criar conta"/>
 						</div>
-					</div>
-					<div class="clearfix"></div>
-					<div class="col-xs-1 text-center">
-						<button type="button" id="salvar" class="btn btn-primary">Criar conta</button>
-					</div>
-				</div>
+					</div>					
 			</form>
 		</div>
 		
@@ -95,13 +107,11 @@
 		
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>    
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap-datepicker.pt-BR.js"></script>
     <script src="js/persistence-service.js"></script>
     <script src="js/model/pessoa.js"></script>
     <script>
-	    $("#nome").val("Luciano Santos Borges");
-	    $("#senha").val("132456");
-	    $("#email").val("lucianosantosborges@gmail.com");
-
 		function trataSucesso(data){
 			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
 				window.location = 'index.html';
@@ -110,45 +120,51 @@
 
 		function trataErro(data){
 			$.each(data.responseJSON, function( index, value ) {
-				$("input[id='"+ value.property + "']").parent().addClass('has-error');
+				$("#erro-" + value.property).html("");
+				$("#erro-" + value.property).html(value.message);
+				$("#" + value.property).focus();
 			});
 		}
     
 		$(function(){
 
-			$("[data-unique]").each(function(){
+			$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
+
+			$("#sexo").change(function () {
+			    if($(this).val() == "") $(this).addClass("empty");
+			    else $(this).removeClass("empty")
+			});
+
+			$("#sexo").change();
+
+			$("#email").change(function(){
 				var $this = this;
-				$($this).on("blur", function(){
-					$.ajax({
-						type : "GET",
-						url : "api/atleta/check",
-						data : { property: $this.id, value: $this.value },
-						contentType : "application/json;charset=utf8",
-						success : function(){
-							$("label[for='" + $this.id + "'] > span").remove();
-						},
-						error : function(respData){
-							$.each(respData.responseJSON, function(index, value) {
-								  $("label[for='" + value.property + "'] > span").remove();
-									$("label[for='" + value.property + "']").append(" <span class='error'>" + value.message + "</span>");
-									$("#" + value.property).focus();
-							});
-						}
-					});
+				$.ajax({
+					type : "GET",
+					url : "api/registro/check",
+					data : { property: $this.id, value: $this.value },
+					contentType : "application/json;charset=utf8",
+					success : function(){
+						$("[id|='erro']").html("");
+					},
+					error : function(respData){
+						$("#erro-" + respData.responseJSON[0].property).html("");
+						$("#erro-" + respData.responseJSON[0].property).html(respData.responseJSON[0].message);
+						$("#" + respData.responseJSON[0].property).focus();
+					}
 				});
 			});
-			
+
 			$("#salvar").click(function(){
-				$(".has-error").removeClass('has-error');
-				
+				$("[id|='erro']").html("");
 				var pessoa = new Pessoa();
+				var persistenceService = new PersistenceService("api");
+
 				pessoa.nome = $("#nome").val();
 				pessoa.senha = $("#senha").val();
 				pessoa.email = $("#email").val();
 				pessoa.nascimento = $("#nascimento").val();
 				pessoa.sexo = $("#sexo").val();
-
-				var persistenceService = new PersistenceService("api");
 				persistenceService.create("registro", pessoa, trataSucesso, trataErro);
 			});
 		});
