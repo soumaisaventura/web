@@ -27,7 +27,7 @@ public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 
 		objectMapper.setSerializationInclusion(NON_NULL);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		objectMapper.setDateFormat(dateFormat);
 	}
 
