@@ -145,7 +145,7 @@
 
 			$("#sexo").change();
 
-			$("#email").change(function(){
+			$("#email").on("blur change", function(){
 				var $this = this;
 				$.ajax({
 					type : "GET",
@@ -158,6 +158,7 @@
 					error : function(respData){
 						$("#erro-" + respData.responseJSON[0].property).html("");
 						$("#erro-" + respData.responseJSON[0].property).html(respData.responseJSON[0].message);
+						console.log( respData.responseJSON[0].property);
 						$("#" + respData.responseJSON[0].property).focus();
 					}
 				});
