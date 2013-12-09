@@ -36,6 +36,8 @@ public class Usuario {
 
 	@Past
 	@NotNull
+	// @JsonSerialize(using = DateSerializer.class)
+	// @JsonDeserialize(using = DateDeserializer.class)
 	private Date nascimento;
 
 	@NotNull

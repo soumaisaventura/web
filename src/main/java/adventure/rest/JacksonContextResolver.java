@@ -3,8 +3,6 @@ package adventure.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL;
 
-import java.text.SimpleDateFormat;
-
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
@@ -23,7 +21,9 @@ public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		objectMapper.configure(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING, true);
 		objectMapper.setSerializationInclusion(NON_NULL);
-		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+		// objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+
+		// objectMapper.
 
 		// objectMapper.setDateFormat(new SimpleDateFormat("dd/MM/yyyy"));
 		// objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, true);
