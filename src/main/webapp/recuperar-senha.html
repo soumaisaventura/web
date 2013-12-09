@@ -52,9 +52,9 @@
 		<script>
 			function trataErro(data){
 				$.each(data.responseJSON, function( index, value ) {
-					$("#erro-" + value.property).html("");
-					$("#erro-" + value.property).html(value.message);
-					$("#" + value.property).focus();
+					$("#erro-email").html("");
+					$("#erro-email").html(value.message);
+					$("#email").focus();
 				});
 			}
 		

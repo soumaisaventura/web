@@ -25,8 +25,8 @@ import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
 
-@Path("/api/registro")
 @ValidateRequest
+@Path("/api/registro")
 @Produces(APPLICATION_JSON)
 public class RegistroService {
 
