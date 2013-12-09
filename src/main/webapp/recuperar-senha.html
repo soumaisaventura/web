@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>Adventure | Gerencie seu Evento de Aventura</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" rel="stylesheet">
+		<style>
+		body {
+  		padding-top: 70px;
+		}
+		</style>
+	</head>
+	<body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Adventure</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="registro-atleta.html">Cadastre-se</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+			<h1>Recuperar Senha</h1>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<div class="col-md-6 col-md-offset-3">
+						<input type="email" id="email" class="form-control input-lg" placeholder="Digite seu e-mail" required>
+						<div id="erro-email" class="label label-danger"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-3 col-md-offset-3">
+						<input type="button" id="recuperar" class="btn btn-primary btn-lg" value="Recuperar senha"/>
+					</div>
+				</div>							
+			</form>
+		</div>
+		<script src="js/jquery-1.10.2.js"></script>
+		<script>
+			function trataErro(data){
+				$.each(data.responseJSON, function( index, value ) {
+					$("#erro-" + value.property).html("");
+					$("#erro-" + value.property).html(value.message);
+					$("#" + value.property).focus();
+				});
+			}
+		
+			$(function(){
+				
+					$("#recuperar").click(function(){
+						$.ajax({
+							type : "GET",
+							url : "api/recuperar/senha",
+							contentType : "application/json;charset=utf8",
+							data : {'email': $("#email").val()},
+							success : function(respData) {
+								$("[id|='erro']").html("");
+							},
+							error : function(respData){
+								trataErro(respData);
+							}
+						});
+					});
+			});
+		</script>
+	</body>
+</html>
