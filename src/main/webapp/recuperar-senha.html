@@ -45,7 +45,10 @@
 					<div class="col-md-3 col-md-offset-3">
 						<input type="button" id="recuperar" class="btn btn-primary btn-lg" value="Recuperar senha"/>
 					</div>
-				</div>							
+				</div>
+				<div id="mensagem" class="col-md-6 col-md-offset-3">
+						<div class="alert alert-success"></div>
+				</div>
 			</form>
 		</div>
 		<script src="js/jquery-1.10.2.js"></script>
@@ -59,6 +62,8 @@
 			}
 		
 			$(function(){
+
+					$("#mensagem").hide();
 				
 					$("#recuperar").click(function(){
 						$.ajax({
@@ -68,8 +73,11 @@
 							data : {'email': $("#email").val()},
 							success : function(respData) {
 								$("[id|='erro']").html("");
+								$("#mensagem > div").html("A senha foi enviada para o e-mail solicitado.");
+								$("#mensagem").show();
 							},
 							error : function(respData){
+								$("#mensagem").hide();
 								trataErro(respData);
 							}
 						});
