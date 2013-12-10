@@ -14,7 +14,6 @@ public class AdventureScrap {
 
 	private static List<Evento> eventos = new ArrayList<Evento>();
 
-	@Startup
 	public static List<Evento> getEventFromAdventureMag() {
 		List<String> urls = new ArrayList<String>();
 		Document doc, doc2, docevento;
