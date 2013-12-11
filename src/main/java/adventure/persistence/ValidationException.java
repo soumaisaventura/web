@@ -44,6 +44,9 @@ public class ValidationException extends javax.validation.ValidationException {
 
 		public String message;
 
+		public Violation() {
+		}
+
 		public static Violation parse(MethodConstraintViolation<?> violation) {
 			return new Violation(getProperty(violation), violation.getMessage());
 		}
@@ -61,9 +64,6 @@ public class ValidationException extends javax.validation.ValidationException {
 			}
 
 			return property;
-		}
-
-		public Violation() {
 		}
 
 		public Violation(String property, String message) {

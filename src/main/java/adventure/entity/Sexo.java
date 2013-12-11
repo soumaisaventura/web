@@ -1,6 +1,7 @@
 package adventure.entity;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonValue;
 
 public enum Sexo {
 
@@ -12,6 +13,7 @@ public enum Sexo {
 		this.value = value;
 	}
 
+	@JsonValue
 	public String toString() {
 		return this.value;
 	}
@@ -23,6 +25,7 @@ public enum Sexo {
 		for (Sexo sexo : values()) {
 			if (sexo.toString().equalsIgnoreCase(value)) {
 				result = sexo;
+				break;
 			}
 		}
 

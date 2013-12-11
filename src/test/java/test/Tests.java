@@ -45,10 +45,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
+import adventure.entity.Evento;
 import adventure.entity.Sexo;
+import adventure.entity.Usuario;
+import adventure.persistence.EventoDAO;
+import adventure.persistence.UsuarioDAO;
 import adventure.persistence.ValidationException;
 import adventure.persistence.ValidationException.Violation;
 import adventure.rest.mapper.ValidationExceptionMapper;
+import adventure.rest.service.EventoService;
 import adventure.rest.service.RegistroService;
 
 @Ignore
@@ -70,10 +75,13 @@ public final class Tests {
 				.asFile();
 
 		return ShrinkWrap.create(WebArchive.class)
-//				.addClass(Atleta.class)
+				.addClass(Usuario.class)
+				.addClass(UsuarioDAO.class)
 				.addClass(Sexo.class)
 				.addClass(RegistroService.class)
-//				.addClass(AtletaDAO.class)
+				.addClass(Evento.class)
+				.addClass(EventoDAO.class)
+				.addClass(EventoService.class)
 				.addClass(ValidationExceptionMapper.class)
 				.addClass(ValidationException.class)
 				.addClass(Violation.class)
