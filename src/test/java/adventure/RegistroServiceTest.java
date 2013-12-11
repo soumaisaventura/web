@@ -1,15 +1,24 @@
 package adventure;
 
 import static adventure.entity.Sexo.MASCULINO;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.resteasy.client.ProxyFactory;
+import org.jboss.resteasy.client.ClientResponseFailure;
+import org.jboss.resteasy.util.GenericType;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +26,7 @@ import org.junit.runner.RunWith;
 import test.Tests;
 import adventure.entity.Sexo;
 import adventure.entity.Usuario;
+import adventure.persistence.ValidationException.Violation;
 
 @RunWith(Arquillian.class)
 public class RegistroServiceTest {
@@ -29,10 +39,6 @@ public class RegistroServiceTest {
 		return Tests.createDeployment();
 	}
 
-	private RegistroServiceClient createClient() {
-		return ProxyFactory.create(RegistroServiceClient.class, url.toString());
-	}
-
 	private Date createDate(int year, int month, int day) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day);
@@ -42,7 +48,8 @@ public class RegistroServiceTest {
 
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
-		RegistroServiceClient client = createClient();
+		RegistroClient registroClient = Tests.createRegistroClient(this.url);
+		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
 		String nome = "Cleverson Sacramento";
 		String email = "cleverson.sacramento@gmail.com";
@@ -50,62 +57,53 @@ public class RegistroServiceTest {
 		Date nascimento = createDate(1980, 12, 18);
 		Sexo sexo = MASCULINO;
 
-		Usuario usuario = new Usuario();
+		Usuario usuario;
+
+		usuario = new Usuario();
 		usuario.setNome(nome);
 		usuario.setEmail(email);
 		usuario.setSenha(senha);
 		usuario.setNascimento(nascimento);
 		usuario.setSexo(sexo);
+		Long id = registroClient.registrar(usuario);
+		assertNotNull(id);
 
-		client.registrar(usuario);
-		client.desregistrar();
+		usuario = perfilClient.obter(id);
+		assertNotNull(usuario);
+		assertEquals(nome, usuario.getNome());
+		assertEquals(email, usuario.getEmail());
+		assertEquals(nascimento, usuario.getNascimento());
+		assertEquals(sexo, usuario.getSexo());
+
+		registroClient.desregistrar();
+		usuario = perfilClient.obter(id);
+		assertNull(usuario);
 	}
 
-	// @Test
-	// public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
-	// RegistroServiceClient client = createClient();
-	//
-	// Atleta atleta = new Atleta();
-	//
-	// try {
-	// client.criar(atleta);
-	// fail("Deveria ter ocorrido erro ao tentar inserir");
-	//
-	// } catch (ClientResponseFailure cause) {
-	// assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
-	//
-	// @SuppressWarnings("unchecked")
-	// List<Violation> validations = (List<Violation>) cause.getResponse().getEntity(
-	// new GenericType<List<Violation>>() {
-	// });
-	//
-	// List<Violation> expected = new ArrayList<Violation>();
-	// expected.add(new Violation("nome", "Não pode ser vazio."));
-	// expected.add(new Violation("email", "Não pode ser vazio."));
-	// expected.add(new Violation("cpf", "Não pode ser vazio."));
-	// expected.add(new Violation("rg", "Não pode ser vazio."));
-	// expected.add(new Violation("nascimento", "Não pode ser nulo."));
-	// expected.add(new Violation("sexo", "Não pode ser nulo."));
-	// expected.add(new Violation("telefoneCelular", "Não pode ser vazio."));
-	//
-	// assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
-	// }
-	// }
-	//
-	// private Atleta obterPorEmail(String email) {
-	// Atleta result = null;
-	// RegistroServiceClient client = createClient();
-	//
-	// for (Atleta aux : client.obterTodos()) {
-	// if (email.equals(aux.getEmail())) {
-	// if (result != null) {
-	// throw new IllegalStateException("E-mail duplicado: " + email);
-	// } else {
-	// result = aux;
-	// }
-	// }
-	// }
-	//
-	// return result;
-	// }
+	@Test
+	public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
+		RegistroClient registroClient = Tests.createRegistroClient(this.url);
+
+		try {
+			registroClient.registrar(new Usuario());
+			fail("Deveria ter ocorrido erro ao tentar inserir");
+
+		} catch (ClientResponseFailure cause) {
+			assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
+
+			@SuppressWarnings("unchecked")
+			List<Violation> validations = (List<Violation>) cause.getResponse().getEntity(
+					new GenericType<List<Violation>>() {
+					});
+
+			List<Violation> expected = new ArrayList<Violation>();
+			expected.add(new Violation("nome", "campo obrigatório"));
+			expected.add(new Violation("email", "campo obrigatório"));
+			expected.add(new Violation("nascimento", "campo obrigatório"));
+			expected.add(new Violation("sexo", "campo obrigatório"));
+			expected.add(new Violation("senha", "campo obrigatório"));
+
+			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
+		}
+	}
 }

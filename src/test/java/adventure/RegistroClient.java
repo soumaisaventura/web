@@ -10,7 +10,7 @@ import adventure.entity.Usuario;
 
 @Path("/api")
 @Consumes(APPLICATION_JSON)
-public interface RegistroServiceClient {
+public interface RegistroClient {
 
 	@POST
 	@Path("/registro")
@@ -19,15 +19,4 @@ public interface RegistroServiceClient {
 	@POST
 	@Path("/desregistro")
 	Long desregistrar();
-
-	// @DELETE
-	// @Path("/{id}")
-	// void excluir(@PathParam("id") Long id);
-
-	// @GET
-	// List<Evento> obterTodos();
-
-	// @GET
-	// @Path("/{id}")
-	// Evento obter(@PathParam("id") Long id);
 }

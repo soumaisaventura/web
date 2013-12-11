@@ -37,13 +37,18 @@
 package test;
 
 import java.io.File;
+import java.net.URL;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
+
+import adventure.PerfilClient;
+import adventure.RegistroClient;
 
 @Ignore
 public final class Tests {
@@ -58,15 +63,10 @@ public final class Tests {
 
 	public static WebArchive createDeployment() {
 		File[] libs = Maven.resolver().offline().loadPomFromFile("pom.xml", "arquillian-test")
-				.importCompileAndRuntimeDependencies()
-				.resolve()
-				.withTransitivity()
-				.asFile();
+				.importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile();
 
-		return ShrinkWrap.create(WebArchive.class)
-				.addPackages(true, "adventure.entity")
-				.addPackages(true, "adventure.persistence")
-				.addPackages(true, "adventure.rest")
+		return ShrinkWrap.create(WebArchive.class).addPackages(true, "adventure.entity")
+				.addPackages(true, "adventure.persistence").addPackages(true, "adventure.rest")
 				.addPackages(true, "adventure.security")
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
@@ -75,7 +75,14 @@ public final class Tests {
 				.addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
 				.addAsResource(new File("src/main/resources/demoiselle.properties"))
 				.addAsResource(new File("src/main/resources/messages.properties"))
-				.addAsResource(new File("src/main/resources/ValidationMessages.properties"))
-				.addAsLibraries(libs);
+				.addAsResource(new File("src/main/resources/ValidationMessages.properties")).addAsLibraries(libs);
+	}
+
+	public static RegistroClient createRegistroClient(URL base) {
+		return ProxyFactory.create(RegistroClient.class, base.toString());
+	}
+
+	public static PerfilClient createPerfilClient(URL base) {
+		return ProxyFactory.create(PerfilClient.class, base.toString());
 	}
 }
