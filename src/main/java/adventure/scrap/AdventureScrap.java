@@ -35,7 +35,7 @@ public class AdventureScrap {
 				for (Element element : elements) {
 					docevento = Jsoup.connect(element.attr("abs:href")).get();
 					String nome = docevento.select(".titulo_nomeevento").text();
-					String data = docevento.select(".titulo_nomelocal span").text();
+					//String data = docevento.select(".titulo_nomelocal span").text();
 					String local = docevento.select(".titulo_nomelocal:not(span)").text().split("-")[1].trim();
 					String link = docevento.select("#data a").get(0).attr("abs:href");
 					// System.out.println("-------------------------------------------------------------");

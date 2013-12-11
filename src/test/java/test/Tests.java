@@ -45,9 +45,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
-import adventure.entity.Atleta;
 import adventure.entity.Sexo;
-import adventure.persistence.AtletaDAO;
 import adventure.persistence.ValidationException;
 import adventure.persistence.ValidationException.Violation;
 import adventure.rest.mapper.ValidationExceptionMapper;
@@ -72,10 +70,10 @@ public final class Tests {
 				.asFile();
 
 		return ShrinkWrap.create(WebArchive.class)
-				.addClass(Atleta.class)
+//				.addClass(Atleta.class)
 				.addClass(Sexo.class)
 				.addClass(RegistroService.class)
-				.addClass(AtletaDAO.class)
+//				.addClass(AtletaDAO.class)
 				.addClass(ValidationExceptionMapper.class)
 				.addClass(ValidationException.class)
 				.addClass(Violation.class)
