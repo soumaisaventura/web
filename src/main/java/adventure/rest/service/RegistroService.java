@@ -66,15 +66,15 @@ public class RegistroService {
 	@Transactional
 	public void cargarTemporariaInicial() {
 		if (dao.findAll().isEmpty()) {
-			Usuario pessoa = new Usuario();
-			pessoa.setNome("Urtzi Iglesias");
-			pessoa.setEmail("urtzi.iglesias@vidaraid.com");
-			pessoa.setSenha("abcde");
-
-			pessoa.setNascimento(new Date());
-			pessoa.setSexo(MASCULINO);
-
-			dao.insert(pessoa);
+			Usuario usuario;
+			
+			usuario = new Usuario();
+			usuario.setNome("Urtzi Iglesias");
+			usuario.setEmail("urtzi.iglesias@vidaraid.com");
+			usuario.setSenha("abcde");
+			usuario.setNascimento(new Date());
+			usuario.setSexo(MASCULINO);
+			dao.insert(usuario);
 		}
 	}
 }
