@@ -5,24 +5,21 @@ import static adventure.entity.Sexo.MASCULINO;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.resteasy.client.ClientResponseFailure;
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.util.GenericType;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
+import adventure.entity.Sexo;
 import adventure.entity.Usuario;
-import adventure.persistence.ValidationException;
 
 @RunWith(Arquillian.class)
-public class AtletaServiceTest {
+public class RegistroServiceTest {
 
 	@ArquillianResource
 	private URL url;
@@ -44,23 +41,24 @@ public class AtletaServiceTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
 		RegistroServiceClient client = createClient();
 
-		Usuario usuario = new Usuario();
-		usuario.setNome("Cleverson Sacramento");
-		usuario.setEmail("cleverson.sacramento@gmail.com");
-		usuario.setSenha("segredo");
-		usuario.setNascimento(createDate(1980, 12, 18));
-		usuario.setSexo(MASCULINO);
+		String nome = "Cleverson Sacramento";
+		String email = "cleverson.sacramento@gmail.com";
+		String senha = "segredo";
+		Date nascimento = createDate(1980, 12, 18);
+		Sexo sexo = MASCULINO;
 
-		try {
-			client.criar(usuario);
-		} catch (ClientResponseFailure cause) {
-			System.out.println(cause.getResponse().getEntity(new GenericType<List<ValidationException.Violation>>() {
-			}));
-		}
+		Usuario usuario = new Usuario();
+		usuario.setNome(nome);
+		usuario.setEmail(email);
+		usuario.setSenha(senha);
+		usuario.setNascimento(nascimento);
+		usuario.setSexo(sexo);
+
+		client.registrar(usuario);
+		client.desregistrar();
 	}
 
 	// @Test

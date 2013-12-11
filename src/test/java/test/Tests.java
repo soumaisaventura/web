@@ -45,17 +45,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
-import adventure.entity.Evento;
-import adventure.entity.Sexo;
-import adventure.entity.Usuario;
-import adventure.persistence.EventoDAO;
-import adventure.persistence.UsuarioDAO;
-import adventure.persistence.ValidationException;
-import adventure.persistence.ValidationException.Violation;
-import adventure.rest.mapper.ValidationExceptionMapper;
-import adventure.rest.service.EventoService;
-import adventure.rest.service.RegistroService;
-
 @Ignore
 public final class Tests {
 
@@ -75,16 +64,10 @@ public final class Tests {
 				.asFile();
 
 		return ShrinkWrap.create(WebArchive.class)
-				.addClass(Usuario.class)
-				.addClass(UsuarioDAO.class)
-				.addClass(Sexo.class)
-				.addClass(RegistroService.class)
-				.addClass(Evento.class)
-				.addClass(EventoDAO.class)
-				.addClass(EventoService.class)
-				.addClass(ValidationExceptionMapper.class)
-				.addClass(ValidationException.class)
-				.addClass(Violation.class)
+				.addPackages(true, "adventure.entity")
+				.addPackages(true, "adventure.persistence")
+				.addPackages(true, "adventure.rest")
+				.addPackages(true, "adventure.security")
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))

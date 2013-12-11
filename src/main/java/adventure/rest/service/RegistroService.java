@@ -22,11 +22,16 @@ import adventure.entity.Usuario;
 import adventure.persistence.UsuarioDAO;
 import adventure.persistence.ValidationException;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.gov.frameworkdemoiselle.security.Credentials;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.security.User;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @ValidateRequest
-@Path("/api/registro")
+@Path("/api")
 @Produces(APPLICATION_JSON)
 public class RegistroService {
 
@@ -34,14 +39,35 @@ public class RegistroService {
 	private UsuarioDAO dao;
 
 	@POST
+	@Path("/registro")
 	@Transactional
-	public Long create(@NotNull @Valid Usuario pessoa) {
-		return dao.insert(pessoa).getId();
+	public Long registrar(@NotNull @Valid Usuario pessoa) {
+		Long result = dao.insert(pessoa).getId();
+
+		Credentials credentials = Beans.getReference(Credentials.class);
+		credentials.setUsername(pessoa.getEmail());
+		credentials.setPassword(pessoa.getSenha());
+
+		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
+		securityContext.login();
+
+		return result;
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("/desregistro")
+	public void desregistrar() {
+		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
+		User user = securityContext.getUser();
+
+		dao.delete((Long) user.getAttribute("id"));
 	}
 
 	@GET
 	@Path("/check")
-	public Response check(@NotBlank @QueryParam("property") String property, @QueryParam("value") String value) {
+	public Response checar(@NotBlank @QueryParam("property") String property, @QueryParam("value") String value) {
 		ValidationException validation = new ValidationException();
 
 		if (Strings.isEmpty(value)) {
@@ -49,7 +75,7 @@ public class RegistroService {
 
 		} else {
 			if (property.equals("email")) {
-				if (!dao.findByEmail(value).isEmpty()) {
+				if (dao.loadByEmail(value) != null) {
 					validation.addViolation("email", "E-mail duplicado");
 				}
 			}
@@ -67,7 +93,7 @@ public class RegistroService {
 	public void cargarTemporariaInicial() {
 		if (dao.findAll().isEmpty()) {
 			Usuario usuario;
-			
+
 			usuario = new Usuario();
 			usuario.setNome("Urtzi Iglesias");
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");

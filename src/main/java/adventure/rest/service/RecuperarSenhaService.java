@@ -33,7 +33,7 @@ public class RecuperarSenhaService {
 		if (!Strings.isEmpty(email)) {
 			// validation.addViolation("email", "campo obrigatório");
 			// } else {
-			if (dao.findByEmail(email).isEmpty()) {
+			if (dao.loadByEmail(email) == null) {
 				validation.addViolation(null, "e-mail inexistente");
 			}
 		}

@@ -16,7 +16,7 @@ public class NotLoggedInExceptionMapper implements ExceptionMapper<NotLoggedInEx
 		HttpServletRequest request = Beans.getReference(HttpServletRequest.class);
 		String path = request.getRequestURI().substring(request.getContextPath().length());
 
-		if (path.indexOf("/api") > -1 && path.indexOf("/api/auth") < 0) {
+		if (path.indexOf("/api") > -1 && path.indexOf("/api/login") < 0) {
 			return Response.status(401).header("WWW-Authenticate", "Basic realm=realm").build();
 		} else {
 			return Response.status(401).build();
