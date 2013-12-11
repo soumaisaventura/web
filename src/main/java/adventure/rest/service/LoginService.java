@@ -24,7 +24,8 @@ public class LoginService {
 	private SecurityContext securityContext;
 
 	@POST
-	public void login(@FormParam("username") String username, @FormParam("password") String password) throws Exception {
+	public void acessar(@FormParam("username") String username, @FormParam("password") String password)
+			throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(username);
 		credentials.setPassword(password);
@@ -34,13 +35,13 @@ public class LoginService {
 
 	@DELETE
 	@LoggedIn
-	public void logout() {
+	public void sair() {
 		securityContext.logout();
 	}
 
 	@GET
 	@LoggedIn
 	public Usuario getUser() {
-		return (Usuario) securityContext.getUser();
+		return new Usuario(securityContext.getUser());
 	}
 }
