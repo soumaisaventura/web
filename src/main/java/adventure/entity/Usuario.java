@@ -63,7 +63,7 @@ public class Usuario {
 
 			@Override
 			public String getId() {
-				return email;
+				return nome;
 			}
 
 			@Override
@@ -74,6 +74,11 @@ public class Usuario {
 			@Override
 			public void setAttribute(Object key, Object value) {
 				this.attrs.put(key, value);
+			}
+			
+			@Override
+			public String toString() {
+				return this.getId();
 			}
 		};
 		user.setAttribute("id", this.id);

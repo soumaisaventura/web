@@ -87,10 +87,14 @@ public final class Tests {
 	public static PerfilClient createPerfilClient(URL base) {
 		return ProxyFactory.create(PerfilClient.class, base.toString());
 	}
-	
+
 	public static Date createDate(int year, int month, int day) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month - 1, day);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 
 		return calendar.getTime();
 	}

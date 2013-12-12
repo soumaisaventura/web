@@ -43,12 +43,14 @@ public class RegistroService {
 	@Path("/registro")
 	@Transactional
 	public Long registrar(@NotNull @Valid Usuario pessoa) {
-		pessoa.setSenha(Hasher.digest(pessoa.getSenha()));
+		String password = pessoa.getSenha();
+		
+		pessoa.setSenha(Hasher.digest(password));
 		Long result = dao.insert(pessoa).getId();
 
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(pessoa.getEmail());
-		credentials.setPassword(pessoa.getSenha());
+		credentials.setPassword(password);
 
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		securityContext.login();

@@ -31,7 +31,7 @@ public class Autenticador implements Authenticator {
 		boolean result = false;
 
 		if (usuario != null) {
-			result = Hasher.digest(usuario.getSenha()).equals(credentials.getPassword());
+			result = usuario.getSenha().equals(Hasher.digest(credentials.getPassword()));
 		}
 
 		return result;
