@@ -10,7 +10,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import adventure.entity.Usuario;
+import adventure.security.Hasher;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -24,11 +27,11 @@ public class LoginService {
 	private SecurityContext securityContext;
 
 	@POST
-	public void acessar(@FormParam("username") String username, @FormParam("password") String password)
-			throws Exception {
+	public void acessar(@NotEmpty @FormParam("username") String username,
+			@NotEmpty @FormParam("password") String password) throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(username);
-		credentials.setPassword(password);
+		credentials.setPassword(Hasher.digest(password));
 
 		securityContext.login();
 	}

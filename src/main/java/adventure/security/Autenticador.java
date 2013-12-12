@@ -22,9 +22,19 @@ public class Autenticador implements Authenticator {
 		UsuarioDAO dao = Beans.getReference(UsuarioDAO.class);
 		Usuario usuario = dao.loadByEmail(credentials.getUsername());
 
-		if (usuario != null && usuario.getSenha().equals(credentials.getPassword())) {
+		if (doesPasswordMatch(usuario, credentials)) {
 			this.user = usuario.parse();
 		}
+	}
+
+	private boolean doesPasswordMatch(Usuario usuario, Credentials credentials) {
+		boolean result = false;
+
+		if (usuario != null) {
+			result = Hasher.digest(usuario.getSenha()).equals(credentials.getPassword());
+		}
+
+		return result;
 	}
 
 	@Override

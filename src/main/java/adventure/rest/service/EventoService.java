@@ -41,14 +41,14 @@ public class EventoService {
 			evento = new Evento();
 			evento.setNome("Desafio dos Sertões 2014");
 			evento.setData(new Date());
-			evento.setLocal("Juazeiro");
+			evento.setLocal("Juazeiro-BA");
 			evento.setLink(new URL("http://www.desafiodossertoes.com.br"));
 			dao.insert(evento);
 
 			evento = new Evento();
 			evento.setNome("Noite do Perrenge II");
 			evento.setData(new Date());
-			evento.setLocal("Sauípe");
+			evento.setLocal("Sauípe-BA");
 			evento.setLink(new URL("http://www.noitedoperrengue.com.br"));
 			dao.insert(evento);
 		}

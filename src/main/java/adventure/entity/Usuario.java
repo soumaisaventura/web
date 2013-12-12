@@ -53,7 +53,7 @@ public class Usuario {
 		this.email = user.getId();
 		this.id = (Long) user.getAttribute("id");
 	}
-	
+
 	public User parse() {
 		User user = new User() {
 
@@ -77,7 +77,7 @@ public class Usuario {
 			}
 		};
 		user.setAttribute("id", this.id);
-		
+
 		return user;
 	}
 

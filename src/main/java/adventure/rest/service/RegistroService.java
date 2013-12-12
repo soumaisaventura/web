@@ -21,6 +21,7 @@ import org.jboss.resteasy.spi.validation.ValidateRequest;
 import adventure.entity.Usuario;
 import adventure.persistence.UsuarioDAO;
 import adventure.persistence.ValidationException;
+import adventure.security.Hasher;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -42,6 +43,7 @@ public class RegistroService {
 	@Path("/registro")
 	@Transactional
 	public Long registrar(@NotNull @Valid Usuario pessoa) {
+		pessoa.setSenha(Hasher.digest(pessoa.getSenha()));
 		Long result = dao.insert(pessoa).getId();
 
 		Credentials credentials = Beans.getReference(Credentials.class);

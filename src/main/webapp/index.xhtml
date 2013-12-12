@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Adventure | Gerencie seu Evento de Aventura</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/jquery.dataTables.css" rel="stylesheet" />
+		<link href="css/DT_bootstrap.css" rel="stylesheet" />
+		<style>
+		body {
+  		padding-top: 70px;
+		}
+		.dataTables_wrapper table thead{
+    	display:none;
+		}
+		</style>
+	</head>
+	<body>
+		
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.jsf">Adventure</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="login.jsf">Login</a></li>
+          	<li class="dropdown">
+        			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Ações<b class="caret"></b></a>
+        			<ul class="dropdown-menu">
+          			<li><a href="registro-atleta.jsf">Cadastre-se</a></li>
+          			<li><a href="recuperar-senha.jsf">Recuperar senha</a></li>
+							</ul>
+        		</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    	<div class="col-md-8">
+    		<h1>Próximos eventos</h1>
+				<table id="table-bookmarks" cellpadding="0" cellspacing="0" border="0" class="table table-striped"></table>
+			</div>
+		</div>
+		
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+    <script src="js/DT_bootstrap.js"></script>
+    <script>
+    	function change(data) {
+        var r = data.match(/^\s*([0-9]+)\s*-\s*([0-9]+)\s*-\s*([0-9]+)$/);
+        return r[3]+"/"+r[2]+"/"+r[1];
+    	}
+    	
+			function montarTabela(dados){
+				var oTable = $('#table-bookmarks').dataTable({
+	    	    						bRetrieve: true,
+	    	    						bFilter: false,
+	    	    						bInfo: false,
+	    	    						bLengthChange: false,
+	    	    						bPaginate: false,
+	    	    						bSort: false,
+	    	    	        	aoColumns: [
+	    		    	    	    {
+														"mData" : "id",
+														"mRender" : function(data, type, full){
+															var retorno = '';
+															retorno += '<div class="row">';
+															retorno += '<div class="col-md-6">';
+															retorno += '<span class="label label-warning">' + change(full.data) + '</span>';
+															retorno += '<h3>' + full.nome + '</h3>';
+															retorno += '<h5>' + full.local + '</h5>';
+															retorno += '</div>';
+															retorno += '<div class="col-md-6">';
+															retorno += '<div style="float:right;"><button type="button" class="btn btn-info">Detalhes</button> <button type="button" class="btn btn-success">Inscrição</button></div>';
+															retorno += '</div>';
+															retorno += '</div>';
+															return retorno;
+														}
+			    		    	    	}    	
+    	        					],
+	 	        						oLanguage : {
+	 	        							"sEmptyTable": "Nenhum registro retornado.",
+	 	        							"sZeroRecords" : "Nenhum registro retornado.",
+	 	        							"sProcessing" : "Carregando ..."
+	 	        						}	    	    });
+        oTable.fnAddData(dados);
+			}
+
+    	$(function(){
+    		
+    		$.ajax({
+    	        type : "GET",
+    	        url : "api/evento",
+              contentType : "application/json;charset=utf8",
+    	        dataType : "json",
+    	        success : function(dados) {
+    	        	montarTabela(dados);
+    	        }
+    	  });
+
+			});
+	
+    </script>        
+	</body>
+</html>
