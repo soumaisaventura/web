@@ -20,7 +20,7 @@ public class Autenticador implements Authenticator {
 	public void authenticate() throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		UsuarioDAO dao = Beans.getReference(UsuarioDAO.class);
-		final Usuario usuario = dao.loadByEmail(credentials.getUsername());
+		Usuario usuario = dao.loadByEmail(credentials.getUsername());
 
 		if (usuario != null && usuario.getSenha().equals(credentials.getPassword())) {
 			this.user = usuario.parse();

@@ -38,6 +38,8 @@ package test;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.jboss.resteasy.client.ProxyFactory;
@@ -84,5 +86,12 @@ public final class Tests {
 
 	public static PerfilClient createPerfilClient(URL base) {
 		return ProxyFactory.create(PerfilClient.class, base.toString());
+	}
+	
+	public static Date createDate(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+
+		return calendar.getTime();
 	}
 }

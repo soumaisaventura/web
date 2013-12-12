@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -39,13 +38,6 @@ public class RegistroServiceTest {
 		return Tests.createDeployment();
 	}
 
-	private Date createDate(int year, int month, int day) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(year, month - 1, day);
-
-		return calendar.getTime();
-	}
-
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
 		RegistroClient registroClient = Tests.createRegistroClient(this.url);
@@ -54,7 +46,7 @@ public class RegistroServiceTest {
 		String nome = "Cleverson Sacramento";
 		String email = "cleverson.sacramento@gmail.com";
 		String senha = "segredo";
-		Date nascimento = createDate(1980, 12, 18);
+		Date nascimento = Tests.createDate(1980, 12, 18);
 		Sexo sexo = MASCULINO;
 
 		Usuario usuario;
