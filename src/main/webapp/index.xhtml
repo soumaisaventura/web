@@ -6,11 +6,10 @@
 
 	<ui:define name="body">
 		<div class="container">
-			<div class="col-md-8">
-				<h1>Próximos eventos</h1>
-				<table id="table-bookmarks" cellpadding="0" cellspacing="0"
-					border="0" class="table table-striped"></table>
-			</div>
+				<style>
+					.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td { border-top: 0px; }
+				</style>
+				<table id="table-bookmarks" cellpadding="0" cellspacing="0" border="0" class="table table-striped"></table>
 		</div>
 
 		<script src="js/jquery-1.10.2.js"></script>
@@ -37,14 +36,16 @@
 														"mRender" : function(data, type, full){
 															var retorno = '';
 															retorno += '<div class="row">';
-															retorno += '<div class="col-md-6">';
-															retorno += '<span class="label label-warning">' + change(full.data) + '</span>';
+															retorno += '<div class="col-md-12">';
+															retorno += '<h3><span class="label label-warning">' + change(full.data) + '</span></h3>';
 															retorno += '<h3>' + full.nome + '</h3>';
 															retorno += '<h5>' + full.local + '</h5>';
+															retorno += '<span class="label label-info">Detalhes</span> ';
+															retorno += '<span class="label label-success">Inscrição</span>';
 															retorno += '</div>';
-															retorno += '<div class="col-md-6">';
-															retorno += '<div style="float:right;"><button type="button" class="btn btn-info">Detalhes</button> <button type="button" class="btn btn-success">Inscrição</button></div>';
-															retorno += '</div>';
+															//retorno += '<div class="col-md-6">';
+															//retorno += '<div style="float:right;"><button type="button" class="btn btn-info">Detalhes</button> <button type="button" class="btn btn-success">Inscrição</button></div>';
+															//retorno += '</div>';
 															retorno += '</div>';
 															return retorno;
 														}
