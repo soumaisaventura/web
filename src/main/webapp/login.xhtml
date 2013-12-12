@@ -1,35 +1,39 @@
-<!DOCTYPE html>
-<html lang='pt-BR'>
-	<head>
-			<meta charset="UTF-8" />
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			<title>Adventure | Gerencie seu Evento de Aventura</title>
-			<link href="css/bootstrap.min.css" rel="stylesheet" />
-			<link href="css/main.css" rel="stylesheet" />
-	</head>
-	<body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
 		<div class="apollo">
 			<div class="apollo-container clearfix">
 				<h1>Adventure</h1>
-				
-				<div class="apollo-login">
-					<button class="btn btn-block btn-facebook btn-lg">Log in com <strong>Facebook</strong></button>
 
-					<p class="apollo-seperator"> ou </p>
-				
+				<div class="apollo-login">
+					<button class="btn btn-block btn-facebook btn-lg">
+						Log in com <strong>Facebook</strong>
+					</button>
+
+					<p class="apollo-seperator">ou</p>
+
 					<form class="form-signin" id="apollo-login-form">
 						<div class="control-group">
-							<input type="text" class="form-control input-lg" placeholder="E-mail" />
+							<input type="text" class="form-control input-lg"
+								placeholder="E-mail" />
 						</div>
 						<div class="control-group">
-							<input type="password" class="form-control input-lg" placeholder="Senha" />
+							<input type="password" class="form-control input-lg"
+								placeholder="Senha" />
 						</div>
-						<button id="login" class="btn btn-lg btn-block btn-default" type="button">Entrar</button>
+						<button id="login" class="btn btn-lg btn-block btn-default"
+							type="button">Entrar</button>
 					</form>
-				
-					<p class="apollo-register-account"> 
-						<a href="registro-atleta.jsf" class="register-link">Precisa de uma conta?<strong> Registre-se aqui</strong></a><br />
-					  <a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
+
+					<p class="apollo-register-account">
+						<a href="registro-atleta.jsf" class="register-link">Precisa de
+							uma conta?<strong> Registre-se aqui</strong>
+						</a><br /> <a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu
+								sua senha?</small></a>
 					</p>
 				</div>
 			</div>
@@ -53,5 +57,5 @@
 			        
 			});
 		</script>
-	</body>
-</html>
+	</ui:define>
+</ui:composition>
