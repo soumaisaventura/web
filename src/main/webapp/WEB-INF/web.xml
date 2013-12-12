@@ -4,6 +4,7 @@
 
 	<distributable />
 
+	<!-- Demoiselle resources -->
 	<listener>
 		<listener-class>br.gov.frameworkdemoiselle.util.ServletListener</listener-class>
 	</listener>
@@ -16,6 +17,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- RESTful Web Services resources -->
 	<filter>
 		<filter-name>Resteasy Filter</filter-name>
 		<filter-class>org.jboss.resteasy.plugins.server.servlet.FilterDispatcher</filter-class>
@@ -47,5 +49,53 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	-->
+
+	<!-- JSF resources -->
+	<servlet>
+		<servlet-name>Faces Config</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Config</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>JSF</web-resource-name>
+			<url-pattern>*.jsf</url-pattern>
+		</web-resource-collection>
+		<!--
+		<auth-constraint />
+		-->
+	</security-constraint>
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.validateXml</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.verifyObjects</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+
+	<!-- Restrict resources -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>XHTML</web-resource-name>
+			<url-pattern>*.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint>
 
 </web-app>
