@@ -11,30 +11,49 @@
 	</head>
 	<body>
 		<div class="apollo">
-				<div class="apollo-container clearfix">
-					<h1>Adventure</h1>
+			<div class="apollo-container clearfix">
+				<h1>Adventure</h1>
 				
-					<div class="apollo-login">
-						<button class="btn btn-block btn-facebook btn-lg">Log in com <strong>Facebook</strong></button>
+				<div class="apollo-login">
+					<button class="btn btn-block btn-facebook btn-lg">Log in com <strong>Facebook</strong></button>
 
-						<p class="apollo-seperator"> ou </p>
+					<p class="apollo-seperator"> ou </p>
 				
-						<form class="form-signin" id="apollo-login-form">
-							<div class="control-group">
-								<input type="text" class="form-control input-lg" placeholder="E-mail">
-							</div>
-							<div class="control-group">
-								<input type="password" class="form-control input-lg" placeholder="Senha">
-							</div>
-							<button class="btn btn-lg btn-block btn-default" type="submit">Entrar</button>
-						</form>
+					<form class="form-signin" id="apollo-login-form">
+						<div class="control-group">
+							<input type="text" class="form-control input-lg" placeholder="E-mail">
+						</div>
+						<div class="control-group">
+							<input type="password" class="form-control input-lg" placeholder="Senha">
+						</div>
+						<button id="login" class="btn btn-lg btn-block btn-default" type="button">Entrar</button>
+					</form>
 				
-						<p class="apollo-register-account"> 
-							<a href="registro-atleta.html" class="register-link">Precisa de uma conta?<strong> Registre-se aqui</strong></a><br>
-						  <a href="recuperar-senha.html" class="password-link"><small>Esqueceu sua senha?</small></a> 
-						</p>
-					</div>
+					<p class="apollo-register-account"> 
+						<a href="registro-atleta.html" class="register-link">Precisa de uma conta?<strong> Registre-se aqui</strong></a><br>
+					  <a href="recuperar-senha.html" class="password-link"><small>Esqueceu sua senha?</small></a> 
+					</p>
 				</div>
-			</div>			
+			</div>
+		</div>
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/usuario.js"></script>
+		<script>
+			$(function(){
+		
+				$("#login").click(function(){
+					var usuario = new Usuario();
+					usuario._login($("#username").val(), $("#password").val());
+				});
+		
+				$(document).keypress(function(e) {
+					if(e.which == 13) {
+						var usuario = new Usuario();
+						usuario._login($("#username").val(), $("#password").val());
+					}
+				});
+			        
+			});
+		</script>
 	</body>
 </html>
