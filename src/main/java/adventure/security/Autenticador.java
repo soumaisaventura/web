@@ -6,6 +6,7 @@ import adventure.entity.Usuario;
 import adventure.persistence.UsuarioDAO;
 import br.gov.frameworkdemoiselle.security.Authenticator;
 import br.gov.frameworkdemoiselle.security.Credentials;
+import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.security.User;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -24,6 +25,8 @@ public class Autenticador implements Authenticator {
 
 		if (doesPasswordMatch(usuario, credentials)) {
 			this.user = usuario.parse();
+		} else {
+			throw new InvalidCredentialsException("usuário ou senha inválidos");
 		}
 	}
 
