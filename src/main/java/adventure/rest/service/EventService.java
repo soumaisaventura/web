@@ -22,7 +22,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 @ValidateRequest
 @Path("/api/evento")
 @Produces(APPLICATION_JSON)
-public class EventoService {
+public class EventService {
 
 	@Inject
 	private EventoDAO dao;

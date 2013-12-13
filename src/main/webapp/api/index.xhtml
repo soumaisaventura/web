@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<pre>
+
+/api
+	/auth
+		POST
+			descrição: Efetua o login
+			restricão: Não pode estar logado
+			params:
+				username
+				password
+			validações:
+				username: @NotEmpty @Email
+				password: @NotEmpty
+				@{Usuário ou senha inválidos}
+
+		GET
+			descrição: Obtém o usuário logado
+			restricão: É preciso estar logado
+			params: N/A
+			validações: N/A
+
+		DELETE
+			descrição: Efetua o logout
+			restricão: É preciso estar logado
+			params: N/A
+			validações: N/A
+
+		/reset
+			POST
+				descrição: Solicita o reset do password
+				restricão: Não pode estar logado
+				params:
+					email
+				validações:
+					email: @NotEmpty @Email @{Conta existente}
+
+	/register
+		POST
+			descrição: Registra uma nova conta
+			restricão: Não pode estar logado
+			params:
+				user
+			validações:resources
+				user.name: @NotEmpty
+				user.email: @NotEmpty @Email @{Conta inexistente}
+				user.password: @NotEmpty
+				user.birthday: @NotEmpty @Past
+				user.gender: @NotNull
+		DELETE
+			descrição: Remove a conta do usuário logado
+			restricão: É preciso estar logado
+			params: N/A
+			validações: N/A
+
+	/profile
+		GET
+			descrição: Obtém os dados de um determinado usuário
+			restricão: N/A
+			params:
+				/{id}
+			validações:
+				{id}: @NotNull
+
+	/event
+		GET
+			descrição: Obtém os eventos cadastrados
+			restricão: N/A
+			params: N/A
+			validações: N/A
+
+	/entity
+		GET
+			descrição: Obtém o JavasScript que define uma entidade
+			restricão: A entidade Java deve estar anotada com @Entity
+			params:
+				/{entity}.js
+			validações: N/A
+				{entity}: @NotEmpty
+		</pre>
+	</ui:define>
+</ui:composition>

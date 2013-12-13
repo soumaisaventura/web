@@ -20,7 +20,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 
 @Path("/api/login")
 @Produces(APPLICATION_JSON)
-public class LoginService {
+public class AuthService {
 
 	@Inject
 	private SecurityContext securityContext;

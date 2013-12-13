@@ -34,7 +34,7 @@ import br.gov.frameworkdemoiselle.util.Strings;
 @ValidateRequest
 @Path("/api")
 @Produces(APPLICATION_JSON)
-public class RegistroService {
+public class RegisterService {
 
 	@Inject
 	private UsuarioDAO dao;
@@ -42,14 +42,14 @@ public class RegistroService {
 	@POST
 	@Path("/registro")
 	@Transactional
-	public Long registrar(@NotNull @Valid Usuario pessoa) {
-		String password = pessoa.getSenha();
+	public Long registrar(@NotNull @Valid Usuario usuario) {
+		String password = usuario.getSenha();
 		
-		pessoa.setSenha(Hasher.digest(password));
-		Long result = dao.insert(pessoa).getId();
+		usuario.setSenha(Hasher.digest(password));
+		Long result = dao.insert(usuario).getId();
 
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(pessoa.getEmail());
+		credentials.setUsername(usuario.getEmail());
 		credentials.setPassword(password);
 
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);

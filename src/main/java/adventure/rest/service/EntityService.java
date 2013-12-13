@@ -16,13 +16,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.annotations.cache.Cache;
+import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import br.gov.frameworkdemoiselle.util.Reflections;
 
+@ValidateRequest
 @Cache(maxAge = 10)
 @Produces("text/javascript")
-@Path("/js/model/{entity}.js")
+@Path("/api/entity/{entity}.js")
 public class EntityService implements Extension {
 
 	private Map<String, Class<?>> entities = new HashMap<String, Class<?>>();
@@ -36,7 +39,7 @@ public class EntityService implements Extension {
 	}
 
 	@GET
-	public Response getEntityMetadata(@PathParam("entity") String entity) {
+	public Response getEntityMetadata(@NotEmpty @PathParam("entity") String entity) {
 		try {
 			return Response.ok(parse(entity)).build();
 		} catch (ClassNotFoundException cause) {
