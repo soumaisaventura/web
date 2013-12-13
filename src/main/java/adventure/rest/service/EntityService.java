@@ -20,10 +20,10 @@ import org.jboss.resteasy.annotations.cache.Cache;
 
 import br.gov.frameworkdemoiselle.util.Reflections;
 
-@Path("/js/model/{entity}.js")
-@Produces("text/javascript")
 @Cache(maxAge = 10)
-public class JSEntityService implements Extension {
+@Produces("text/javascript")
+@Path("/js/model/{entity}.js")
+public class EntityService implements Extension {
 
 	private Map<String, Class<?>> entities = new HashMap<String, Class<?>>();
 
