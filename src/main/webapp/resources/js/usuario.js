@@ -5,7 +5,7 @@ function Usuario() {
 	this.nascimento;
 }
 
-User.prototype._login = function(username, password) {
+Usuario.prototype._login = function(username, password) {
 
 	$.ajax({
 		type : "POST",
@@ -15,7 +15,7 @@ User.prototype._login = function(username, password) {
 			"password" : password
 		},
 		success : function() {
-			window.location = "home.html";
+			window.location = "home.jsf";
 		},
 		error : function() {
 			// $("#msg").text("Login e/ou Senha inválidos.");
@@ -25,13 +25,13 @@ User.prototype._login = function(username, password) {
 
 };
 
-User.prototype._logoff = function() {
+Usuario.prototype._logoff = function() {
 
 	$.ajax({
 		type : "DELETE",
-		url : "api/auth",
+		url : "api/login",
 		success : function() {
-			window.location = "login.html";
+			window.location = "index.jsf";
 		}
 	});
 
