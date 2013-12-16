@@ -11,7 +11,15 @@
 						border-top: 0px; 
 					}
 				</style>
-				<table id="table-bookmarks" cellpadding="0" cellspacing="0" border="0" class="table table-striped"></table>
+				<table id="table-bookmarks" cellpadding="0" cellspacing="0" border="0" class="table table-striped">
+					<thead>
+						<th width="20%"> Prova</th>
+						<th width="20%">Data</th>
+						<th width="20%">Local</th>
+						<th width="20%">Modalidades</th>
+						<th width="20%"></th>
+					</thead>
+				</table>
 		</div>
 		
 		<h:outputScript name="js/jquery-1.10.2.js" />
@@ -35,38 +43,49 @@
 	    	    						bPaginate: false,
 	    	    						bSort: false,
 	    	    	        	aoColumns: [
-	    		    	    	    {
-														"mData" : "id",
-														"mRender" : function(data, type, full){
-															var retorno = '';
-															retorno += '<div class="row">';
-															retorno += '<div class="col-md-1" style="padding-top:5px"><span class="label label-warning">';
-															retorno += change(full.data);
-															retorno += '</span></div>';
-															retorno += '<div class="col-md-6">';
-															retorno += '<strong>' + full.nome + '</strong><br/>';
-															retorno += '<em>' + full.local + '</em>';
-															retorno += '</div>';
-															retorno += '<div class="col-md-3 text-center">';
-															retorno += '<img src="images/mountainbiking.png" title="Mountain Bike"/> <img src="images/running.png" title="Corrida"/> <img src="images/kayaking.png" title="Canoagem"/>';
-															retorno += '</div>';
-															retorno += '<div class="col-md-1 text-center" style="padding-top:7px">';
-															retorno += '<button type="button" class="btn btn-sm btn-info">Detalhes</button>';
-															retorno += '</div>';
-															retorno += '<div class="col-md-1 text-center"  style="padding-top:7px">';
-															retorno += '<button type="button" class="btn btn-sm btn-success">Inscrição</button>';
-															retorno += '</div>';
-															retorno += '</div>';
-															return retorno;
-														}
-			    		    	    	}    	
+													{ "aTargets" : [0],
+				                                 "mData" : "nome", 
+				                                 "bSortable" : false,
+				                                 "mRender" : function ( data ) {
+                                                       return '<strong>' + data + '</strong>' ;
+				                                             }
+													},
+													{ "aTargets" : [1],
+						                             "mData" : "data", 
+						                             "bSortable" : false,
+						                             "mRender" : function ( data ) {
+		                                                   return change(data) ;
+						                                         }
+													},
+													{ "aTargets" : [2],
+						                             "mData" : "local", 
+						                             "bSortable" : false,
+						                             "mRender" : function ( data ) {
+		                                                   return data ;
+						                                         }
+													},
+													{ "aTargets" : [3],
+				                                 "mData" : "id", 
+				                                 "bSortable" : false,
+				                                 "mRender" : function ( data ) {
+				                                                return '<img src="images/mountainbiking.png" title="Mountain Bike"/> <img src="images/running.png" title="Corrida"/> <img src="images/kayaking.png" title="Canoagem"/>';
+				                                       			 }
+													},
+   	        	            { "aTargets" : [4],"sWidth" : "20px",
+                                         "mData" : "id", 
+                                         "bSortable" : false,
+                                         "mRender" : function ( data ) {
+                                                       return '<button type="button" class="btn btn-sm btn-info">Detalhes</button> <button type="button" class="btn btn-sm btn-success">Inscrição</button>';
+                                              			 }
+													}
     	        					],
 	 	        						oLanguage : {
 	 	        							"sEmptyTable": "Nenhum registro retornado.",
 	 	        							"sZeroRecords" : "Nenhum registro retornado.",
 	 	        							"sProcessing" : "Carregando ..."
-	 	        						}	    	    });
-        oTable.fnAddData(dados);
+	 	        						}	    	    
+					});
+        	oTable.fnAddData(dados);
 			}
 
     	$(function(){
