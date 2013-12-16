@@ -6,7 +6,8 @@ function Usuario() {
 }
 
 Usuario.prototype._login = function(username, password) {
-
+	console.log(username);
+	console.log(password);
 	$.ajax({
 		type : "POST",
 		url : "api/login",
@@ -15,7 +16,7 @@ Usuario.prototype._login = function(username, password) {
 			"password" : password
 		},
 		success : function() {
-			window.location = "home.jsf";
+			window.location = "index.jsf";
 		},
 		error : function() {
 			// $("#msg").text("Login e/ou Senha inválidos.");

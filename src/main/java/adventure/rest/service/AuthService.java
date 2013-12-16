@@ -38,7 +38,11 @@ public class AuthService {
 	@DELETE
 	@LoggedIn
 	public void sair() {
-		securityContext.logout();
+		try {
+			securityContext.logout();
+		} catch (NullPointerException cause){
+			// Abafando excendo para corrigir um erro interno do Demoiselle
+		}
 	}
 
 	@GET
