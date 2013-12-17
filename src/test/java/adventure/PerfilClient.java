@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import adventure.entity.Usuario;
+import adventure.entity.User;
 
 @Path("/api/perfil")
 @Consumes(APPLICATION_JSON)
@@ -15,5 +15,5 @@ public interface PerfilClient {
 
 	@GET
 	@Path("/{id}")
-	Usuario obter(@PathParam("id") Long id);
+	User obter(@PathParam("id") Long id);
 }

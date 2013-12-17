@@ -11,9 +11,9 @@
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<input type="text" id="nome" class="form-control input-lg"
+						<input type="text" id="fullName" class="form-control input-lg"
 							placeholder="Nome" autofocus="true" required="true" />
-						<div id="erro-nome" class="label label-danger"></div>
+						<div id="fullName-message" class="label label-danger"></div>
 					</div>
 				</div>
 
@@ -21,15 +21,15 @@
 					<div class="col-md-6 col-md-offset-3">
 						<input type="email" id="email" class="form-control input-lg"
 							placeholder="E-mail" required="true" />
-						<div id="erro-email" class="label label-danger"></div>
+						<div id="email-message" class="label label-danger"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<input type="password" id="senha" class="form-control input-lg"
+						<input type="password" id="password" class="form-control input-lg"
 							placeholder="Senha" required="true" />
-						<div id="erro-senha" class="label label-danger"></div>
+						<div id="password-message" class="label label-danger"></div>
 					</div>
 				</div>
 
@@ -45,18 +45,18 @@
 						-->
 
 					<div class="col-md-3 col-md-offset-3">
-						<input type="date" id="nascimento" class="form-control input-lg"
+						<input type="date" id="birthday" class="form-control input-lg"
 							placeholder="Data de nascimento" required="true" />
-						<div id="erro-nascimento" class="label label-danger"></div>
+						<div id="birthday-message" class="label label-danger"></div>
 					</div>
 
 					<div class="col-md-3">
-						<select id="sexo" class="form-control input-lg" required="true">
+						<select id="gender" class="form-control input-lg" required="true">
 							<option value="" selected="selected">Sexo</option>
 							<option value="M">Masculino</option>
 							<option value="F">Feminino</option>
 						</select>
-						<div id="erro-sexo" class="label label-danger"></div>
+						<div id="gender-message" class="label label-danger"></div>
 					</div>
 				</div>
 
@@ -86,13 +86,13 @@
 			<!-- /.modal-dialog -->
 		</div>
 
+		<script src="api/entity/User.js"></script>
+
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
 		<h:outputScript name="js/bootstrap-datepicker.js" />
 		<h:outputScript name="js/bootstrap-datepicker.pt-BR.js" />
-		<h:outputScript name="js/persistence-service.js" />
-
-		<script src="api/entity/Usuario.js"></script>
+		<h:outputScript name="js/client/register.js" />
 
 		<script>
 		function trataSucesso(data){
@@ -102,9 +102,8 @@
 		}
 
 		function trataErro(data){
-			$.each(data.responseJSON, function( index, value ) {
-				$("#erro-" + value.property).html("");
-				$("#erro-" + value.property).html(value.message);
+			$.each(data.responseJSON, function(index, value) {
+				$("#" + value.property + "-message").html(value.message);
 				$("#" + value.property).focus();
 			});
 		}
@@ -142,20 +141,20 @@
 			*/
 
 			$("#salvar").click(function(){
-				$("[id|='erro']").html("");
-				var usuario = new Usuario();
-				var persistenceService = new PersistenceService("api");
+				$("[id$='message']").html("");
+				var user = new User();
+				var client = new RegisterClient("api");
 
-				usuario.nome = $("#nome").val();
-				usuario.senha = $("#senha").val();
-				usuario.email = $("#email").val();
+				user.fullName = $("#fullName").val();
+				user.password = $("#password").val();
+				user.email = $("#email").val();
 				// É preciso testar se o usuário digitou na mão sem o HTML5, não sendo preciso fazer
 				// a conversão a baixo e sim apenas setar o valor do campo no objeto
-				// usuario.nascimento = $("#nascimento").val().substr(8,2) + '/' + $("#nascimento").val().substr(5,2) + '/' + $("#nascimento").val().substr(0,4);
-				usuario.nascimento = $("#nascimento").val();
+				// user.birthday = $("#birthday").val().substr(8,2) + '/' + $("#birthday").val().substr(5,2) + '/' + $("#birthday").val().substr(0,4);
+				user.birthday = $("#birthday").val();
 				
-				usuario.sexo = $("#sexo").val();
-				persistenceService.create("registro", usuario, trataSucesso, trataErro);
+				user.gender = $("#gender").val();
+				client.register(user, trataSucesso, trataErro);
 			});
 		});
 		</script>

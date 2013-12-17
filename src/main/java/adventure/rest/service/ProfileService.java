@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
-import adventure.entity.Usuario;
+import adventure.entity.User;
 import adventure.persistence.UsuarioDAO;
 
 @ValidateRequest
@@ -24,7 +24,7 @@ public class ProfileService {
 
 	@GET
 	@Path("/{id}")
-	public Usuario obter(@NotNull @PathParam("id") Long id) {
+	public User obter(@NotNull @PathParam("id") Long id) {
 		return dao.load(id);
 	}
 }

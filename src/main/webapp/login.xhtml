@@ -18,39 +18,45 @@
 
 					<form class="form-signin" id="apollo-login-form">
 						<div class="control-group">
-							<input id="username" type="text" class="form-control input-lg" placeholder="E-mail" />
+							<input id="username" type="text" class="form-control input-lg"
+								placeholder="E-mail" />
 						</div>
 						<div class="control-group">
-							<input id="password" type="password" class="form-control input-lg" placeholder="Senha" />
+							<input id="password" type="password"
+								class="form-control input-lg" placeholder="Senha" />
 						</div>
-						<button id="login" class="btn btn-lg btn-block btn-default" type="button">Entrar</button>
+						<button id="login" class="btn btn-lg btn-block btn-default"
+							type="button">Entrar</button>
 					</form>
 
 					<p class="apollo-register-account">
-						<a href="registro-atleta.jsf" class="register-link">Precisa de uma conta?<strong> Registre-se aqui</strong>
-						</a><br /> <a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
+						<a href="registro-atleta.jsf" class="register-link">Precisa de
+							uma conta?<strong> Registre-se aqui</strong>
+						</a><br /> <a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu
+								sua senha?</small></a>
 					</p>
 				</div>
 			</div>
 		</div>
-		
+
+		<script src="api/entity/User.js"></script>
+
 		<h:outputScript name="js/jquery-1.10.2.js" />
-		<h:outputScript name="js/usuario.js" />
+		<h:outputScript name="js/client/auth.js" />
+
 		<script>
 			$(function(){
-		
 				$("#login").click(function(){
-					var usuario = new Usuario();
-					usuario._login($("#username").val(), $("#password").val());
+					var client = new AuthClient();
+					client.login($("#username").val(), $("#password").val());
 				});
 		
 				$(document).keypress(function(e) {
 					if(e.which == 13) {
-						var usuario = new Usuario();
-						usuario._login($("#username").val(), $("#password").val());
+						var client = new AuthClient();
+						client.login($("#username").val(), $("#password").val());
 					}
 				});
-			        
 			});
 		</script>
 	</ui:define>

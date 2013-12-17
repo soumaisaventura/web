@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 
 import test.Tests;
 import adventure.entity.Sexo;
-import adventure.entity.Usuario;
+import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
 
 @RunWith(Arquillian.class)
@@ -43,33 +43,33 @@ public class RegistroServiceTest {
 		RegistroClient registroClient = Tests.createRegistroClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
-		String nome = "Cleverson Sacramento";
+		String fullName = "Cleverson Sacramento";
 		String email = "cleverson.sacramento@gmail.com";
-		String senha = "segredo";
-		Date nascimento = Tests.createDate(1980, 12, 18);
-		Sexo sexo = MASCULINO;
+		String password = "segredo";
+		Date birthday = Tests.createDate(1980, 12, 18);
+		Sexo gender = MASCULINO;
 
-		Usuario usuario;
+		User user;
 
-		usuario = new Usuario();
-		usuario.setNome(nome);
-		usuario.setEmail(email);
-		usuario.setSenha(senha);
-		usuario.setNascimento(nascimento);
-		usuario.setSexo(sexo);
-		Long id = registroClient.registrar(usuario);
+		user = new User();
+		user.setFullName(fullName);
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setBirthday(birthday);
+		user.setGender(gender);
+		Long id = registroClient.registrar(user);
 		assertNotNull(id);
 
-		usuario = perfilClient.obter(id);
-		assertNotNull(usuario);
-		assertEquals(nome, usuario.getNome());
-		assertEquals(email, usuario.getEmail());
+		user = perfilClient.obter(id);
+		assertNotNull(user);
+		assertEquals(fullName, user.getFullName());
+		assertEquals(email, user.getEmail());
 		// assertEquals(nascimento, usuario.getNascimento());
-		assertEquals(sexo, usuario.getSexo());
+		assertEquals(gender, user.getGender());
 
 		registroClient.desregistrar();
-		usuario = perfilClient.obter(id);
-		assertNull(usuario);
+		user = perfilClient.obter(id);
+		assertNull(user);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class RegistroServiceTest {
 		RegistroClient registroClient = Tests.createRegistroClient(this.url);
 
 		try {
-			registroClient.registrar(new Usuario());
+			registroClient.registrar(new User());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {

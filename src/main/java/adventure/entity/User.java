@@ -18,17 +18,15 @@ import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.gov.frameworkdemoiselle.security.User;
-
 @Entity
-public class Usuario {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
 	@NotEmpty
-	private String nome;
+	private String fullName;
 
 	@Email
 	@NotEmpty
@@ -36,26 +34,26 @@ public class Usuario {
 	private String email;
 
 	@NotEmpty
-	private String senha;
+	private String password;
 
 	@Past
 	@NotNull
-	private Date nascimento;
+	private Date birthday;
 
 	@NotNull
 	@Enumerated(STRING)
-	private Sexo sexo;
+	private Sexo gender;
 
-	public Usuario() {
+	public User() {
 	}
 
-	public Usuario(User user) {
+	public User(br.gov.frameworkdemoiselle.security.User user) {
 		this.email = user.getId();
 		this.id = (Long) user.getAttribute("id");
 	}
 
-	public User parse() {
-		User user = new User() {
+	public br.gov.frameworkdemoiselle.security.User parse() {
+		br.gov.frameworkdemoiselle.security.User user = new br.gov.frameworkdemoiselle.security.User() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -63,7 +61,7 @@ public class Usuario {
 
 			@Override
 			public String getId() {
-				return nome;
+				return fullName;
 			}
 
 			@Override
@@ -75,7 +73,7 @@ public class Usuario {
 			public void setAttribute(Object key, Object value) {
 				this.attrs.put(key, value);
 			}
-			
+
 			@Override
 			public String toString() {
 				return this.getId();
@@ -94,12 +92,12 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {
@@ -110,27 +108,27 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public Date getNascimento() {
-		return nascimento;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
-	public Sexo getSexo() {
-		return sexo;
+	public Sexo getGender() {
+		return gender;
 	}
 
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo;
+	public void setGender(Sexo gender) {
+		this.gender = gender;
 	}
 }

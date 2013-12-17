@@ -8,31 +8,25 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
-import adventure.entity.Usuario;
+import adventure.entity.User;
 import adventure.persistence.UsuarioDAO;
-import adventure.persistence.ValidationException;
 import adventure.security.Hasher;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
-import br.gov.frameworkdemoiselle.security.User;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.Strings;
 
 @ValidateRequest
-@Path("/api")
+@Path("/api/register")
 @Produces(APPLICATION_JSON)
 public class RegisterService {
 
@@ -40,12 +34,12 @@ public class RegisterService {
 	private UsuarioDAO dao;
 
 	@POST
-	@Path("/registro")
+	// TODO @NotLoggedIn
 	@Transactional
-	public Long registrar(@NotNull @Valid Usuario usuario) {
-		String password = usuario.getSenha();
-		
-		usuario.setSenha(Hasher.digest(password));
+	public Long register(@NotNull @Valid User usuario) {
+		String password = usuario.getPassword();
+
+		usuario.setPassword(Hasher.digest(password));
 		Long result = dao.insert(usuario).getId();
 
 		Credentials credentials = Beans.getReference(Credentials.class);
@@ -58,52 +52,28 @@ public class RegisterService {
 		return result;
 	}
 
-	@POST
+	@DELETE
 	@LoggedIn
 	@Transactional
-	@Path("/desregistro")
-	public void desregistrar() {
+	public void unregister() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		User user = securityContext.getUser();
+		br.gov.frameworkdemoiselle.security.User user = securityContext.getUser();
 
 		dao.delete((Long) user.getAttribute("id"));
-	}
-
-	@GET
-	@Path("/check")
-	public Response checar(@NotBlank @QueryParam("property") String property, @QueryParam("value") String value) {
-		ValidationException validation = new ValidationException();
-
-		if (Strings.isEmpty(value)) {
-			validation.addViolation(property, "Não pode ser vazio");
-
-		} else {
-			if (property.equals("email")) {
-				if (dao.loadByEmail(value) != null) {
-					validation.addViolation("email", "E-mail duplicado");
-				}
-			}
-		}
-
-		if (!validation.getConstraintViolations().isEmpty()) {
-			throw validation;
-		}
-
-		return Response.ok().build();
 	}
 
 	@Startup
 	@Transactional
 	public void cargarTemporariaInicial() {
 		if (dao.findAll().isEmpty()) {
-			Usuario usuario;
+			User usuario;
 
-			usuario = new Usuario();
-			usuario.setNome("Urtzi Iglesias");
+			usuario = new User();
+			usuario.setFullName("Urtzi Iglesias");
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");
-			usuario.setSenha("abcde");
-			usuario.setNascimento(new Date());
-			usuario.setSexo(MASCULINO);
+			usuario.setPassword("abcde");
+			usuario.setBirthday(new Date());
+			usuario.setGender(MASCULINO);
 			dao.insert(usuario);
 		}
 	}

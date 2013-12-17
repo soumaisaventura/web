@@ -6,7 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import adventure.entity.Usuario;
+import adventure.entity.User;
 
 @Path("/api")
 @Consumes(APPLICATION_JSON)
@@ -14,7 +14,7 @@ public interface RegistroClient {
 
 	@POST
 	@Path("/registro")
-	Long registrar(Usuario atleta);
+	Long registrar(User atleta);
 
 	@POST
 	@Path("/desregistro")

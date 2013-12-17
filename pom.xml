@@ -131,6 +131,26 @@
 			<version>${urlrewritefilter.version}</version>
 		</dependency>
 		-->
+		
+		<!-- Authentication dependencies -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.17.0-rc</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
+			<version>1.17.0-rc</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+			<scope>compile</scope>
+		</dependency>
                 
 		<!-- Test dependencies -->
 		<dependency>

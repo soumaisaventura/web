@@ -1,16 +1,11 @@
-function Usuario() {
-	this.id;
-	this.nome;
-	this.email;
-	this.nascimento;
-}
+var AuthClient = function AuthClient() {
+	this.url = "api/auth";
+};
 
-Usuario.prototype._login = function(username, password) {
-	console.log(username);
-	console.log(password);
+AuthClient.prototype.login = function(username, password) {
 	$.ajax({
 		type : "POST",
-		url : "api/login",
+		url : this.url,
 		data : {
 			"username" : username,
 			"password" : password
@@ -26,14 +21,12 @@ Usuario.prototype._login = function(username, password) {
 
 };
 
-Usuario.prototype._logoff = function() {
-
+AuthClient.prototype.logout = function() {
 	$.ajax({
 		type : "DELETE",
-		url : "api/login",
+		url : this.url,
 		success : function() {
 			window.location = "index.jsf";
 		}
 	});
-
 };
