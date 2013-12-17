@@ -1,10 +1,18 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
+
+		<script type="text/javascript">
+			(function() {
+				var po = document.createElement('script');
+				po.type = 'text/javascript'; po.async = true;
+				po.src = 'https://plus.google.com/js/client:plusone.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(po, s);
+			})();
+		</script>
+
 		<div class="apollo">
 			<div class="apollo-container clearfix">
 				<h1>Adventure</h1>
@@ -14,26 +22,25 @@
 						Log in com <strong>Facebook</strong>
 					</button>
 
+					<button class="g-signin" data-scope="https://www.googleapis.com/auth/plus.login"
+						data-requestvisibleactions="http://schemas.google.com/AddActivity" data-clientId="{{ CLIENT_ID }}" data-accesstype="offline"
+						data-callback="onSignInCallback" data-theme="dark" data-cookiepolicy="single_host_origin"></button>
+
 					<p class="apollo-seperator">ou</p>
 
 					<form class="form-signin" id="apollo-login-form">
 						<div class="control-group">
-							<input id="username" type="text" class="form-control input-lg"
-								placeholder="E-mail" />
+							<input id="username" type="text" class="form-control input-lg" placeholder="E-mail" />
 						</div>
 						<div class="control-group">
-							<input id="password" type="password"
-								class="form-control input-lg" placeholder="Senha" />
+							<input id="password" type="password" class="form-control input-lg" placeholder="Senha" />
 						</div>
-						<button id="login" class="btn btn-lg btn-block btn-default"
-							type="button">Entrar</button>
+						<button id="login" class="btn btn-lg btn-block btn-default" type="button">Entrar</button>
 					</form>
 
 					<p class="apollo-register-account">
-						<a href="registro-atleta.jsf" class="register-link">Precisa de
-							uma conta?<strong> Registre-se aqui</strong>
-						</a><br /> <a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu
-								sua senha?</small></a>
+						<a href="registro-atleta.jsf" class="register-link">Precisa de uma conta? <strong>Registre-se aqui</strong></a> <br /> <a
+							href="recuperar-senha.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
 					</p>
 				</div>
 			</div>

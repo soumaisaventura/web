@@ -6,3 +6,4 @@
 /.settings
 /.externalToolBuilders
 /.DS_Store
+/src/main/resources/client_secrets.json
