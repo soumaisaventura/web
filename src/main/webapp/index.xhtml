@@ -6,107 +6,23 @@
 
 	<ui:define name="body">
 		<div class="container" style="margin-top: 70px;">
-				<style>
-					.table>tbody>tr>td { 
-						border-top: 0px; 
-					}
-				</style>
-				<table id="table-bookmarks" cellpadding="0" cellspacing="0" border="0" class="table table-striped">
-					<thead>
-						<th width="20%"> Prova</th>
-						<th width="20%">Data</th>
-						<th width="20%">Local</th>
-						<th width="20%">Modalidades</th>
-						<th width="20%"></th>
-					</thead>
-				</table>
+			<table id="evento" class="table table-hover footable toggle-circle">
+				<thead>
+			    <tr>
+			      <th width="45%" data-toggle="true">Evento</th>
+			      <th width="15%" data-hide="phone">Data</th>
+			      <th width="15%" data-hide="phone">Local</th>
+			      <th width="15%" data-hide="phone">Modalidades</th>
+			      <th width="5%"></th>
+			      <th width="5%"></th>
+			    </tr>
+			  </thead>
+			  <tbody></tbody>
+			</table>
 		</div>
 		
 		<h:outputScript name="js/jquery-1.10.2.js" />
-		<h:outputScript name="js/bootstrap.js" />
-		<h:outputScript name="js/jquery.dataTables.js" />
-		<h:outputScript name="js/DT_bootstrap.js" />
-		<h:outputScript name="js/usuario.js" />
-
-		<script>
-	   	function change(data) {
-        var r = data.match(/^\s*([0-9]+)\s*-\s*([0-9]+)\s*-\s*([0-9]+)$/);
-        return r[3]+"/"+r[2]+"/"+r[1];
-    	}
-    	
-			function montarTabela(dados){
-				var oTable = $('#table-bookmarks').dataTable({
-	    	    						bRetrieve: true,
-	    	    						bFilter: false,
-	    	    						bInfo: false,
-	    	    						bLengthChange: false,
-	    	    						bPaginate: false,
-	    	    						bSort: false,
-	    	    	        	aoColumns: [
-													{ "aTargets" : [0],
-				                                 "mData" : "nome", 
-				                                 "bSortable" : false,
-				                                 "mRender" : function ( data ) {
-                                                       return '<strong>' + data + '</strong>' ;
-				                                             }
-													},
-													{ "aTargets" : [1],
-						                             "mData" : "data", 
-						                             "bSortable" : false,
-						                             "mRender" : function ( data ) {
-		                                                   return change(data) ;
-						                                         }
-													},
-													{ "aTargets" : [2],
-						                             "mData" : "local", 
-						                             "bSortable" : false,
-						                             "mRender" : function ( data ) {
-		                                                   return data ;
-						                                         }
-													},
-													{ "aTargets" : [3],
-				                                 "mData" : "id", 
-				                                 "bSortable" : false,
-				                                 "mRender" : function ( data ) {
-				                                                return '<img src="images/mountainbiking.png" title="Mountain Bike"/> <img src="images/running.png" title="Corrida"/> <img src="images/kayaking.png" title="Canoagem"/>';
-				                                       			 }
-													},
-   	        	            { "aTargets" : [4],"sWidth" : "20px",
-                                         "mData" : "id", 
-                                         "bSortable" : false,
-                                         "mRender" : function ( data ) {
-                                                       return '<button type="button" class="btn btn-sm btn-info">Detalhes</button> <button type="button" class="btn btn-sm btn-success">Inscrição</button>';
-                                              			 }
-													}
-    	        					],
-	 	        						oLanguage : {
-	 	        							"sEmptyTable": "Nenhum registro retornado.",
-	 	        							"sZeroRecords" : "Nenhum registro retornado.",
-	 	        							"sProcessing" : "Carregando ..."
-	 	        						}	    	    
-					});
-        	oTable.fnAddData(dados);
-			}
-
-    	$(function(){
-    		
-    		$.ajax({
-    	        type : "GET",
-    	        url : "api/evento",
-              contentType : "application/json;charset=utf8",
-    	        dataType : "json",
-    	        success : function(dados) {
-    	        	montarTabela(dados);
-    	        }
-    	  });
-
-				$("#sair").click(function(){
-					var usuario = new Usuario();
-					usuario._logoff();
-				});        	  
-
-			});
-	
-    </script>
+		<h:outputScript name="js/footable.min.js" />
+		<h:outputScript name="js/index.js" />
 	</ui:define>
 </ui:composition>
