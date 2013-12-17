@@ -28,7 +28,7 @@ import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
 
 @RunWith(Arquillian.class)
-public class RegistroServiceTest {
+public class RegisterServiceTest {
 
 	@ArquillianResource
 	private URL url;
@@ -40,7 +40,7 @@ public class RegistroServiceTest {
 
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
-		RegistroClient registroClient = Tests.createRegistroClient(this.url);
+		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
 		String fullName = "Cleverson Sacramento";
@@ -57,7 +57,7 @@ public class RegistroServiceTest {
 		user.setPassword(password);
 		user.setBirthday(birthday);
 		user.setGender(gender);
-		Long id = registroClient.registrar(user);
+		Long id = registerClient.registrar(user);
 		assertNotNull(id);
 
 		user = perfilClient.obter(id);
@@ -67,17 +67,17 @@ public class RegistroServiceTest {
 		// assertEquals(nascimento, usuario.getNascimento());
 		assertEquals(gender, user.getGender());
 
-		registroClient.desregistrar();
+		registerClient.desregistrar();
 		user = perfilClient.obter(id);
 		assertNull(user);
 	}
 
 	@Test
 	public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
-		RegistroClient registroClient = Tests.createRegistroClient(this.url);
+		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 
 		try {
-			registroClient.registrar(new User());
+			registerClient.registrar(new User());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
@@ -89,11 +89,11 @@ public class RegistroServiceTest {
 					});
 
 			List<Violation> expected = new ArrayList<Violation>();
-			expected.add(new Violation("nome", "campo obrigatório"));
+			expected.add(new Violation("fullName", "campo obrigatório"));
 			expected.add(new Violation("email", "campo obrigatório"));
-			expected.add(new Violation("nascimento", "campo obrigatório"));
-			expected.add(new Violation("sexo", "campo obrigatório"));
-			expected.add(new Violation("senha", "campo obrigatório"));
+			expected.add(new Violation("birthday", "campo obrigatório"));
+			expected.add(new Violation("gender", "campo obrigatório"));
+			expected.add(new Violation("password", "campo obrigatório"));
 
 			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
 		}

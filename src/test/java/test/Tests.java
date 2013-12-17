@@ -50,7 +50,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
 import adventure.PerfilClient;
-import adventure.RegistroClient;
+import adventure.RegisterClient;
 
 @Ignore
 public final class Tests {
@@ -80,8 +80,8 @@ public final class Tests {
 				.addAsResource(new File("src/main/resources/ValidationMessages.properties")).addAsLibraries(libs);
 	}
 
-	public static RegistroClient createRegistroClient(URL base) {
-		return ProxyFactory.create(RegistroClient.class, base.toString());
+	public static RegisterClient createRegisterClient(URL base) {
+		return ProxyFactory.create(RegisterClient.class, base.toString());
 	}
 
 	public static PerfilClient createPerfilClient(URL base) {
