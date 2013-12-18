@@ -19,7 +19,7 @@ import org.jboss.resteasy.spi.validation.ValidateRequest;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.persistence.ValidationException;
-import br.gov.frameworkdemoiselle.security.Credentials;
+import adventure.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -37,7 +37,7 @@ public class AuthService {
 	public void login(@NotEmpty @Email @FormParam("username") String username,
 			@NotEmpty @FormParam("password") String password) throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(username);
+		credentials.setEmail(username);
 		credentials.setPassword(password);
 
 		securityContext.login();

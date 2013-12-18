@@ -9,7 +9,8 @@ GoogleAuthClient.prototype.login = function(code) {
 		data : "code=" + code,
 		processData: false,
 		success : function() {
-			console.log("login google ok");
+			gapi.auth.signOut();
+			window.location = "index.jsf";
 		},
 		error : function() {
 			console.log("login google failed");

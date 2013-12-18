@@ -14,16 +14,18 @@ public class Hasher {
 	public static String digest(String message) {
 		String hash = null;
 
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			md.update(message.getBytes("UTF-8"));
-			hash = Hex.encodeHexString(md.digest());
+		if (message != null) {
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+				md.update(message.getBytes("UTF-8"));
+				hash = Hex.encodeHexString(md.digest());
 
-		} catch (NoSuchAlgorithmException cause) {
-			throw new RuntimeException(cause);
+			} catch (NoSuchAlgorithmException cause) {
+				throw new RuntimeException(cause);
 
-		} catch (UnsupportedEncodingException cause) {
-			throw new RuntimeException(cause);
+			} catch (UnsupportedEncodingException cause) {
+				throw new RuntimeException(cause);
+			}
 		}
 
 		return hash;

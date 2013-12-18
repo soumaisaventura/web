@@ -10,13 +10,13 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
-import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
+import adventure.security.Credentials;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -41,24 +41,17 @@ public class GoogleAuthService {
 	private UserDAO dao;
 
 	@POST
-	public void login(@NotEmpty @FormParam("code") String code) throws IOException {
+	public void login(@NotEmpty @FormParam("code") String code) throws Exception {
 		User googleUser = getUserInfo(code);
 		User persistedUser = dao.loadByEmail(googleUser.getEmail());
 
 		if (persistedUser == null) {
-			googleUser.setPassword("xxxx");
-			
-			RegisterService service = Beans.getReference(RegisterService.class);
-			service.register(googleUser);
+			googleUser.setPassword(RandomStringUtils.random(16, true, true));
+			Beans.getReference(RegisterService.class).register(googleUser);
 
 		} else {
-			SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-
-			Credentials credentials = Beans.getReference(Credentials.class);
-			credentials.setUsername(googleUser.getEmail());
-			credentials.setPassword("ByPass");
-
-			securityContext.login();
+			Beans.getReference(Credentials.class).setOauth(true);
+			Beans.getReference(AuthService.class).login(googleUser.getEmail(), "_");
 		}
 	}
 

@@ -19,7 +19,6 @@ import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.security.Hasher;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
-import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -36,18 +35,12 @@ public class RegisterService {
 	@POST
 	// TODO @NotLoggedIn
 	@Transactional
-	public Long register(@NotNull @Valid User usuario) {
+	public Long register(@NotNull @Valid User usuario) throws Exception {
 		String password = usuario.getPassword();
-
 		usuario.setPassword(Hasher.digest(password));
 		Long result = dao.insert(usuario).getId();
 
-		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(usuario.getEmail());
-		credentials.setPassword(password);
-
-		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		securityContext.login();
+		Beans.getReference(AuthService.class).login(usuario.getEmail(), password);
 
 		return result;
 	}
