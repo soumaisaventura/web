@@ -3,32 +3,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
-	<!-- 
-	
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-header">
-    <a class="navbar-brand" href="#">Brand</a>
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </div>
-  <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="navbar-header navbar-right">
-  		<p class="navbar-text">
-  		<a href="#" class="navbar-link">Username</a>
-  		</p>
-  	</div>
-  </div>
-</nav>
-	 -->
-	
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -56,12 +30,8 @@
       			</li>
 					</h:panelGroup>
 					<h:panelGroup rendered="#{!securityContext.loggedIn}">
-						<!-- 
-						<a href="login.jsf"><button type="button" class="btn btn-primary navbar-btn" style="font-size: 0.8em; margin-bottom: 0px"><strong>Login</strong></button></a>
-						<p class="help-block" style="font-size: 0.8em; margin-top: 0px"><a href="registro-atleta.jsf">Registre-se</a></p>
-						-->
-						<li><a href="login.jsf">Login</a></li>
-						<li><a href="register.jsf">Registre-se</a></li>
+							<li><a href="login.jsf">Login</a></li>
+							<li><a href="register.jsf">Registre-se</a></li>
 					</h:panelGroup>
 				</ul>
 			</div>
