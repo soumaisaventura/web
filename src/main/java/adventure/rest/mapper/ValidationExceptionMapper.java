@@ -24,6 +24,6 @@ public class ValidationExceptionMapper implements ExceptionMapper<javax.validati
 			validation = ((ValidationException) exception);
 		}
 
-		return Response.ok(validation.getConstraintViolations()).status(SC_PRECONDITION_FAILED).build();
+		return Response.status(SC_PRECONDITION_FAILED).entity(validation.getConstraintViolations()).build();
 	}
 }

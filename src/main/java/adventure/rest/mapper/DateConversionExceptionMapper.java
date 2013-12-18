@@ -24,7 +24,7 @@ public class DateConversionExceptionMapper implements ExceptionMapper<JsonMappin
 			ValidationException validation = new ValidationException();
 			validation.addViolation(exception.getPath().get(0).getFieldName(), "data inválida");
 
-			response = Response.ok(validation.getConstraintViolations()).status(SC_PRECONDITION_FAILED).build();
+			response = Response.status(SC_PRECONDITION_FAILED).entity(validation.getConstraintViolations()).build();
 
 		} else {
 			response = Response.status(HttpServletResponse.SC_BAD_REQUEST).build();

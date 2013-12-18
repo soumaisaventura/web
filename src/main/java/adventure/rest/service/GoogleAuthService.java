@@ -10,13 +10,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.security.Credentials;
+import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -41,17 +42,38 @@ public class GoogleAuthService {
 	private UserDAO dao;
 
 	@POST
+	@Transactional
 	public void login(@NotEmpty @FormParam("code") String code) throws Exception {
 		User googleUser = getUserInfo(code);
 		User persistedUser = dao.loadByEmail(googleUser.getEmail());
 
 		if (persistedUser == null) {
-			googleUser.setPassword(RandomStringUtils.random(16, true, true));
+			Credentials credentials = Beans.getReference(Credentials.class);
+			credentials.setOauth(true);
+
+			// googleUser.setPassword(RandomStringUtils.random(16, true, true));
 			Beans.getReference(RegisterService.class).register(googleUser);
 
 		} else {
-			Beans.getReference(Credentials.class).setOauth(true);
-			Beans.getReference(AuthService.class).login(googleUser.getEmail(), "_");
+			if (persistedUser.getFullName() == null) {
+				persistedUser.setFullName(googleUser.getFullName());
+			}
+
+			if (persistedUser.getBirthday() == null) {
+				persistedUser.setBirthday(googleUser.getBirthday());
+			}
+
+			if (persistedUser.getGender() == null) {
+				persistedUser.setGender(googleUser.getGender());
+			}
+
+			dao.update(persistedUser);
+
+			Credentials credentials = Beans.getReference(Credentials.class);
+			credentials.setEmail(googleUser.getEmail());
+			credentials.setOauth(true);
+
+			Beans.getReference(SecurityContext.class).login();
 		}
 	}
 

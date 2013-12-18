@@ -1,5 +1,6 @@
 package adventure.rest.service;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import javax.inject.Inject;
@@ -34,13 +35,32 @@ public class AuthService {
 	private SecurityContext securityContext;
 
 	@POST
-	public void login(@NotEmpty @Email @FormParam("username") String username,
+	public Response login(@NotEmpty @Email @FormParam("username") String email,
 			@NotEmpty @FormParam("password") String password) throws Exception {
-		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setEmail(username);
-		credentials.setPassword(password);
 
-		securityContext.login();
+		Response response = null;
+
+		UserDAO dao = Beans.getReference(UserDAO.class);
+		User persistedUser = dao.loadByEmail(email);
+
+		if (persistedUser != null && persistedUser.getPassword() == null) {
+			// TODO Mandar email
+
+			response = Response.status(SC_FORBIDDEN)
+					.entity("Mensagem teste que vai ser bem extensa. Vai falar sobre mensagem enviada para o e-mail.")
+					.build();
+
+		} else {
+			Credentials credentials = Beans.getReference(Credentials.class);
+			credentials.setEmail(email);
+			credentials.setPassword(password);
+
+			securityContext.login();
+
+			response = Response.ok().build();
+		}
+
+		return response;
 	}
 
 	@DELETE

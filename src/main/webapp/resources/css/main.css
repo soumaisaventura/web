@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'Frijole';
-	src: url('/adventure/resources/css/fonts/Frijole-Regular.ttf') format('truetype');
+	src: url('fonts/Frijole-Regular.ttf.jsf') format('truetype');
 }
 
 body {

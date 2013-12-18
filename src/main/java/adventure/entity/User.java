@@ -3,6 +3,7 @@ package adventure.entity;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
@@ -27,7 +27,6 @@ public class User {
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
-	@NotEmpty
 	private String fullName;
 
 	@Email
@@ -35,14 +34,11 @@ public class User {
 	@Column(unique = true)
 	private String email;
 
-	@NotEmpty
 	private String password;
 
 	@Past
-//	@NotNull
 	private Date birthday;
 
-	@NotNull
 	@Enumerated(STRING)
 	private Gender gender;
 
@@ -55,6 +51,14 @@ public class User {
 	}
 
 	public User(Userinfo userInfo) {
+
+		try {
+			System.out.println("xxxxxxxxxxx : " + userInfo.toPrettyString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		this.fullName = userInfo.getName();
 		this.email = userInfo.getEmail();
 
