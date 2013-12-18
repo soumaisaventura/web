@@ -3,28 +3,12 @@
 
 	<ui:define name="body">
 
-		<script type="text/javascript">
-			(function() {
-				var po = document.createElement('script');
-				po.type = 'text/javascript'; po.async = true;
-				po.src = 'https://plus.google.com/js/client:plusone.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(po, s);
-			})();
-		</script>
-
 		<div class="apollo">
 			<div class="apollo-container clearfix">
 				<h1>Adventure</h1>
 
 				<div class="apollo-login">
-					<button class="btn btn-block btn-facebook btn-lg">
-						Log in com <strong>Facebook</strong>
-					</button>
-
-					<button class="g-signin" data-scope="https://www.googleapis.com/auth/plus.login"
-						data-requestvisibleactions="http://schemas.google.com/AddActivity" data-clientId="{{ CLIENT_ID }}" data-accesstype="offline"
-						data-callback="onSignInCallback" data-theme="dark" data-cookiepolicy="single_host_origin"></button>
+					<button id="google-login">Logar com Google</button>
 
 					<p class="apollo-seperator">ou</p>
 
@@ -46,10 +30,12 @@
 			</div>
 		</div>
 
-		<script src="api/entity/User.js"></script>
+		<script src="api/entity/User.js" />
 
+		<h:outputScript name="js/client-plusone.js" />
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/client/auth.js" />
+		<h:outputScript name="js/client/google-auth.js" />
 
 		<script>
 			$(function(){
@@ -64,7 +50,29 @@
 						client.login($("#username").val(), $("#password").val());
 					}
 				});
+
+
+				$("#google-login").click(function(){
+					gapi.auth.signIn({
+						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
+						'cookiepolicy': 'none',
+						'callback': 'onGoogleSignIn',
+						'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' 
+					});
+				});
 			});
+
+			function onGoogleSignIn(authResult) {
+				if (authResult['access_token']) {
+					console.log(authResult.code);
+
+					var client = new GoogleAuthClient();
+					client.login(authResult.code);
+
+				} else if (authResult['error']) {
+					console.log("nada!!!");
+				}
+			}
 		</script>
 	</ui:define>
 </ui:composition>
