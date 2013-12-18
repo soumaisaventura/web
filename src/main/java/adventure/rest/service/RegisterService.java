@@ -1,6 +1,6 @@
 package adventure.rest.service;
 
-import static adventure.entity.Sexo.MASCULINO;
+import static adventure.entity.Gender.MALE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.Date;
@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
-import adventure.persistence.UsuarioDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.Hasher;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -31,7 +31,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 public class RegisterService {
 
 	@Inject
-	private UsuarioDAO dao;
+	private UserDAO dao;
 
 	@POST
 	// TODO @NotLoggedIn
@@ -73,7 +73,7 @@ public class RegisterService {
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");
 			usuario.setPassword("abcde");
 			usuario.setBirthday(new Date());
-			usuario.setGender(MASCULINO);
+			usuario.setGender(MALE);
 			dao.insert(usuario);
 		}
 	}

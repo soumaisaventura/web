@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
-import adventure.persistence.UsuarioDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.ValidationException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -67,7 +67,7 @@ public class AuthService {
 		if (!Strings.isEmpty(email)) {
 			// validation.addViolation("email", "campo obrigatório");
 			// } else {
-			UsuarioDAO dao = Beans.getReference(UsuarioDAO.class);
+			UserDAO dao = Beans.getReference(UserDAO.class);
 
 			if (dao.loadByEmail(email) == null) {
 				validation.addViolation(null, "e-mail inexistente");

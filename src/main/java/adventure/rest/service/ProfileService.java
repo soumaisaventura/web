@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
-import adventure.persistence.UsuarioDAO;
+import adventure.persistence.UserDAO;
 
 @ValidateRequest
 @Path("/api/perfil")
@@ -20,7 +20,7 @@ import adventure.persistence.UsuarioDAO;
 public class ProfileService {
 
 	@Inject
-	private UsuarioDAO dao;
+	private UserDAO dao;
 
 	@GET
 	@Path("/{id}")

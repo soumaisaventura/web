@@ -1,6 +1,6 @@
 package adventure;
 
-import static adventure.entity.Sexo.MASCULINO;
+import static adventure.entity.Gender.MALE;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
-import adventure.entity.Sexo;
+import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
 
@@ -47,7 +47,7 @@ public class RegisterServiceTest {
 		String email = "cleverson.sacramento@gmail.com";
 		String password = "segredo";
 		Date birthday = Tests.createDate(1980, 12, 18);
-		Sexo gender = MASCULINO;
+		Gender gender = MALE;
 
 		User user;
 

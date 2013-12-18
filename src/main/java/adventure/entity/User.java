@@ -18,6 +18,8 @@ import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.google.api.services.oauth2.model.Userinfo;
+
 @Entity
 public class User {
 
@@ -37,19 +39,28 @@ public class User {
 	private String password;
 
 	@Past
-	@NotNull
+//	@NotNull
 	private Date birthday;
 
 	@NotNull
 	@Enumerated(STRING)
-	private Sexo gender;
+	private Gender gender;
 
 	public User() {
 	}
 
 	public User(br.gov.frameworkdemoiselle.security.User user) {
-		this.email = user.getId();
 		this.id = (Long) user.getAttribute("id");
+		this.email = user.getId();
+	}
+
+	public User(Userinfo userInfo) {
+		this.fullName = userInfo.getName();
+		this.email = userInfo.getEmail();
+
+		if (userInfo.getGender() != null) {
+			this.gender = Gender.valueOf(userInfo.getGender().toUpperCase());
+		}
 	}
 
 	public br.gov.frameworkdemoiselle.security.User parse() {
@@ -124,11 +135,11 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public Sexo getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(Sexo gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 }

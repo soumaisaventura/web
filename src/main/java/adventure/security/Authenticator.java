@@ -3,14 +3,13 @@ package adventure.security;
 import javax.enterprise.context.SessionScoped;
 
 import adventure.entity.User;
-import adventure.persistence.UsuarioDAO;
-import br.gov.frameworkdemoiselle.security.Authenticator;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @SessionScoped
-public class Autenticador implements Authenticator {
+public class Authenticator implements br.gov.frameworkdemoiselle.security.Authenticator {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +22,7 @@ public class Autenticador implements Authenticator {
 	@Override
 	public void authenticate() throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		UsuarioDAO dao = Beans.getReference(UsuarioDAO.class);
+		UserDAO dao = Beans.getReference(UserDAO.class);
 		User usuario = dao.loadByEmail(credentials.getUsername());
 
 		if (doesPasswordMatch(usuario, credentials)) {
