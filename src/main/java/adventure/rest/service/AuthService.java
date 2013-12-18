@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UsuarioDAO;
@@ -24,6 +25,7 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
+@ValidateRequest
 @Path("/api/auth")
 @Produces(APPLICATION_JSON)
 public class AuthService {
