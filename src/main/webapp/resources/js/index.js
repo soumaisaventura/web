@@ -3,7 +3,11 @@ function change(data) {
 	return r[3]+"/"+r[2]+"/"+r[1];
 }
 
-$(function() {
+$(function(e) {
+
+	var footable = $('#evento').footable().data('footable');
+	
+	console.log(footable);
 
 	$.ajax({
 		url : 'api/evento',
@@ -22,10 +26,8 @@ $(function() {
 				row += '<td><button type="button" class="btn btn-sm btn-info">Detalhes</button></td>'
 				row += '<td><button type="button" class="btn btn-sm btn-success">Inscrição</button></td>';
 				row += '</tr>';
-				$('#evento tbody').append(row).trigger('footable_redrawn');
+				footable.appendRow(row);
 			});
 		}
 	});
-
-	$('#evento').footable();
 });
