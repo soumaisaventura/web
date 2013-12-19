@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Gender;
-import adventure.persistence.UniqueUserEmail;
+import adventure.validator.UniqueUserEmail;
 
 @JSEntity
 public class Registration {

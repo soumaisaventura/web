@@ -1,9 +1,10 @@
-package adventure.persistence;
+package adventure.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import adventure.entity.User;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 

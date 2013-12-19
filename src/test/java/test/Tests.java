@@ -41,6 +41,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
@@ -72,6 +73,7 @@ public final class Tests {
 				.addPackages(true, "adventure.persistence")
 				.addPackages(true, "adventure.rest")
 				.addPackages(true, "adventure.security")
+				.addPackages(true, "adventure.validator")
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))
@@ -100,5 +102,9 @@ public final class Tests {
 		calendar.set(Calendar.MILLISECOND, 0);
 
 		return calendar.getTime();
+	}
+
+	public static String generateRandomEmail() {
+		return RandomStringUtils.randomAlphabetic(10) + "@" + RandomStringUtils.randomAlphabetic(10) + ".com";
 	}
 }

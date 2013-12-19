@@ -1,4 +1,4 @@
-package adventure.persistence;
+package adventure.validator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -14,11 +14,10 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Target({ FIELD, METHOD })
 public @interface UniqueUserEmail {
-	
+
 	Class<?>[] groups() default {};
-	
+
 	String message() default "e-mail já associado a outra conta";
-	
+
 	Class<? extends Payload>[] payload() default {};
-	
 }

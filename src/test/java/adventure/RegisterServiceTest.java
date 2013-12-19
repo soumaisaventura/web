@@ -45,7 +45,7 @@ public class RegisterServiceTest {
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
 		String fullName = "Cleverson Sacramento";
-		String email = "cleverson.sacramento@gmail.com";
+		String email = Tests.generateRandomEmail();
 		String password = "segredo";
 		Date birthday = Tests.createDate(1980, 12, 18);
 		Gender gender = MALE;
@@ -74,7 +74,7 @@ public class RegisterServiceTest {
 	}
 
 	@Test
-	public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
+	public void falhaAoTentarRegistrarComCamposObrigatoriosNulos() {
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 
 		try {
@@ -95,6 +95,44 @@ public class RegisterServiceTest {
 			expected.add(new Violation("birthday", "campo obrigatório"));
 			expected.add(new Violation("gender", "campo obrigatório"));
 			expected.add(new Violation("password", "campo obrigatório"));
+
+			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
+		}
+	}
+
+	@Test
+	public void falhaAoTentarRegistrarEmailJaExistente() {
+
+		String fullName = "Cleverson Sacramento";
+		String email = Tests.generateRandomEmail();
+		String password = "segredo";
+		Date birthday = Tests.createDate(1980, 12, 18);
+		Gender gender = MALE;
+
+		Registration registration = new Registration();
+		registration.setFullName(fullName);
+		registration.setEmail(email);
+		registration.setPassword(password);
+		registration.setBirthday(birthday);
+		registration.setGender(gender);
+
+		RegisterClient registerClient = Tests.createRegisterClient(this.url);
+		registerClient.register(registration);
+
+		try {
+			registerClient.register(registration);
+			fail("Deveria ter ocorrido erro ao tentar inserir");
+
+		} catch (ClientResponseFailure cause) {
+			assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
+
+			@SuppressWarnings("unchecked")
+			List<Violation> validations = (List<Violation>) cause.getResponse().getEntity(
+					new GenericType<List<Violation>>() {
+					});
+
+			List<Violation> expected = new ArrayList<Violation>();
+			expected.add(new Violation("email", "e-mail já associado a outra conta"));
 
 			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
 		}
