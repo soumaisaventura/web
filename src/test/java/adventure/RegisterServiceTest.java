@@ -1,5 +1,6 @@
 package adventure;
 
+import static adventure.entity.Gender.FEMALE;
 import static adventure.entity.Gender.MALE;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
@@ -44,9 +45,9 @@ public class RegisterServiceTest {
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
-		String fullName = "Cleverson Sacramento";
+		String fullName = "User Full Name";
 		String email = Tests.generateRandomEmail();
-		String password = "segredo";
+		String password = "secret";
 		Date birthday = Tests.createDate(1980, 12, 18);
 		Gender gender = MALE;
 
@@ -102,19 +103,12 @@ public class RegisterServiceTest {
 
 	@Test
 	public void falhaAoTentarRegistrarEmailJaExistente() {
-
-		String fullName = "Cleverson Sacramento";
-		String email = Tests.generateRandomEmail();
-		String password = "segredo";
-		Date birthday = Tests.createDate(1980, 12, 18);
-		Gender gender = MALE;
-
 		Registration registration = new Registration();
-		registration.setFullName(fullName);
-		registration.setEmail(email);
-		registration.setPassword(password);
-		registration.setBirthday(birthday);
-		registration.setGender(gender);
+		registration.setFullName("User Full Name");
+		registration.setEmail(Tests.generateRandomEmail());
+		registration.setPassword("secret");
+		registration.setBirthday(Tests.createDate(1980, 12, 18));
+		registration.setGender(FEMALE);
 
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 		registerClient.register(registration);
