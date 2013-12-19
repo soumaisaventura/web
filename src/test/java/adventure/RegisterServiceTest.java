@@ -1,5 +1,6 @@
 package adventure;
 
+import static adventure.entity.Gender.FEMALE;
 import static adventure.entity.Gender.MALE;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static junit.framework.Assert.assertEquals;
@@ -26,6 +27,7 @@ import test.Tests;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
+import adventure.rest.service.Registration;
 
 @RunWith(Arquillian.class)
 public class RegisterServiceTest {
@@ -43,24 +45,24 @@ public class RegisterServiceTest {
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
-		String fullName = "Cleverson Sacramento";
-		String email = "cleverson.sacramento@gmail.com";
-		String password = "segredo";
+		String fullName = "User Full Name";
+		String email = Tests.generateRandomEmail();
+		String password = "secret";
 		Date birthday = Tests.createDate(1980, 12, 18);
 		Gender gender = MALE;
 
-		User user;
+		Registration registration;
 
-		user = new User();
-		user.setFullName(fullName);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setBirthday(birthday);
-		user.setGender(gender);
-		Long id = registerClient.registrar(user);
+		registration = new Registration();
+		registration.setFullName(fullName);
+		registration.setEmail(email);
+		registration.setPassword(password);
+		registration.setBirthday(birthday);
+		registration.setGender(gender);
+		Long id = registerClient.register(registration);
 		assertNotNull(id);
 
-		user = perfilClient.obter(id);
+		User user = perfilClient.obter(id);
 		assertNotNull(user);
 		assertEquals(fullName, user.getFullName());
 		assertEquals(email, user.getEmail());
@@ -73,11 +75,11 @@ public class RegisterServiceTest {
 	}
 
 	@Test
-	public void falhaAoTentarInserirComCamposObrigatoriosNulos() {
+	public void falhaAoTentarRegistrarComCamposObrigatoriosNulos() {
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 
 		try {
-			registerClient.registrar(new User());
+			registerClient.register(new Registration());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
@@ -94,6 +96,37 @@ public class RegisterServiceTest {
 			expected.add(new Violation("birthday", "campo obrigatório"));
 			expected.add(new Violation("gender", "campo obrigatório"));
 			expected.add(new Violation("password", "campo obrigatório"));
+
+			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
+		}
+	}
+
+	@Test
+	public void falhaAoTentarRegistrarEmailJaExistente() {
+		Registration registration = new Registration();
+		registration.setFullName("User Full Name");
+		registration.setEmail(Tests.generateRandomEmail());
+		registration.setPassword("secret");
+		registration.setBirthday(Tests.createDate(1980, 12, 18));
+		registration.setGender(FEMALE);
+
+		RegisterClient registerClient = Tests.createRegisterClient(this.url);
+		registerClient.register(registration);
+
+		try {
+			registerClient.register(registration);
+			fail("Deveria ter ocorrido erro ao tentar inserir");
+
+		} catch (ClientResponseFailure cause) {
+			assertEquals(SC_PRECONDITION_FAILED, cause.getResponse().getStatus());
+
+			@SuppressWarnings("unchecked")
+			List<Violation> validations = (List<Violation>) cause.getResponse().getEntity(
+					new GenericType<List<Violation>>() {
+					});
+
+			List<Violation> expected = new ArrayList<Violation>();
+			expected.add(new Violation("email", "e-mail já associado a outra conta"));
 
 			assertEquals(new HashSet<Violation>(expected), new HashSet<Violation>(validations));
 		}

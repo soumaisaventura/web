@@ -7,14 +7,14 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import adventure.entity.User;
+import adventure.rest.service.Registration;
 
 @Path("/api/register")
 @Consumes(APPLICATION_JSON)
 public interface RegisterClient {
 
 	@POST
-	Long registrar(User atleta);
+	Long register(Registration form);
 
 	@DELETE
 	Long desregistrar();

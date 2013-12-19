@@ -48,11 +48,13 @@ public class GoogleAuthService {
 		User persistedUser = dao.loadByEmail(googleUser.getEmail());
 
 		if (persistedUser == null) {
+			dao.insert(googleUser);
+
 			Credentials credentials = Beans.getReference(Credentials.class);
+			credentials.setEmail(googleUser.getEmail());
 			credentials.setOauth(true);
 
-			// googleUser.setPassword(RandomStringUtils.random(16, true, true));
-			Beans.getReference(RegisterService.class).register(googleUser);
+			Beans.getReference(SecurityContext.class).login();
 
 		} else {
 			if (persistedUser.getFullName() == null) {

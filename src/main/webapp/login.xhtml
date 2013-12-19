@@ -36,7 +36,7 @@
 			</div>
 		</div>
 
-		<script src="api/entity/User.js" />
+		<script src="api/entity/Credentials.js" />
 
 		<h:outputScript name="js/client-plusone.js" />
 		<h:outputScript name="js/jquery-1.10.2.js" />
@@ -45,19 +45,45 @@
 		<h:outputScript name="js/client/google-auth.js" />
 
 		<script>
+			function trataSucesso(response){
+				window.location = 'index.html';
+			}
+	
+			function trataErro(response){
+				console.log(response.status);
+
+				switch (response.status) {
+					case 412: 
+						$.each(response.responseJSON, function(index, value) {
+							console.log(value)
+						});
+						break;
+
+					case 403:
+						alert("x");
+				}
+			}
+
 			$(function(){
 				$("#login").click(function(){
+					var credentials = new Credentials();
+					credentials.email = $("#username").val();
+					credentials.password = $("#password").val();
+
 					var client = new AuthClient();
-					client.login($("#username").val(), $("#password").val());
+					client.login(credentials, trataSucesso, trataErro);
 				});
 		
 				$(document).keypress(function(e) {
 					if(e.which == 13) {
+						var credentials = new Credentials();
+						credentials.email = $("#username").val();
+						credentials.password = $("#password").val();
+
 						var client = new AuthClient();
-						client.login($("#username").val(), $("#password").val());
+						client.login(credentials, trataSucesso, trataErro);
 					}
 				});
-
 
 				$("#google-login").click(function(){
 					gapi.auth.signIn({

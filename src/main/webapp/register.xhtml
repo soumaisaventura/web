@@ -83,7 +83,7 @@
 			<!-- /.modal-dialog -->
 		</div>
 
-		<script src="api/entity/User.js"></script>
+		<script src="api/entity/Registration.js"></script>
 
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
@@ -106,21 +106,20 @@
 		}
     
 		$(function(){
-
 			$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
 
 			$("#salvar").click(function(){
 				$("[id$='message']").html("");
-				var user = new User();
-				var client = new RegisterClient("api");
 
-				user.fullName = $("#fullName").val();
-				user.password = $("#password").val();
-				user.email = $("#email").val();
-				user.birthday = $("#birthday").val();
-				
-				user.gender = $("#gender").val();
-				client.register(user, trataSucesso, trataErro);
+				var registration = new Registration();
+				registration.fullName = $("#fullName").val();
+				registration.password = $("#password").val();
+				registration.email = $("#email").val();
+				registration.birthday = $("#birthday").val();
+				registration.gender = $("#gender").val();
+
+				var client = new RegisterClient("api");
+				client.register(registration, trataSucesso, trataErro);
 			});
 		});
 		</script>
