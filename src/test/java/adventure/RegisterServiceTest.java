@@ -26,6 +26,7 @@ import test.Tests;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
+import adventure.rest.service.Registration;
 
 @RunWith(Arquillian.class)
 public class RegisterServiceTest {
@@ -49,18 +50,18 @@ public class RegisterServiceTest {
 		Date birthday = Tests.createDate(1980, 12, 18);
 		Gender gender = MALE;
 
-		User user;
+		Registration registration;
 
-		user = new User();
-		user.setFullName(fullName);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setBirthday(birthday);
-		user.setGender(gender);
-		Long id = registerClient.registrar(user);
+		registration = new Registration();
+		registration.setFullName(fullName);
+		registration.setEmail(email);
+		registration.setPassword(password);
+		registration.setBirthday(birthday);
+		registration.setGender(gender);
+		Long id = registerClient.register(registration);
 		assertNotNull(id);
 
-		user = perfilClient.obter(id);
+		User user = perfilClient.obter(id);
 		assertNotNull(user);
 		assertEquals(fullName, user.getFullName());
 		assertEquals(email, user.getEmail());
@@ -77,7 +78,7 @@ public class RegisterServiceTest {
 		RegisterClient registerClient = Tests.createRegisterClient(this.url);
 
 		try {
-			registerClient.registrar(new User());
+			registerClient.register(new Registration());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {

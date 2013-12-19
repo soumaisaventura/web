@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
@@ -36,13 +37,16 @@ public class RegisterService {
 	@POST
 	// TODO @NotLoggedIn
 	@Transactional
-	public Long register(@NotNull @Valid User usuario) throws Exception {
-		String password = usuario.getPassword();
-		usuario.setPassword(Hasher.digest(password));
-		Long result = dao.insert(usuario).getId();
+	public Long register(@NotNull @Valid Registration registration) throws Exception {
+		User user = new User();
+		BeanUtils.copyProperties(user, registration);
+
+		String password = user.getPassword();
+		user.setPassword(Hasher.digest(password));
+		Long result = dao.insert(user).getId();
 
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setEmail(usuario.getEmail());
+		credentials.setEmail(user.getEmail());
 		credentials.setPassword(password);
 
 		Beans.getReference(SecurityContext.class).login();

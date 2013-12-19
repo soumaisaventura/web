@@ -67,8 +67,10 @@ public final class Tests {
 		File[] libs = Maven.resolver().offline().loadPomFromFile("pom.xml", "arquillian-test")
 				.importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile();
 
-		return ShrinkWrap.create(WebArchive.class).addPackages(true, "adventure.entity")
-				.addPackages(true, "adventure.persistence").addPackages(true, "adventure.rest")
+		return ShrinkWrap.create(WebArchive.class)
+				.addPackages(true, "adventure.entity")
+				.addPackages(true, "adventure.persistence")
+				.addPackages(true, "adventure.rest")
 				.addPackages(true, "adventure.security")
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
@@ -77,7 +79,8 @@ public final class Tests {
 				.addAsResource(new File("src/main/resources/META-INF/persistence.xml"), "META-INF/persistence.xml")
 				.addAsResource(new File("src/main/resources/demoiselle.properties"))
 				.addAsResource(new File("src/main/resources/messages.properties"))
-				.addAsResource(new File("src/main/resources/ValidationMessages.properties")).addAsLibraries(libs);
+				.addAsResource(new File("src/main/resources/ValidationMessages.properties"))
+				.addAsLibraries(libs);
 	}
 
 	public static RegisterClient createRegisterClient(URL base) {

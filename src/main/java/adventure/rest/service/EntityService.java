@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
-import javax.persistence.Entity;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -33,7 +32,7 @@ public class EntityService implements Extension {
 	protected <T> void vetoCustomContexts(@Observes ProcessAnnotatedType<T> event) {
 		Class<T> type = event.getAnnotatedType().getJavaClass();
 
-		if (type.isAnnotationPresent(Entity.class)) {
+		if (type.isAnnotationPresent(JSEntity.class)) {
 			entities.put(type.getSimpleName(), type);
 		}
 	}
