@@ -2,26 +2,28 @@ var AuthClient = function AuthClient() {
 	this.url = "api/auth";
 };
 
-AuthClient.prototype.login = function(username, password) {
+AuthClient.prototype.login = function($credentials, $success, $error) {
 	$.ajax({
 		type : "POST",
 		url : this.url,
-		data : {
-			"username" : username,
-			"password" : password
+		contentType : "application/json;charset=utf8",
+		data : JSON.stringify($credentials),
+		dataType : "json",
+		success : function(response) {
+			if ($success) {
+				$success(response);
+			}
 		},
-		success : function() {
-			window.location = "index.jsf";
-		},
-		error : function() {
-			// $("#msg").text("Login e/ou Senha inválidos.");
-			alert("Erro de login ... ");
+		error : function(response) {
+			if ($error) {
+				$error(response);
+			}
 		}
 	});
 
 };
 
-AuthClient.prototype.logout = function() {
+AuthClient.prototype.logout = function($success, $error) {
 	$.ajax({
 		type : "DELETE",
 		url : this.url,

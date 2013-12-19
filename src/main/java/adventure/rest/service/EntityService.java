@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
@@ -59,9 +60,11 @@ public class EntityService implements Extension {
 		buffer.append("=function(){");
 
 		for (Field field : Reflections.getNonStaticFields(type)) {
-			buffer.append("this.");
-			buffer.append(field.getName());
-			buffer.append(";");
+			if (!field.isAnnotationPresent(JsonIgnore.class)) {
+				buffer.append("this.");
+				buffer.append(field.getName());
+				buffer.append(";");
+			}
 		}
 
 		buffer.append("};");
