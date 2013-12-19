@@ -7,8 +7,6 @@ $(function(e) {
 
 	var footable = $('#evento').footable().data('footable');
 	
-	console.log(footable);
-
 	$.ajax({
 		url : 'api/evento',
 		success : function(result) {
@@ -28,6 +26,8 @@ $(function(e) {
 				row += '</tr>';
 				footable.appendRow(row);
 			});
+			footable.redraw();
 		}
 	});
+
 });
