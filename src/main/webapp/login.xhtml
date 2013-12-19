@@ -1,31 +1,37 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
 	<ui:define name="body">
 
-		<div class="apollo">
-			<div class="apollo-container clearfix">
-				<h1>Adventure</h1>
-
-				<div class="apollo-login">
-					<button id="google-login">Logar com Google</button>
-
-					<p class="apollo-seperator">ou</p>
-
-					<form class="form-signin" id="apollo-login-form">
-						<div class="control-group">
-							<input id="username" type="text" class="form-control input-lg" placeholder="E-mail" />
-						</div>
-						<div class="control-group">
-							<input id="password" type="password" class="form-control input-lg" placeholder="Senha" />
-						</div>
-						<button id="login" class="btn btn-lg btn-block btn-default" type="button">Entrar</button>
-					</form>
-
-					<p class="apollo-register-account">
-						<a href="register.jsf" class="register-link">Precisa de uma conta? <strong>Registre-se aqui</strong></a> <br /> <a
-							href="recuperar-senha.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
-					</p>
+		<div class="container" style="margin-top: 70px;">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
+					<div class="panel-heading text-center">
+						<button type="button" class="btn btn-danger"><img src="images/google.png"/> <strong>Entrar com Google</strong></button>
+					  <button type="button" class="btn btn-primary"><img src="images/google.png"/> <strong>Entrar com Facebook</strong></button>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" role="form">
+							<p>
+								<label for="username">E-mail</label> <input id="username"
+									type="text" class="form-control input-lg" />
+							</p>
+							<p>
+								<label for="password">Senha</label> <input id="password"
+									type="password" class="form-control input-lg" />
+							</p>
+							<p>
+								<button id="login" class="btn btn-default " type="button">Entrar</button>
+							</p>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<a href="register.jsf" class="register-link">Precisa de uma conta? <strong>Registre-se aqui</strong></a> <br /> 
+					<a href="recuperar-senha.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
 				</div>
 			</div>
 		</div>
