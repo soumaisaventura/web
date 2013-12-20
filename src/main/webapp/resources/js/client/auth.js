@@ -8,7 +8,6 @@ AuthClient.prototype.login = function($credentials, $success, $error) {
 		url : this.url,
 		contentType : "application/json;charset=utf8",
 		data : JSON.stringify($credentials),
-		dataType : "json",
 		success : function(response) {
 			if ($success) {
 				$success(response);
@@ -18,9 +17,8 @@ AuthClient.prototype.login = function($credentials, $success, $error) {
 			if ($error) {
 				$error(response);
 			}
-		}
+		}		
 	});
-
 };
 
 // TODO Será que precisa dos parâmetros? Se sim, ajustar o successe e erro para ficar genérico similar ao login.
