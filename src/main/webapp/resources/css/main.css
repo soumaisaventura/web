@@ -8,90 +8,28 @@ body {
   padding-bottom: 40px;
 }
 
-.apollo {
-  margin: 0 auto;
-  max-width: 362px;
+.seperator:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 43%;
+	border-bottom: 1px solid #ccc;
 }
 
-.apollo .apollo-login .apollo-seperator:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 43%;
-  border-bottom: 1px solid #cccccc; 
+.seperator:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 0;
+	width: 43%;
+	border-bottom: 1px solid #ccc;
 }
 
-.apollo .apollo-login .apollo-seperator:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 43%;
-  border-bottom: 1px solid #cccccc;
-}
-
-.apollo a {
-  color: #444;
-}
-
-.apollo a:hover {
-  text-decoration: none;
-  color: #000;
-}
-
-.apollo .apollo-register-account {
-  text-align: center;
-  margin: 25px 0 0;
-}
-
-.apollo-seperator {
-  position: relative;
-  display: block;
-  margin: 0 0 20px 0;
-  text-align: center;
-  color: #666;
-}
-
-.apollo-container {
-  padding: 40px 30px 30px;
-}
-
-.apollo-container .btn-facebook {
-  margin-bottom: 20px;
-}
-
-.apollo-container form input[type="text"],
-.apollo-container form input[type="password"] {
-  font-size: 16px;
-  height: auto;
-  margin-bottom: 15px;
-  padding: 7px 9px;
-}
-
-.apollo-container .btn-facebook {
-  color: #FFFFFF;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #586B93;
-  background-image: -moz-linear-gradient(top, #7787a7, #586b93);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#7787a7), to(#586b93));
-  background-image: -webkit-linear-gradient(top, #7787a7, #586b93);
-  background-image: -o-linear-gradient(top, #7787a7, #586b93);
-  background-image: linear-gradient(to bottom, #7787a7, #586b93);
-  background-repeat: repeat-x;
-  border-color: #586B93;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7787A7', endColorstr='#586B93', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.apollo-container .btn-facebook:hover,
-.apollo-container .btn-facebook:active,
-.apollo-container .btn-facebook:focus,
-.apollo-container .btn-facebook.active,
-.apollo-container .btn-facebook.disabled,
-.apollo-container .btn-facebook[disabled] {
-  color: #FFFFFF;
-  background-color: #586B93;
+.seperator {
+	position: relative;
+	display: block;
+	margin: 0 0 20px 0;
+	text-align: center;
+	color: #666;
 }
