@@ -23,6 +23,7 @@ AuthClient.prototype.login = function($credentials, $success, $error) {
 
 };
 
+// TODO Será que precisa dos parâmetros? Se sim, ajustar o successe e erro para ficar genérico similar ao login.
 AuthClient.prototype.logout = function($success, $error) {
 	$.ajax({
 		type : "DELETE",

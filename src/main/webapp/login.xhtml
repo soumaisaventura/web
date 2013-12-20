@@ -43,23 +43,29 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+		<div class="modal fade" id="modal" tabindex="-1" role="dialog">
+			<div style="height:200px">
+      	<span id="spin" style="position: absolute; display: block; top: 50%;left: 50%;"></span>
+    	</div>
+		</div>
 
 		<script src="api/entity/Credentials.js" />
 
 		<h:outputScript name="js/client-plusone.js" />
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
+		<h:outputScript name="js/spin.js" />
 		<h:outputScript name="js/client/auth.js" />
 		<h:outputScript name="js/client/google-auth.js" />
 
 		<script>
+		
 			function trataSucesso(response){
-				window.location = 'index.html';
+				window.location = "index.jsf";
 			}
 	
 			function trataErro(response){
-				console.log(response.status);
+				console.log(response);
 
 				switch (response.status) {
 					case 412: 
@@ -103,8 +109,31 @@
 				});
 
 				$("#google-login").click(function(){
-					$('#myModal').modal('show');
-					gapi.auth.signIn({
+				$('#modal').modal('show');
+
+				var opts = {
+						  lines: 11, // The number of lines to draw
+						  length: 19, // The length of each line
+						  width: 10, // The line thickness
+						  radius: 22, // The radius of the inner circle
+						  corners: 1, // Corner roundness (0..1)
+						  rotate: 0, // The rotation offset
+						  direction: 1, // 1: clockwise, -1: counterclockwise
+						  color: '#fff', // #rgb or #rrggbb or array of colors
+						  speed: 1, // Rounds per second
+						  trail: 50, // Afterglow percentage
+						  shadow: false, // Whether to render a shadow
+						  hwaccel: true, // Whether to use hardware acceleration
+						  className: 'spinner', // The CSS class to assign to the spinner
+						  zIndex: 2e9, // The z-index (defaults to 2000000000)
+						  top: 'auto', // Top position relative to parent in px
+						  left: 'auto' // Left position relative to parent in px
+						};
+				var target = document.getElementById('spin');
+				var spinner = new Spinner(opts).spin(target);
+				
+					
+				gapi.auth.signIn({
 						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
 						'cookiepolicy': 'none',
 						'callback': 'onGoogleSignIn',
