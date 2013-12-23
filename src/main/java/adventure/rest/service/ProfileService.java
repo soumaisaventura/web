@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,6 +16,7 @@ import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
 @Path("/api/perfil")
@@ -28,6 +30,13 @@ public class ProfileService {
 	@Path("/{id}")
 	public User obter(@NotNull @PathParam("id") Long id) {
 		return dao.load(id);
+	}
+
+	@DELETE
+	@Path("/{id}")
+	@Transactional
+	public void excluir(@NotNull @PathParam("id") Long id) {
+		dao.delete(id);
 	}
 
 	@GET

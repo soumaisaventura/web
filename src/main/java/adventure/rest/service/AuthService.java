@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
+import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
 import adventure.persistence.ValidationException;
 import adventure.security.Credentials;
@@ -45,6 +46,9 @@ public class AuthService {
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			// TODO Mandar email
+
+			MailDAO mailDAO = Beans.getReference(MailDAO.class);
+			mailDAO.sendMail(persistedUser.getEmail());
 
 			String message = "Mensagem teste que vai ser bem extensa. Vai falar sobre mensagem enviada para o e-mail.";
 			response = Response.status(SC_FORBIDDEN).entity(message).build();
