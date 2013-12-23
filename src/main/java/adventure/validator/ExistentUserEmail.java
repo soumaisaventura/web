@@ -13,11 +13,11 @@ import javax.validation.Payload;
 @Constraint(validatedBy = UniqueUserEmailValidator.class)
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
-public @interface UniqueUserEmail {
+public @interface ExistentUserEmail {
 
 	Class<?>[] groups() default {};
 
-	String message() default "e-mail já associado a outra conta";
+	String message() default "e-mail não cadastrado";
 
 	Class<? extends Payload>[] payload() default {};
 }

@@ -1,0 +1,28 @@
+
+		...
+			
+		<subsystem xmlns="urn:jboss:domain:mail:1.0">
+
+			...
+
+			<mail-session jndi-name="java:/mail/Adventure">
+				<smtp-server ssl="true" outbound-socket-binding-ref="gmail-smtp">
+					<login name="SUA-CONTA@gmail.com" password="SUA-SENHA"/>
+				</smtp-server>
+			</mail-session>
+		</subsystem>
+
+		...
+
+		<subsystem xmlns="urn:jboss:domain:infinispan:1.3">
+
+			...
+
+			<cache-container name="adventure" jndi-name="java:/infinispan/Adventure">
+				<local-cache name="password-reset" start="EAGER">
+					<expiration max-idle="86400000" />
+				</local-cache>
+			</cache-container>
+		</subsystem>
+
+		...

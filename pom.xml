@@ -116,12 +116,26 @@
 			<artifactId>mail</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Cache dependencies -->
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<scope>provided</scope>
+		</dependency>  
+
+		<!-- EJB dependencies for Mail and Cache usages -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!--
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

@@ -33,13 +33,24 @@
 			validações: N/A
 
 		/reset
-			POST
+			GET
 				descrição: Solicita o reset do password
 				restricão: Não pode estar logado
 				params:
 					email
 				validações:
 					email: @NotEmpty @Email @{Conta existente}
+			POST
+				descrição: Efetua o reset do password
+				restricão: Não pode estar logado
+				params:
+					/{token}
+					email
+					newPassword
+				validações:
+					{token}: @NotEmpty
+					email: @NotEmpty @Email @{Conta existente}
+					newPassword: @NotEmpty
 
 	/register
 		POST

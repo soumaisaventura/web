@@ -35,7 +35,7 @@ public class Authenticator implements br.gov.frameworkdemoiselle.security.Authen
 		boolean result = false;
 
 		if (usuario != null) {
-			result = usuario.getPassword().equals(Hasher.digest(credentials.getPassword()));
+			result = usuario.getPassword().equals(Passwords.hash(credentials.getPassword()));
 		}
 
 		return result;

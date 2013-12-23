@@ -5,6 +5,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.naming.NamingException;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,7 +41,7 @@ public class ProfileService {
 	}
 
 	@GET
-	public List<User> obter() {
+	public List<User> obter() throws NamingException {
 		return dao.findAll();
 	}
 }

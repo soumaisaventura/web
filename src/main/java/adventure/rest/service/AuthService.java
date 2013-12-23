@@ -1,33 +1,41 @@
 package adventure.rest.service;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.infinispan.Cache;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
+import adventure.persistence.ContainerResources;
 import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
-import adventure.persistence.ValidationException;
 import adventure.security.Credentials;
+import adventure.security.Passwords;
+import adventure.validator.ExistentUserEmail;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.Strings;
 
 @ValidateRequest
 @Path("/api/auth")
@@ -38,25 +46,19 @@ public class AuthService {
 	private SecurityContext securityContext;
 
 	@POST
-	public Response login(@NotNull @Valid Credentials credentials) throws Exception {
+	public Response login(@NotNull @Valid Credentials credentials) throws MessagingException, IllegalAccessException,
+			InvocationTargetException {
 		Response response = null;
-
-		UserDAO dao = Beans.getReference(UserDAO.class);
-		User persistedUser = dao.loadByEmail(credentials.getEmail());
+		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(credentials.getEmail());
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
-			// TODO Mandar email
+			sendResetPasswordMail(persistedUser.getEmail());
 
-			MailDAO mailDAO = Beans.getReference(MailDAO.class);
-			mailDAO.sendMail(persistedUser.getEmail());
-
-			String message = "Mensagem teste que vai ser bem extensa. Vai falar sobre mensagem enviada para o e-mail.";
+			String message = "Você ainda não definiu uma senha para a sua conta. Siga as instruções no e-mail que acabamos de enviar para você.";
 			response = Response.status(SC_FORBIDDEN).entity(message).build();
 
 		} else {
-			BeanUtils.copyProperties(Beans.getReference(Credentials.class), credentials);
-			securityContext.login();
-
+			login(credentials.getEmail(), credentials.getPassword());
 			response = Response.ok().build();
 		}
 
@@ -79,25 +81,63 @@ public class AuthService {
 		return new User(securityContext.getUser());
 	}
 
-	@POST
+	@GET
 	@Path("/reset")
-	public Response check(@NotEmpty @Email @QueryParam("email") String email) {
-		ValidationException validation = new ValidationException();
+	public void requestPasswordReset(@NotEmpty @Email @ExistentUserEmail @QueryParam("email") String email)
+			throws MessagingException {
+		sendResetPasswordMail(email);
+	}
 
-		if (!Strings.isEmpty(email)) {
-			// validation.addViolation("email", "campo obrigatório");
-			// } else {
+	@POST
+	@Transactional
+	@Path("/reset/{token}")
+	public Response performPasswordReset(@NotEmpty @PathParam("token") String token,
+			@NotEmpty @Email @FormParam("email") String email, @NotEmpty @FormParam("newPassword") String newPassword)
+			throws MessagingException {
+		Response response = null;
+
+		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
+		String cachedToken = cache.get(email);
+
+		if (cachedToken == null || !cachedToken.equals(token)) {
+			sendResetPasswordMail(email);
+
+			// TODO Informar ao usuário que a solicitação é inválida e que uma nova mensagem foi enviada para seu
+			// e-mail.
+			// Solicitar para que ele siga as instruções enviados por e-mail.
+			String message = "ops...";
+			response = Response.status(SC_PRECONDITION_FAILED).entity(message).build();
+
+		} else {
 			UserDAO dao = Beans.getReference(UserDAO.class);
+			User persistedUser = dao.loadByEmail(email);
+			persistedUser.setPassword(Passwords.hash(newPassword));
+			dao.update(persistedUser);
 
-			if (dao.loadByEmail(email) == null) {
-				validation.addViolation(null, "e-mail inexistente");
-			}
+			login(email, newPassword);
+			response = Response.ok().build();
 		}
 
-		if (!validation.getConstraintViolations().isEmpty()) {
-			throw validation;
+		return response;
+	}
+
+	private void login(String email, String password) {
+		Credentials credentials = Beans.getReference(Credentials.class);
+		credentials.setEmail(email);
+		credentials.setPassword(password);
+
+		Beans.getReference(SecurityContext.class).login();
+	}
+
+	private void sendResetPasswordMail(String email) throws MessagingException {
+		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
+		String token = cache.get(email);
+
+		if (token == null) {
+			token = Passwords.randomToken();
+			cache.put(email, token);
 		}
 
-		return Response.ok().build();
+		Beans.getReference(MailDAO.class).sendResetPasswordMail(email, token);
 	}
 }

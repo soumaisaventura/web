@@ -19,7 +19,7 @@ import org.jboss.resteasy.spi.validation.ValidateRequest;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.security.Credentials;
-import adventure.security.Hasher;
+import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -42,16 +42,20 @@ public class RegisterService {
 		BeanUtils.copyProperties(user, registration);
 
 		String password = user.getPassword();
-		user.setPassword(Hasher.digest(password));
+		user.setPassword(Passwords.hash(password));
 		Long result = dao.insert(user).getId();
 
+		login(user.getEmail(), password);
+
+		return result;
+	}
+
+	private void login(String email, String password) {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setEmail(user.getEmail());
+		credentials.setEmail(email);
 		credentials.setPassword(password);
 
 		Beans.getReference(SecurityContext.class).login();
-
-		return result;
 	}
 
 	@DELETE

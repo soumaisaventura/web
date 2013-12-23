@@ -4,6 +4,7 @@
 
 	<deployment>
 		<dependencies>
+			<module name="org.infinispan" />
 			<module name="javax.mail.api" />
 			<!--
 			<module name="org.hibernate.validator" />
