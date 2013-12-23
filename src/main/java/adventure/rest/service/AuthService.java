@@ -109,6 +109,8 @@ public class AuthService {
 			response = Response.status(SC_PRECONDITION_FAILED).entity(message).build();
 
 		} else {
+			cache.remove(email);
+			
 			UserDAO dao = Beans.getReference(UserDAO.class);
 			User persistedUser = dao.loadByEmail(email);
 			persistedUser.setPassword(Passwords.hash(newPassword));
