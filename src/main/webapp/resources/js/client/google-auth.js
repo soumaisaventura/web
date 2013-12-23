@@ -4,11 +4,12 @@ var GoogleAuthClient = function GoogleAuthClient() {
 
 GoogleAuthClient.prototype.login = function(code) {
 	$("#form-login input").attr("disabled", true);
+
 	$.ajax({
 		type : "POST",
 		url : this.url,
 		data : "code=" + code,
-		processData: false,
+		processData : false,
 		success : function() {
 			gapi.auth.signOut();
 			window.location = "index.jsf";
@@ -17,6 +18,6 @@ GoogleAuthClient.prototype.login = function(code) {
 			console.log("login google failed");
 		}
 	});
-	$("#form-login input").attr("disabled", false);
 
+	$("#form-login input").attr("disabled", false);
 };

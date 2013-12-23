@@ -10,14 +10,14 @@ RegisterClient.prototype.register = function($user, $success, $error) {
 		contentType : "application/json;charset=utf8",
 		data : JSON.stringify($user),
 		dataType : "json",
-		success : function(response) {
+		success : function(data) {
 			if ($success) {
-				$success(response);
+				$success(data);
 			}
 		},
-		error : function(response) {
+		error : function(data) {
 			if ($error) {
-				$error(response);
+				$error(data);
 			}
 		}
 	});
@@ -28,14 +28,14 @@ RegisterClient.prototype.unregister = function($success, $error) {
 		type : "DELETE",
 		url : this.url,
 		dataType : "json",
-		success : function(response) {
+		success : function(data) {
 			if ($success) {
-				$success(response);
+				$success(data);
 			}
 		},
-		error : function(response) {
+		error : function(data) {
 			if ($error) {
-				$error(response);
+				$error(data);
 			}
 		}
 	});

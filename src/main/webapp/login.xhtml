@@ -21,17 +21,17 @@
 							<p>
 								<label for="email">E-mail</label>
 								<input id="email" type="text" class="form-control input-lg" />
-								<div id="email-message" class="label label-danger"></div>
+								<div id="email-message" class="label label-danger" />
 							</p>
 							<p>
 								<label for="password">Senha</label>
 								<input id="password" type="password" class="form-control input-lg" />
-								<div id="password-message" class="label label-danger"></div>
+								<div id="password-message" class="label label-danger" />
 							</p>
 							<p>
 								<button id="login" class="btn btn-lg btn-success " type="button">Entrar</button>
 							</p>
-							<div id="message" class="label label-danger"></div>
+							<div id="message" class="label label-danger" />
 						</form>
 					</div>
 					<div class="panel-footer text-center">
@@ -45,8 +45,8 @@
 		</div>
 		<div class="modal fade" id="modal" tabindex="-1" role="dialog">
 			<div style="height:200px">
-      	<span id="spin" style="position: absolute; display: block; top: 50%;left: 50%;"></span>
-    	</div>
+      			<span id="spin" style="position: absolute; display: block; top: 50%;left: 50%;"></span>
+    		</div>
 		</div>
 
 		<script src="api/entity/Credentials.js" />
@@ -59,17 +59,14 @@
 		<h:outputScript name="js/client/google-auth.js" />
 
 		<script>
-		
-			function trataSucesso(response){
+			function trataSucesso(data){
 				window.location = "index.jsf";
 			}
 	
-			function trataErro(response){
-				console.log(response);
-
-				switch (response.status) {
+			function trataErro(data){
+				switch (data.status) {
 					case 412: 
-						$.each(response.responseJSON, function(index, value) {
+						$.each(data.responseJSON, function(index, value) {
 							console.log(value.property + ":" + value.message);
 							$("#" + value.property + "-message").html(value.message);
 						});
@@ -79,7 +76,7 @@
 						$("#message").html("Acesso não autorizado.");
 						break;
 					case 403:
-						$("#message").html("Acesso não permitido.");
+						$("#message").html(data.responseText);
 						break;
 				}
 			}
@@ -132,10 +129,9 @@
 				var target = document.getElementById('spin');
 				var spinner = new Spinner(opts).spin(target);
 				
-					
 				gapi.auth.signIn({
 						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
-						'cookiepolicy': 'none',
+						'cookiepolicy': 'single_host_origin',
 						'callback': 'onGoogleSignIn',
 						'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' 
 					});
@@ -144,8 +140,6 @@
 
 			function onGoogleSignIn(authResult) {
 				if (authResult['access_token']) {
-					console.log(authResult.code);
-
 					var client = new GoogleAuthClient();
 					client.login(authResult.code);
 

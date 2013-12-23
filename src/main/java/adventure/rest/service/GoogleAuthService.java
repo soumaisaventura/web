@@ -3,6 +3,7 @@ package adventure.rest.service;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 import javax.ws.rs.FormParam;
@@ -19,6 +20,7 @@ import adventure.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Reflections;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -49,34 +51,31 @@ public class GoogleAuthService {
 
 		if (persistedUser == null) {
 			dao.insert(googleUser);
-
-			Credentials credentials = Beans.getReference(Credentials.class);
-			credentials.setEmail(googleUser.getEmail());
-			credentials.setOauth(true);
-
-			Beans.getReference(SecurityContext.class).login();
+			login(googleUser);
 
 		} else {
-			if (persistedUser.getFullName() == null) {
-				persistedUser.setFullName(googleUser.getFullName());
-			}
-
-			if (persistedUser.getBirthday() == null) {
-				persistedUser.setBirthday(googleUser.getBirthday());
-			}
-
-			if (persistedUser.getGender() == null) {
-				persistedUser.setGender(googleUser.getGender());
-			}
-
-			dao.update(persistedUser);
-
-			Credentials credentials = Beans.getReference(Credentials.class);
-			credentials.setEmail(googleUser.getEmail());
-			credentials.setOauth(true);
-
-			Beans.getReference(SecurityContext.class).login();
+			updateInfo(googleUser, persistedUser);
+			login(googleUser);
 		}
+	}
+
+	private void updateInfo(User from, User to) throws IllegalArgumentException, IllegalAccessException {
+		for (Field field : Reflections.getNonStaticFields(to.getClass())) {
+			if (Reflections.getFieldValue(field, to) == null) {
+				Object value = Reflections.getFieldValue(field, from);
+				Reflections.setFieldValue(field, to, value);
+			}
+		}
+
+		dao.update(to);
+	}
+
+	private void login(User googleUser) {
+		Credentials credentials = Beans.getReference(Credentials.class);
+		credentials.setEmail(googleUser.getEmail());
+		credentials.setOauth(true);
+
+		Beans.getReference(SecurityContext.class).login();
 	}
 
 	private User getUserInfo(String code) throws IOException {

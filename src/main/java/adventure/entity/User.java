@@ -3,7 +3,6 @@ package adventure.entity;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,12 +50,8 @@ public class User {
 	}
 
 	public User(Userinfo userInfo) {
-
-		try {
-			System.out.println("xxxxxxxxxxx : " + userInfo.toPrettyString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!userInfo.getVerifiedEmail()) {
+			throw new IllegalStateException("O e-mail não foi verificado");
 		}
 
 		this.fullName = userInfo.getName();

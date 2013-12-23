@@ -2,6 +2,8 @@ package adventure.rest.service;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
@@ -26,5 +28,10 @@ public class ProfileService {
 	@Path("/{id}")
 	public User obter(@NotNull @PathParam("id") Long id) {
 		return dao.load(id);
+	}
+
+	@GET
+	public List<User> obter() {
+		return dao.findAll();
 	}
 }

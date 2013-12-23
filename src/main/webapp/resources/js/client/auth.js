@@ -8,14 +8,14 @@ AuthClient.prototype.login = function($credentials, $success, $error) {
 		url : this.url,
 		contentType : "application/json;charset=utf8",
 		data : JSON.stringify($credentials),
-		success : function(response) {
+		success : function(data) {
 			if ($success) {
-				$success(response);
+				$success(data);
 			}
 		},
-		error : function(response) {
+		error : function(data) {
 			if ($error) {
-				$error(response);
+				$error(data);
 			}
 		}		
 	});
