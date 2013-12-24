@@ -26,3 +26,12 @@
 		</subsystem>
 
 		...
+
+		<socket-binding-group name="standard-sockets" default-interface="public" port-offset="0">
+
+			...
+
+			<outbound-socket-binding name="gmail-smtp" source-port="0" fixed-source-port="false">
+				<remote-destination host="smtp.gmail.com" port="465"/>
+			</outbound-socket-binding>
+		</socket-binding-group>
