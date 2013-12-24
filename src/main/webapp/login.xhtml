@@ -60,6 +60,43 @@
 		<h:outputScript name="js/client/google-auth.js" />
 
 		<script>
+			function performLogin() {
+				var credentials = new Credentials();
+				credentials.email = $("#email").val();
+				credentials.password = $("#password").val();
+
+				var client = new AuthClient();
+				client.login(credentials, onLoginSuccessful, onLoginFailed);
+			}
+
+			function showModal() {
+				$('#modal').modal('show');
+				var opts = {
+						  lines: 11, // The number of lines to draw
+						  length: 19, // The length of each line
+						  width: 10, // The line thickness
+						  radius: 22, // The radius of the inner circle
+						  corners: 1, // Corner roundness (0..1)
+						  rotate: 0, // The rotation offset
+						  direction: 1, // 1: clockwise, -1: counterclockwise
+						  color: '#fff', // #rgb or #rrggbb or array of colors
+						  speed: 1, // Rounds per second
+						  trail: 50, // Afterglow percentage
+						  shadow: false, // Whether to render a shadow
+						  hwaccel: true, // Whether to use hardware acceleration
+						  className: 'spinner', // The CSS class to assign to the spinner
+						  zIndex: 2e9, // The z-index (defaults to 2000000000)
+						  top: 'auto', // Top position relative to parent in px
+						  left: 'auto' // Left position relative to parent in px
+						};
+				var target = document.getElementById('spin');
+				var spinner = new Spinner(opts).spin(target);
+			}
+
+			function hideModal() {
+				$('#modal').modal('hide');
+			}
+		
 			function onLoginSuccessful(data){
 				window.location = "index.jsf";
 			}
@@ -103,81 +140,30 @@
 			$(function(){
 				$("#login").click(function(){
 					$("[id$='message']").html("");
-					
-					var credentials = new Credentials();
-					credentials.email = $("#email").val();
-					credentials.password = $("#password").val();
-
-					var client = new AuthClient();
-					client.login(credentials, onLoginSuccessful, onLoginFailed);
+					performLogin();
 				});
 		
 				$(document).keypress(function(e) {
 					if(e.which == 13) {
-						var credentials = new Credentials();
-						credentials.email = $("#email").val();
-						credentials.password = $("#password").val();
-
-						var client = new AuthClient();
-						client.login(credentials, onLoginSuccessful, onLoginFailed);
+						performLogin();
 					}
 				});
 
 				$("#facebook-login").click(function(){
-					$('#modal').modal('show');
-					var opts = {
-							  lines: 11, // The number of lines to draw
-							  length: 19, // The length of each line
-							  width: 10, // The line thickness
-							  radius: 22, // The radius of the inner circle
-							  corners: 1, // Corner roundness (0..1)
-							  rotate: 0, // The rotation offset
-							  direction: 1, // 1: clockwise, -1: counterclockwise
-							  color: '#fff', // #rgb or #rrggbb or array of colors
-							  speed: 1, // Rounds per second
-							  trail: 50, // Afterglow percentage
-							  shadow: false, // Whether to render a shadow
-							  hwaccel: true, // Whether to use hardware acceleration
-							  className: 'spinner', // The CSS class to assign to the spinner
-							  zIndex: 2e9, // The z-index (defaults to 2000000000)
-							  top: 'auto', // Top position relative to parent in px
-							  left: 'auto' // Left position relative to parent in px
-							};
-					var target = document.getElementById('spin');
-					var spinner = new Spinner(opts).spin(target);
+					showModal();
 
 					FB.init({
 						appId	: '548688288560242',
-						status	: true, // check login status
-						cookie	: true, // enable cookies to allow the server to access the session
-						xfbml	: true  // parse XFBML
+						status	: true,
+						cookie	: true,
+						xfbml	: true
 					});
 
 					FB.login(onFacebookSignIn, {scope: 'email,user_birthday'});
 				});
 
 				$("#google-login").click(function(){
-					$('#modal').modal('show');
-					var opts = {
-							  lines: 11, // The number of lines to draw
-							  length: 19, // The length of each line
-							  width: 10, // The line thickness
-							  radius: 22, // The radius of the inner circle
-							  corners: 1, // Corner roundness (0..1)
-							  rotate: 0, // The rotation offset
-							  direction: 1, // 1: clockwise, -1: counterclockwise
-							  color: '#fff', // #rgb or #rrggbb or array of colors
-							  speed: 1, // Rounds per second
-							  trail: 50, // Afterglow percentage
-							  shadow: false, // Whether to render a shadow
-							  hwaccel: true, // Whether to use hardware acceleration
-							  className: 'spinner', // The CSS class to assign to the spinner
-							  zIndex: 2e9, // The z-index (defaults to 2000000000)
-							  top: 'auto', // Top position relative to parent in px
-							  left: 'auto' // Left position relative to parent in px
-							};
-					var target = document.getElementById('spin');
-					var spinner = new Spinner(opts).spin(target);
+					showModal();
 
 					gapi.auth.signIn({
 						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
@@ -191,27 +177,22 @@
 			function onFacebookSignIn(response) {
 				if (response.authResponse) {
 					$("#form-login input").attr("disabled", true);
-
 					var client = new FacebookAuthClient();
 					client.login(response.authResponse.accessToken, onFacebookLoginSuccessful, onFacebookLoginFailed);
 
-					$("#form-login input").attr("disabled", false);
 			    } else {
-					console.log("nada!!!");
+			    	hideModal();
 			    }
 			}
 
 			function onGoogleSignIn(authResult) {
 				if (authResult['access_token']) {
 					$("#form-login input").attr("disabled", true);
-					
 					var client = new GoogleAuthClient();
 					client.login(authResult.code, onGoogleLoginSuccessful, onGoogleLoginFailed);
 
-					$("#form-login input").attr("disabled", false);
-
 				} else if (authResult['error']) {
-					console.log("nada!!!");
+			    	//hideModal();
 				}
 			}
 		</script>
