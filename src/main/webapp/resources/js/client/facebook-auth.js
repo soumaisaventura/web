@@ -1,8 +1,8 @@
-var GoogleAuthClient = function GoogleAuthClient() {
-	this.url = "api/auth/google";
+var FacebookAuthClient = function FacebookAuthClient() {
+	this.url = "api/auth/facebook";
 };
 
-GoogleAuthClient.prototype.login = function(code, $successCallback, $errorCallback) {
+FacebookAuthClient.prototype.login = function(code, $successCallback, $errorCallback) {
 	$.ajax({
 		type : "POST",
 		url : this.url,

@@ -2,20 +2,20 @@ var AuthClient = function AuthClient() {
 	this.url = "api/auth";
 };
 
-AuthClient.prototype.login = function($credentials, $success, $error) {
+AuthClient.prototype.login = function($credentials, $successCallback, $errorCallback) {
 	$.ajax({
 		type : "POST",
 		url : this.url,
 		contentType : "application/json;charset=utf8",
 		data : JSON.stringify($credentials),
 		success : function(data) {
-			if ($success) {
-				$success(data);
+			if ($successCallback) {
+				$successCallback(data);
 			}
 		},
 		error : function(data) {
-			if ($error) {
-				$error(data);
+			if ($errorCallback) {
+				$errorCallback(data);
 			}
 		}		
 	});
