@@ -8,4 +8,5 @@
 /.DS_Store
 /src/main/resources/client_secrets.json
 /src/main/webapp/WEB-INF/lib
+/src/main/webapp/WEB-INF/.faces-config.xml.jsfdia
 /target

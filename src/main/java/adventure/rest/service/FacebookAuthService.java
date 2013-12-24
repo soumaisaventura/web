@@ -35,10 +35,6 @@ import br.gov.frameworkdemoiselle.util.Reflections;
 @Produces(APPLICATION_JSON)
 public class FacebookAuthService {
 
-	// private static HttpTransport TRANSPORT = new NetHttpTransport();
-	//
-	// private static JacksonFactory FACTORY = new JacksonFactory();
-
 	@Inject
 	private UserDAO dao;
 
