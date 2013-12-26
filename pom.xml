@@ -167,7 +167,7 @@
 		</dependency>
 		-->
 		
-		<!-- Authentication dependencies -->
+		<!-- OAuth2 dependencies -->
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-oauth2</artifactId>

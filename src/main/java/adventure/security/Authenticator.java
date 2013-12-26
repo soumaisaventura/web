@@ -14,10 +14,6 @@ public class Authenticator implements br.gov.frameworkdemoiselle.security.Authen
 
 	private br.gov.frameworkdemoiselle.security.User user;
 
-	// Google
-	// token:
-	// state (opcional):
-
 	@Override
 	public void authenticate() throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);

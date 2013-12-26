@@ -81,6 +81,12 @@ public class GoogleAuthService {
 	private User getUserInfo(String code) throws IOException {
 		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
 		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
+		// String redirectURI = "http://localhost:8080";
+		// String grantType = "authorization_code";
+
+		// GoogleClient googleClient = ProxyFactory.create(GoogleClient.class, "https://accounts.google.com");
+		// Token token = googleClient.exchangeForToken(code.split("\\.")[0], clientId, clientSecret, redirectURI,
+		// grantType);
 
 		GoogleTokenResponse response = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, FACTORY, clientId,
 				clientSecret, code, "postmessage").execute();
@@ -91,4 +97,48 @@ public class GoogleAuthService {
 
 		return new User(userInfo);
 	}
+
+	// @Path("/o/oauth2")
+	// @Consumes(APPLICATION_JSON)
+	// interface GoogleClient {
+	//
+	// @POST
+	// @Path("/token")
+	// Token exchangeForToken(@FormParam("code") String code, @FormParam("client_id") String clientId,
+	// @FormParam("client_secret") String clientSecret, @FormParam("redirect_uri") String redirectURI,
+	// @FormParam("grant_type") String grantType);
+	// }
+	//
+	// class Token {
+	//
+	// private String access_token;
+	//
+	// private long expires_in;
+	//
+	// private String token_type;
+	//
+	// public String getAccess_token() {
+	// return access_token;
+	// }
+	//
+	// public void setAccess_token(String access_token) {
+	// this.access_token = access_token;
+	// }
+	//
+	// public long getExpires_in() {
+	// return expires_in;
+	// }
+	//
+	// public void setExpires_in(long expires_in) {
+	// this.expires_in = expires_in;
+	// }
+	//
+	// public String getToken_type() {
+	// return token_type;
+	// }
+	//
+	// public void setToken_type(String token_type) {
+	// this.token_type = token_type;
+	// }
+	// }
 }
