@@ -21,6 +21,25 @@ AuthClient.prototype.login = function($credentials, $successCallback, $errorCall
 	});
 };
 
+AuthClient.prototype.requestPasswordReset = function($email, $successCallback, $errorCallback) {
+	$.ajax({
+		type : "POST",
+		url : this.url + "/reset",
+		contentType : "application/json;charset=utf8",
+		data : JSON.stringify({"email": $email}),
+		success : function(data) {
+			if ($successCallback) {
+				$successCallback(data);
+			}
+		},
+		error : function(data) {
+			if ($errorCallback) {
+				$errorCallback(data);
+			}
+		}		
+	});	
+};
+
 // TODO Será que precisa dos parâmetros? Se sim, ajustar o successe e erro para ficar genérico similar ao login.
 AuthClient.prototype.logout = function($success, $error) {
 	$.ajax({

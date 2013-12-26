@@ -20,8 +20,11 @@ public class ValidationExceptionMapper implements ExceptionMapper<javax.validati
 
 		if (exception instanceof MethodConstraintViolationException) {
 			validation = ValidationException.parse((MethodConstraintViolationException) exception);
-		} else {
+		} else if (exception instanceof ValidationException) {
 			validation = ((ValidationException) exception);
+		} else {
+			System.out.println(exception.getClass().getName());
+			exception.printStackTrace();
 		}
 
 		return Response.status(SC_PRECONDITION_FAILED).entity(validation.getConstraintViolations()).build();

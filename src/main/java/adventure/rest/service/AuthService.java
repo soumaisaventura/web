@@ -17,7 +17,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.hibernate.validator.constraints.Email;
@@ -81,11 +80,10 @@ public class AuthService {
 		return new User(securityContext.getUser());
 	}
 
-	@GET
+	@POST
 	@Path("/reset")
-	public void requestPasswordReset(@NotEmpty @Email @ExistentUserEmail @QueryParam("email") String email)
-			throws MessagingException {
-		sendResetPasswordMail(email);
+	public void requestPasswordReset(@NotNull @Valid PasswordReset passwordReset) throws MessagingException {
+		sendResetPasswordMail(passwordReset.getEmail());
 	}
 
 	@POST
@@ -110,7 +108,7 @@ public class AuthService {
 
 		} else {
 			cache.remove(email);
-			
+
 			UserDAO dao = Beans.getReference(UserDAO.class);
 			User persistedUser = dao.loadByEmail(email);
 			persistedUser.setPassword(Passwords.hash(newPassword));
@@ -141,5 +139,21 @@ public class AuthService {
 		}
 
 		Beans.getReference(MailDAO.class).sendResetPasswordMail(email, token);
+	}
+
+	static class PasswordReset {
+
+		@Email
+		@NotEmpty
+		@ExistentUserEmail
+		private String email;
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
 	}
 }

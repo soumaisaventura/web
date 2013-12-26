@@ -27,7 +27,7 @@ import test.Tests;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
-import adventure.rest.service.Registration;
+import adventure.rest.service.RegisterService.Registration;
 
 @RunWith(Arquillian.class)
 public class RegisterServiceTest {

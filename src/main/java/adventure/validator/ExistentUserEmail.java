@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Constraint(validatedBy = UniqueUserEmailValidator.class)
+@Constraint(validatedBy = ExistentUserEmailValidator.class)
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
 public @interface ExistentUserEmail {
