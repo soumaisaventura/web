@@ -10,6 +10,7 @@ $(function(e) {
 	$.ajax({
 		url : 'api/evento',
 		success : function(result) {
+			console.log(result);
 			$.each(result, function(idx, obj) {
 				var row = '<tr>';
 				$.each(obj, function(key, value) {
@@ -21,7 +22,7 @@ $(function(e) {
 					}
 				});
 				row += '<td><img src="images/orienteering.png" title="Orientação"/> <img src="images/mountainbiking.png" title="Mountain Bike"/></td>';
-				row += '<td><button type="button" class="btn btn-sm btn-info">Detalhes</button></td>'
+				row += '<td><button type="button" class="btn btn-sm btn-info">Detalhes</button></td>';
 				row += '<td><button type="button" class="btn btn-sm btn-success">Inscrição</button></td>';
 				row += '</tr>';
 				footable.appendRow(row);
