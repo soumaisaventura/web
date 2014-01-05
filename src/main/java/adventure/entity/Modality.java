@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import adventure.rest.service.JSEntity;
 
 @Entity
 @JSEntity

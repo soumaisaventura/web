@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.Gender;
+import adventure.entity.JSEntity;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.security.Credentials;

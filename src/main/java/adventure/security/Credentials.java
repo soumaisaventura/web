@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.rest.service.JSEntity;
+import adventure.entity.JSEntity;
 
 @JSEntity
 @RequestScoped
