@@ -43,7 +43,7 @@ public class SignUpServiceTest {
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
 		SignUpClient signUpClient = Tests.createSignUpClient(this.url);
-		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
+		ProfileClient profileClient = Tests.createPerfilClient(this.url);
 
 		String fullName = "User Full Name";
 		String email = Tests.generateRandomEmail();
@@ -62,7 +62,7 @@ public class SignUpServiceTest {
 		Long id = signUpClient.signup(signUpForm);
 		assertNotNull(id);
 
-		User user = perfilClient.obter(id);
+		User user = profileClient.load(id);
 		assertNotNull(user);
 		assertEquals(fullName, user.getFullName());
 		assertEquals(email, user.getEmail());
@@ -70,7 +70,7 @@ public class SignUpServiceTest {
 		assertEquals(gender, user.getGender());
 
 		signUpClient.desregistrar();
-		user = perfilClient.obter(id);
+		user = profileClient.load(id);
 		assertNull(user);
 	}
 

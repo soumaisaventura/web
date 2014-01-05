@@ -20,7 +20,7 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
-@Path("/api/perfil")
+@Path("/api/profile")
 @Produces(APPLICATION_JSON)
 public class ProfileService {
 
@@ -29,14 +29,14 @@ public class ProfileService {
 
 	@GET
 	@Path("/{id}")
-	public User obter(@NotNull @PathParam("id") Long id) {
+	public User load(@NotNull @PathParam("id") Long id) {
 		return dao.load(id);
 	}
 
 	@DELETE
 	@Path("/{id}")
 	@Transactional
-	public void excluir(@NotNull @PathParam("id") Long id) {
+	public void delete(@NotNull @PathParam("id") Long id) {
 		dao.delete(id);
 	}
 

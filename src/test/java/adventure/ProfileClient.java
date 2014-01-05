@@ -11,9 +11,9 @@ import adventure.entity.User;
 
 @Path("/api/perfil")
 @Consumes(APPLICATION_JSON)
-public interface PerfilClient {
+public interface ProfileClient {
 
 	@GET
 	@Path("/{id}")
-	public User obter(@PathParam("id") Long id);
+	public User load(@PathParam("id") Long id);
 }
