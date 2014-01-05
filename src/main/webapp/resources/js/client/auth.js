@@ -21,12 +21,12 @@ AuthClient.prototype.login = function($credentials, $successCallback, $errorCall
 	});
 };
 
-AuthClient.prototype.requestPasswordReset = function($email, $successCallback, $errorCallback) {
+AuthClient.prototype.requestPasswordReset = function($form, $successCallback, $errorCallback) {
 	$.ajax({
 		type : "POST",
 		url : this.url + "/reset",
 		contentType : "application/json;charset=utf8",
-		data : JSON.stringify({"email": $email}),
+		data : JSON.stringify($form),
 		success : function(data) {
 			if ($successCallback) {
 				$successCallback(data);

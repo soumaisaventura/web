@@ -11,7 +11,6 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -82,23 +81,22 @@ public class AuthService {
 
 	@POST
 	@Path("/reset")
-	public void requestPasswordReset(@NotNull @Valid PasswordReset passwordReset) throws MessagingException {
-		sendResetPasswordMail(passwordReset.getEmail());
+	public void requestPasswordReset(@NotNull @Valid ResetRequestForm form) throws MessagingException {
+		sendResetPasswordMail(form.getEmail());
 	}
 
 	@POST
 	@Transactional
 	@Path("/reset/{token}")
 	public Response performPasswordReset(@NotEmpty @PathParam("token") String token,
-			@NotEmpty @Email @FormParam("email") String email, @NotEmpty @FormParam("newPassword") String newPassword)
-			throws MessagingException {
+			@NotNull @Valid ResetPerformForm form) throws MessagingException {
 		Response response = null;
 
 		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
-		String cachedToken = cache.get(email);
+		String cachedToken = cache.get(form.getEmail());
 
 		if (cachedToken == null || !cachedToken.equals(token)) {
-			sendResetPasswordMail(email);
+			sendResetPasswordMail(form.getEmail());
 
 			// TODO Informar ao usuário que a solicitação é inválida e que uma nova mensagem foi enviada para seu
 			// e-mail.
@@ -107,14 +105,14 @@ public class AuthService {
 			response = Response.status(SC_PRECONDITION_FAILED).entity(message).build();
 
 		} else {
-			cache.remove(email);
+			cache.remove(form.getEmail());
 
 			UserDAO dao = Beans.getReference(UserDAO.class);
-			User persistedUser = dao.loadByEmail(email);
-			persistedUser.setPassword(Passwords.hash(newPassword));
+			User persistedUser = dao.loadByEmail(form.getEmail());
+			persistedUser.setPassword(Passwords.hash(form.getNewPassword()));
 			dao.update(persistedUser);
 
-			login(email, newPassword);
+			login(form.getEmail(), form.getNewPassword());
 			response = Response.ok().build();
 		}
 
@@ -141,7 +139,8 @@ public class AuthService {
 		Beans.getReference(MailDAO.class).sendResetPasswordMail(email, token);
 	}
 
-	static class PasswordReset {
+	@JSEntity
+	static class ResetRequestForm {
 
 		@Email
 		@NotEmpty
@@ -154,6 +153,34 @@ public class AuthService {
 
 		public void setEmail(String email) {
 			this.email = email;
+		}
+	}
+
+	@JSEntity
+	static class ResetPerformForm {
+
+		@Email
+		@NotEmpty
+		@ExistentUserEmail
+		private String email;
+
+		@NotEmpty
+		private String newPassword;
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getNewPassword() {
+			return newPassword;
+		}
+
+		public void setNewPassword(String newPassword) {
+			this.newPassword = newPassword;
 		}
 	}
 }

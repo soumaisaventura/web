@@ -27,6 +27,8 @@
 			</form>
 		</div>
 
+		<script src="api/entity/ResetRequestForm.js"></script>
+
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/client/auth.js" />
 
@@ -62,8 +64,11 @@
 				$("#message").hide();
 			
 				$("#reset").click(function(){
+					var form = new ResetRequestForm();
+					form.email = $("#email").val();
+					
 					var client = new AuthClient();
-					client.requestPasswordReset($("#email").val(), trataSucesso, trataErro);
+					client.requestPasswordReset(form, trataSucesso, trataErro);
 				});
 			});
 		</script>

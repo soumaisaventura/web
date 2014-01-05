@@ -15,5 +15,5 @@ public interface PerfilClient {
 
 	@GET
 	@Path("/{id}")
-	User obter(@PathParam("id") Long id);
+	public User obter(@PathParam("id") Long id);
 }

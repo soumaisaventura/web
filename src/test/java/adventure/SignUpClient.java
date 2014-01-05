@@ -14,8 +14,8 @@ import adventure.rest.service.SignUpService.SignUpForm;
 public interface SignUpClient {
 
 	@POST
-	Long register(SignUpForm signUpForm);
+	public Long signup(SignUpForm form);
 
 	@DELETE
-	Long desregistrar();
+	public Long desregistrar();
 }

@@ -30,7 +30,7 @@ import adventure.persistence.ValidationException.Violation;
 import adventure.rest.service.SignUpService.SignUpForm;
 
 @RunWith(Arquillian.class)
-public class RegisterServiceTest {
+public class SignUpServiceTest {
 
 	@ArquillianResource
 	private URL url;
@@ -42,7 +42,7 @@ public class RegisterServiceTest {
 
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
-		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
+		SignUpClient signUpClient = Tests.createSignUpClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
 		String fullName = "User Full Name";
@@ -59,7 +59,7 @@ public class RegisterServiceTest {
 		signUpForm.setPassword(password);
 		signUpForm.setBirthday(birthday);
 		signUpForm.setGender(gender);
-		Long id = SignUpClient.register(signUpForm);
+		Long id = signUpClient.signup(signUpForm);
 		assertNotNull(id);
 
 		User user = perfilClient.obter(id);
@@ -69,7 +69,7 @@ public class RegisterServiceTest {
 		// assertEquals(nascimento, usuario.getNascimento());
 		assertEquals(gender, user.getGender());
 
-		SignUpClient.desregistrar();
+		signUpClient.desregistrar();
 		user = perfilClient.obter(id);
 		assertNull(user);
 	}
@@ -79,7 +79,7 @@ public class RegisterServiceTest {
 		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
 
 		try {
-			SignUpClient.register(new SignUpForm());
+			SignUpClient.signup(new SignUpForm());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
@@ -111,10 +111,10 @@ public class RegisterServiceTest {
 		signUpForm.setGender(FEMALE);
 
 		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
-		SignUpClient.register(signUpForm);
+		SignUpClient.signup(signUpForm);
 
 		try {
-			SignUpClient.register(signUpForm);
+			SignUpClient.signup(signUpForm);
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
