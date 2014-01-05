@@ -92,36 +92,36 @@
 		<h:outputScript name="js/client/signup.js" />
 
 		<script>
-		function trataSucesso(data){
-			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
-				window.location = 'index.html';
-			})
-		}
-
-		function trataErro(data){
-			$.each(data.responseJSON, function(index, value) {
-				$("#" + value.property + "-message").html(value.message);
-				$("#" + value.property).focus();
+			function trataSucesso(data){
+				$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
+					window.location = 'index.html';
+				})
+			}
+	
+			function trataErro(data){
+				$.each(data.responseJSON, function(index, value) {
+					$("#" + value.property + "-message").html(value.message);
+					$("#" + value.property).focus();
+				});
+			}
+	    
+			$(function(){
+				$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
+	
+				$("#salvar").click(function(){
+					$("[id$='message']").html("");
+	
+					var form = new SignUpForm();
+					form.fullName = $("#fullName").val();
+					form.password = $("#password").val();
+					form.email = $("#email").val();
+					form.birthday = $("#birthday").val();
+					form.gender = $("#gender").val();
+	
+					var client = new SignUpClient("api");
+					client.signup(form, trataSucesso, trataErro);
+				});
 			});
-		}
-    
-		$(function(){
-			$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
-
-			$("#salvar").click(function(){
-				$("[id$='message']").html("");
-
-				var form = new SignUpForm();
-				form.fullName = $("#fullName").val();
-				form.password = $("#password").val();
-				form.email = $("#email").val();
-				form.birthday = $("#birthday").val();
-				form.gender = $("#gender").val();
-
-				var client = new SignUpClient("api");
-				client.signup(form, trataSucesso, trataErro);
-			});
-		});
 		</script>
 	</ui:define>
 </ui:composition>

@@ -69,7 +69,7 @@ public class SignUpServiceTest {
 		// assertEquals(nascimento, usuario.getNascimento());
 		assertEquals(gender, user.getGender());
 
-		signUpClient.desregistrar();
+		signUpClient.quit();
 		user = profileClient.load(id);
 		assertNull(user);
 	}

@@ -1,9 +1,9 @@
 package adventure.persistence;
 
-import adventure.entity.Evento;
+import adventure.entity.Event;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
-public class EventoDAO extends JPACrud<Evento, Long> {
+public class EventDAO extends JPACrud<Event, Long> {
 
 	private static final long serialVersionUID = 1L;
 }

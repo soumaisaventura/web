@@ -14,43 +14,43 @@ import javax.ws.rs.Produces;
 
 import org.jboss.resteasy.spi.validation.ValidateRequest;
 
-import adventure.entity.Evento;
-import adventure.persistence.EventoDAO;
+import adventure.entity.Event;
+import adventure.persistence.EventDAO;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
-@Path("/api/evento")
+@Path("/api/event")
 @Produces(APPLICATION_JSON)
 public class EventService {
 
 	@Inject
-	private EventoDAO dao;
+	private EventDAO dao;
 
 	@GET
-	public List<Evento> search() {
+	public List<Event> search() {
 		return dao.findAll();
 	}
 
 	@Startup
 	@Transactional
-	public void cargarTemporariaInicial() throws MalformedURLException {
+	public void loadTempData() throws MalformedURLException {
 		if (dao.findAll().isEmpty()) {
-			Evento evento;
+			Event event;
 
-			evento = new Evento();
-			evento.setNome("Desafio dos Sertões 2014");
-			evento.setData(new Date());
-			evento.setLocal("Juazeiro-BA");
-			evento.setLink(new URL("http://www.desafiodossertoes.com.br"));
-			dao.insert(evento);
+			event = new Event();
+			event.setNome("Desafio dos Sertões 2014");
+			event.setData(new Date());
+			event.setLocal("Juazeiro-BA");
+			event.setLink(new URL("http://www.desafiodossertoes.com.br"));
+			dao.insert(event);
 
-			evento = new Evento();
-			evento.setNome("Noite do Perrenge II");
-			evento.setData(new Date());
-			evento.setLocal("Sauípe-BA");
-			evento.setLink(new URL("http://www.noitedoperrengue.com.br"));
-			dao.insert(evento);
+			event = new Event();
+			event.setNome("Noite do Perrenge II");
+			event.setData(new Date());
+			event.setLocal("Sauípe-BA");
+			event.setLink(new URL("http://www.noitedoperrengue.com.br"));
+			dao.insert(event);
 		}
 	}
 }

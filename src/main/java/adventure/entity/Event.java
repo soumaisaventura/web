@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Evento {
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)

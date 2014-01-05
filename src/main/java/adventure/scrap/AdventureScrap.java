@@ -9,13 +9,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import adventure.entity.Evento;
+import adventure.entity.Event;
 
 public class AdventureScrap {
 
-	private static List<Evento> eventos = new ArrayList<Evento>();
+	private static List<Event> events = new ArrayList<Event>();
 
-	public static List<Evento> getEventFromAdventureMag() {
+	public static List<Event> getEventFromAdventureMag() {
 		List<String> urls = new ArrayList<String>();
 		Document doc, doc2, docevento;
 		Elements pagination, elements;
@@ -44,17 +44,17 @@ public class AdventureScrap {
 					// System.out.println(local);
 					// System.out.println(link);
 					// Evento e = new Evento(nome, data, local, link);
-					Evento e = new Evento();
+					Event e = new Event();
 					e.setNome(nome);
 					// e.setData(data);
 					e.setLocal(local);
 					e.setLink(new URL(link));
-					eventos.add(e);
+					events.add(e);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return eventos;
+		return events;
 	}
 }

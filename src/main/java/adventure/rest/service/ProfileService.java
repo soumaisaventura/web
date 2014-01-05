@@ -41,7 +41,7 @@ public class ProfileService {
 	}
 
 	@GET
-	public List<User> obter() throws NamingException {
+	public List<User> search() throws NamingException {
 		return dao.findAll();
 	}
 }

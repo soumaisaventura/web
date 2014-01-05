@@ -1,4 +1,4 @@
-var SignUpClient = function() {
+var SignUpClient = function () {
 	this.url = "api/signup";
 	return this;
 };

@@ -17,5 +17,5 @@ public interface SignUpClient {
 	public Long signup(SignUpForm form);
 
 	@DELETE
-	public Long desregistrar();
+	public void quit();
 }

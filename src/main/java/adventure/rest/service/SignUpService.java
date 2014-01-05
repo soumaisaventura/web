@@ -69,7 +69,7 @@ public class SignUpService {
 	@DELETE
 	@LoggedIn
 	@Transactional
-	public void unregister() {
+	public void quit() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		br.gov.frameworkdemoiselle.security.User user = securityContext.getUser();
 
