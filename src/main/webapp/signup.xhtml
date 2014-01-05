@@ -83,7 +83,7 @@
 			<!-- /.modal-dialog -->
 		</div>
 
-		<script src="api/entity/Registration.js"></script>
+		<script src="api/entity/SignUpForm.js"></script>
 
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
@@ -111,15 +111,15 @@
 			$("#salvar").click(function(){
 				$("[id$='message']").html("");
 
-				var registration = new Registration();
-				registration.fullName = $("#fullName").val();
-				registration.password = $("#password").val();
-				registration.email = $("#email").val();
-				registration.birthday = $("#birthday").val();
-				registration.gender = $("#gender").val();
+				var form = new SignUpForm();
+				form.fullName = $("#fullName").val();
+				form.password = $("#password").val();
+				form.email = $("#email").val();
+				form.birthday = $("#birthday").val();
+				form.gender = $("#gender").val();
 
 				var client = new SignUpClient("api");
-				client.signup(registration, trataSucesso, trataErro);
+				client.signup(form, trataSucesso, trataErro);
 			});
 		});
 		</script>

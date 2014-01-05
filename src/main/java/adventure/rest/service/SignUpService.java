@@ -45,9 +45,9 @@ public class SignUpService {
 	@POST
 	// TODO @NotLoggedIn
 	@Transactional
-	public Long register(@NotNull @Valid Registration registration) throws Exception {
+	public Long register(@NotNull @Valid SignUpForm form) throws Exception {
 		User user = new User();
-		BeanUtils.copyProperties(user, registration);
+		BeanUtils.copyProperties(user, form);
 
 		String password = user.getPassword();
 		user.setPassword(Passwords.hash(password));
@@ -93,7 +93,7 @@ public class SignUpService {
 	}
 
 	@JSEntity
-	public static class Registration {
+	public static class SignUpForm {
 
 		@NotEmpty
 		private String fullName;

@@ -27,7 +27,7 @@ import test.Tests;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
-import adventure.rest.service.SignUpService.Registration;
+import adventure.rest.service.SignUpService.SignUpForm;
 
 @RunWith(Arquillian.class)
 public class RegisterServiceTest {
@@ -51,15 +51,15 @@ public class RegisterServiceTest {
 		Date birthday = Tests.createDate(1980, 12, 18);
 		Gender gender = MALE;
 
-		Registration registration;
+		SignUpForm signUpForm;
 
-		registration = new Registration();
-		registration.setFullName(fullName);
-		registration.setEmail(email);
-		registration.setPassword(password);
-		registration.setBirthday(birthday);
-		registration.setGender(gender);
-		Long id = SignUpClient.register(registration);
+		signUpForm = new SignUpForm();
+		signUpForm.setFullName(fullName);
+		signUpForm.setEmail(email);
+		signUpForm.setPassword(password);
+		signUpForm.setBirthday(birthday);
+		signUpForm.setGender(gender);
+		Long id = SignUpClient.register(signUpForm);
 		assertNotNull(id);
 
 		User user = perfilClient.obter(id);
@@ -79,7 +79,7 @@ public class RegisterServiceTest {
 		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
 
 		try {
-			SignUpClient.register(new Registration());
+			SignUpClient.register(new SignUpForm());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
@@ -103,18 +103,18 @@ public class RegisterServiceTest {
 
 	@Test
 	public void falhaAoTentarRegistrarEmailJaExistente() {
-		Registration registration = new Registration();
-		registration.setFullName("User Full Name");
-		registration.setEmail(Tests.generateRandomEmail());
-		registration.setPassword("secret");
-		registration.setBirthday(Tests.createDate(1980, 12, 18));
-		registration.setGender(FEMALE);
+		SignUpForm signUpForm = new SignUpForm();
+		signUpForm.setFullName("User Full Name");
+		signUpForm.setEmail(Tests.generateRandomEmail());
+		signUpForm.setPassword("secret");
+		signUpForm.setBirthday(Tests.createDate(1980, 12, 18));
+		signUpForm.setGender(FEMALE);
 
 		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
-		SignUpClient.register(registration);
+		SignUpClient.register(signUpForm);
 
 		try {
-			SignUpClient.register(registration);
+			SignUpClient.register(signUpForm);
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {

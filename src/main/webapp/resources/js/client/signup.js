@@ -3,12 +3,12 @@ var SignUpClient = function() {
 	return this;
 };
 
-SignUpClient.prototype.signup = function($user, $success, $error) {
+SignUpClient.prototype.signup = function($form, $success, $error) {
 	return $.ajax({
 		type : "POST",
 		url : this.url,
 		contentType : "application/json;charset=utf8",
-		data : JSON.stringify($user),
+		data : JSON.stringify($form),
 		dataType : "json",
 		success : function(data) {
 			if ($success) {
