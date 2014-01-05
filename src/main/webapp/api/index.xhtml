@@ -37,33 +37,32 @@
 				descrição: Solicita o reset do password
 				restricão: Não pode estar logado
 				params:
-					email
+					form
 				validações:
-					email: @NotEmpty @Email @{Conta existente}
+					form.email: @NotEmpty @Email @{Conta existente}
 			POST
 				descrição: Efetua o reset do password
 				restricão: Não pode estar logado
 				params:
 					/{token}
-					email
-					newPassword
+					form
 				validações:
 					{token}: @NotEmpty
-					email: @NotEmpty @Email @{Conta existente}
-					newPassword: @NotEmpty
+					form.email: @NotEmpty @Email @{Conta existente}
+					form.newPassword: @NotEmpty
 
 	/signup
 		POST
 			descrição: Registra uma nova conta
 			restricão: Não pode estar logado
 			params:
-				user
+				form
 			validações:resources
-				user.name: @NotEmpty
-				user.email: @NotEmpty @Email @{Conta inexistente}
-				user.password: @NotEmpty
-				user.birthday: @NotEmpty @Past
-				user.gender: @NotNull
+				form.name: @NotEmpty
+				form.email: @NotEmpty @Email @{Conta inexistente}
+				form.password: @NotEmpty
+				form.birthday: @NotEmpty @Past
+				form.gender: @NotNull
 		DELETE
 			descrição: Remove a conta do usuário logado
 			restricão: É preciso estar logado
