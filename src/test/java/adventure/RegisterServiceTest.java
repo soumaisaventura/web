@@ -27,7 +27,7 @@ import test.Tests;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
-import adventure.rest.service.RegisterService.Registration;
+import adventure.rest.service.SignUpService.Registration;
 
 @RunWith(Arquillian.class)
 public class RegisterServiceTest {
@@ -42,7 +42,7 @@ public class RegisterServiceTest {
 
 	@Test
 	public void cadastroBemSucedidoApenasComCamposObrigatorios() {
-		RegisterClient registerClient = Tests.createRegisterClient(this.url);
+		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
 		PerfilClient perfilClient = Tests.createPerfilClient(this.url);
 
 		String fullName = "User Full Name";
@@ -59,7 +59,7 @@ public class RegisterServiceTest {
 		registration.setPassword(password);
 		registration.setBirthday(birthday);
 		registration.setGender(gender);
-		Long id = registerClient.register(registration);
+		Long id = SignUpClient.register(registration);
 		assertNotNull(id);
 
 		User user = perfilClient.obter(id);
@@ -69,17 +69,17 @@ public class RegisterServiceTest {
 		// assertEquals(nascimento, usuario.getNascimento());
 		assertEquals(gender, user.getGender());
 
-		registerClient.desregistrar();
+		SignUpClient.desregistrar();
 		user = perfilClient.obter(id);
 		assertNull(user);
 	}
 
 	@Test
 	public void falhaAoTentarRegistrarComCamposObrigatoriosNulos() {
-		RegisterClient registerClient = Tests.createRegisterClient(this.url);
+		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
 
 		try {
-			registerClient.register(new Registration());
+			SignUpClient.register(new Registration());
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {
@@ -110,11 +110,11 @@ public class RegisterServiceTest {
 		registration.setBirthday(Tests.createDate(1980, 12, 18));
 		registration.setGender(FEMALE);
 
-		RegisterClient registerClient = Tests.createRegisterClient(this.url);
-		registerClient.register(registration);
+		SignUpClient SignUpClient = Tests.createSignUpClient(this.url);
+		SignUpClient.register(registration);
 
 		try {
-			registerClient.register(registration);
+			SignUpClient.register(registration);
 			fail("Deveria ter ocorrido erro ao tentar inserir");
 
 		} catch (ClientResponseFailure cause) {

@@ -35,9 +35,9 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @ValidateRequest
-@Path("/api/register")
+@Path("/api/signup")
 @Produces(APPLICATION_JSON)
-public class RegisterService {
+public class SignUpService {
 
 	@Inject
 	private UserDAO dao;

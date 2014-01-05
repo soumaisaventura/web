@@ -1,9 +1,9 @@
-var RegisterClient = function() {
-	this.url = "api/register";
+var SignUpClient = function() {
+	this.url = "api/signup";
 	return this;
 };
 
-RegisterClient.prototype.register = function($user, $success, $error) {
+SignUpClient.prototype.signup = function($user, $success, $error) {
 	return $.ajax({
 		type : "POST",
 		url : this.url,
@@ -23,7 +23,7 @@ RegisterClient.prototype.register = function($user, $success, $error) {
 	});
 };
 
-RegisterClient.prototype.unregister = function($success, $error) {
+SignUpClient.prototype.unregister = function($success, $error) {
 	return $.ajax({
 		type : "DELETE",
 		url : this.url,

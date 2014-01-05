@@ -82,7 +82,7 @@
 				registration.birthday = $("#birthday").val();
 				registration.gender = $("#gender").val();
 
-				var client = new RegisterClient("api");
+				var client = new SignUpClient("api");
 				client.register(registration, trataSucesso, trataErro);
 			});
 		});

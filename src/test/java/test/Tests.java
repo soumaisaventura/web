@@ -51,7 +51,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
 import adventure.PerfilClient;
-import adventure.RegisterClient;
+import adventure.SignUpClient;
 
 @Ignore
 public final class Tests {
@@ -85,8 +85,8 @@ public final class Tests {
 				.addAsLibraries(libs);
 	}
 
-	public static RegisterClient createRegisterClient(URL base) {
-		return ProxyFactory.create(RegisterClient.class, base.toString());
+	public static SignUpClient createSignUpClient(URL base) {
+		return ProxyFactory.create(SignUpClient.class, base.toString());
 	}
 
 	public static PerfilClient createPerfilClient(URL base) {

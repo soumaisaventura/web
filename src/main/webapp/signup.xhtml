@@ -89,7 +89,7 @@
 		<h:outputScript name="js/bootstrap.js" />
 		<h:outputScript name="js/bootstrap-datepicker.js" />
 		<h:outputScript name="js/bootstrap-datepicker.pt-BR.js" />
-		<h:outputScript name="js/client/register.js" />
+		<h:outputScript name="js/client/signup.js" />
 
 		<script>
 		function trataSucesso(data){
@@ -118,8 +118,8 @@
 				registration.birthday = $("#birthday").val();
 				registration.gender = $("#gender").val();
 
-				var client = new RegisterClient("api");
-				client.register(registration, trataSucesso, trataErro);
+				var client = new SignUpClient("api");
+				client.signup(registration, trataSucesso, trataErro);
 			});
 		});
 		</script>
