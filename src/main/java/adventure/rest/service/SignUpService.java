@@ -46,7 +46,7 @@ public class SignUpService {
 	@POST
 	// TODO @NotLoggedIn
 	@Transactional
-	public Long register(@NotNull @Valid SignUpForm form) throws Exception {
+	public Long signUp(@NotNull @Valid SignUpForm form) throws Exception {
 		User user = new User();
 		BeanUtils.copyProperties(user, form);
 
