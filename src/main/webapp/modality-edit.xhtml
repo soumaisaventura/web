@@ -7,6 +7,8 @@
 	<ui:define name="body">
 		<div class="container">
 			<form class="form-horizontal" role="form">
+				<input type="hidden" id="id"/>
+			
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
@@ -16,27 +18,25 @@
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-				    <label for="fullName">Nome</label>
-						<input type="text" id="fullName" class="form-control input-lg" autofocus="true" required="true" />
-						<div id="fullName-message" class="label label-danger"></div>
+				    <label for="name">Nome</label>
+						<input type="text" id="name" class="form-control input-lg" autofocus="true" required="true" />
+						<div id="name-message" class="label label-danger"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-3 col-md-offset-3">
-						<input type="button" id="salvar" class="btn btn-primary btn-lg"
-							value="Criar conta" />
+						<input type="button" id="salvar" class="btn btn-primary btn-lg" value="Salvar" />
 					</div>
 				</div>
 			</form>
 		</div>
 
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
 					</div>
 					<div class="modal-body">
 						<p>Cadastro efetuado com sucesso.</p>
@@ -47,18 +47,18 @@
 			<!-- /.modal-dialog -->
 		</div>
 
-		<script src="api/entity/Registration.js"></script>
+		<script src="api/entity/Modality.js" />
 
-		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
-		<h:outputScript name="js/bootstrap-datepicker.js" />
-		<h:outputScript name="js/bootstrap-datepicker.pt-BR.js" />
-		<h:outputScript name="js/client/modality.js" />
+		<h:outputScript name="js/footable.js" />
+		<h:outputScript name="js/persistence-service.js" />
+		<h:outputScript name="js/client/modality-service.js" />
 
 		<script>
+		
 		function trataSucesso(data){
 			$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
-				window.location = 'index.html';
+				window.location = 'modality-list.jsf';
 			})
 		}
 
@@ -68,24 +68,37 @@
 				$("#" + value.property).focus();
 			});
 		}
+
+		function fillForm(data){
+			$("#id").val(data.id);
+      $("#name").val(data.name);
+		}
     
 		$(function(){
-			$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
 
+			var persistenceService = new PersistenceService("api");
+			var modality = new Modality();
+			
+
+			var id = "#{param['id']}";
+			persistenceService.get("modality", id, fillForm); 
+
+			
 			$("#salvar").click(function(){
 				$("[id$='message']").html("");
 
-				var registration = new Registration();
-				registration.fullName = $("#fullName").val();
-				registration.password = $("#password").val();
-				registration.email = $("#email").val();
-				registration.birthday = $("#birthday").val();
-				registration.gender = $("#gender").val();
-
-				var client = new SignUpClient("api");
-				client.register(registration, trataSucesso, trataErro);
+				modality.name = $("#name").val();
+				
+				if($("#id").val() === ""){
+					persistenceService.create("modality", modality, trataSucesso, trataErro);
+				} else {
+					modality.id = $("#id").val();
+					persistenceService.update("modality", modality, trataSucesso, trataErro);
+				}
+				
 			});
 		});
+
 		</script>
 	</ui:define>
 </ui:composition>
