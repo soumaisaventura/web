@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+			<form class="form-horizontal" role="form">
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<h1>Nome da Corrida</h1>
+						<h3>Ficha de inscrição</h3>
+					</div>
+				</div>
+				
+				<div class="form-group">
+				  <div class="col-md-6">
+				  	<label for="rg">RG</label>
+ 						<input id="rg" type="text" class="form-control"/>
+					</div>
+					<div class="col-md-6">
+				  	<label for="cpf">CPF</label>
+ 						<input id="cpf" type="text" class="form-control"/>
+					</div>
+				</div>				
+
+				<div class="form-group">
+				  <div class="col-md-12">
+				  	<label for="endereco">Endereço</label>
+ 						<input id="endereco" type="text" class="form-control"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+				  <div class="col-md-4">
+				  	<label for="bairro">Bairro</label>
+ 						<input id="bairro" type="text" class="form-control"/>
+					</div>
+				  <div class="col-md-4">
+				  	<label for="cidade">Cidade</label>
+ 						<input id="cidade" type="text" class="form-control"/>
+					</div>
+				  <div class="col-md-4">
+				  	<label for="uf">UF</label>
+ 						<select id="uf" class="form-control">
+ 							<option value="AC">Acre</option>
+ 							<option value="BA">Bahia</option>
+ 							<option value="RJ">Rio de Janeiro</option>
+ 						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+				  <div class="col-md-4">
+				  	<label for="cep">CEP</label>
+ 						<input id="cep" type="text" class="form-control"/>
+					</div>
+				  <div class="col-md-4">
+				  	<label for="telefone">Telefone</label>
+ 						<input id="telefone" type="tel" class="form-control"/>
+					</div>
+				  <div class="col-md-4">
+				  	<label for="email">E-mail</label>
+ 						<input id="email" type="email" class="form-control"/>
+ 					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-2">
+						<label for="sangue">Grupo Sanguíneo</label>
+ 						<select id="sangue" class="form-control">
+ 							<option value="A+">A+</option>
+ 							<option value="A-">A-</option>
+ 							<option value="B+">B+</option>
+ 							<option value="B-">B-</option>
+ 							<option value="O+">O+</option>
+ 							<option value="O-">O-</option>
+ 							<option value="AB+">AB+</option>
+ 							<option value="AB-">AB-</option>
+ 						</select>		
+					</div>
+					<div class="col-md-2">
+						<label for="alergia">Possui alguma alergia?</label>
+ 						<select id="alergia" class="form-control">
+ 							<option value="S">Sim</option>
+ 							<option value="N">Não-</option>
+ 						</select>		
+					</div>
+					<div class="col-md-3">
+						<label for="alergiasim">Se sim, qual o medicamento usado e a dosagem?</label>
+ 						<input id="alergiasim" type="text" class="form-control"/>
+					</div>
+					<div class="col-md-2">
+						<label for="planosaude">Possui plano de saúde?</label>
+ 						<select id="planosaude" class="form-control">
+ 							<option value="S">Sim</option>
+ 							<option value="N">Não-</option>
+ 						</select>		
+					</div>
+					<div class="col-md-3">
+						<label for="planosaudesim">Se sim, qual o plano de saúde e o telefone para contato?</label>
+ 						<input id="planosaudesim" type="text" class="form-control"/>
+					</div>					
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-6">
+						<label for="emergencia">Em caso de emergência contatar:</label>
+ 						<input id="emergencia" type="text" class="form-control"/>
+ 						<span class="help-block">Nome completo, grau de parentesco e telefone para contato com DDD</span>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<script>
+			//<![CDATA[
+			$(function() {
+				//ccc
+			});
+			//]]>		
+		</script>
+	</ui:define>
+
+</ui:composition>
