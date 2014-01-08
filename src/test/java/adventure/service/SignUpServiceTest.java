@@ -1,4 +1,4 @@
-package adventure;
+package adventure.service;
 
 import static adventure.entity.Gender.FEMALE;
 import static adventure.entity.Gender.MALE;
@@ -24,6 +24,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
+import adventure.ProfileClient;
+import adventure.SignUpClient;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;
