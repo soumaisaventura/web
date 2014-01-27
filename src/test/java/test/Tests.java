@@ -50,8 +50,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Ignore;
 
-import adventure.ProfileClient;
-import adventure.SignUpClient;
+import adventure.client.AuthClient;
+import adventure.client.ProfileClient;
+import adventure.client.SignUpClient;
 
 @Ignore
 public final class Tests {
@@ -92,6 +93,11 @@ public final class Tests {
 	public static ProfileClient createPerfilClient(URL base) {
 		return ProxyFactory.create(ProfileClient.class, base.toString());
 	}
+	
+	public static AuthClient createAuthClient(URL base) {
+		return ProxyFactory.create(AuthClient.class, base.toString());
+	}
+	
 
 	public static Date createDate(int year, int month, int day) {
 		Calendar calendar = Calendar.getInstance();

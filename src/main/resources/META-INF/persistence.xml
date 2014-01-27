@@ -8,6 +8,7 @@
 		<class>adventure.entity.User</class>
 		<class>adventure.entity.Event</class>
 		<class>adventure.entity.Modality</class>
+		<class>adventure.entity.PersonalData</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

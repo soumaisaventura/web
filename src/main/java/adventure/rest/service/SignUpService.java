@@ -59,6 +59,7 @@ public class SignUpService {
 		return result;
 	}
 
+	// TODO Verificar que esse método já existe no AuthService
 	private void login(String email, String password) {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setEmail(email);
@@ -86,7 +87,7 @@ public class SignUpService {
 			usuario = new User();
 			usuario.setFullName("Urtzi Iglesias");
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");
-			usuario.setPassword("abcde");
+			usuario.setPassword(Passwords.hash("abcde"));
 			usuario.setBirthday(new Date());
 			usuario.setGender(MALE);
 			dao.insert(usuario);

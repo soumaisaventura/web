@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import test.Tests;
-import adventure.ProfileClient;
-import adventure.SignUpClient;
+import adventure.client.ProfileClient;
+import adventure.client.SignUpClient;
 import adventure.entity.Gender;
 import adventure.entity.User;
 import adventure.persistence.ValidationException.Violation;

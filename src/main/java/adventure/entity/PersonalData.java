@@ -9,6 +9,8 @@ import javax.persistence.OneToOne;
 @Entity
 public class PersonalData implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@OneToOne
 	private User user;

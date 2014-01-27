@@ -32,6 +32,12 @@ public class ProfileService {
 	public User load(@NotNull @PathParam("id") Long id) {
 		return dao.load(id);
 	}
+	
+	@GET
+	@Path("/{email}")
+	public User loadByEmail(@NotNull @PathParam("email") String email){
+		return dao.loadByEmail(email);
+	}
 
 	@DELETE
 	@Path("/{id}")
@@ -44,4 +50,5 @@ public class ProfileService {
 	public List<User> search() throws NamingException {
 		return dao.findAll();
 	}
+	
 }

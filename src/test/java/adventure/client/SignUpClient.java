@@ -1,4 +1,4 @@
-package adventure;
+package adventure.client;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 
 import adventure.rest.service.SignUpService.SignUpForm;
 
-@Path("/api/register")
+@Path("/api/signup")
 @Consumes(APPLICATION_JSON)
 public interface SignUpClient {
 
