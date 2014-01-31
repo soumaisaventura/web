@@ -50,7 +50,7 @@ public class User {
 
 	public User(br.gov.frameworkdemoiselle.security.User user) {
 		this.id = (Long) user.getAttribute("id");
-		this.email = user.getId();
+		this.fullName = user.getId();
 	}
 
 	public User(Userinfo userInfo) {
