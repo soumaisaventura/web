@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class PersonalData implements Serializable{
+public class Athlete implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,5 +82,4 @@ public class PersonalData implements Serializable{
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-
 }
