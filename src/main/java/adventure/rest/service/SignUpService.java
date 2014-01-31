@@ -1,14 +1,12 @@
 package adventure.rest.service;
 
 import static adventure.entity.Gender.MALE;
-import static javax.persistence.EnumType.STRING;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.Date;
 
 import javax.inject.Inject;
 import javax.persistence.Column;
-import javax.persistence.Enumerated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -114,7 +112,6 @@ public class SignUpService {
 		private Date birthday;
 
 		@NotNull
-		@Enumerated(STRING)
 		private Gender gender;
 
 		public String getFullName() {

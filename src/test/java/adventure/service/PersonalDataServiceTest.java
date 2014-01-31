@@ -19,9 +19,9 @@ import org.junit.runner.RunWith;
 
 import test.Tests;
 import adventure.client.AuthClient;
-import adventure.entity.PersonalData;
+import adventure.entity.Athlete;
 import adventure.entity.User;
-import adventure.rest.service.PersonalDataService;
+import adventure.rest.service.RegisterService;
 import adventure.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 
@@ -35,7 +35,7 @@ public class PersonalDataServiceTest {
 	SecurityContext securityContext;
 	
 	@Inject
-	PersonalDataService service;
+	RegisterService service;
 
 	@Deployment(testable = false)
 	public static WebArchive createDeployment() {
@@ -66,7 +66,7 @@ public class PersonalDataServiceTest {
 		User user = authClient.getAuthenticatedUser();
 		assertNotNull(user);
 		
-		PersonalData personalData = new PersonalData();
+		Athlete personalData = new Athlete();
 
 		personalData.setUser(user);
 		personalData.setRg(rg);
