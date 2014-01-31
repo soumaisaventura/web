@@ -45,6 +45,9 @@ public class User {
 
 	private String cpf;
 
+	@Enumerated(STRING)
+	private BloodType bloodType;
+
 	public User() {
 	}
 
@@ -160,5 +163,13 @@ public class User {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public BloodType getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(BloodType bloodType) {
+		this.bloodType = bloodType;
 	}
 }

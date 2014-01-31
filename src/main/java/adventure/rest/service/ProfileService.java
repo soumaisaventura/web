@@ -50,5 +50,4 @@ public class ProfileService {
 	public List<User> search() throws NamingException {
 		return dao.findAll();
 	}
-	
 }

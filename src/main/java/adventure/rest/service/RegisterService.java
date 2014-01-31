@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -23,6 +24,7 @@ import adventure.entity.Gender;
 import adventure.entity.JSEntity;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
+import adventure.persistence.ValidationException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -71,40 +73,39 @@ public class RegisterService {
 		dao.update(user);
 	}
 
-	// @PUT
-	// @Path("/medical")
-	// public void updateMedical(@NotNull @Valid MedicalForm form) {
-	// }
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("/medical")
+	public void updateMedical(@NotNull @Valid MedicalForm form) throws Exception {
+		User user = dao.load(new User(securityContext.getUser()).getId());
+		BeanUtils.copyProperties(user, form);
+
+		dao.update(user);
+	}
 
 	@POST
 	@LoggedIn
-	// @Transactional
-	public void register() throws Exception {
+	@Path("/{eventId}")
+	@Transactional
+	public void register(@NotEmpty @PathParam("eventId") String eventId) throws Exception {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 
 		boolean valid = true;
+		valid &= validator.validate(loadPersonal()).isEmpty();
+		valid &= validator.validate(loadMedical()).isEmpty();
 
-		PersonalForm personalForm = loadPersonal();
-		valid &= validator.validate(personalForm).isEmpty();
+		if (valid) {
+			// TODO Associar usuário ao evento (eventId).
 
-		MedicalForm medicalForm = loadMedical();
-		valid &= validator.validate(medicalForm).isEmpty();
-		
-		System.out.println(valid);
+		} else {
+			ValidationException exception = new ValidationException();
+			exception.addViolation(null, "Existem dados cadastrais pendentes");
+
+			throw exception;
+		}
 	}
-
-	// @POST
-	// @Consumes(MediaType.APPLICATION_JSON)
-	// public void insert(Athlete personalData) throws Exception {
-	// dao.insert(personalData);
-	// }
-	//
-	// @GET
-	// @Produces(MediaType.APPLICATION_JSON)
-	// public List<Athlete> all() {
-	// return dao.findAll();
-	// }
 
 	@JSEntity
 	public static class PersonalForm {

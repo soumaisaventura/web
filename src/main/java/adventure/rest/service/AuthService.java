@@ -45,12 +45,10 @@ public class AuthService {
 	private SecurityContext securityContext;
 
 	@POST
-	public Response login(@NotNull @Valid Credentials credentials)
-			throws MessagingException, IllegalAccessException,
+	public Response login(@NotNull @Valid Credentials credentials) throws MessagingException, IllegalAccessException,
 			InvocationTargetException {
 		Response response = null;
-		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(
-				credentials.getEmail());
+		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(credentials.getEmail());
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			sendResetPasswordMail(persistedUser.getEmail());
@@ -84,21 +82,18 @@ public class AuthService {
 
 	@POST
 	@Path("/reset")
-	public void requestPasswordReset(@NotNull @Valid ResetRequestForm form)
-			throws MessagingException {
+	public void requestPasswordReset(@NotNull @Valid ResetRequestForm form) throws MessagingException {
 		sendResetPasswordMail(form.getEmail());
 	}
 
 	@POST
 	@Transactional
 	@Path("/reset/{token}")
-	public Response performPasswordReset(
-			@NotEmpty @PathParam("token") String token,
+	public Response performPasswordReset(@NotEmpty @PathParam("token") String token,
 			@NotNull @Valid ResetPerformForm form) throws MessagingException {
 		Response response = null;
 
-		Cache<String, String> cache = Beans.getReference(
-				ContainerResources.class).getPasswordResetCache();
+		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
 		String cachedToken = cache.get(form.getEmail());
 
 		if (cachedToken == null || !cachedToken.equals(token)) {
@@ -109,8 +104,7 @@ public class AuthService {
 			// e-mail.
 			// Solicitar para que ele siga as instruções enviados por e-mail.
 			String message = "ops...";
-			response = Response.status(SC_PRECONDITION_FAILED).entity(message)
-					.build();
+			response = Response.status(SC_PRECONDITION_FAILED).entity(message).build();
 
 		} else {
 			cache.remove(form.getEmail());
@@ -137,8 +131,7 @@ public class AuthService {
 	}
 
 	private void sendResetPasswordMail(String email) throws MessagingException {
-		Cache<String, String> cache = Beans.getReference(
-				ContainerResources.class).getPasswordResetCache();
+		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
 		String token = cache.get(email);
 
 		if (token == null) {
@@ -150,7 +143,7 @@ public class AuthService {
 	}
 
 	@JSEntity
-	static class ResetRequestForm {
+	public static class ResetRequestForm {
 
 		@Email
 		@NotEmpty
@@ -167,7 +160,7 @@ public class AuthService {
 	}
 
 	@JSEntity
-	static class ResetPerformForm {
+	public static class ResetPerformForm {
 
 		@Email
 		@NotEmpty
