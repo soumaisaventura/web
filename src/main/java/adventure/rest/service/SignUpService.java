@@ -56,7 +56,6 @@ public class SignUpService {
 		return result;
 	}
 
-	// TODO Verificar que esse método já existe no AuthService
 	private void login(String email, String password) {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(email);
