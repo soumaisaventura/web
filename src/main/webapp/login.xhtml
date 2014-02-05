@@ -18,9 +18,9 @@
 					<div class="panel-body">
 						<form id="form-login" class="form-horizontal" role="form">
 							<p>
-								<label for="email">E-mail</label>
-								<input id="email" type="text" class="form-control input-lg" />
-								<div id="email-message" class="label label-danger" />
+								<label for="username">E-mail</label>
+								<input id="username" type="email" class="form-control input-lg" />
+								<div id="username-message" class="label label-danger" />
 							</p>
 							<p>
 								<label for="password">Senha</label>
@@ -48,7 +48,7 @@
     		</div>
 		</div>
 
-		<script src="api/entity/Credentials.js" />
+		<script src="api/entity/CredentialsForm.js" />
 
 		<h:outputScript name="js/facebook-all.js" />
 		<h:outputScript name="js/client-plusone.js" />
@@ -61,12 +61,12 @@
 
 		<script>
 			function performLogin() {
-				var credentials = new Credentials();
-				credentials.email = $("#email").val();
-				credentials.password = $("#password").val();
+				var form = new CredentialsForm();
+				form.username = $("#username").val();
+				form.password = $("#password").val();
 
 				var client = new AuthClient();
-				client.login(credentials, onLoginSuccessful, onLoginFailed);
+				client.login(form, onLoginSuccessful, onLoginFailed);
 			}
 
 			function showModal() {

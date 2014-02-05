@@ -6,7 +6,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.Date;
 
 import javax.inject.Inject;
-import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -24,10 +23,10 @@ import adventure.entity.Gender;
 import adventure.entity.JSEntity;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
-import adventure.security.Credentials;
 import adventure.security.Passwords;
 import adventure.validator.UniqueUserEmail;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -60,7 +59,7 @@ public class SignUpService {
 	// TODO Verificar que esse método já existe no AuthService
 	private void login(String email, String password) {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setEmail(email);
+		credentials.setUsername(email);
 		credentials.setPassword(password);
 
 		Beans.getReference(SecurityContext.class).login();
@@ -101,7 +100,6 @@ public class SignUpService {
 		@Email
 		@NotEmpty
 		@UniqueUserEmail
-		@Column(unique = true)
 		private String email;
 
 		@NotEmpty

@@ -28,9 +28,9 @@ import adventure.entity.User;
 import adventure.persistence.ContainerResources;
 import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
-import adventure.security.Credentials;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
+import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -45,10 +45,10 @@ public class AuthService {
 	private SecurityContext securityContext;
 
 	@POST
-	public Response login(@NotNull @Valid Credentials credentials) throws MessagingException, IllegalAccessException,
+	public Response login(@NotNull @Valid CredentialsForm form) throws MessagingException, IllegalAccessException,
 			InvocationTargetException {
 		Response response = null;
-		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(credentials.getEmail());
+		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(form.getUsername());
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			sendResetPasswordMail(persistedUser.getEmail());
@@ -57,7 +57,7 @@ public class AuthService {
 			response = Response.status(SC_FORBIDDEN).entity(message).build();
 
 		} else {
-			login(credentials.getEmail(), credentials.getPassword());
+			login(form.getUsername(), form.getPassword());
 			response = Response.ok().build();
 		}
 
@@ -124,7 +124,7 @@ public class AuthService {
 	// TODO Verificar que esse método já existe dentro do SignUpService
 	private void login(String email, String password) {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setEmail(email);
+		credentials.setUsername(email);
 		credentials.setPassword(password);
 
 		Beans.getReference(SecurityContext.class).login();
@@ -184,6 +184,33 @@ public class AuthService {
 
 		public void setNewPassword(String newPassword) {
 			this.newPassword = newPassword;
+		}
+	}
+
+	@JSEntity
+	public static class CredentialsForm {
+
+		@Email
+		@NotEmpty
+		private String username;
+
+		@NotEmpty
+		private String password;
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
 		}
 	}
 }

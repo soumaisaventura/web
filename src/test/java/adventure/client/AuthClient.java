@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import adventure.entity.User;
-import adventure.security.Credentials;
+import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 
 @Path("/api/auth")

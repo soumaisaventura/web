@@ -1,5 +1,7 @@
 package adventure.rest.mapper;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -19,9 +21,9 @@ public class NotLoggedInExceptionMapper implements ExceptionMapper<NotLoggedInEx
 		Response response;
 
 		if (path.indexOf("/api") > -1) {
-			response = Response.status(401).header("WWW-Authenticate", "Basic realm=realm").build();
+			response = Response.status(SC_UNAUTHORIZED).header("WWW-Authenticate", "Basic realm=realm").build();
 		} else {
-			response = Response.status(401).build();
+			response = Response.status(SC_UNAUTHORIZED).build();
 		}
 
 		return response;
