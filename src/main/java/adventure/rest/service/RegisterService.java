@@ -24,7 +24,7 @@ import adventure.entity.Gender;
 import adventure.entity.JSEntity;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
-import adventure.persistence.ValidationException;
+import br.gov.frameworkdemoiselle.resteasy.util.ValidationException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;

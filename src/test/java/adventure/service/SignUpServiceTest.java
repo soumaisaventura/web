@@ -23,12 +23,12 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import br.gov.frameworkdemoiselle.resteasy.util.ValidationException.Violation;
 import test.Tests;
 import adventure.client.ProfileClient;
 import adventure.client.SignUpClient;
 import adventure.entity.Gender;
 import adventure.entity.User;
-import adventure.persistence.ValidationException.Violation;
 import adventure.rest.service.SignUpService.SignUpForm;
 
 @RunWith(Arquillian.class)

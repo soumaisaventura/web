@@ -54,6 +54,12 @@
 			<artifactId>demoiselle-jta</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>br.gov.frameworkdemoiselle.component</groupId>
+			<artifactId>demoiselle-resteasy</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		
 		<!-- Apache Commons container provided dependencies-->
 		<dependency>
@@ -73,6 +79,7 @@
 		</dependency>
 
 		<!-- RESTful Web Services dependencies -->
+		<!---->
 		<dependency>
 			<groupId>org.jboss.spec.javax.ws.rs</groupId>
 			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
@@ -83,11 +90,13 @@
 			<artifactId>resteasy-jaxrs</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!---->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!---->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-hibernatevalidator-provider</artifactId>
@@ -302,6 +311,14 @@
 			</dependencies>
 		</profile>
 	</profiles>
+
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<jboss.as.version>7.2.0.Final</jboss.as.version>

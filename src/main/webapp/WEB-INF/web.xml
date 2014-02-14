@@ -5,6 +5,7 @@
 	<distributable />
 
 	<!-- Demoiselle resources -->
+	<!--
 	<listener>
 		<listener-class>br.gov.frameworkdemoiselle.util.ServletListener</listener-class>
 	</listener>
@@ -16,8 +17,10 @@
 		<filter-name>Demoiselle Servlet Filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	-->
 
 	<!-- RESTful Web Services resources -->
+	<!--
 	<filter>
 		<filter-name>Resteasy Filter</filter-name>
 		<filter-class>org.jboss.resteasy.plugins.server.servlet.FilterDispatcher</filter-class>
@@ -34,6 +37,7 @@
 		<param-name>resteasy.scan</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	-->
 
 	<!--
 	<filter>
