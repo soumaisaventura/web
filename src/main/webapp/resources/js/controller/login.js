@@ -55,7 +55,7 @@ function login() {
 }
 
 function loginOk(data) {
-	window.location = "index.jsf";
+	location.href = "index.jsf";
 }
 
 function loginFailed(request) {
@@ -114,7 +114,7 @@ function googleLogin(authResult) {
 
 function googleLoginOk(data) {
 	gapi.auth.signOut();
-	window.location = "index.jsf";
+	window.location = "index.html";
 }
 
 // UI elements manipulation
