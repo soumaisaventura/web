@@ -1,16 +1,17 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
 		<div class="container" style="margin-top: 70px;">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel" style="margin-bottom: 0px;">
 					<div class="panel-body text-center">
-						<button id="facebook-login" type="button" class="btn btn-primary" style="width: 190px;"><img src="images/facebook.png"/> <strong>Entrar com Facebook</strong></button>
-						<button id="google-login" type="button" class="btn btn-danger" style="width: 190px;"><img src="images/google.png"/> <strong>Entrar com Google</strong></button>
+						<button id="facebook-login" type="button" class="btn btn-primary" style="width: 190px;">
+							<img src="images/facebook.png" /> <strong>Entrar com Facebook</strong>
+						</button>
+						<button id="google-login" type="button" class="btn btn-danger" style="width: 190px;">
+							<img src="images/google.png" /> <strong>Entrar com Google</strong>
+						</button>
 					</div>
 				</div>
 				<p class="seperator">ou</p>
@@ -18,14 +19,12 @@
 					<div class="panel-body">
 						<form id="form-login" class="form-horizontal" role="form">
 							<p>
-								<label for="username">E-mail</label>
-								<input id="username" type="email" class="form-control input-lg" />
-								<div id="username-message" class="label label-danger" />
+								<label for="username">E-mail</label> <input id="username" type="email" class="form-control input-lg" />
+							<div id="username-message" class="label label-danger" />
 							</p>
 							<p>
-								<label for="password">Senha</label>
-								<input id="password" type="password" class="form-control input-lg" />
-								<div id="password-message" class="label label-danger" />
+								<label for="password">Senha</label> <input id="password" type="password" class="form-control input-lg" />
+							<div id="password-message" class="label label-danger" />
 							</p>
 							<p>
 								<button id="login" class="btn btn-lg btn-success " type="button">Entrar</button>
@@ -35,17 +34,17 @@
 					</div>
 					<div class="panel-footer text-center">
 						<p>
-							<a href="register.jsf" class="register-link">Precisa de uma conta? <strong>Registre-se aqui</strong></a> <br /> 
-							<a href="reset-request.jsf" class="password-link"><small>Esqueceu sua senha?</small></a>
+							<a href="register.jsf" class="register-link">Precisa de uma conta? <strong>Registre-se aqui</strong></a> <br /> <a href="reset-request.jsf"
+								class="password-link"><small>Esqueceu sua senha?</small></a>
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="modal fade" id="modal" tabindex="-1" role="dialog">
-			<div style="height:200px">
-      			<span id="spin" style="position: absolute; display: block; top: 50%;left: 50%;"></span>
-    		</div>
+			<div style="height: 200px">
+				<span id="spin" style="position: absolute; display: block; top: 50%; left: 50%;"></span>
+			</div>
 		</div>
 
 		<script src="api/entity/CredentialsForm.js" />
@@ -55,20 +54,131 @@
 		<h:outputScript name="js/jquery-1.10.2.js" />
 		<h:outputScript name="js/bootstrap.js" />
 		<h:outputScript name="js/spin.js" />
-		<h:outputScript name="js/client/auth.js" />
-		<h:outputScript name="js/client/facebook-auth.js" />
-		<h:outputScript name="js/client/google-auth.js" />
+		<h:outputScript name="js/proxy/auth.js" />
+		<h:outputScript name="js/proxy/facebook-auth.js" />
+		<h:outputScript name="js/proxy/google-auth.js" />
 
 		<script>
-			function performLogin() {
-				var form = new CredentialsForm();
-				form.username = $("#username").val();
-				form.password = $("#password").val();
+			// Form events binding
+		
+			$(function(){
+				$("#login").click(function(){
+					$("[id$='message']").html("");
+					login();
+				});
+		
+				$(document).keypress(function(e) {
+					if(e.which == 13) {
+						login();
+					}
+				});
+	
+				$("#facebook-login").click(function(){
+					showModal();
+	
+					FB.init({
+						appId	: '548688288560242',
+						status	: true,
+						cookie	: true,
+						xfbml	: true
+					});
+	
+					FB.login(facebookLogin, {scope: 'email,user_birthday'});
+				});
+	
+				$("#google-login").click(function(){
+					showModal();
+	
+					gapi.auth.signIn({
+						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
+						'cookiepolicy': 'single_host_origin',
+						'callback': 'googleLoginOk',
+						'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' 
+					});
+				});
+			});
 
-				var client = new AuthClient();
-				client.login(form, onLoginSuccessful, onLoginFailed);
+			// Regular login process
+
+			function login() {
+				var form = {
+					'username' : $("#username").val(),
+					'password' : $("#password").val()
+				}
+
+				var proxy = new AuthProxy();
+				proxy.login(form, loginOk, loginFailed);
 			}
 
+			function loginOk(data){
+				window.location = "index.jsf";
+			}
+	
+			function loginFailed(request){
+				switch (request.status) {
+					case 412: 
+						$.each(request.responseJSON, function(index, value) {
+							console.log(value.property + ":" + value.message);
+							$("#" + value.property + "-message").html(value.message);
+						});
+						break;
+
+					case 401: 
+						$("#message").html("Usuário ou senha inválidos.");
+						break;
+
+					case 403:
+						$("#message").html(request.responseText);
+						break;
+				}
+			}
+
+			// Facebook login process
+
+			function facebookLogin(response) {
+				if (response.authResponse) {
+					$("#form-login input").attr("disabled", true);
+					var proxy = new FacebookAuthProxy();
+					proxy.login(response.authResponse.accessToken, facebookLoginOk, facebookLoginFailed);
+
+			    } else {
+			    	hideModal();
+			    }
+			}
+
+			function facebookLoginOk(data){
+				FB.logout();
+				window.location = "index.jsf";
+			}
+
+			function facebookLoginFailed(request){
+				console.log("login facebook failed");
+			}
+
+			// Google login process
+
+			function googleLoginOk(authResult) {
+				if (authResult['access_token']) {
+					$("#form-login input").attr("disabled", true);
+					var proxy = new GoogleAuthProxy();
+					proxy.login(authResult.code, googleLoginOk, googleLoginFailed);
+
+				} else if (authResult['error']) {
+			    	//hideModal();
+				}
+			}
+
+			function googleLoginOk(data){
+				gapi.auth.signOut();
+				window.location = "index.jsf";
+			}
+
+			function googleLoginFailed(request){
+				console.log("login google failed");
+			}
+
+			// UI elements manipulation
+			
 			function showModal() {
 				$('#modal').modal('show');
 				var opts = {
@@ -95,105 +205,6 @@
 
 			function hideModal() {
 				$('#modal').modal('hide');
-			}
-		
-			function onLoginSuccessful(data){
-				window.location = "index.jsf";
-			}
-	
-			function onLoginFailed(data){
-				switch (data.status) {
-					case 412: 
-						$.each(data.responseJSON, function(index, value) {
-							console.log(value.property + ":" + value.message);
-							$("#" + value.property + "-message").html(value.message);
-						});
-						break;
-
-					case 401: 
-						$("#message").html("Usuário ou senha inválidos.");
-						break;
-					case 403:
-						$("#message").html(data.responseText);
-						break;
-				}
-			}
-
-			function onFacebookLoginSuccessful(data){
-				FB.logout();
-				window.location = "index.jsf";
-			}
-
-			function onFacebookLoginFailed(data){
-				console.log("login facebook failed");
-			}
-
-			function onGoogleLoginSuccessful(data){
-				gapi.auth.signOut();
-				window.location = "index.jsf";
-			}
-
-			function onGoogleLoginFailed(data){
-				console.log("login google failed");
-			}
-
-			$(function(){
-				$("#login").click(function(){
-					$("[id$='message']").html("");
-					performLogin();
-				});
-		
-				$(document).keypress(function(e) {
-					if(e.which == 13) {
-						performLogin();
-					}
-				});
-
-				$("#facebook-login").click(function(){
-					showModal();
-
-					FB.init({
-						appId	: '548688288560242',
-						status	: true,
-						cookie	: true,
-						xfbml	: true
-					});
-
-					FB.login(onFacebookSignIn, {scope: 'email,user_birthday'});
-				});
-
-				$("#google-login").click(function(){
-					showModal();
-
-					gapi.auth.signIn({
-						'clientid': '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
-						'cookiepolicy': 'single_host_origin',
-						'callback': 'onGoogleSignIn',
-						'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' 
-					});
-				});
-			});
-
-			function onFacebookSignIn(response) {
-				if (response.authResponse) {
-					$("#form-login input").attr("disabled", true);
-					var client = new FacebookAuthClient();
-					client.login(response.authResponse.accessToken, onFacebookLoginSuccessful, onFacebookLoginFailed);
-
-			    } else {
-			    	hideModal();
-			    }
-			}
-
-			function onGoogleSignIn(authResult) {
-				if (authResult['access_token']) {
-					$("#form-login input").attr("disabled", true);
-					var client = new GoogleAuthClient();
-					client.login(authResult.code, onGoogleLoginSuccessful, onGoogleLoginFailed);
-
-				} else if (authResult['error']) {
-			    	//hideModal();
-				}
 			}
 		</script>
 	</ui:define>

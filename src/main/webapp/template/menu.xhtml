@@ -36,15 +36,23 @@
 	</div>
 
 	<h:outputScript name="js/jquery-1.10.2.js" />
-	<h:outputScript name="js/client/auth.js" />
+	<h:outputScript name="js/proxy/auth.js" />
 
 	<script>
+		// Form events binding
+
 		$(function(){
 			$("#logout").click(function(){
-				var client = new AuthClient();
-				client.logout();
+				var proxy = new AuthProxy();
+				proxy.logout(logoutOk);
 			});
 		});
+
+		// Logout process
+		
+		function logoutOk(data){
+			window.location = "index.jsf";
+		}
 	</script>
 
 </ui:composition>

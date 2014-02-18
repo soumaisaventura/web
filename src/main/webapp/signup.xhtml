@@ -80,6 +80,8 @@
 		<h:outputScript name="js/proxy/signup.js" />
 
 		<script>
+			// Form events binding
+		
 			$(function(){
 				$(".input-group.date").datepicker({todayHighlight: true, language: "pt-BR", startView: 2});
 	
@@ -95,9 +97,11 @@
 					};
 	
 					var proxy = new SignUpProxy("api");
-					proxy.signup(form, signupOk, signupFail);
+					proxy.signup(form, signupOk, signupFailed);
 				});
 			});
+
+			// SignUp process
 
 			function signupOk(data){
 				$('#myModal').modal('toggle').on('hidden.bs.modal', function () {
@@ -105,7 +109,7 @@
 				})
 			}
 	
-			function signupFail(request){
+			function signupFailed(request){
 				$.each(request.responseJSON.reverse(), function(index, value) {
 					$("#" + value.property + "-message").html(value.message);
 				});
