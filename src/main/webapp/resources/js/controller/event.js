@@ -10,7 +10,7 @@ $(function(e) {
 		 * registro 1.2 Não - mensagem de que é preciso estar logado para
 		 * inscriçaõ em evento
 		 */
-		location.href = "register.jsf";
+		location.href = "register";
 	});
 });
 
@@ -18,7 +18,6 @@ $(function(e) {
 
 function searchOk(data) {
 	var footable = $('#evento').footable().data('footable');
-	console.log(data);
 
 	$
 			.each(

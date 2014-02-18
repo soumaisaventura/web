@@ -11,15 +11,31 @@
 	</rule>
 
 	<rule>
-		<from>^/login$</from>
-		<to>/login.html</to>
+		<from>^/home$</from>
+		<to>/event.jsf</to>
 	</rule>
 
 	<rule>
-		<from>^/home$</from>
-		<to>/home.html</to>
+		<from>^/login$</from>
+		<to>/login.jsf</to>
 	</rule>
 
+	<rule>
+		<from>^/signup$</from>
+		<to>/signup.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/register$</from>
+		<to>/register.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/reset/request$</from>
+		<to>/reset-request.jsf</to>
+	</rule>
+
+	<!--
 	<rule>
 		<from>^/mobile$</from>
 		<to>/mobile.html</to>
@@ -28,7 +44,9 @@
 	<rule>
 		<from>^/index$</from>
 		<to>/index.html</to>
-	</rule>
+	</rule>index.html
+	-->
+
 	<!--
 	<rule>
 		<from>^(?:(?!\.\w+).)*$</from>

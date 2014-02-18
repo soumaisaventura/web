@@ -55,7 +55,7 @@ function login() {
 }
 
 function loginOk(data) {
-	location.href = "index.jsf";
+	location.href = "home";
 }
 
 function loginFailed(request) {
@@ -92,7 +92,7 @@ function facebookLogin(response) {
 
 function facebookLoginOk(data) {
 	FB.logout();
-	window.location = "index.jsf";
+	location.href = "home";
 }
 
 function facebookLoginFailed(request) {
@@ -114,7 +114,7 @@ function googleLogin(authResult) {
 
 function googleLoginOk(data) {
 	gapi.auth.signOut();
-	window.location = "index.html";
+	location.href = "home";
 }
 
 // UI elements manipulation

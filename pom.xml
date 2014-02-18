@@ -165,13 +165,11 @@
 		-->
 
 		<!-- Pretty URLs dependencies -->
-		<!--
 		<dependency>
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 			<version>${urlrewritefilter.version}</version>
 		</dependency>
-		-->
 		
 		<!-- OAuth2 dependencies -->
 		<dependency>
