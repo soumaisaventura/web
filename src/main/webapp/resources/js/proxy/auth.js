@@ -56,3 +56,41 @@ AuthProxy.prototype.logout = function($success, $error) {
 		}
 	});
 };
+
+AuthProxy.prototype.facebookLogin = function(code, $success, $error) {
+	$.ajax({
+		type : "POST",
+		url : this.url + "/facebook",
+		data : "code=" + code,
+		processData : false,
+		success : function(data) {
+			if ($success) {
+				$success(data);
+			}
+		},
+		error : function(request) {
+			if ($error) {
+				$error(request);
+			}
+		}
+	});
+};
+
+AuthProxy.prototype.googleLogin = function(code, $success, $error) {
+	$.ajax({
+		type : "POST",
+		url : this.url + "/google",
+		data : "code=" + code,
+		processData : false,
+		success : function(data) {
+			if ($success) {
+				$success(data);
+			}
+		},
+		error : function(request) {
+			if ($error) {
+				$error(request);
+			}
+		}
+	});
+};
