@@ -4,6 +4,8 @@ $(function() {
 	$("#message").hide();
 
 	$("#reset").click(function() {
+		$("[id$='-message']").html("");
+		
 		var form = {
 			'email' : $("#email").val()
 		};

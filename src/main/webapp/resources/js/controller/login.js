@@ -2,7 +2,7 @@
 
 $(function() {
 	$("#login").click(function() {
-		$("[id$='message']").html("");
+		$("[id$='-message']").html("");
 		login();
 	});
 

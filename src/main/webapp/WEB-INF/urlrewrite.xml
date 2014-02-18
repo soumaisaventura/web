@@ -31,7 +31,7 @@
 	</rule>
 
 	<rule>
-		<from>^/reset/request$</from>
+		<from>^/reset-request$</from>
 		<to>/reset-request.jsf</to>
 	</rule>
 

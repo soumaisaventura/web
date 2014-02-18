@@ -1,5 +1,7 @@
 var AuthProxy = function AuthProxy() {
 	this.url = "api/auth";
+	
+	console.log(this.url);
 };
 
 AuthProxy.prototype.login = function($credentials, $success, $error) {

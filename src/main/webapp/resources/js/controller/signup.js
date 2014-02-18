@@ -8,7 +8,7 @@ $(function() {
 	});
 
 	$("#salvar").click(function() {
-		$("[id$='message']").html("");
+		$("[id$='-message']").html("");
 
 		var form = {
 			'fullName' : $("#fullName").val(),
