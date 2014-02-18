@@ -7,7 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import adventure.rest.service.SignUpService.SignUpForm;
+import adventure.service.SignUpService.SignUpForm;
 
 @Path("/api/signup")
 @Consumes(APPLICATION_JSON)

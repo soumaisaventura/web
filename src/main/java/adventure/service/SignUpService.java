@@ -1,4 +1,4 @@
-package adventure.rest.service;
+package adventure.service;
 
 import static adventure.entity.Gender.MALE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;

@@ -1,4 +1,4 @@
-package adventure.rest.service;
+package adventure.service;
 
 import java.util.List;
 

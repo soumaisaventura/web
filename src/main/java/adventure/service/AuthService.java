@@ -1,4 +1,4 @@
-package adventure.rest.service;
+package adventure.service;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;

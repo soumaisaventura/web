@@ -29,7 +29,7 @@ import adventure.client.ProfileClient;
 import adventure.client.SignUpClient;
 import adventure.entity.Gender;
 import adventure.entity.User;
-import adventure.rest.service.SignUpService.SignUpForm;
+import adventure.service.SignUpService.SignUpForm;
 
 @RunWith(Arquillian.class)
 public class SignUpServiceTest {
