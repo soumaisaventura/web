@@ -31,8 +31,13 @@
 	</rule>
 
 	<rule>
-		<from>^/reset-request$</from>
-		<to>/reset-request.jsf</to>
+		<from>^/reset$</from>
+		<to>/reset.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/password$</from>
+		<to>/password.jsf</to>
 	</rule>
 
 	<!--

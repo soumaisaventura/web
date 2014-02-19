@@ -19,7 +19,7 @@ $(function() {
 
 function resetOk(data) {
 	$("[id|='erro']").html("");
-	$("#message > div").html("A senha foi enviada para o e-mail solicitado.");
+	$("#message > div").html("Acesse seu e-mail e siga as instruções para redefinir sua senha.");
 	$("#message").show();
 }
 

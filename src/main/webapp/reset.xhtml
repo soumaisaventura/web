@@ -3,11 +3,11 @@
 
 	<ui:define name="body">
 		<div class="container">
-			<h1>Recuperar Senha</h1>
+			<h1>Recuperação de senha</h1>
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<input type="email" id="email" class="form-control input-lg" placeholder="Digite seu e-mail" required="true" />
+						<input type="email" id="email" class="form-control input-lg" placeholder="Digite seu e-mail" />
 						<div id="email-message" class="label label-danger"></div>
 					</div>
 				</div>
@@ -24,7 +24,7 @@
 
 		<h:outputScript name="js/jquery-1.10.2.js" />
 
-		<h:outputScript name="js/controller/reset-request.js" />
+		<h:outputScript name="js/controller/reset.js" />
 		<h:outputScript name="js/proxy/auth.js" />
 	</ui:define>
 </ui:composition>

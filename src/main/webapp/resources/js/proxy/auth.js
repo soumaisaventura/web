@@ -42,6 +42,25 @@ AuthProxy.prototype.requestPasswordReset = function($form, $success, $error) {
 	});
 };
 
+AuthProxy.prototype.performPasswordReset = function($form, $token, $success, $error) {
+	$.ajax({
+		type : "POST",
+		url : this.url + "/reset/" + $token,
+		contentType : "application/json",
+		data : JSON.stringify($form),
+		success : function(data) {
+			if ($success) {
+				$success(data);
+			}
+		},
+		error : function(request) {
+			if ($error) {
+				$error(request);
+			}
+		}
+	});
+};
+
 AuthProxy.prototype.logout = function($success, $error) {
 	$.ajax({
 		type : "DELETE",
