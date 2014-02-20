@@ -1,6 +1,5 @@
 package adventure.service;
 
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -30,6 +29,7 @@ import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
+import br.gov.frameworkdemoiselle.resteasy.util.ValidationException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -53,8 +53,12 @@ public class AuthService {
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			sendResetPasswordMail(persistedUser.getEmail());
 
-			String message = "Você ainda não definiu uma senha para a sua conta. Siga as instruções no e-mail que acabamos de enviar para você.";
-			response = Response.status(SC_FORBIDDEN).entity(message).build();
+			ValidationException validation = new ValidationException();
+			validation
+					.addViolation("global",
+							"Você ainda não definiu uma senha para a sua conta. Siga as instruções no e-mail que acabamos de enviar para você.");
+
+			response = Response.status(SC_PRECONDITION_FAILED).entity(validation.getConstraintViolations()).build();
 
 		} else {
 			login(form.getUsername(), form.getPassword());
@@ -99,12 +103,11 @@ public class AuthService {
 		if (cachedToken == null || !cachedToken.equals(token)) {
 			sendResetPasswordMail(form.getEmail());
 
-			// TODO Informar ao usuário que a solicitação é inválida e que uma
-			// nova mensagem foi enviada para seu
-			// e-mail.
-			// Solicitar para que ele siga as instruções enviados por e-mail.
-			String message = "ops...";
-			response = Response.status(SC_PRECONDITION_FAILED).entity(message).build();
+			ValidationException validation = new ValidationException();
+			validation.addViolation("global",
+					"Esta solicitação não é mais válida. Siga as instruções que acabamos de enviar para o seu e-mail.");
+
+			response = Response.status(SC_PRECONDITION_FAILED).entity(validation.getConstraintViolations()).build();
 
 		} else {
 			cache.remove(form.getEmail());
