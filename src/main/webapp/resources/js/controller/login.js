@@ -2,7 +2,7 @@
 
 $(function() {
 	$("#login").click(function() {
-		$("[id$='-message']").html("");
+		$("[id$='-message']").hide();
 		login();
 	});
 
@@ -13,6 +13,7 @@ $(function() {
 	});
 
 	$("#facebook-login").click(function() {
+		$("[id$='-message']").hide();
 		showModal();
 
 		FB.init({
@@ -30,6 +31,7 @@ $(function() {
 	$("#google-login")
 			.click(
 					function() {
+						$("[id$='-message']").hide();
 						showModal();
 
 						gapi.auth
@@ -62,16 +64,16 @@ function loginFailed(request) {
 	switch (request.status) {
 	case 412:
 		$.each(request.responseJSON, function(index, value) {
-			$("#" + value.property + "-message").html(value.message);
+			$("#" + value.property + "-message").html(value.message).show();
 		});
 		break;
 
 	case 401:
-		$("#message").html("Usuário ou senha inválidos.");
+		$("#global-message").html("Usuário ou senha inválidos.").show();
 		break;
 
 	case 403:
-		$("#message").html(request.responseText);
+		$("#global-message").html(request.responseText).show();
 		break;
 	}
 }

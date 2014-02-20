@@ -1,47 +1,55 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
 	<ui:define name="body">
 		<div class="container">
 			<form class="form-horizontal" role="form">
-
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
 						<h1>Junte-se a nós</h1>
-						<p class="lead">A melhor maneira de gerenciar sua corrida de aventura.</p>
+						<p class="lead">A melhor maneira de gerenciar sua corrida de
+							aventura.</p>
 						<h3>Crie sua conta</h3>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<label for="fullName">Nome</label> <input type="text" id="fullName" class="form-control input-lg" autofocus="true" />
+						<label for="fullName">Nome</label> <input type="text"
+							id="fullName" class="form-control input-lg" autofocus="true" />
 						<div id="fullName-message" class="label label-danger"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<label for="email">E-mail</label> <input type="email" id="email" class="form-control input-lg" />
+						<label for="email">E-mail</label> <input type="email" id="email"
+							class="form-control input-lg" />
 						<div id="email-message" class="label label-danger"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-3">
-						<label for="password">Senha</label> <input type="password" id="password" class="form-control input-lg" />
+						<label for="password">Senha</label> <input type="password"
+							id="password" class="form-control input-lg" />
 						<div id="password-message" class="label label-danger"></div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-md-3 col-md-offset-3">
-						<label for="birthday">Data de Nascimento</label> <input type="date" id="birthday" class="form-control input-lg" />
+						<label for="birthday">Data de Nascimento</label> <input
+							type="date" id="birthday" class="form-control input-lg" />
 						<div id="birthday-message" class="label label-danger"></div>
 					</div>
 
 					<div class="col-md-3">
-						<label for="gender">Sexo</label> <select id="gender" class="form-control input-lg">
+						<label for="gender">Sexo</label> <select id="gender"
+							class="form-control input-lg">
 							<option value="" selected="selected"></option>
 							<option value="M">Masculino</option>
 							<option value="F">Feminino</option>
@@ -52,17 +60,20 @@
 
 				<div class="form-group">
 					<div class="col-md-3 col-md-offset-3">
-						<input type="button" id="salvar" class="btn btn-primary btn-lg" value="Criar conta" />
+						<input type="button" id="salvar" class="btn btn-primary btn-lg"
+							value="Criar conta" />
 					</div>
 				</div>
 			</form>
 		</div>
 
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">X</button>
 					</div>
 					<div class="modal-body">
 						<p>Cadastro efetuado com sucesso.</p>

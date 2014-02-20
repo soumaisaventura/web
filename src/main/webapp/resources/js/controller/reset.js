@@ -1,14 +1,15 @@
 // Form events binding
 
 $(function() {
-	$("#message").hide();
+	$("#send").click(function() {
+		$("[id$='-message']").hide();
 
-	$("#reset").click(function() {
-		$("[id$='-message']").html("");
-		
 		var form = {
 			'email' : $("#email").val()
 		};
+
+		console.log($("#email").val());
+		console.log(JSON.stringify(form));
 
 		var proxy = new AuthProxy();
 		proxy.requestPasswordReset(form, resetOk, resetFailed);
@@ -18,18 +19,13 @@ $(function() {
 // Password Reset process
 
 function resetOk(data) {
-	$("[id|='erro']").html("");
-	$("#message > div").html("Acesse seu e-mail e siga as instruções para redefinir sua senha.");
-	$("#message").show();
+	$("#global-message").html(
+			"Acesse seu e-mail e siga as instruções para redefinir sua senha.")
+			.show();
 }
 
 function resetFailed(request) {
-	$("#message").hide();
-
-	switch (request.status) {
-	case 412:
-		$.each(request.responseJSON, function(index, value) {
-			$("#" + value.property + "-message").html(value.message);
-		});
-	}
+	$.each(request.responseJSON.reverse(), function(index, value) {
+		$("#" + value.property + "-message").html(value.message).show();
+	});
 }

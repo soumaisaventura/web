@@ -8,7 +8,7 @@ $(function() {
 	});
 
 	$("#salvar").click(function() {
-		$("[id$='-message']").html("");
+		$("[id$='-message']").hide();
 
 		var form = {
 			'fullName' : $("#fullName").val(),
@@ -33,6 +33,6 @@ function signupOk(data) {
 
 function signupFailed(request) {
 	$.each(request.responseJSON.reverse(), function(index, value) {
-		$("#" + value.property + "-message").html(value.message);
+		$("#" + value.property + "-message").html(value.message).show();
 	});
 }
