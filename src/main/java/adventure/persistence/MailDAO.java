@@ -10,6 +10,10 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
 import org.hibernate.validator.constraints.Email;
+import org.infinispan.Cache;
+
+import adventure.security.Passwords;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Singleton
 public class MailDAO {
@@ -18,7 +22,15 @@ public class MailDAO {
 	private ContainerResources resources;
 
 	@Asynchronous
-	public void sendResetPasswordMail(@Email String email, String token) throws MessagingException {
+	public void sendResetPasswordMail(@Email String email) throws MessagingException {
+		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
+		String token = cache.get(email);
+
+		if (token == null) {
+			token = Passwords.randomToken();
+			cache.put(email, token);
+		}
+
 		MimeMessage message = new MimeMessage(resources.getSession());
 
 		message.setSubject("Redefinição de senha");
