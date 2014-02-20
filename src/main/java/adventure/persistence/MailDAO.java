@@ -35,7 +35,7 @@ public class MailDAO {
 
 		message.setSubject("Redefinição de senha");
 		message.setRecipients(TO, email);
-		message.setContent("E-mail: " + email + "\nToken: " + token, "text/plain");
+		message.setContent("http://adventure-demo2.rhcloud.com/password?token=" + token, "text/plain");
 
 		Transport.send(message);
 	}
