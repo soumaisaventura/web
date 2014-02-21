@@ -19,6 +19,7 @@ $(function() {
 // Password Reset process
 
 function resetOk(data) {
+    location.href = './';
 }
 
 function resetFailed(request) {

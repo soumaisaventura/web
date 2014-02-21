@@ -26,7 +26,7 @@ $(function() {
 
 function signupOk(data) {
     $('#myModal').modal('toggle').on('hidden.bs.modal', function() {
-	window.location = 'home';
+	location.href = './';
     });
 }
 

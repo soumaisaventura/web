@@ -56,7 +56,7 @@ function login() {
 }
 
 function loginOk(data) {
-    location.href = "home";
+    location.href = "./";
 }
 
 function loginFailed(request) {
@@ -78,8 +78,8 @@ function loginFailed(request) {
 function facebookLogin(response) {
     if (response.authResponse) {
 	$("#form-login input").attr("disabled", true);
-	new AuthProxy().facebookLogin(response.authResponse.accessToken, facebookLoginOk,
-		facebookLoginFailed);
+	new AuthProxy().facebookLogin(response.authResponse.accessToken,
+		facebookLoginOk, facebookLoginFailed);
 
     } else {
 	hideModal();
@@ -88,7 +88,7 @@ function facebookLogin(response) {
 
 function facebookLoginOk(data) {
     FB.logout();
-    location.href = "home";
+    location.href = "./";
 }
 
 function facebookLoginFailed(request) {
@@ -109,7 +109,7 @@ function googleLogin(authResult) {
 
 function googleLoginOk(data) {
     gapi.auth.signOut();
-    location.href = "home";
+    location.href = "./";
 }
 
 // UI elements manipulation

@@ -4,14 +4,23 @@
     "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
+	<!--
 	<rule>
 		<from>(.+)\.html</from>
 		<set type="status">404</set>
 		<to>null</to>
 	</rule>
+	-->
 
+	<!--
 	<rule>
 		<from>^/home$</from>
+		<to>/event.jsf</to>
+	</rule>
+	-->
+	
+	<rule>
+		<from>^/$</from>
 		<to>/event.jsf</to>
 	</rule>
 
@@ -64,10 +73,12 @@
 	</rule>
 	-->
 
+	<!--
 	<rule>
 		<from>^/$</from>
 		<to type="redirect">%{context-path}/home</to>
 	</rule>
+	-->
 
 	<rule>
 		<from>^/(.+)/$</from>

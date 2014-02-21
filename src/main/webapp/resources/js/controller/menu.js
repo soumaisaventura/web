@@ -9,5 +9,5 @@ $(function() {
 // Logout process
 
 function logoutOk(data) {
-    window.location = "home";
+    window.location = "./";
 }
