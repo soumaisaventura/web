@@ -6,8 +6,8 @@ AuthProxy.prototype.login = function($credentials, $success, $error) {
     $.ajax({
 	type : "POST",
 	url : this.url,
-	contentType : "application/json",
 	data : JSON.stringify($credentials),
+	contentType : "application/json",
 	success : function(data) {
 	    if ($success) {
 		$success(data);

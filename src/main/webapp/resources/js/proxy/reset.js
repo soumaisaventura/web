@@ -6,8 +6,8 @@ ResetProxy.prototype.requestPasswordReset = function($form, $success, $error) {
     $.ajax({
 	type : "POST",
 	url : this.url,
-	contentType : "application/json",
 	data : JSON.stringify($form),
+	contentType : "application/json",
 	success : function(data) {
 	    if ($success) {
 		$success(data);
@@ -26,8 +26,8 @@ ResetProxy.prototype.performPasswordReset = function($form, $token, $success,
     $.ajax({
 	type : "POST",
 	url : this.url + "/" + $token,
-	contentType : "application/json",
 	data : JSON.stringify($form),
+	contentType : "application/json",
 	success : function(data) {
 	    if ($success) {
 		$success(data);
