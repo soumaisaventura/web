@@ -1,9 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:d="http://frameworkdemoiselle.gov.br/jsf"
-	template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:d="http://frameworkdemoiselle.gov.br/jsf" template="/template/main.xhtml">
 
 	<ui:define name="body">
 
@@ -19,28 +15,22 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<ul class="nav nav-pills nav-justified thumbnail">
-						<li id="menuEtapa1" class="active">
-							<a class="etapa" href="#">
+						<li id="menuEtapa1" class="active"><a class="etapa" href="#">
 								<h4 class="list-group-item-heading">Etapa 1</h4>
 								<p class="list-group-item-text">Dados Pessoais</p>
-							</a>
-						</li>
-						<li id="menuEtapa2" class="disabled">
-							<a class="etapa" href="#">
+						</a></li>
+						<li id="menuEtapa2" class="disabled"><a class="etapa" href="#">
 								<h4 class="list-group-item-heading">Etapa 2</h4>
 								<p class="list-group-item-text">Dados Médicos</p>
-							</a>
-						</li>
-						<li id="menuEtapa3" class="disabled">
-							<a class="etapa" href="#">
+						</a></li>
+						<li id="menuEtapa3" class="disabled"><a class="etapa" href="#">
 								<h4 class="list-group-item-heading">Etapa 3</h4>
 								<p class="list-group-item-text">Inscrição no Evento</p>
-							</a>
-						</li>
+						</a></li>
 					</ul>
 				</div>
 			</div>
-			
+
 			<div id="formEtapa1" class="show">
 				<div class="row">
 					<div class="col-md-3">
@@ -50,12 +40,13 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="cpf">CPF</label> <input id="cpf" type="text" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite o CPF no formato nnn.nnn.nnn-nn" oninvalid="return cpf_incorreto(this);" class="form-control"/>
+							<label for="cpf">CPF</label> <input id="cpf" type="text" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Digite o CPF no formato nnn.nnn.nnn-nn"
+								oninvalid="return cpf_incorreto(this);" class="form-control" />
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="telefone">Telefone</label> <input id="telefone"	type="tel" class="form-control" />
+							<label for="telefone">Telefone</label> <input id="telefone" type="tel" class="form-control" />
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -72,12 +63,12 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="formEtapa2" class="hidden">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="endereco">Endereço</label> <input id="endereco"	type="text" class="form-control" />
+							<label for="endereco">Endereço</label> <input id="endereco" type="text" class="form-control" />
 						</div>
 					</div>
 				</div>
@@ -89,13 +80,12 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="formEtapa3" class="hidden">
 				<div class="row">
 					<div class="col-md-2">
 						<div class="form-group">
-							<label for="sangue">Grupo Sanguíneo</label> 
-							<select id="sangue" class="form-control">
+							<label for="sangue">Grupo Sanguíneo</label> <select id="sangue" class="form-control">
 								<option value="">Selecione</option>
 								<option value="A+">A+</option>
 								<option value="A-">A-</option>
@@ -110,8 +100,7 @@
 					</div>
 					<div class="col-md-5">
 						<div class="form-group">
-							<label for="alergia">Possui alguma alergia?</label> 
-							<select id="alergia" class="form-control">
+							<label for="alergia">Possui alguma alergia?</label> <select id="alergia" class="form-control">
 								<option value="S">Sim</option>
 								<option value="N" selected="true">Não</option>
 							</select>
@@ -119,8 +108,7 @@
 					</div>
 					<div class="col-md-5">
 						<div class="form-group">
-							<label for="planosaude">Possui plano de saúde?</label> 
-							<select	id="planosaude" class="form-control">
+							<label for="planosaude">Possui plano de saúde?</label> <select id="planosaude" class="form-control">
 								<option value="S">Sim</option>
 								<option value="N" selected="true">Não</option>
 							</select>
@@ -135,9 +123,9 @@
 					</div>
 				</div>
 			</div>
-			
-		</div>		
-						
+
+		</div>
+
 		<!-- 
 			<form class="form-horizontal" role="form">
 
@@ -267,9 +255,10 @@
 		</div>
 		 -->
 
-		<h:outputScript name="js/jquery-1.10.2.js" />
-		<h:outputScript name="js/bootstrap.js" />
-    <script>
+		<script type="text/javascript" src="resources/js/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="resources/js/bootstrap.js"></script>
+
+		<script>
     	$(function(){
     		$("#btEtapa1").click(function(){
         		$("#menuEtapa1").removeClass("active");
@@ -287,7 +276,7 @@
 
       });
 		</script>
-	<!-- 
+		<!-- 
 		<script>
 			//<![CDATA[
 			$(function() {
