@@ -17,7 +17,7 @@ $(function() {
 	showModal();
 
 	FB.init({
-	    appId : '548688288560242',
+	    appId : '1422799641299675',
 	    status : true,
 	    cookie : true,
 	    xfbml : true
