@@ -20,7 +20,7 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
-@Path("/api/profile")
+@Path("profile")
 @Produces(APPLICATION_JSON)
 public class ProfileService {
 

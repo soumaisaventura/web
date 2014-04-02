@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 
 import adventure.entity.User;
 
-@Path("/api/profile")
+@Path("profile")
 @Consumes(APPLICATION_JSON)
 public interface ProfileClient {
 

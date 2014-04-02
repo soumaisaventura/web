@@ -30,7 +30,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @ValidateRequest
-@Path("/api/reset")
+@Path("reset")
 @Produces(APPLICATION_JSON)
 public class ResetService {
 

@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 
 import adventure.service.SignUpService.SignUpForm;
 
-@Path("/api/signup")
+@Path("signup")
 @Consumes(APPLICATION_JSON)
 public interface SignUpClient {
 

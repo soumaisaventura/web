@@ -33,7 +33,7 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 
 @ValidateRequest
-@Path("/api/auth/google")
+@Path("auth/google")
 @Produces(APPLICATION_JSON)
 public class GoogleAuthService {
 

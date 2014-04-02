@@ -20,7 +20,7 @@ import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
-@Path("/api/event")
+@Path("event")
 @Produces(APPLICATION_JSON)
 public class EventService {
 

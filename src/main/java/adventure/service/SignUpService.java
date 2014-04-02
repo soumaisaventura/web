@@ -33,7 +33,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @ValidateRequest
-@Path("/api/signup")
+@Path("signup")
 @Produces(APPLICATION_JSON)
 public class SignUpService {
 

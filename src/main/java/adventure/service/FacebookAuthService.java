@@ -32,7 +32,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 
 @ValidateRequest
-@Path("/api/auth/facebook")
+@Path("auth/facebook")
 @Produces(APPLICATION_JSON)
 public class FacebookAuthService {
 

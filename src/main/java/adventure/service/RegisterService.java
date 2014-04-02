@@ -30,7 +30,7 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ValidateRequest
-@Path("/api/register")
+@Path("register")
 @Produces(APPLICATION_JSON)
 public class RegisterService {
 

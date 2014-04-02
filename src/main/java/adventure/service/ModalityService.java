@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import adventure.entity.Modality;
 import adventure.persistence.ModalityDAO;
 
-@Path("/api/modality")
+@Path("modality")
 public class ModalityService {
 
 	@Inject

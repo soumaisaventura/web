@@ -13,7 +13,7 @@ import adventure.entity.User;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 
-@Path("/api/auth")
+@Path("auth")
 @Consumes(APPLICATION_JSON)
 public interface AuthClient {
 
