@@ -1,5 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
 		<div class="container">
@@ -27,8 +27,9 @@
 			</form>
 		</div>
 
-		<script type="text/javascript" src="resources/js/jquery-1.10.2.js"></script>
-		<script type="text/javascript" src="resources/js/controller/reset.js"></script>
-		<script type="text/javascript" src="resources/js/proxy/reset.js"></script>
+		<h:outputScript name="js/lib/jquery-1.10.2.js" />
+		<h:outputScript name="js/controller/reset.js" />
+		<h:outputScript name="js/proxy/reset.js" />
+
 	</ui:define>
 </ui:composition>
