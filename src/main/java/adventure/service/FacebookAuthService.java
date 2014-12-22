@@ -1,7 +1,5 @@
 package adventure.service;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -9,7 +7,6 @@ import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -19,8 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
@@ -31,9 +26,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 
-@ValidateRequest
 @Path("auth/facebook")
-@Produces(APPLICATION_JSON)
 public class FacebookAuthService {
 
 	@Inject
@@ -41,7 +34,7 @@ public class FacebookAuthService {
 
 	@POST
 	@Transactional
-	public void login(@NotEmpty @FormParam("code") String code) throws Exception {
+	public void login(@FormParam("code") String code) throws Exception {
 		User facebookUser = getUserInfo(code);
 		User persistedUser = dao.loadByEmail(facebookUser.getEmail());
 
@@ -91,7 +84,7 @@ public class FacebookAuthService {
 		JsonNode rootNode = mapper.readTree(responseBody);
 
 		User user = new User();
-		user.setFullName(rootNode.get("name").asText());
+		user.setName(rootNode.get("name").asText());
 		user.setEmail(rootNode.get("email").asText());
 
 		// JsonNode location = firstResult.get("locations").get(0);

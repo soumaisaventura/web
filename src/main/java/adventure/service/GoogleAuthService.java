@@ -1,7 +1,5 @@
 package adventure.service;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -9,10 +7,6 @@ import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
@@ -32,9 +26,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 
-@ValidateRequest
 @Path("auth/google")
-@Produces(APPLICATION_JSON)
 public class GoogleAuthService {
 
 	private static HttpTransport TRANSPORT = new NetHttpTransport();
@@ -46,7 +38,7 @@ public class GoogleAuthService {
 
 	@POST
 	@Transactional
-	public void login(@NotEmpty @FormParam("code") String code) throws Exception {
+	public void login(@FormParam("code") String code) throws Exception {
 		User googleUser = getUserInfo(code);
 		User persistedUser = dao.loadByEmail(googleUser.getEmail());
 

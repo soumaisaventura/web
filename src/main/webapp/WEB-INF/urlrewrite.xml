@@ -12,16 +12,14 @@
 	</rule>
 	-->
 
-	<!--
-	<rule>
-		<from>^/home$</from>
-		<to>/event.jsf</to>
-	</rule>
-	-->
-	
 	<rule>
 		<from>^/$</from>
-		<to>/event.jsf</to>
+		<to>/index.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/home$</from>
+		<to>/home.jsf</to>
 	</rule>
 
 	<rule>

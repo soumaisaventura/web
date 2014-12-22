@@ -7,14 +7,14 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import adventure.service.SignUpService.SignUpForm;
+import adventure.service.SignUpService.SignUpData;
 
 @Path("signup")
 @Consumes(APPLICATION_JSON)
 public interface SignUpClient {
 
 	@POST
-	public Long signup(SignUpForm form);
+	public Long signup(SignUpData form);
 
 	@DELETE
 	public void quit();

@@ -11,38 +11,40 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import adventure.entity.Modality;
 import adventure.persistence.ModalityDAO;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("modality")
 public class ModalityService {
 
 	@Inject
-	ModalityDAO dao;
+	private ModalityDAO dao;
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces("application/json")
 	public List<Modality> findAll() throws Exception {
 		return dao.findAll();
 	}
 
 	@GET
 	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces("application/json")
 	public Modality findById(@PathParam("id") Long id) throws Exception {
 		return dao.load(id);
 	}
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@ValidatePayload
+	@Consumes("application/json")
 	public void insert(Modality modality) throws Exception {
 		dao.insert(modality);
 	}
 
 	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
+	@ValidatePayload
+	@Consumes("application/json")
 	public void update(Modality modality) throws Exception {
 		dao.update(modality);
 	}

@@ -1,7 +1,5 @@
 package adventure.service;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -12,22 +10,19 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.jboss.resteasy.spi.validation.ValidateRequest;
-
 import adventure.entity.Event;
 import adventure.persistence.EventDAO;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-@ValidateRequest
 @Path("event")
-@Produces(APPLICATION_JSON)
 public class EventService {
 
 	@Inject
 	private EventDAO dao;
 
 	@GET
+	@Produces("application/json")
 	public List<Event> search() {
 		return dao.findAll();
 	}

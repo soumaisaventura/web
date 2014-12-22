@@ -1,14 +1,13 @@
 package adventure.service;
 
 import static adventure.entity.Gender.MALE;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.Date;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,10 +16,8 @@ import javax.ws.rs.Produces;
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.spi.validation.ValidateRequest;
 
 import adventure.entity.Gender;
-import adventure.entity.JSEntity;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
@@ -31,21 +28,22 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@ValidateRequest
 @Path("signup")
-@Produces(APPLICATION_JSON)
 public class SignUpService {
 
 	@Inject
 	private UserDAO dao;
 
 	@POST
-	// TODO @NotLoggedIn
 	@Transactional
-	public Long signUp(@NotNull @Valid SignUpForm form) throws Exception {
+	@ValidatePayload
+	@Produces("text/plain")
+	@Consumes("application/json")
+	public Long signUp(SignUpData data) throws Exception {
 		User user = new User();
-		BeanUtils.copyProperties(user, form);
+		BeanUtils.copyProperties(user, data);
 
 		String password = user.getPassword();
 		user.setPassword(Passwords.hash(password));
@@ -69,9 +67,8 @@ public class SignUpService {
 	@Transactional
 	public void quit() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		br.gov.frameworkdemoiselle.security.User user = securityContext.getUser();
-
-		dao.delete((Long) user.getAttribute("id"));
+		User user = (User) securityContext.getUser();
+		dao.delete(user.getId());
 	}
 
 	@Startup
@@ -81,7 +78,7 @@ public class SignUpService {
 			User usuario;
 
 			usuario = new User();
-			usuario.setFullName("Urtzi Iglesias");
+			usuario.setName("Urtzi Iglesias");
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");
 			usuario.setPassword(Passwords.hash("abcde"));
 			usuario.setBirthday(new Date());
@@ -90,65 +87,24 @@ public class SignUpService {
 		}
 	}
 
-	@JSEntity
-	public static class SignUpForm {
+	public static class SignUpData {
 
 		@NotEmpty
-		private String fullName;
+		String name;
 
 		@Email
 		@NotEmpty
 		@UniqueUserEmail
-		private String email;
+		String email;
 
 		@NotEmpty
-		private String password;
+		String password;
 
 		@Past
 		@NotNull
-		private Date birthday;
+		Date birthday;
 
 		@NotNull
-		private Gender gender;
-
-		public String getFullName() {
-			return fullName;
-		}
-
-		public void setFullName(String fullName) {
-			this.fullName = fullName;
-		}
-
-		public String getEmail() {
-			return email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-
-		public String getPassword() {
-			return password;
-		}
-
-		public void setPassword(String password) {
-			this.password = password;
-		}
-
-		public Date getBirthday() {
-			return birthday;
-		}
-
-		public void setBirthday(Date birthday) {
-			this.birthday = birthday;
-		}
-
-		public Gender getGender() {
-			return gender;
-		}
-
-		public void setGender(Gender gender) {
-			this.gender = gender;
-		}
+		Gender gender;
 	}
 }

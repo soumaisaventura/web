@@ -13,9 +13,11 @@ import org.hibernate.validator.constraints.Email;
 import org.infinispan.Cache;
 
 import adventure.security.Passwords;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Singleton
+@Transactional
 public class MailDAO {
 
 	@Inject

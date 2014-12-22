@@ -3,9 +3,8 @@ package adventure.entity;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.security.Principal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,13 +19,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.google.api.services.oauth2.model.Userinfo;
 
 @Entity
-public class User {
+public class User implements Principal {
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
-	private String fullName;
+	private String name;
 
 	@Email
 	@NotEmpty
@@ -51,54 +50,17 @@ public class User {
 	public User() {
 	}
 
-	public User(br.gov.frameworkdemoiselle.security.User user) {
-		this.id = (Long) user.getAttribute("id");
-		this.fullName = user.getId();
-	}
-
 	public User(Userinfo userInfo) {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
 
-		this.fullName = userInfo.getName();
+		this.name = userInfo.getName();
 		this.email = userInfo.getEmail();
 
 		if (userInfo.getGender() != null) {
 			this.gender = Gender.valueOf(userInfo.getGender().toUpperCase());
 		}
-	}
-
-	public br.gov.frameworkdemoiselle.security.User parse() {
-		br.gov.frameworkdemoiselle.security.User user = new br.gov.frameworkdemoiselle.security.User() {
-
-			private static final long serialVersionUID = 1L;
-
-			private Map<Object, Object> attrs = new HashMap<Object, Object>();
-
-			@Override
-			public String getId() {
-				return fullName;
-			}
-
-			@Override
-			public Object getAttribute(Object key) {
-				return this.attrs.get(key);
-			}
-
-			@Override
-			public void setAttribute(Object key, Object value) {
-				this.attrs.put(key, value);
-			}
-
-			@Override
-			public String toString() {
-				return this.getId();
-			}
-		};
-		user.setAttribute("id", this.id);
-
-		return user;
 	}
 
 	public Long getId() {
@@ -109,12 +71,13 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFullName() {
-		return fullName;
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
