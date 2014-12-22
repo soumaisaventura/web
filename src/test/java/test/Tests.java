@@ -49,9 +49,9 @@
 //import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 //import org.junit.Ignore;
 //
-//import adventure.client.AuthClient;
-//import adventure.client.ProfileClient;
-//import adventure.client.SignUpClient;
+//import br.com.fbca.client.AuthClient;
+//import br.com.fbca.client.ProfileClient;
+//import br.com.fbca.client.SignUpClient;
 //
 //@Ignore
 //public final class Tests {
@@ -69,11 +69,11 @@
 //				.importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile();
 //
 //		return ShrinkWrap.create(WebArchive.class)
-//				.addPackages(true, "adventure.entity")
-//				.addPackages(true, "adventure.persistence")
-//				.addPackages(true, "adventure.rest")
-//				.addPackages(true, "adventure.security")
-//				.addPackages(true, "adventure.validator")
+//				.addPackages(true, "br.com.fbca.entity")
+//				.addPackages(true, "br.com.fbca.persistence")
+//				.addPackages(true, "br.com.fbca.rest")
+//				.addPackages(true, "br.com.fbca.security")
+//				.addPackages(true, "br.com.fbca.validator")
 //				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
 //				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/urlrewrite.xml"))
 //				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"))

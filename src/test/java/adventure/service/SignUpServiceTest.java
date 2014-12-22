@@ -1,7 +1,7 @@
-//package adventure.service;
+//package br.com.fbca.service;
 //
-//import static adventure.entity.Gender.FEMALE;
-//import static adventure.entity.Gender.MALE;
+//import static br.com.fbca.entity.Gender.FEMALE;
+//import static br.com.fbca.entity.Gender.MALE;
 //import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 //import static junit.framework.Assert.assertEquals;
 //import static junit.framework.Assert.assertNotNull;
@@ -24,11 +24,11 @@
 //import org.junit.runner.RunWith;
 //
 //import test.Tests;
-//import adventure.client.ProfileClient;
-//import adventure.client.SignUpClient;
-//import adventure.entity.Gender;
-//import adventure.entity.User;
-//import adventure.service.SignUpService.SignUpData;
+//import br.com.fbca.client.ProfileClient;
+//import br.com.fbca.client.SignUpClient;
+//import br.com.fbca.entity.Gender;
+//import br.com.fbca.entity.User;
+//import br.com.fbca.service.SignUpService.SignUpData;
 //import br.gov.frameworkdemoiselle.HttpViolationException.Violation;
 //
 //@RunWith(Arquillian.class)

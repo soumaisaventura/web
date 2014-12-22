@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
 
 	<distributable />
 
@@ -18,6 +19,7 @@
 	</filter-mapping>
 
 	<!-- JSF resources -->
+	<!--
 	<servlet>
 		<servlet-name>Faces Config</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -26,23 +28,26 @@
 		<servlet-name>Faces Config</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+	-->
+	<!--
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>JSF</web-resource-name>
 			<url-pattern>*.jsf</url-pattern>
 		</web-resource-collection>
-		<!--
 		<auth-constraint />
-		-->
 	</security-constraint>
+	-->
 	<context-param>
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	<!--
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
+	-->
 	<context-param>
 		<param-name>com.sun.faces.validateXml</param-name>
 		<!--
@@ -78,4 +83,34 @@
 		<extension>ttf</extension>
 		<mime-type>application/octet-stream</mime-type>
 	</mime-mapping>
+
+	<filter>
+		<filter-name>Cache Filter</filter-name>
+		<filter-class>br.gov.frameworkdemoiselle.util.CacheFilter</filter-class>
+		<init-param>
+			<param-name>value</param-name>
+			<param-value>max-age=9223372036854775807</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Cache Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.woff</url-pattern>
+		<url-pattern>/api/metadata/*</url-pattern>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>GZip Filter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.gzip.GzipFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

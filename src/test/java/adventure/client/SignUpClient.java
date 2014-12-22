@@ -7,7 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import adventure.service.SignUpService.SignUpData;
+import br.com.fbca.rest.SignUpREST.SignUpData;
 
 @Path("signup")
 @Consumes(APPLICATION_JSON)
