@@ -13,7 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -43,7 +42,11 @@ public class SignUpREST {
 	@Produces("application/json")
 	public Long signUp(SignUpData data) throws Exception {
 		User user = new User();
-		BeanUtils.copyProperties(user, data);
+		user.setName(data.name);
+		user.setEmail(data.email);
+		user.setPassword(data.password);
+		user.setBirthday(data.birthday);
+		user.setGender(data.gender);
 
 		String password = user.getPassword();
 		user.setPassword(Passwords.hash(password));

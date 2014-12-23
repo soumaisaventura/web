@@ -1,39 +1,20 @@
-var SignUpProxy = function() {
-    this.url = "api/signup";
-};
+var SignUpProxy = {
 
-SignUpProxy.prototype.signup = function($form, $success, $error) {
-    return $.ajax({
-	type : "POST",
-	url : this.url,
-	data : JSON.stringify($form),
-	contentType : "application/json",
-	success : function(data) {
-	    if ($success) {
-		$success(data);
-	    }
-	},
-	error : function(request) {
-	    if ($error) {
-		$error(request);
-	    }
-	}
-    });
-};
+	url : "api/signup",
 
-SignUpProxy.prototype.unregister = function($success, $error) {
-    return $.ajax({
-	type : "DELETE",
-	url : this.url,
-	success : function(data) {
-	    if ($success) {
-		$success(data);
-	    }
+	signup : function($data) {
+		return $.ajax({
+			type : "POST",
+			url : this.url,
+			data : JSON.stringify($data),
+			contentType : "application/json"
+		});
 	},
-	error : function(request) {
-	    if ($error) {
-		$error(request);
-	    }
+
+	unregister : function() {
+		return $.ajax({
+			type : "DELETE",
+			url : this.url
+		});
 	}
-    });
 };

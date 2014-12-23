@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.fbca.entity.BloodType;
@@ -42,7 +41,7 @@ public class RegisterREST {
 	public PersonalData loadPersonal() throws Exception {
 		PersonalData data = new PersonalData();
 		User user = dao.load(((User) securityContext.getUser()).getId());
-		BeanUtils.copyProperties(data, user);
+		// BeanUtils.copyProperties(data, user);
 
 		return data;
 	}
@@ -54,7 +53,7 @@ public class RegisterREST {
 	public MedicalData loadMedical() throws Exception {
 		MedicalData data = new MedicalData();
 		User user = dao.load(((User) securityContext.getUser()).getId());
-		BeanUtils.copyProperties(data, user);
+		// BeanUtils.copyProperties(data, user);
 
 		return data;
 	}
@@ -68,7 +67,7 @@ public class RegisterREST {
 	@Produces("application/json")
 	public void updatePersonal(PersonalData data) throws Exception {
 		User user = dao.load(((User) securityContext.getUser()).getId());
-		BeanUtils.copyProperties(user, data);
+		// BeanUtils.copyProperties(user, data);
 
 		dao.update(user);
 	}
@@ -81,7 +80,7 @@ public class RegisterREST {
 	@Consumes("application/json")
 	public void updateMedical(MedicalData data) throws Exception {
 		User user = dao.load(((User) securityContext.getUser()).getId());
-		BeanUtils.copyProperties(user, data);
+		// BeanUtils.copyProperties(user, data);
 
 		dao.update(user);
 	}

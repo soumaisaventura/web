@@ -6,9 +6,11 @@
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
 		<class>br.com.fbca.entity.User</class>
-		<class>br.com.fbca.entity.Event</class>
-		<class>br.com.fbca.entity.Modality</class>
 		<class>br.com.fbca.entity.Athlete</class>
+		<!-- 		
+		<class>br.com.fbca.entity_.Event</class>
+		<class>br.com.fbca.entity_.Modality</class>
+		-->
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

@@ -9,7 +9,7 @@ $(function() {
 function getUserOk(data) {
 	$("#loggedout-menu").hide();
 	$("#loggedin-menu").show();
-	$("#username").html(data.name);
+	$("#currentUser").html(data.name);
 }
 
 function logoutOk() {

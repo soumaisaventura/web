@@ -1,4 +1,4 @@
-package br.com.fbca.entity;
+package br.com.fbca.entity_;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -6,9 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 @Entity
-@JSEntity
 public class Modality {
 
 	@Id
@@ -16,10 +14,11 @@ public class Modality {
 	private Long id;
 
 	private String name;
-	
-	public Modality(){}
-	
-	public Modality(String name){
+
+	public Modality() {
+	}
+
+	public Modality(String name) {
 		this.name = name;
 	}
 

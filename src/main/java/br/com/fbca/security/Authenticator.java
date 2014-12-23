@@ -2,8 +2,6 @@ package br.com.fbca.security;
 
 import java.security.Principal;
 
-import javax.enterprise.context.RequestScoped;
-
 import br.com.fbca.entity.User;
 import br.com.fbca.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -11,7 +9,6 @@ import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.security.TokenAuthenticator;
 import br.gov.frameworkdemoiselle.util.Beans;
 
-@RequestScoped
 public class Authenticator extends TokenAuthenticator {
 
 	private static final long serialVersionUID = 1L;

@@ -8,6 +8,7 @@ var AuthProxy = {
 			url : this.url,
 			data : JSON.stringify($data),
 			contentType : "application/json",
+			error : function() {}
 		});
 	},
 
@@ -25,6 +26,7 @@ var AuthProxy = {
 		return $.ajax({
 			url : this.url,
 			type : "GET",
+			error : function() {},
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}

@@ -3,9 +3,13 @@ $.ajaxSetup({
 		switch (request.status) {
 			case 401:
 				bootbox.alert("Você não está autenticado!", function() {
-					location.href = "login.html";
+					location.href = "login";
 				});
 
+				break;
+
+			case 422:
+				App.handleValidation(request);
 				break;
 		}
 	}
@@ -43,7 +47,7 @@ var App = {
 		$($("form input").get().reverse()).each(function() {
 			var id = $(this).attr('id');
 			var message = null;
-			
+
 			$.each(request.responseJSON, function(index, value) {
 				var aux = value.property ? value.property : "global";
 

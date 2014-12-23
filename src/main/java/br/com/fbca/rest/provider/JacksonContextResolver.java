@@ -25,7 +25,7 @@ public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 		objectMapper.configure(WRITE_ENUMS_USING_TO_STRING, true);
 		objectMapper.configure(FAIL_ON_EMPTY_BEANS, false);
 		objectMapper.setSerializationInclusion(NON_NULL);
-		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	}
 
 	@Override

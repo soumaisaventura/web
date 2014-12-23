@@ -1,15 +1,16 @@
-// Form events binding
-
 $(function() {
-	$("#login").click(function() {
-		$("[id$='-message']").hide();
-		login();
-	});
+	$("#username").focus();
 
-	$(document).keypress(function(e) {
-		if (e.which == 13) {
-			login();
-		}
+	$("form").submit(function(event) {
+		event.preventDefault();
+		$("[id$='-message']").hide();
+
+		var data = {
+			'username' : $("#username").val().trim(),
+			'password' : $("#password").val()
+		};
+
+		AuthProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
 	$("#facebook-login").click(function() {
@@ -42,15 +43,6 @@ $(function() {
 });
 
 // Regular login process
-
-function login() {
-	var data = {
-		'username' : $("#username").val(),
-		'password' : $("#password").val()
-	};
-
-	AuthProxy.login(data).done(loginOk).fail(loginFailed);
-}
 
 function loginOk(data, status, request) {
 	App.setToken(request.getResponseHeader('Set-Token'));

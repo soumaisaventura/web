@@ -1,6 +1,6 @@
-package br.com.fbca.persistence;
+package br.com.fbca.persistence_;
 
-import br.com.fbca.entity.Modality;
+import br.com.fbca.entity_.Modality;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 

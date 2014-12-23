@@ -1,16 +1,19 @@
 // Form events binding
 
 $(function() {
+	$("#name").focus();
+
 	$(".input-group.date").datepicker({
 		todayHighlight : true,
 		language : "pt-BR",
 		startView : 2
 	});
 
-	$("#salvar").click(function() {
+	$("form").submit(function(event) {
+		event.preventDefault();
 		$("[id$='-message']").hide();
 
-		var form = {
+		var data = {
 			'name' : $("#name").val(),
 			'password' : $("#password").val(),
 			'email' : $("#email").val(),
@@ -18,29 +21,31 @@ $(function() {
 			'gender' : $("#gender").val()
 		};
 
-		new SignUpProxy().signup(form, signupOk, signupFailed);
+		SignUpProxy.signup(data).done(signupOk); //.fail(signupFailed);
 	});
 });
 
 // SignUp process
 
-function signupOk(data) {
+function signupOk(data, status, request) {
+	App.setToken(request.getResponseHeader('Set-Token'));
+
 	$('#myModal').modal('toggle').on('hidden.bs.modal', function() {
 		location.href = './';
 	});
 }
 
-function signupFailed(request) {
-	switch (request.status) {
-		case 422:
-			App.handleValidation(request);
-			break;
-
-		default:
-			break;
-	}
-
-	// $.each(request.responseJSON.reverse(), function(index, value) {
-	// $("#" + value.property + "-message").html(value.message).show();
-	// });
-}
+//function signupFailed(request) {
+//	switch (request.status) {
+//		case 422:
+//			App.handleValidation(request);
+//			break;
+//
+//		default:
+//			break;
+//	}
+//
+//	// $.each(request.responseJSON.reverse(), function(index, value) {
+//	// $("#" + value.property + "-message").html(value.message).show();
+//	// });
+//}

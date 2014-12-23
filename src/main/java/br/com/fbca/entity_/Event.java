@@ -1,4 +1,4 @@
-package br.com.fbca.entity;
+package br.com.fbca.entity_;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 

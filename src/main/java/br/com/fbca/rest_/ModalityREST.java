@@ -12,8 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import br.com.fbca.entity.Modality;
-import br.com.fbca.persistence.ModalityDAO;
+import br.com.fbca.entity_.Modality;
+import br.com.fbca.persistence_.ModalityDAO;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("modality")

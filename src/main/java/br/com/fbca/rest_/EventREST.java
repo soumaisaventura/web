@@ -10,9 +10,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import br.com.fbca.entity.Event;
-import br.com.fbca.persistence.EventDAO;
-import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.com.fbca.entity_.Event;
+import br.com.fbca.persistence_.EventDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Path("event")
@@ -27,7 +26,7 @@ public class EventREST {
 		return dao.findAll();
 	}
 
-	@Startup
+	// @Startup
 	@Transactional
 	public void loadTempData() throws MalformedURLException {
 		if (dao.findAll().isEmpty()) {
