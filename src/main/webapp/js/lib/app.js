@@ -2,10 +2,8 @@ $.ajaxSetup({
 	error : function(request) {
 		switch (request.status) {
 			case 401:
-				bootbox.alert("Você não está autenticado!", function() {
-					location.href = "login";
-				});
-
+				alert("Você não está autenticado!");
+				location.href = "login";
 				break;
 
 			case 422:
@@ -34,7 +32,6 @@ var App = {
 
 	removeToken : function() {
 		sessionStorage.removeItem(this.tokenKey);
-		$.removeCookie("Token");
 	},
 
 	getUrlParameterByName : function(name) {

@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<div>
+		<div id="loggedin-menu" hidden="true">
+			<a href="profile" id="currentUser"></a> <a href="#" id="logout">Sair</a>
+		</div>
+		<div id="loggedout-menu">
+			<a href="login">Login</a> <a href="signup">Registre-se</a>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/auth.js"></script>
+
+</ui:composition>

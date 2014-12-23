@@ -2,82 +2,37 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
-		<div class="container">
-			<form class="form-horizontal" role="form">
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-3">
-						<h1>Junte-se a nós</h1>
-						<p class="lead">A melhor maneira de gerenciar sua corrida de aventura.</p>
-						<h3>Crie sua conta</h3>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-3">
-						<label for="name">Nome</label> <input type="text" id="name" class="form-control input-lg" autofocus="true" />
-						<div id="name-message" class="label label-danger" hidden="true"></div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-3">
-						<label for="email">E-mail</label> <input type="email" id="email" class="form-control input-lg" />
-						<div id="email-message" class="label label-danger" hidden="true"></div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-3">
-						<label for="password">Senha</label> <input type="password" id="password" class="form-control input-lg" />
-						<div id="password-message" class="label label-danger" hidden="true"></div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-3 col-md-offset-3">
-						<label for="birthday">Data de Nascimento</label> <input type="date" id="birthday" class="form-control input-lg" />
-						<div id="birthday-message" class="label label-danger" hidden="true"></div>
-					</div>
-
-					<div class="col-md-3">
-						<label for="gender">Sexo</label> <select id="gender" class="form-control input-lg">
-							<option value="" selected="selected"></option>
-							<option value="M">Masculino</option>
-							<option value="F">Feminino</option>
-						</select>
-						<div id="gender-message" class="label label-danger" hidden="true"></div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-3 col-md-offset-3">
-						<input type="submit" id="salvar" class="btn btn-primary btn-lg" value="Criar conta" />
-					</div>
-				</div>
-			</form>
-		</div>
-
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-					</div>
-					<div class="modal-body">
-						<p>Cadastro efetuado com sucesso.</p>
-					</div>
-				</div>
-				<!-- /.modal-content -->
+		<div>
+			<div>
+				<h1>Crie sua conta</h1>
 			</div>
-			<!-- /.modal-dialog -->
+			<div>
+				<form>
+					<div>
+						<label for="name">Nome</label> <input type="text" id="name" />
+						<div id="name-message" hidden="true"></div>
+					</div>
+
+					<div>
+						<label for="email">E-mail</label> <input type="email" id="email" />
+						<div id="email-message" hidden="true"></div>
+					</div>
+
+					<div>
+						<label for="password">Senha</label> <input type="password" id="password" />
+						<div id="password-message" hidden="true"></div>
+					</div>
+
+					<div>
+						<button type="submit">Criar conta</button>
+					</div>
+				</form>
+			</div>
 		</div>
 
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap-datepicker.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap-datepicker.pt-BR.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/signup.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/signup.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/signup.js"></script>
 	</ui:define>
 </ui:composition>

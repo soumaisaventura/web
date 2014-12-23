@@ -1,12 +1,6 @@
 package br.com.fbca.rest;
 
-import static br.com.fbca.entity.Gender.MALE;
-
-import java.util.Date;
-
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -16,7 +10,6 @@ import javax.ws.rs.Produces;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.com.fbca.entity.Gender;
 import br.com.fbca.entity.User;
 import br.com.fbca.persistence.UserDAO;
 import br.com.fbca.security.Passwords;
@@ -45,8 +38,8 @@ public class SignUpREST {
 		user.setName(data.name);
 		user.setEmail(data.email);
 		user.setPassword(data.password);
-		user.setBirthday(data.birthday);
-		user.setGender(data.gender);
+		// user.setBirthday(data.birthday);
+		// user.setGender(data.gender);
 
 		String password = user.getPassword();
 		user.setPassword(Passwords.hash(password));
@@ -84,8 +77,8 @@ public class SignUpREST {
 			usuario.setName("Urtzi Iglesias");
 			usuario.setEmail("urtzi.iglesias@vidaraid.com");
 			usuario.setPassword(Passwords.hash("abcde"));
-			usuario.setBirthday(new Date());
-			usuario.setGender(MALE);
+			// usuario.setBirthday(new Date());
+			// usuario.setGender(MALE);
 			dao.insert(usuario);
 		}
 	}
@@ -103,11 +96,11 @@ public class SignUpREST {
 		@NotEmpty
 		public String password;
 
-		@Past
-		@NotNull
-		public Date birthday;
-
-		@NotNull
-		public Gender gender;
+		// @Past
+		// @NotNull
+		// public Date birthday;
+		//
+		// @NotNull
+		// public Gender gender;
 	}
 }

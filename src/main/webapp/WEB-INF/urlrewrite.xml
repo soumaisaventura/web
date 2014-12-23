@@ -47,6 +47,11 @@
 		<to>/password.jsf</to>
 	</rule>
 
+	<rule>
+		<from>^/profile$</from>
+		<to>/profile.jsf</to>
+	</rule>
+
 	<!--
 	<rule>
 		<from>^/mobile$</from>

@@ -7,6 +7,8 @@
 
 		<class>br.com.fbca.entity.User</class>
 		<class>br.com.fbca.entity.Athlete</class>
+		<class>br.com.fbca.entity.Address</class>
+
 		<!-- 		
 		<class>br.com.fbca.entity_.Event</class>
 		<class>br.com.fbca.entity_.Modality</class>
@@ -16,6 +18,7 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<!--
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />

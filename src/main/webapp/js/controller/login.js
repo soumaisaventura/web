@@ -15,7 +15,6 @@ $(function() {
 
 	$("#facebook-login").click(function() {
 		$("[id$='-message']").hide();
-		showModal();
 
 		FB.init({
 			appId : '1422799641299675',
@@ -31,7 +30,6 @@ $(function() {
 
 	$("#google-login").click(function() {
 		$("[id$='-message']").hide();
-		showModal();
 
 		gapi.auth.signIn({
 			'clientid' : '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
@@ -67,9 +65,8 @@ function facebookLogin(response) {
 	if (response.authResponse) {
 		$("#form-login input").attr("disabled", true);
 		AuthProxy.facebookLogin(response.authResponse.accessToken).done(facebookLoginOk).fail(facebookLoginFailed);
-
 	} else {
-		hideModal();
+
 	}
 }
 
@@ -90,43 +87,11 @@ function googleLogin(authResult) {
 		$("#form-login input").attr("disabled", true);
 		AuthProxy.googleLogin(authResult.code).done(googleLoginOk);
 
-	} else if (authResult['error']) {
-		// hideModal();
-	}
+	} else if (authResult['error']) {}
 }
 
 function googleLoginOk(data, status, request) {
 	App.setToken(request.getResponseHeader('Set-Token'));
 	gapi.auth.signOut();
 	location.href = "./";
-}
-
-// UI elements manipulation
-
-function showModal() {
-	$('#modal').modal('show');
-	var opts = {
-		lines : 11, // The number of lines to draw
-		length : 19, // The length of each line
-		width : 10, // The line thickness
-		radius : 22, // The radius of the inner circle
-		corners : 1, // Corner roundness (0..1)
-		rotate : 0, // The rotation offset
-		direction : 1, // 1: clockwise, -1: counterclockwise
-		color : '#fff', // #rgb or #rrggbb or array of colors
-		speed : 1, // Rounds per second
-		trail : 50, // Afterglow percentage
-		shadow : false, // Whether to render a shadow
-		hwaccel : true, // Whether to use hardware acceleration
-		className : 'spinner', // The CSS class to assign to the spinner
-		zIndex : 2e9, // The z-index (defaults to 2000000000)
-		top : 'auto', // Top position relative to parent in px
-		left : 'auto' // Left position relative to parent in px
-	};
-	var target = document.getElementById('spin');
-	var spinner = new Spinner(opts).spin(target);
-}
-
-function hideModal() {
-	$('#modal').modal('hide');
 }

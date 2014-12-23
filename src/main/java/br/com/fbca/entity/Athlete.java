@@ -1,13 +1,19 @@
 package br.com.fbca.entity;
 
-import java.io.Serializable;
+import static javax.persistence.EnumType.STRING;
 
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Past;
 
 @Entity
-public class Athlete implements Serializable{
+public class Athlete implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,13 +25,17 @@ public class Athlete implements Serializable{
 
 	private String cpf;
 
-	private String endereco;
+	@Past
+	private Date birthday;
 
-	private String bairro;
+	@Enumerated(STRING)
+	private Gender gender;
 
-	private String municipio;
+	@Enumerated(STRING)
+	private BloodType bloodType;
 
-	private String uf;
+	@Embedded
+	private Address address;
 
 	public User getUser() {
 		return user;
@@ -51,35 +61,35 @@ public class Athlete implements Serializable{
 		this.cpf = cpf;
 	}
 
-	public String getEndereco() {
-		return endereco;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
-	public String getBairro() {
-		return bairro;
+	public Gender getGender() {
+		return gender;
 	}
 
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 
-	public String getMunicipio() {
-		return municipio;
+	public BloodType getBloodType() {
+		return bloodType;
 	}
 
-	public void setMunicipio(String municipio) {
-		this.municipio = municipio;
+	public void setBloodType(BloodType bloodType) {
+		this.bloodType = bloodType;
 	}
 
-	public String getUf() {
-		return uf;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
