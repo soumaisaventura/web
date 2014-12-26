@@ -2,11 +2,14 @@ package br.com.fbca.persistence;
 
 import static javax.mail.Message.RecipientType.TO;
 
+import java.net.URI;
+
 import javax.ejb.Asynchronous;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.infinispan.Cache;
@@ -23,7 +26,7 @@ public class MailDAO {
 	private ContainerResources resources;
 
 	@Asynchronous
-	public void sendResetPasswordMail(String email) throws MessagingException {
+	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
 		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
 		String token = cache.get(email);
 
@@ -34,10 +37,10 @@ public class MailDAO {
 
 		MimeMessage message = new MimeMessage(resources.getSession());
 
-		// message.setFrom(new InternetAddress("cleverson.sacramento@serpro.gov.br"));
+		message.setFrom(new InternetAddress("contato@fbca.com.br"));
 		message.setSubject("Redefinição de senha");
 		message.setRecipients(TO, email);
-		message.setContent("http://localhost/adventure/password?token=" + token, "text/plain");
+		message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
 
 		Transport.send(message);
 	}

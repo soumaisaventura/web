@@ -1,10 +1,14 @@
 package br.com.fbca.rest;
 
+import java.net.URI;
+
 import javax.mail.MessagingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,8 +33,9 @@ public class ResetREST {
 	@POST
 	@ValidatePayload
 	@Consumes("application/json")
-	public void requestPasswordReset(ResetRequestData data) throws MessagingException {
-		Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email);
+	public void requestPasswordReset(RequestResetData data, @Context UriInfo uriInfo) throws MessagingException {
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 	}
 
 	@POST
@@ -38,12 +43,14 @@ public class ResetREST {
 	@ValidatePayload
 	@Path("/{token}")
 	@Consumes("application/json")
-	public void performPasswordReset(@PathParam("token") String token, ResetPerformData data) throws Exception {
+	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+			throws Exception {
 		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
 		String cachedToken = cache.get(data.email);
 
 		if (cachedToken == null || !cachedToken.equals(token)) {
-			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email);
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
+			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 
 			throw new UnprocessableEntityException()
 					.addViolation("Esta solicitação não é mais válida. Siga as instruções que acabamos de enviar para o seu e-mail.");
@@ -68,22 +75,22 @@ public class ResetREST {
 		Beans.getReference(SecurityContext.class).login();
 	}
 
-	public static class ResetRequestData {
+	public static class RequestResetData {
 
 		@Email
 		@NotEmpty
 		@ExistentUserEmail
-		String email;
+		public String email;
 	}
 
-	public static class ResetPerformData {
+	public static class PerformResetData {
 
 		@Email
 		@NotEmpty
 		@ExistentUserEmail
-		String email;
+		public String email;
 
 		@NotEmpty
-		String newPassword;
+		public String newPassword;
 	}
 }

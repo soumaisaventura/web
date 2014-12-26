@@ -1,34 +1,23 @@
-// Form events binding
-
 $(function() {
-	$("#update").click(function() {
+	$("#email").focus();
+
+	$("form").submit(function(event) {
+		event.preventDefault();
 		$("[id$='-message']").hide();
 
-		var form = {
+		var data = {
 			'email' : $("#email").val(),
 			'newPassword' : $("#newPassword").val()
 		};
 
-		var token = $.url().param('token');
-		new ResetProxy().performPasswordReset(form, token, resetOk, resetFailed);
+		var token = App.getUrlParameterByName('token');
+		ResetProxy.performPasswordReset(data, token).done(resetOk);
 	});
 });
 
 // Password Reset process
 
-function resetOk(data) {
-	location.href = './';
-}
-
-function resetFailed(request) {
-	switch (request.status) {
-		case 400:
-			break;
-
-		case 412:
-			$.each(request.responseJSON.reverse(), function(index, value) {
-				$("#" + value.property + "-message").html(value.message).show();
-			});
-			break;
-	}
+function resetOk(data, status, request) {
+	App.setToken(request.getResponseHeader('Set-Token'));
+	location.href = "./";
 }
