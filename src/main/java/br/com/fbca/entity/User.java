@@ -1,18 +1,20 @@
 package br.com.fbca.entity;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.security.Principal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
-import com.google.api.services.oauth2.model.Userinfo;
 
 @Entity
 public class User implements Principal {
@@ -21,8 +23,6 @@ public class User implements Principal {
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
-	private String name;
-
 	@Email
 	@NotEmpty
 	@Column(unique = true)
@@ -30,21 +30,11 @@ public class User implements Principal {
 
 	private String password;
 
-	public User() {
-	}
+	private String name;
 
-	public User(Userinfo userInfo) {
-		if (!userInfo.getVerifiedEmail()) {
-			throw new IllegalStateException("O e-mail não foi verificado");
-		}
+	private String rg;
 
-		this.name = userInfo.getName();
-		this.email = userInfo.getEmail();
-
-		// if (userInfo.getGender() != null) {
-		// this.gender = Gender.valueOf(userInfo.getGender().toUpperCase());
-		// }
-	}
+	private String cpf;
 
 	public Long getId() {
 		return id;
@@ -52,15 +42,6 @@ public class User implements Principal {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getEmail() {
@@ -77,5 +58,55 @@ public class User implements Principal {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	@Past
+	private Date birthday;
+
+	@Enumerated(STRING)
+	private Gender gender;
+
+	public User() {
 	}
 }

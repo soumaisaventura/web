@@ -8,7 +8,9 @@ $(function() {
 		var data = {
 			'name' : $("#name").val(),
 			'password' : $("#password").val(),
-			'email' : $("#email").val()
+			'email' : $("#email").val(),
+			'birthday' : $("#birthday").val(),
+			'gender' : $("#gender").val()
 		};
 
 		SignUpProxy.signup(data).done(signupOk);

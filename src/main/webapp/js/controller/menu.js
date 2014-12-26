@@ -1,12 +1,12 @@
 $(function() {
-	AuthProxy.getUser().done(getUserOk);
+	UserProxy.getLoggedInUser().done(getLoggedInUserOk);
 
 	$("#logout").click(function() {
-		AuthProxy.logout().done(logoutOk);
+		LogoutProxy.logout().done(logoutOk);
 	});
 });
 
-function getUserOk(data) {
+function getLoggedInUserOk(data) {
 	$("#loggedout-menu").hide();
 	$("#loggedin-menu").show();
 	$("#currentUser").html(data.name);

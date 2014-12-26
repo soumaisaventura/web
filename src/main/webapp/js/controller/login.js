@@ -10,7 +10,7 @@ $(function() {
 			'password' : $("#password").val()
 		};
 
-		AuthProxy.login(data).done(loginOk).fail(loginFailed);
+		LogonProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
 	$("#facebook-login").click(function() {
@@ -63,17 +63,21 @@ function loginFailed(request) {
 
 function facebookLogin(response) {
 	if (response.authResponse) {
-		$("#form-login input").attr("disabled", true);
-		AuthProxy.facebookLogin(response.authResponse.accessToken).done(facebookLoginOk).fail(facebookLoginFailed);
+		$("form input").attr("disabled", true);
+
+		var data = {
+			'token' : response.authResponse.accessToken
+		};
+
+		LogonProxy.facebookLogin(data).done(facebookLoginOk).fail(facebookLoginFailed);
 	} else {
 
 	}
 }
 
 function facebookLoginOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
 	FB.logout();
-	location.href = "./";
+	loginOk(data, status, request);
 }
 
 function facebookLoginFailed(request) {
@@ -84,14 +88,18 @@ function facebookLoginFailed(request) {
 
 function googleLogin(authResult) {
 	if (authResult['access_token']) {
-		$("#form-login input").attr("disabled", true);
-		AuthProxy.googleLogin(authResult.code).done(googleLoginOk);
+		$("form input").attr("disabled", true);
+
+		var data = {
+			'token' : authResult.code
+		};
+
+		LogonProxy.googleLogin(data).done(googleLoginOk);
 
 	} else if (authResult['error']) {}
 }
 
 function googleLoginOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
 	gapi.auth.signOut();
-	location.href = "./";
+	loginOk(data, status, request);
 }

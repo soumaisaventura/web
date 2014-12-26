@@ -41,7 +41,7 @@ var App = {
 	},
 
 	handleValidation : function(request) {
-		$($("form input").get().reverse()).each(function() {
+		$($("form input, form select, form textarea").get().reverse()).each(function() {
 			var id = $(this).attr('id');
 			var message = null;
 
