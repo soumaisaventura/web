@@ -2,6 +2,7 @@ package br.com.fbca.rest;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 import javax.ws.rs.POST;
@@ -16,6 +17,7 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
+import br.gov.frameworkdemoiselle.util.Strings;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 public abstract class OAuthLogon {
@@ -33,20 +35,25 @@ public abstract class OAuthLogon {
 		User persistedUser = dao.loadByEmail(oauthUser.getEmail());
 
 		if (persistedUser == null) {
+			oauthUser.setVerifified(true);
 			dao.insert(oauthUser);
 			login(oauthUser);
 
 		} else {
+			persistedUser.setVerifified(true);
 			updateInfo(oauthUser, persistedUser);
 			login(oauthUser);
 		}
 	}
 
-	private void updateInfo(User from, User to) throws IllegalArgumentException, IllegalAccessException {
+	private void updateInfo(User from, User to) throws Exception {
 		for (Field field : Reflections.getNonStaticFields(to.getClass())) {
-			if (Reflections.getFieldValue(field, to) == null) {
+			if (Reflections.getFieldValue(field, from) != null && Reflections.getFieldValue(field, to) == null) {
 				Object value = Reflections.getFieldValue(field, from);
-				Reflections.setFieldValue(field, to, value);
+
+				String setter = "set" + Strings.firstToUpper(field.getName());
+				Method method = to.getClass().getMethod(setter, value.getClass());
+				method.invoke(method, value);
 			}
 		}
 

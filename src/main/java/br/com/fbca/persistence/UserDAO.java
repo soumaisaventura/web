@@ -22,8 +22,6 @@ public class UserDAO extends JPACrud<User, Long> {
 
 		try {
 			result = query.getSingleResult();
-			getEntityManager().detach(result);
-
 		} catch (NoResultException cause) {
 			result = null;
 		}

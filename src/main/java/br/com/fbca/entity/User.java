@@ -11,8 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -28,6 +30,7 @@ public class User implements Principal {
 	@Column(unique = true)
 	private String email;
 
+	@JsonIgnore
 	private String password;
 
 	private String name;
@@ -35,6 +38,15 @@ public class User implements Principal {
 	private String rg;
 
 	private String cpf;
+
+	@Past
+	private Date birthday;
+
+	@Enumerated(STRING)
+	private Gender gender;
+
+	@NotNull
+	private boolean verifified;
 
 	public Long getId() {
 		return id;
@@ -60,7 +72,6 @@ public class User implements Principal {
 		this.password = password;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -101,12 +112,11 @@ public class User implements Principal {
 		this.gender = gender;
 	}
 
-	@Past
-	private Date birthday;
+	public boolean isVerifified() {
+		return verifified;
+	}
 
-	@Enumerated(STRING)
-	private Gender gender;
-
-	public User() {
+	public void setVerifified(boolean verifified) {
+		this.verifified = verifified;
 	}
 }
