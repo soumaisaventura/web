@@ -87,6 +87,10 @@ public class MailDAO {
 		props.put("mail.smtp.user", config.getUser());
 		props.put("mail.smtp.password", config.getPassword());
 
+		if (config.getPort() != null) {
+			props.put("mail.smtp.port", config.getPort());
+		}
+
 		return Session.getInstance(props);
 	}
 }

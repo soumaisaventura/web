@@ -11,6 +11,9 @@ public class MailConfig {
 	@NotEmpty
 	@Name("mail.smtp.host")
 	private String host;
+	
+	@Name("mail.smtp.port")
+	private Integer port;
 
 	@NotEmpty
 	@Name("mail.smtp.user")
@@ -22,6 +25,10 @@ public class MailConfig {
 
 	public String getHost() {
 		return host;
+	}
+	
+	public Integer getPort() {
+		return port;
 	}
 
 	public String getUser() {
