@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,7 +21,7 @@ public class Race {
 	@NotEmpty
 	private String name;
 
-	@NotEmpty
+	@NotNull
 	private Date date;
 
 	public Long getId() {

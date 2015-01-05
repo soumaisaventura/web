@@ -31,7 +31,7 @@ public class UserDAO extends JPACrud<User, Long> {
 	}
 
 	public User loadByEmail(String email, boolean includeDeleted) {
-		String jpql = "from " + this.getBeanClass().getName() + " where email = :email";
+		String jpql = "from User where email = :email";
 		
 		if (!includeDeleted) {
 			jpql += " and deleted is null";

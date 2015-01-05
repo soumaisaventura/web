@@ -2,6 +2,20 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
-		<div class="container" style="margin-top: 70px;">Em construção...</div>
+		<div>Próximas provas</div>
+
+		<table id="resultTable" border="1">
+			<thead>
+				<tr>
+					<th>data</th>
+					<th>prova</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/home.js"></script>
 	</ui:define>
 </ui:composition>
