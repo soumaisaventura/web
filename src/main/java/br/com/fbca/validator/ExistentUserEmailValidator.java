@@ -20,7 +20,7 @@ public class ExistentUserEmailValidator implements ConstraintValidator<ExistentU
 
 		if (!Strings.isEmpty(email)) {
 			UserDAO dao = Beans.getReference(UserDAO.class);
-			User user = dao.loadByEmail(email);
+			User user = dao.loadByEmail(email, true);
 
 			result = user != null;
 		}

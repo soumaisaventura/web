@@ -33,6 +33,11 @@
 	</rule>
 
 	<rule>
+		<from>^/activation$</from>
+		<to>/activation.jsf</to>
+	</rule>
+
+	<rule>
 		<from>^/register$</from>
 		<to>/register.jsf</to>
 	</rule>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jboss-deployment-structure>
-<!-- <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1"> -->
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
 
 	<deployment>
 		<dependencies>
@@ -8,10 +7,10 @@
 			<module name="org.infinispan" />
 			<module name="javax.mail.api" />
 			-->
-			<module name="br.com.fbca" />
 
+			<module name="br.com.fbca" />
 			<module name="org.codehaus.jackson.jackson-mapper-asl" />
-						
+
 			<!--
 			<module name="org.hibernate.validator" />
 			<module name="org.apache.httpcomponents" />
@@ -20,7 +19,7 @@
 			<module name="org.apache.commons.beanutils" />
 			<module name="org.apache.commons.configuration" />
 			-->
-			
+
 			<!--
 			<module name="org.codehaus.jackson.jackson-jaxrs" />
 			<module name="org.codehaus.jackson.jackson-core-asl" />

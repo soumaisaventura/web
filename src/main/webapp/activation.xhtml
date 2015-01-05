@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<div>
+			<div>
+				<h1>Recuperação de senha</h1>
+			</div>
+		</div>
+
+		<div>
+			<form>
+				<div>
+					<label for="email">E-mail</label> <input id="email" type="email" />
+					<div id="email-message" hidden="true"></div>
+				</div>
+
+				<div>
+					<input id="global" type="hidden" />
+					<div id="global-message" hidden="true" />
+					<button type="submit">Ativar a conta</button>
+				</div>
+			</form>
+		</div>
+
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/signup.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/activation.js"></script>
+	</ui:define>
+</ui:composition>

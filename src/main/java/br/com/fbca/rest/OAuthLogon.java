@@ -3,6 +3,7 @@ package br.com.fbca.rest;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.ws.rs.POST;
@@ -35,12 +36,12 @@ public abstract class OAuthLogon {
 		User persistedUser = dao.loadByEmail(oauthUser.getEmail());
 
 		if (persistedUser == null) {
-			oauthUser.setVerifified(true);
+			oauthUser.setActivation(new Date());
 			dao.insert(oauthUser);
 			login(oauthUser);
 
 		} else {
-			persistedUser.setVerifified(true);
+			persistedUser.setActivation(new Date());
 			updateInfo(oauthUser, persistedUser);
 			login(oauthUser);
 		}

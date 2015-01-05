@@ -1,7 +1,6 @@
 package br.com.fbca.rest;
 
-import static br.com.fbca.entity.Gender.MALE;
-
+import java.net.URI;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -11,17 +10,22 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.fbca.entity.Gender;
 import br.com.fbca.entity.User;
+import br.com.fbca.persistence.MailDAO;
 import br.com.fbca.persistence.UserDAO;
 import br.com.fbca.security.Passwords;
+import br.com.fbca.validator.ExistentUserEmail;
 import br.com.fbca.validator.UniqueUserEmail;
-import br.gov.frameworkdemoiselle.lifecycle.Startup;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -33,28 +37,52 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class SignUpREST {
 
 	@Inject
-	private UserDAO dao;
+	private UserDAO userDAO;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Long signUp(SignUpData data) throws Exception {
+	public Long signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
 		User user = new User();
 		user.setName(data.name);
 		user.setEmail(data.email);
 		user.setPassword(data.password);
 		user.setBirthday(data.birthday);
 		user.setGender(data.gender);
+		user.setCreation(new Date());
 
 		String password = user.getPassword();
 		user.setPassword(Passwords.hash(password));
-		Long result = dao.insert(user).getId();
+		Long result = userDAO.insert(user).getId();
 
 		login(user.getEmail(), password);
 
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		Beans.getReference(MailDAO.class).sendAccountActivationMail(user.getEmail(), baseUri);
+
 		return result;
+	}
+
+	@POST
+	@Transactional
+	@ValidatePayload
+	@Path("/activation/{token}")
+	@Consumes("application/json")
+	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
+		UserDAO dao = Beans.getReference(UserDAO.class);
+		User persistedUser = dao.loadByEmail(data.email);
+		String persistedToken = persistedUser.getActivationToken();
+
+		if (persistedToken == null || !persistedToken.equals(token)) {
+			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
+
+		} else {
+			persistedUser.setActivationToken(null);
+			persistedUser.setActivation(new Date());
+			dao.update(persistedUser);
+		}
 	}
 
 	private void login(String email, String password) {
@@ -71,24 +99,25 @@ public class SignUpREST {
 	public void quit() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		User user = (User) securityContext.getUser();
-		dao.delete(user.getId());
+		userDAO.delete(user.getId());
 	}
 
-	@Startup
-	@Transactional
-	public void cargaTemporariaInicial() {
-		if (dao.findAll().isEmpty()) {
-			User usuario;
-
-			usuario = new User();
-			usuario.setName("Urtzi Iglesias");
-			usuario.setEmail("urtzi.iglesias@vidaraid.com");
-			usuario.setPassword(Passwords.hash("abcde"));
-			usuario.setBirthday(new Date());
-			usuario.setGender(MALE);
-			dao.insert(usuario);
-		}
-	}
+	// @Startup
+	// @Transactional
+	// public void cargaTemporariaInicial() {
+	// if (userDAO.findAll().isEmpty()) {
+	// User usuario;
+	//
+	// usuario = new User();
+	// usuario.setName("Urtzi Iglesias");
+	// usuario.setEmail("urtzi.iglesias@vidaraid.com");
+	// usuario.setPassword(Passwords.hash("abcde"));
+	// usuario.setActivation(new Date());
+	// usuario.setBirthday(new Date());
+	// usuario.setGender(MALE);
+	// userDAO.insert(usuario);
+	// }
+	// }
 
 	public static class SignUpData {
 
@@ -109,5 +138,13 @@ public class SignUpREST {
 
 		@NotNull
 		public Gender gender;
+	}
+
+	public static class ActivationData {
+
+		@Email
+		@NotEmpty
+		@ExistentUserEmail
+		public String email;
 	}
 }

@@ -32,12 +32,11 @@ public class MailDAO {
 	@Asynchronous
 	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
 		User user = getUser(email);
-		String token = user.getPasswordResetToken();
+		String token = user.getActivationToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			user.setPasswordResetToken(token);
-			user.setPasswordResetRequest(new Date());
+			user.setActivationToken(token);
 			userDAO.update(user);
 		}
 

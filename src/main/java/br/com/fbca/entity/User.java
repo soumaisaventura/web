@@ -39,6 +39,18 @@ public class User implements Principal {
 	@JsonIgnore
 	private Date passwordResetRequest;
 
+	@NotNull
+	private Date creation;
+
+	@JsonIgnore
+	private Date activation;
+
+	@JsonIgnore
+	private String activationToken;
+
+	@JsonIgnore
+	private Date deleted;
+
 	private String name;
 
 	private String rg;
@@ -50,9 +62,6 @@ public class User implements Principal {
 
 	@Enumerated(STRING)
 	private Gender gender;
-
-	@NotNull
-	private boolean verifified;
 
 	public Long getId() {
 		return id;
@@ -94,6 +103,38 @@ public class User implements Principal {
 		this.passwordResetRequest = passwordResetRequest;
 	}
 
+	public Date getCreation() {
+		return creation;
+	}
+
+	public void setCreation(Date creation) {
+		this.creation = creation;
+	}
+
+	public Date getActivation() {
+		return activation;
+	}
+
+	public void setActivation(Date activation) {
+		this.activation = activation;
+	}
+
+	public String getActivationToken() {
+		return activationToken;
+	}
+
+	public void setActivationToken(String activationToken) {
+		this.activationToken = activationToken;
+	}
+
+	public Date getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Date deleted) {
+		this.deleted = deleted;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -132,13 +173,5 @@ public class User implements Principal {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
-	}
-
-	public boolean isVerifified() {
-		return verifified;
-	}
-
-	public void setVerifified(boolean verifified) {
-		this.verifified = verifified;
 	}
 }

@@ -27,11 +27,14 @@ public class LogonREST {
 	@Inject
 	private SecurityContext securityContext;
 
+	@Inject
+	private UserDAO userDAO;
+
 	@POST
 	@ValidatePayload
 	@Consumes("application/json")
 	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-		User persistedUser = Beans.getReference(UserDAO.class).loadByEmail(data.username);
+		User persistedUser = userDAO.loadByEmail(data.username);
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");

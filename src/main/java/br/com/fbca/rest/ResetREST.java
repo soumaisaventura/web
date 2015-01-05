@@ -45,9 +45,9 @@ public class ResetREST {
 			throws Exception {
 		UserDAO dao = Beans.getReference(UserDAO.class);
 		User persistedUser = dao.loadByEmail(data.email);
-		String cachedToken = persistedUser.getPasswordResetToken();
+		String persistedToken = persistedUser.getPasswordResetToken();
 
-		if (cachedToken == null || !cachedToken.equals(token)) {
+		if (persistedToken == null || !persistedToken.equals(token)) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 
