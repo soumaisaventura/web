@@ -53,7 +53,7 @@ public abstract class OAuthLogon {
 
 				String setter = "set" + Strings.firstToUpper(field.getName());
 				Method method = to.getClass().getMethod(setter, value.getClass());
-				method.invoke(method, value);
+				method.invoke(to, value);
 			}
 		}
 
