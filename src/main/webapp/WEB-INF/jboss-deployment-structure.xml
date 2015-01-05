@@ -4,8 +4,11 @@
 
 	<deployment>
 		<dependencies>
+			<!--
 			<module name="org.infinispan" />
 			<module name="javax.mail.api" />
+			-->
+			<module name="br.com.fbca" />
 
 			<module name="org.codehaus.jackson.jackson-mapper-asl" />
 						

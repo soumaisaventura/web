@@ -12,10 +12,8 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.infinispan.Cache;
 
 import br.com.fbca.entity.User;
-import br.com.fbca.persistence.ContainerResources;
 import br.com.fbca.persistence.MailDAO;
 import br.com.fbca.persistence.UserDAO;
 import br.com.fbca.security.Passwords;
@@ -45,8 +43,9 @@ public class ResetREST {
 	@Consumes("application/json")
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
-		Cache<String, String> cache = Beans.getReference(ContainerResources.class).getPasswordResetCache();
-		String cachedToken = cache.get(data.email);
+		UserDAO dao = Beans.getReference(UserDAO.class);
+		User persistedUser = dao.loadByEmail(data.email);
+		String cachedToken = persistedUser.getPasswordResetToken();
 
 		if (cachedToken == null || !cachedToken.equals(token)) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
@@ -56,10 +55,8 @@ public class ResetREST {
 					.addViolation("Esta solicitação não é mais válida. Siga as instruções que acabamos de enviar para o seu e-mail.");
 
 		} else {
-			cache.remove(data.email);
-
-			UserDAO dao = Beans.getReference(UserDAO.class);
-			User persistedUser = dao.loadByEmail(data.email);
+			persistedUser.setPasswordResetToken(null);
+			persistedUser.setPasswordResetRequest(null);
 			persistedUser.setPassword(Passwords.hash(data.newPassword));
 			dao.update(persistedUser);
 

@@ -33,6 +33,12 @@ public class User implements Principal {
 	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
+	private String passwordResetToken;
+
+	@JsonIgnore
+	private Date passwordResetRequest;
+
 	private String name;
 
 	private String rg;
@@ -70,6 +76,22 @@ public class User implements Principal {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void setPasswordResetToken(String passwordResetToken) {
+		this.passwordResetToken = passwordResetToken;
+	}
+
+	public Date getPasswordResetRequest() {
+		return passwordResetRequest;
+	}
+
+	public void setPasswordResetRequest(Date passwordResetRequest) {
+		this.passwordResetRequest = passwordResetRequest;
 	}
 
 	public String getName() {
