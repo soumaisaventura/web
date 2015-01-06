@@ -2,6 +2,8 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
+	
+	
 		<div>
 			<div>
 				<h1>Acessar sua conta</h1>
@@ -46,10 +48,15 @@
 
 		<script type="text/javascript" src="https://connect.facebook.net/pt_BR/all.js"></script>
 		<script type="text/javascript" src="https://apis.google.com/js/client:plus.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+		
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/logon.js"></script>
+		
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/controller/login.js"></script>
+		
 	</ui:define>
 
 </ui:composition>

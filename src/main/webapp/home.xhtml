@@ -1,21 +1,36 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
 	<ui:define name="body">
-		<div>Próximas provas</div>
-
-		<table id="resultTable" border="1">
+	
+	<div class="container">
+		<h2>Próximas provas</h2>
+		
+		<table id="resultTable" class="table table-bordered">
 			<thead>
 				<tr>
-					<th>data</th>
-					<th>prova</th>
+					<th>Data</th>
+					<th>Prova</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
 		</table>
+		
+	</div>
 
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/home.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/user.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/logout.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/home.js"></script>
 	</ui:define>
 </ui:composition>

@@ -1,4 +1,6 @@
 $(function() {
+	$(".loggedin-menu").hide();
+	
 	UserProxy.getLoggedInUser().done(getLoggedInUserOk);
 
 	$("#logout").click(function() {
@@ -7,13 +9,14 @@ $(function() {
 });
 
 function getLoggedInUserOk(data) {
-	$("#loggedout-menu").hide();
-	$("#loggedin-menu").show();
+	console.log(data);
+	$(".loggedout-menu").hide();
+	$(".loggedin-menu").show();
 	$("#currentUser").html(data.name);
 }
 
 function logoutOk() {
-	$("#loggedin-menu").hide();
-	$("#loggedout-menu").show();
+	$(".loggedin-menu").hide();
+	$(".loggedout-menu").show();
 	App.removeToken();
 }

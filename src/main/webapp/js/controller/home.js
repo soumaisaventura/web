@@ -6,7 +6,9 @@ $(function() {
 
 function findNextOk(data) {
 	$.each(data, function(index, value) {
-		console.log(value);
-		$('#resultTable > tbody:last').append('<tr><td>' + value.date + '</td><td>' + value.name + '</td></tr>');
+		var day = moment(value.date, "YYYY-MM-DD");
+		$('#resultTable > tbody:last').append('<tr><td>' + day.locale("pt-br").format("L") + '</td><td>' + value.name + '</td></tr>');
 	});
 }
+
+
