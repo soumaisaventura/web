@@ -5,15 +5,10 @@
 	<persistence-unit name="pu" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
-		<class>br.com.fbca.entity.User</class>
-		<class>br.com.fbca.entity.Athlete</class>
-		<class>br.com.fbca.entity.Address</class>
-		<class>br.com.fbca.entity.Race</class>
-
-		<!-- 		
-		<class>br.com.fbca.entity_.Event</class>
-		<class>br.com.fbca.entity_.Modality</class>
-		-->
+		<class>adventure.entity.User</class>
+		<class>adventure.entity.Athlete</class>
+		<class>adventure.entity.Address</class>
+		<class>adventure.entity.Race</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

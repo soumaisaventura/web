@@ -8,7 +8,7 @@
 			<module name="javax.mail.api" />
 			-->
 
-			<module name="br.com.fbca" />
+			<module name="adventure" />
 			<module name="org.codehaus.jackson.jackson-mapper-asl" />
 
 			<!--
