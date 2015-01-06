@@ -11,7 +11,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -45,8 +44,7 @@ public class SignUpREST {
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
-	@Produces("application/json")
-	public Long signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
+	public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
 		Account account = new Account();
 		account.setEmail(data.email);
 		account.setPassword(data.password);
@@ -60,15 +58,13 @@ public class SignUpREST {
 
 		String password = account.getPassword();
 		account.setPassword(Passwords.hash(password));
-		Long result = accountDAO.insert(account).getId();
+		accountDAO.insert(account).getId();
 		Beans.getReference(ProfileDAO.class).insert(profile);
 
 		login(account.getEmail(), password);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendAccountActivationMail(account.getEmail(), baseUri);
-
-		return result;
 	}
 
 	@POST
@@ -106,23 +102,6 @@ public class SignUpREST {
 		Account account = (Account) securityContext.getUser();
 		accountDAO.delete(account.getId());
 	}
-
-	// @Startup
-	// @Transactional
-	// public void cargaTemporariaInicial() {
-	// if (accountDAO.findAll().isEmpty()) {
-	// Account usuario;
-	//
-	// usuario = new Account();
-	// usuario.setName("Urtzi Iglesias");
-	// usuario.setEmail("urtzi.iglesias@vidaraid.com");
-	// usuario.setPassword(Passwords.hash("abcde"));
-	// usuario.setActivation(new Date());
-	// usuario.setBirthday(new Date());
-	// usuario.setGender(MALE);
-	// accountDAO.insert(usuario);
-	// }
-	// }
 
 	public static class SignUpData {
 

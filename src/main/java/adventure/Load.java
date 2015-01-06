@@ -31,13 +31,17 @@ public class Load {
 
 		race = new Race();
 		race.setName("Laskpé");
-		// race.setDate(format.parse("08/11/2014"));
-		race.setDate(format.parse("06/01/2015"));
+		race.setDate(format.parse("08/11/2014"));
 		em.persist(race);
 
 		race = new Race();
 		race.setName("Noite do Perrengue 3");
 		race.setDate(format.parse("21/03/2015"));
+		em.persist(race);
+
+		race = new Race();
+		race.setName("CARI - Sol do Salitre");
+		race.setDate(format.parse("18/04/2015"));
 		em.persist(race);
 
 		race = new Race();
@@ -51,13 +55,33 @@ public class Load {
 		em.persist(race);
 
 		race = new Race();
+		race.setName("CARI - Peleja");
+		race.setDate(format.parse("20/06/2015"));
+		em.persist(race);
+
+		race = new Race();
 		race.setName("Corrida do CT");
 		race.setDate(format.parse("07/07/2015"));
 		em.persist(race);
 
 		race = new Race();
+		race.setName("CARI - Laskpé");
+		race.setDate(format.parse("15/08/2015"));
+		em.persist(race);
+
+		race = new Race();
 		race.setName("CICA - Cangaço");
 		race.setDate(format.parse("30/08/2015"));
+		em.persist(race);
+
+		race = new Race();
+		race.setName("CARI - Desafio dos Sertões");
+		race.setDate(format.parse("10/10/2015"));
+		em.persist(race);
+
+		race = new Race();
+		race.setName("CARI - Integração");
+		race.setDate(format.parse("05/12/2015"));
 		em.persist(race);
 	}
 }
