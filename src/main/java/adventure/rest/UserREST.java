@@ -1,6 +1,5 @@
 package adventure.rest;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import adventure.entity.Profile;
 import adventure.persistence.ProfileDAO;
 import adventure.security.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -22,8 +20,8 @@ public class UserREST {
 	@GET
 	@LoggedIn
 	@Produces("application/json")
-	public Principal getLoggedInUser() {
-		return Beans.getReference(SecurityContext.class).getUser();
+	public User getLoggedInUser() {
+		return User.getLoggedIn();
 	}
 
 	@GET
@@ -35,7 +33,7 @@ public class UserREST {
 		ProfileDAO profileDAO = Beans.getReference(ProfileDAO.class);
 
 		for (Profile profile : profileDAO.findAll()) {
-			User user = new User(profile.getAccount().getId(), profile.getName());
+			User user = User.parse(profile);
 			result.add(user);
 		}
 

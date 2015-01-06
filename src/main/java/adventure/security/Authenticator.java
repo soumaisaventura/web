@@ -21,7 +21,7 @@ public class Authenticator extends TokenAuthenticator {
 		Profile profile = Beans.getReference(ProfileDAO.class).load(credentials.getUsername());
 
 		if (Beans.getReference(OAuthSession.class).isActive() || doesPasswordMatch(profile.getAccount(), credentials)) {
-			result = new User(profile.getAccount().getId(), profile.getName());
+			result = User.parse(profile);
 		} else {
 			throw new InvalidCredentialsException();
 		}
