@@ -3,7 +3,6 @@ package adventure.entity;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Account implements Principal, Serializable {
+public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,11 +61,6 @@ public class Account implements Principal, Serializable {
 	//
 	// @Enumerated(STRING)
 	// private Gender gender;
-
-	@Override
-	public String getName() {
-		return getEmail();
-	}
 
 	public Long getId() {
 		return id;

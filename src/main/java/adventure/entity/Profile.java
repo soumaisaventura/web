@@ -32,6 +32,13 @@ public class Profile implements Serializable {
 	@Enumerated(STRING)
 	private Gender gender;
 
+	public Profile() {
+	}
+
+	public Profile(Account account) {
+		this.account = account;
+	}
+
 	public Account getAccount() {
 		return account;
 	}

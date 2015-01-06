@@ -1,4 +1,4 @@
-package adventure.persistence;
+package adventure;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +19,9 @@ public class Load {
 	@Startup
 	public void race() throws Exception {
 		DateFormat format = new SimpleDateFormat("dd/MM/yyyyy");
+
+		em.createQuery("delete from Race").executeUpdate();
+
 		Race race;
 
 		race = new Race();
@@ -28,7 +31,8 @@ public class Load {
 
 		race = new Race();
 		race.setName("Laskpé");
-		race.setDate(format.parse("08/11/2014"));
+		// race.setDate(format.parse("08/11/2014"));
+		race.setDate(format.parse("06/01/2015"));
 		em.persist(race);
 
 		race = new Race();
