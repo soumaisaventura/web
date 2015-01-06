@@ -5,24 +5,20 @@
 	<persistence-unit name="pu" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
-		<class>br.com.fbca.entity.User</class>
-		<class>br.com.fbca.entity.Athlete</class>
-		<class>br.com.fbca.entity.Address</class>
-		<class>br.com.fbca.entity.Race</class>
-
-		<!-- 		
-		<class>br.com.fbca.entity_.Event</class>
-		<class>br.com.fbca.entity_.Modality</class>
-		-->
+		<class>adventure.entity.Account</class>
+		<class>adventure.entity.Profile</class>
+		<class>adventure.entity.Athlete</class>
+		<class>adventure.entity.Address</class>
+		<class>adventure.entity.Race</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<!--
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<!--
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			-->
 
 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />

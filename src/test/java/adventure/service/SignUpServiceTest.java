@@ -1,7 +1,7 @@
-//package br.com.fbca.service;
+//package adventure.service;
 //
-//import static br.com.fbca.entity.Gender.FEMALE;
-//import static br.com.fbca.entity.Gender.MALE;
+//import static adventure.entity.Gender.FEMALE;
+//import static adventure.entity.Gender.MALE;
 //import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 //import static junit.framework.Assert.assertEquals;
 //import static junit.framework.Assert.assertNotNull;
@@ -24,11 +24,11 @@
 //import org.junit.runner.RunWith;
 //
 //import test.Tests;
-//import br.com.fbca.client.ProfileClient;
-//import br.com.fbca.client.SignUpClient;
-//import br.com.fbca.entity.Gender;
-//import br.com.fbca.entity.User;
-//import br.com.fbca.service.SignUpService.SignUpData;
+//import adventure.client.ProfileClient;
+//import adventure.client.SignUpClient;
+//import adventure.entity.Gender;
+//import adventure.entity.Account;
+//import adventure.service.SignUpService.SignUpData;
 //import br.gov.frameworkdemoiselle.HttpViolationException.Violation;
 //
 //@RunWith(Arquillian.class)
@@ -47,7 +47,7 @@
 //		SignUpClient signUpClient = Tests.createSignUpClient(this.url);
 //		ProfileClient profileClient = Tests.createPerfilClient(this.url);
 //
-//		String fullName = "User Full Name";
+//		String fullName = "Account Full Name";
 //		String email = Tests.generateRandomEmail();
 //		String password = "secret";
 //		Date birthday = Tests.createDate(1980, 12, 18);
@@ -64,7 +64,7 @@
 //		Long id = signUpClient.signup(signUpData);
 //		assertNotNull(id);
 //
-//		User user = profileClient.load(id);
+//		Account user = profileClient.load(id);
 //		assertNotNull(user);
 //		assertEquals(fullName, user.getName());
 //		assertEquals(email, user.getEmail());
@@ -106,7 +106,7 @@
 //	@Test
 //	public void falhaAoTentarRegistrarEmailJaExistente() {
 //		SignUpData signUpForm = new SignUpData();
-//		signUpForm.name = "User Full Name";
+//		signUpForm.name = "Account Full Name";
 //		signUpForm.email = Tests.generateRandomEmail();
 //		signUpForm.password = "secret";
 //		signUpForm.birthday = Tests.createDate(1980, 12, 18);

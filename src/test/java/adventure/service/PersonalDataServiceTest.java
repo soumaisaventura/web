@@ -1,4 +1,4 @@
-//package br.com.fbca.service;
+//package adventure.service;
 //
 //import static junit.framework.Assert.assertNotNull;
 //import static junit.framework.Assert.assertTrue;
@@ -18,11 +18,11 @@
 //import org.junit.runner.RunWith;
 //
 //import test.Tests;
-//import br.com.fbca.client.AuthClient;
-//import br.com.fbca.entity.Athlete;
-//import br.com.fbca.entity.User;
-//import br.com.fbca.rest.service.RegisterService;
-//import br.com.fbca.security.Credentials;
+//import adventure.client.AuthClient;
+//import adventure.entity.Athlete;
+//import adventure.entity.Account;
+//import adventure.rest.service.RegisterService;
+//import adventure.security.Credentials;
 //import br.gov.frameworkdemoiselle.security.SecurityContext;
 //
 //@RunWith(Arquillian.class)
@@ -63,7 +63,7 @@
 //		ClientResponse response = (ClientResponse) authClient.login(credentials);
 //		response.releaseConnection();
 //
-//		User user = authClient.getAuthenticatedUser();
+//		Account user = authClient.getAuthenticatedUser();
 //		assertNotNull(user);
 //		
 //		Athlete personalData = new Athlete();
