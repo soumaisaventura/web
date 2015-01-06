@@ -20,7 +20,7 @@
 //import test.Tests;
 //import adventure.client.AuthClient;
 //import adventure.entity.Athlete;
-//import adventure.entity.User;
+//import adventure.entity.Account;
 //import adventure.rest.service.RegisterService;
 //import adventure.security.Credentials;
 //import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -63,7 +63,7 @@
 //		ClientResponse response = (ClientResponse) authClient.login(credentials);
 //		response.releaseConnection();
 //
-//		User user = authClient.getAuthenticatedUser();
+//		Account user = authClient.getAuthenticatedUser();
 //		assertNotNull(user);
 //		
 //		Athlete personalData = new Athlete();

@@ -2,8 +2,8 @@ package adventure.security;
 
 import java.security.Principal;
 
-import adventure.entity.User;
-import adventure.persistence.UserDAO;
+import adventure.entity.Account;
+import adventure.persistence.AccountDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.security.TokenAuthenticator;
@@ -17,7 +17,7 @@ public class Authenticator extends TokenAuthenticator {
 	protected Principal customAuthentication() throws Exception {
 		Principal result = null;
 		Credentials credentials = Beans.getReference(Credentials.class);
-		User user = Beans.getReference(UserDAO.class).loadByEmail(credentials.getUsername());
+		Account user = Beans.getReference(AccountDAO.class).load(credentials.getUsername());
 
 		if (Beans.getReference(OAuthSession.class).isActive() || doesPasswordMatch(user, credentials)) {
 			result = user;
@@ -28,7 +28,7 @@ public class Authenticator extends TokenAuthenticator {
 		return result;
 	}
 
-	private boolean doesPasswordMatch(User user, Credentials credentials) {
+	private boolean doesPasswordMatch(Account user, Credentials credentials) {
 		boolean result = false;
 
 		if (user != null) {

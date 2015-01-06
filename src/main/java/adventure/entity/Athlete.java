@@ -17,7 +17,7 @@ public class Athlete implements Serializable {
 
 	@Id
 	@OneToOne
-	private User user;
+	private Account user;
 
 	@Enumerated(STRING)
 	private BloodType bloodType;
@@ -25,11 +25,11 @@ public class Athlete implements Serializable {
 	@Embedded
 	private Address address;
 
-	public User getUser() {
+	public Account getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Account user) {
 		this.user = user;
 	}
 

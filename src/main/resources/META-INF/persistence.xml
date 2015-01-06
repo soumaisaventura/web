@@ -5,7 +5,8 @@
 	<persistence-unit name="pu" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
-		<class>adventure.entity.User</class>
+		<class>adventure.entity.Account</class>
+		<class>adventure.entity.Profile</class>
 		<class>adventure.entity.Athlete</class>
 		<class>adventure.entity.Address</class>
 		<class>adventure.entity.Race</class>

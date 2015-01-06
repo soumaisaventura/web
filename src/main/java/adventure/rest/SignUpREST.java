@@ -18,10 +18,12 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.entity.Account;
 import adventure.entity.Gender;
-import adventure.entity.User;
+import adventure.entity.Profile;
+import adventure.persistence.AccountDAO;
 import adventure.persistence.MailDAO;
-import adventure.persistence.UserDAO;
+import adventure.persistence.ProfileDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
 import adventure.validator.UniqueUserEmail;
@@ -37,7 +39,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class SignUpREST {
 
 	@Inject
-	private UserDAO userDAO;
+	private AccountDAO accountDAO;
 
 	@POST
 	@Transactional
@@ -45,22 +47,26 @@ public class SignUpREST {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
-		User user = new User();
-		user.setName(data.name);
-		user.setEmail(data.email);
-		user.setPassword(data.password);
-		user.setBirthday(data.birthday);
-		user.setGender(data.gender);
-		user.setCreation(new Date());
+		Account account = new Account();
+		account.setEmail(data.email);
+		account.setPassword(data.password);
+		account.setCreation(new Date());
 
-		String password = user.getPassword();
-		user.setPassword(Passwords.hash(password));
-		Long result = userDAO.insert(user).getId();
+		Profile profile = new Profile();
+		profile.setAccount(account);
+		profile.setName(data.name);
+		profile.setBirthday(data.birthday);
+		profile.setGender(data.gender);
 
-		login(user.getEmail(), password);
+		String password = account.getPassword();
+		account.setPassword(Passwords.hash(password));
+		Long result = accountDAO.insert(account).getId();
+		Beans.getReference(ProfileDAO.class).insert(profile);
+
+		login(account.getEmail(), password);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendAccountActivationMail(user.getEmail(), baseUri);
+		Beans.getReference(MailDAO.class).sendAccountActivationMail(account.getEmail(), baseUri);
 
 		return result;
 	}
@@ -71,17 +77,16 @@ public class SignUpREST {
 	@Path("/activation/{token}")
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
-		UserDAO dao = Beans.getReference(UserDAO.class);
-		User persistedUser = dao.loadByEmail(data.email);
-		String persistedToken = persistedUser.getActivationToken();
+		Account persistedAccount = accountDAO.load(data.email);
+		String persistedToken = persistedAccount.getActivationToken();
 
 		if (persistedToken == null || !persistedToken.equals(token)) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 
 		} else {
-			persistedUser.setActivationToken(null);
-			persistedUser.setActivation(new Date());
-			dao.update(persistedUser);
+			persistedAccount.setActivationToken(null);
+			persistedAccount.setActivation(new Date());
+			accountDAO.update(persistedAccount);
 		}
 	}
 
@@ -98,24 +103,24 @@ public class SignUpREST {
 	@Transactional
 	public void quit() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		User user = (User) securityContext.getUser();
-		userDAO.delete(user.getId());
+		Account account = (Account) securityContext.getUser();
+		accountDAO.delete(account.getId());
 	}
 
 	// @Startup
 	// @Transactional
 	// public void cargaTemporariaInicial() {
-	// if (userDAO.findAll().isEmpty()) {
-	// User usuario;
+	// if (accountDAO.findAll().isEmpty()) {
+	// Account usuario;
 	//
-	// usuario = new User();
+	// usuario = new Account();
 	// usuario.setName("Urtzi Iglesias");
 	// usuario.setEmail("urtzi.iglesias@vidaraid.com");
 	// usuario.setPassword(Passwords.hash("abcde"));
 	// usuario.setActivation(new Date());
 	// usuario.setBirthday(new Date());
 	// usuario.setGender(MALE);
-	// userDAO.insert(usuario);
+	// accountDAO.insert(usuario);
 	// }
 	// }
 

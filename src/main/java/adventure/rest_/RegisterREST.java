@@ -17,8 +17,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.BloodType;
 import adventure.entity.Gender;
-import adventure.entity.User;
-import adventure.persistence.UserDAO;
+import adventure.entity.Account;
+import adventure.persistence.AccountDAO;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -32,7 +32,7 @@ public class RegisterREST {
 	private SecurityContext securityContext;
 
 	@Inject
-	private UserDAO dao;
+	private AccountDAO dao;
 
 	@GET
 	@LoggedIn
@@ -40,7 +40,7 @@ public class RegisterREST {
 	@Produces("application/json")
 	public PersonalData loadPersonal() throws Exception {
 		PersonalData data = new PersonalData();
-		User user = dao.load(((User) securityContext.getUser()).getId());
+		Account user = dao.load(((Account) securityContext.getUser()).getId());
 		// BeanUtils.copyProperties(data, user);
 
 		return data;
@@ -52,7 +52,7 @@ public class RegisterREST {
 	@Produces("application/json")
 	public MedicalData loadMedical() throws Exception {
 		MedicalData data = new MedicalData();
-		User user = dao.load(((User) securityContext.getUser()).getId());
+		Account user = dao.load(((Account) securityContext.getUser()).getId());
 		// BeanUtils.copyProperties(data, user);
 
 		return data;
@@ -66,7 +66,7 @@ public class RegisterREST {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public void updatePersonal(PersonalData data) throws Exception {
-		User user = dao.load(((User) securityContext.getUser()).getId());
+		Account user = dao.load(((Account) securityContext.getUser()).getId());
 		// BeanUtils.copyProperties(user, data);
 
 		dao.update(user);
@@ -79,7 +79,7 @@ public class RegisterREST {
 	@Path("/medical")
 	@Consumes("application/json")
 	public void updateMedical(MedicalData data) throws Exception {
-		User user = dao.load(((User) securityContext.getUser()).getId());
+		Account user = dao.load(((Account) securityContext.getUser()).getId());
 		// BeanUtils.copyProperties(user, data);
 
 		dao.update(user);

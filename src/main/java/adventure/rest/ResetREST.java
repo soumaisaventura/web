@@ -13,9 +13,9 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.User;
+import adventure.entity.Account;
 import adventure.persistence.MailDAO;
-import adventure.persistence.UserDAO;
+import adventure.persistence.AccountDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -43,8 +43,8 @@ public class ResetREST {
 	@Consumes("application/json")
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
-		UserDAO dao = Beans.getReference(UserDAO.class);
-		User persistedUser = dao.loadByEmail(data.email);
+		AccountDAO dao = Beans.getReference(AccountDAO.class);
+		Account persistedUser = dao.load(data.email);
 		String persistedToken = persistedUser.getPasswordResetToken();
 
 		if (persistedToken == null || !persistedToken.equals(token)) {

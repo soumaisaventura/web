@@ -10,11 +10,14 @@ import javax.ws.rs.POST;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.User;
-import adventure.persistence.UserDAO;
+import adventure.entity.Profile;
+import adventure.entity.Account;
+import adventure.persistence.ProfileDAO;
+import adventure.persistence.AccountDAO;
 import adventure.security.OAuthSession;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.template.Crud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
@@ -24,30 +27,42 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public abstract class OAuthLogon {
 
 	@Inject
-	private UserDAO dao;
+	private AccountDAO userDAO;
 
-	protected abstract User getUserInfo(String code) throws IOException;
+	@Inject
+	private ProfileDAO profileDAO;
+
+	protected abstract Profile createProfile(String code) throws IOException;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	public void login(CredentialsData data) throws Exception {
-		User oauthUser = getUserInfo(data.token);
-		User persistedUser = dao.loadByEmail(oauthUser.getEmail());
+		Profile oauthProfile = createProfile(data.token);
+		Account oauthUser = oauthProfile.getAccount();
+		Account persistedUser = userDAO.load(oauthUser.getEmail());
 
 		if (persistedUser == null) {
 			oauthUser.setActivation(new Date());
-			dao.insert(oauthUser);
+			userDAO.insert(oauthUser);
+			profileDAO.insert(oauthProfile);
+
 			login(oauthUser);
 
-		} else {
+		} else if (persistedUser.getActivation() == null) {
 			persistedUser.setActivation(new Date());
-			updateInfo(oauthUser, persistedUser);
+		}
+
+		if (persistedUser != null) {
+			Profile persistedProfile = profileDAO.load(persistedUser);
+			updateInfo(oauthProfile, persistedProfile, profileDAO);
+
+			updateInfo(oauthUser, persistedUser, userDAO);
 			login(oauthUser);
 		}
 	}
 
-	private void updateInfo(User from, User to) throws Exception {
+	private <T> void updateInfo(T from, T to, Crud<T, ?> crud) throws Exception {
 		for (Field field : Reflections.getNonStaticFields(to.getClass())) {
 			if (Reflections.getFieldValue(field, from) != null && Reflections.getFieldValue(field, to) == null) {
 				Object value = Reflections.getFieldValue(field, from);
@@ -58,10 +73,10 @@ public abstract class OAuthLogon {
 			}
 		}
 
-		dao.update(to);
+		crud.update(to);
 	}
 
-	protected void login(User user) {
+	protected void login(Account user) {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(user.getEmail());
 

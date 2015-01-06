@@ -15,7 +15,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import adventure.entity.User;
+import adventure.entity.Account;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -28,11 +28,11 @@ public class MailDAO {
 	private ApplicationConfig config;
 
 	@Inject
-	private UserDAO userDAO;
+	private AccountDAO userDAO;
 
 	@Asynchronous
 	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
-		User user = getUser(email);
+		Account user = getUser(email);
 		String token = user.getActivationToken();
 
 		if (token == null) {
@@ -51,8 +51,29 @@ public class MailDAO {
 	}
 
 	@Asynchronous
+	public void sendPasswordCreationMail(String email, URI baseUri) throws MessagingException {
+		Account user = getUser(email);
+		String token = user.getPasswordResetToken();
+
+		if (token == null) {
+			token = Passwords.randomToken();
+			user.setPasswordResetToken(token);
+			user.setPasswordResetRequest(new Date());
+			userDAO.update(user);
+		}
+
+		MimeMessage message = new MimeMessage(getSession());
+		message.setFrom(new InternetAddress("contato@fbca.com.br"));
+		message.setSubject("Criação de senha");
+		message.setRecipients(TO, email);
+		message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
+
+		Transport.send(message);
+	}
+
+	@Asynchronous
 	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
-		User user = getUser(email);
+		Account user = getUser(email);
 		String token = user.getPasswordResetToken();
 
 		if (token == null) {
@@ -71,8 +92,8 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	private User getUser(String email) {
-		User user = userDAO.loadByEmail(email);
+	private Account getUser(String email) {
+		Account user = userDAO.load(email);
 
 		if (user == null) {
 			// TODO Lançar exceção

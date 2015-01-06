@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import adventure.entity.User;
+import adventure.entity.Account;
 
 @Path("profile")
 @Consumes(APPLICATION_JSON)
@@ -15,9 +15,9 @@ public interface ProfileClient {
 
 	@GET
 	@Path("/{id}")
-	public User load(@PathParam("id") Long id);
+	public Account load(@PathParam("id") Long id);
 	
 	@GET
 	@Path("/{email}")
-	public User loadByEmail(@PathParam("email") String email);
+	public Account loadByEmail(@PathParam("email") String email);
 }

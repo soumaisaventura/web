@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.ws.rs.Path;
 
 import adventure.entity.Gender;
-import adventure.entity.User;
+import adventure.entity.Profile;
+import adventure.entity.Account;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -24,7 +25,7 @@ public class GoogleLogonREST extends OAuthLogon {
 	private static JacksonFactory FACTORY = new JacksonFactory();
 
 	@Override
-	protected User getUserInfo(String code) throws IOException {
+	protected Profile createProfile(String code) throws IOException {
 		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
 		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
 
@@ -35,23 +36,25 @@ public class GoogleLogonREST extends OAuthLogon {
 
 		Userinfo userInfo = service.userinfo().get().execute();
 
-		return createUser(userInfo);
+		return createProfile(userInfo);
 	}
 
-	private User createUser(Userinfo userInfo) {
-		User user = new User();
-
+	private Profile createProfile(Userinfo userInfo) {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
 
-		user.setName(userInfo.getName());
-		user.setEmail(userInfo.getEmail());
+		Account account = new Account();
+		account.setEmail(userInfo.getEmail());
+
+		Profile profile = new Profile();
+		profile.setAccount(account);
+		profile.setName(userInfo.getName());
 
 		if (userInfo.getGender() != null) {
-			user.setGender(Gender.valueOf(userInfo.getGender().toUpperCase()));
+			profile.setGender(Gender.valueOf(userInfo.getGender().toUpperCase()));
 		}
 
-		return user;
+		return profile;
 	}
 }

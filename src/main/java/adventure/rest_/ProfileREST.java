@@ -10,28 +10,28 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import adventure.entity.User;
-import adventure.persistence.UserDAO;
+import adventure.entity.Account;
+import adventure.persistence.AccountDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Path("profile")
 public class ProfileREST {
 
 	@Inject
-	private UserDAO dao;
+	private AccountDAO dao;
 
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public User load(@PathParam("id") Long id) {
+	public Account load(@PathParam("id") Long id) {
 		return dao.load(id);
 	}
 
 	@GET
 	@Path("/{email}")
 	@Produces("application/json")
-	public User loadByEmail(@PathParam("email") String email) {
-		return dao.loadByEmail(email);
+	public Account loadByEmail(@PathParam("email") String email) {
+		return dao.load(email);
 	}
 
 	@DELETE
@@ -43,7 +43,7 @@ public class ProfileREST {
 
 	@GET
 	@Produces("application/json")
-	public List<User> search() throws NamingException {
+	public List<Account> search() throws NamingException {
 		return dao.findAll();
 	}
 }

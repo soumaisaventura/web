@@ -13,31 +13,35 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.User;
+import adventure.entity.Profile;
+import adventure.entity.Account;
 
 @Path("logon/facebook")
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override
-	protected User getUserInfo(String code) throws IOException {
-		HttpClient httpclient = new DefaultHttpClient();
+	protected Profile createProfile(String code) throws IOException {
+		HttpClient client = new DefaultHttpClient();
 
 		String newUrl = "https://graph.facebook.com/me?access_token=" + code;
 
-		httpclient = new DefaultHttpClient();
+		client = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(newUrl);
 
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		String responseBody = httpclient.execute(httpget, responseHandler);
+		String responseBody = client.execute(httpget, responseHandler);
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		JsonNode rootNode = mapper.readTree(responseBody);
 
-		User user = new User();
-		user.setName(rootNode.get("name").asText());
-		user.setEmail(rootNode.get("email").asText());
+		Account account = new Account();
+		account.setEmail(rootNode.get("email").asText());
+
+		Profile profile = new Profile();
+		profile.setAccount(account);
+		profile.setName(rootNode.get("name").asText());
 
 		// JsonNode location = firstResult.get("locations").get(0);
 		// JsonNode latLng = location.get("latLng");
@@ -54,8 +58,8 @@ public class FacebookLogonREST extends OAuthLogon {
 		// // put user data in session
 		// httpSession.setAttribute("FACEBOOK_USER", firstName + " " + lastName + ", facebookId:" + facebookId);
 
-		httpclient.getConnectionManager().shutdown();
+		client.getConnectionManager().shutdown();
 
-		return user;
+		return profile;
 	}
 }

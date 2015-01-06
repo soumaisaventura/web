@@ -1,25 +1,25 @@
 package adventure.entity;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class User implements Principal {
+public class Account implements Principal, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE)
@@ -51,17 +51,22 @@ public class User implements Principal {
 	@JsonIgnore
 	private Date deleted;
 
-	private String name;
+	// private String name;
+	//
+	// private String rg;
+	//
+	// private String cpf;
+	//
+	// @Past
+	// private Date birthday;
+	//
+	// @Enumerated(STRING)
+	// private Gender gender;
 
-	private String rg;
-
-	private String cpf;
-
-	@Past
-	private Date birthday;
-
-	@Enumerated(STRING)
-	private Gender gender;
+	@Override
+	public String getName() {
+		return getEmail();
+	}
 
 	public Long getId() {
 		return id;
@@ -133,45 +138,5 @@ public class User implements Principal {
 
 	public void setDeleted(Date deleted) {
 		this.deleted = deleted;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
 	}
 }

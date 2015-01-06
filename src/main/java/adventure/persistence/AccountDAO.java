@@ -5,20 +5,20 @@ import java.util.Date;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.User;
+import adventure.entity.Account;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Transactional
-public class UserDAO extends JPACrud<User, Long> {
+public class AccountDAO extends JPACrud<Account, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public User insert(User user) {
-		user.setCreation(new Date());
+	public Account insert(Account account) {
+		account.setCreation(new Date());
 
-		User result = super.insert(user);
+		Account result = super.insert(account);
 		// getEntityManager().detach(result);
 
 		return result;
@@ -26,25 +26,25 @@ public class UserDAO extends JPACrud<User, Long> {
 
 	@Override
 	public void delete(Long id) {
-		User user = load(id);
+		Account account = load(id);
 
-		if (user != null) {
-			user.setDeleted(new Date());
-			update(user);
+		if (account != null) {
+			account.setDeleted(new Date());
+			update(account);
 		}
 	}
 
-	public User loadByEmail(String email, boolean includeDeleted) {
-		String jpql = "from User where email = :email";
+	public Account load(String email, boolean includeDeleted) {
+		String jpql = "from Account where email = :email";
 
 		if (!includeDeleted) {
 			jpql += " and deleted is null";
 		}
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
+		TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
 		query.setParameter("email", email);
 
-		User result;
+		Account result;
 
 		try {
 			result = query.getSingleResult();
@@ -57,7 +57,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		return result;
 	}
 
-	public User loadByEmail(String email) {
-		return loadByEmail(email, false);
+	public Account load(String email) {
+		return load(email, false);
 	}
 }
