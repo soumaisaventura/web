@@ -1,6 +1,7 @@
 package adventure.entity;
 
 import static javax.persistence.GenerationType.SEQUENCE;
+import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -18,40 +21,52 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "ACCOUNT", uniqueConstraints = { @UniqueConstraint(name = "UK_ACCOUNT_EMAIL", columnNames = { "EMAIL" }) })
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
 	@Email
 	@NotEmpty
 	@Index(name = "IDX_ACCOUNT_EMAIL")
-	@Column(unique = true)
+	@Column(name = "EMAIL")
 	private String email;
 
 	@JsonIgnore
+	@Column(name = "PASSWORD")
 	private String password;
 
 	@JsonIgnore
+	@Column(name = "PASSWORD_RESET_TOKEN")
 	private String passwordResetToken;
 
 	@JsonIgnore
+	@Column(name = "PASSWORD_RESET_REQUEST")
 	private Date passwordResetRequest;
 
 	@NotNull
+	@Temporal(DATE)
+	@Column(name = "CREATION")
 	private Date creation;
 
 	@JsonIgnore
+	@Temporal(DATE)
+	@Column(name = "ACTIVATION")
 	private Date activation;
 
 	@JsonIgnore
+	@Column(name = "ACTIVATION_TOKEN")
 	private String activationToken;
 
 	@JsonIgnore
+	@Temporal(DATE)
+	@Column(name = "DELETED")
+	@Index(name = "IDX_ACCOUNT_DELETED")
 	private Date deleted;
 
 	public Long getId() {

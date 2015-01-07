@@ -1,19 +1,24 @@
 package adventure.entity;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.Past;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "PROFILE")
@@ -23,21 +28,30 @@ public class Profile implements Serializable {
 
 	@Id
 	@OneToOne
+	@JoinColumn(name = "ID")
 	@ForeignKey(name = "FK_PROFILE_ACCOUNT")
 	private Account account;
 
+	@Column(name = "NAME")
 	@Index(name = "IDX_PROFILE_NAME")
 	private String name;
 
+	@Length(max = 10)
+	@Column(name = "RG")
 	private String rg;
 
+	@Length(max = 11)
+	@Column(name = "CPF")
 	@Index(name = "IDX_PROFILE_CPF")
 	private String cpf;
 
 	@Past
+	@Temporal(DATE)
+	@Column(name = "BIRTHDAY")
 	private Date birthday;
 
 	@Enumerated(STRING)
+	@Column(length = 1)
 	private Gender gender;
 
 	public Profile() {
