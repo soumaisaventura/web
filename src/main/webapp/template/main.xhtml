@@ -2,29 +2,31 @@
 <html xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<f:view contentType="text/html" locale="#{currentLocale}" />
-	
-	<h:head>
-		<meta charset="UTF-8" />
-		<title>FBCA | Federação Baiana de Corrida de Aventura</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-	</h:head>
-	
-	<h:body>
-		<ui:include src="/menu.xhtml" />
+<f:view contentType="text/html" locale="#{currentLocale}" />
 
-		<ui:insert name="body" />
-		
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
-		<ui:insert name="lib" />
-		
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/user.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/logout.js"></script>
-		<ui:insert name="proxy" />
-		
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
-		<ui:insert name="controller" />
-	</h:body>
+<h:head>
+	<meta charset="UTF-8" />
+	<title>FBCA | Federação Baiana de Corrida de Aventura</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+</h:head>
+
+<h:body>
+	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
+
+	<ui:include src="/menu.xhtml" />
+
+	<ui:insert name="body" />
+
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+	<ui:insert name="lib" />
+
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/user.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/logout.js"></script>
+	<ui:insert name="proxy" />
+
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
+	<ui:insert name="controller" />
+</h:body>
 </html>

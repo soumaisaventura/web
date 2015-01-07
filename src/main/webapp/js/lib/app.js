@@ -1,18 +1,3 @@
-$.ajaxSetup({
-	error : function(request) {
-		switch (request.status) {
-			case 401:
-				alert("Você não está autenticado!");
-				location.href = "login";
-				break;
-
-			case 422:
-				App.handleValidation(request);
-				break;
-		}
-	}
-});
-
 var App = {
 
 	tokenKey : "Token",
@@ -32,6 +17,10 @@ var App = {
 
 	removeToken : function() {
 		sessionStorage.removeItem(this.tokenKey);
+	},
+
+	getContextPath : function() {
+		return $("#contextPath").val();
 	},
 
 	getUrlParameterByName : function(name) {
@@ -63,3 +52,17 @@ var App = {
 		});
 	}
 };
+
+$.ajaxSetup({
+	error : function(request) {
+		switch (request.status) {
+			case 401:
+				location.href = App.getContextPath() + "/login";
+				break;
+
+			case 422:
+				App.handleValidation(request);
+				break;
+		}
+	}
+});
