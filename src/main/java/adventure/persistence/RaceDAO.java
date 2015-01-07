@@ -17,11 +17,35 @@ public class RaceDAO extends JPACrud<Race, Long> {
 	private static final long serialVersionUID = 1L;
 
 	public List<Race> findNext() throws Exception {
-		String jpql = "from Race where date >= :date order by date";
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	new " + FindNext.class.getName() + "(r.id, r.name, r.date, count(p)) ");
+		jpql.append(" from ");
+		jpql.append(" 	Period p right join p.race r ");
+		jpql.append(" where ");
+		jpql.append(" 	r.date >= :date");
+		jpql.append(" group by ");
+		jpql.append(" 	r.id, ");
+		jpql.append(" 	r.name, ");
+		jpql.append(" 	r.date ");
+		jpql.append(" order by ");
+		jpql.append(" 	r.date ");
 
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
 		query.setParameter("date", new Date(), DATE);
 
 		return query.getResultList();
+	}
+
+	public static class FindNext extends Race {
+
+		private static final long serialVersionUID = 1L;
+
+		public FindNext(Long id, String name, Date date, Long count) {
+			setId(id);
+			setName(name);
+			setDate(date);
+			setOpen(count > 1);
+		}
 	}
 }

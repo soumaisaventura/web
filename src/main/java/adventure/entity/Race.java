@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
@@ -39,6 +40,9 @@ public class Race implements Serializable {
 	@Index(name = "IDX_RACE_DATE")
 	private Date date;
 
+	@Transient
+	private boolean open;
+
 	public Long getId() {
 		return id;
 	}
@@ -61,5 +65,13 @@ public class Race implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+	
+	protected void setOpen(boolean open) {
+		this.open = open;
 	}
 }
