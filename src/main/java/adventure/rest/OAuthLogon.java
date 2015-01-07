@@ -10,8 +10,10 @@ import javax.ws.rs.POST;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.entity.Health;
 import adventure.entity.Profile;
 import adventure.entity.Account;
+import adventure.persistence.HealthDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.AccountDAO;
 import adventure.security.OAuthSession;
@@ -27,7 +29,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public abstract class OAuthLogon {
 
 	@Inject
-	private AccountDAO userDAO;
+	private AccountDAO accountDAO;
 
 	@Inject
 	private ProfileDAO profileDAO;
@@ -39,26 +41,27 @@ public abstract class OAuthLogon {
 	@ValidatePayload
 	public void login(CredentialsData data) throws Exception {
 		Profile oauthProfile = createProfile(data.token);
-		Account oauthUser = oauthProfile.getAccount();
-		Account persistedUser = userDAO.load(oauthUser.getEmail());
+		Account oauthAccount = oauthProfile.getAccount();
+		Account persistedAccount = accountDAO.load(oauthAccount.getEmail());
 
-		if (persistedUser == null) {
-			oauthUser.setActivation(new Date());
-			userDAO.insert(oauthUser);
+		if (persistedAccount == null) {
+			oauthAccount.setActivation(new Date());
+			accountDAO.insert(oauthAccount);
 			profileDAO.insert(oauthProfile);
+			Beans.getReference(HealthDAO.class).insert(new Health(oauthAccount));
 
-			login(oauthUser);
+			login(oauthAccount);
 
-		} else if (persistedUser.getActivation() == null) {
-			persistedUser.setActivation(new Date());
+		} else if (persistedAccount.getActivation() == null) {
+			persistedAccount.setActivation(new Date());
 		}
 
-		if (persistedUser != null) {
-			Profile persistedProfile = profileDAO.load(persistedUser);
+		if (persistedAccount != null) {
+			Profile persistedProfile = profileDAO.load(persistedAccount);
 			updateInfo(oauthProfile, persistedProfile, profileDAO);
 
-			updateInfo(oauthUser, persistedUser, userDAO);
-			login(oauthUser);
+			updateInfo(oauthAccount, persistedAccount, accountDAO);
+			login(oauthAccount);
 		}
 	}
 

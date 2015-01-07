@@ -19,8 +19,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Account;
 import adventure.entity.Gender;
+import adventure.entity.Health;
 import adventure.entity.Profile;
 import adventure.persistence.AccountDAO;
+import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.security.Passwords;
@@ -60,6 +62,7 @@ public class SignUpREST {
 		account.setPassword(Passwords.hash(password));
 		accountDAO.insert(account).getId();
 		Beans.getReference(ProfileDAO.class).insert(profile);
+		Beans.getReference(HealthDAO.class).insert(new Health(account));
 
 		login(account.getEmail(), password);
 

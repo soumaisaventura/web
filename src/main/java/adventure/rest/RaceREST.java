@@ -19,7 +19,7 @@ public class RaceREST {
 	@GET
 	@Path("next")
 	@Produces("application/json")
-	public List<Race> nextRaces() throws Exception {
+	public List<Race> next() throws Exception {
 		List<Race> result = raceDAO.findNext();
 		return result.isEmpty() ? null : result;
 	}

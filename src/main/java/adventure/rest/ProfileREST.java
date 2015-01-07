@@ -31,7 +31,7 @@ public class ProfileREST {
 	@GET
 	@LoggedIn
 	@Produces("application/json")
-	public ProfileData obter() throws Exception {
+	public ProfileData load() throws Exception {
 		Profile profile = dao.load(User.getLoggedIn().getEmail());
 
 		ProfileData data = new ProfileData();
@@ -49,7 +49,7 @@ public class ProfileREST {
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
-	public void obter(ProfileData data) throws Exception {
+	public void update(ProfileData data) throws Exception {
 		Profile profile = dao.load(User.getLoggedIn().getEmail());
 
 		profile.setName(data.name);

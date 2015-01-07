@@ -7,6 +7,7 @@
 
 		<class>adventure.entity.Account</class>
 		<class>adventure.entity.Profile</class>
+		<class>adventure.entity.Health</class>
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.Period</class>
 
