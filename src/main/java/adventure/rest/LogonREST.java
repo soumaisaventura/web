@@ -28,13 +28,13 @@ public class LogonREST {
 	private SecurityContext securityContext;
 
 	@Inject
-	private AccountDAO userDAO;
+	private AccountDAO accountDAO;
 
 	@POST
 	@ValidatePayload
 	@Consumes("application/json")
 	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-		Account persistedUser = userDAO.load(data.username);
+		Account persistedUser = accountDAO.load(data.username);
 
 		if (persistedUser != null && persistedUser.getPassword() == null) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");

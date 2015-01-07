@@ -7,8 +7,11 @@ $(function() {
 function findNextOk(data) {
 	$.each(data, function(index, value) {
 		var day = moment(value.date, "YYYY-MM-DD");
-		$('#resultTable > tbody:last').append('<tr><td>' + day.locale("pt-br").format("L") + '</td><td>' + value.name + '</td></tr>');
+
+		var col1 = '<td>' + day.locale("pt-br").format("L") + '</td>';
+		var col2 = '<td>' + value.name + '</td>';
+		var col3 = '<td><a href="race/' + value.id + '/register">Inscrição</a></td>';
+
+		$('#resultTable > tbody:last').append('<tr>' + col1 + col2 + col3 + '</tr>');
 	});
 }
-
-

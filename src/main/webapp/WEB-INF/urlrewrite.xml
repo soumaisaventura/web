@@ -57,6 +57,11 @@
 		<to>/profile.jsf</to>
 	</rule>
 
+	<rule>
+		<from>^/race/(.*)/register$</from>
+		<to>/register.jsf?race=$1</to>
+	</rule>
+	
 	<!--
 	<rule>
 		<from>^/mobile$</from>

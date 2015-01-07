@@ -1,6 +1,7 @@
 package adventure.rest;
 
 import java.net.URI;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.Consumes;
@@ -14,8 +15,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Account;
-import adventure.persistence.MailDAO;
 import adventure.persistence.AccountDAO;
+import adventure.persistence.MailDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -44,8 +45,8 @@ public class ResetREST {
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		AccountDAO dao = Beans.getReference(AccountDAO.class);
-		Account persistedUser = dao.load(data.email);
-		String persistedToken = persistedUser.getPasswordResetToken();
+		Account persistedAccount = dao.load(data.email);
+		String persistedToken = persistedAccount.getPasswordResetToken();
 
 		if (persistedToken == null || !persistedToken.equals(token)) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
@@ -55,10 +56,12 @@ public class ResetREST {
 					.addViolation("Esta solicitação não é mais válida. Siga as instruções que acabamos de enviar para o seu e-mail.");
 
 		} else {
-			persistedUser.setPasswordResetToken(null);
-			persistedUser.setPasswordResetRequest(null);
-			persistedUser.setPassword(Passwords.hash(data.newPassword));
-			dao.update(persistedUser);
+			persistedAccount.setPasswordResetToken(null);
+			persistedAccount.setPasswordResetRequest(null);
+			persistedAccount.setPassword(Passwords.hash(data.newPassword));
+			persistedAccount.setActivation(new Date());
+			persistedAccount.setActivationToken(null);
+			dao.update(persistedAccount);
 
 			login(data.email, data.newPassword);
 		}
