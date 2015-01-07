@@ -1,8 +1,16 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-	<ui:define name="body">
+	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
+	</ui:define>
 	
+	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/register.js"></script>
+	</ui:define>
+	
+	<ui:define name="body">
+	#{param.race}
 	<div class="container">
 		<div class="row">
 	        <div class="col-md-12">
@@ -113,18 +121,5 @@
 	        </div>
 	    </div>
 	</div>
-		
-		#{param.race}
-
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
-	
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/user.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
-	
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/register.js"></script>
-	
 	</ui:define>
 </ui:composition>

@@ -1,6 +1,6 @@
 var SignUpProxy = {
 
-	url : "api/signup",
+	url : App.getContextPath() + "/api/signup",
 
 	signup : function($data) {
 		return $.ajax({

@@ -1,6 +1,6 @@
 var UserProxy = {
 
-	url : "api/user",
+	url : App.getContextPath() + "/api/user",
 
 	getLoggedInUser : function() {
 		return $.ajax({

@@ -1,6 +1,6 @@
 var ResetProxy = {
 
-	url : "api/reset",
+	url : App.getContextPath() + "/api/reset",
 
 	requestPasswordReset : function($data) {
 		return $.ajax({

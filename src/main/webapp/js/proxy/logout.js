@@ -1,6 +1,6 @@
 var LogoutProxy = {
 
-	url : "api/logout",
+	url : App.getContextPath() + "/api/logout",
 
 	logout : function() {
 		return $.ajax({

@@ -1,6 +1,6 @@
 var RaceProxy = {
 
-	url : "api/race",
+	url : App.getContextPath() + "/api/race",
 
 	findNext : function() {
 		return $.ajax({

@@ -26,8 +26,8 @@ $(document).ready(function() {
     // DEMO ONLY //
     $('#activate-step-2').on('click', function(e) {
     	
-        $('ul.setup-panel li:eq(1)').removeClass('disabled');
-        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+        //$('ul.setup-panel li:eq(1)').removeClass('disabled');
+        //$('ul.setup-panel li a[href="#step-2"]').trigger('click');
         
         var data = {
     			'name' : $("#name").val(),
@@ -37,12 +37,30 @@ $(document).ready(function() {
     			'gender' : $("#gender").val()
     	};
         
-        
+        console.log(data);
+        ProfileProxy.update(data).done(updateOk).fail(updateFail);
         
     })    
 });
 
-
+/**
+ * Função que carrega os dados pessoais do usuário.
+ * */
 function loadOk(data){
+	console.log(data);
+	$("#name").val(data.name);
+	$("#rg").val(data.rg);
+	$("#cpf").val(data.cpf);
+	$("#birthday").val(data.birthday);
+	$("#gender select").val(data.gender);
+}
+
+function updateOk(data){
+	console.log('updateOk');
+	console.log(data);
+}
+
+function updateFail(data){
+	console.log('updateFail');
 	console.log(data);
 }
