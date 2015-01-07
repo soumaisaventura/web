@@ -22,18 +22,26 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name = "PERIOD", uniqueConstraints = { @UniqueConstraint(columnNames = { "RACE_ID", "BEGINNING" }) })
+@Table(name = "PERIOD", uniqueConstraints = { @UniqueConstraint(name = "UK_PERIOD_BEGINNING", columnNames = {
+		"RACE_ID", "BEGINNING" }) })
+// @Table(name = "PERIOD", uniqueConstraints = { @UniqueConstraint(columnNames = { "RACE_ID", "BEGINNING" }),
+// @UniqueConstraint(columnNames = { "RACE_ID", "ENDING" }) })
+// @org.hibernate.annotations.Table(appliesTo = "PERIOD", indexes = {
+// @Index(name = "IDX_PERIOD_BEGINNING", columnNames = { "RACE_ID" }),
+// @Index(name = "IDX_PERIOD_ENDING", columnNames = { "RACE_ID" }) })
 public class Period implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "RACE_ID")
 	@ForeignKey(name = "FK_PERIOD_RACE")
+	@Index(name = "IDX_PERIOD_RACE")
 	private Race race;
 
 	@NotNull
@@ -48,6 +56,8 @@ public class Period implements Serializable {
 	@Index(name = "IDX_PERIOD_ENDING")
 	private Date end;
 
+	@NotNull
+	@Column(name = "PRICE")
 	private BigDecimal price;
 
 	public Period(Race race) {
