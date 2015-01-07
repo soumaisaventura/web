@@ -9,21 +9,29 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
+
 @Entity
+@Table(name = "PROFILE")
 public class Profile implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@OneToOne
+	@ForeignKey(name = "FK_PROFILE_ACCOUNT")
 	private Account account;
 
+	@Index(name = "IDX_PROFILE_NAME")
 	private String name;
 
 	private String rg;
 
+	@Index(name = "IDX_PROFILE_CPF")
 	private String cpf;
 
 	@Past

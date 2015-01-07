@@ -9,13 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(name = "ACCOUNT")
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +29,7 @@ public class Account implements Serializable {
 
 	@Email
 	@NotEmpty
+	@Index(name = "IDX_ACCOUNT_EMAIL")
 	@Column(unique = true)
 	private String email;
 
@@ -49,18 +53,6 @@ public class Account implements Serializable {
 
 	@JsonIgnore
 	private Date deleted;
-
-	// private String name;
-	//
-	// private String rg;
-	//
-	// private String cpf;
-	//
-	// @Past
-	// private Date birthday;
-	//
-	// @Enumerated(STRING)
-	// private Gender gender;
 
 	public Long getId() {
 		return id;

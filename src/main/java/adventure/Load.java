@@ -1,11 +1,13 @@
 package adventure;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import adventure.entity.Period;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -20,9 +22,11 @@ public class Load {
 	public void race() throws Exception {
 		DateFormat format = new SimpleDateFormat("dd/MM/yyyyy");
 
+		em.createQuery("delete from Period").executeUpdate();
 		em.createQuery("delete from Race").executeUpdate();
 
 		Race race;
+		Period period;
 
 		race = new Race();
 		race.setName("Desafio dos Sertões");
@@ -38,6 +42,16 @@ public class Load {
 		race.setName("Noite do Perrengue 3");
 		race.setDate(format.parse("21/03/2015"));
 		em.persist(race);
+		period = new Period(race);
+		period.setBeginning(format.parse("07/01/2015"));
+		period.setEnd(format.parse("15/01/2015"));
+		period.setPrice(BigDecimal.valueOf(60.00));
+		em.persist(period);
+		period = new Period(race);
+		period.setBeginning(format.parse("16/01/2015"));
+		period.setEnd(format.parse("31/01/2015"));
+		period.setPrice(BigDecimal.valueOf(80.00));
+		em.persist(period);
 
 		race = new Race();
 		race.setName("CARI - Sol do Salitre");
