@@ -51,7 +51,8 @@ public class Profile implements Serializable {
 	private Date birthday;
 
 	@Enumerated(STRING)
-	@Column(length = 1)
+	@Column(name = "GENDER")
+	// @Column(name = "GENDER", length = 1)
 	private Gender gender;
 
 	public Profile() {
