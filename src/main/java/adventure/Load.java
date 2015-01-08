@@ -69,7 +69,7 @@ public class Load {
 		em.persist(race);
 
 		race = new Race();
-		race.setName("CARI - Peleja");
+		race.setName("CARI - Casco de Peba");
 		race.setDate(format.parse("20/06/2015"));
 		em.persist(race);
 

@@ -1,12 +1,10 @@
 package adventure.rest;
 
-import java.io.IOException;
-
 import javax.ws.rs.Path;
 
+import adventure.entity.Account;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
-import adventure.entity.Account;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -25,7 +23,7 @@ public class GoogleLogonREST extends OAuthLogon {
 	private static JacksonFactory FACTORY = new JacksonFactory();
 
 	@Override
-	protected Profile createProfile(String code) throws IOException {
+	protected Profile createProfile(String code) throws Exception {
 		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
 		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
 
@@ -54,6 +52,8 @@ public class GoogleLogonREST extends OAuthLogon {
 		if (userInfo.getGender() != null) {
 			profile.setGender(Gender.valueOf(userInfo.getGender().toUpperCase()));
 		}
+
+		// userInfo.get("birthday");
 
 		return profile;
 	}

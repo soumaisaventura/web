@@ -28,16 +28,19 @@ $(function() {
 		});
 	});
 
-	$("#google-login").click(function() {
-		$("[id$='-message']").hide();
+	$("#google-login")
+			.click(
+					function() {
+						$("[id$='-message']").hide();
 
-		gapi.auth.signIn({
-			'clientid' : '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
-			'cookiepolicy' : 'single_host_origin',
-			'callback' : 'googleLogin',
-			'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-		});
-	});
+						gapi.auth
+								.signIn({
+									'clientid' : '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
+									'cookiepolicy' : 'single_host_origin',
+									'callback' : 'googleLogin',
+									'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login'
+								});
+					});
 });
 
 // Regular login process

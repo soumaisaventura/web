@@ -6,8 +6,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -20,7 +18,7 @@ import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-@Singleton
+//@Singleton
 @Transactional
 public class MailDAO {
 
@@ -28,17 +26,17 @@ public class MailDAO {
 	private ApplicationConfig config;
 
 	@Inject
-	private AccountDAO userDAO;
+	private AccountDAO accountDAO;
 
-	@Asynchronous
+	// @Asynchronous
 	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
-		Account user = getUser(email);
-		String token = user.getActivationToken();
+		Account account = getAccount(email);
+		String token = account.getActivationToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			user.setActivationToken(token);
-			userDAO.update(user);
+			account.setActivationToken(token);
+			accountDAO.update(account);
 		}
 
 		MimeMessage message = new MimeMessage(getSession());
@@ -50,16 +48,16 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	@Asynchronous
+	// @Asynchronous
 	public void sendPasswordCreationMail(String email, URI baseUri) throws MessagingException {
-		Account user = getUser(email);
-		String token = user.getPasswordResetToken();
+		Account account = getAccount(email);
+		String token = account.getPasswordResetToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			user.setPasswordResetToken(token);
-			user.setPasswordResetRequest(new Date());
-			userDAO.update(user);
+			account.setPasswordResetToken(token);
+			account.setPasswordResetRequest(new Date());
+			accountDAO.update(account);
 		}
 
 		MimeMessage message = new MimeMessage(getSession());
@@ -71,16 +69,16 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	@Asynchronous
+	// @Asynchronous
 	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
-		Account user = getUser(email);
-		String token = user.getPasswordResetToken();
+		Account account = getAccount(email);
+		String token = account.getPasswordResetToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			user.setPasswordResetToken(token);
-			user.setPasswordResetRequest(new Date());
-			userDAO.update(user);
+			account.setPasswordResetToken(token);
+			account.setPasswordResetRequest(new Date());
+			accountDAO.update(account);
 		}
 
 		MimeMessage message = new MimeMessage(getSession());
@@ -92,15 +90,14 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	private Account getUser(String email) {
-		Account user = userDAO.load(email);
+	private Account getAccount(String email) {
+		Account account = accountDAO.load(email);
 
-		if (user == null) {
-			// TODO Lançar exceção
-			throw new IllegalStateException("Nenhum usuário associado ao e-mail " + email);
+		if (account == null) {
+			throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
 		}
 
-		return user;
+		return account;
 	}
 
 	private Session getSession() {
@@ -108,9 +105,17 @@ public class MailDAO {
 		props.put("mail.smtp.host", config.getHost());
 		props.put("mail.smtp.user", config.getUser());
 		props.put("mail.smtp.password", config.getPassword());
+		// props.put("mail.smtp.socketFactory.fallback", "false");
+		// props.put("mail.smtp.auth", "true");
 
 		if (config.getPort() != null) {
 			props.put("mail.smtp.port", config.getPort());
+			// props.put("mail.smtp.socketFactory.port", config.getPort());
+			// props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		}
+
+		if (config.getTls() != null) {
+			// props.put("mail.smtp.starttls.enable", config.getTls());
 		}
 
 		return Session.getInstance(props);

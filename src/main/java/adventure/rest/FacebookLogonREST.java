@@ -1,6 +1,7 @@
 package adventure.rest;
 
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.ws.rs.Path;
 
@@ -13,14 +14,15 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.Profile;
 import adventure.entity.Account;
+import adventure.entity.Gender;
+import adventure.entity.Profile;
 
 @Path("logon/facebook")
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override
-	protected Profile createProfile(String code) throws IOException {
+	protected Profile createProfile(String code) throws Exception {
 		HttpClient client = new DefaultHttpClient();
 
 		String newUrl = "https://graph.facebook.com/me?access_token=" + code;
@@ -36,6 +38,10 @@ public class FacebookLogonREST extends OAuthLogon {
 
 		JsonNode rootNode = mapper.readTree(responseBody);
 
+		if (!rootNode.get("verified").asBoolean()) {
+			throw new IllegalStateException("O e-mail não foi verificado");
+		}
+
 		Account account = new Account();
 		account.setEmail(rootNode.get("email").asText());
 
@@ -43,20 +49,14 @@ public class FacebookLogonREST extends OAuthLogon {
 		profile.setAccount(account);
 		profile.setName(rootNode.get("name").asText());
 
-		// JsonNode location = firstResult.get("locations").get(0);
-		// JsonNode latLng = location.get("latLng");
-		// String lat = latLng.get("lat").asText();
-		// String lng = latLng.get("lng").asText();
-		// output = lat + "," + lng;
-		// System.out.println("Found Coordinates: " + output);
+		if (rootNode.get("gender") != null) {
+			profile.setGender(Gender.valueOf(rootNode.get("gender").asText().toUpperCase()));
+		}
 
-		// JSONObject json = (JSONObject) JSONSerializer.toJSON(responseBody);
-		// String facebookId = json.getString("id");
-		// String firstName = json.getString("first_name");
-		// String lastName = json.getString("last_name");
-		// email = json.getString("email");
-		// // put user data in session
-		// httpSession.setAttribute("FACEBOOK_USER", firstName + " " + lastName + ", facebookId:" + facebookId);
+		if (rootNode.get("birthday") != null) {
+			DateFormat format = new SimpleDateFormat("MM/dd/yyyyy");
+			profile.setBirthday(format.parse(rootNode.get("birthday").asText()));
+		}
 
 		client.getConnectionManager().shutdown();
 
