@@ -55,7 +55,7 @@ public class Load {
 
 		race = new Race();
 		race.setName("CARI - Sol do Salitre");
-		race.setDate(format.parse("18/04/2015"));
+		race.setDate(format.parse("11/04/2015"));
 		em.persist(race);
 
 		race = new Race();
