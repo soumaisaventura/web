@@ -45,15 +45,15 @@ public abstract class OAuthLogon {
 		Account persistedAccount = accountDAO.load(oauthAccount.getEmail());
 
 		if (persistedAccount == null) {
-			oauthAccount.setActivation(new Date());
+			oauthAccount.setConfirmation(new Date());
 			accountDAO.insert(oauthAccount);
 			profileDAO.insert(oauthProfile);
 			Beans.getReference(HealthDAO.class).insert(new Health(oauthAccount));
 
 			login(oauthAccount);
 
-		} else if (persistedAccount.getActivation() == null) {
-			persistedAccount.setActivation(new Date());
+		} else if (persistedAccount.getConfirmation() == null) {
+			persistedAccount.setConfirmation(new Date());
 		}
 
 		if (persistedAccount != null) {

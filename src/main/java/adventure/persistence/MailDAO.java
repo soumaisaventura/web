@@ -6,8 +6,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -20,7 +18,6 @@ import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-@Singleton
 @Transactional
 public class MailDAO {
 
@@ -30,14 +27,13 @@ public class MailDAO {
 	@Inject
 	private AccountDAO userDAO;
 
-	@Asynchronous
 	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
 		Account user = getUser(email);
-		String token = user.getActivationToken();
+		String token = user.getConfirmationToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			user.setActivationToken(token);
+			user.setConfirmationToken(token);
 			userDAO.update(user);
 		}
 
@@ -50,7 +46,6 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	@Asynchronous
 	public void sendPasswordCreationMail(String email, URI baseUri) throws MessagingException {
 		Account user = getUser(email);
 		String token = user.getPasswordResetToken();
@@ -71,7 +66,6 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	@Asynchronous
 	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
 		Account user = getUser(email);
 		String token = user.getPasswordResetToken();
@@ -96,7 +90,6 @@ public class MailDAO {
 		Account user = userDAO.load(email);
 
 		if (user == null) {
-			// TODO Lançar exceção
 			throw new IllegalStateException("Nenhum usuário associado ao e-mail " + email);
 		}
 
