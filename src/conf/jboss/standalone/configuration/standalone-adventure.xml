@@ -108,7 +108,7 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/datasources/AdventureDS" pool-name="AdventureDS" enabled="true" use-java-context="true">
+                <datasource jndi-name="java:jboss/datasources/PostgreSQLDS" pool-name="PostgreSQLDS" enabled="true" use-java-context="true">
                     <connection-url>jdbc:postgresql://localhost:5432/adventure</connection-url>
                     <driver>postgresql</driver>
                     <security>
