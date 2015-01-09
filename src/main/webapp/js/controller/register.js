@@ -23,12 +23,7 @@ $(document).ready(function() {
     
     $('ul.setup-panel li.active a').trigger('click');
     
-    // DEMO ONLY //
     $('#activate-step-2').on('click', function(e) {
-    	
-        //$('ul.setup-panel li:eq(1)').removeClass('disabled');
-        //$('ul.setup-panel li a[href="#step-2"]').trigger('click');
-        
         var data = {
     			'name' : $("#name").val(),
     			'rg' : $("#rg").val(),
@@ -36,10 +31,8 @@ $(document).ready(function() {
     			'birthday' : $("#birthday").val(),
     			'gender' : $("#gender").val()
     	};
-        
         console.log(data);
         ProfileProxy.update(data).done(updateOk).fail(updateFail);
-        
     })    
 });
 
@@ -52,15 +45,40 @@ function loadOk(data){
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
 	$("#birthday").val(data.birthday);
-	$("#gender select").val(data.gender);
+	$("#gender").val(data.gender);
 }
 
 function updateOk(data){
 	console.log('updateOk');
-	console.log(data);
+    $('ul.setup-panel li:eq(1)').removeClass('disabled');
+    $('ul.setup-panel li a[href="#step-2"]').trigger('click');
 }
 
-function updateFail(data){
+function updateFail(request){
 	console.log('updateFail');
-	console.log(data);
+	switch (request.status) {
+		case 422:
+			$($("#form-step-1 input").get().reverse()).each(function() {
+				var id = $(this).attr('id');
+				var message = null;
+	
+				$.each(request.responseJSON, function(index, value) {
+					if (id == value.property) {
+						message = value.message;
+						return;
+					}
+				});
+	
+				if (message) {
+					$("#" + id + "-message").html(message).show();
+					$(this).focus();
+				} else {
+					$("#" + id + "-message").hide();
+				}
+			});
+			break;
+
+		default:
+			break;
+	}
 }
