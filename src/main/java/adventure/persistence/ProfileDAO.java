@@ -2,7 +2,7 @@ package adventure.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Account;
@@ -14,6 +14,15 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 public class ProfileDAO extends JPACrud<Profile, Account> {
 
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public Profile insert(Profile profile) {
+		if (profile.getName() != null) {
+			profile.setName(profile.getName().trim());
+		}
+
+		return super.insert(profile);
+	}
 
 	@Override
 	public List<Profile> findAll() {
@@ -37,7 +46,7 @@ public class ProfileDAO extends JPACrud<Profile, Account> {
 
 		try {
 			result = query.getSingleResult();
-		} catch (EntityNotFoundException cause) {
+		} catch (NoResultException cause) {
 			result = null;
 		}
 
@@ -54,7 +63,7 @@ public class ProfileDAO extends JPACrud<Profile, Account> {
 
 		try {
 			result = query.getSingleResult();
-		} catch (EntityNotFoundException cause) {
+		} catch (NoResultException cause) {
 			result = null;
 		}
 

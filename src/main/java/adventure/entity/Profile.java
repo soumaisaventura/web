@@ -14,11 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "PROFILE")
@@ -32,6 +34,7 @@ public class Profile implements Serializable {
 	@ForeignKey(name = "FK_PROFILE_ACCOUNT")
 	private Account account;
 
+	@NotEmpty
 	@Column(name = "NAME")
 	@Index(name = "IDX_PROFILE_NAME")
 	private String name;
@@ -50,9 +53,9 @@ public class Profile implements Serializable {
 	@Column(name = "BIRTHDAY")
 	private Date birthday;
 
+	@NotNull
 	@Enumerated(STRING)
 	@Column(name = "GENDER")
-	// @Column(name = "GENDER", length = 1)
 	private Gender gender;
 
 	public Profile() {
