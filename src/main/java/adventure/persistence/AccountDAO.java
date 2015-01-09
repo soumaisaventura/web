@@ -18,10 +18,11 @@ public class AccountDAO extends JPACrud<Account, Long> {
 	public Account insert(Account account) {
 		account.setCreation(new Date());
 
-		Account result = super.insert(account);
-		// getEntityManager().detach(result);
+		if (account.getEmail() != null) {
+			account.setEmail(account.getEmail().trim());
+		}
 
-		return result;
+		return super.insert(account);
 	}
 
 	@Override

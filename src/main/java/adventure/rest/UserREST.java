@@ -6,9 +6,11 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import adventure.entity.Profile;
 import adventure.persistence.ProfileDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -22,6 +24,21 @@ public class UserREST {
 	@Produces("application/json")
 	public User getLoggedInUser() {
 		return User.getLoggedIn();
+	}
+
+	@GET
+	@LoggedIn
+	@Path("search")
+	@Produces("application/json")
+	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes") List<Long> excludes) {
+		List<User> result = new ArrayList<User>();
+
+		if (!q.isEmpty() && q.length() > 3) {
+			UserDAO dao = Beans.getReference(UserDAO.class);
+			result = dao.search(q, excludes);
+		}
+
+		return result;
 	}
 
 	@GET
