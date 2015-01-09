@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+	$("#user").select2();
 	
 	ProfileProxy.load().done(loadStep1Ok);
 	HealthProxy.load().done(loadStep2Ok);
