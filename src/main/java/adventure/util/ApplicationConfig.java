@@ -8,6 +8,9 @@ import br.gov.frameworkdemoiselle.configuration.Configuration;
 @Configuration(resource = "application")
 public class ApplicationConfig {
 
+	@Name("title")
+	private String title = "Adventure";
+
 	@NotEmpty
 	@Name("mail.smtp.host")
 	private String host;
@@ -25,6 +28,10 @@ public class ApplicationConfig {
 
 	@Name("mail.smtp.starttls.enable")
 	private Boolean tls;
+
+	public String getTitle() {
+		return title;
+	}
 
 	public String getHost() {
 		return host;

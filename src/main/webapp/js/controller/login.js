@@ -47,7 +47,7 @@ $(function() {
 
 function loginOk(data, status, request) {
 	App.setToken(request.getResponseHeader('Set-Token'));
-	location.href = "./";
+	App.restoreLocation();
 }
 
 function loginFailed(request) {

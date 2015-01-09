@@ -2,6 +2,16 @@ var App = {
 
 	tokenKey : "Token",
 
+	restoreLocation : function() {
+		var url = sessionStorage.getItem("saved_location");
+		location.href = url ? url : App.getContextPath() + "/home";
+		sessionStorage.removeItem("saved_location");
+	},
+
+	saveLocation : function() {
+		sessionStorage.setItem("saved_location", location.href);
+	},
+
 	getToken : function() {
 		return sessionStorage.getItem(this.tokenKey);
 	},
@@ -57,6 +67,8 @@ $.ajaxSetup({
 	error : function(request) {
 		switch (request.status) {
 			case 401:
+				alert("Olá, precisamos saber quem é você")
+				App.saveLocation();
 				location.href = App.getContextPath() + "/login";
 				break;
 

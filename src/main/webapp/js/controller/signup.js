@@ -21,7 +21,4 @@ $(function() {
 
 function signupOk(data, status, request) {
 	alert("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.");
-
-	// App.setToken(request.getResponseHeader('Set-Token'));
-	// location.href = './';
 }

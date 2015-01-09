@@ -18,7 +18,6 @@ $(function() {
 
 function activateOk(data, status, request) {
 	alert("Conta ativada com sucesso.");
-
 	App.setToken(request.getResponseHeader('Set-Token'));
-	location.href = './';
+	App.restoreLocation();
 }

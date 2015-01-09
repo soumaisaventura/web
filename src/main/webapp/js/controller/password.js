@@ -19,5 +19,5 @@ $(function() {
 
 function resetOk(data, status, request) {
 	App.setToken(request.getResponseHeader('Set-Token'));
-	location.href = "./";
+	App.restoreLocation();
 }
