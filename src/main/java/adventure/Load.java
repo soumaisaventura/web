@@ -83,14 +83,14 @@ public class Load {
 		Race np = newRace("Noite do Perrengue 3", "21/03/2015");
 		newPeriod(np, "07/01/2015", "15/01/2015", 60.00);
 		newPeriod(np, "16/01/2015", "31/01/2015", 80.00);
-		Course course50 = newCourse(np, 50);
-		Course course100 = newCourse(np, 100);
-		newAvailableCategory(np, course50, duplaMasculina);
-		newAvailableCategory(np, course50, duplaMista);
-		newAvailableCategory(np, course100, duplaMasculina);
-		newAvailableCategory(np, course100, duplaMista);
-		newAvailableCategory(np, course100, quarteto);
-		newAvailableCategory(np, course100, solo);
+		Course np50km = newCourse(np, 50);
+		Course np100km = newCourse(np, 100);
+		newAvailableCategory(np, np50km, duplaMasculina);
+		newAvailableCategory(np, np50km, duplaMista);
+		newAvailableCategory(np, np100km, duplaMasculina);
+		newAvailableCategory(np, np100km, duplaMista);
+		newAvailableCategory(np, np100km, quarteto);
+		newAvailableCategory(np, np100km, solo);
 
 		newRace("CARI - Sol do Salitre", "11/04/2015");
 		newRace("CICA - Mandacaru", "18/04/2015");
