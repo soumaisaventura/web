@@ -16,7 +16,7 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("profile")
+@Path("health")
 public class HealthREST {
 
 	@Inject

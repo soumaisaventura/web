@@ -1,6 +1,6 @@
 var LogonProxy = {
 
-	url : "api/logon",
+	url : App.getContextPath() + "/api/logon",
 
 	login : function($data) {
 		return $.ajax({

@@ -23,6 +23,9 @@ public class ApplicationConfig {
 	@Name("mail.smtp.password")
 	private String password;
 
+	@Name("mail.smtp.starttls.enable")
+	private Boolean tls;
+
 	public String getHost() {
 		return host;
 	}
@@ -37,5 +40,9 @@ public class ApplicationConfig {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public Boolean getTls() {
+		return tls;
 	}
 }

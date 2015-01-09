@@ -1,6 +1,5 @@
 package adventure.rest;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -10,12 +9,12 @@ import javax.ws.rs.POST;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.entity.Account;
 import adventure.entity.Health;
 import adventure.entity.Profile;
-import adventure.entity.Account;
+import adventure.persistence.AccountDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.ProfileDAO;
-import adventure.persistence.AccountDAO;
 import adventure.security.OAuthSession;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -34,7 +33,7 @@ public abstract class OAuthLogon {
 	@Inject
 	private ProfileDAO profileDAO;
 
-	protected abstract Profile createProfile(String code) throws IOException;
+	protected abstract Profile createProfile(String code) throws Exception;
 
 	@POST
 	@Transactional
