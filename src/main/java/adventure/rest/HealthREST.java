@@ -30,7 +30,8 @@ public class HealthREST {
 
 		HealthData data = new HealthData();
 		data.bloodType = health.getBloodType();
-
+		data.allergy = health.getAllergy();
+		
 		return data;
 	}
 
@@ -43,6 +44,8 @@ public class HealthREST {
 		Health health = dao.load(User.getLoggedIn().getEmail());
 
 		health.setBloodType(data.bloodType);
+		
+		health.setAllergy(data.allergy);
 
 		dao.update(health);
 	}
@@ -51,5 +54,7 @@ public class HealthREST {
 
 		@NotNull
 		public BloodType bloodType;
+		
+		public String allergy;
 	}
 }

@@ -30,6 +30,9 @@ public class Health implements Serializable {
 	@Column(name = "BLOOD_TYPE")
 	private BloodType bloodType;
 
+	@Column(name = "ALLERGY")
+	private String allergy;
+
 	public Health() {
 	}
 
@@ -52,4 +55,13 @@ public class Health implements Serializable {
 	public void setBloodType(BloodType bloodType) {
 		this.bloodType = bloodType;
 	}
+
+	public String getAllergy() {
+		return allergy;
+	}
+
+	public void setAllergy(String allergy) {
+		this.allergy = allergy;
+	}
+
 }
