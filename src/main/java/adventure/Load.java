@@ -65,6 +65,7 @@ public class Load {
 	@SuppressWarnings("unused")
 	@Startup
 	public void race() throws Exception {
+		em.createQuery("delete from AvailableCategory").executeUpdate();
 		em.createQuery("delete from Category").executeUpdate();
 		em.createQuery("delete from Course").executeUpdate();
 		em.createQuery("delete from Period").executeUpdate();
