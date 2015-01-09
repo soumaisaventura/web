@@ -16,6 +16,9 @@ $(function() {
 
 // Activation process
 
-function activateOk() {
-	$("#global-message").html("Conta ativada com sucesso.").show();
+function activateOk(data, status, request) {
+	alert("Conta ativada com sucesso.");
+
+	App.setToken(request.getResponseHeader('Set-Token'));
+	location.href = './';
 }

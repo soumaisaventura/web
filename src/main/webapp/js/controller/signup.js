@@ -20,6 +20,8 @@ $(function() {
 // SignUp process
 
 function signupOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
-	location.href = './';
+	alert("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.");
+
+	// App.setToken(request.getResponseHeader('Set-Token'));
+	// location.href = './';
 }

@@ -53,7 +53,7 @@ public class ResetREST {
 			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 
 			throw new UnprocessableEntityException()
-					.addViolation("Esta solicitação não é mais válida. Siga as instruções que acabamos de enviar para o seu e-mail.");
+					.addViolation("Esta solicitação não é mais válida. Siga as instruções no seu e-mail.");
 
 		} else {
 			persistedAccount.setPasswordResetToken(null);

@@ -2,7 +2,6 @@ package adventure.security;
 
 import java.security.Principal;
 
-import adventure.entity.Account;
 import adventure.entity.Profile;
 import adventure.persistence.ProfileDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -18,9 +17,10 @@ public class Authenticator extends TokenAuthenticator {
 	protected Principal customAuthentication() throws Exception {
 		Principal result = null;
 		Credentials credentials = Beans.getReference(Credentials.class);
+		OAuthSession oAuthSession = Beans.getReference(OAuthSession.class);
 		Profile profile = Beans.getReference(ProfileDAO.class).load(credentials.getUsername());
 
-		if (Beans.getReference(OAuthSession.class).isActive() || doesPasswordMatch(profile.getAccount(), credentials)) {
+		if (oAuthSession.isActive() || doesPasswordMatch(profile, credentials) || doesConfirmationTokenMatch(profile)) {
 			result = User.parse(profile);
 		} else {
 			throw new InvalidCredentialsException();
@@ -29,13 +29,20 @@ public class Authenticator extends TokenAuthenticator {
 		return result;
 	}
 
-	private boolean doesPasswordMatch(Account account, Credentials credentials) {
+	private boolean doesPasswordMatch(Profile profile, Credentials credentials) {
 		boolean result = false;
 
-		if (account != null && account.getPassword() != null) {
-			result = Passwords.hash(credentials.getPassword()).equals(account.getPassword());
+		if (profile.getAccount() != null && profile.getAccount().getPassword() != null) {
+			String hash = Passwords.hash(credentials.getPassword());
+			result = profile.getAccount().getPassword().equals(hash);
 		}
 
 		return result;
+	}
+
+	private boolean doesConfirmationTokenMatch(Profile profile) {
+		ConfirmationTokenSession session = Beans.getReference(ConfirmationTokenSession.class);
+		return profile.getAccount() != null && !session.isEmpty()
+				&& session.getValue().equals(profile.getAccount().getConfirmationToken());
 	}
 }

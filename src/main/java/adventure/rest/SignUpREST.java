@@ -25,8 +25,8 @@ import adventure.persistence.AccountDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
+import adventure.security.ConfirmationTokenSession;
 import adventure.security.Passwords;
-import adventure.validator.ExistentUserEmail;
 import adventure.validator.UniqueUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -64,7 +64,7 @@ public class SignUpREST {
 		Beans.getReference(ProfileDAO.class).insert(profile);
 		Beans.getReference(HealthDAO.class).insert(new Health(account));
 
-		login(account.getEmail(), password);
+		// login(account.getEmail(), password);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendAccountActivationMail(account.getEmail(), baseUri);
@@ -77,23 +77,26 @@ public class SignUpREST {
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
 		Account persistedAccount = accountDAO.load(data.email);
-		String persistedToken = persistedAccount.getConfirmationToken();
+		validate(token, persistedAccount.getConfirmationToken());
 
+		login(persistedAccount.getEmail(), token);
+
+		persistedAccount.setConfirmationToken(null);
+		persistedAccount.setConfirmation(new Date());
+		accountDAO.update(persistedAccount);
+	}
+
+	private void validate(String token, String persistedToken) throws Exception {
 		if (persistedToken == null || !persistedToken.equals(token)) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
-
-		} else {
-			persistedAccount.setConfirmationToken(null);
-			persistedAccount.setConfirmation(new Date());
-			accountDAO.update(persistedAccount);
 		}
 	}
 
-	private void login(String email, String password) {
+	private void login(String email, String token) {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(email);
-		credentials.setPassword(password);
 
+		Beans.getReference(ConfirmationTokenSession.class).setValue(token);;
 		Beans.getReference(SecurityContext.class).login();
 	}
 
@@ -131,7 +134,6 @@ public class SignUpREST {
 
 		@Email
 		@NotEmpty
-		@ExistentUserEmail
 		public String email;
 	}
 }

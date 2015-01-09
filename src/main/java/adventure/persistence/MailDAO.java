@@ -116,13 +116,13 @@ public class MailDAO {
 			props.put("mail.smtp.starttls.enable", config.getTls());
 		}
 
-		Authenticator a = new javax.mail.Authenticator() {
+		Authenticator authenticator = new javax.mail.Authenticator() {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(config.getUser(), config.getPassword());
 			}
 		};
 
-		return Session.getDefaultInstance(props, a);
+		return Session.getInstance(props, authenticator);
 	}
 }
