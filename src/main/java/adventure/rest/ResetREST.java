@@ -45,10 +45,13 @@ public class ResetREST {
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		AccountDAO dao = Beans.getReference(AccountDAO.class);
-		Account persistedAccount = dao.load(data.email);
-		String persistedToken = persistedAccount.getPasswordResetToken();
+		Account account = dao.load(data.email);
+		String persistedToken = account != null ? account.getPasswordResetToken() : null;
 
-		if (persistedToken == null || !persistedToken.equals(token)) {
+		if (account == null) {
+			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
+
+		} else if (persistedToken == null || !persistedToken.equals(Passwords.hash(token))) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 
@@ -56,12 +59,12 @@ public class ResetREST {
 					.addViolation("Esta solicitação não é mais válida. Siga as instruções no seu e-mail.");
 
 		} else {
-			persistedAccount.setPasswordResetToken(null);
-			persistedAccount.setPasswordResetRequest(null);
-			persistedAccount.setPassword(Passwords.hash(data.newPassword));
-			persistedAccount.setConfirmation(new Date());
-			persistedAccount.setConfirmationToken(null);
-			dao.update(persistedAccount);
+			account.setPasswordResetToken(null);
+			account.setPasswordResetRequest(null);
+			account.setPassword(Passwords.hash(data.newPassword));
+			account.setConfirmation(new Date());
+			account.setConfirmationToken(null);
+			dao.update(account);
 
 			login(data.email, data.newPassword);
 		}
@@ -87,7 +90,6 @@ public class ResetREST {
 
 		@Email
 		@NotEmpty
-		@ExistentUserEmail
 		public String email;
 
 		@NotEmpty

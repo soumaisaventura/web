@@ -25,7 +25,7 @@ import adventure.persistence.AccountDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
-import adventure.security.ConfirmationTokenSession;
+import adventure.security.ActivationSession;
 import adventure.security.Passwords;
 import adventure.validator.UniqueUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -77,7 +77,7 @@ public class SignUpREST {
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
 		Account persistedAccount = accountDAO.load(data.email);
-		validate(token, persistedAccount.getConfirmationToken());
+		validate(token, persistedAccount);
 
 		login(persistedAccount.getEmail(), token);
 
@@ -86,8 +86,9 @@ public class SignUpREST {
 		accountDAO.update(persistedAccount);
 	}
 
-	private void validate(String token, String persistedToken) throws Exception {
-		if (persistedToken == null || !persistedToken.equals(token)) {
+	private void validate(String token, Account account) throws Exception {
+		if (account == null || account.getConfirmationToken() == null
+				|| !account.getConfirmationToken().equals(Passwords.hash(token))) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 		}
 	}
@@ -96,7 +97,7 @@ public class SignUpREST {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(email);
 
-		Beans.getReference(ConfirmationTokenSession.class).setValue(token);;
+		Beans.getReference(ActivationSession.class).setToken(token);;
 		Beans.getReference(SecurityContext.class).login();
 	}
 

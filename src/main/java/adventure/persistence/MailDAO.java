@@ -35,7 +35,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setConfirmationToken(token);
+			account.setConfirmationToken(Passwords.hash(token));
 			accountDAO.update(account);
 		}
 
@@ -54,7 +54,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(token);
+			account.setPasswordResetToken(Passwords.hash(token));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
 		}
@@ -74,7 +74,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(token);
+			account.setPasswordResetToken(Passwords.hash(token));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
 		}

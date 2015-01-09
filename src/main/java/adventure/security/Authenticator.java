@@ -41,8 +41,14 @@ public class Authenticator extends TokenAuthenticator {
 	}
 
 	private boolean doesConfirmationTokenMatch(Profile profile) {
-		ConfirmationTokenSession session = Beans.getReference(ConfirmationTokenSession.class);
-		return profile.getAccount() != null && !session.isEmpty()
-				&& session.getValue().equals(profile.getAccount().getConfirmationToken());
+		boolean result = false;
+
+		if (profile.getAccount() != null && profile.getAccount().getConfirmationToken() != null) {
+			ActivationSession session = Beans.getReference(ActivationSession.class);
+			String hash = Passwords.hash(session.getToken());
+			result = profile.getAccount().getConfirmationToken().equals(hash);
+		}
+
+		return result;
 	}
 }
