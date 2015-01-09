@@ -56,12 +56,12 @@ public class Account implements Serializable {
 
 	@JsonIgnore
 	@Temporal(DATE)
-	@Column(name = "ACTIVATION")
-	private Date activation;
+	@Column(name = "CONFIRMATION")
+	private Date confirmation;
 
 	@JsonIgnore
-	@Column(name = "ACTIVATION_TOKEN")
-	private String activationToken;
+	@Column(name = "CONFIRMATION_TOKEN")
+	private String confirmationToken;
 
 	@JsonIgnore
 	@Temporal(DATE)
@@ -117,20 +117,20 @@ public class Account implements Serializable {
 		this.creation = creation;
 	}
 
-	public Date getActivation() {
-		return activation;
+	public Date getConfirmation() {
+		return confirmation;
 	}
 
-	public void setActivation(Date activation) {
-		this.activation = activation;
+	public void setConfirmation(Date confirmation) {
+		this.confirmation = confirmation;
 	}
 
-	public String getActivationToken() {
-		return activationToken;
+	public String getConfirmationToken() {
+		return confirmationToken;
 	}
 
-	public void setActivationToken(String activationToken) {
-		this.activationToken = activationToken;
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
 	}
 
 	public Date getDeleted() {

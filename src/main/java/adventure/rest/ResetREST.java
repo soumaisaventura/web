@@ -59,8 +59,8 @@ public class ResetREST {
 			persistedAccount.setPasswordResetToken(null);
 			persistedAccount.setPasswordResetRequest(null);
 			persistedAccount.setPassword(Passwords.hash(data.newPassword));
-			persistedAccount.setActivation(new Date());
-			persistedAccount.setActivationToken(null);
+			persistedAccount.setConfirmation(new Date());
+			persistedAccount.setConfirmationToken(null);
 			dao.update(persistedAccount);
 
 			login(data.email, data.newPassword);

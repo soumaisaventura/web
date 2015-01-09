@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.mail.Authenticator;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -18,7 +20,6 @@ import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-//@Singleton
 @Transactional
 public class MailDAO {
 
@@ -28,14 +29,13 @@ public class MailDAO {
 	@Inject
 	private AccountDAO accountDAO;
 
-	// @Asynchronous
 	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
-		String token = account.getActivationToken();
+		String token = account.getConfirmationToken();
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setActivationToken(token);
+			account.setConfirmationToken(token);
 			accountDAO.update(account);
 		}
 
@@ -48,7 +48,6 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	// @Asynchronous
 	public void sendPasswordCreationMail(String email, URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
 		String token = account.getPasswordResetToken();
@@ -69,7 +68,6 @@ public class MailDAO {
 		Transport.send(message);
 	}
 
-	// @Asynchronous
 	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
 		String token = account.getPasswordResetToken();
@@ -103,8 +101,8 @@ public class MailDAO {
 	private Session getSession() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", config.getHost());
-		props.put("mail.smtp.user", config.getUser());
-		props.put("mail.smtp.password", config.getPassword());
+		// props.put("mail.smtp.user", config.getUser());
+		// props.put("mail.smtp.password", config.getPassword());
 		// props.put("mail.smtp.socketFactory.fallback", "false");
 		// props.put("mail.smtp.auth", "true");
 
@@ -115,9 +113,16 @@ public class MailDAO {
 		}
 
 		if (config.getTls() != null) {
-			// props.put("mail.smtp.starttls.enable", config.getTls());
+			props.put("mail.smtp.starttls.enable", config.getTls());
 		}
 
-		return Session.getInstance(props);
+		Authenticator a = new javax.mail.Authenticator() {
+
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(config.getUser(), config.getPassword());
+			}
+		};
+
+		return Session.getDefaultInstance(props, a);
 	}
 }

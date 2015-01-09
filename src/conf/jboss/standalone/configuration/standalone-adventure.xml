@@ -108,7 +108,7 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/datasources/AdventureDS" pool-name="AdventureDS" enabled="true" use-java-context="true">
+                <datasource jndi-name="java:jboss/datasources/PostgreSQLDS" pool-name="PostgreSQLDS" enabled="true" use-java-context="true">
                     <connection-url>jdbc:postgresql://localhost:5432/adventure</connection-url>
                     <driver>postgresql</driver>
                     <security>
@@ -271,7 +271,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:web:1.4" default-virtual-server="default-host" native="false">
             <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>
-            <virtual-server name="default-host" enable-welcome-root="true">
+            <virtual-server name="default-host" enable-welcome-root="false">
                 <alias name="localhost"/>
                 <alias name="example.com"/>
             </virtual-server>

@@ -14,18 +14,30 @@ public class User implements Principal {
 
 	private String name;
 
+	private Boolean unconfirmed;
+
 	public static User getLoggedIn() {
 		return (User) Beans.getReference(SecurityContext.class).getUser();
 	}
 
 	public static User parse(Profile profile) {
-		return new User(profile.getAccount().getId(), profile.getAccount().getEmail(), profile.getName());
+		Long id = profile.getAccount().getId();
+		String email = profile.getAccount().getEmail();
+		String name = profile.getName();
+		Boolean unconfirmed = null;
+
+		if (profile.getAccount().getConfirmation() == null) {
+			unconfirmed = true;
+		}
+
+		return new User(id, email, name, unconfirmed);
 	}
 
-	private User(Long id, String email, String name) {
+	private User(Long id, String email, String name, Boolean unconfirmed) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
+		this.unconfirmed = unconfirmed;
 	}
 
 	public Long getId() {
@@ -39,5 +51,9 @@ public class User implements Principal {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public Boolean getUnconfirmed() {
+		return unconfirmed;
 	}
 }

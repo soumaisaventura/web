@@ -77,14 +77,14 @@ public class SignUpREST {
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
 		Account persistedAccount = accountDAO.load(data.email);
-		String persistedToken = persistedAccount.getActivationToken();
+		String persistedToken = persistedAccount.getConfirmationToken();
 
 		if (persistedToken == null || !persistedToken.equals(token)) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 
 		} else {
-			persistedAccount.setActivationToken(null);
-			persistedAccount.setActivation(new Date());
+			persistedAccount.setConfirmationToken(null);
+			persistedAccount.setConfirmation(new Date());
 			accountDAO.update(persistedAccount);
 		}
 	}
