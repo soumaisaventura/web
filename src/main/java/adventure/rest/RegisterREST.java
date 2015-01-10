@@ -39,7 +39,7 @@ public class RegisterREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Long register(RegisterData data, @PathParam("id") Long id) throws Exception {
+	public Long submit(RegisterData data, @PathParam("id") Long id) throws Exception {
 		Race race = loadRace(id);
 
 		Category category = loadCategory(data.category);
