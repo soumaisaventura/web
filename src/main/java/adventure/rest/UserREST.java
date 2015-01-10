@@ -39,8 +39,7 @@ public class UserREST {
 			throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
 		}
 
-		UserDAO dao = Beans.getReference(UserDAO.class);
-		return dao.search(q, excludes);
+		return Beans.getReference(UserDAO.class).search(q, excludes);
 	}
 
 	@GET

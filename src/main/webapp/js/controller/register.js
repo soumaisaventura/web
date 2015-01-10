@@ -14,20 +14,8 @@ $(document).ready(function() {
 	 */
 	$("#user").autocomplete({
 		source: function(request, response){
-			$.ajax({
-				url: App.getContextPath() + "/api/user/search",
-				dataType: "json",
-				data: {
-					q : request.term,
-					// verificar pq não tá funcionando com excludes vazio
-					excludes : members.length > 0 ? members : members.push(0)
-				},
-				success: function(data){
-					response(convertToLabelValueStructure(data));
-				},
-				beforeSend : function(request) {
-					App.setHeader(request);
-				}
+			UserProxy.search(request.term, members).done(function(data){
+				response(convertToLabelValueStructure(data));
 			});
 		},
 		minLength: 3,
@@ -124,7 +112,7 @@ function loadComboCategories(data){
 	$.each(data, function(){
 		$("#category").append(new Option(this.name, this.id + "#" + this.members));
 	});
-} 
+}
 
 /**
  * 
