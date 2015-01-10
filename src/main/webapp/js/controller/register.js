@@ -1,10 +1,12 @@
 $(document).ready(function() {
-	
+    var members = [];
+    
 	ProfileProxy.load().done(loadStep1Ok);
 	HealthProxy.load().done(loadStep2Ok);
 	RaceProxy.findCategories($("#race").val()).done(loadComboCategories);
-	
+
 	/** TODO 
+	 * Trazer o nome do atleta logo como primeiro item e sem permissão de exclusão
 	 * Guardar as informações num array e montar a lista baseada no array.
 	 * Ao remover item retirar do array.
 	 * Adicionar o excludes na pesquisa.
@@ -16,7 +18,9 @@ $(document).ready(function() {
 				url: App.getContextPath() + "/api/user/search",
 				dataType: "json",
 				data: {
-					q : request.term
+					q : request.term,
+					// verificar pq não tá funcionando com excludes vazio
+					excludes : members.length > 0 ? members : ""
 				},
 				success: function(data){
 					response(convertToLabelValueStructure(data));
@@ -28,8 +32,11 @@ $(document).ready(function() {
 		},
 		minLength: 4,
 		select: function( event, ui ) {
-			console.log( ui.item );
-			$("#users").append('<li class="list-group-item">' + ui.item.label + '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+			members.push(ui.item.value);
+			console.log(members);	
+			$("#members").append('<li class="list-group-item">' + ui.item.label + '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+			$("#user").val("");
+			return false;
 		}
 	});
     
@@ -66,9 +73,7 @@ $(document).ready(function() {
         ProfileProxy.update(data).done(updateStep1Ok).fail(updateStep1Fail);
     });
     
-    /** 
-	 * Cadastro dos dados médicos
-	 */
+    // Cadastro dos dados médicos
     $('#activate-step-3').on('click', function(e) {
         var data = {
     			'bloodType' : $("#bloodType").val(),
@@ -77,10 +82,14 @@ $(document).ready(function() {
         HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
     });
     
-    /** 
-	 * Cadastro dos dados da corrida
-	 */
+    // Cadastro dos dados da corrida
     $('#activate-step-4').on('click', function(e) {
+    	/*
+    	members = this.value.split("#")[1];
+    	console.log("Quantidade de membros que a categoria permite: " + members);
+    	console.log($("#members > li").length);
+    	console.log("Quantidade de membros cadastrados: " + members);
+    	*/
         // Proxy.update(data).done(updateStep3Ok).fail(updateStep3Fail);
     });
     
@@ -113,7 +122,7 @@ function loadStep2Ok(data){
  */
 function loadComboCategories(data){
 	$.each(data, function(){
-		$("#category").append(new Option(this.name, this.id));
+		$("#category").append(new Option(this.name, this.id + "#" + this.members));
 	});
 } 
 
