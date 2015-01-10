@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var members = [];
-    
+
 	ProfileProxy.load().done(loadStep1Ok);
 	HealthProxy.load().done(loadStep2Ok);
 	RaceProxy.findCategories($("#race").val()).done(loadComboCategories);
@@ -20,17 +20,17 @@ $(document).ready(function() {
 				data: {
 					q : request.term,
 					// verificar pq não tá funcionando com excludes vazio
-					excludes : members.length > 0 ? members : ""
+					excludes : members.length > 0 ? members : members.push(0)
 				},
 				success: function(data){
 					response(convertToLabelValueStructure(data));
 				},
 				beforeSend : function(request) {
-					App.setHeader(request)
+					App.setHeader(request);
 				}
 			});
 		},
-		minLength: 4,
+		minLength: 3,
 		select: function( event, ui ) {
 			members.push(ui.item.value);
 			console.log(members);	
@@ -216,7 +216,7 @@ function updateStep2Fail(request){
 function convertToLabelValueStructure(data){
 	var newData = [];
 	$.each(data, function(){
-		newData.push({"label" : this.name, "value" : this.id})
+		newData.push({"label" : this.name, "value" : this.id});
 	});
 	return newData;
 }
