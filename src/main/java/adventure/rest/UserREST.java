@@ -12,9 +12,11 @@ import adventure.entity.Profile;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.User;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("user")
 public class UserREST {
@@ -30,15 +32,15 @@ public class UserREST {
 	@LoggedIn
 	@Path("search")
 	@Produces("application/json")
-	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes") List<Long> excludes) {
-		List<User> result = new ArrayList<User>();
-
-		if (!q.isEmpty() && q.length() > 3) {
-			UserDAO dao = Beans.getReference(UserDAO.class);
-			result = dao.search(q, excludes);
+	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes") List<Long> excludes) throws Exception {
+		if (Strings.isEmpty(q)) {
+			throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
+		} else if (q.length() < 3) {
+			throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
 		}
 
-		return result;
+		UserDAO dao = Beans.getReference(UserDAO.class);
+		return dao.search(q, excludes);
 	}
 
 	@GET
