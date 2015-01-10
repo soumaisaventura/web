@@ -35,7 +35,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setConfirmationToken(Passwords.hash(token));
+			account.setConfirmationToken(Passwords.hash(token, email));
 			accountDAO.update(account);
 		}
 
@@ -54,7 +54,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(Passwords.hash(token));
+			account.setPasswordResetToken(Passwords.hash(token, email));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
 		}
@@ -74,7 +74,7 @@ public class MailDAO {
 
 		if (token == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(Passwords.hash(token));
+			account.setPasswordResetToken(Passwords.hash(token, email));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
 		}
@@ -101,15 +101,12 @@ public class MailDAO {
 	private Session getSession() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", config.getHost());
-		// props.put("mail.smtp.user", config.getUser());
-		// props.put("mail.smtp.password", config.getPassword());
-		// props.put("mail.smtp.socketFactory.fallback", "false");
-		// props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.auth", "true");
 
 		if (config.getPort() != null) {
 			props.put("mail.smtp.port", config.getPort());
-			// props.put("mail.smtp.socketFactory.port", config.getPort());
-			// props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.socketFactory.port", config.getPort());
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		}
 
 		if (config.getTls() != null) {

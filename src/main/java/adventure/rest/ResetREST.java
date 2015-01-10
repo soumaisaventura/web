@@ -51,7 +51,7 @@ public class ResetREST {
 		if (account == null) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 
-		} else if (persistedToken == null || !persistedToken.equals(Passwords.hash(token))) {
+		} else if (persistedToken == null || !persistedToken.equals(Passwords.hash(token, account.getEmail()))) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 
@@ -61,7 +61,7 @@ public class ResetREST {
 		} else {
 			account.setPasswordResetToken(null);
 			account.setPasswordResetRequest(null);
-			account.setPassword(Passwords.hash(data.newPassword));
+			account.setPassword(Passwords.hash(data.newPassword, account.getEmail()));
 			account.setConfirmation(new Date());
 			account.setConfirmationToken(null);
 			dao.update(account);

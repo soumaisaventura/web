@@ -33,7 +33,7 @@ public class Authenticator extends TokenAuthenticator {
 		boolean result = false;
 
 		if (profile != null && profile.getAccount() != null && profile.getAccount().getPassword() != null) {
-			String hash = Passwords.hash(credentials.getPassword());
+			String hash = Passwords.hash(credentials.getPassword(), credentials.getUsername());
 			result = profile.getAccount().getPassword().equals(hash);
 		}
 
@@ -45,7 +45,7 @@ public class Authenticator extends TokenAuthenticator {
 
 		if (profile != null && profile.getAccount() != null && profile.getAccount().getConfirmationToken() != null) {
 			ActivationSession session = Beans.getReference(ActivationSession.class);
-			String hash = Passwords.hash(session.getToken());
+			String hash = Passwords.hash(session.getToken(), profile.getAccount().getEmail());
 			result = profile.getAccount().getConfirmationToken().equals(hash);
 		}
 

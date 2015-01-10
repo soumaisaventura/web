@@ -3,15 +3,21 @@ package adventure;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import adventure.entity.Account;
 import adventure.entity.AvailableCategory;
 import adventure.entity.Category;
 import adventure.entity.Course;
+import adventure.entity.Gender;
+import adventure.entity.Health;
 import adventure.entity.Period;
+import adventure.entity.Profile;
 import adventure.entity.Race;
+import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
@@ -62,6 +68,25 @@ public class Load {
 		return availableCategory;
 	}
 
+	private Account newAccount(String username, String password, String name, Gender gender) {
+		Account account = new Account();
+		account.setEmail(username);
+		account.setPassword(Passwords.hash(password, username));
+		account.setCreation(new Date());
+		account.setConfirmation(new Date());
+		em.persist(account);
+
+		Profile profile = new Profile(account);
+		profile.setName(name);
+		profile.setGender(gender);
+		em.persist(profile);
+
+		Health health = new Health(account);
+		em.persist(health);
+
+		return account;
+	}
+
 	@SuppressWarnings("unused")
 	@Startup
 	public void race() throws Exception {
@@ -70,6 +95,18 @@ public class Load {
 		em.createQuery("delete from Course").executeUpdate();
 		em.createQuery("delete from Period").executeUpdate();
 		em.createQuery("delete from Race").executeUpdate();
+		em.createQuery("delete from Health").executeUpdate();
+		em.createQuery("delete from Profile").executeUpdate();
+		em.createQuery("delete from Account").executeUpdate();
+
+		Account[] accounts = new Account[10];
+		for (int i = 0; i < accounts.length; i++) {
+			if (i % 2 == 0) {
+				newAccount("guest_" + i + "@guest.com", "guest", "Male Guest " + i, Gender.MALE);
+			} else {
+				newAccount("guest_" + i + "@guest.com", "guest", "Female Guest " + i, Gender.FEMALE);
+			}
+		}
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher [RBCA]", 4);
 		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens [RBCA]", 2);

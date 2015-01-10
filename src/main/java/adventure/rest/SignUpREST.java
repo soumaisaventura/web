@@ -49,7 +49,7 @@ public class SignUpREST {
 	public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
 		Account account = new Account();
 		account.setEmail(data.email);
-		account.setPassword(data.password);
+		account.setPassword(Passwords.hash(data.password, data.email));
 		account.setCreation(new Date());
 
 		Profile profile = new Profile();
@@ -58,8 +58,6 @@ public class SignUpREST {
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
 
-		String password = account.getPassword();
-		account.setPassword(Passwords.hash(password));
 		accountDAO.insert(account).getId();
 		Beans.getReference(ProfileDAO.class).insert(profile);
 		Beans.getReference(HealthDAO.class).insert(new Health(account));
@@ -88,7 +86,7 @@ public class SignUpREST {
 
 	private void validate(String token, Account account) throws Exception {
 		if (account == null || account.getConfirmationToken() == null
-				|| !account.getConfirmationToken().equals(Passwords.hash(token))) {
+				|| !account.getConfirmationToken().equals(Passwords.hash(token, account.getEmail()))) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 		}
 	}

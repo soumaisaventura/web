@@ -16,13 +16,13 @@ public class Passwords {
 		return RandomStringUtils.random(64, true, true);
 	}
 
-	public static String hash(String password) {
+	public static String hash(String password, String salt) {
 		String hash = null;
 
 		if (password != null) {
 			try {
 				MessageDigest md = MessageDigest.getInstance("SHA-256");
-				md.update(password.getBytes("UTF-8"));
+				md.update((password + salt).getBytes("UTF-8"));
 				hash = Hex.encodeHexString(md.digest());
 
 			} catch (NoSuchAlgorithmException cause) {
