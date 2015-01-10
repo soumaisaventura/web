@@ -26,7 +26,8 @@ public class UserDAO implements Serializable {
 		jpql.append(" 	new " + User.class.getName() + "(a.id, a.email, p.name, p.gender) ");
 		jpql.append(" from ");
 		jpql.append(" 	Profile p join p.account a");
-		jpql.append(" where a.id not in :exclusion ");
+		jpql.append(" where a.confirmation is not null ");
+		jpql.append("   and a.id not in :exclusion ");
 		jpql.append("   and lower(p.name) like :filter ");
 
 		TypedQuery<User> query = em.createQuery(jpql.toString(), User.class);

@@ -71,12 +71,12 @@ public class Load {
 		return availableCategory;
 	}
 
-	private Account newAccount(String username, String password, String name, Gender gender) {
+	private Account newAccount(String username, String password, String name, Gender gender, boolean verified) {
 		Account account = new Account();
 		account.setEmail(username);
 		account.setPassword(Passwords.hash(password, username));
 		account.setCreation(new Date());
-		account.setConfirmation(new Date());
+		account.setConfirmation(verified ? new Date() : null);
 		em.persist(account);
 
 		Profile profile = new Profile(account);
@@ -102,13 +102,27 @@ public class Load {
 		em.createQuery("delete from Profile").executeUpdate();
 		em.createQuery("delete from Account").executeUpdate();
 
-		Account[] accounts = new Account[10];
+		Account[] accounts = new Account[50];
 		for (int i = 0; i < accounts.length; i++) {
+			String email = "guest_" + i + "@guest.com";
+			String password = "guest";
+			String name;
+			Gender gender;
+			boolean verified = true;
+
 			if (i % 2 == 0) {
-				newAccount("guest_" + i + "@guest.com", "guest", "Male Guest " + i, Gender.MALE);
+				name = "Male Guest " + i;
+				gender = Gender.MALE;
 			} else {
-				newAccount("guest_" + i + "@guest.com", "guest", "Female Guest " + i, Gender.FEMALE);
+				name = "Female Guest " + i;
+				gender = Gender.FEMALE;
 			}
+
+			if (i % 3 == 1) {
+				verified = false;
+			}
+
+			newAccount(email, password, name, gender, verified);
 		}
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
