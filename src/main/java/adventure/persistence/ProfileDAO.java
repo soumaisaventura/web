@@ -53,6 +53,22 @@ public class ProfileDAO extends JPACrud<Profile, Account> {
 		return result;
 	}
 
+	public Profile load(Long id) {
+		String jpql = "from Profile where account.id = :id";
+		TypedQuery<Profile> query = getEntityManager().createQuery(jpql, Profile.class);
+		query.setParameter("id", id);
+
+		Profile result;
+
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+
+		return result;
+	}
+
 	@Override
 	public Profile load(Account account) {
 		String jpql = "from Profile where account = :account";

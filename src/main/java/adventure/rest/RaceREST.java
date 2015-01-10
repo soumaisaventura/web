@@ -35,15 +35,9 @@ public class RaceREST {
 	@Produces("application/json")
 	public List<CategoryData> findCategories(@PathParam("id") Long id) throws Exception {
 		List<CategoryData> result = new ArrayList<CategoryData>();
+		Race race = loadRace(id);
 
-		Race race = dao.load(id);
-		if (race == null) {
-			throw new NotFoundException().addViolation("Prova não encontrada");
-		}
-
-		CategoryDAO categoryDAO = Beans.getReference(CategoryDAO.class);
-
-		for (Category category : categoryDAO.find(race)) {
+		for (Category category : Beans.getReference(CategoryDAO.class).find(race)) {
 			CategoryData data = new CategoryData();
 			data.id = category.getId();
 			data.name = category.getName() + " " + category.getCourse().getLength() + "Km";
@@ -55,6 +49,16 @@ public class RaceREST {
 		}
 
 		return result.isEmpty() ? null : result;
+	}
+
+	private Race loadRace(Long id) throws Exception {
+		Race result = dao.load(id);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
 	}
 
 	public static class CategoryData {

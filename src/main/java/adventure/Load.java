@@ -37,11 +37,14 @@ public class Load {
 		return race;
 	}
 
-	private Category newCategory(String name, String description, Integer members) {
+	private Category newCategory(String name, String description, Integer members, Integer minMaleMembers,
+			Integer minFemaleMembers) {
 		Category category = new Category();
 		category.setName(name);
 		category.setDescription(description);
 		category.setMembers(members);
+		category.setMinMaleMembers(minMaleMembers);
+		category.setMinFemaleMembers(minFemaleMembers);
 		em.persist(category);
 		return category;
 	}
@@ -108,12 +111,12 @@ public class Load {
 			}
 		}
 
-		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher [RBCA]", 4);
-		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens [RBCA]", 2);
-		Category duplaMista = newCategory("Dupla mista", "Dupla composta por um homem e uma mulher [RBCA]", 2);
-		Category trioMasculino = newCategory("Trio masculino", "Trio composto apenas por homens [RBCA]", 3);
-		Category trioMisto = newCategory("Trio misto", "Trio contendo pelo menos uma mulher [RBCA]", 3);
-		Category solo = newCategory("Solo", "Único integrante independente do sexo [RBCA]", 1);
+		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
+		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
+		Category duplaMista = newCategory("Dupla mista", "Dupla composta por um homem e uma mulher", 2, 1, 1);
+		Category trioMasculino = newCategory("Trio masculino", "Trio composto apenas por homens", 3, 3, null);
+		Category trioMisto = newCategory("Trio misto", "Trio contendo pelo menos uma mulher", 3, 1, 1);
+		Category solo = newCategory("Solo", "Único integrante independente do sexo", 1, null, null);
 
 		newRace("Desafio dos Sertões", "16/08/2014");
 		newRace("Laskpé", "08/11/2014");
