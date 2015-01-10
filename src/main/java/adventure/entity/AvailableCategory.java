@@ -27,7 +27,7 @@ public class AvailableCategory implements Serializable {
 	private Race race;
 
 	@Id
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "COURSE_ID")
 	@ForeignKey(name = "FK_AVAILABLE_CATEGORY_COURSE")
 	@Index(name = "IDX_AVAILABLE_CATEGORY_COURSE")

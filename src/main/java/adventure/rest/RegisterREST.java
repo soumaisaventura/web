@@ -20,12 +20,15 @@ import adventure.entity.Course;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
 import adventure.entity.Race;
+import adventure.entity.Register;
 import adventure.persistence.CategoryDAO;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.RaceDAO;
+import adventure.persistence.RegisterDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
@@ -33,49 +36,33 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class RegisterREST {
 
 	@Inject
-	private RaceDAO dao;
+	private RegisterDAO dao;
 
 	@POST
+	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long submit(RegisterData data, @PathParam("id") Long id) throws Exception {
 		Race race = loadRace(id);
-
+		Course course = loadCourse(data.course);
 		Category category = loadCategory(data.category);
 		List<Profile> members = loadMembers(data.members);
 
-		List<Category> available = new ArrayList<Category>();
-		for (Category aux : Beans.getReference(CategoryDAO.class).find(race)) {
-			if (aux.equals(category)) {
-				available.add(aux);
-			}
-		}
+		Register register = new Register();
+		register.setRace(race);
+		register.setCourse(course);
+		register.setCategory(category);
+		register.setTeamName(data.teamName);
 
-		if (available.isEmpty()) {
-			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
-		}
-
-		boolean found = false;
-		Course course = loadCourse(data.course);
-		for (Category aux : available) {
-			if (aux.getCourse().equals(course)) {
-				found = true;
-				break;
-			}
-		}
-
-		if (!found) {
-			throw new UnprocessableEntityException().addViolation("course", "indisponível para esta categoria");
-		}
-
+		validate(register);
 		validate(category, members);
 
-		return null;
+		return dao.insert(register).getId();
 	}
 
 	private Race loadRace(Long id) throws Exception {
-		Race result = dao.load(id);
+		Race result = Beans.getReference(RaceDAO.class).load(id);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -123,6 +110,32 @@ public class RegisterREST {
 		}
 
 		return result;
+	}
+
+	// private void validate(Race race, Course course, Category category) throws Exception {
+	private void validate(Register register) throws Exception {
+		List<Category> available = new ArrayList<Category>();
+		for (Category aux : Beans.getReference(CategoryDAO.class).find(register.getRace())) {
+			if (aux.equals(register.getCategory())) {
+				available.add(aux);
+			}
+		}
+
+		if (available.isEmpty()) {
+			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
+		}
+
+		boolean found = false;
+		for (Category aux : available) {
+			if (aux.getCourse().equals(register.getCourse())) {
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			throw new UnprocessableEntityException().addViolation("course", "indisponível para esta categoria");
+		}
 	}
 
 	private void validate(Category category, List<Profile> members) throws Exception {

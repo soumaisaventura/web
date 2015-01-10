@@ -13,6 +13,7 @@
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Course</class>
 		<class>adventure.entity.AvailableCategory</class>
+		<class>adventure.entity.Register</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
