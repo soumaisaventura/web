@@ -11,7 +11,7 @@ public final class Misc {
 	private Misc() {
 	}
 
-	public static <T> T copyFields(T from, T to) throws Exception {
+	public static <T> void copyFields(T from, T to) throws Exception {
 		for (Field field : Reflections.getNonStaticFields(to.getClass())) {
 			if (Reflections.getFieldValue(field, from) != null && Reflections.getFieldValue(field, to) == null) {
 				Object value = Reflections.getFieldValue(field, from);
@@ -21,7 +21,5 @@ public final class Misc {
 				method.invoke(to, value);
 			}
 		}
-
-		return to;
 	}
 }

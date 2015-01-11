@@ -35,31 +35,34 @@ public abstract class OAuthLogon {
 	@Transactional
 	@ValidatePayload
 	public void login(CredentialsData data) throws Exception {
-		Account oauthAccount = createAccount(data.token);
-		Account persistedAccount = accountDAO.loadFull(oauthAccount.getEmail());
+		Account oauth = createAccount(data.token);
+		Account persisted = accountDAO.loadForAuthentication(oauth.getEmail());
 
-		if (persistedAccount == null) {
-			oauthAccount.setConfirmation(new Date());
-			accountDAO.insert(oauthAccount);
+		if (persisted == null) {
+			oauth.setConfirmation(new Date());
+			accountDAO.insert(oauth);
 
-			Profile oauthProfile = oauthAccount.getProfile();
-			oauthProfile.setAccount(oauthAccount);
+			Profile oauthProfile = oauth.getProfile();
+			oauthProfile.setAccount(oauth);
 			profileDAO.insert(oauthProfile);
 
-			Beans.getReference(HealthDAO.class).insert(new Health(oauthAccount));
-			login(oauthAccount);
+			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
+			login(oauth);
 
-		} else if (persistedAccount.getConfirmation() == null) {
-			persistedAccount.setConfirmation(new Date());
+		} else if (persisted.getConfirmation() == null) {
+			oauth.setConfirmation(new Date());
 		}
 
-		if (persistedAccount != null) {
-			Profile persistedProfile = persistedAccount.getProfile();
+		if (persisted != null) {
+			persisted = accountDAO.load(persisted.getId());
+			Misc.copyFields(oauth, persisted);
+			accountDAO.update(persisted);
 
-			profileDAO.update(Misc.copyFields(oauthAccount.getProfile(), persistedProfile));
-			accountDAO.update(Misc.copyFields(oauthAccount, persistedAccount));
+			persisted.setProfile(profileDAO.load(persisted));
+			Misc.copyFields(oauth.getProfile(), persisted.getProfile());
+			profileDAO.update(persisted.getProfile());
 
-			login(oauthAccount);
+			login(oauth);
 		}
 	}
 

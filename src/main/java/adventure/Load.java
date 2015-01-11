@@ -24,6 +24,7 @@ import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
+//@Path("load")
 @Transactional
 public class Load {
 
@@ -93,9 +94,15 @@ public class Load {
 		return account;
 	}
 
-	@SuppressWarnings("unused")
+	// @POST
+	// @LoggedIn
+	// public void service() throws Exception {
+	// perform();
+	// }
+
 	@Startup
-	public void race() throws Exception {
+	@SuppressWarnings("unused")
+	public void perform() throws Exception {
 		em.createQuery("delete from AvailableCategory").executeUpdate();
 		em.createQuery("delete from Category").executeUpdate();
 		em.createQuery("delete from Course").executeUpdate();
@@ -129,7 +136,8 @@ public class Load {
 		}
 
 		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, false);
-		newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, false);
+		newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, false);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);

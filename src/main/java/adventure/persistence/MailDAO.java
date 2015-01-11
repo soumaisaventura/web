@@ -128,7 +128,7 @@ public class MailDAO {
 	}
 
 	private Account getAccount(String email) {
-		Account account = accountDAO.loadFull(email);
+		Account account = accountDAO.load(email);
 
 		if (account == null) {
 			throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
