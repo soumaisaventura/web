@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Account;
 import adventure.entity.Health;
-import adventure.entity.Profile;
 import adventure.persistence.AccountDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.ProfileDAO;
@@ -42,12 +41,11 @@ public abstract class OAuthLogon {
 			oauth.setConfirmation(new Date());
 			accountDAO.insert(oauth);
 
-			Profile oauthProfile = oauth.getProfile();
-			oauthProfile.setAccount(oauth);
-			profileDAO.insert(oauthProfile);
+			oauth.getProfile().setAccount(oauth);
+			profileDAO.insert(oauth.getProfile());
 
 			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
-			login(oauth);
+			login(oauth.getEmail());
 
 		} else if (persisted.getConfirmation() == null) {
 			oauth.setConfirmation(new Date());
@@ -62,13 +60,13 @@ public abstract class OAuthLogon {
 			Misc.copyFields(oauth.getProfile(), persisted.getProfile());
 			profileDAO.update(persisted.getProfile());
 
-			login(oauth);
+			login(oauth.getEmail());
 		}
 	}
 
-	protected void login(Account user) {
+	protected void login(String username) {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(user.getEmail());
+		credentials.setUsername(username);
 
 		Beans.getReference(OAuthSession.class).activate();
 		Beans.getReference(SecurityContext.class).login();
