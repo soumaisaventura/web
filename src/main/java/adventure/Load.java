@@ -77,6 +77,8 @@ public class Load {
 		account.setPassword(Passwords.hash(password, username));
 		account.setCreation(new Date());
 		account.setConfirmation(verified ? new Date() : null);
+		// account.setProfile(profile);
+		// account.setHealth(health);
 		em.persist(account);
 
 		Profile profile = new Profile(account);

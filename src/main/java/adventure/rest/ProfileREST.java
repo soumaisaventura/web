@@ -16,23 +16,25 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import adventure.entity.Gender;
 import adventure.entity.Profile;
+import adventure.persistence.AccountDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.security.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("profile")
 public class ProfileREST {
 
 	@Inject
-	private ProfileDAO dao;
+	private AccountDAO accountDAO;
 
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile profile = dao.load(User.getLoggedIn().getEmail());
+		Profile profile = accountDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
 
 		ProfileData data = new ProfileData();
 		data.name = profile.getName();
@@ -50,15 +52,14 @@ public class ProfileREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(ProfileData data) throws Exception {
-		Profile profile = dao.load(User.getLoggedIn().getEmail());
-
+		Profile profile = accountDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
 		profile.setName(data.name);
 		profile.setRg(data.rg);
 		profile.setCpf(data.cpf);
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
 
-		dao.update(profile);
+		Beans.getReference(ProfileDAO.class).update(profile);
 	}
 
 	public static class ProfileData {

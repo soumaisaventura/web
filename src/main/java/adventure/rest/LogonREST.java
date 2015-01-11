@@ -44,7 +44,7 @@ public class LogonREST {
 	}
 
 	private void validate(CredentialsData data, UriInfo uriInfo) throws Exception {
-		Account persistedAccount = accountDAO.load(data.username);
+		Account persistedAccount = accountDAO.loadFull(data.username);
 
 		if (persistedAccount != null) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");

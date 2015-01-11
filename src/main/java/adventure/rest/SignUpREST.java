@@ -51,18 +51,14 @@ public class SignUpREST {
 		account.setEmail(data.email);
 		account.setPassword(Passwords.hash(data.password, data.email));
 		account.setCreation(new Date());
+		accountDAO.insert(account);
 
-		Profile profile = new Profile();
-		profile.setAccount(account);
+		Profile profile = new Profile(account);
 		profile.setName(data.name);
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
-
-		accountDAO.insert(account).getId();
 		Beans.getReference(ProfileDAO.class).insert(profile);
 		Beans.getReference(HealthDAO.class).insert(new Health(account));
-
-		// login(account.getEmail(), password);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendAccountActivationMail(account.getEmail(), baseUri);
@@ -74,7 +70,7 @@ public class SignUpREST {
 	@Path("/activation/{token}")
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
-		Account persistedAccount = accountDAO.load(data.email);
+		Account persistedAccount = accountDAO.loadFull(data.email);
 		validate(token, persistedAccount);
 
 		login(persistedAccount.getEmail(), token);

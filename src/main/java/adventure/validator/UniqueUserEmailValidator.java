@@ -20,7 +20,7 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
 
 		if (!Strings.isEmpty(email)) {
 			AccountDAO dao = Beans.getReference(AccountDAO.class);
-			Account user = dao.load(email, true);
+			Account user = dao.loadFull(email, true);
 
 			result = user == null;
 		}

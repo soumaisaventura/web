@@ -15,15 +15,15 @@ import javax.ws.rs.Produces;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.entity.Account;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Gender;
-import adventure.entity.Profile;
 import adventure.entity.Race;
 import adventure.entity.Register;
+import adventure.persistence.AccountDAO;
 import adventure.persistence.CategoryDAO;
 import adventure.persistence.CourseDAO;
-import adventure.persistence.ProfileDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegisterDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -47,7 +47,7 @@ public class RegisterREST {
 		Race race = loadRace(id);
 		Course course = loadCourse(data.course);
 		Category category = loadCategory(data.category);
-		List<Profile> members = loadMembers(data.members);
+		List<Account> members = loadMembers(data.members);
 
 		Register register = new Register();
 		register.setRace(race);
@@ -91,17 +91,18 @@ public class RegisterREST {
 		return result;
 	}
 
-	private List<Profile> loadMembers(List<Long> ids) throws Exception {
-		List<Profile> result = new ArrayList<Profile>();
+	private List<Account> loadMembers(List<Long> ids) throws Exception {
+		List<Account> result = new ArrayList<Account>();
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			Profile profile = Beans.getReference(ProfileDAO.class).load(id);
+			// Profile profile = Beans.getReference(ProfileDAO.class).load(id);
+			Account account = Beans.getReference(AccountDAO.class).load(id);
 
-			if (profile == null) {
-				exception.addViolation("course", "percurso inválido");
+			if (account == null) {
+				exception.addViolation("members", "usuário inválido");
 			} else {
-				result.add(profile);
+				result.add(account);
 			}
 		}
 
@@ -138,7 +139,7 @@ public class RegisterREST {
 		}
 	}
 
-	private void validate(Category category, List<Profile> members) throws Exception {
+	private void validate(Category category, List<Account> members) throws Exception {
 		int total = members.size();
 		if (total > category.getMembers()) {
 			throw new UnprocessableEntityException().addViolation("members", "tem muita gente");
@@ -157,11 +158,11 @@ public class RegisterREST {
 		}
 	}
 
-	private int count(List<Profile> members, Gender gender) {
+	private int count(List<Account> members, Gender gender) {
 		int result = 0;
 
-		for (Profile profile : members) {
-			if (profile.getGender() == gender) {
+		for (Account account : members) {
+			if (account.getProfile().getGender() == gender) {
 				result++;
 			}
 		}

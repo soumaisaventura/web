@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -68,6 +69,16 @@ public class Account implements Serializable {
 	@Column(name = "DELETED")
 	@Index(name = "IDX_ACCOUNT_DELETED")
 	private Date deleted;
+
+	// @OneToOne
+	// @OneToOne(mappedBy = "account")
+	@Transient
+	private Profile profile;
+
+	// @OneToOne
+	// @OneToOne(mappedBy = "account")
+	@Transient
+	private Health health;
 
 	public Long getId() {
 		return id;
@@ -139,5 +150,21 @@ public class Account implements Serializable {
 
 	public void setDeleted(Date deleted) {
 		this.deleted = deleted;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public Health getHealth() {
+		return health;
+	}
+
+	public void setHealth(Health health) {
+		this.health = health;
 	}
 }

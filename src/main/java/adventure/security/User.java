@@ -2,8 +2,8 @@ package adventure.security;
 
 import java.security.Principal;
 
+import adventure.entity.Account;
 import adventure.entity.Gender;
-import adventure.entity.Profile;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -21,11 +21,11 @@ public class User implements Principal {
 		return (User) Beans.getReference(SecurityContext.class).getUser();
 	}
 
-	public static User parse(Profile profile) {
-		Long id = profile.getAccount().getId();
-		String email = profile.getAccount().getEmail();
-		String name = profile.getName();
-		Gender gender = profile.getGender();
+	public static User parse(Account account) {
+		Long id = account.getId();
+		String email = account.getEmail();
+		String name = account.getProfile().getName();
+		Gender gender = account.getProfile().getGender();
 
 		return new User(id, email, name, gender);
 	}

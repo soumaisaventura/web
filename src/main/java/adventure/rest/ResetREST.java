@@ -45,7 +45,7 @@ public class ResetREST {
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		AccountDAO dao = Beans.getReference(AccountDAO.class);
-		Account account = dao.load(data.email);
+		Account account = dao.loadFull(data.email);
 		String persistedToken = account != null ? account.getPasswordResetToken() : null;
 
 		if (account == null) {
