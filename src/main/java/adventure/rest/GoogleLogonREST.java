@@ -23,8 +23,7 @@ public class GoogleLogonREST extends OAuthLogon {
 	private static JacksonFactory FACTORY = new JacksonFactory();
 
 	@Override
-	// protected Profile createProfile(String code) throws Exception {
-	protected Account createProfile(String code) throws Exception {
+	protected Account createAccount(String code) throws Exception {
 		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
 		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
 
@@ -38,14 +37,12 @@ public class GoogleLogonREST extends OAuthLogon {
 		return createAccount(userInfo);
 	}
 
-	// private Profile createProfile(Userinfo userInfo) {
 	private Account createAccount(Userinfo userInfo) {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
 
 		Profile profile = new Profile();
-		// profile.setAccount(account);
 		profile.setName(userInfo.getName());
 
 		if (userInfo.getGender() != null) {

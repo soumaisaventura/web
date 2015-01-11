@@ -17,11 +17,9 @@ public class Authenticator extends TokenAuthenticator {
 	protected Principal customAuthentication() throws Exception {
 		Principal result = null;
 		Credentials credentials = Beans.getReference(Credentials.class);
-		OAuthSession oAuthSession = Beans.getReference(OAuthSession.class);
 		Account account = Beans.getReference(AccountDAO.class).loadForAuthentication(credentials.getUsername());
-		// Profile profile = Beans.getReference(ProfileDAO.class).load(credentials.getUsername());
 
-		if (oAuthSession.isActive() || doesConfirmationTokenMatch(account) || doesPasswordMatch(account, credentials)) {
+		if (account != null && (isOAuthLogin() || isAccountLogin(account, credentials))) {
 			result = User.parse(account);
 		} else {
 			throw new InvalidCredentialsException();
@@ -29,26 +27,39 @@ public class Authenticator extends TokenAuthenticator {
 
 		return result;
 	}
-	
-	// private boolean doesPasswordMatch(Profile profile, Credentials credentials) {
-	private boolean doesPasswordMatch(Account account, Credentials credentials) {
-		boolean result = false;
 
-		if (account != null && account.getPassword() != null) {
-			String hash = Passwords.hash(credentials.getPassword(), credentials.getUsername());
-			result = account.getPassword().equals(hash);
-		}
+	private boolean isOAuthLogin() {
+		return Beans.getReference(OAuthSession.class).isActive();
+	}
 
-		return result;
+	private boolean isAccountLogin(Account account, Credentials credentials) {
+		return doesConfirmationTokenMatch(account) || doesPasswordMatch(account, credentials);
 	}
 
 	private boolean doesConfirmationTokenMatch(Account account) {
 		boolean result = false;
 
-		if (account != null && account.getConfirmationToken() != null) {
+		if (account.getConfirmationToken() != null) {
 			ActivationSession session = Beans.getReference(ActivationSession.class);
 			String hash = Passwords.hash(session.getToken(), account.getEmail());
 			result = account.getConfirmationToken().equals(hash);
+		}
+
+		return result;
+	}
+
+	private boolean doesPasswordMatch(Account account, Credentials credentials) {
+		boolean result = false;
+
+		if (account.getPassword() == null) {
+			throw new PasswordNotDefinedException();
+
+		} else if (account.getConfirmation() == null) {
+			throw new UnconfirmedAccountException();
+
+		} else {
+			String hash = Passwords.hash(credentials.getPassword(), credentials.getUsername());
+			result = account.getPassword().equals(hash);
 		}
 
 		return result;

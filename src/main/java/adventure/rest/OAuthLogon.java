@@ -29,25 +29,18 @@ public abstract class OAuthLogon {
 	@Inject
 	private ProfileDAO profileDAO;
 
-	// protected abstract Profile createProfile(String code) throws Exception;
-	protected abstract Account createProfile(String code) throws Exception;
+	protected abstract Account createAccount(String code) throws Exception;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	public void login(CredentialsData data) throws Exception {
-		// Profile oauthProfile = createProfile(data.token);
-		// Account oauthAccount = oauthProfile.getAccount();
-		Account oauthAccount = createProfile(data.token);
-
+		Account oauthAccount = createAccount(data.token);
 		Account persistedAccount = accountDAO.loadFull(oauthAccount.getEmail());
 
 		if (persistedAccount == null) {
 			oauthAccount.setConfirmation(new Date());
-
-			// oauthAccount.setHealth(new Health());
 			accountDAO.insert(oauthAccount);
-			// profileDAO.insert(oauthProfile);
 
 			Profile oauthProfile = oauthAccount.getProfile();
 			oauthProfile.setAccount(oauthAccount);
@@ -61,9 +54,8 @@ public abstract class OAuthLogon {
 		}
 
 		if (persistedAccount != null) {
-			// Profile persistedProfile = profileDAO.load(persistedAccount);
 			Profile persistedProfile = persistedAccount.getProfile();
-			// updateInfo(oauthProfile, persistedProfile, profileDAO);
+
 			profileDAO.update(Misc.copyFields(oauthAccount.getProfile(), persistedProfile));
 			accountDAO.update(Misc.copyFields(oauthAccount, persistedAccount));
 

@@ -12,10 +12,11 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Account;
-import adventure.persistence.AccountDAO;
 import adventure.persistence.MailDAO;
+import adventure.security.PasswordNotDefinedException;
+import adventure.security.UnconfirmedAccountException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.AuthenticationException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -27,42 +28,38 @@ public class LogonREST {
 	@Inject
 	private SecurityContext securityContext;
 
-	@Inject
-	private AccountDAO accountDAO;
-
 	@POST
 	@ValidatePayload
 	@Consumes("application/json")
 	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-		validate(data, uriInfo);
-
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(data.username);
 		credentials.setPassword(data.password);
 
-		securityContext.login();
+		try {
+			securityContext.login();
+		} catch (AuthenticationException cause) {
+			handle(cause, data.username, uriInfo);
+		}
 	}
 
-	private void validate(CredentialsData data, UriInfo uriInfo) throws Exception {
-		Account persistedAccount = accountDAO.loadFull(data.username);
+	private void handle(AuthenticationException exception, String email, UriInfo uriInfo) throws Exception {
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailDAO mailDAO = Beans.getReference(MailDAO.class);
 
-		if (persistedAccount != null) {
-			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			MailDAO mailDAO = Beans.getReference(MailDAO.class);
+		if (exception instanceof PasswordNotDefinedException) {
+			mailDAO.sendPasswordCreationMail(email, baseUri);
 
-			if (persistedAccount.getPassword() == null) {
-				mailDAO.sendPasswordCreationMail(persistedAccount.getEmail(), baseUri);
+			throw new UnprocessableEntityException().addViolation(exception.getMessage()
+					+ " Siga as instruções no seu e-mail.");
 
-				throw new UnprocessableEntityException()
-						.addViolation("Você ainda não definiu uma senha para a sua conta. Siga as instruções no seu e-mail.");
-			}
+		} else if (exception instanceof UnconfirmedAccountException) {
+			mailDAO.sendAccountActivationMail(email, baseUri);
 
-			if (persistedAccount.getConfirmation() == null) {
-				mailDAO.sendAccountActivationMail(persistedAccount.getEmail(), baseUri);
-
-				throw new UnprocessableEntityException()
-						.addViolation("Sua conta ainda não foi ativada. Siga as instruções no seu e-mail. ");
-			}
+			throw new UnprocessableEntityException().addViolation(exception.getMessage()
+					+ " Siga as instruções no seu e-mail. ");
+		} else {
+			throw exception;
 		}
 	}
 

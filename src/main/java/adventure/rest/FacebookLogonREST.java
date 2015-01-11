@@ -22,8 +22,7 @@ import adventure.entity.Profile;
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override
-	// protected Profile createProfile(String code) throws Exception {
-	protected Account createProfile(String code) throws Exception {
+	protected Account createAccount(String code) throws Exception {
 		HttpClient client = new DefaultHttpClient();
 
 		String newUrl = "https://graph.facebook.com/me?access_token=" + code;
@@ -44,7 +43,6 @@ public class FacebookLogonREST extends OAuthLogon {
 		}
 
 		Profile profile = new Profile();
-		// profile.setAccount(account);
 		profile.setName(rootNode.get("name").asText());
 
 		if (rootNode.get("gender") != null) {

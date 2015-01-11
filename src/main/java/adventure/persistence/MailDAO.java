@@ -29,63 +29,102 @@ public class MailDAO {
 	@Inject
 	private AccountDAO accountDAO;
 
-	public void sendAccountActivationMail(String email, URI baseUri) throws MessagingException {
+	public void sendAccountActivationMail(final String email, final URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
-		String token = account.getConfirmationToken();
+		final String token;
 
-		if (token == null) {
+		if (account.getConfirmationToken() == null) {
 			token = Passwords.randomToken();
 			account.setConfirmationToken(Passwords.hash(token, email));
 			accountDAO.update(account);
+		} else {
+			token = account.getConfirmationToken();
 		}
 
-		MimeMessage message = new MimeMessage(getSession());
-		message.setFrom(new InternetAddress("contato@fbca.com.br"));
-		message.setSubject("Ativação de conta");
-		message.setRecipients(TO, email);
-		message.setContent(baseUri.resolve("activation?token=" + token).toString(), "text/plain");
+		new Thread() {
 
-		Transport.send(message);
+			public void run() {
+				try {
+					MimeMessage message = new MimeMessage(getSession());
+					message.setFrom(new InternetAddress("contato@fbca.com.br"));
+					message.setSubject("Ativação de conta");
+					message.setRecipients(TO, email);
+					message.setContent(baseUri.resolve("activation?token=" + token).toString(), "text/plain");
+
+					Transport.send(message);
+
+				} catch (MessagingException cause) {
+					cause.printStackTrace();
+				}
+			};
+
+		}.start();
 	}
 
-	public void sendPasswordCreationMail(String email, URI baseUri) throws MessagingException {
+	public void sendPasswordCreationMail(final String email, final URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
-		String token = account.getPasswordResetToken();
+		final String token;
 
-		if (token == null) {
+		if (account.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
 			account.setPasswordResetToken(Passwords.hash(token, email));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
+		} else {
+			token = account.getPasswordResetToken();
 		}
 
-		MimeMessage message = new MimeMessage(getSession());
-		message.setFrom(new InternetAddress("contato@fbca.com.br"));
-		message.setSubject("Criação de senha");
-		message.setRecipients(TO, email);
-		message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
+		new Thread() {
 
-		Transport.send(message);
+			public void run() {
+				try {
+					MimeMessage message = new MimeMessage(getSession());
+					message.setFrom(new InternetAddress("contato@fbca.com.br"));
+					message.setSubject("Criação de senha");
+					message.setRecipients(TO, email);
+					message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
+
+					Transport.send(message);
+
+				} catch (MessagingException cause) {
+					cause.printStackTrace();
+				}
+			};
+
+		}.start();
 	}
 
-	public void sendResetPasswordMail(String email, URI baseUri) throws MessagingException {
+	public void sendResetPasswordMail(final String email, final URI baseUri) throws MessagingException {
 		Account account = getAccount(email);
-		String token = account.getPasswordResetToken();
+		final String token;
 
-		if (token == null) {
+		if (account.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
 			account.setPasswordResetToken(Passwords.hash(token, email));
 			account.setPasswordResetRequest(new Date());
 			accountDAO.update(account);
+		} else {
+			token = account.getPasswordResetToken();
 		}
 
-		MimeMessage message = new MimeMessage(getSession());
-		message.setFrom(new InternetAddress("contato@fbca.com.br"));
-		message.setSubject("Redefinição de senha");
-		message.setRecipients(TO, email);
-		message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
+		new Thread() {
 
-		Transport.send(message);
+			public void run() {
+				try {
+					MimeMessage message = new MimeMessage(getSession());
+					message.setFrom(new InternetAddress("contato@fbca.com.br"));
+					message.setSubject("Redefinição de senha");
+					message.setRecipients(TO, email);
+					message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
+
+					Transport.send(message);
+
+				} catch (MessagingException cause) {
+					cause.printStackTrace();
+				}
+			};
+
+		}.start();
 	}
 
 	private Account getAccount(String email) {

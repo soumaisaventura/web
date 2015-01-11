@@ -1,5 +1,8 @@
 package adventure;
 
+import static adventure.entity.Gender.FEMALE;
+import static adventure.entity.Gender.MALE;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -77,8 +80,6 @@ public class Load {
 		account.setPassword(Passwords.hash(password, username));
 		account.setCreation(new Date());
 		account.setConfirmation(verified ? new Date() : null);
-		// account.setProfile(profile);
-		// account.setHealth(health);
 		em.persist(account);
 
 		Profile profile = new Profile(account);
@@ -114,10 +115,10 @@ public class Load {
 
 			if (i % 2 == 0) {
 				name = "Male Guest " + i;
-				gender = Gender.MALE;
+				gender = MALE;
 			} else {
 				name = "Female Guest " + i;
-				gender = Gender.FEMALE;
+				gender = FEMALE;
 			}
 
 			if (i % 3 == 1) {
@@ -126,6 +127,9 @@ public class Load {
 
 			newAccount(email, password, name, gender, verified);
 		}
+
+		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, false);
+		newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, false);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
