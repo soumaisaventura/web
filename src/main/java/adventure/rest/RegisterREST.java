@@ -96,7 +96,6 @@ public class RegisterREST {
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			// Profile profile = Beans.getReference(ProfileDAO.class).load(id);
 			Account account = Beans.getReference(AccountDAO.class).load(id);
 
 			if (account == null) {
@@ -113,7 +112,6 @@ public class RegisterREST {
 		return result;
 	}
 
-	// private void validate(Race race, Course course, Category category) throws Exception {
 	private void validate(Register register) throws Exception {
 		List<Category> available = new ArrayList<Category>();
 		for (Category aux : Beans.getReference(CategoryDAO.class).find(register.getRace())) {
