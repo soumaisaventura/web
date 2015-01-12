@@ -21,11 +21,11 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new " + Find.class.getName()
-				+ "(t.id, t.name, t.description, t.minMaleMembers, t.minFemaleMembers,, t.members, c.id, c.length) ");
+				+ "(t.id, t.name, t.description, t.minMaleMembers, t.minFemaleMembers, t.members, c.id, c.length) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
-		jpql.append("   left join ac.course c ");
+		jpql.append("   join rc.course c ");
 		jpql.append("  where r.id = :raceId ");
 		jpql.append("    and c.id = :courseId ");
 		jpql.append("    and t.id = :categoryId ");

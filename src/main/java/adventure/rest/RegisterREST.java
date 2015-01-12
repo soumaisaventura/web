@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,6 +28,7 @@ import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegisterDAO;
 import adventure.persistence.TeamFormationDAO;
+import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -60,11 +62,16 @@ public class RegisterREST {
 
 		// validate(register);
 		validate(raceCategory.getCategory(), members);
-
 		Long result = registerDAO.insert(register).getId();
 
 		for (Account member : members) {
-			teamFormationDAO.insert(new TeamFormation(register, member));
+			TeamFormation teamFormation = new TeamFormation(register, member);
+
+			if (member.getId().equals(User.getLoggedIn().getId())) {
+				teamFormation.setConfirmed(true);
+			}
+
+			teamFormationDAO.insert(teamFormation);
 		}
 
 		return result;
@@ -147,10 +154,10 @@ public class RegisterREST {
 		@NotEmpty
 		public String teamName;
 
-		@NotEmpty
+		@NotNull
 		public Long category;
 
-		@NotEmpty
+		@NotNull
 		public Long course;
 
 		@NotEmpty

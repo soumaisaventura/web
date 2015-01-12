@@ -43,7 +43,7 @@ public class UserDAO implements Serializable {
 		query.setMaxResults(10);
 
 		ArrayList<Long> exclusion = new ArrayList<Long>();
-		exclusion.add(Long.valueOf(0));
+		exclusion.add(Long.valueOf(-1));
 		exclusion.addAll(excludeIds);
 
 		query.setParameter("exclusion", exclusion);

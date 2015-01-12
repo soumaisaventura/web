@@ -42,12 +42,6 @@ public class RaceREST {
 			@QueryParam("excludes") List<Long> excludes) throws Exception {
 		Race race = loadRace(id);
 		validate(q);
-
-		if (excludes == null) {
-			excludes = new ArrayList<Long>();
-		}
-		excludes.add(User.getLoggedIn().getId());
-
 		return Beans.getReference(UserDAO.class).searchAvailable(race, q, excludes);
 	}
 
