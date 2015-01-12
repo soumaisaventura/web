@@ -53,11 +53,12 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 	public List<RaceCategory> find(Race race) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + Find.class.getName() + "(t.id, t.name, t.description, t.members, c.id, c.length) ");
+		jpql.append("    new " + Find.class.getName()
+				+ "(t.id, t.name, t.description, t.minMaleMembers, t.minFemaleMembers, t.members, c.id, c.length) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
-		jpql.append("   left join ac.course c ");
+		jpql.append("   join rc.course c ");
 		jpql.append("  where r = :race ");
 		jpql.append("  order by ");
 		jpql.append("        c.length desc, ");
@@ -74,14 +75,14 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 
 		private static final long serialVersionUID = 1L;
 
-		public Find(Long id, String name, String description, Integer minMalemembers, Integer minFemalemembers,
+		public Find(Long id, String name, String description, Integer minMaleMembers, Integer minFemaleMembers,
 				Integer members, Long courseId, Integer courseLength) {
 			setCategory(new Category());
 			getCategory().setId(id);
 			getCategory().setName(name);
 			getCategory().setDescription(description);
-			getCategory().setMinMaleMembers(minMalemembers);
-			getCategory().setMinFemaleMembers(minFemalemembers);
+			getCategory().setMinMaleMembers(minMaleMembers);
+			getCategory().setMinFemaleMembers(minFemaleMembers);
 			getCategory().setMembers(members);
 
 			setCourse(new Course());

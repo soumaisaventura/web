@@ -14,7 +14,7 @@ $(document).ready(function() {
 	 */
 	$("#user").autocomplete({
 		source: function(request, response){
-			UserProxy.search(request.term, members).done(function(data){
+			RaceProxy.searchAvailableUsers($("#race").val(), request.term, members).done(function(data){
 				response(convertToLabelValueStructure(data));
 			});
 		},
