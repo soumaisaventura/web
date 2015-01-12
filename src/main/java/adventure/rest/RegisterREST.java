@@ -17,17 +17,19 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Account;
 import adventure.entity.Category;
-import adventure.entity.Course;
 import adventure.entity.Gender;
 import adventure.entity.Race;
+import adventure.entity.RaceCategory;
 import adventure.entity.Register;
+import adventure.entity.TeamFormation;
 import adventure.persistence.AccountDAO;
-import adventure.persistence.CategoryDAO;
-import adventure.persistence.CourseDAO;
+import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegisterDAO;
+import adventure.persistence.TeamFormationDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -36,29 +38,36 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class RegisterREST {
 
 	@Inject
-	private RegisterDAO dao;
+	private RegisterDAO registerDAO;
+
+	@Inject
+	private TeamFormationDAO teamFormationDAO;
 
 	@POST
+	@LoggedIn
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long submit(RegisterData data, @PathParam("id") Long id) throws Exception {
-		Race race = loadRace(id);
-		Course course = loadCourse(data.course);
-		Category category = loadCategory(data.category);
+		loadRace(id);
+		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
 		List<Account> members = loadMembers(data.members);
 
 		Register register = new Register();
-		register.setRace(race);
-		register.setCourse(course);
-		register.setCategory(category);
 		register.setTeamName(data.teamName);
+		register.setRaceCategory(null);
 
-		validate(register);
-		validate(category, members);
+		// validate(register);
+		validate(raceCategory.getCategory(), members);
 
-		return dao.insert(register).getId();
+		Long result = registerDAO.insert(register).getId();
+
+		for (Account member : members) {
+			teamFormationDAO.insert(new TeamFormation(register, member));
+		}
+
+		return result;
 	}
 
 	private Race loadRace(Long id) throws Exception {
@@ -71,21 +80,11 @@ public class RegisterREST {
 		return result;
 	}
 
-	private Category loadCategory(Long id) throws Exception {
-		Category result = Beans.getReference(CategoryDAO.class).load(id);
+	private RaceCategory loadRaceCategory(Long raceId, Long courseId, Long categoryId) throws Exception {
+		RaceCategory result = Beans.getReference(RaceCategoryDAO.class).loadForRegister(raceId, courseId, categoryId);
 
 		if (result == null) {
-			throw new UnprocessableEntityException().addViolation("category", "categoria inválida");
-		}
-
-		return result;
-	}
-
-	private Course loadCourse(Long id) throws Exception {
-		Course result = Beans.getReference(CourseDAO.class).load(id);
-
-		if (result == null) {
-			throw new UnprocessableEntityException().addViolation("course", "percurso inválido");
+			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
 		}
 
 		return result;
@@ -110,31 +109,6 @@ public class RegisterREST {
 		}
 
 		return result;
-	}
-
-	private void validate(Register register) throws Exception {
-		List<Category> available = new ArrayList<Category>();
-		for (Category aux : Beans.getReference(CategoryDAO.class).find(register.getRace())) {
-			if (aux.equals(register.getCategory())) {
-				available.add(aux);
-			}
-		}
-
-		if (available.isEmpty()) {
-			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
-		}
-
-		boolean found = false;
-		for (Category aux : available) {
-			if (aux.getCourse().equals(register.getCourse())) {
-				found = true;
-				break;
-			}
-		}
-
-		if (!found) {
-			throw new UnprocessableEntityException().addViolation("course", "indisponível para esta categoria");
-		}
 	}
 
 	private void validate(Category category, List<Account> members) throws Exception {

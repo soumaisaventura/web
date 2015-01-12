@@ -2,13 +2,11 @@ package adventure.entity;
 
 import java.io.Serializable;
 
-public class AvailableCategoryPk implements Serializable {
+public class TeamFormationPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	Race race;
+	Register register;
 
-	Course course;
-
-	Category category;
+	Account account;
 }

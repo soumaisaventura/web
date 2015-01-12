@@ -65,6 +65,36 @@ public class Profile implements Serializable {
 		this.account = account;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Profile)) {
+			return false;
+		}
+		Profile other = (Profile) obj;
+		if (account == null) {
+			if (other.account != null) {
+				return false;
+			}
+		} else if (!account.equals(other.account)) {
+			return false;
+		}
+		return true;
+	}
+
 	public Account getAccount() {
 		return account;
 	}

@@ -12,9 +12,11 @@
 		<class>adventure.entity.Period</class>
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Course</class>
-		<class>adventure.entity.AvailableCategory</class>
+		<class>adventure.entity.RaceCategory</class>
 		<class>adventure.entity.Register</class>
 		<class>adventure.entity.Receipt</class>
+		<class>adventure.entity.TeamFormation</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

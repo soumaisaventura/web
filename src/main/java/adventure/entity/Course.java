@@ -37,6 +37,13 @@ public class Course implements Serializable {
 	@Column(name = "LENGTH")
 	private Integer length;
 
+	public Course(Race race) {
+		this.race = race;
+	}
+
+	public Course() {
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -65,13 +72,6 @@ public class Course implements Serializable {
 			return false;
 		}
 		return true;
-	}
-
-	public Course(Race race) {
-		this.race = race;
-	}
-
-	public Course() {
 	}
 
 	public Long getId() {

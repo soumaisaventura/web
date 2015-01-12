@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import adventure.entity.Account;
-import adventure.entity.AvailableCategory;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Gender;
@@ -20,11 +19,13 @@ import adventure.entity.Health;
 import adventure.entity.Period;
 import adventure.entity.Profile;
 import adventure.entity.Race;
+import adventure.entity.RaceCategory;
+import adventure.entity.Register;
+import adventure.entity.TeamFormation;
 import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
-//@Path("load")
 @Transactional
 public class Load {
 
@@ -32,6 +33,26 @@ public class Load {
 
 	@Inject
 	private EntityManager em;
+
+	private TeamFormation newTeamFormation(Register register, Account account, boolean confirmed) throws Exception {
+		TeamFormation teamFormation = new TeamFormation(register, account);
+		teamFormation.setConfirmed(confirmed);
+		em.persist(teamFormation);
+		return teamFormation;
+	}
+
+	private Register newRegister(String teamName, RaceCategory raceCategory, Account[] members) throws Exception {
+		Register register = new Register();
+		register.setTeamName(teamName);
+		register.setRaceCategory(raceCategory);
+		em.persist(register);
+
+		for (int i = 0; i < members.length; i++) {
+			newTeamFormation(register, members[i], i % 2 == 0);
+		}
+
+		return register;
+	}
 
 	private Race newRace(String name, String date) throws Exception {
 		Race race = new Race();
@@ -69,8 +90,8 @@ public class Load {
 		return course;
 	}
 
-	private AvailableCategory newAvailableCategory(Race race, Course course, Category category) {
-		AvailableCategory availableCategory = new AvailableCategory(race, course, category);
+	private RaceCategory newRaceCategory(Race race, Course course, Category category) {
+		RaceCategory availableCategory = new RaceCategory(race, course, category);
 		em.persist(availableCategory);
 		return availableCategory;
 	}
@@ -94,16 +115,12 @@ public class Load {
 		return account;
 	}
 
-	// @POST
-	// @LoggedIn
-	// public void service() throws Exception {
-	// perform();
-	// }
-
 	@Startup
 	@SuppressWarnings("unused")
 	public void perform() throws Exception {
-		em.createQuery("delete from AvailableCategory").executeUpdate();
+		em.createQuery("delete from Register").executeUpdate();
+		em.createQuery("delete from TeamFormation").executeUpdate();
+		em.createQuery("delete from RaceCategory").executeUpdate();
 		em.createQuery("delete from Category").executeUpdate();
 		em.createQuery("delete from Course").executeUpdate();
 		em.createQuery("delete from Period").executeUpdate();
@@ -120,7 +137,7 @@ public class Load {
 			Gender gender;
 			boolean verified = true;
 
-			if (i % 2 == 0) {
+			if (i % 3 == 0) {
 				name = "Male Guest " + i;
 				gender = MALE;
 			} else {
@@ -128,11 +145,11 @@ public class Load {
 				gender = FEMALE;
 			}
 
-			if (i % 3 == 1) {
+			if (i % 2 == 1) {
 				verified = false;
 			}
 
-			newAccount(email, password, name, gender, verified);
+			accounts[i] = newAccount(email, password, name, gender, verified);
 		}
 
 		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, false);
@@ -140,9 +157,10 @@ public class Load {
 		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, false);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
-		Category duplaMasculina = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
+		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
+		Category duplaFem = newCategory("Dupla feminina", "Dupla composta apenas por mulheres", 2, null, 2);
 		Category duplaMista = newCategory("Dupla mista", "Dupla composta por um homem e uma mulher", 2, 1, 1);
-		Category trioMasculino = newCategory("Trio masculino", "Trio composto apenas por homens", 3, 3, null);
+		Category trioMasc = newCategory("Trio masculino", "Trio composto apenas por homens", 3, 3, null);
 		Category trioMisto = newCategory("Trio misto", "Trio contendo pelo menos uma mulher", 3, 1, 1);
 		Category solo = newCategory("Solo", "Único integrante independente do sexo", 1, null, null);
 
@@ -152,14 +170,14 @@ public class Load {
 		Race np = newRace("Noite do Perrengue 3", "21/03/2015");
 		newPeriod(np, "07/01/2015", "15/01/2015", 60.00);
 		newPeriod(np, "16/01/2015", "31/01/2015", 80.00);
-		Course np50km = newCourse(np, 50);
+		Course np40km = newCourse(np, 40);
 		Course np100km = newCourse(np, 100);
-		newAvailableCategory(np, np50km, duplaMasculina);
-		newAvailableCategory(np, np50km, duplaMista);
-		newAvailableCategory(np, np100km, duplaMasculina);
-		newAvailableCategory(np, np100km, duplaMista);
-		newAvailableCategory(np, np100km, quarteto);
-		newAvailableCategory(np, np100km, solo);
+		newRaceCategory(np, np40km, duplaMasc);
+		newRaceCategory(np, np40km, duplaFem);
+		newRaceCategory(np, np40km, duplaMista);
+		newRaceCategory(np, np100km, duplaMasc);
+		newRaceCategory(np, np100km, duplaMista);
+		RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
 
 		newRace("CARI - Sol do Salitre", "11/04/2015");
 		newRace("CICA - Mandacaru", "18/04/2015");
@@ -170,5 +188,8 @@ public class Load {
 		newRace("CICA - Cangaço", "30/08/2015");
 		newRace("CARI - Desafio dos Sertões", "10/10/2015");
 		newRace("CARI - Integração", "05/12/2015");
+
+		newRegister("Quarteto Exemplo", npQuarteto100km, new Account[] { accounts[0], accounts[2], accounts[6],
+				accounts[12] });
 	}
 }

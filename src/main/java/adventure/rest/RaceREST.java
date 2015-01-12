@@ -8,13 +8,18 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
-import adventure.entity.Category;
 import adventure.entity.Race;
-import adventure.persistence.CategoryDAO;
+import adventure.entity.RaceCategory;
+import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
+import adventure.persistence.UserDAO;
+import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("race")
 public class RaceREST {
@@ -31,19 +36,43 @@ public class RaceREST {
 	}
 
 	@GET
+	@Path("{id}/users")
+	@Produces("application/json")
+	public List<User> search(@PathParam("id") Long id, @QueryParam("q") String q,
+			@QueryParam("excludes") List<Long> excludes) throws Exception {
+		Race race = loadRace(id);
+		validate(q);
+
+		if (excludes == null) {
+			excludes = new ArrayList<Long>();
+		}
+		excludes.add(User.getLoggedIn().getId());
+
+		return Beans.getReference(UserDAO.class).searchAvailable(race, q, excludes);
+	}
+
+	private void validate(String q) throws Exception {
+		if (Strings.isEmpty(q)) {
+			throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
+		} else if (q.length() < 3) {
+			throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
+		}
+	}
+
+	@GET
 	@Path("{id}/categories")
 	@Produces("application/json")
 	public List<CategoryData> findCategories(@PathParam("id") Long id) throws Exception {
 		List<CategoryData> result = new ArrayList<CategoryData>();
 		Race race = loadRace(id);
 
-		for (Category category : Beans.getReference(CategoryDAO.class).find(race)) {
+		for (RaceCategory raceCategory : Beans.getReference(RaceCategoryDAO.class).find(race)) {
 			CategoryData data = new CategoryData();
-			data.id = category.getId();
-			data.name = category.getName() + " " + category.getCourse().getLength() + "Km";
-			data.description = category.getDescription();
-			data.members = category.getMembers();
-			data.courseId = category.getCourse().getId();
+			data.id = raceCategory.getCategory().getId();
+			data.name = raceCategory.getCategory().getName() + " " + raceCategory.getCourse().getLength() + "Km";
+			data.description = raceCategory.getCategory().getDescription();
+			data.members = raceCategory.getCategory().getMembers();
+			data.courseId = raceCategory.getCourse().getId();
 
 			result.add(data);
 		}

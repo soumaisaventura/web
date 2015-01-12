@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
@@ -44,8 +43,8 @@ public class Category implements Serializable {
 	@Column(name = "MIN_FEMALE_MEMBERS")
 	private Integer minFemaleMembers;
 
-	@Transient
-	private Course course;
+	// @Transient
+	// private Course course;
 
 	@Override
 	public int hashCode() {
@@ -109,13 +108,13 @@ public class Category implements Serializable {
 		this.members = members;
 	}
 
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
-	}
+	// public Course getCourse() {
+	// return course;
+	// }
+	//
+	// public void setCourse(Course course) {
+	// this.course = course;
+	// }
 
 	public Integer getMinMaleMembers() {
 		return minMaleMembers;
