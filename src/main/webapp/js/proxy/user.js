@@ -19,8 +19,7 @@ var UserProxy = {
 			dataType : "json",
 			data : {
 				q : $filter,
-				// verificar pq não tá funcionando com excludes vazio
-				excludes : $excludes.length > 0 ? $excludes : $excludes.push(0)
+				excludes : $excludes
 			},
 			beforeSend : function(request) {
 				App.setHeader(request);

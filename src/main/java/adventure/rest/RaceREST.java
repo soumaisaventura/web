@@ -43,7 +43,7 @@ public class RaceREST {
 			data.name = category.getName() + " " + category.getCourse().getLength() + "Km";
 			data.description = category.getDescription();
 			data.members = category.getMembers();
-			data.courseId = category.getCourse().getId();
+			data.course = category.getCourse().getId();
 
 			result.add(data);
 		}
@@ -71,6 +71,6 @@ public class RaceREST {
 
 		public Integer members;
 
-		public Long courseId;
+		public Long course;
 	}
 }
