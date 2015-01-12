@@ -72,7 +72,7 @@ public class RaceREST {
 			data.name = raceCategory.getCategory().getName() + " " + raceCategory.getCourse().getLength() + "Km";
 			data.description = raceCategory.getCategory().getDescription();
 			data.members = raceCategory.getCategory().getMembers();
-			data.courseId = raceCategory.getCourse().getId();
+			data.course = raceCategory.getCourse().getId();
 
 			result.add(data);
 		}
@@ -100,6 +100,6 @@ public class RaceREST {
 
 		public Integer members;
 
-		public Long courseId;
+		public Long course;
 	}
 }

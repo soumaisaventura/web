@@ -3,7 +3,7 @@ $(document).ready(function() {
 
 	ProfileProxy.load().done(loadStep1Ok);
 	HealthProxy.load().done(loadStep2Ok);
-	RaceProxy.findCategories($("#race").val()).done(loadComboCategories);
+	RaceProxy.findCategories($("#race").val()).done(loadComboCategoriesOk);
 
 	/** TODO 
 	 * Trazer o nome do atleta logo como primeiro item e sem permissão de exclusão
@@ -21,7 +21,7 @@ $(document).ready(function() {
 		minLength: 3,
 		select: function( event, ui ) {
 			members.push(ui.item.value);
-			console.log(members);	
+			console.log(members);
 			$("#members").append('<li class="list-group-item">' + ui.item.label + '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
 			$("#user").val("");
 			return false;
@@ -64,21 +64,24 @@ $(document).ready(function() {
     // Cadastro dos dados médicos
     $('#activate-step-3').on('click', function(e) {
         var data = {
-    			'bloodType' : $("#bloodType").val(),
-    			'allergy' : $("#allergy").val()
+    		'bloodType' : $("#bloodType").val(),
+    		'allergy' : $("#allergy").val()
     	};
         HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
     });
     
     // Cadastro dos dados da corrida
     $('#activate-step-4').on('click', function(e) {
-    	/*
-    	members = this.value.split("#")[1];
-    	console.log("Quantidade de membros que a categoria permite: " + members);
-    	console.log($("#members > li").length);
-    	console.log("Quantidade de membros cadastrados: " + members);
-    	*/
-        // Proxy.update(data).done(updateStep3Ok).fail(updateStep3Fail);
+    	
+    	var data = {
+    		'teamName' : $("#teamName").val(),
+    		'category' : $("#category").val().split("#")[0],
+    		'course' : $("#category").val().split("#")[2],
+    		'members' : members
+    	};
+    	
+    	RegisterProxy.submit(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+    	
     });
     
 });
@@ -93,6 +96,8 @@ function loadStep1Ok(data){
 	$("#cpf").val(data.cpf);
 	$("#birthday").val(data.birthday);
 	$("#gender").val(data.gender);
+	
+	$("#loggedUser").text(data.name);
 }
 
 /**
@@ -108,9 +113,9 @@ function loadStep2Ok(data){
  * Monta a caixa de seleção das categorias disponíveis da corrida.
  * TODO Pensar numa estrutura para pegar a quantidade de membros da corrida. 
  */
-function loadComboCategories(data){
+function loadComboCategoriesOk(data){
 	$.each(data, function(){
-		$("#category").append(new Option(this.name, this.id + "#" + this.members));
+		$("#category").append(new Option(this.name, this.id + "#" + this.members + "#" + this.course));
 	});
 }
 
@@ -132,6 +137,16 @@ function updateStep2Ok(data){
 	$('ul.setup-panel li:eq(1)').addClass('disabled');
     $('ul.setup-panel li:eq(2)').removeClass('disabled');
     $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+}
+
+/**
+ * 
+ * */
+function updateStep3Ok(data){
+	console.log('updateStep3Ok');
+	$('ul.setup-panel li:eq(2)').addClass('disabled');
+    $('ul.setup-panel li:eq(3)').removeClass('disabled');
+    $('ul.setup-panel li a[href="#step-4"]').trigger('click');
 }
 
 /**
@@ -174,6 +189,38 @@ function updateStep2Fail(request){
 	switch (request.status) {
 		case 422:
 			$($("#form-step-2 input").get().reverse()).each(function() {
+				var id = $(this).attr('id');
+				var message = null;
+	
+				$.each(request.responseJSON, function(index, value) {
+					if (id == value.property) {
+						message = value.message;
+						return;
+					}
+				});
+	
+				if (message) {
+					$("#" + id + "-message").html(message).show();
+					$(this).focus();
+				} else {
+					$("#" + id + "-message").hide();
+				}
+			});
+			break;
+
+		default:
+			break;
+	}
+}
+
+/**
+ * Tratamento de erro dos dados corrida.
+ * */
+function updateStep3Fail(request){
+	console.log('updateFail');
+	switch (request.status) {
+		case 422:
+			$($("#form-step-3 input").get().reverse()).each(function() {
 				var id = $(this).attr('id');
 				var message = null;
 	

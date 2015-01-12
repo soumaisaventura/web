@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/health.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/register.js"></script>
 	</ui:define>
 	
 	<ui:define name="controller">
@@ -158,6 +159,15 @@
 	    <form id="form-step-3">
 	    <input id="race" type="hidden" value="#{param.race}" />
 	        <div class="col-md-12">
+	        	<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+           				<div class="form-group">
+							<label for="teamName">Nome da Equipe</label>
+							<input type="text" id="teamName" class="form-control"/>
+							<span id="teamName-message" hidden="true" class="label label-danger"/>	            				
+           				</div>
+            		</div>
+                </div>
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
            				<div class="form-group">
@@ -180,7 +190,10 @@
                 </div>
                 <div class="row">
                 	<div class="col-md-6 col-md-offset-3">
-                		<ul id="members" class="list-group"></ul>
+                		Membros da Equipe
+                		<ol id="members" class="list-group">
+                			<li id="loggedUser" class="list-group-item"></li>
+                		</ol>
                 	</div>
                 </div>
                 <div class="row">
