@@ -1,7 +1,6 @@
 package adventure.persistence;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,7 +28,7 @@ public class UserDAO implements Serializable {
 		jpql.append(" 	Profile p join p.account a ");
 		jpql.append(" where a.confirmation is not null ");
 		jpql.append("   and lower(p.name) like :filter ");
-		jpql.append("   and a.id not in :exclusion ");
+		jpql.append("   and a.id not in :excludeIds ");
 		jpql.append("   and a not in ( ");
 		jpql.append("       select _a ");
 		jpql.append("         from TeamFormation _f ");
@@ -42,11 +41,11 @@ public class UserDAO implements Serializable {
 		TypedQuery<User> query = em.createQuery(jpql.toString(), User.class);
 		query.setMaxResults(10);
 
-		ArrayList<Long> exclusion = new ArrayList<Long>();
-		exclusion.add(Long.valueOf(-1));
-		exclusion.addAll(excludeIds);
+		if (excludeIds.isEmpty()) {
+			excludeIds.add(Long.valueOf(-1));
+		}
 
-		query.setParameter("exclusion", exclusion);
+		query.setParameter("excludeIds", excludeIds);
 		query.setParameter("filter", Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase() + "%");
 		query.setParameter("race", race);
 

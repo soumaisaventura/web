@@ -66,6 +66,29 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		return result;
 	}
 
+	public Account loadForBill(Long id) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new " + LoadForBill.class.getName() + "( ");
+		jpql.append("       a.id, ");
+		jpql.append("       p.name) ");
+		jpql.append("   from Profile p");
+		jpql.append("   join p.account a ");
+		jpql.append("  where a.deleted is null ");
+		jpql.append("    and a.id = :id");
+
+		TypedQuery<Account> query = getEntityManager().createQuery(jpql.toString(), Account.class);
+		query.setParameter("id", id);
+
+		Account result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	private Account loadFull(String field, Object value, boolean includeDeleted) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
@@ -98,6 +121,24 @@ public class AccountDAO extends JPACrud<Account, Long> {
 
 	public Account loadFull(String email, boolean includeDeleted) {
 		return loadFull("email", email, false);
+	}
+
+	public Account load(String email) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append("   from Account a ");
+		jpql.append("  where a.deleted is null ");
+		jpql.append("    and a.email = :email ");
+
+		TypedQuery<Account> query = getEntityManager().createQuery(jpql.toString(), Account.class);
+		query.setParameter("email", email);
+
+		Account result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
 	}
 
 	public static class Load {
@@ -133,21 +174,15 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		}
 	}
 
-	public Account load(String email) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append("   from Account a ");
-		jpql.append("  where a.deleted is null ");
-		jpql.append("    and a.email = :email ");
+	public static class LoadForBill extends Account {
 
-		TypedQuery<Account> query = getEntityManager().createQuery(jpql.toString(), Account.class);
-		query.setParameter("email", email);
+		private static final long serialVersionUID = 1L;
 
-		Account result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
+		public LoadForBill(Long id, String name) throws Exception {
+			setId(id);
+
+			setProfile(new Profile());
+			getProfile().setName(name);
 		}
-		return result;
 	}
 }

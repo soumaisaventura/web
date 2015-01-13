@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import adventure.entity.Account;
+import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
+import adventure.persistence.AccountDAO;
+import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
@@ -74,18 +79,42 @@ public class RaceREST {
 		return result.isEmpty() ? null : result;
 	}
 
-	// @GET
-	// @Path("{id}/bill")
-	// @Produces("application/json")
-	// public void getBill(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
-	// Race race = loadRace(id);
-	//
-	// if (users == null) {
-	// throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
-	// }
-	//
-	// // raceDAO.
-	// }
+	@GET
+	@Path("{id}/bill")
+	@Produces("application/json")
+	public BillData getBill(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
+		Race race = loadRace(id);
+
+		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(race);
+		BillData bill = new BillData();
+
+		if (users.isEmpty()) {
+			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
+
+		} else {
+			for (Long accountId : users) {
+				Account account = Beans.getReference(AccountDAO.class).loadForBill(accountId);
+
+				if (account == null) {
+					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
+				} else {
+					BillRow row = new BillRow();
+					row.id = account.getId();
+					row.name = account.getProfile().getName();
+					row.racePrice = period.getPrice();
+					row.annualFee = BigDecimal.valueOf(10);
+					row.amount = row.racePrice.add(row.annualFee);
+
+					bill.rows.add(row);
+					bill.total = bill.total.add(row.amount);
+				}
+			}
+		}
+
+		period.setRace(null);
+
+		return bill;
+	}
 
 	private Race loadRace(Long id) throws Exception {
 		Race result = raceDAO.loadJustId(id);
@@ -108,5 +137,25 @@ public class RaceREST {
 		public Integer teamSize;
 
 		public Long course;
+	}
+
+	public static class BillData {
+
+		public List<BillRow> rows = new ArrayList<BillRow>();
+
+		public BigDecimal total = BigDecimal.valueOf(0);
+	}
+
+	public static class BillRow {
+
+		public Long id;
+
+		public String name;
+
+		public BigDecimal racePrice;
+
+		public BigDecimal annualFee;
+
+		public BigDecimal amount = BigDecimal.valueOf(0);
 	}
 }
