@@ -80,13 +80,13 @@ public class RaceREST {
 	}
 
 	@GET
-	@Path("{id}/bill")
+	@Path("{id}/order")
 	@Produces("application/json")
-	public BillData getBill(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
+	public OrderData getOrder(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
 		Race race = loadRace(id);
 
 		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(race);
-		BillData bill = new BillData();
+		OrderData order = new OrderData();
 
 		if (users.isEmpty()) {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
@@ -98,22 +98,22 @@ public class RaceREST {
 				if (account == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
-					BillRow row = new BillRow();
+					OrderRow row = new OrderRow();
 					row.id = account.getId();
 					row.name = account.getProfile().getName();
 					row.racePrice = period.getPrice();
 					row.annualFee = BigDecimal.valueOf(10);
 					row.amount = row.racePrice.add(row.annualFee);
 
-					bill.rows.add(row);
-					bill.total = bill.total.add(row.amount);
+					order.rows.add(row);
+					order.total = order.total.add(row.amount);
 				}
 			}
 		}
 
 		period.setRace(null);
 
-		return bill;
+		return order;
 	}
 
 	private Race loadRace(Long id) throws Exception {
@@ -139,14 +139,14 @@ public class RaceREST {
 		public Long course;
 	}
 
-	public static class BillData {
+	public static class OrderData {
 
-		public List<BillRow> rows = new ArrayList<BillRow>();
+		public List<OrderRow> rows = new ArrayList<OrderRow>();
 
 		public BigDecimal total = BigDecimal.valueOf(0);
 	}
 
-	public static class BillRow {
+	public static class OrderRow {
 
 		public Long id;
 
