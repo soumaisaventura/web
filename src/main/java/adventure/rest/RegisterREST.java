@@ -125,6 +125,8 @@ public class RegisterREST {
 
 			if (account == null) {
 				exception.addViolation("members", "usuário inválido");
+			} else if (result.contains(account)) {
+				exception.addViolation("members", "usuário duplicado");
 			} else {
 				result.add(account);
 			}
