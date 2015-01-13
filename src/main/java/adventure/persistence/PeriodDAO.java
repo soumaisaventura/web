@@ -4,6 +4,7 @@ import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -27,8 +28,10 @@ public class PeriodDAO implements Serializable {
 		jpql.append(" select p ");
 		jpql.append("   from Period p ");
 		jpql.append("   join p.race r ");
-		jpql.append("  where r = :race");
-		jpql.append(" 	 and :date between p.beginning and p.end");
+		jpql.append("  where r = :race ");
+		jpql.append(" 	 and :date between p.beginning and p.end ");
+		jpql.append("  order by ");
+		jpql.append("        p.beginning ");
 
 		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
 		query.setParameter("race", race);
@@ -43,15 +46,16 @@ public class PeriodDAO implements Serializable {
 		return result;
 	}
 
-	public static class FindNext extends Race {
+	public List<Period> find(Race race) throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select p ");
+		jpql.append("   from Period p ");
+		jpql.append("   join p.race r ");
+		jpql.append("  where r = :race ");
 
-		private static final long serialVersionUID = 1L;
+		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
+		query.setParameter("race", race);
 
-		public FindNext(Long id, String name, Date date, Long count) {
-			setId(id);
-			setName(name);
-			setDate(date);
-			setOpen(count > 1);
-		}
+		return query.getResultList();
 	}
 }

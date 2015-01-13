@@ -3,6 +3,7 @@ package adventure.entity;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
@@ -36,6 +38,9 @@ public class Course implements Serializable {
 	@NotNull
 	@Column(name = "LENGTH")
 	private Integer length;
+
+	@Transient
+	private List<Category> categories;
 
 	public Course(Race race) {
 		this.race = race;
@@ -96,5 +101,13 @@ public class Course implements Serializable {
 
 	public void setLength(Integer length) {
 		this.length = length;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 }

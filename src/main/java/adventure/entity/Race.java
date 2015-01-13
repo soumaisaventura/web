@@ -41,13 +41,21 @@ public class Race implements Serializable {
 	private Date date;
 
 	@Transient
-	private boolean open;
+	private Boolean open;
 
 	public Race() {
 	}
 
 	public Race(Long id) {
 		this.id = id;
+	}
+
+	public Race(Long id, String name, Date date, Long openPeriods) {
+		// public Race(Long id, String name, Date date) {
+		this.id = id;
+		this.name = name;
+		this.date = date;
+		this.open = openPeriods > 0;
 	}
 
 	@Override
@@ -104,11 +112,11 @@ public class Race implements Serializable {
 		this.date = date;
 	}
 
-	public boolean isOpen() {
+	public Boolean getOpen() {
 		return open;
 	}
 
-	protected void setOpen(boolean open) {
+	protected void setOpen(Boolean open) {
 		this.open = open;
 	}
 }
