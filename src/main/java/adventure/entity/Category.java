@@ -34,8 +34,8 @@ public class Category implements Serializable {
 	private String description;
 
 	@NotNull
-	@Column(name = "MEMBERS")
-	private Integer members;
+	@Column(name = "TEAM_SIZE")
+	private Integer teamSize;
 
 	@Column(name = "MIN_MALE_MEMBERS")
 	private Integer minMaleMembers;
@@ -100,21 +100,13 @@ public class Category implements Serializable {
 		this.description = description;
 	}
 
-	public Integer getMembers() {
-		return members;
+	public Integer getTeamSize() {
+		return teamSize;
 	}
 
-	public void setMembers(Integer members) {
-		this.members = members;
+	public void setTeamSize(Integer teamSize) {
+		this.teamSize = teamSize;
 	}
-
-	// public Course getCourse() {
-	// return course;
-	// }
-	//
-	// public void setCourse(Course course) {
-	// this.course = course;
-	// }
 
 	public Integer getMinMaleMembers() {
 		return minMaleMembers;

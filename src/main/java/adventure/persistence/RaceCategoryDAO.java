@@ -21,7 +21,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new " + Find.class.getName()
-				+ "(t.id, t.name, t.description, t.minMaleMembers, t.minFemaleMembers, t.members, c.id, c.length) ");
+				+ "(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
@@ -31,7 +31,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		jpql.append("    and t.id = :categoryId ");
 		jpql.append("  order by ");
 		jpql.append("        c.length desc, ");
-		jpql.append("        t.members desc, ");
+		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
 
 		TypedQuery<RaceCategory> query = getEntityManager().createQuery(jpql.toString(), RaceCategory.class);
@@ -54,7 +54,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new " + Find.class.getName()
-				+ "(t.id, t.name, t.description, t.minMaleMembers, t.minFemaleMembers, t.members, c.id, c.length) ");
+				+ "(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
@@ -62,7 +62,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		jpql.append("  where r = :race ");
 		jpql.append("  order by ");
 		jpql.append("        c.length desc, ");
-		jpql.append("        t.members desc, ");
+		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
 
 		TypedQuery<RaceCategory> query = getEntityManager().createQuery(jpql.toString(), RaceCategory.class);
@@ -75,15 +75,15 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 
 		private static final long serialVersionUID = 1L;
 
-		public Find(Long id, String name, String description, Integer minMaleMembers, Integer minFemaleMembers,
-				Integer members, Long courseId, Integer courseLength) {
+		public Find(Long id, String name, String description, Integer teamSize, Integer minMaleMembers,
+				Integer minFemaleMembers, Long courseId, Integer courseLength) {
 			setCategory(new Category());
 			getCategory().setId(id);
 			getCategory().setName(name);
 			getCategory().setDescription(description);
+			getCategory().setTeamSize(teamSize);
 			getCategory().setMinMaleMembers(minMaleMembers);
 			getCategory().setMinFemaleMembers(minFemaleMembers);
-			getCategory().setMembers(members);
 
 			setCourse(new Course());
 			getCourse().setId(courseId);

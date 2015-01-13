@@ -25,13 +25,13 @@ import br.gov.frameworkdemoiselle.util.Strings;
 public class RaceREST {
 
 	@Inject
-	private RaceDAO dao;
+	private RaceDAO raceDAO;
 
 	@GET
 	@Path("next")
 	@Produces("application/json")
 	public List<Race> next() throws Exception {
-		List<Race> result = dao.findNext();
+		List<Race> result = raceDAO.findNext();
 		return result.isEmpty() ? null : result;
 	}
 
@@ -57,15 +57,15 @@ public class RaceREST {
 	@Path("{id}/categories")
 	@Produces("application/json")
 	public List<CategoryData> findCategories(@PathParam("id") Long id) throws Exception {
-		List<CategoryData> result = new ArrayList<CategoryData>();
 		Race race = loadRace(id);
+		List<CategoryData> result = new ArrayList<CategoryData>();
 
 		for (RaceCategory raceCategory : Beans.getReference(RaceCategoryDAO.class).find(race)) {
 			CategoryData data = new CategoryData();
 			data.id = raceCategory.getCategory().getId();
 			data.name = raceCategory.getCategory().getName() + " " + raceCategory.getCourse().getLength() + "Km";
 			data.description = raceCategory.getCategory().getDescription();
-			data.members = raceCategory.getCategory().getMembers();
+			data.teamSize = raceCategory.getCategory().getTeamSize();
 			data.course = raceCategory.getCourse().getId();
 
 			result.add(data);
@@ -74,8 +74,21 @@ public class RaceREST {
 		return result.isEmpty() ? null : result;
 	}
 
+	// @GET
+	// @Path("{id}/bill")
+	// @Produces("application/json")
+	// public void getBill(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
+	// Race race = loadRace(id);
+	//
+	// if (users == null) {
+	// throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
+	// }
+	//
+	// // raceDAO.
+	// }
+
 	private Race loadRace(Long id) throws Exception {
-		Race result = dao.load(id);
+		Race result = raceDAO.loadJustId(id);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -92,7 +105,7 @@ public class RaceREST {
 
 		public String description;
 
-		public Integer members;
+		public Integer teamSize;
 
 		public Long course;
 	}

@@ -58,13 +58,11 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		query.setParameter("email", email);
 
 		Account result;
-
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException cause) {
 			result = null;
 		}
-
 		return result;
 	}
 
@@ -86,13 +84,11 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		query.setParameter("value", value);
 
 		Account result;
-
 		try {
 			result = query.getSingleResult().geAccount();
 		} catch (NoResultException cause) {
 			result = null;
 		}
-
 		return result;
 	}
 
@@ -147,13 +143,11 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		query.setParameter("email", email);
 
 		Account result;
-
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException cause) {
 			result = null;
 		}
-
 		return result;
 	}
 }

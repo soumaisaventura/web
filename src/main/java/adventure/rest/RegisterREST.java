@@ -49,22 +49,29 @@ public class RegisterREST {
 	@LoggedIn
 	@Transactional
 	@ValidatePayload
+	@Path("validate")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public void validate(RegisterData data, @PathParam("id") Long id) throws Exception {
+		validateData(data, id);
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long submit(RegisterData data, @PathParam("id") Long id) throws Exception {
-		loadRace(id);
-		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
-		List<Account> members = loadMembers(data.members);
+		ValidationResult validationResult = validateData(data, id);
 
 		Register register = new Register();
 		register.setTeamName(data.teamName);
-		register.setRaceCategory(null);
+		register.setRaceCategory(validationResult.raceCategory);
 
-		// validate(register);
-		validate(raceCategory.getCategory(), members);
 		Long result = registerDAO.insert(register).getId();
 
-		for (Account member : members) {
+		for (Account member : validationResult.members) {
 			TeamFormation teamFormation = new TeamFormation(register, member);
 
 			if (member.getId().equals(User.getLoggedIn().getId())) {
@@ -73,6 +80,17 @@ public class RegisterREST {
 
 			teamFormationDAO.insert(teamFormation);
 		}
+
+		return result;
+	}
+
+	private ValidationResult validateData(RegisterData data, Long id) throws Exception {
+		ValidationResult result = new ValidationResult();
+
+		loadRace(id);
+		result.raceCategory = loadRaceCategory(id, data.course, data.category);
+		result.members = loadMembers(data.members);
+		validate(result.raceCategory.getCategory(), result.members);
 
 		return result;
 	}
@@ -120,9 +138,9 @@ public class RegisterREST {
 
 	private void validate(Category category, List<Account> members) throws Exception {
 		int total = members.size();
-		if (total > category.getMembers()) {
+		if (total > category.getTeamSize()) {
 			throw new UnprocessableEntityException().addViolation("members", "tem muita gente");
-		} else if (total < category.getMembers()) {
+		} else if (total < category.getTeamSize()) {
 			throw new UnprocessableEntityException().addViolation("members", "equipe incompleta");
 		}
 
@@ -147,6 +165,14 @@ public class RegisterREST {
 		}
 
 		return result;
+	}
+
+	private class ValidationResult {
+
+		RaceCategory raceCategory;
+
+		List<Account> members;
+
 	}
 
 	public static class RegisterData {

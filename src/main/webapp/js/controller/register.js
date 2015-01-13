@@ -21,7 +21,7 @@ $(document).ready(function() {
 		minLength: 3,
 		select: function( event, ui ) {
 			members.push(ui.item.value);
-			console.log(members);
+							console.log(members);
 			$("#members").append('<li class="list-group-item">' + ui.item.label + '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
 			$("#user").val("");
 			return false;
@@ -80,7 +80,7 @@ $(document).ready(function() {
     		'members' : members
     	};
     	
-    	RegisterProxy.submit(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+    	RegisterProxy.validate(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
     	
     });
     
@@ -115,7 +115,7 @@ function loadStep2Ok(data){
  */
 function loadComboCategoriesOk(data){
 	$.each(data, function(){
-		$("#category").append(new Option(this.name, this.id + "#" + this.members + "#" + this.course));
+		$("#category").append(new Option(this.name, this.id + "#" + this.teamSize + "#" + this.course));
 	});
 }
 

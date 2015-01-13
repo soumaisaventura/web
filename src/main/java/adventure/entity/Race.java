@@ -43,6 +43,13 @@ public class Race implements Serializable {
 	@Transient
 	private boolean open;
 
+	public Race() {
+	}
+
+	public Race(Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

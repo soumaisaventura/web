@@ -62,12 +62,12 @@ public class Load {
 		return race;
 	}
 
-	private Category newCategory(String name, String description, Integer members, Integer minMaleMembers,
+	private Category newCategory(String name, String description, Integer teamSize, Integer minMaleMembers,
 			Integer minFemaleMembers) {
 		Category category = new Category();
 		category.setName(name);
 		category.setDescription(description);
-		category.setMembers(members);
+		category.setTeamSize(teamSize);
 		category.setMinMaleMembers(minMaleMembers);
 		category.setMinFemaleMembers(minFemaleMembers);
 		em.persist(category);
