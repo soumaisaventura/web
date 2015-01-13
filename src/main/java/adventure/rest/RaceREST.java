@@ -37,8 +37,20 @@ public class RaceREST {
 	@GET
 	@Path("next")
 	@Produces("application/json")
-	public List<Race> next() throws Exception {
-		List<Race> result = raceDAO.findNext();
+	public List<RaceData> next() throws Exception {
+		List<RaceData> result = new ArrayList<RaceREST.RaceData>();
+
+		for (Race race : raceDAO.findNext()) {
+			RaceData data = new RaceData();
+			data.id = race.getId();
+			data.name = race.getName();
+			data.date = race.getDate();
+			data.register = new RegisterData();
+			data.register.open = race.getOpen();
+			data.register.periods = null;
+			result.add(data);
+		}
+
 		return result.isEmpty() ? null : result;
 	}
 

@@ -12,7 +12,7 @@ function findNextOk(data) {
 		var col2 = '<td>' + value.name + '</td>';
 		var col3;
 
-		if (value.open) {
+		if (value.register.open) {
 			col3 = '<td><a href="race/' + value.id + '/register">Inscrição</a></td>';
 		} else {
 			col3 = '<td> </td>';

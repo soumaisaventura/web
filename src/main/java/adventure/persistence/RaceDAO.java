@@ -22,7 +22,6 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.name, ");
-		// jpql.append(" 	        r.date) ");
 		jpql.append(" 	        r.date, ");
 		jpql.append(" 	        count(p.id) as openPeriods) ");
 		jpql.append("   from Period p ");
@@ -37,7 +36,7 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append("        r.date ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("date", new Date());
+		query.setParameter("date", new Date(), DATE);
 		query.setParameter("id", id);
 
 		Race result;
@@ -65,34 +64,25 @@ public class RaceDAO extends JPACrud<Race, Long> {
 
 	public List<Race> findNext() throws Exception {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	new " + FindNext.class.getName() + "(r.id, r.name, r.date, count(p)) ");
-		jpql.append(" from ");
-		jpql.append(" 	Period p right join p.race r ");
-		jpql.append(" where ");
-		jpql.append(" 	r.date >= :date");
-		jpql.append(" group by ");
-		jpql.append(" 	r.id, ");
-		jpql.append(" 	r.name, ");
-		jpql.append(" 	r.date ");
-		jpql.append(" order by ");
-		jpql.append(" 	r.date ");
+		jpql.append(" select new Race( ");
+		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        count(p.id) as openPeriods) ");
+		jpql.append("   from Period p ");
+		jpql.append("  right join p.race r ");
+		jpql.append("  where r.date >= :date ");
+		jpql.append("    and (p.id is null or :date between p.beginning and p.end) ");
+		jpql.append("  group by ");
+		jpql.append("        r.id, ");
+		jpql.append("        r.name, ");
+		jpql.append("        r.date ");
+		jpql.append("  order by ");
+		jpql.append("        r.date ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
 		query.setParameter("date", new Date(), DATE);
 
 		return query.getResultList();
-	}
-
-	public static class FindNext extends Race {
-
-		private static final long serialVersionUID = 1L;
-
-		public FindNext(Long id, String name, Date date, Long count) {
-			setId(id);
-			setName(name);
-			setDate(date);
-			setOpen(count > 1);
-		}
 	}
 }
