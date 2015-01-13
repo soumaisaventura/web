@@ -3,6 +3,7 @@ package adventure.rest;
 import static adventure.entity.Gender.FEMALE;
 import static adventure.entity.Gender.MALE;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,6 +27,7 @@ import adventure.entity.RaceCategory;
 import adventure.entity.Register;
 import adventure.entity.TeamFormation;
 import adventure.persistence.AccountDAO;
+import adventure.persistence.MailDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegisterDAO;
@@ -32,6 +36,8 @@ import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.transaction.Transaction;
+import br.gov.frameworkdemoiselle.transaction.TransactionContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -58,18 +64,38 @@ public class RegisterREST {
 
 	@POST
 	@LoggedIn
-	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Long submit(RegisterData data, @PathParam("id") Long id) throws Exception {
-		ValidationResult validationResult = validateData(data, id);
+	public Long submit(RegisterData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+		Transaction transaction = Beans.getReference(TransactionContext.class).getCurrentTransaction();
+		transaction.begin();
+		SubmitResult submitResult = null;
 
+		try {
+			ValidationResult validationResult = validateData(data, id);
+			submitResult = submit(data, validationResult);
+			transaction.commit();
+		} catch (Exception cause) {
+			transaction.rollback();
+			throw cause;
+		}
+
+		for (Account member : submitResult.members) {
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
+			Beans.getReference(MailDAO.class).sendRegisterNotification(member.getEmail(), baseUri);
+		}
+
+		return submitResult.registerId;
+	}
+
+	private SubmitResult submit(RegisterData data, ValidationResult validationResult) {
+		SubmitResult result = new SubmitResult();
 		Register register = new Register();
 		register.setTeamName(data.teamName);
 		register.setRaceCategory(validationResult.raceCategory);
 
-		Long result = registerDAO.insert(register).getId();
+		result.registerId = registerDAO.insert(register).getId();
 
 		for (Account member : validationResult.members) {
 			Account atachedMember = Beans.getReference(AccountDAO.class).load(member.getId());
@@ -80,6 +106,7 @@ public class RegisterREST {
 			}
 
 			teamFormationDAO.insert(teamFormation);
+			result.members.add(atachedMember);
 		}
 
 		return result;
@@ -174,7 +201,15 @@ public class RegisterREST {
 
 		RaceCategory raceCategory;
 
-		List<Account> members;
+		List<Account> members = new ArrayList<Account>();
+
+	}
+
+	private class SubmitResult {
+
+		Long registerId;
+
+		List<Account> members = new ArrayList<Account>();
 
 	}
 

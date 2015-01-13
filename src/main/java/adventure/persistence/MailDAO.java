@@ -127,6 +127,27 @@ public class MailDAO {
 		}.start();
 	}
 
+	public void sendRegisterNotification(final String email, final URI baseUri) throws MessagingException {
+		new Thread() {
+
+			public void run() {
+				try {
+					MimeMessage message = new MimeMessage(getSession());
+					message.setFrom(new InternetAddress("contato@fbca.com.br"));
+					message.setSubject("Incrição efetuada");
+					message.setRecipients(TO, email);
+					message.setContent("Inscrição efetuada", "text/plain");
+
+					Transport.send(message);
+
+				} catch (MessagingException cause) {
+					cause.printStackTrace();
+				}
+			};
+
+		}.start();
+	}
+
 	private Account getAccount(String email) {
 		Account account = accountDAO.load(email);
 
