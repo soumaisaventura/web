@@ -6,7 +6,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Category;
-import adventure.entity.Course;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import br.gov.frameworkdemoiselle.template.JPACrud;
@@ -20,8 +19,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 	public RaceCategory loadForRegister(Long raceId, Long courseId, Long categoryId) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + Find.class.getName()
-				+ "(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length) ");
+		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length, r.id) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
@@ -53,8 +51,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 	public List<RaceCategory> find(Race race) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + Find.class.getName()
-				+ "(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length) ");
+		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length, r.id) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
@@ -71,23 +68,23 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		return query.getResultList();
 	}
 
-	public static class Find extends RaceCategory {
-
-		private static final long serialVersionUID = 1L;
-
-		public Find(Long id, String name, String description, Integer teamSize, Integer minMaleMembers,
-				Integer minFemaleMembers, Long courseId, Integer courseLength) {
-			setCategory(new Category());
-			getCategory().setId(id);
-			getCategory().setName(name);
-			getCategory().setDescription(description);
-			getCategory().setTeamSize(teamSize);
-			getCategory().setMinMaleMembers(minMaleMembers);
-			getCategory().setMinFemaleMembers(minFemaleMembers);
-
-			setCourse(new Course());
-			getCourse().setId(courseId);
-			getCourse().setLength(courseLength);
-		}
-	}
+	// public static class Find extends RaceCategory {
+	//
+	// private static final long serialVersionUID = 1L;
+	//
+	// public Find(Long id, String name, String description, Integer teamSize, Integer minMaleMembers,
+	// Integer minFemaleMembers, Long courseId, Integer courseLength) {
+	// setCategory(new Category());
+	// getCategory().setId(id);
+	// getCategory().setName(name);
+	// getCategory().setDescription(description);
+	// getCategory().setTeamSize(teamSize);
+	// getCategory().setMinMaleMembers(minMaleMembers);
+	// getCategory().setMinFemaleMembers(minFemaleMembers);
+	//
+	// setCourse(new Course());
+	// getCourse().setId(courseId);
+	// getCourse().setLength(courseLength);
+	// }
+	// }
 }

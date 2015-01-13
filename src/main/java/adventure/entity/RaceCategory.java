@@ -49,6 +49,26 @@ public class RaceCategory implements Serializable {
 		this.category = category;
 	}
 
+	public RaceCategory(Long categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
+			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Long courseId, Integer courseLength,
+			Long raceId) {
+		setCategory(new Category());
+		getCategory().setId(categoryId);
+		getCategory().setName(categoryName);
+		getCategory().setDescription(categoryDescription);
+		getCategory().setTeamSize(categoryTeamSize);
+		getCategory().setMinMaleMembers(categoryMinMaleMembers);
+		getCategory().setMinFemaleMembers(categoryMinFemaleMembers);
+
+		setCourse(new Course());
+		setCourse(new Course());
+		getCourse().setId(courseId);
+		getCourse().setLength(courseLength);
+		
+		setRace(new Race());
+		getRace().setId(raceId);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -123,6 +123,26 @@ public class AccountDAO extends JPACrud<Account, Long> {
 		return loadFull("email", email, false);
 	}
 
+	public Account loadGender(Long id) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Account(a.id, p.gender) ");
+		jpql.append("   from Profile p ");
+		jpql.append("   join p.account a ");
+		jpql.append("  where a.deleted is null ");
+		jpql.append("    and a.id = :id ");
+
+		TypedQuery<Account> query = getEntityManager().createQuery(jpql.toString(), Account.class);
+		query.setParameter("id", id);
+
+		Account result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	public Account load(String email) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append("   from Account a ");

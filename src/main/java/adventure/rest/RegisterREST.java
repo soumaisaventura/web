@@ -72,7 +72,8 @@ public class RegisterREST {
 		Long result = registerDAO.insert(register).getId();
 
 		for (Account member : validationResult.members) {
-			TeamFormation teamFormation = new TeamFormation(register, member);
+			Account atachedMember = Beans.getReference(AccountDAO.class).load(member.getId());
+			TeamFormation teamFormation = new TeamFormation(register, atachedMember);
 
 			if (member.getId().equals(User.getLoggedIn().getId())) {
 				teamFormation.setConfirmed(true);
@@ -120,7 +121,7 @@ public class RegisterREST {
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			Account account = Beans.getReference(AccountDAO.class).load(id);
+			Account account = Beans.getReference(AccountDAO.class).loadGender(id);
 
 			if (account == null) {
 				exception.addViolation("members", "usuário inválido");

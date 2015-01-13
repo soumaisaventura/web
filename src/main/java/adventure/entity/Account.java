@@ -75,6 +75,15 @@ public class Account implements Serializable {
 
 	@Transient
 	private Health health;
+	
+	public Account() {
+	}
+	
+	public Account(Long id, Gender gender) {
+		this.id = id;
+		this.profile = new Profile();
+		this.profile.setGender(gender);
+	}
 
 	@Override
 	public int hashCode() {
