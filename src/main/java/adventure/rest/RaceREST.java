@@ -48,11 +48,24 @@ public class RaceREST {
 			data.register = new RegisterData();
 			data.register.open = race.getOpen();
 			data.register.periods = null;
+			data.courses = null;
 			result.add(data);
 		}
 
 		return result.isEmpty() ? null : result;
 	}
+
+	// @GET
+	// @Path("calendar")
+	// @Produces("text/calendar")
+	// public Response generateCalendar() {
+	// Calendar calendar = new Calendar();
+	// // Generate your calendar here
+	// ResponseBuilder builder = Response.ok();
+	// builder.header("content-disposition", "attachment;filename=calendar.ics");
+	// builder.entity(calendar.toString());
+	// return builder.build();
+	// }
 
 	@GET
 	@Path("{id}")
