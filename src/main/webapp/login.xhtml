@@ -4,157 +4,68 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/template/main.xhtml">
 
-	<ui:define name="lib">
-		<script type="text/javascript"
-			src="https://connect.facebook.net/pt_BR/all.js"></script>
-		<script type="text/javascript"
-			src="https://apis.google.com/js/client:plus.js"></script>
-	</ui:define>
+<ui:define name="lib">
+	<script type="text/javascript" src="https://connect.facebook.net/pt_BR/all.js"></script>
+	<script type="text/javascript" src="https://apis.google.com/js/client:plus.js"></script>
+</ui:define>
 
-	<ui:define name="proxy">
-		<script type="text/javascript"
-			src="#{request.contextPath}/js/proxy/logon.js"></script>
-	</ui:define>
+<ui:define name="proxy">
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/logon.js"></script>
+</ui:define>
 
-	<ui:define name="controller">
-		<script type="text/javascript"
-			src="#{request.contextPath}/js/controller/login.js"></script>
-	</ui:define>
+<ui:define name="controller">
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/login.js"></script>
+</ui:define>
 
-	<ui:define name="body">
-		<!-- 
-		<div class="container">
-			<form>
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Acessar sua conta</h3>
-							</div>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<button id="facebook-login" type="button" class="btn btn-block btn-primary">
-												<img src="#{request.contextPath}/images/facebook.png" alt="Acessar via Facebook"/>
-											</button>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<button id="google-login" type="button" class="btn btn-block btn-danger">
-												<img src="#{request.contextPath}/images/google.png" alt="Acessar via Google+"/>
-											</button>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-												<input id="username" type="email" class="form-control" placeholder="Digite seu e-mail"/>
-												<span id="username-message" hidden="true" class="label label-danger"/>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<div class="input-group">
-												<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-												<input id="password" type="password" class="form-control" placeholder="Digite sua senha"/>
-												<span id="password-message" hidden="true" class="label label-danger"/>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 text-center">
-										<div class="form-group">
-											<input id="global" type="hidden"/>
-											<button type="submit" class="btn btn-success">Entrar</button>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 text-center">
-										<div id="global-message" hidden="true" class="alert alert-danger"/>
-									</div>
-								</div>
-							</div>
-							<div class="panel-footer">
-								<div class="row">
-									<div class="col-md-12 text-center">
-										<a href="signup">Precisa de uma conta? <strong>Registre-se aqui</strong></a>
-									</div>
-									<div class="col-md-12 text-center">
-										<a href="password/recovery"><small>Esqueceu sua senha?</small></a>
-									</div>
-								</div>
-							</div>
-						</div>
+<ui:define name="body">
+	<div class="container">
+		<div class="row">
+			<div class="main">
+				<div class="row" style="padding-bottom: 20px">
+					<h1>Identifique-se</h1>
+					<h4>Escolha uma das formas de acessar o sistema</h4>
+				</div>
+				<div class="row" style="padding-bottom: 10px">
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<a id="google-login" href="#" class="btn btn-lg btn-danger btn-block">Google</a>
 					</div>
 				</div>
-			</form>
-		</div>
-	 -->
-		<div class="container">
-			<div class="row">
-				<div class="main">
+					
+				<div class="login-or" style="padding-bottom: 20px">
+					<hr class="hr-or"/>
+					<span class="span-or">ou</span>
+				</div>
+					
+				<form role="form">
+					<div class="row">
+						<div class="form-group">
+							<label for="username">E-mail</label>
+							<input id="username" type="email" class="form-control" /> 
+							<span id="username-message" hidden="true" class="label label-danger" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="password">Senha (<a href="password/recovery">Esqueceu sua senha?</a>)</label>							
+							<input id="password" type="password" class="form-control"/>
+							<span id="password-message" hidden="true" class="label label-danger"/>
+						</div>
+					</div>
 					<div class="row" style="padding-bottom: 20px">
-						<h1>Identifique-se</h1>
-						<h4>Escolha uma das formas de acessar o sistema</h4>
+						<button type="submit" class="btn btn btn-primary">Entrar</button>
 					</div>
-					<div class="row" style="padding-bottom: 10px">
-						<div class="col-xs-6 col-sm-6 col-md-6">
-							<a href="#" class="btn btn-lg btn-primary btn-block">
-								Facebook
-							</a>
-						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6">
-							<a href="#" class="btn btn-lg btn-danger btn-block">
-								Google
-							</a>
-						</div>
-					</div>
-					
-					<div class="login-or" style="padding-bottom: 20px">
-						<hr class="hr-or"/>
-						<span class="span-or">ou</span>
-					</div>
-					
-					<form role="form">
-						<div class="row">
-							<div class="form-group">
-								<label for="username">E-mail</label>
-<!-- 								<div class="input-group"> -->
-<!-- 									<span class="input-group-addon"> -->
-<!-- 										<i class="glyphicon glyphicon-user"></i> -->
-<!-- 									</span>  -->
-									<input id="username" type="email" class="form-control" /> 
-<!-- 								</div> -->
-								<span id="username-message" hidden="true" class="label label-danger" />
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group">
-								<label for="password">Senha (<a href="password/recovery">Esqueceu sua senha?</a>)</label>							
-<!-- 								<div class="input-group"> -->
-<!-- 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> -->
-									<input id="password" type="password" class="form-control"/>
-<!-- 								</div> -->
-								<span id="password-message" hidden="true" class="label label-danger"/>
-							</div>
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn btn-primary">Entrar</button>
-						</div>
-					</form>
+				</form>
 
+				<div class="row">
+					<div class="text-center">
+						<div id="global-message" hidden="true" class="alert alert-danger"/>
+					</div>
 				</div>
 			</div>
 		</div>
-	</ui:define>
+	</div>
+</ui:define>
 </ui:composition>
