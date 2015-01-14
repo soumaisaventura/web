@@ -66,8 +66,8 @@ public class RegisterREST {
 	@LoggedIn
 	@ValidatePayload
 	@Consumes("application/json")
-	@Produces("application/json")
-	public Long submit(RegisterData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+	@Produces("text/plain")
+	public String submit(RegisterData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Transaction transaction = Beans.getReference(TransactionContext.class).getCurrentTransaction();
 		transaction.begin();
 		SubmitResult submitResult = null;
@@ -83,7 +83,7 @@ public class RegisterREST {
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendRegisterCreation(submitResult.register, submitResult.members, baseUri);
-		return submitResult.register.getId();
+		return submitResult.register.getFormattedId();
 	}
 
 	private SubmitResult submit(RegisterData data, ValidationResult validationResult) {
