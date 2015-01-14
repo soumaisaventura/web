@@ -59,7 +59,7 @@
 
 	<rule>
 		<from>^/race/(.*)/register$</from>
-		<to>/register.jsf?race=$1</to>
+		<to>/race-register.jsf?race=$1</to>
 	</rule>
 	
 	<!--

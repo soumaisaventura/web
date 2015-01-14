@@ -42,21 +42,12 @@ public class PasswordREST {
 	@ValidatePayload
 	@Path("reset/{token}")
 	@Consumes("application/json")
-	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
-			throws Exception {
+	public void performPasswordReset(@PathParam("token") String token, PerformResetData data) throws Exception {
 		AccountDAO dao = Beans.getReference(AccountDAO.class);
 		Account account = dao.loadFull(data.email);
-		String persistedToken = account != null ? account.getPasswordResetToken() : null;
 
-		if (account == null) {
-			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
-
-		} else if (persistedToken == null || !persistedToken.equals(Passwords.hash(token, account.getEmail()))) {
-			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
-
-			throw new UnprocessableEntityException()
-					.addViolation("Esta solicitação não é mais válida. Siga as instruções no seu e-mail.");
+		if (account == null || !Passwords.hash(token, account.getEmail()).equals(account.getPasswordResetToken())) {
+			throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
 
 		} else {
 			account.setPasswordResetToken(null);

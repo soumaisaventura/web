@@ -30,5 +30,29 @@ var RaceProxy = {
 				App.setHeader(request);
 			}
 		});
+	},
+
+	validateRegister : function($data, $race) {
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/" + $race + "/register/validate",
+			data : JSON.stringify($data),
+			contentType : "application/json",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
+	submitRegister : function($data, $race) {
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/" + $race + "/register",
+			data : JSON.stringify($data),
+			contentType : "application/json",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
 	}
 };
