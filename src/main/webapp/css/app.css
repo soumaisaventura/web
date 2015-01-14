@@ -1,0 +1,13 @@
+* {
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+.navbar-brand {
+	font-size: 1.3em;
+}
+
+.acronym {
+	font-weight: bold;
+	font-size: 2em;
+	padding-right: 5px;
+}
