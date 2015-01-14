@@ -2,7 +2,7 @@ var PasswordProxy = {
 
 	url : App.getContextPath() + "/api/password",
 
-	requestPasswordReset : function($data) {
+	recovery : function($data) {
 		return $.ajax({
 			type : "POST",
 			url : this.url + "/recovery",
@@ -11,7 +11,7 @@ var PasswordProxy = {
 		});
 	},
 
-	performPasswordReset : function($data, $token) {
+	reset : function($data, $token) {
 		return $.ajax({
 			type : "POST",
 			url : this.url + "/reset/" + $token,
