@@ -81,12 +81,9 @@ public class RegisterREST {
 			throw cause;
 		}
 
-		for (Account member : submitResult.members) {
-			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			Beans.getReference(MailDAO.class).sendRegisterNotification(member.getEmail(), baseUri);
-		}
-
-		return submitResult.registerId;
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		Beans.getReference(MailDAO.class).sendRegisterCreation(submitResult.register, submitResult.members, baseUri);
+		return submitResult.register.getId();
 	}
 
 	private SubmitResult submit(RegisterData data, ValidationResult validationResult) {
@@ -94,8 +91,8 @@ public class RegisterREST {
 		Register register = new Register();
 		register.setTeamName(data.teamName);
 		register.setRaceCategory(validationResult.raceCategory);
-
-		result.registerId = registerDAO.insert(register).getId();
+		register.setCreator(Beans.getReference(AccountDAO.class).load(User.getLoggedIn().getEmail()));
+		result.register = registerDAO.insert(register);
 
 		for (Account member : validationResult.members) {
 			Account atachedMember = Beans.getReference(AccountDAO.class).load(member.getId());
@@ -207,7 +204,7 @@ public class RegisterREST {
 
 	private class SubmitResult {
 
-		Long registerId;
+		Register register;
 
 		List<Account> members = new ArrayList<Account>();
 

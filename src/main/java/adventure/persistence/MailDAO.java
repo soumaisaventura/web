@@ -4,6 +4,7 @@ import static javax.mail.Message.RecipientType.TO;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -16,9 +17,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import adventure.entity.Account;
+import adventure.entity.Period;
+import adventure.entity.Profile;
+import adventure.entity.Register;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
+import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -98,8 +104,37 @@ public class MailDAO {
 		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
 	}
 
-	public void sendRegisterNotification(final String email, final URI baseUri) throws MessagingException {
-		send("Incrição efetuada", "Inscrição efetuada", email);
+	public void sendRegisterCreation(Register register, List<Account> members, URI baseUri) throws Exception {
+		Account creator = getAccount(register.getCreator().getEmail());
+		register = Beans.getReference(RegisterDAO.class).loadForEmail(register.getId());
+
+		String[] memberNames = new String[members.size()];
+		for (int i = 0; i < members.size(); i++) {
+			// TODO Não tem necessidade de novo select. Já poderia vir preenchido
+			Profile profile = Beans.getReference(ProfileDAO.class).load(members.get(i));
+			memberNames[i] = profile.getName();
+		}
+
+		String content = Strings.parse(Reflections.getResourceAsStream("email/register-creation.html"));
+		content = content.replace("{name}", creator.getProfile().getName());
+		content = content.replace("{teamName}", register.getTeamName());
+		content = content.replace("{raceName}", register.getRaceCategory().getRace().getName());
+		content = content.replace("{raceDate}", Dates.parse(register.getRaceCategory().getRace().getDate()));
+		content = content.replace("{url}", baseUri.resolve("register/" + register.getId()).toString());
+		content = content.replace("{registerId}", register.getId().toString());
+		content = content.replace("{registerDate}", Dates.parse(register.getDate()));
+		content = content.replace("{categoryName}", register.getRaceCategory().getCategory().getName());
+		content = content.replace("{courseLength}", register.getRaceCategory().getCourse().getLength().toString());
+		content = content.replace("{members}", Strings.join(" / ", memberNames));
+
+		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(register.getRaceCategory().getRace());
+		content = content.replace("{racePrice}", period.getPrice().toString());
+
+		String subject = "Portal FBCA - Pedido de inscrição";
+		subject += " #" + register.getId();
+		subject += " - " + register.getRaceCategory().getRace().getName();
+
+		send(subject, content, "text/html", creator.getEmail());
 	}
 
 	private void send(final String subject, final String content, final String type, final String... to) {
