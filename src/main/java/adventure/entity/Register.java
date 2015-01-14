@@ -20,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
+import br.gov.frameworkdemoiselle.util.Strings;
+
 @Entity
 @Table(name = "REGISTER")
 public class Register implements Serializable {
@@ -58,7 +60,8 @@ public class Register implements Serializable {
 	}
 
 	public Register(Long registerId, Date registerDate, String teamName, Long creatorId, String creatorName,
-			Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName, Long courseId, Integer courseLength) {
+			Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName, Long courseId,
+			Integer courseLength) {
 		setId(registerId);
 		setDate(registerDate);
 		setTeamName(teamName);
@@ -82,6 +85,10 @@ public class Register implements Serializable {
 		getRaceCategory().setCourse(new Course());
 		getRaceCategory().getCourse().setId(courseId);
 		getRaceCategory().getCourse().setLength(courseLength);
+	}
+
+	public String getFormattedId() {
+		return this.getId() != null ? Strings.insertZeros(this.getId().toString(), 5) : null;
 	}
 
 	@Override

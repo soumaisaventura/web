@@ -81,7 +81,7 @@ public class MailDAO {
 
 		String content = Strings.parse(Reflections.getResourceAsStream("email/password-creation.html"));
 		content = content.replace("{name}", account.getProfile().getName());
-		content = content.replace("{url}", baseUri.resolve("password?token=" + token).toString());
+		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
 		send("Portal FBCA - Criação de senha", content, "text/html", email);
 	}
 
@@ -121,17 +121,17 @@ public class MailDAO {
 		content = content.replace("{raceName}", register.getRaceCategory().getRace().getName());
 		content = content.replace("{raceDate}", Dates.parse(register.getRaceCategory().getRace().getDate()));
 		content = content.replace("{url}", baseUri.resolve("register/" + register.getId()).toString());
-		content = content.replace("{registerId}", register.getId().toString());
+		content = content.replace("{registerId}", register.getFormattedId());
 		content = content.replace("{registerDate}", Dates.parse(register.getDate()));
 		content = content.replace("{categoryName}", register.getRaceCategory().getCategory().getName());
 		content = content.replace("{courseLength}", register.getRaceCategory().getCourse().getLength().toString());
 		content = content.replace("{members}", Strings.join(" / ", memberNames));
 
 		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(register.getRaceCategory().getRace());
-		content = content.replace("{racePrice}", period.getPrice().toString());
+		content = content.replace("{racePrice}", period.getPrice().toString().replace(".", ","));
 
 		String subject = "Portal FBCA - Pedido de inscrição";
-		subject += " #" + register.getId();
+		subject += " #" + register.getFormattedId();
 		subject += " - " + register.getRaceCategory().getRace().getName();
 
 		send(subject, content, "text/html", creator.getEmail());

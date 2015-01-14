@@ -1,7 +1,5 @@
 package adventure.rest;
 
-import java.net.URI;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,11 +10,6 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.persistence.MailDAO;
-import adventure.security.PasswordNotDefinedException;
-import adventure.security.UnconfirmedAccountException;
-import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.security.AuthenticationException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -36,31 +29,7 @@ public class LogonREST {
 		credentials.setUsername(data.username);
 		credentials.setPassword(data.password);
 
-		try {
-			securityContext.login();
-		} catch (AuthenticationException cause) {
-			handle(cause, data.username, uriInfo);
-		}
-	}
-
-	private void handle(AuthenticationException exception, String email, UriInfo uriInfo) throws Exception {
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO mailDAO = Beans.getReference(MailDAO.class);
-
-		if (exception instanceof PasswordNotDefinedException) {
-			mailDAO.sendPasswordCreationMail(email, baseUri);
-
-			throw new UnprocessableEntityException().addViolation(exception.getMessage()
-					+ " Siga as instruções no seu e-mail.");
-
-		} else if (exception instanceof UnconfirmedAccountException) {
-			mailDAO.sendAccountActivation(email, baseUri);
-
-			throw new UnprocessableEntityException().addViolation(exception.getMessage()
-					+ " Siga as instruções no seu e-mail. ");
-		} else {
-			throw exception;
-		}
+		securityContext.login();
 	}
 
 	public static class CredentialsData {
