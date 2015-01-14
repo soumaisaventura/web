@@ -61,7 +61,7 @@ public class SignUpREST {
 		Beans.getReference(HealthDAO.class).insert(new Health(account));
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendAccountActivationMail(account.getEmail(), baseUri);
+		Beans.getReference(MailDAO.class).sendAccountActivation(account.getEmail(), baseUri);
 	}
 
 	@POST
@@ -69,7 +69,8 @@ public class SignUpREST {
 	@ValidatePayload
 	@Path("/activation/{token}")
 	@Consumes("application/json")
-	public void activate(@PathParam("token") String token, ActivationData data) throws Exception {
+	public void activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
+			throws Exception {
 		Account persistedAccount = accountDAO.loadFull(data.email);
 		validate(token, persistedAccount);
 
@@ -78,6 +79,9 @@ public class SignUpREST {
 		persistedAccount.setConfirmationToken(null);
 		persistedAccount.setConfirmation(new Date());
 		accountDAO.update(persistedAccount);
+
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		Beans.getReference(MailDAO.class).sendWelcome(persistedAccount.getEmail(), baseUri);
 	}
 
 	private void validate(String token, Account account) throws Exception {

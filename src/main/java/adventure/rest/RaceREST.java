@@ -26,6 +26,7 @@ import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("race")
@@ -33,6 +34,13 @@ public class RaceREST {
 
 	@Inject
 	private RaceDAO raceDAO;
+
+	@GET
+	@Produces("text/html")
+	public String x(@QueryParam("path") String path) throws Exception {
+		String result = Strings.parse(Reflections.getResourceAsStream(path));
+		return result.replace("{name}", "Cleverson");
+	}
 
 	@GET
 	@Path("next")

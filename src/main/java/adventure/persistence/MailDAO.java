@@ -19,6 +19,8 @@ import adventure.entity.Account;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Reflections;
+import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
 public class MailDAO {
@@ -29,7 +31,7 @@ public class MailDAO {
 	@Inject
 	private AccountDAO accountDAO;
 
-	public void sendAccountActivationMail(final String email, final URI baseUri) throws MessagingException {
+	public void sendAccountActivation(final String email, final URI baseUri) throws Exception {
 		Account account = getAccount(email);
 		final String token;
 
@@ -41,24 +43,21 @@ public class MailDAO {
 			token = account.getConfirmationToken();
 		}
 
-		new Thread() {
+		String content = Strings.parse(Reflections.getResourceAsStream("email/activation.html"));
+		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{url}", baseUri.resolve("activation?token=" + token).toString());
 
-			public void run() {
-				try {
-					MimeMessage message = new MimeMessage(getSession());
-					message.setFrom(new InternetAddress("contato@fbca.com.br"));
-					message.setSubject("Ativação de conta");
-					message.setRecipients(TO, email);
-					message.setContent(baseUri.resolve("activation?token=" + token).toString(), "text/plain");
+		send("Pedido de cadastro no portal FBCA", content, "text/html", email);
+	}
 
-					Transport.send(message);
+	public void sendWelcome(final String email, final URI baseUri) throws Exception {
+		Account account = getAccount(email);
 
-				} catch (MessagingException cause) {
-					cause.printStackTrace();
-				}
-			};
+		String content = Strings.parse(Reflections.getResourceAsStream("email/welcome.html"));
+		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{url}", baseUri.toString());
 
-		}.start();
+		send("Bem-vindo ao portal FBCA", content, "text/html", email);
 	}
 
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws MessagingException {
@@ -74,24 +73,7 @@ public class MailDAO {
 			token = account.getPasswordResetToken();
 		}
 
-		new Thread() {
-
-			public void run() {
-				try {
-					MimeMessage message = new MimeMessage(getSession());
-					message.setFrom(new InternetAddress("contato@fbca.com.br"));
-					message.setSubject("Criação de senha");
-					message.setRecipients(TO, email);
-					message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
-
-					Transport.send(message);
-
-				} catch (MessagingException cause) {
-					cause.printStackTrace();
-				}
-			};
-
-		}.start();
+		send("Criação de senha", baseUri.resolve("password?token=" + token).toString(), "text/plain", email);
 	}
 
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws MessagingException {
@@ -107,41 +89,28 @@ public class MailDAO {
 			token = account.getPasswordResetToken();
 		}
 
-		new Thread() {
-
-			public void run() {
-				try {
-					MimeMessage message = new MimeMessage(getSession());
-					message.setFrom(new InternetAddress("contato@fbca.com.br"));
-					message.setSubject("Redefinição de senha");
-					message.setRecipients(TO, email);
-					message.setContent(baseUri.resolve("password?token=" + token).toString(), "text/plain");
-
-					Transport.send(message);
-
-				} catch (MessagingException cause) {
-					cause.printStackTrace();
-				}
-			};
-
-		}.start();
+		send("Redefinição de senha", baseUri.resolve("password?token=" + token).toString(), "text/plain", email);
 	}
 
 	public void sendRegisterNotification(final String email, final URI baseUri) throws MessagingException {
+		send("Incrição efetuada", "Inscrição efetuada", email);
+	}
+
+	private void send(final String subject, final String content, final String type, final String... to) {
 		new Thread() {
 
 			public void run() {
 				try {
 					MimeMessage message = new MimeMessage(getSession());
 					message.setFrom(new InternetAddress("contato@fbca.com.br"));
-					message.setSubject("Incrição efetuada");
-					message.setRecipients(TO, email);
-					message.setContent("Inscrição efetuada", "text/plain");
+					message.setSubject(subject);
+					message.setRecipients(TO, Strings.join(",", to));
+					message.setContent(content, type);
 
 					Transport.send(message);
 
 				} catch (MessagingException cause) {
-					cause.printStackTrace();
+					throw new RuntimeException(cause);
 				}
 			};
 
@@ -149,7 +118,7 @@ public class MailDAO {
 	}
 
 	private Account getAccount(String email) {
-		Account account = accountDAO.load(email);
+		Account account = accountDAO.loadFull(email);
 
 		if (account == null) {
 			throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);

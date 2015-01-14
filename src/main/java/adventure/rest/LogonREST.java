@@ -54,7 +54,7 @@ public class LogonREST {
 					+ " Siga as instruções no seu e-mail.");
 
 		} else if (exception instanceof UnconfirmedAccountException) {
-			mailDAO.sendAccountActivationMail(email, baseUri);
+			mailDAO.sendAccountActivation(email, baseUri);
 
 			throw new UnprocessableEntityException().addViolation(exception.getMessage()
 					+ " Siga as instruções no seu e-mail. ");

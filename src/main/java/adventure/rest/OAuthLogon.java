@@ -1,9 +1,12 @@
 package adventure.rest;
 
+import java.net.URI;
 import java.util.Date;
 
 import javax.inject.Inject;
 import javax.ws.rs.POST;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,6 +14,7 @@ import adventure.entity.Account;
 import adventure.entity.Health;
 import adventure.persistence.AccountDAO;
 import adventure.persistence.HealthDAO;
+import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.security.OAuthSession;
 import adventure.util.Misc;
@@ -33,18 +37,19 @@ public abstract class OAuthLogon {
 	@POST
 	@Transactional
 	@ValidatePayload
-	public void login(CredentialsData data) throws Exception {
+	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
 		Account oauth = createAccount(data.token);
 		Account persisted = accountDAO.loadForAuthentication(oauth.getEmail());
 
 		if (persisted == null) {
 			oauth.setConfirmation(new Date());
 			accountDAO.insert(oauth);
-
 			oauth.getProfile().setAccount(oauth);
 			profileDAO.insert(oauth.getProfile());
-
 			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
+
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
+			Beans.getReference(MailDAO.class).sendWelcome(oauth.getEmail(), baseUri);
 			login(oauth.getEmail());
 
 		} else if (persisted.getConfirmation() == null) {
