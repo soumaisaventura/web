@@ -58,6 +58,7 @@ public class ProfileREST {
 		profile.setCpf(data.cpf);
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
+		profile.setPendent(false);
 
 		Beans.getReference(ProfileDAO.class).update(profile);
 	}

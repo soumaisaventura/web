@@ -58,6 +58,9 @@ public class Profile implements Serializable {
 	@Column(name = "GENDER")
 	private Gender gender;
 
+	@Column(name = "PENDENT", nullable = false)
+	private boolean pendent = true;
+
 	public Profile() {
 	}
 
@@ -141,5 +144,13 @@ public class Profile implements Serializable {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public boolean isPendent() {
+		return pendent;
+	}
+
+	public void setPendent(boolean pendent) {
+		this.pendent = pendent;
 	}
 }

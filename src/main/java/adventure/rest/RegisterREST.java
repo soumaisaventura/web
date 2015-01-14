@@ -148,9 +148,9 @@ public class RegisterREST {
 			Account account = Beans.getReference(AccountDAO.class).loadGender(id);
 
 			if (account == null) {
-				exception.addViolation("members", "usuário inválido");
+				exception.addViolation("members", "usuário " + id + " inválido");
 			} else if (result.contains(account)) {
-				exception.addViolation("members", "usuário duplicado");
+				exception.addViolation("members", "usuário " + id + "duplicado");
 			} else {
 				result.add(account);
 			}

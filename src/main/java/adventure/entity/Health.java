@@ -33,6 +33,9 @@ public class Health implements Serializable {
 	@Column(name = "ALLERGY")
 	private String allergy;
 
+	@Column(name = "PENDENT", nullable = false)
+	private boolean pendent = true;
+
 	public Health() {
 	}
 
@@ -92,5 +95,13 @@ public class Health implements Serializable {
 
 	public void setAllergy(String allergy) {
 		this.allergy = allergy;
+	}
+
+	public boolean isPendent() {
+		return pendent;
+	}
+
+	public void setPendent(boolean pendent) {
+		this.pendent = pendent;
 	}
 }

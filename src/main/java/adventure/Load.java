@@ -137,10 +137,10 @@ public class Load {
 			boolean verified = true;
 
 			if (i % 3 == 0) {
-				name = "Male Guest " + i;
+				name = "Usuário homem de exemplo #" + i;
 				gender = MALE;
 			} else {
-				name = "Female Guest " + i;
+				name = "Usuário mulher de exemplo #" + i;
 				gender = FEMALE;
 			}
 
@@ -152,7 +152,7 @@ public class Load {
 		}
 
 		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
 		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);

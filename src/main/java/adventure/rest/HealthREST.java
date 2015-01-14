@@ -46,6 +46,7 @@ public class HealthREST {
 		Health health = accountDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
 		health.setBloodType(data.bloodType);
 		health.setAllergy(data.allergy);
+		health.setPendent(false);
 
 		Beans.getReference(HealthDAO.class).update(health);
 	}
