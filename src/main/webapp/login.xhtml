@@ -1,20 +1,28 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
 	<ui:define name="lib">
-		<script type="text/javascript" src="https://connect.facebook.net/pt_BR/all.js"></script>
-		<script type="text/javascript" src="https://apis.google.com/js/client:plus.js"></script>
+		<script type="text/javascript"
+			src="https://connect.facebook.net/pt_BR/all.js"></script>
+		<script type="text/javascript"
+			src="https://apis.google.com/js/client:plus.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/logon.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/proxy/logon.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/login.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/controller/login.js"></script>
 	</ui:define>
-	
+
 	<ui:define name="body">
+		<!-- 
 		<div class="container">
 			<form>
 				<div class="row">
@@ -90,6 +98,63 @@
 					</div>
 				</div>
 			</form>
+		</div>
+	 -->
+		<div class="container">
+			<div class="row">
+				<div class="main">
+					<div class="row" style="padding-bottom: 20px">
+						<h1>Identifique-se</h1>
+						<h4>Escolha uma das formas de acessar o sistema</h4>
+					</div>
+					<div class="row" style="padding-bottom: 10px">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<a href="#" class="btn btn-lg btn-primary btn-block">
+								Facebook
+							</a>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<a href="#" class="btn btn-lg btn-danger btn-block">
+								Google
+							</a>
+						</div>
+					</div>
+					
+					<div class="login-or" style="padding-bottom: 20px">
+						<hr class="hr-or"/>
+						<span class="span-or">ou</span>
+					</div>
+					
+					<form role="form">
+						<div class="row">
+							<div class="form-group">
+								<label for="username">E-mail</label>
+<!-- 								<div class="input-group"> -->
+<!-- 									<span class="input-group-addon"> -->
+<!-- 										<i class="glyphicon glyphicon-user"></i> -->
+<!-- 									</span>  -->
+									<input id="username" type="email" class="form-control" /> 
+<!-- 								</div> -->
+								<span id="username-message" hidden="true" class="label label-danger" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<label for="password">Senha (<a href="password/recovery">Esqueceu sua senha?</a>)</label>							
+<!-- 								<div class="input-group"> -->
+<!-- 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> -->
+									<input id="password" type="password" class="form-control"/>
+<!-- 								</div> -->
+								<span id="password-message" hidden="true" class="label label-danger"/>
+							</div>
+						</div>
+						<div class="row">
+							<button type="submit" class="btn btn btn-primary">Entrar</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
 		</div>
 	</ui:define>
 </ui:composition>
