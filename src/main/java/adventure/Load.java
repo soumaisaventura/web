@@ -4,8 +4,6 @@ import static adventure.entity.Gender.FEMALE;
 import static adventure.entity.Gender.MALE;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -23,13 +21,12 @@ import adventure.entity.RaceCategory;
 import adventure.entity.Register;
 import adventure.entity.TeamFormation;
 import adventure.security.Passwords;
+import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Transactional
 public class Load {
-
-	private static final DateFormat format = new SimpleDateFormat("dd/MM/yyyyy");
 
 	@Inject
 	private EntityManager em;
@@ -58,7 +55,7 @@ public class Load {
 		Race race = new Race();
 		race.setName(name);
 		race.setDescription(description);
-		race.setDate(format.parse(date));
+		race.setDate(Dates.parse(date));
 		em.persist(race);
 		return race;
 	}
@@ -77,8 +74,8 @@ public class Load {
 
 	private Period newPeriod(Race race, String begining, String end, Double price) throws Exception {
 		Period period = new Period(race);
-		period.setBeginning(format.parse(begining));
-		period.setEnd(format.parse(end));
+		period.setBeginning(Dates.parse(begining));
+		period.setEnd(Dates.parse(end));
 		period.setPrice(BigDecimal.valueOf(price));
 		em.persist(period);
 		return period;
@@ -153,9 +150,9 @@ public class Load {
 			accounts[i] = newAccount(email, password, name, gender, verified);
 		}
 
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE);
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE);
-		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE);
+		newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
@@ -192,7 +189,7 @@ public class Load {
 		newRace("CARI - Desafio dos Sertões", null, "10/10/2015");
 		newRace("CARI - Integração", null, "05/12/2015");
 
-		newRegister("Quarteto Exemplo", npQuarteto100km, new Account[] { accounts[0], accounts[2], accounts[6],
-				accounts[12] });
+		// newRegister("Quarteto Exemplo", npQuarteto100km, new Account[] { accounts[0], accounts[2], accounts[6],
+		// accounts[12] });
 	}
 }
