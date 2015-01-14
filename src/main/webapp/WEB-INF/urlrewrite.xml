@@ -43,13 +43,13 @@
 	</rule>
 
 	<rule>
-		<from>^/reset$</from>
-		<to>/reset.jsf</to>
+		<from>^/password/recovery$</from>
+		<to>/password-recovery.jsf</to>
 	</rule>
 
 	<rule>
-		<from>^/password$</from>
-		<to>/password.jsf</to>
+		<from>^/password/reset$</from>
+		<to>/password-reset.jsf</to>
 	</rule>
 
 	<rule>

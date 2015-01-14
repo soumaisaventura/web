@@ -3,7 +3,6 @@ package adventure.rest;
 import java.net.URI;
 import java.util.Date;
 
-import javax.mail.MessagingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -26,13 +25,14 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("reset")
-public class ResetREST {
+@Path("password")
+public class PasswordREST {
 
 	@POST
 	@ValidatePayload
+	@Path("recovery")
 	@Consumes("application/json")
-	public void requestPasswordReset(RequestResetData data, @Context UriInfo uriInfo) throws MessagingException {
+	public void requestPasswordReset(RequestResetData data, @Context UriInfo uriInfo) throws Exception {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 	}
@@ -40,7 +40,7 @@ public class ResetREST {
 	@POST
 	@Transactional
 	@ValidatePayload
-	@Path("/{token}")
+	@Path("reset/{token}")
 	@Consumes("application/json")
 	public void performPasswordReset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {

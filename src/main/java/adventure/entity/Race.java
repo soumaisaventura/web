@@ -34,6 +34,9 @@ public class Race implements Serializable {
 	@Index(name = "IDX_RACE_NAME")
 	private String name;
 
+	@Column(name = "DESCRIPTION")
+	private String description;
+
 	@NotNull
 	@Temporal(DATE)
 	@Column(name = "DATE")
@@ -104,6 +107,14 @@ public class Race implements Serializable {
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Date getDate() {
 		return date;
 	}
@@ -116,7 +127,7 @@ public class Race implements Serializable {
 		return open;
 	}
 
-	protected void setOpen(Boolean open) {
+	public void setOpen(Boolean open) {
 		this.open = open;
 	}
 }

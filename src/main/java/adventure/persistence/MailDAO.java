@@ -47,7 +47,7 @@ public class MailDAO {
 		content = content.replace("{name}", account.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("activation?token=" + token).toString());
 
-		send("Pedido de cadastro no portal FBCA", content, "text/html", email);
+		send("Portal FBCA - Confirmação de e-mail", content, "text/html", email);
 	}
 
 	public void sendWelcome(final String email, final URI baseUri) throws Exception {
@@ -57,10 +57,10 @@ public class MailDAO {
 		content = content.replace("{name}", account.getProfile().getName());
 		content = content.replace("{url}", baseUri.toString());
 
-		send("Bem-vindo ao portal FBCA", content, "text/html", email);
+		send("Portal FBCA - Seja bem-vindo!", content, "text/html", email);
 	}
 
-	public void sendPasswordCreationMail(final String email, final URI baseUri) throws MessagingException {
+	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
 		Account account = getAccount(email);
 		final String token;
 
@@ -73,10 +73,13 @@ public class MailDAO {
 			token = account.getPasswordResetToken();
 		}
 
-		send("Criação de senha", baseUri.resolve("password?token=" + token).toString(), "text/plain", email);
+		String content = Strings.parse(Reflections.getResourceAsStream("email/password-creation.html"));
+		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{url}", baseUri.resolve("password?token=" + token).toString());
+		send("Portal FBCA - Criação de senha", content, "text/html", email);
 	}
 
-	public void sendResetPasswordMail(final String email, final URI baseUri) throws MessagingException {
+	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
 		Account account = getAccount(email);
 		final String token;
 
@@ -89,7 +92,10 @@ public class MailDAO {
 			token = account.getPasswordResetToken();
 		}
 
-		send("Redefinição de senha", baseUri.resolve("password?token=" + token).toString(), "text/plain", email);
+		String content = Strings.parse(Reflections.getResourceAsStream("email/password-recovery.html"));
+		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
+		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
 	}
 
 	public void sendRegisterNotification(final String email, final URI baseUri) throws MessagingException {
@@ -103,7 +109,7 @@ public class MailDAO {
 				try {
 					MimeMessage message = new MimeMessage(getSession());
 					message.setFrom(new InternetAddress("contato@fbca.com.br"));
-					message.setSubject(subject);
+					message.setSubject(subject, "UTF-8");
 					message.setRecipients(TO, Strings.join(",", to));
 					message.setContent(content, type);
 

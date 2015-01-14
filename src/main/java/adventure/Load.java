@@ -54,9 +54,10 @@ public class Load {
 		return register;
 	}
 
-	private Race newRace(String name, String date) throws Exception {
+	private Race newRace(String name, String description, String date) throws Exception {
 		Race race = new Race();
 		race.setName(name);
+		race.setDescription(description);
 		race.setDate(format.parse(date));
 		em.persist(race);
 		return race;
@@ -152,9 +153,9 @@ public class Load {
 			accounts[i] = newAccount(email, password, name, gender, verified);
 		}
 
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, false);
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, false);
+		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE);
+		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE);
+		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
@@ -164,30 +165,32 @@ public class Load {
 		Category trioMisto = newCategory("Trio misto", "Trio contendo pelo menos uma mulher", 3, 1, 1);
 		Category solo = newCategory("Solo", "Único integrante independente do sexo", 1, null, null);
 
-		newRace("Desafio dos Sertões", "16/08/2014");
-		newRace("Laskpé", "08/11/2014");
+		newRace("Desafio dos Sertões", null, "16/08/2014");
+		newRace("Laskpé", null, "08/11/2014");
 
-		Race np = newRace("Noite do Perrengue 3", "21/03/2015");
-		newPeriod(np, "07/01/2015", "15/01/2015", 60.00);
-		newPeriod(np, "16/01/2015", "31/01/2015", 80.00);
-		Course np40km = newCourse(np, 40);
+		String description = "Descritivo: 3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA.";
+		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
+		newPeriod(np, "01/01/2015", "31/01/2015", 60.00);
+		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
+		newPeriod(np, "21/02/2015", "20/03/2015", 100.00);
+		Course np45km = newCourse(np, 45);
 		Course np100km = newCourse(np, 100);
-		newRaceCategory(np, np40km, duplaMasc);
-		newRaceCategory(np, np40km, duplaFem);
-		newRaceCategory(np, np40km, duplaMista);
+		newRaceCategory(np, np45km, duplaMasc);
+		newRaceCategory(np, np45km, duplaFem);
+		newRaceCategory(np, np45km, duplaMista);
 		newRaceCategory(np, np100km, duplaMasc);
 		newRaceCategory(np, np100km, duplaMista);
 		RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
 
-		newRace("CARI - Sol do Salitre", "11/04/2015");
-		newRace("CICA - Mandacaru", "18/04/2015");
-		newRace("CICA - Peleja", "13/06/2015");
-		newRace("CARI - Casco de Peba", "20/06/2015");
-		newRace("Corrida do CT", "07/07/2015");
-		newRace("CARI - Laskpé", "15/08/2015");
-		newRace("CICA - Cangaço", "30/08/2015");
-		newRace("CARI - Desafio dos Sertões", "10/10/2015");
-		newRace("CARI - Integração", "05/12/2015");
+		newRace("CARI - Sol do Salitre", null, "11/04/2015");
+		newRace("CICA - Mandacaru", null, "18/04/2015");
+		newRace("CICA - Peleja", null, "13/06/2015");
+		newRace("CARI - Casco de Peba", null, "20/06/2015");
+		newRace("Corrida do CT", null, "07/07/2015");
+		newRace("CARI - Laskpé", null, "15/08/2015");
+		newRace("CICA - Cangaço", null, "30/08/2015");
+		newRace("CARI - Desafio dos Sertões", null, "10/10/2015");
+		newRace("CARI - Integração", null, "05/12/2015");
 
 		newRegister("Quarteto Exemplo", npQuarteto100km, new Account[] { accounts[0], accounts[2], accounts[6],
 				accounts[12] });

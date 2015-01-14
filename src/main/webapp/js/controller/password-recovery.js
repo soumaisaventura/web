@@ -9,7 +9,7 @@ $(function() {
 			'email' : $("#email").val()
 		};
 
-		ResetProxy.requestPasswordReset(data).done(resetOk);
+		PasswordProxy.recovery(data).done(resetOk);
 	});
 });
 

@@ -11,7 +11,7 @@ $(function() {
 		};
 
 		var token = App.getUrlParameterByName('token');
-		ResetProxy.performPasswordReset(data, token).done(resetOk);
+		PasswordProxy.reset(data, token).done(resetOk);
 	});
 });
 
