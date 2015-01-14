@@ -32,7 +32,7 @@ public class PasswordREST {
 	@ValidatePayload
 	@Path("recovery")
 	@Consumes("application/json")
-	public void requestPasswordReset(RequestResetData data, @Context UriInfo uriInfo) throws Exception {
+	public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		Beans.getReference(MailDAO.class).sendResetPasswordMail(data.email, baseUri);
 	}
@@ -42,7 +42,7 @@ public class PasswordREST {
 	@ValidatePayload
 	@Path("reset/{token}")
 	@Consumes("application/json")
-	public void performPasswordReset(@PathParam("token") String token, PerformResetData data) throws Exception {
+	public void reset(@PathParam("token") String token, PerformResetData data) throws Exception {
 		AccountDAO dao = Beans.getReference(AccountDAO.class);
 		Account account = dao.loadFull(data.email);
 
@@ -69,7 +69,7 @@ public class PasswordREST {
 		Beans.getReference(SecurityContext.class).login();
 	}
 
-	public static class RequestResetData {
+	public static class RecoveryData {
 
 		@Email
 		@NotEmpty

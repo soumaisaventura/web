@@ -153,7 +153,7 @@ public class Load {
 
 		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
 		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
+		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
