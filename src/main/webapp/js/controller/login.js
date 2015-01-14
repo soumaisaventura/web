@@ -1,5 +1,13 @@
 $(function() {
-	$("#username").focus();
+
+	var spinner = Spin.start();
+	
+	$(window).load(function(){
+       Spin.stop(spinner);
+       $("#username").focus();
+	});
+
+	
 
 	$("form").submit(function(event) {
 		event.preventDefault();

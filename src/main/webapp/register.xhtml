@@ -1,219 +1,219 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
-	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
-	</ui:define>
+<ui:define name="css">
+	<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
+</ui:define>
 
-	<ui:define name="lib">
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
-	</ui:define>
+<ui:define name="lib">
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
+</ui:define>
 
-	<ui:define name="proxy">
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/health.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/js/proxy/register.js"></script>
-	</ui:define>
-	
-	<ui:define name="controller">
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/register.js"></script>
-	</ui:define>
-	
-	<ui:define name="body">
-	
+<ui:define name="proxy">
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/health.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/register.js"></script>
+</ui:define>
+
+<ui:define name="controller">
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/register.js"></script>
+</ui:define>
+
+<ui:define name="body">
 	<div class="container">
 		<div class="row">
-	        <div class="col-md-12">
-	            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
-	                <li class="active">
-	                	<a href="#step-1">
-	                    	<h4 class="list-group-item-heading">Passo 1</h4>
-	                    	<p class="list-group-item-text">Dados Pessoais</p>
-	                	</a>
-	                </li>
-	                <li class="disabled">
-	                	<a href="#step-2">
-	                    	<h4 class="list-group-item-heading">Passo 2</h4>
-	                    	<p class="list-group-item-text">Dados Médicos</p>
-	                	</a>
-	                </li>
-	                <li class="disabled">
-	                	<a href="#step-3">
-	                    	<h4 class="list-group-item-heading">Passo 3</h4>
-	                    	<p class="list-group-item-text">Dados da Corrida</p>
-	                	</a>
-	                </li>
-	                <li class="disabled">
-	                	<a href="#step-4">
-	                    	<h4 class="list-group-item-heading">Passo 4</h4>
-	                    	<p class="list-group-item-text">Confirmação</p>
-	                	</a>
-	                </li>	                
-	            </ul>
-	        </div>
+			<div class="col-md-12">
+				<ul class="nav nav-pills nav-justified thumbnail setup-panel">
+						<li class="active"><a href="#step-1">
+								<h4 class="list-group-item-heading">Passo 1</h4>
+								<p class="list-group-item-text">Dados Pessoais</p>
+						</a></li>
+						<li class="disabled"><a href="#step-2">
+								<h4 class="list-group-item-heading">Passo 2</h4>
+								<p class="list-group-item-text">Dados Médicos</p>
+						</a></li>
+						<li class="disabled"><a href="#step-3">
+								<h4 class="list-group-item-heading">Passo 3</h4>
+								<p class="list-group-item-text">Dados da Corrida</p>
+						</a></li>
+						<li class="disabled"><a href="#step-4">
+								<h4 class="list-group-item-heading">Passo 4</h4>
+								<p class="list-group-item-text">Confirmação</p>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row setup-content" id="step-1">
+				<form id="form-step-1">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="name">Nome</label> <input id="name" type="text"
+										class="form-control" /> <span id="name-message" hidden="true"
+										class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-md-offset-3">
+								<div class="form-group">
+									<label for="rg">RG</label> <input id="rg" type="text"
+										class="form-control" /> <span id="rg-message" hidden="true"
+										class="label label-danger" />
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="cpf">CPF</label> <input id="cpf" type="text"
+										class="form-control" /> <span id="cpf-message" hidden="true"
+										class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 col-md-offset-3">
+								<div class="form-group">
+									<label for="birthday">Data de Nascimento</label> <input
+										id="birthday" type="date" class="form-control" /> <span
+										id="birthday-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="gender">Sexo</label> <select id="gender"
+										class="form-control">
+										<option value="" selected="selected"></option>
+										<option value="M">Masculino</option>
+										<option value="F">Feminino</option>
+									</select>
+									<div id="gender-message" hidden="true"
+										class="label label-danger"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<div class="form-group">
+									<button type="button" id="activate-step-2"
+										class="btn btn-success">Próximo</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="row setup-content" id="step-2">
+				<form id="form-step-2">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="bloodType">Tipo Sanguíneo</label> <select
+										id="bloodType" class="form-control">
+										<option value="" selected="selected"></option>
+										<option value="A+">A+</option>
+										<option value="A-">A-</option>
+										<option value="B+">B+</option>
+										<option value="B-">B-</option>
+										<option value="AB+">AB+</option>
+										<option value="AB-">AB-</option>
+										<option value="O+">O+</option>
+										<option value="O-">O-</option>
+									</select> <span id="bloodType-message" hidden="true"
+										class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="allergy">Alergia</label> <input id="allergy"
+										type="text" class="form-control" /> <span id="allergy-message"
+										hidden="true" class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<div class="form-group">
+									<button type="button" id="activate-step-1"
+										class="btn btn-warning">Anterior</button>
+									<button type="button" id="activate-step-3"
+										class="btn btn-success">Próximo</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="row setup-content" id="step-3">
+				<form id="form-step-3">
+					<input id="race" type="hidden" value="#{param.race}" />
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="teamName">Nome da Equipe</label> <input type="text"
+										id="teamName" class="form-control" /> <span
+										id="teamName-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="category">Categoria</label> <select id="category"
+										class="form-control">
+										<option value="" selected="selected"></option>
+									</select> <span id="category-message" hidden="true"
+										class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<label for="user">Atleta</label> <input type="text" id="user"
+										class="form-control" placeholder="Digite nome do atleta" /> <span
+										id="user-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								Membros da Equipe
+								<ol id="members" class="list-group">
+									<li id="loggedUser" class="list-group-item"></li>
+								</ol>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<div class="form-group">
+									<button type="button" id="activate-step-2"
+										class="btn btn-warning">Anterior</button>
+									<button type="button" id="activate-step-4"
+										class="btn btn-success">Próximo</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row setup-content" id="step-4">
+				<div class="col-xs-12">
+					<div class="col-md-12 well">
+						<h1 class="text-center">STEP 4</h1>
+					</div>
+				</div>
+			</div>
 		</div>
-	    <div class="row setup-content" id="step-1">
-	    <form id="form-step-1">
-	        <div class="col-md-12">
-                <div class="row">
-            		<div class="col-md-6 col-md-offset-3">
-            			<div class="form-group">
-							<label for="name">Nome</label>
-							<input id="name" type="text" class="form-control"/>
-							<span id="name-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>
-                </div>
-                <div class="row">
-                	<div class="col-md-3 col-md-offset-3">
-            			<div class="form-group">
-							<label for="rg">RG</label>
-							<input id="rg" type="text" class="form-control"/>
-							<span id="rg-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>
-            		<div class="col-md-3">
-            			<div class="form-group">
-							<label for="cpf">CPF</label>
-							<input id="cpf" type="text" class="form-control"/>
-							<span id="cpf-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>    
-                </div>
-                <div class="row">
-            		<div class="col-md-3 col-md-offset-3">
-            			<div class="form-group">
-							<label for="birthday">Data de Nascimento</label>
-							<input id="birthday" type="date" class="form-control"/>
-							<span id="birthday-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>
-					<div class="col-md-3">
-            			<div class="form-group">
-							<label for="gender">Sexo</label> 
-							<select id="gender" class="form-control">
-								<option value="" selected="selected"></option>
-								<option value="M">Masculino</option>
-								<option value="F">Feminino</option>
-							</select>
-							<div id="gender-message" hidden="true" class="label label-danger"></div>
-						</div>
-            		</div>
-            	</div>
-            	<div class="row">
-            		<div class="col-md-12 text-center">
-            			<div class="form-group">
-            				<button type="button" id="activate-step-2" class="btn btn-success">Próximo</button>
-            			</div>
-            		</div>
-                </div>
-	        </div>
-	    </form>
-	    </div>
-	    
-	    <div class="row setup-content" id="step-2">
-	    <form id="form-step-2">
-	    	<div class="col-md-12">
-                <div class="row">
-            		<div class="col-md-6 col-md-offset-3">
-            			<div class="form-group">
-							<label for="bloodType">Tipo Sanguíneo</label>
-							<select id="bloodType" class="form-control">
-								<option value="" selected="selected"></option>
-								<option value="A+">A+</option>
-								<option value="A-">A-</option>
-								<option value="B+">B+</option>
-								<option value="B-">B-</option>
-								<option value="AB+">AB+</option>
-								<option value="AB-">AB-</option>
-								<option value="O+">O+</option>
-								<option value="O-">O-</option>
-							</select>
-							<span id="bloodType-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>
-                </div>
-                <div class="row">
-                	<div class="col-md-6 col-md-offset-3">
-            			<div class="form-group">
-							<label for="allergy">Alergia</label>
-							<input id="allergy" type="text" class="form-control"/>
-							<span id="allergy-message" hidden="true" class="label label-danger"/>            				
-            			</div>
-            		</div>
-                </div>
-                <div class="row">
-            		<div class="col-md-12 text-center">
-            			<div class="form-group">
-            			    <button type="button" id="activate-step-1" class="btn btn-warning">Anterior</button>
-            				<button type="button" id="activate-step-3" class="btn btn-success">Próximo</button>
-            			</div>
-            		</div>
-                </div>
-	        </div>
-	    </form>
-	    </div>
-	    
-	    <div class="row setup-content" id="step-3">
-	    <form id="form-step-3">
-	    <input id="race" type="hidden" value="#{param.race}" />
-	        <div class="col-md-12">
-	        	<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-           				<div class="form-group">
-							<label for="teamName">Nome da Equipe</label>
-							<input type="text" id="teamName" class="form-control"/>
-							<span id="teamName-message" hidden="true" class="label label-danger"/>	            				
-           				</div>
-            		</div>
-                </div>
-				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-           				<div class="form-group">
-							<label for="category">Categoria</label>
-							<select id="category" class="form-control">
-								<option value="" selected="selected"></option>
-							</select>
-							<span id="category-message" hidden="true" class="label label-danger"/>	            				
-           				</div>
-            		</div>
-                </div>
-                <div class="row">
-                	<div class="col-md-6 col-md-offset-3">
-                		<div class="form-group">
-                			<label for="user">Atleta</label>
-	            			<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta"/>
-							<span id="user-message" hidden="true" class="label label-danger"/>
-						</div>
-                	</div>
-                </div>
-                <div class="row">
-                	<div class="col-md-6 col-md-offset-3">
-                		Membros da Equipe
-                		<ol id="members" class="list-group">
-                			<li id="loggedUser" class="list-group-item"></li>
-                		</ol>
-                	</div>
-                </div>
-                <div class="row">
-            		<div class="col-md-12 text-center">
-            			<div class="form-group">
-            			    <button type="button" id="activate-step-2" class="btn btn-warning">Anterior</button>
-            				<button type="button" id="activate-step-4" class="btn btn-success">Próximo</button>
-            			</div>
-            		</div>
-                </div>
-	        </div>
-	    </form>
-	    </div>
-	    <div class="row setup-content" id="step-4">
-	        <div class="col-xs-12">
-	            <div class="col-md-12 well">
-	                <h1 class="text-center"> STEP 4</h1>
-	            </div>
-	        </div>
-	    </div>
-	</div>
 	</ui:define>
 </ui:composition>

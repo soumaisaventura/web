@@ -1,4 +1,7 @@
 $(function() {
+	
+	App.loadDateCombos($("#birthday-day"), $("#birthday-month"), $("#birthday-year"))
+	
 	$("#name").focus();
 
 	$("form").submit(function(event) {
