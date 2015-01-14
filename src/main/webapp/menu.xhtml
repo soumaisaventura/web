@@ -1,7 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"   xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
 	<nav class="navbar navbar-default">
 		<div class="container">
 			<div class="navbar-header">
@@ -13,13 +11,14 @@
 			<div>
 				<ul class="nav navbar-nav navbar-right navbar-text">
 					<li><p class="loggedin-menu navbar-text" id="currentUser"></p></li>
-					<li><form>
-						<a href="#{request.contextPath}/home" id="bt-home" type="button" class="btn btn-default navbar-btn">
-							<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-						</a>
-						<a id="bt-logout" type="button" class="loggedin-menu btn btn-danger navbar-btn">Sair</a>
-						<a href="#{request.contextPath}/login" id="bt-login" type="button" class="loggedout-menu btn btn-default navbar-btn">Login</a>
-						<a href="#{request.contextPath}/signup" id="bt-signup" type="button" class="loggedout-menu btn btn-success navbar-btn">Registre-se</a>
+					<li>
+						<form>
+							<a href="#{request.contextPath}/home" id="bt-home" type="button" class="btn btn-default navbar-btn">
+								<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+							</a>
+							<a id="bt-logout" type="button" class="loggedin-menu btn btn-danger navbar-btn">Sair</a>
+							<a href="#{request.contextPath}/login" id="bt-login" type="button" class="loggedout-menu btn btn-default navbar-btn">Login</a>
+							<a href="#{request.contextPath}/signup" id="bt-signup" type="button" class="loggedout-menu btn btn-success navbar-btn">Registre-se</a>
 						</form>
 					</li>
 				</ul>
