@@ -2,23 +2,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
-	<nav class="navbar">
+	<nav class="navbar navbar-default">
 		<div class="container">
 			<div class="navbar-header">
-				<h4 class="navbar-text">Adventure</h4>
+				<a class="navbar-brand navbar-text">
+					<span class="acronym">FBCA</span>
+					Federação Bahiana de Corrida de Aventura
+				</a>
 			</div>
 			<div>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="pull-left">
-						<a href="#{request.contextPath}/home">
-							<span class="glyphicon glyphicon-home" aria-hidden="true"></span> Início
+				<ul class="nav navbar-nav navbar-right navbar-text">
+					<li><p class="loggedin-menu navbar-text" id="currentUser"></p></li>
+					<li><form>
+						<a href="#{request.contextPath}/home" id="bt-home" type="button" class="btn btn-default navbar-btn">
+							<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 						</a>
+						<a id="bt-logout" type="button" class="loggedin-menu btn btn-danger navbar-btn">Sair</a>
+						<a href="#{request.contextPath}/login" id="bt-login" type="button" class="loggedout-menu btn btn-default navbar-btn">Login</a>
+						<a href="#{request.contextPath}/signup" id="bt-signup" type="button" class="loggedout-menu btn btn-success navbar-btn">Registre-se</a>
+						</form>
 					</li>
-					<li class="loggedin-menu"><a href="#" id="currentUser"></a></li>
-					<li class="loggedin-menu"><a href="#" id="logout">Sair</a></li>
-					<li class="loggedout-menu"><a href="#{request.contextPath}/login">Login</a></li>
-					<li class="loggedout-menu"><a href="#{request.contextPath}/signup">Registre-se</a></li>
 				</ul>
 			</div>
 		</div>

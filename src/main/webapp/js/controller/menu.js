@@ -1,9 +1,9 @@
 $(function() {
 	$(".loggedin-menu").hide();
-	
+
 	UserProxy.getLoggedInUser().done(getLoggedInUserOk);
 
-	$("#logout").click(function() {
+	$("#bt-logout").click(function() {
 		LogoutProxy.logout().done(logoutOk);
 	});
 });
