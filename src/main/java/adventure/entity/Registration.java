@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ public class Registration implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_REGISTRATION")
+	@SequenceGenerator(name = "SEQ_REGISTRATION", sequenceName = "SEQ_REGISTRATION", allocationSize = 1)
 	private Long id;
 
 	@ManyToOne(optional = false)
@@ -59,9 +61,9 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, Long creatorId, String creatorName,
-			Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName, Long courseId,
-			Integer courseLength) {
+	public Registration(Long registrationId, Date registrationDate, String teamName, Long creatorId,
+			String creatorName, Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName,
+			Long courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);

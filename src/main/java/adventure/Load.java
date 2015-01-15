@@ -9,7 +9,6 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Gender;
@@ -20,6 +19,7 @@ import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
+import adventure.entity.User;
 import adventure.security.Passwords;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;

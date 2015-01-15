@@ -64,7 +64,7 @@ public class RaceCategory implements Serializable {
 		setCourse(new Course());
 		getCourse().setId(courseId);
 		getCourse().setLength(courseLength);
-		
+
 		setRace(new Race());
 		getRace().setId(raceId);
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +22,8 @@ public class Category implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_CATEGORY")
+	@SequenceGenerator(name = "SEQ_CATEGORY", sequenceName = "SEQ_CATEGORY", allocationSize = 1)
 	private Long id;
 
 	@NotNull
@@ -42,9 +44,6 @@ public class Category implements Serializable {
 
 	@Column(name = "MIN_FEMALE_MEMBERS")
 	private Integer minFemaleMembers;
-
-	// @Transient
-	// private Course course;
 
 	@Override
 	public int hashCode() {

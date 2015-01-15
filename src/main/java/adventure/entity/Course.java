@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -26,7 +27,8 @@ public class Course implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_COURSE")
+	@SequenceGenerator(name = "SEQ_COURSE", sequenceName = "SEQ_COURSE", allocationSize = 1)
 	private Long id;
 
 	@ManyToOne(optional = false)

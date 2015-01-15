@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -26,7 +27,8 @@ public class Race implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_RACE")
+	@SequenceGenerator(name = "SEQ_RACE", sequenceName = "SEQ_RACE", allocationSize = 1)
 	private Long id;
 
 	@NotEmpty

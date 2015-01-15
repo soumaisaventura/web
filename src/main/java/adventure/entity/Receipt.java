@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
@@ -19,7 +20,8 @@ public class Receipt {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_RECEIPT")
+	@SequenceGenerator(name = "SEQ_RECEIPT", sequenceName = "SEQ_RECEIPT", allocationSize = 1)
 	private Long id;
 
 	@JoinColumn(name = "REGISTRATION_ID")

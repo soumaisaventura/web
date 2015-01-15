@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -30,7 +31,8 @@ public class Period implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE)
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_PERIOD")
+	@SequenceGenerator(name = "SEQ_PERIOD", sequenceName = "SEQ_PERIOD", allocationSize = 1)
 	private Long id;
 
 	@ManyToOne(optional = false)
