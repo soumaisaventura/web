@@ -1,12 +1,10 @@
 $(function() {
 
-	var spinner = Spin.start();
-	
-	$(window).load(function(){
-       Spin.stop(spinner);
-       $("#username").focus();
-	});
+	$("#username").focus();
 
+	$(window).load(function(){
+		$("#facebook-login, #google-login").removeAttr("disabled");
+	});
 	
 
 	$("form").submit(function(event) {
@@ -22,6 +20,7 @@ $(function() {
 	});
 
 	$("#facebook-login").click(function() {
+		
 		$("[id$='-message']").hide();
 
 		FB.init({
@@ -39,6 +38,7 @@ $(function() {
 	$("#google-login")
 			.click(
 					function() {
+						
 						$("[id$='-message']").hide();
 
 						gapi.auth
@@ -65,7 +65,7 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			$("#global-message").html("Usuário ou senha inválidos.").show();
+			$("#global-message").html(request.responseText).show();
 			break;
 	}
 }
@@ -96,7 +96,6 @@ function facebookLoginFailed(request) {
 }
 
 // Google login process
-
 function googleLogin(authResult) {
 	if (authResult['access_token']) {
 		$("form input").attr("disabled", true);

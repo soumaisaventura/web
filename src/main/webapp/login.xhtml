@@ -5,6 +5,7 @@
 	template="/template/main.xhtml">
 
 <ui:define name="lib">
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="https://connect.facebook.net/pt_BR/all.js"></script>
 	<script type="text/javascript" src="https://apis.google.com/js/client:plus.js"></script>
 </ui:define>
@@ -27,10 +28,10 @@
 				</div>
 				<div class="row" style="padding-bottom: 10px">
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+						<a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block" disabled="disabled">Facebook</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<a id="google-login" href="#" class="btn btn-lg btn-danger btn-block">Google</a>
+						<a id="google-login" href="#" class="btn btn-lg btn-danger btn-block" disabled="disabled">Google</a>
 					</div>
 				</div>
 					
@@ -56,7 +57,7 @@
 						</div>
 					</div>
 					<div class="row" style="padding-bottom: 20px">
-						<button type="submit" class="btn btn btn-primary">Entrar</button>
+						<button type="submit" class="btn btn-lg btn-success">Entrar</button>
 					</div>
 				</form>
 
