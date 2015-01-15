@@ -18,7 +18,7 @@ import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
 
-@Path("logon/facebook")
+@Path("logon/oauth/facebook")
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override

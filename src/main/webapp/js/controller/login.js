@@ -2,10 +2,9 @@ $(function() {
 
 	$("#username").focus();
 
-	$(window).load(function(){
+	$(window).load(function() {
 		$("#facebook-login, #google-login").removeAttr("disabled");
 	});
-	
 
 	$("form").submit(function(event) {
 		event.preventDefault();
@@ -19,12 +18,15 @@ $(function() {
 		LogonProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
+	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+});
+
+function getOAuthAppIdsOk(data) {
 	$("#facebook-login").click(function() {
-		
 		$("[id$='-message']").hide();
 
 		FB.init({
-			appId : '1422799641299675',
+			appId : data.facebook,
 			status : true,
 			cookie : true,
 			xfbml : true
@@ -38,18 +40,17 @@ $(function() {
 	$("#google-login")
 			.click(
 					function() {
-						
 						$("[id$='-message']").hide();
 
 						gapi.auth
 								.signIn({
-									'clientid' : '611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com',
+									'clientid' : data.google,
 									'cookiepolicy' : 'single_host_origin',
 									'callback' : 'googleLogin',
 									'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login'
 								});
 					});
-});
+}
 
 // Regular login process
 

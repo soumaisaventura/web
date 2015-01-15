@@ -152,7 +152,7 @@ public class Load {
 		}
 
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);

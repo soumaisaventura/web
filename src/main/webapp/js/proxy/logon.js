@@ -12,17 +12,17 @@ var LogonProxy = {
 		});
 	},
 
-	getAppId : function() {
+	getOAuthAppIds : function() {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/appid"
+			url : this.url + "/oauth"
 		});
 	},
-	
+
 	facebookLogin : function($data) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/facebook",
+			url : this.url + "/oauth/facebook",
 			data : JSON.stringify($data),
 			contentType : "application/json",
 			processData : false,
@@ -32,7 +32,7 @@ var LogonProxy = {
 	googleLogin : function($data) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/google",
+			url : this.url + "/oauth/google",
 			data : JSON.stringify($data),
 			contentType : "application/json",
 			processData : false,

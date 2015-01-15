@@ -17,7 +17,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 
-@Path("logon/google")
+@Path("logon/oauth/google")
 public class GoogleLogonREST extends OAuthLogon {
 
 	private static HttpTransport TRANSPORT = new NetHttpTransport();

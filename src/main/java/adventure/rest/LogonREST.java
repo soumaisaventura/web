@@ -36,7 +36,7 @@ public class LogonREST {
 	}
 
 	@GET
-	@Path("appid")
+	@Path("oauth")
 	@Produces("application/json")
 	public AppIdData getAppIds() {
 		ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
