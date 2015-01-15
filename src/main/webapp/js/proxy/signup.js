@@ -20,7 +20,7 @@ var SignUpProxy = {
 		});
 	},
 
-	unregister : function() {
+	unregistration : function() {
 		return $.ajax({
 			type : "DELETE",
 			url : this.url

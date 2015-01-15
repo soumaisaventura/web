@@ -8,11 +8,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import adventure.entity.User;
 import adventure.entity.BloodType;
 import adventure.entity.Health;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.HealthDAO;
-import adventure.security.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -22,13 +22,13 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class HealthREST {
 
 	@Inject
-	private AccountDAO accountDAO;
+	private UserDAO userDAO;
 
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public HealthData load() throws Exception {
-		Health health = accountDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
+		Health health = userDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
 
 		HealthData data = new HealthData();
 		data.bloodType = health.getBloodType();
@@ -43,7 +43,7 @@ public class HealthREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(HealthData data) throws Exception {
-		Health health = accountDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
+		Health health = userDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
 		health.setBloodType(data.bloodType);
 		health.setAllergy(data.allergy);
 		health.setPendent(false);

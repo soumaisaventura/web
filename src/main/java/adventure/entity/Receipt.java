@@ -22,9 +22,9 @@ public class Receipt {
 	@GeneratedValue(strategy = SEQUENCE)
 	private Long id;
 
-	@JoinColumn(name = "REGISTER_ID")
-	@ForeignKey(name = "FK_RECEIPT_REGISTER")
-	@Index(name = "IDX_RECEIPT_REGISTER")
+	@JoinColumn(name = "REGISTRATION_ID")
+	@ForeignKey(name = "FK_RECEIPT_REGISTRATION")
+	@Index(name = "IDX_RECEIPT_REGISTRATION")
 	@ManyToOne(optional = false)
-	private Register register;
+	private Registration registration;
 }

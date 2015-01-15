@@ -57,8 +57,8 @@
 //public final class Tests {
 //
 //	{
-//		ResteasyProviderFactory.setRegisterBuiltinByDefault(false);
-//		ResteasyProviderFactory.getInstance().registerProvider(JacksonJsonProvider.class);
+//		ResteasyProviderFactory.setRegistrationBuiltinByDefault(false);
+//		ResteasyProviderFactory.getInstance().registrationProvider(JacksonJsonProvider.class);
 //	}
 //
 //	private Tests() {

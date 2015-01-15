@@ -12,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -38,10 +39,11 @@ public class LogonREST {
 	@Path("appid")
 	@Produces("application/json")
 	public AppIdData getAppIds() {
-		AppIdData data = new AppIdData();
+		ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
 
-		data.facebook = "1422799641299675";
-		data.google = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
+		AppIdData data = new AppIdData();
+		data.facebook = config.getOAuthFacebookId();
+		data.google = config.getOAuthGoogleId();
 
 		return data;
 	}

@@ -31,8 +31,8 @@ public class Profile implements Serializable {
 	@Id
 	@OneToOne
 	@JoinColumn(name = "ID")
-	@ForeignKey(name = "FK_PROFILE_ACCOUNT")
-	private Account account;
+	@ForeignKey(name = "FK_PROFILE_USER")
+	private User user;
 
 	@NotEmpty
 	@Column(name = "NAME")
@@ -64,15 +64,15 @@ public class Profile implements Serializable {
 	public Profile() {
 	}
 
-	public Profile(Account account) {
-		this.account = account;
+	public Profile(User user) {
+		this.user = user;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -88,22 +88,22 @@ public class Profile implements Serializable {
 			return false;
 		}
 		Profile other = (Profile) obj;
-		if (account == null) {
-			if (other.account != null) {
+		if (user == null) {
+			if (other.user != null) {
 				return false;
 			}
-		} else if (!account.equals(other.account)) {
+		} else if (!user.equals(other.user)) {
 			return false;
 		}
 		return true;
 	}
 
-	public Account getAccount() {
-		return account;
+	public User getUser() {
+		return user;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getName() {

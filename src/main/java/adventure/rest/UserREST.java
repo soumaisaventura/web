@@ -4,7 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import adventure.security.User;
+import adventure.entity.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 
 @Path("user")

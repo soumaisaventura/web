@@ -23,17 +23,17 @@ public class TeamFormation implements Serializable {
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "REGISTER_ID")
-	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTER")
-	@Index(name = "IDX_TEAM_FORMATION_REGISTER")
-	private Register register;
+	@JoinColumn(name = "REGISTRATION_ID")
+	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTRATION")
+	@Index(name = "IDX_TEAM_FORMATION_REGISTRATION")
+	private Registration registration;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "ACCOUNT_ID")
-	@ForeignKey(name = "FK_TEAM_FORMATION_ACCOUNT")
-	@Index(name = "IDX_TEAM_FORMATION_ACCOUNT")
-	private Account account;
+	@JoinColumn(name = "USER_ID")
+	@ForeignKey(name = "FK_TEAM_FORMATION_USER")
+	@Index(name = "IDX_TEAM_FORMATION_USER")
+	private User user;
 
 	@NotNull
 	@Column(name = "CONFIRMED")
@@ -43,9 +43,9 @@ public class TeamFormation implements Serializable {
 	public TeamFormation() {
 	}
 
-	public TeamFormation(Register register, Account account) {
-		this.register = register;
-		this.account = account;
+	public TeamFormation(Registration registration, User user) {
+		this.registration = registration;
+		this.user = user;
 		this.confirmed = false;
 	}
 
@@ -53,8 +53,8 @@ public class TeamFormation implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
-		result = prime * result + ((register == null) ? 0 : register.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((registration == null) ? 0 : registration.hashCode());
 		return result;
 	}
 
@@ -70,37 +70,37 @@ public class TeamFormation implements Serializable {
 			return false;
 		}
 		TeamFormation other = (TeamFormation) obj;
-		if (account == null) {
-			if (other.account != null) {
+		if (user == null) {
+			if (other.user != null) {
 				return false;
 			}
-		} else if (!account.equals(other.account)) {
+		} else if (!user.equals(other.user)) {
 			return false;
 		}
-		if (register == null) {
-			if (other.register != null) {
+		if (registration == null) {
+			if (other.registration != null) {
 				return false;
 			}
-		} else if (!register.equals(other.register)) {
+		} else if (!registration.equals(other.registration)) {
 			return false;
 		}
 		return true;
 	}
 
-	public Register getRegister() {
-		return register;
+	public Registration getRegistration() {
+		return registration;
 	}
 
-	public void setRegister(Register register) {
-		this.register = register;
+	public void setRegistration(Registration registration) {
+		this.registration = registration;
 	}
 
-	public Account getAccount() {
-		return account;
+	public User getUser() {
+		return user;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public boolean isConfirmed() {

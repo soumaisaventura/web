@@ -9,7 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 
@@ -19,7 +19,7 @@ public interface AuthClient {
 
 	@GET
 	@LoggedIn
-	public Account getAuthenticatedUser();
+	public User getAuthenticatedUser();
 
 	@POST
 	public Response login(Credentials credentials);

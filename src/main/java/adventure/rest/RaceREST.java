@@ -12,17 +12,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
-import adventure.persistence.UserDAO;
-import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -53,9 +51,9 @@ public class RaceREST {
 			data.id = race.getId();
 			data.name = race.getName();
 			data.date = race.getDate();
-			data.register = new RegisterData();
-			data.register.open = race.getOpen();
-			data.register.periods = null;
+			data.registration = new RegistrationData();
+			data.registration.open = race.getOpen();
+			data.registration.periods = null;
 			data.courses = null;
 			result.add(data);
 		}
@@ -85,8 +83,8 @@ public class RaceREST {
 		data.id = race.getId();
 		data.name = race.getName();
 		data.date = race.getDate();
-		data.register = new RegisterData();
-		data.register.open = race.getOpen();
+		data.registration = new RegistrationData();
+		data.registration.open = race.getOpen();
 
 		for (Period period : Beans.getReference(PeriodDAO.class).find(race)) {
 			PeriodData periodData = new PeriodData();
@@ -94,7 +92,7 @@ public class RaceREST {
 			periodData.beginning = period.getBeginning();
 			periodData.end = period.getEnd();
 			periodData.price = period.getPrice();
-			data.register.periods.add(periodData);
+			data.registration.periods.add(periodData);
 		}
 
 		data.courses.addAll(loadCourse(race));
@@ -164,15 +162,15 @@ public class RaceREST {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
 		} else {
-			for (Long accountId : users) {
-				Account account = Beans.getReference(AccountDAO.class).loadForBill(accountId);
+			for (Long userId : users) {
+				User user = Beans.getReference(UserDAO.class).loadForBill(userId);
 
-				if (account == null) {
+				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
 					OrderRowData row = new OrderRowData();
-					row.id = account.getId();
-					row.name = account.getProfile().getName();
+					row.id = user.getId();
+					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice();
 					row.annualFee = BigDecimal.valueOf(10);
 					row.amount = row.racePrice.add(row.annualFee);
@@ -218,10 +216,10 @@ public class RaceREST {
 
 		public List<CourseData> courses = new ArrayList<CourseData>();
 
-		public RegisterData register;
+		public RegistrationData registration;
 	}
 
-	public static class RegisterData {
+	public static class RegistrationData {
 
 		public boolean open;
 

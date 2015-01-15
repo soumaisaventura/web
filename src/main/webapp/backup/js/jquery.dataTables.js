@@ -238,7 +238,7 @@
 		
 		
 		/**
-		 * Covert the index of a visible column to the index in the data array (take account
+		 * Covert the index of a visible column to the index in the data array (take user
 		 * of hidden columns)
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {int} iMatch Visible column index to lookup
@@ -257,7 +257,7 @@
 		
 		/**
 		 * Covert the index of an index in the data array and convert it to the visible
-		 *   column index (take account of hidden columns)
+		 *   column index (take user of hidden columns)
 		 *  @param {int} iMatch Column index to lookup
 		 *  @param {object} oSettings dataTables settings object
 		 *  @returns {int} i the data index
@@ -573,7 +573,7 @@
 			}
 			
 			/* Gather in the TD elements of the Table - note that this is basically the same as
-			 * fnGetTdNodes, but that function takes account of hidden columns, which we haven't yet
+			 * fnGetTdNodes, but that function takes user of hidden columns, which we haven't yet
 			 * setup!
 			 */
 			nTrs = _fnGetTrNodes( oSettings );
@@ -759,7 +759,7 @@
 		
 		
 		/**
-		 * Get the data for a given cell from the internal cache, taking into account data mapping
+		 * Get the data for a given cell from the internal cache, taking into user data mapping
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {int} iRow aoData row id
 		 *  @param {int} iCol Column index
@@ -826,7 +826,7 @@
 		
 		/**
 		 * Return a function that can be used to get data from a source object, taking
-		 * into account the ability to use nested objects as a source
+		 * into user the ability to use nested objects as a source
 		 *  @param {string|int|function} mSource The data source for the object
 		 *  @returns {function} Data get function
 		 *  @memberof DataTable#oApi
@@ -920,7 +920,7 @@
 		
 		/**
 		 * Return a function that can be used to set data from a source object, taking
-		 * into account the ability to use nested objects as a source
+		 * into user the ability to use nested objects as a source
 		 *  @param {string|int|function} mSource The data source for the object
 		 *  @returns {function} Data set function
 		 *  @memberof DataTable#oApi
@@ -1582,7 +1582,7 @@
 		
 		
 		/**
-		 * Redraw the table - taking account of the various features which are enabled
+		 * Redraw the table - taking user of the various features which are enabled
 		 *  @param {object} oSettings dataTables settings object
 		 *  @memberof DataTable#oApi
 		 */
@@ -1994,8 +1994,8 @@
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {object} json json data return from the server.
 		 *  @param {string} json.sEcho Tracking flag for DataTables to match requests
-		 *  @param {int} json.iTotalRecords Number of records in the data set, not accounting for filtering
-		 *  @param {int} json.iTotalDisplayRecords Number of records in the data set, accounting for filtering
+		 *  @param {int} json.iTotalRecords Number of records in the data set, not usering for filtering
+		 *  @param {int} json.iTotalDisplayRecords Number of records in the data set, usering for filtering
 		 *  @param {array} json.aaData The data to display on this page
 		 *  @param {string} [json.sColumns] Column ordering (sName, comma separated)
 		 *  @memberof DataTable#oApi
@@ -2276,7 +2276,7 @@
 				iForce = 0;
 			}
 			
-			/* Need to take account of custom filtering functions - always filter */
+			/* Need to take user of custom filtering functions - always filter */
 			if ( DataTable.ext.afnFiltering.length !== 0 )
 			{
 				iForce = 1;
@@ -3279,7 +3279,7 @@
 				
 				/* I know this is rubbish - but IE7 will make the width of the table when 100% include
 				 * the scrollbar - which is shouldn't. When there is a scrollbar we need to take this
-				 * into account.
+				 * into user.
 				 */
 				if ( ie67 && ($('tbody', nScrollBody).height() > nScrollBody.offsetHeight || 
 					$(nScrollBody).css('overflow-y') == "scroll")  )
@@ -3297,11 +3297,11 @@
 				else if ( iSanityWidth == $(nScrollBody).width() &&
 				   $(nScrollBody).height() < $(o.nTable).height() )
 				{
-					/* There is y-scrolling - try to take account of the y scroll bar */
+					/* There is y-scrolling - try to take user of the y scroll bar */
 					o.nTable.style.width = _fnStringToCss( iSanityWidth-o.oScroll.iBarWidth );
 					if ( $(o.nTable).outerWidth() > iSanityWidth-o.oScroll.iBarWidth )
 					{
-						/* Not possible to take account of it */
+						/* Not possible to take user of it */
 						o.nTable.style.width = _fnStringToCss( iSanityWidth );
 					}
 				}
@@ -3777,7 +3777,7 @@
 		
 		
 		/**
-		 * Adjust a table's width to take account of scrolling
+		 * Adjust a table's width to take user of scrolling
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {node} n table node
 		 *  @memberof DataTable#oApi
@@ -4051,7 +4051,7 @@
 				} );
 			}
 			
-			/* Alter the sorting classes to take account of the changes */
+			/* Alter the sorting classes to take user of the changes */
 			if ( (bApplyClasses === undefined || bApplyClasses) && !oSettings.oFeatures.bDeferRender )
 			{
 				_fnSortingClasses( oSettings );
@@ -4660,7 +4660,7 @@
 				oData = oSettings.aoData[iRow];
 				if ( oData.nTr !== null )
 				{
-					/* get the TD child nodes - taking into account text etc nodes */
+					/* get the TD child nodes - taking into user text etc nodes */
 					anTds = [];
 					nTd = oData.nTr.firstChild;
 					while ( nTd )
@@ -4755,7 +4755,7 @@
 		 *  @param {object} oExtender Object from which the properties will be applied to oOut
 		 *  @returns {object} oOut Reference, just for convenience - oOut === the return.
 		 *  @memberof DataTable#oApi
-		 *  @todo This doesn't take account of arrays inside the deep copied objects.
+		 *  @todo This doesn't take user of arrays inside the deep copied objects.
 		 */
 		function _fnExtend( oOut, oExtender )
 		{
@@ -4810,7 +4810,7 @@
 		
 		
 		/**
-		 * Register a callback function. Easily allows a callback function to be added to
+		 * Registration a callback function. Easily allows a callback function to be added to
 		 * an array store of callback functions that can then all be called together.
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {string} sStore Name of the array storage for the callbacks in oSettings
@@ -6546,7 +6546,7 @@
 			
 			if ( oSettings.iInitDisplayStart === undefined )
 			{
-				/* Display start point, taking into account the save saving */
+				/* Display start point, taking into user the save saving */
 				oSettings.iInitDisplayStart = oInit.iDisplayStart;
 				oSettings._iDisplayStart = oInit.iDisplayStart;
 			}
@@ -6713,7 +6713,7 @@
 			}
 				
 			/* Do a first pass on the sorting classes (allows any size changes to be taken into
-			 * account, and also will apply sorting disabled classes if disabled
+			 * user, and also will apply sorting disabled classes if disabled
 			 */
 			_fnSortingClasses( oSettings );
 			
@@ -8225,7 +8225,7 @@
 		 * Retrieve the DataTables object for the given selector. Note that if the
 		 * table has already been initialised, this parameter will cause DataTables
 		 * to simply return the object that has already been set up - it will not take
-		 * account of any changes you might have made to the initialisation object
+		 * user of any changes you might have made to the initialisation object
 		 * passed to DataTables (setting this parameter to true is an acknowledgement
 		 * that you understand this). bDestroy can be used to reinitialise a table if
 		 * you need.
@@ -8445,7 +8445,7 @@
 	
 		/**
 		 * This function is called when a TR element is created (and all TD child
-		 * elements have been inserted), or registered if using a DOM source, allowing
+		 * elements have been inserted), or registrationed if using a DOM source, allowing
 		 * manipulation of the TR element (adding classes etc).
 		 *  @type function
 		 *  @param {node} nRow "TR" element for the current row
@@ -9781,7 +9781,7 @@
 	 */
 	DataTable.defaults.columns = {
 		/**
-		 * Allows a column's sorting to take multiple columns into account when 
+		 * Allows a column's sorting to take multiple columns into user when 
 		 * doing a sort. For example first name / last name columns make sense to 
 		 * do a multi-column sort over the two columns.
 		 *  @type array
@@ -10161,8 +10161,8 @@
 		 *       data source and also array brackets to indicate that the data reader should
 		 *       loop over the data source array. When characters are given between the array
 		 *       brackets, these characters are used to join the data source array together.
-		 *       For example: "accounts[, ].name" would result in a comma separated list with
-		 *       the 'name' value from the 'accounts' array of objects.</li>
+		 *       For example: "users[, ].name" would result in a comma separated list with
+		 *       the 'name' value from the 'users' array of objects.</li>
 		 *     <li>function - the function given will be executed whenever DataTables 
 		 *       needs to set or get the data for a cell in the column. The function 
 		 *       takes three parameters:

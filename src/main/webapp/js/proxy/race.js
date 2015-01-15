@@ -30,10 +30,10 @@ var RaceProxy = {
 		});
 	},
 
-	validateRegister : function($data, $race) {
+	validateRegistration : function($data, $race) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/" + $race + "/register/validate",
+			url : this.url + "/" + $race + "/registration/validate",
 			data : JSON.stringify($data),
 			contentType : "application/json",
 			beforeSend : function(request) {
@@ -42,10 +42,10 @@ var RaceProxy = {
 		});
 	},
 
-	submitRegister : function($data, $race) {
+	submitRegistration : function($data, $race) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/" + $race + "/register",
+			url : this.url + "/" + $race + "/registration",
 			data : JSON.stringify($data),
 			contentType : "application/json",
 			beforeSend : function(request) {

@@ -2,8 +2,8 @@ package adventure.security;
 
 import java.security.Principal;
 
-import adventure.entity.Account;
-import adventure.persistence.AccountDAO;
+import adventure.entity.User;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.security.TokenAuthenticator;
@@ -17,10 +17,10 @@ public class Authenticator extends TokenAuthenticator {
 	protected Principal customAuthentication() throws Exception {
 		Principal result = null;
 		Credentials credentials = Beans.getReference(Credentials.class);
-		Account account = Beans.getReference(AccountDAO.class).loadForAuthentication(credentials.getUsername());
+		User user = Beans.getReference(UserDAO.class).loadForAuthentication(credentials.getUsername());
 
-		if (account != null && (isOAuthLogin() || isAccountLogin(account, credentials))) {
-			result = User.parse(account);
+		if (user != null && (isOAuthLogin() || isUserLogin(user, credentials))) {
+			result = User.parse(user);
 		} else {
 			throw new InvalidCredentialsException();
 		}
@@ -32,34 +32,34 @@ public class Authenticator extends TokenAuthenticator {
 		return Beans.getReference(OAuthSession.class).isActive();
 	}
 
-	private boolean isAccountLogin(Account account, Credentials credentials) {
-		return doesConfirmationTokenMatch(account) || doesPasswordMatch(account, credentials);
+	private boolean isUserLogin(User user, Credentials credentials) {
+		return doesConfirmationTokenMatch(user) || doesPasswordMatch(user, credentials);
 	}
 
-	private boolean doesConfirmationTokenMatch(Account account) {
+	private boolean doesConfirmationTokenMatch(User user) {
 		boolean result = false;
 
-		if (account.getConfirmationToken() != null) {
+		if (user.getConfirmationToken() != null) {
 			ActivationSession session = Beans.getReference(ActivationSession.class);
-			String hash = Passwords.hash(session.getToken(), account.getEmail());
-			result = account.getConfirmationToken().equals(hash);
+			String hash = Passwords.hash(session.getToken(), user.getEmail());
+			result = user.getConfirmationToken().equals(hash);
 		}
 
 		return result;
 	}
 
-	private boolean doesPasswordMatch(Account account, Credentials credentials) {
+	private boolean doesPasswordMatch(User user, Credentials credentials) {
 		boolean result = false;
 
-		if (account.getPassword() == null) {
+		if (user.getPassword() == null) {
 			throw new PasswordNotDefinedException();
 
-		} else if (account.getConfirmation() == null) {
-			throw new UnconfirmedAccountException();
+		} else if (user.getConfirmation() == null) {
+			throw new UnconfirmedUserException();
 
 		} else {
 			String hash = Passwords.hash(credentials.getPassword(), credentials.getUsername());
-			result = account.getPassword().equals(hash);
+			result = user.getPassword().equals(hash);
 		}
 
 		return result;

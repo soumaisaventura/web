@@ -23,8 +23,8 @@ import org.hibernate.annotations.Index;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Entity
-@Table(name = "REGISTER")
-public class Register implements Serializable {
+@Table(name = "REGISTRATION")
+public class Registration implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class Register implements Serializable {
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@ForeignKey(name = "FK_REGISTER_RACE_CATEGORY")
+	@ForeignKey(name = "FK_REGISTRATION_RACE_CATEGORY")
 	@JoinColumns({ @JoinColumn(name = "RACE_ID", referencedColumnName = "RACE_ID"),
 			@JoinColumn(name = "COURSE_ID", referencedColumnName = "COURSE_ID"),
 			@JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID") })
@@ -47,26 +47,26 @@ public class Register implements Serializable {
 	@NotNull
 	@Temporal(DATE)
 	@Column(name = "DATE")
-	@Index(name = "IDX_REGISTER_DATE")
+	@Index(name = "IDX_REGISTRATION_DATE")
 	private Date date;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "ACCOUNT_ID")
-	@ForeignKey(name = "FK_REGISTER_ACCOUNT")
-	@Index(name = "IDX_REGISTER_ACCOUNT")
-	private Account creator;
+	@JoinColumn(name = "CREATOR_ID")
+	@ForeignKey(name = "FK_REGISTRATION_USER")
+	@Index(name = "IDX_REGISTRATION_USER")
+	private User creator;
 
-	public Register() {
+	public Registration() {
 	}
 
-	public Register(Long registerId, Date registerDate, String teamName, Long creatorId, String creatorName,
+	public Registration(Long registrationId, Date registrationDate, String teamName, Long creatorId, String creatorName,
 			Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName, Long courseId,
 			Integer courseLength) {
-		setId(registerId);
-		setDate(registerDate);
+		setId(registrationId);
+		setDate(registrationDate);
 		setTeamName(teamName);
 
-		Account creator = new Account();
+		User creator = new User();
 		setCreator(creator);
 		getCreator().setId(creatorId);
 		getCreator().setProfile(new Profile(creator));
@@ -107,10 +107,10 @@ public class Register implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Register)) {
+		if (!(obj instanceof Registration)) {
 			return false;
 		}
-		Register other = (Register) obj;
+		Registration other = (Registration) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -153,11 +153,11 @@ public class Register implements Serializable {
 		this.date = date;
 	}
 
-	public Account getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(Account creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 }
