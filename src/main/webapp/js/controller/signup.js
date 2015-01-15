@@ -25,18 +25,12 @@ $(function() {
 			'birthday' : birthday,
 			'gender' : $("#gender").val()
 		};
-		console.log('--- 1 ---');
-		console.log(data);
 		SignUpProxy.signup(data).done(signupOk);
 	});
 });
 
 // SignUp process
 function signupOk(data, status, request) {
-	console.log('--- 2 ---');
-	console.log(data);
-	console.log(status);
-	console.log(request);
 	$("#global-message").addClass('alert-success')
 						.text("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.")
 						.show();

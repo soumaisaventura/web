@@ -54,10 +54,10 @@ var App = {
 			});
 
 			if (message) {
-				$("#" + id + "-message").html(message).show();
+				$("#" + id + "-message").addClass("alert-danger").html(message).show();
 				$(this).focus();
 			} else {
-				$("#" + id + "-message").hide();
+				$("#" + id + "-message").removeClass("alert-danger").hide();
 			}
 		});
 	},

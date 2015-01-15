@@ -17,7 +17,6 @@ $(function() {
 // Activation process
 
 function activateOk(data, status, request) {
-	alert("Conta ativada com sucesso.");
 	App.setToken(request.getResponseHeader('Set-Token'));
 	App.restoreLocation();
 }
