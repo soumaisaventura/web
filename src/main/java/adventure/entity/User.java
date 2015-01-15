@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,9 +22,12 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.util.Beans;
+
 @Entity
-@Table(name = "ACCOUNT", uniqueConstraints = { @UniqueConstraint(name = "UK_ACCOUNT_EMAIL", columnNames = { "EMAIL" }) })
-public class Account implements Serializable {
+@Table(name = "USER_ACCOUNT", uniqueConstraints = { @UniqueConstraint(name = "UK_USER_EMAIL", columnNames = { "EMAIL" }) })
+public class User implements Principal, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +38,7 @@ public class Account implements Serializable {
 
 	@Email
 	@NotEmpty
-	@Index(name = "IDX_ACCOUNT_EMAIL")
+	@Index(name = "IDX_USER_EMAIL")
 	@Column(name = "EMAIL")
 	private String email;
 
@@ -67,7 +71,7 @@ public class Account implements Serializable {
 	@JsonIgnore
 	@Temporal(DATE)
 	@Column(name = "DELETED")
-	@Index(name = "IDX_ACCOUNT_DELETED")
+	@Index(name = "IDX_USER_DELETED")
 	private Date deleted;
 
 	@Transient
@@ -75,14 +79,50 @@ public class Account implements Serializable {
 
 	@Transient
 	private Health health;
-	
-	public Account() {
+
+	public static User getLoggedIn() {
+		return (User) Beans.getReference(SecurityContext.class).getUser();
 	}
-	
-	public Account(Long id, Gender gender) {
+
+	public static User parse(User user) {
+		Long id = user.getId();
+		String email = user.getEmail();
+		String name = user.getProfile().getName();
+		Gender gender = user.getProfile().getGender();
+
+		return new User(id, email, name, gender);
+	}
+
+	public User() {
+	}
+
+	public User(Long id, Gender gender) {
 		this.id = id;
 		this.profile = new Profile();
 		this.profile.setGender(gender);
+	}
+
+	public User(Long id, String email, String name, Gender gender) {
+		this.id = id;
+		this.email = email;
+
+		if (getProfile() == null) {
+			setProfile(new Profile());
+		}
+
+		getProfile().setName(name);
+		getProfile().setGender(gender);
+	}
+
+	@Override
+	@Transient
+	public String getName() {
+		return getProfile() != null ? getProfile().getName() : null;
+	}
+
+	@Transient
+	public Gender getGender() {
+		return getProfile() != null ? getProfile().getGender() : null;
 	}
 
 	@Override
@@ -101,10 +141,10 @@ public class Account implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Account)) {
+		if (!(obj instanceof User)) {
 			return false;
 		}
-		Account other = (Account) obj;
+		User other = (User) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;

@@ -9,7 +9,7 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Gender;
@@ -31,15 +31,15 @@ public class Load {
 	@Inject
 	private EntityManager em;
 
-	private TeamFormation newTeamFormation(Register register, Account account, boolean confirmed) throws Exception {
-		TeamFormation teamFormation = new TeamFormation(register, account);
+	private TeamFormation newTeamFormation(Register register, User user, boolean confirmed) throws Exception {
+		TeamFormation teamFormation = new TeamFormation(register, user);
 		teamFormation.setConfirmed(confirmed);
 		em.persist(teamFormation);
 		return teamFormation;
 	}
 
 	@SuppressWarnings("unused")
-	private Register newRegister(String teamName, RaceCategory raceCategory, Account[] members) throws Exception {
+	private Register newRegister(String teamName, RaceCategory raceCategory, User[] members) throws Exception {
 		Register register = new Register();
 		register.setTeamName(teamName);
 		register.setRaceCategory(raceCategory);
@@ -95,23 +95,23 @@ public class Load {
 		return availableCategory;
 	}
 
-	private Account newAccount(String username, String password, String name, Gender gender, boolean verified) {
-		Account account = new Account();
-		account.setEmail(username);
-		account.setPassword(Passwords.hash(password, username));
-		account.setCreation(new Date());
-		account.setConfirmation(verified ? new Date() : null);
-		em.persist(account);
+	private User newUser(String username, String password, String name, Gender gender, boolean verified) {
+		User user = new User();
+		user.setEmail(username);
+		user.setPassword(Passwords.hash(password, username));
+		user.setCreation(new Date());
+		user.setConfirmation(verified ? new Date() : null);
+		em.persist(user);
 
-		Profile profile = new Profile(account);
+		Profile profile = new Profile(user);
 		profile.setName(name);
 		profile.setGender(gender);
 		em.persist(profile);
 
-		Health health = new Health(account);
+		Health health = new Health(user);
 		em.persist(health);
 
-		return account;
+		return user;
 	}
 
 	@Startup
@@ -126,10 +126,10 @@ public class Load {
 		em.createQuery("delete from Race").executeUpdate();
 		em.createQuery("delete from Health").executeUpdate();
 		em.createQuery("delete from Profile").executeUpdate();
-		em.createQuery("delete from Account").executeUpdate();
+		em.createQuery("delete from User").executeUpdate();
 
-		Account[] accounts = new Account[50];
-		for (int i = 0; i < accounts.length; i++) {
+		User[] users = new User[50];
+		for (int i = 0; i < users.length; i++) {
 			String email = "guest_" + i + "@guest.com";
 			String password = "guest";
 			String name;
@@ -148,12 +148,12 @@ public class Load {
 				verified = false;
 			}
 
-			accounts[i] = newAccount(email, password, name, gender, verified);
+			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		// newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		newAccount("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		// newAccount("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
@@ -190,7 +190,7 @@ public class Load {
 		newRace("CARI - Desafio dos Sertões", null, "10/10/2015");
 		newRace("CARI - Integração", null, "05/12/2015");
 
-		// newRegister("Quarteto Exemplo", npQuarteto100km, new Account[] { accounts[0], accounts[2], accounts[6],
-		// accounts[12] });
+		// newRegister("Quarteto Exemplo", npQuarteto100km, new User[] { users[0], users[2], users[6],
+		// users[12] });
 	}
 }

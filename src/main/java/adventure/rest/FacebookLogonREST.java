@@ -14,7 +14,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
 
@@ -22,7 +22,7 @@ import adventure.entity.Profile;
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override
-	protected Account createAccount(String code) throws Exception {
+	protected User createUser(String code) throws Exception {
 		HttpClient client = new DefaultHttpClient();
 
 		String newUrl = "https://graph.facebook.com/me?access_token=" + code;
@@ -54,12 +54,12 @@ public class FacebookLogonREST extends OAuthLogon {
 			profile.setBirthday(format.parse(rootNode.get("birthday").asText()));
 		}
 
-		Account account = new Account();
-		account.setEmail(rootNode.get("email").asText());
-		account.setProfile(profile);
+		User user = new User();
+		user.setEmail(rootNode.get("email").asText());
+		user.setProfile(profile);
 
 		client.getConnectionManager().shutdown();
 
-		return account;
+		return user;
 	}
 }

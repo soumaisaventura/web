@@ -13,8 +13,8 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Account;
-import adventure.persistence.AccountDAO;
+import adventure.entity.User;
+import adventure.persistence.UserDAO;
 import adventure.persistence.MailDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
@@ -43,19 +43,19 @@ public class PasswordREST {
 	@Path("reset/{token}")
 	@Consumes("application/json")
 	public void reset(@PathParam("token") String token, PerformResetData data) throws Exception {
-		AccountDAO dao = Beans.getReference(AccountDAO.class);
-		Account account = dao.loadFull(data.email);
+		UserDAO dao = Beans.getReference(UserDAO.class);
+		User user = dao.loadFull(data.email);
 
-		if (account == null || !Passwords.hash(token, account.getEmail()).equals(account.getPasswordResetToken())) {
+		if (user == null || !Passwords.hash(token, user.getEmail()).equals(user.getPasswordResetToken())) {
 			throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
 
 		} else {
-			account.setPasswordResetToken(null);
-			account.setPasswordResetRequest(null);
-			account.setPassword(Passwords.hash(data.newPassword, account.getEmail()));
-			account.setConfirmation(new Date());
-			account.setConfirmationToken(null);
-			dao.update(account);
+			user.setPasswordResetToken(null);
+			user.setPasswordResetRequest(null);
+			user.setPassword(Passwords.hash(data.newPassword, user.getEmail()));
+			user.setConfirmation(new Date());
+			user.setConfirmationToken(null);
+			dao.update(user);
 
 			login(data.email, data.newPassword);
 		}

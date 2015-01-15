@@ -2,9 +2,9 @@ package adventure.security;
 
 import br.gov.frameworkdemoiselle.security.AuthenticationException;
 
-public class UnconfirmedAccountException extends AuthenticationException {
+public class UnconfirmedUserException extends AuthenticationException {
 
-	public UnconfirmedAccountException() {
+	public UnconfirmedUserException() {
 		super("Esta conta ainda não foi ativada.");
 	}
 

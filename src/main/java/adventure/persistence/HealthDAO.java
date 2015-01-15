@@ -9,7 +9,7 @@ import adventure.entity.Health;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Transactional
-// public class HealthDAO extends JPACrud<Health, Account> {
+// public class HealthDAO extends JPACrud<Health, User> {
 public class HealthDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class HealthDAO implements Serializable {
 	}
 
 	// public Health load(String email) {
-	// String jpql = "from Health where account.email = :email";
+	// String jpql = "from Health where user.email = :email";
 	// TypedQuery<Health> query = getEntityManager().createQuery(jpql, Health.class);
 	// query.setParameter("email", email);
 	//
@@ -44,10 +44,10 @@ public class HealthDAO implements Serializable {
 	// }
 	//
 	// @Override
-	// public Health load(Account account) {
-	// String jpql = "from Health where account = :account";
+	// public Health load(User user) {
+	// String jpql = "from Health where user = :user";
 	// TypedQuery<Health> query = getEntityManager().createQuery(jpql, Health.class);
-	// query.setParameter("account", account);
+	// query.setParameter("user", user);
 	//
 	// Health result;
 	//

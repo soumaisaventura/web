@@ -14,11 +14,11 @@ import javax.ws.rs.Produces;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
+import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.ProfileDAO;
-import adventure.security.User;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -28,13 +28,13 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class ProfileREST {
 
 	@Inject
-	private AccountDAO accountDAO;
+	private UserDAO userDAO;
 
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile profile = accountDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
+		Profile profile = userDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
 
 		ProfileData data = new ProfileData();
 		data.name = profile.getName();
@@ -52,7 +52,7 @@ public class ProfileREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(ProfileData data) throws Exception {
-		Profile profile = accountDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
+		Profile profile = userDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
 		profile.setName(data.name);
 		profile.setRg(data.rg);
 		profile.setCpf(data.cpf);

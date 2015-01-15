@@ -16,7 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Period;
 import adventure.entity.Profile;
 import adventure.entity.Register;
@@ -35,77 +35,77 @@ public class MailDAO {
 	private ApplicationConfig config;
 
 	@Inject
-	private AccountDAO accountDAO;
+	private UserDAO userDAO;
 
-	public void sendAccountActivation(final String email, final URI baseUri) throws Exception {
-		Account account = getAccount(email);
+	public void sendUserActivation(final String email, final URI baseUri) throws Exception {
+		User user = getUser(email);
 		final String token;
 
-		if (account.getConfirmationToken() == null) {
+		if (user.getConfirmationToken() == null) {
 			token = Passwords.randomToken();
-			account.setConfirmationToken(Passwords.hash(token, email));
-			accountDAO.update(account);
+			user.setConfirmationToken(Passwords.hash(token, email));
+			userDAO.update(user);
 		} else {
-			token = account.getConfirmationToken();
+			token = user.getConfirmationToken();
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("email/activation.html"));
-		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("activation?token=" + token).toString());
 
 		send("Portal FBCA - Confirmação de e-mail", content, "text/html", email);
 	}
 
 	public void sendWelcome(final String email, final URI baseUri) throws Exception {
-		Account account = getAccount(email);
+		User user = getUser(email);
 
 		String content = Strings.parse(Reflections.getResourceAsStream("email/welcome.html"));
-		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.toString());
 
 		send("Portal FBCA - Seja bem-vindo!", content, "text/html", email);
 	}
 
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
-		Account account = getAccount(email);
+		User user = getUser(email);
 		final String token;
 
-		if (account.getPasswordResetToken() == null) {
+		if (user.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(Passwords.hash(token, email));
-			account.setPasswordResetRequest(new Date());
-			accountDAO.update(account);
+			user.setPasswordResetToken(Passwords.hash(token, email));
+			user.setPasswordResetRequest(new Date());
+			userDAO.update(user);
 		} else {
-			token = account.getPasswordResetToken();
+			token = user.getPasswordResetToken();
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("email/password-creation.html"));
-		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
 		send("Portal FBCA - Criação de senha", content, "text/html", email);
 	}
 
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
-		Account account = getAccount(email);
+		User user = getUser(email);
 		final String token;
 
-		if (account.getPasswordResetToken() == null) {
+		if (user.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
-			account.setPasswordResetToken(Passwords.hash(token, email));
-			account.setPasswordResetRequest(new Date());
-			accountDAO.update(account);
+			user.setPasswordResetToken(Passwords.hash(token, email));
+			user.setPasswordResetRequest(new Date());
+			userDAO.update(user);
 		} else {
-			token = account.getPasswordResetToken();
+			token = user.getPasswordResetToken();
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("email/password-recovery.html"));
-		content = content.replace("{name}", account.getProfile().getName());
+		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
 		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
 	}
 
-	public void sendRegisterCreation(Register register, List<Account> members, URI baseUri) throws Exception {
-		Account creator = getAccount(register.getCreator().getEmail());
+	public void sendRegisterCreation(Register register, List<User> members, URI baseUri) throws Exception {
+		User creator = getUser(register.getCreator().getEmail());
 		register = Beans.getReference(RegisterDAO.class).loadForEmail(register.getId());
 
 		String[] memberNames = new String[members.size()];
@@ -158,14 +158,14 @@ public class MailDAO {
 		}.start();
 	}
 
-	private Account getAccount(String email) {
-		Account account = accountDAO.loadFull(email);
+	private User getUser(String email) {
+		User user = userDAO.loadFull(email);
 
-		if (account == null) {
+		if (user == null) {
 			throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
 		}
 
-		return account;
+		return user;
 	}
 
 	private Session getSession() {

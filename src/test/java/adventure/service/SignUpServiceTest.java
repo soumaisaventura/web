@@ -27,7 +27,7 @@
 //import adventure.client.ProfileClient;
 //import adventure.client.SignUpClient;
 //import adventure.entity.Gender;
-//import adventure.entity.Account;
+//import adventure.entity.User;
 //import adventure.service.SignUpService.SignUpData;
 //import br.gov.frameworkdemoiselle.HttpViolationException.Violation;
 //
@@ -47,7 +47,7 @@
 //		SignUpClient signUpClient = Tests.createSignUpClient(this.url);
 //		ProfileClient profileClient = Tests.createPerfilClient(this.url);
 //
-//		String fullName = "Account Full Name";
+//		String fullName = "User Full Name";
 //		String email = Tests.generateRandomEmail();
 //		String password = "secret";
 //		Date birthday = Tests.createDate(1980, 12, 18);
@@ -64,7 +64,7 @@
 //		Long id = signUpClient.signup(signUpData);
 //		assertNotNull(id);
 //
-//		Account user = profileClient.load(id);
+//		User user = profileClient.load(id);
 //		assertNotNull(user);
 //		assertEquals(fullName, user.getName());
 //		assertEquals(email, user.getEmail());
@@ -106,7 +106,7 @@
 //	@Test
 //	public void falhaAoTentarRegistrarEmailJaExistente() {
 //		SignUpData signUpForm = new SignUpData();
-//		signUpForm.name = "Account Full Name";
+//		signUpForm.name = "User Full Name";
 //		signUpForm.email = Tests.generateRandomEmail();
 //		signUpForm.password = "secret";
 //		signUpForm.birthday = Tests.createDate(1980, 12, 18);

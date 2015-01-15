@@ -3,8 +3,8 @@ package adventure.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import adventure.entity.Account;
-import adventure.persistence.AccountDAO;
+import adventure.entity.User;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -19,8 +19,8 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
 		boolean result = true;
 
 		if (!Strings.isEmpty(email)) {
-			AccountDAO dao = Beans.getReference(AccountDAO.class);
-			Account user = dao.loadFull(email, true);
+			UserDAO dao = Beans.getReference(UserDAO.class);
+			User user = dao.loadFull(email, true);
 
 			result = user == null;
 		}

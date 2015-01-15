@@ -17,11 +17,11 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Health;
 import adventure.entity.Profile;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
@@ -40,28 +40,28 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class SignUpREST {
 
 	@Inject
-	private AccountDAO accountDAO;
+	private UserDAO userDAO;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
-		Account account = new Account();
-		account.setEmail(data.email);
-		account.setPassword(Passwords.hash(data.password, data.email));
-		account.setCreation(new Date());
-		accountDAO.insert(account);
+		User user = new User();
+		user.setEmail(data.email);
+		user.setPassword(Passwords.hash(data.password, data.email));
+		user.setCreation(new Date());
+		userDAO.insert(user);
 
-		Profile profile = new Profile(account);
+		Profile profile = new Profile(user);
 		profile.setName(data.name);
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
 		Beans.getReference(ProfileDAO.class).insert(profile);
-		Beans.getReference(HealthDAO.class).insert(new Health(account));
+		Beans.getReference(HealthDAO.class).insert(new Health(user));
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendAccountActivation(account.getEmail(), baseUri);
+		Beans.getReference(MailDAO.class).sendUserActivation(user.getEmail(), baseUri);
 	}
 
 	@POST
@@ -71,22 +71,22 @@ public class SignUpREST {
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
 			throws Exception {
-		Account persistedAccount = accountDAO.loadFull(data.email);
-		validate(token, persistedAccount);
+		User persistedUser = userDAO.loadFull(data.email);
+		validate(token, persistedUser);
 
-		login(persistedAccount.getEmail(), token);
+		login(persistedUser.getEmail(), token);
 
-		persistedAccount.setConfirmationToken(null);
-		persistedAccount.setConfirmation(new Date());
-		accountDAO.update(persistedAccount);
+		persistedUser.setConfirmationToken(null);
+		persistedUser.setConfirmation(new Date());
+		userDAO.update(persistedUser);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendWelcome(persistedAccount.getEmail(), baseUri);
+		Beans.getReference(MailDAO.class).sendWelcome(persistedUser.getEmail(), baseUri);
 	}
 
-	private void validate(String token, Account account) throws Exception {
-		if (account == null || account.getConfirmationToken() == null
-				|| !account.getConfirmationToken().equals(Passwords.hash(token, account.getEmail()))) {
+	private void validate(String token, User user) throws Exception {
+		if (user == null || user.getConfirmationToken() == null
+				|| !user.getConfirmationToken().equals(Passwords.hash(token, user.getEmail()))) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 		}
 	}
@@ -104,8 +104,8 @@ public class SignUpREST {
 	@Transactional
 	public void quit() {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		Account account = (Account) securityContext.getUser();
-		accountDAO.delete(account.getId());
+		User user = (User) securityContext.getUser();
+		userDAO.delete(user.getId());
 	}
 
 	public static class SignUpData {

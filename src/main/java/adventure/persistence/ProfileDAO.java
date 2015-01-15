@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Profile;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
@@ -33,10 +33,10 @@ public class ProfileDAO implements Serializable {
 		return entity;
 	}
 
-	public Profile load(Account id) {
-		String jpql = "from Profile p where p.account = :account";
+	public Profile load(User id) {
+		String jpql = "from Profile p where p.user = :user";
 		TypedQuery<Profile> query = em.createQuery(jpql, Profile.class);
-		query.setParameter("account", id);
+		query.setParameter("user", id);
 
 		Profile result;
 

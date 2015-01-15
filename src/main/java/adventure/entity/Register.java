@@ -51,10 +51,10 @@ public class Register implements Serializable {
 	private Date date;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "ACCOUNT_ID")
-	@ForeignKey(name = "FK_REGISTER_ACCOUNT")
-	@Index(name = "IDX_REGISTER_ACCOUNT")
-	private Account creator;
+	@JoinColumn(name = "CREATOR_ID")
+	@ForeignKey(name = "FK_REGISTER_USER")
+	@Index(name = "IDX_REGISTER_USER")
+	private User creator;
 
 	public Register() {
 	}
@@ -66,7 +66,7 @@ public class Register implements Serializable {
 		setDate(registerDate);
 		setTeamName(teamName);
 
-		Account creator = new Account();
+		User creator = new User();
 		setCreator(creator);
 		getCreator().setId(creatorId);
 		getCreator().setProfile(new Profile(creator));
@@ -153,11 +153,11 @@ public class Register implements Serializable {
 		this.date = date;
 	}
 
-	public Account getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(Account creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 }

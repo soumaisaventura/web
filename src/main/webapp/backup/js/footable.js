@@ -704,7 +704,7 @@
         };
 
         ft.getColumnFromTdIndex = function (index) {
-            /// <summary>Returns the correct column data for the supplied index taking into account colspans.</summary>
+            /// <summary>Returns the correct column data for the supplied index taking into user colspans.</summary>
             /// <param name="index">The index to retrieve the column data for.</param>
             /// <returns type="json">A JSON object containing the column data for the supplied index.</returns>
             var result = null;

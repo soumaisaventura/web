@@ -8,5 +8,5 @@ public class TeamFormationPk implements Serializable {
 
 	Register register;
 
-	Account account;
+	User user;
 }

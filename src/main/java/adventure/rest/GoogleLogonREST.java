@@ -2,7 +2,7 @@ package adventure.rest;
 
 import javax.ws.rs.Path;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
 
@@ -23,7 +23,7 @@ public class GoogleLogonREST extends OAuthLogon {
 	private static JacksonFactory FACTORY = new JacksonFactory();
 
 	@Override
-	protected Account createAccount(String code) throws Exception {
+	protected User createUser(String code) throws Exception {
 		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
 		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
 
@@ -34,10 +34,10 @@ public class GoogleLogonREST extends OAuthLogon {
 
 		Userinfo userInfo = service.userinfo().get().execute();
 
-		return createAccount(userInfo);
+		return createUser(userInfo);
 	}
 
-	private Account createAccount(Userinfo userInfo) {
+	private User createUser(Userinfo userInfo) {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
@@ -49,12 +49,12 @@ public class GoogleLogonREST extends OAuthLogon {
 			profile.setGender(Gender.valueOf(userInfo.getGender().toUpperCase()));
 		}
 
-		Account account = new Account();
-		account.setEmail(userInfo.getEmail());
-		account.setProfile(profile);
+		User user = new User();
+		user.setEmail(userInfo.getEmail());
+		user.setProfile(profile);
 
 		// userInfo.get("birthday");
 
-		return account;
+		return user;
 	}
 }

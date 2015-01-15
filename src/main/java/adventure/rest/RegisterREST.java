@@ -19,20 +19,19 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Gender;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Register;
 import adventure.entity.TeamFormation;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegisterDAO;
 import adventure.persistence.TeamFormationDAO;
-import adventure.security.User;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -91,11 +90,11 @@ public class RegisterREST {
 		Register register = new Register();
 		register.setTeamName(data.teamName);
 		register.setRaceCategory(validationResult.raceCategory);
-		register.setCreator(Beans.getReference(AccountDAO.class).load(User.getLoggedIn().getEmail()));
+		register.setCreator(Beans.getReference(UserDAO.class).load(User.getLoggedIn().getEmail()));
 		result.register = registerDAO.insert(register);
 
-		for (Account member : validationResult.members) {
-			Account atachedMember = Beans.getReference(AccountDAO.class).load(member.getId());
+		for (User member : validationResult.members) {
+			User atachedMember = Beans.getReference(UserDAO.class).load(member.getId());
 			TeamFormation teamFormation = new TeamFormation(register, atachedMember);
 
 			if (member.getId().equals(User.getLoggedIn().getId())) {
@@ -140,19 +139,19 @@ public class RegisterREST {
 		return result;
 	}
 
-	private List<Account> loadMembers(List<Long> ids) throws Exception {
-		List<Account> result = new ArrayList<Account>();
+	private List<User> loadMembers(List<Long> ids) throws Exception {
+		List<User> result = new ArrayList<User>();
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			Account account = Beans.getReference(AccountDAO.class).loadGender(id);
+			User user = Beans.getReference(UserDAO.class).loadGender(id);
 
-			if (account == null) {
+			if (user == null) {
 				exception.addViolation("members", "usuário " + id + " inválido");
-			} else if (result.contains(account)) {
+			} else if (result.contains(user)) {
 				exception.addViolation("members", "usuário " + id + "duplicado");
 			} else {
-				result.add(account);
+				result.add(user);
 			}
 		}
 
@@ -163,7 +162,7 @@ public class RegisterREST {
 		return result;
 	}
 
-	private void validate(Category category, List<Account> members) throws Exception {
+	private void validate(Category category, List<User> members) throws Exception {
 		int total = members.size();
 		if (total > category.getTeamSize()) {
 			throw new UnprocessableEntityException().addViolation("members", "tem muita gente");
@@ -182,11 +181,11 @@ public class RegisterREST {
 		}
 	}
 
-	private int count(List<Account> members, Gender gender) {
+	private int count(List<User> members, Gender gender) {
 		int result = 0;
 
-		for (Account account : members) {
-			if (account.getProfile().getGender() == gender) {
+		for (User user : members) {
+			if (user.getProfile().getGender() == gender) {
 				result++;
 			}
 		}
@@ -198,7 +197,7 @@ public class RegisterREST {
 
 		RaceCategory raceCategory;
 
-		List<Account> members = new ArrayList<Account>();
+		List<User> members = new ArrayList<User>();
 
 	}
 
@@ -206,7 +205,7 @@ public class RegisterREST {
 
 		Register register;
 
-		List<Account> members = new ArrayList<Account>();
+		List<User> members = new ArrayList<User>();
 
 	}
 

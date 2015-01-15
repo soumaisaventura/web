@@ -10,9 +10,9 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Account;
+import adventure.entity.User;
 import adventure.entity.Health;
-import adventure.persistence.AccountDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
@@ -27,24 +27,24 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public abstract class OAuthLogon {
 
 	@Inject
-	private AccountDAO accountDAO;
+	private UserDAO userDAO;
 
 	@Inject
 	private ProfileDAO profileDAO;
 
-	protected abstract Account createAccount(String code) throws Exception;
+	protected abstract User createUser(String code) throws Exception;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-		Account oauth = createAccount(data.token);
-		Account persisted = accountDAO.loadForAuthentication(oauth.getEmail());
+		User oauth = createUser(data.token);
+		User persisted = userDAO.loadForAuthentication(oauth.getEmail());
 
 		if (persisted == null) {
 			oauth.setConfirmation(new Date());
-			accountDAO.insert(oauth);
-			oauth.getProfile().setAccount(oauth);
+			userDAO.insert(oauth);
+			oauth.getProfile().setUser(oauth);
 			profileDAO.insert(oauth.getProfile());
 			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
 
@@ -57,9 +57,9 @@ public abstract class OAuthLogon {
 		}
 
 		if (persisted != null) {
-			persisted = accountDAO.load(persisted.getId());
+			persisted = userDAO.load(persisted.getId());
 			Misc.copyFields(oauth, persisted);
-			accountDAO.update(persisted);
+			userDAO.update(persisted);
 
 			persisted.setProfile(profileDAO.load(persisted));
 			Misc.copyFields(oauth.getProfile(), persisted.getProfile());
