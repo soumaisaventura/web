@@ -17,7 +17,7 @@
 		<div class="main">
 			<div class="row" style="padding-bottom: 20px">
 				<h1>Registre-se</h1>
-				<h4>Crie sua conta para conseguir se inscrever nas provas</h4>
+				<h4>Crie sua conta para se inscrever nas provas</h4>
 			</div>
 
 			<form role="form">
@@ -43,21 +43,6 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-inline">
-						<label for="birthday">Data de Nascimento</label> 
-						<select	id="birthday-day" class="form-control">
-							<option value="">Dia</option>
-						</select> 
-						<select id="birthday-month" class="form-control">
-							<option value="">Mês</option>
-						</select>
-						<select	id="birthday-year" class="form-control">
-							<option value="">Ano</option>
-						</select>  
-						<span id="birthday-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
 					<div class="form-group">
 						<label for="gender">Sexo</label> 
 						<select id="gender"	class="form-control">
@@ -70,12 +55,36 @@
 				</div>
 				<div class="row">
 					<div class="form-group">
+						<label for="birthday">Data de Nascimento</label>
+						<div class="form-inline">
+							<div class="form-group">
+								<select	id="birthday" class="form-control">
+									<option value="">Dia</option>
+								</select>
+							</div>
+							<div class="form-group"> 
+								<select id="birthday-month" class="form-control">
+									<option value="">Mês</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<select	id="birthday-year" class="form-control">
+									<option value="">Ano</option>
+								</select>
+							</div>
+						</div>
+						<span id="birthday-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="form-group">
 						<input id="global" type="hidden" />
 						<button type="submit" class="btn btn-success">Registrar</button>
 					</div>
 				</div>
 				<div class="row">
-					<div id="global-message" hidden="true" class="alert alert-danger" />
+					<div id="global-message" hidden="true" class="alert"/>
 				</div>
 			</form>
 		</div>
