@@ -16,5 +16,5 @@ $(function() {
 // Password Reset process
 
 function resetOk(data) {
-	$("#global-message").html("Acesse seu e-mail e siga as instruções para redefinir sua senha.").show();
+	$("#global-message").addClass("alert-success").text("Acesse seu e-mail e siga as instruções para redefinir sua senha.").show();
 }
