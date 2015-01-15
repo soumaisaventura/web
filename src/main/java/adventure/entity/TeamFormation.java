@@ -23,10 +23,10 @@ public class TeamFormation implements Serializable {
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "REGISTER_ID")
-	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTER")
-	@Index(name = "IDX_TEAM_FORMATION_REGISTER")
-	private Register register;
+	@JoinColumn(name = "REGISTRATION_ID")
+	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTRATION")
+	@Index(name = "IDX_TEAM_FORMATION_REGISTRATION")
+	private Registration registration;
 
 	@Id
 	@ManyToOne(optional = false)
@@ -43,8 +43,8 @@ public class TeamFormation implements Serializable {
 	public TeamFormation() {
 	}
 
-	public TeamFormation(Register register, User user) {
-		this.register = register;
+	public TeamFormation(Registration registration, User user) {
+		this.registration = registration;
 		this.user = user;
 		this.confirmed = false;
 	}
@@ -54,7 +54,7 @@ public class TeamFormation implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
-		result = prime * result + ((register == null) ? 0 : register.hashCode());
+		result = prime * result + ((registration == null) ? 0 : registration.hashCode());
 		return result;
 	}
 
@@ -77,22 +77,22 @@ public class TeamFormation implements Serializable {
 		} else if (!user.equals(other.user)) {
 			return false;
 		}
-		if (register == null) {
-			if (other.register != null) {
+		if (registration == null) {
+			if (other.registration != null) {
 				return false;
 			}
-		} else if (!register.equals(other.register)) {
+		} else if (!registration.equals(other.registration)) {
 			return false;
 		}
 		return true;
 	}
 
-	public Register getRegister() {
-		return register;
+	public Registration getRegistration() {
+		return registration;
 	}
 
-	public void setRegister(Register register) {
-		this.register = register;
+	public void setRegistration(Registration registration) {
+		this.registration = registration;
 	}
 
 	public User getUser() {

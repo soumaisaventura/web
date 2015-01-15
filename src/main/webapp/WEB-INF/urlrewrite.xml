@@ -38,8 +38,8 @@
 	</rule>
 
 	<rule>
-		<from>^/register$</from>
-		<to>/register.jsf</to>
+		<from>^/registration$</from>
+		<to>/registration.jsf</to>
 	</rule>
 
 	<rule>
@@ -58,8 +58,8 @@
 	</rule>
 
 	<rule>
-		<from>^/race/(.*)/register$</from>
-		<to>/race-register.jsf?race=$1</to>
+		<from>^/race/(.*)/registration$</from>
+		<to>/race-registration.jsf?race=$1</to>
 	</rule>
 	
 	<!--

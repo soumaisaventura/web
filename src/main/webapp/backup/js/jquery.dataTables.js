@@ -4810,7 +4810,7 @@
 		
 		
 		/**
-		 * Register a callback function. Easily allows a callback function to be added to
+		 * Registration a callback function. Easily allows a callback function to be added to
 		 * an array store of callback functions that can then all be called together.
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {string} sStore Name of the array storage for the callbacks in oSettings
@@ -8445,7 +8445,7 @@
 	
 		/**
 		 * This function is called when a TR element is created (and all TD child
-		 * elements have been inserted), or registered if using a DOM source, allowing
+		 * elements have been inserted), or registrationed if using a DOM source, allowing
 		 * manipulation of the TR element (adding classes etc).
 		 *  @type function
 		 *  @param {node} nRow "TR" element for the current row

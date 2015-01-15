@@ -21,7 +21,7 @@
 //import adventure.client.AuthClient;
 //import adventure.entity.Athlete;
 //import adventure.entity.User;
-//import adventure.rest.service.RegisterService;
+//import adventure.rest.service.RegistrationService;
 //import adventure.security.Credentials;
 //import br.gov.frameworkdemoiselle.security.SecurityContext;
 //
@@ -35,7 +35,7 @@
 //	SecurityContext securityContext;
 //	
 //	@Inject
-//	RegisterService service;
+//	RegistrationService service;
 //
 //	@Deployment(testable = false)
 //	public static WebArchive createDeployment() {

@@ -160,23 +160,23 @@
                 if (w.footable.options.debug === true) console.log('Validation succeeded for plugin "' + p['name'] + '".', p);
                 return true;
             },
-            registered: [], // An array containing all registered plugins.
-            register: function (plugin, options) {
-                ///<summary>Registers a <paramref name="plugin"/> and its default <paramref name="options"/> with FooTable.</summary>
+            registrationed: [], // An array containing all registrationed plugins.
+            registration: function (plugin, options) {
+                ///<summary>Registrations a <paramref name="plugin"/> and its default <paramref name="options"/> with FooTable.</summary>
                 ///<param name="plugin">The plugin that should implement a string property called "name" and a function called "init".</param>
                 ///<param name="options">The default options to merge with the FooTable's base options.</param>
 
                 if (w.footable.plugins._validate(plugin)) {
-                    w.footable.plugins.registered.push(plugin);
+                    w.footable.plugins.registrationed.push(plugin);
                     if (typeof options === 'object') $.extend(true, w.footable.options, options);
                 }
             },
             load: function(instance){
-              var loaded = [], registered, i;
-              for(i = 0; i < w.footable.plugins.registered.length; i++){
+              var loaded = [], registrationed, i;
+              for(i = 0; i < w.footable.plugins.registrationed.length; i++){
                 try {
-                  registered = w.footable.plugins.registered[i];
-                  loaded.push(new registered(instance));
+                  registrationed = w.footable.plugins.registrationed[i];
+                  loaded.push(new registrationed(instance));
                 } catch (err) {
                   if (w.footable.options.debug === true) console.error(err);
                 }
@@ -184,7 +184,7 @@
               return loaded;
             },
             init: function (instance) {
-                ///<summary>Loops through all registered plugins and calls the "init" method supplying the current <paramref name="instance"/> of the FooTable as the first parameter.</summary>
+                ///<summary>Loops through all registrationed plugins and calls the "init" method supplying the current <paramref name="instance"/> of the FooTable as the first parameter.</summary>
                 ///<param name="instance">The current instance of the FooTable that the plugin is being initialized for.</param>
 
                 for (var i = 0; i < instance.plugins.length; i++) {
@@ -273,7 +273,7 @@
         // This object simply houses all the timers used in the FooTable.
         ft.timers = {
             resize: new Timer(),
-            register: function (name) {
+            registration: function (name) {
                 ft.timers[name] = new Timer();
                 return ft.timers[name];
             }

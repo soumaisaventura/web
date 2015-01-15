@@ -5,6 +5,8 @@ import javax.ws.rs.Path;
 import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
+import adventure.util.ApplicationConfig;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -24,8 +26,9 @@ public class GoogleLogonREST extends OAuthLogon {
 
 	@Override
 	protected User createUser(String code) throws Exception {
-		String clientId = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
-		String clientSecret = "6n0it-JrwokA1jVvoFFSpS7I";
+		ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
+		String clientId = config.getOAuthGoogleId();
+		String clientSecret = config.getOAuthGoogleSecret();
 
 		GoogleTokenResponse response = new GoogleAuthorizationCodeTokenRequest(TRANSPORT, FACTORY, clientId,
 				clientSecret, code, "postmessage").execute();

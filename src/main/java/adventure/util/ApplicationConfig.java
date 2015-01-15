@@ -8,48 +8,81 @@ import br.gov.frameworkdemoiselle.configuration.Configuration;
 @Configuration(resource = "application")
 public class ApplicationConfig {
 
+	@NotEmpty
 	@Name("title")
 	private String title = "Adventure";
 
 	@NotEmpty
 	@Name("mail.smtp.host")
-	private String host;
+	private String mailSmtpHost;
 
 	@Name("mail.smtp.port")
-	private Integer port;
+	private Integer mailSmtpPort;
 
 	@NotEmpty
 	@Name("mail.smtp.user")
-	private String user;
+	private String mailSmtpUser;
 
 	@NotEmpty
 	@Name("mail.smtp.password")
-	private String password;
+	private String mailSmtpPassword;
 
 	@Name("mail.smtp.starttls.enable")
-	private Boolean tls;
+	private Boolean mailSmtpTls;
+
+	@NotEmpty
+	@Name("oauth.facebook.id")
+	private String oAuthFacebookId;
+
+	@NotEmpty
+	@Name("oauth.facebook.secret")
+	private String oAuthFacebookSecret;
+
+	@NotEmpty
+	@Name("oauth.google.id")
+	private String oAuthGoogleId;
+
+	@NotEmpty
+	@Name("oauth.google.secret")
+	private String oAuthGoogleSecret;
 
 	public String getTitle() {
 		return title;
 	}
 
-	public String getHost() {
-		return host;
+	public String getMailSmtpHost() {
+		return mailSmtpHost;
 	}
 
-	public Integer getPort() {
-		return port;
+	public Integer getMailSmtpPort() {
+		return mailSmtpPort;
 	}
 
-	public String getUser() {
-		return user;
+	public String getMailSmtpUser() {
+		return mailSmtpUser;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getMailSmtpPassword() {
+		return mailSmtpPassword;
 	}
 
-	public Boolean getTls() {
-		return tls;
+	public Boolean getMailSmtpTls() {
+		return mailSmtpTls;
+	}
+
+	public String getOAuthFacebookId() {
+		return oAuthFacebookId;
+	}
+
+	public String getOAuthFacebookSecret() {
+		return oAuthFacebookSecret;
+	}
+
+	public String getOAuthGoogleId() {
+		return oAuthGoogleId;
+	}
+
+	public String getOAuthGoogleSecret() {
+		return oAuthGoogleSecret;
 	}
 }

@@ -53,7 +53,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append("   and a not in ( ");
 		jpql.append("       select _a ");
 		jpql.append("         from TeamFormation _f ");
-		jpql.append("         join _f.register _r ");
+		jpql.append("         join _f.registration _r ");
 		jpql.append("         join _r.raceCategory _rc ");
 		jpql.append("         join _f.user _a ");
 		jpql.append("        where _rc.race = :race ");

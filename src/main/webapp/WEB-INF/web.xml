@@ -27,7 +27,7 @@
 		<url-pattern>/login</url-pattern>
 		<url-pattern>/signup</url-pattern>
 		<url-pattern>/activation</url-pattern>
-		<url-pattern>/register</url-pattern>
+		<url-pattern>/registration</url-pattern>
 		<url-pattern>/reset</url-pattern>
 		<url-pattern>/password</url-pattern>
 		<url-pattern>/profile</url-pattern>

@@ -18,7 +18,7 @@ import adventure.entity.Period;
 import adventure.entity.Profile;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
-import adventure.entity.Register;
+import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.security.Passwords;
 import adventure.util.Dates;
@@ -31,25 +31,25 @@ public class Load {
 	@Inject
 	private EntityManager em;
 
-	private TeamFormation newTeamFormation(Register register, User user, boolean confirmed) throws Exception {
-		TeamFormation teamFormation = new TeamFormation(register, user);
+	private TeamFormation newTeamFormation(Registration registration, User user, boolean confirmed) throws Exception {
+		TeamFormation teamFormation = new TeamFormation(registration, user);
 		teamFormation.setConfirmed(confirmed);
 		em.persist(teamFormation);
 		return teamFormation;
 	}
 
 	@SuppressWarnings("unused")
-	private Register newRegister(String teamName, RaceCategory raceCategory, User[] members) throws Exception {
-		Register register = new Register();
-		register.setTeamName(teamName);
-		register.setRaceCategory(raceCategory);
-		em.persist(register);
+	private Registration newRegistration(String teamName, RaceCategory raceCategory, User[] members) throws Exception {
+		Registration registration = new Registration();
+		registration.setTeamName(teamName);
+		registration.setRaceCategory(raceCategory);
+		em.persist(registration);
 
 		for (int i = 0; i < members.length; i++) {
-			newTeamFormation(register, members[i], i % 2 == 0);
+			newTeamFormation(registration, members[i], i % 2 == 0);
 		}
 
-		return register;
+		return registration;
 	}
 
 	private Race newRace(String name, String description, String date) throws Exception {
@@ -117,7 +117,7 @@ public class Load {
 	@Startup
 	@SuppressWarnings("unused")
 	public void perform() throws Exception {
-		em.createQuery("delete from Register").executeUpdate();
+		em.createQuery("delete from Registration").executeUpdate();
 		em.createQuery("delete from TeamFormation").executeUpdate();
 		em.createQuery("delete from RaceCategory").executeUpdate();
 		em.createQuery("delete from Category").executeUpdate();
@@ -190,7 +190,7 @@ public class Load {
 		newRace("CARI - Desafio dos Sertões", null, "10/10/2015");
 		newRace("CARI - Integração", null, "05/12/2015");
 
-		// newRegister("Quarteto Exemplo", npQuarteto100km, new User[] { users[0], users[2], users[6],
+		// newRegistration("Quarteto Exemplo", npQuarteto100km, new User[] { users[0], users[2], users[6],
 		// users[12] });
 	}
 }

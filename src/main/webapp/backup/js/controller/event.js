@@ -3,13 +3,13 @@
 $(function(e) {
     new EventProxy().search(searchOk);
 
-    $(document).on("click", ".register", function() {
+    $(document).on("click", ".registration", function() {
 	/*
 	 * 1. Verificar se está logado 1.1 Sim - redirecionar para a página de
 	 * registro 1.2 Não - mensagem de que é preciso estar logado para
 	 * inscriçaõ em evento
 	 */
-	location.href = "register";
+	location.href = "registration";
     });
 });
 
@@ -33,7 +33,7 @@ function searchOk(data) {
 			});
 			row += '<td><img src="images/orienteering.png" title="Orientação"/> <img src="images/mountainbiking.png" title="Mountain Bike"/></td>';
 			row += '<td><button type="button" class="btn btn-sm btn-info">Detalhes</button></td>';
-			row += '<td><button type="button" class="btn btn-sm btn-success register" data-id="'
+			row += '<td><button type="button" class="btn btn-sm btn-success registration" data-id="'
 				+ obj.id + '">Inscrição</button></td>';
 			row += '</tr>';
 			footable.appendRow(row);

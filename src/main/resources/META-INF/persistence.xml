@@ -13,7 +13,7 @@
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Course</class>
 		<class>adventure.entity.RaceCategory</class>
-		<class>adventure.entity.Register</class>
+		<class>adventure.entity.Registration</class>
 		<class>adventure.entity.Receipt</class>
 		<class>adventure.entity.TeamFormation</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>

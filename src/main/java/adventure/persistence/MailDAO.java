@@ -16,10 +16,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import adventure.entity.User;
 import adventure.entity.Period;
 import adventure.entity.Profile;
-import adventure.entity.Register;
+import adventure.entity.Registration;
+import adventure.entity.User;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import adventure.util.Dates;
@@ -104,9 +104,9 @@ public class MailDAO {
 		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
 	}
 
-	public void sendRegisterCreation(Register register, List<User> members, URI baseUri) throws Exception {
-		User creator = getUser(register.getCreator().getEmail());
-		register = Beans.getReference(RegisterDAO.class).loadForEmail(register.getId());
+	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
+		User creator = getUser(registration.getCreator().getEmail());
+		registration = Beans.getReference(RegistrationDAO.class).loadForEmail(registration.getId());
 
 		String[] memberNames = new String[members.size()];
 		for (int i = 0; i < members.size(); i++) {
@@ -115,24 +115,24 @@ public class MailDAO {
 			memberNames[i] = profile.getName();
 		}
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/register-creation.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("email/registration-creation.html"));
 		content = content.replace("{name}", creator.getProfile().getName());
-		content = content.replace("{teamName}", register.getTeamName());
-		content = content.replace("{raceName}", register.getRaceCategory().getRace().getName());
-		content = content.replace("{raceDate}", Dates.parse(register.getRaceCategory().getRace().getDate()));
-		content = content.replace("{url}", baseUri.resolve("register/" + register.getId()).toString());
-		content = content.replace("{registerId}", register.getFormattedId());
-		content = content.replace("{registerDate}", Dates.parse(register.getDate()));
-		content = content.replace("{categoryName}", register.getRaceCategory().getCategory().getName());
-		content = content.replace("{courseLength}", register.getRaceCategory().getCourse().getLength().toString());
+		content = content.replace("{teamName}", registration.getTeamName());
+		content = content.replace("{raceName}", registration.getRaceCategory().getRace().getName());
+		content = content.replace("{raceDate}", Dates.parse(registration.getRaceCategory().getRace().getDate()));
+		content = content.replace("{url}", baseUri.resolve("registration/" + registration.getId()).toString());
+		content = content.replace("{registrationId}", registration.getFormattedId());
+		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
+		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
+		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
 		content = content.replace("{members}", Strings.join(" / ", memberNames));
 
-		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(register.getRaceCategory().getRace());
+		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(registration.getRaceCategory().getRace());
 		content = content.replace("{racePrice}", period.getPrice().toString().replace(".", ","));
 
 		String subject = "Portal FBCA - Pedido de inscrição";
-		subject += " #" + register.getFormattedId();
-		subject += " - " + register.getRaceCategory().getRace().getName();
+		subject += " #" + registration.getFormattedId();
+		subject += " - " + registration.getRaceCategory().getRace().getName();
 
 		send(subject, content, "text/html", creator.getEmail());
 	}
@@ -170,23 +170,23 @@ public class MailDAO {
 
 	private Session getSession() {
 		Properties props = new Properties();
-		props.put("mail.smtp.host", config.getHost());
+		props.put("mail.smtp.host", config.getMailSmtpHost());
 		props.put("mail.smtp.auth", "true");
 
-		if (config.getPort() != null) {
-			props.put("mail.smtp.port", config.getPort());
-			props.put("mail.smtp.socketFactory.port", config.getPort());
+		if (config.getMailSmtpPort() != null) {
+			props.put("mail.smtp.port", config.getMailSmtpPort());
+			props.put("mail.smtp.socketFactory.port", config.getMailSmtpPort());
 			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		}
 
-		if (config.getTls() != null) {
-			props.put("mail.smtp.starttls.enable", config.getTls());
+		if (config.getMailSmtpTls() != null) {
+			props.put("mail.smtp.starttls.enable", config.getMailSmtpTls());
 		}
 
 		Authenticator authenticator = new javax.mail.Authenticator() {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(config.getUser(), config.getPassword());
+				return new PasswordAuthentication(config.getMailSmtpUser(), config.getMailSmtpPassword());
 			}
 		};
 

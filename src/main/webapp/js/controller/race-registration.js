@@ -82,7 +82,7 @@ $(document).ready(
 					'members' : members
 				};
 
-				RaceProxy.validateRegister(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+				RaceProxy.validateRegistration(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
 			});
 
 		});

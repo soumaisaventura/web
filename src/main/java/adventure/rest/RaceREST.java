@@ -51,9 +51,9 @@ public class RaceREST {
 			data.id = race.getId();
 			data.name = race.getName();
 			data.date = race.getDate();
-			data.register = new RegisterData();
-			data.register.open = race.getOpen();
-			data.register.periods = null;
+			data.registration = new RegistrationData();
+			data.registration.open = race.getOpen();
+			data.registration.periods = null;
 			data.courses = null;
 			result.add(data);
 		}
@@ -83,8 +83,8 @@ public class RaceREST {
 		data.id = race.getId();
 		data.name = race.getName();
 		data.date = race.getDate();
-		data.register = new RegisterData();
-		data.register.open = race.getOpen();
+		data.registration = new RegistrationData();
+		data.registration.open = race.getOpen();
 
 		for (Period period : Beans.getReference(PeriodDAO.class).find(race)) {
 			PeriodData periodData = new PeriodData();
@@ -92,7 +92,7 @@ public class RaceREST {
 			periodData.beginning = period.getBeginning();
 			periodData.end = period.getEnd();
 			periodData.price = period.getPrice();
-			data.register.periods.add(periodData);
+			data.registration.periods.add(periodData);
 		}
 
 		data.courses.addAll(loadCourse(race));
@@ -216,10 +216,10 @@ public class RaceREST {
 
 		public List<CourseData> courses = new ArrayList<CourseData>();
 
-		public RegisterData register;
+		public RegistrationData registration;
 	}
 
-	public static class RegisterData {
+	public static class RegistrationData {
 
 		public boolean open;
 
