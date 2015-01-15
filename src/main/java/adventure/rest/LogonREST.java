@@ -2,8 +2,10 @@ package adventure.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -32,6 +34,18 @@ public class LogonREST {
 		securityContext.login();
 	}
 
+	@GET
+	@Path("appid")
+	@Produces("application/json")
+	public AppIdData getAppIds() {
+		AppIdData data = new AppIdData();
+
+		data.facebook = "1422799641299675";
+		data.google = "611475192580-k33ghah4orsl7d4r1r6qml5i4rtgnnrd.apps.googleusercontent.com";
+
+		return data;
+	}
+
 	public static class CredentialsData {
 
 		@Email
@@ -40,5 +54,12 @@ public class LogonREST {
 
 		@NotEmpty
 		public String password;
+	}
+
+	public static class AppIdData {
+
+		public String facebook;
+
+		public String google;
 	}
 }

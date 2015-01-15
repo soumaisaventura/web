@@ -12,6 +12,13 @@ var LogonProxy = {
 		});
 	},
 
+	getAppId : function() {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/appid"
+		});
+	},
+	
 	facebookLogin : function($data) {
 		return $.ajax({
 			type : "POST",
