@@ -16,6 +16,10 @@
 		<class>adventure.entity.Registration</class>
 		<class>adventure.entity.Receipt</class>
 		<class>adventure.entity.TeamFormation</class>
+		<class>adventure.entity.Country</class>
+		<class>adventure.entity.State</class>
+		<class>adventure.entity.City</class>
+
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
