@@ -16,6 +16,13 @@ var RaceProxy = {
 		});
 	},
 
+	getBanner : function($race) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $race + "/banner"
+		});
+	},
+
 	searchAvailableUsers : function($race, $filter, $excludes) {
 		return $.ajax({
 			url : this.url + "/" + $race + "/users",
