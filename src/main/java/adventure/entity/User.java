@@ -86,14 +86,14 @@ public class User implements Principal, Serializable {
 		return (User) Beans.getReference(SecurityContext.class).getUser();
 	}
 
-	public static User parse(User user) {
-		Long id = user.getId();
-		String email = user.getEmail();
-		String name = user.getProfile().getName();
-		Gender gender = user.getProfile().getGender();
-
-		return new User(id, email, name, gender);
-	}
+	// public static User parse(User user) {
+	// Long id = user.getId();
+	// String email = user.getEmail();
+	// String name = user.getProfile().getName();
+	// Gender gender = user.getProfile().getGender();
+	//
+	// return new User(id, email, name, gender);
+	// }
 
 	public User() {
 	}

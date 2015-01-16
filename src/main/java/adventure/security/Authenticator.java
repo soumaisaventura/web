@@ -20,7 +20,7 @@ public class Authenticator extends TokenAuthenticator {
 		User user = Beans.getReference(UserDAO.class).loadForAuthentication(credentials.getUsername());
 
 		if (user != null && (isOAuthLogin() || isUserLogin(user, credentials))) {
-			result = User.parse(user);
+			result = user;
 		} else {
 			throw new InvalidCredentialsException();
 		}
