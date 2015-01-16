@@ -81,6 +81,13 @@ public class ProfileREST {
 		@NotNull
 		public Gender gender;
 
-		public boolean pendent;
+		@NotNull
+		public Long city;
+
+		private boolean pendent;
+
+		public boolean isPendent() {
+			return pendent;
+		}
 	}
 }

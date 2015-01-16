@@ -57,6 +57,10 @@ public class HealthREST {
 
 		public String allergy;
 
-		public boolean pendent;
+		private boolean pendent;
+
+		public boolean isPendent() {
+			return pendent;
+		}
 	}
 }
