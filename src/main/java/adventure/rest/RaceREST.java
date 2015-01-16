@@ -45,6 +45,8 @@ public class RaceREST {
 			data.date = race.getDate();
 			data.registration = new RegistrationData();
 			data.registration.open = race.getOpen();
+			data.city = race.getCity() != null ? race.getCity().getName() + "/"
+					+ race.getCity().getState().getAbbreviation() : null;
 			data.registration.periods = null;
 			data.courses = null;
 			result.add(data);
@@ -64,6 +66,8 @@ public class RaceREST {
 		data.name = race.getName();
 		data.date = race.getDate();
 		data.description = race.getDescription();
+		data.city = race.getCity() != null ? race.getCity().getName() + "/"
+				+ race.getCity().getState().getAbbreviation() : null;
 		data.registration = new RegistrationData();
 		data.registration.open = race.getOpen();
 
@@ -208,6 +212,8 @@ public class RaceREST {
 
 		public String description;
 
+		public String city;
+
 		public Date date;
 
 		public List<CourseData> courses = new ArrayList<CourseData>();
@@ -252,19 +258,6 @@ public class RaceREST {
 
 		public Integer teamSize;
 
-	}
-
-	public static class CategoryData2 {
-
-		public Long id;
-
-		public String name;
-
-		public String description;
-
-		public Integer teamSize;
-
-		public Long course;
 	}
 
 	public static class OrderData {

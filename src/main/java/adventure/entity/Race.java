@@ -10,13 +10,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -46,6 +49,12 @@ public class Race implements Serializable {
 	@Index(name = "IDX_RACE_DATE")
 	private Date date;
 
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "CITY_ID")
+	@ForeignKey(name = "FK_RACE_CITY")
+	@Index(name = "IDX_RACE_CITY")
+	private City city;
+
 	@Lob
 	@Column(name = "BANNER")
 	private byte[] banner;
@@ -60,12 +69,20 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
-	public Race(Long id, String name, String description, Date date, Long openPeriods) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.date = date;
-		this.open = openPeriods > 0;
+	public Race(Long id, String name, String description, Date date, Long cityId, String cityName, Long stateId,
+			String stateName, String stateAbbreviation, Long openPeriods) {
+		setId(id);
+		setName(name);
+		setDescription(description);
+		setDate(date);
+		setCity(new City());
+		getCity().setId(cityId);
+		getCity().setName(cityName);
+		getCity().setState(new State());
+		getCity().getState().setId(stateId);
+		getCity().getState().setName(stateName);
+		getCity().getState().setAbbreviation(stateAbbreviation);
+		setOpen(openPeriods > 0);
 	}
 
 	@Override
@@ -128,6 +145,14 @@ public class Race implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public byte[] getBanner() {
