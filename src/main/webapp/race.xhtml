@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:ui="http://java.sun.com/jsf/facelets" 
+				template="/template/main.xhtml">
+				
+<ui:define name="lib">
+</ui:define>
+
+<ui:define name="proxy">
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+</ui:define>
+
+<ui:define name="controller">
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/race.js"></script>
+</ui:define>				
+
+<ui:define name="body">
+	<div class="container">
+		<div class="row">
+  			<div class="col-md-12">
+				<h1 id="race-name">Noite do Perrengue 3</h1>
+			</div>
+  		</div>
+  		<div class="row">
+  			<div class="col-md-12">
+  				<h3 id="race-name"><span class="glyphicon glyphicon-calendar"></span> 21/03/2015</h3>
+			</div>
+  		</div>
+  		<div class="row">
+  			<div class="col-md-12">
+  				<h3>Inscrições</h3>
+			</div>
+  		</div>
+  		
+		
+	</div>
+</ui:define>				
+				
+</ui:composition>
