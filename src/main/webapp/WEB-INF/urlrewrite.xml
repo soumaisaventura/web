@@ -61,37 +61,11 @@
 		<from>^/race/(.*)/registration$</from>
 		<to>/race-registration.jsf?race=$1</to>
 	</rule>
-	
-	<!--
-	<rule>
-		<from>^/mobile$</from>
-		<to>/mobile.html</to>
-	</rule>
 
 	<rule>
-		<from>^/index$</from>
-		<to>/index.html</to>
-	</rule>index.html
-	-->
-
-	<!--
-	<rule>
-		<from>^(?:(?!\.\w+).)*$</from>
-		<to>$1.html</to>
+		<from>^/race/(.*)$</from>
+		<to>/race?race=$1</to>
 	</rule>
-
-	<rule>
-		<from>(/api/.+)$</from>
-		<to>$0</to>
-	</rule>
-	-->
-
-	<!--
-	<rule>
-		<from>^/$</from>
-		<to type="redirect">%{context-path}/home</to>
-	</rule>
-	-->
 
 	<rule>
 		<from>^/(.+)/$</from>
