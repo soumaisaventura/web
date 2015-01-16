@@ -168,6 +168,8 @@ public class Load {
 
 		String description = "Descritivo: 3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
+		np.setBanner("iVBORw0KGgoAAAANSUhEUgAAA1MAAAENCAIAAABlwahlAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAABCZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI"
+				.getBytes());
 		newPeriod(np, "01/01/2015", "31/01/2015", 60.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
 		newPeriod(np, "21/02/2015", "20/03/2015", 100.00);
