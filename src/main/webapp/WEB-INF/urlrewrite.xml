@@ -64,7 +64,7 @@
 
 	<rule>
 		<from>^/race/(.*)$</from>
-		<to>/race?race=$1</to>
+		<to>/race.jsf?race=$1</to>
 	</rule>
 
 	<rule>
