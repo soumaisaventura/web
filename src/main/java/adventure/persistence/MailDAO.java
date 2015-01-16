@@ -49,7 +49,7 @@ public class MailDAO {
 			token = user.getConfirmationToken();
 		}
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/activation.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
 		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("activation?token=" + token).toString());
 
@@ -59,7 +59,7 @@ public class MailDAO {
 	public void sendWelcome(final String email, final URI baseUri) throws Exception {
 		User user = getUser(email);
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/welcome.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
 		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.toString());
 
@@ -79,7 +79,7 @@ public class MailDAO {
 			token = user.getPasswordResetToken();
 		}
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/password-creation.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-creation.html"));
 		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
 		send("Portal FBCA - Criação de senha", content, "text/html", email);
@@ -98,7 +98,7 @@ public class MailDAO {
 			token = user.getPasswordResetToken();
 		}
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/password-recovery.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-recovery.html"));
 		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
 		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
@@ -115,7 +115,7 @@ public class MailDAO {
 			memberNames[i] = profile.getName();
 		}
 
-		String content = Strings.parse(Reflections.getResourceAsStream("email/registration-creation.html"));
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-creation.html"));
 		content = content.replace("{name}", creator.getProfile().getName());
 		content = content.replace("{teamName}", registration.getTeamName());
 		content = content.replace("{raceName}", registration.getRaceCategory().getRace().getName());
