@@ -32,7 +32,7 @@ function loadOk(data){
 		category += "<h4>" + value.length + " km</h4>";
 		category += "<ul>";
 		$.each(value.categories, function(index, value){
-			category += "<li>" + value.name + " <span title='" + value.description + "' class='glyphicon glyphicon-info-sign'><span></li>";
+			category += "<li>" + value.name + " <span title='" + value.description + "'><span></li>";
 		});
 		category += "</ul>";
 	});
