@@ -18,6 +18,7 @@
 
 <ui:define name="body">
 	<div class="container">
+		<input id="race" type="hidden" value="#{param.race}" />
 		<div class="row">
   			<div class="col-md-8 col-md-offset-2">
 				<img id="race-banner" class="img-responsive"/>
@@ -49,7 +50,7 @@
   					<div class="col-md-6">
   						<h3><span class="glyphicon glyphicon-usd" style="font-size: 0.8em"></span> Inscrições <span id="race-registration-open"></span></h3>
   						<div id="race-registration-periods"></div>
-  						<button id="bt-registration" type="button" class="btn btn-lg btn-warning">Inscrição</button>
+  						<button id="bt-registration" type="button" class="btn btn-lg btn-warning">Inscreva-se já</button>
 					</div>
 		  			<div class="col-md-6">
   						<h3 id="race-categories"><span class="glyphicon glyphicon-th-large" style="font-size: 0.8em"></span> Categorias</h3>
@@ -59,7 +60,6 @@
 		</div>
 		<div class="row" style="margin-top: 20px;">
 			<div class="col-md-8 col-md-offset-2 text-center">
-				
 			</div>
 		</div>
 	</div>
