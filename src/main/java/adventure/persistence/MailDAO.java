@@ -38,13 +38,14 @@ public class MailDAO {
 	private UserDAO userDAO;
 
 	public void sendUserActivation(final String email, final URI baseUri) throws Exception {
-		User user = getUser(email);
+		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
 		if (user.getConfirmationToken() == null) {
 			token = Passwords.randomToken();
-			user.setConfirmationToken(Passwords.hash(token, email));
-			userDAO.update(user);
+			User persisted = userDAO.load(user.getId());
+			persisted.setConfirmationToken(Passwords.hash(token, persisted.getEmail()));
+			userDAO.update(persisted);
 		} else {
 			token = user.getConfirmationToken();
 		}
@@ -56,25 +57,24 @@ public class MailDAO {
 		send("Portal FBCA - Confirmação de e-mail", content, "text/html", email);
 	}
 
-	public void sendWelcome(final String email, final URI baseUri) throws Exception {
-		User user = getUser(email);
-
+	public void sendWelcome(User user, URI baseUri) throws Exception {
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
 		content = content.replace("{name}", user.getProfile().getName());
 		content = content.replace("{url}", baseUri.toString());
 
-		send("Portal FBCA - Seja bem-vindo!", content, "text/html", email);
+		send("Portal FBCA - Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
 
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
-		User user = getUser(email);
+		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
 		if (user.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
-			user.setPasswordResetToken(Passwords.hash(token, email));
-			user.setPasswordResetRequest(new Date());
-			userDAO.update(user);
+			User persisted = userDAO.load(user.getId());
+			persisted.setPasswordResetToken(Passwords.hash(token, persisted.getEmail()));
+			persisted.setPasswordResetRequest(new Date());
+			userDAO.update(persisted);
 		} else {
 			token = user.getPasswordResetToken();
 		}
@@ -86,14 +86,15 @@ public class MailDAO {
 	}
 
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
-		User user = getUser(email);
+		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
 		if (user.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
-			user.setPasswordResetToken(Passwords.hash(token, email));
-			user.setPasswordResetRequest(new Date());
-			userDAO.update(user);
+			User persisted = userDAO.load(user.getId());
+			persisted.setPasswordResetToken(Passwords.hash(token, persisted.getEmail()));
+			persisted.setPasswordResetRequest(new Date());
+			userDAO.update(persisted);
 		} else {
 			token = user.getPasswordResetToken();
 		}
@@ -105,7 +106,7 @@ public class MailDAO {
 	}
 
 	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
-		User creator = getUser(registration.getCreator().getEmail());
+		User creator = userDAO.loadBasics(registration.getCreator().getEmail());
 		registration = Beans.getReference(RegistrationDAO.class).loadForEmail(registration.getId());
 
 		String[] memberNames = new String[members.size()];
@@ -158,15 +159,15 @@ public class MailDAO {
 		}.start();
 	}
 
-	private User getUser(String email) {
-		User user = userDAO.loadFull(email);
-
-		if (user == null) {
-			throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
-		}
-
-		return user;
-	}
+	// private User getUser(String email) {
+	// User user = userDAO.loadFull(email);
+	//
+	// if (user == null) {
+	// throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
+	// }
+	//
+	// return user;
+	// }
 
 	private Session getSession() {
 		Properties props = new Properties();

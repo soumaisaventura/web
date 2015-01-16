@@ -6,11 +6,8 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.User;
-import adventure.entity.Gender;
-import adventure.entity.Health;
-import adventure.entity.Profile;
 import adventure.entity.Race;
+import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Strings;
@@ -44,7 +41,7 @@ public class UserDAO extends JPACrud<User, Long> {
 	public List<User> searchAvailable(Race race, String filter, List<Long> excludeIds) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append(" 	new " + User.class.getName() + "(a.id, a.email, p.name, p.gender) ");
+		jpql.append(" 	new User(a.id, a.email, p.name, p.gender) ");
 		jpql.append(" from ");
 		jpql.append(" 	Profile p join p.user a ");
 		jpql.append(" where a.confirmation is not null ");
@@ -76,7 +73,7 @@ public class UserDAO extends JPACrud<User, Long> {
 	public User loadForAuthentication(String email) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + LoadForAuthentication.class.getName() + "( ");
+		jpql.append("    new User( ");
 		jpql.append("       a.id, ");
 		jpql.append("       a.email, ");
 		jpql.append("       a.password, ");
@@ -101,12 +98,10 @@ public class UserDAO extends JPACrud<User, Long> {
 		return result;
 	}
 
-	public User loadForBill(Long id) {
+	public User loadBasics(Long id) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + LoadForBill.class.getName() + "( ");
-		jpql.append("       a.id, ");
-		jpql.append("       p.name) ");
+		jpql.append(" 	new User(a.id, a.email, p.name, p.gender) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user a ");
 		jpql.append("  where a.deleted is null ");
@@ -124,65 +119,14 @@ public class UserDAO extends JPACrud<User, Long> {
 		return result;
 	}
 
-	private User loadFull(String field, Object value, boolean includeDeleted) {
+	public User loadBasics(String email) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new " + Load.class.getName() + "(a, p, h) ");
+		jpql.append(" 	new User(a.id, a.email, p.name, p.gender) ");
 		jpql.append("   from Profile p");
-		jpql.append("   join p.user a, ");
-		jpql.append("        Health h ");
-		jpql.append("  where h.user = a ");
-		jpql.append("    and a." + field + " = :value ");
-
-		if (!includeDeleted) {
-			jpql.append("   and a.deleted is null");
-		}
-
-		TypedQuery<Load> query = getEntityManager().createQuery(jpql.toString(), Load.class);
-		query.setParameter("value", value);
-
-		User result;
-		try {
-			result = query.getSingleResult().geUser();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
-
-	public User loadFull(String email) {
-		return loadFull("email", email, false);
-	}
-
-	public User loadFull(String email, boolean includeDeleted) {
-		return loadFull("email", email, false);
-	}
-
-	public User loadGender(Long id) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new User(a.id, p.gender) ");
-		jpql.append("   from Profile p ");
 		jpql.append("   join p.user a ");
 		jpql.append("  where a.deleted is null ");
-		jpql.append("    and a.id = :id ");
-
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-		query.setParameter("id", id);
-
-		User result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
-
-	public User load(String email) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append("   from User a ");
-		jpql.append("  where a.deleted is null ");
-		jpql.append("    and a.email = :email ");
+		jpql.append("    and a.email = :email");
 
 		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
 		query.setParameter("email", email);
@@ -196,48 +140,20 @@ public class UserDAO extends JPACrud<User, Long> {
 		return result;
 	}
 
-	public static class Load {
+	public User load(String email) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append("   from User a ");
+		jpql.append("  where a.email = :email ");
 
-		private User user;
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		query.setParameter("email", email);
 
-		public Load(User user, Profile profile, Health health) throws Exception {
-			user.setProfile(profile);
-			user.setHealth(health);
-			this.user = user;
+		User result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
 		}
-
-		public User geUser() {
-			return this.user;
-		}
-	}
-
-	public static class LoadForAuthentication extends User {
-
-		private static final long serialVersionUID = 1L;
-
-		public LoadForAuthentication(Long id, String email, String password, Date confirmation,
-				String confirmationToken, String name, Gender gender) throws Exception {
-			setId(id);
-			setEmail(email);
-			setPassword(password);
-			setConfirmation(confirmation);
-			setConfirmationToken(confirmationToken);
-
-			setProfile(new Profile());
-			getProfile().setName(name);
-			getProfile().setGender(gender);
-		}
-	}
-
-	public static class LoadForBill extends User {
-
-		private static final long serialVersionUID = 1L;
-
-		public LoadForBill(Long id, String name) throws Exception {
-			setId(id);
-
-			setProfile(new Profile());
-			getProfile().setName(name);
-		}
+		return result;
 	}
 }

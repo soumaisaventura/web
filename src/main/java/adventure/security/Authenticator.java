@@ -2,6 +2,8 @@ package adventure.security;
 
 import java.security.Principal;
 
+import javax.inject.Inject;
+
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -13,11 +15,14 @@ public class Authenticator extends TokenAuthenticator {
 
 	private static final long serialVersionUID = 1L;
 
+	@Inject
+	private UserDAO userDAO;
+
 	@Override
 	protected Principal customAuthentication() throws Exception {
 		Principal result = null;
 		Credentials credentials = Beans.getReference(Credentials.class);
-		User user = Beans.getReference(UserDAO.class).loadForAuthentication(credentials.getUsername());
+		User user = userDAO.loadForAuthentication(credentials.getUsername());
 
 		if (user != null && (isOAuthLogin() || isUserLogin(user, credentials))) {
 			result = user;

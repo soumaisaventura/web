@@ -8,31 +8,30 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import adventure.entity.User;
 import adventure.entity.BloodType;
 import adventure.entity.Health;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.HealthDAO;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("health")
 public class HealthREST {
 
 	@Inject
-	private UserDAO userDAO;
+	private HealthDAO healthDAO;
 
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public HealthData load() throws Exception {
-		Health health = userDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
+		Health persisted = healthDAO.load(User.getLoggedIn());
 
 		HealthData data = new HealthData();
-		data.bloodType = health.getBloodType();
-		data.allergy = health.getAllergy();
+		data.bloodType = persisted.getBloodType();
+		data.allergy = persisted.getAllergy();
+		data.pendent = persisted.isPendent();
 
 		return data;
 	}
@@ -43,12 +42,12 @@ public class HealthREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(HealthData data) throws Exception {
-		Health health = userDAO.loadFull(User.getLoggedIn().getEmail()).getHealth();
-		health.setBloodType(data.bloodType);
-		health.setAllergy(data.allergy);
-		health.setPendent(false);
+		Health persisted = healthDAO.load(User.getLoggedIn());
+		persisted.setBloodType(data.bloodType);
+		persisted.setAllergy(data.allergy);
+		persisted.setPendent(false);
 
-		Beans.getReference(HealthDAO.class).update(health);
+		healthDAO.update(persisted);
 	}
 
 	public static class HealthData {
@@ -57,5 +56,7 @@ public class HealthREST {
 		public BloodType bloodType;
 
 		public String allergy;
+
+		public boolean pendent;
 	}
 }

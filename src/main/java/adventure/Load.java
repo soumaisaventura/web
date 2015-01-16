@@ -151,9 +151,9 @@ public class Load {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Saramento", MALE, true);
-		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Saramento", MALE, true);
+		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
+		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);

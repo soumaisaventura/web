@@ -48,6 +48,8 @@ public class User implements Principal, Serializable {
 	@Column(name = "PASSWORD")
 	private String password;
 
+	// private String sessionToken;
+
 	@JsonIgnore
 	@Column(name = "PASSWORD_RESET_TOKEN")
 	private String passwordResetToken;
@@ -98,15 +100,15 @@ public class User implements Principal, Serializable {
 	public User() {
 	}
 
-	public User(Long id, Gender gender) {
-		this.id = id;
-		this.profile = new Profile();
-		this.profile.setGender(gender);
-	}
+	// public User(Long id, Gender gender) {
+	// setId(id);
+	// setProfile(new Profile());
+	// getProfile().setGender(gender);
+	// }
 
 	public User(Long id, String email, String name, Gender gender) {
-		this.id = id;
-		this.email = email;
+		setId(id);
+		setEmail(email);
 
 		if (getProfile() == null) {
 			setProfile(new Profile());
@@ -116,16 +118,30 @@ public class User implements Principal, Serializable {
 		getProfile().setGender(gender);
 	}
 
+	public User(Long id, String email, String password, Date confirmation, String confirmationToken, String name,
+			Gender gender) throws Exception {
+		setId(id);
+		setEmail(email);
+		setPassword(password);
+		setConfirmation(confirmation);
+		setConfirmationToken(confirmationToken);
+
+		setProfile(new Profile());
+		getProfile().setName(name);
+		getProfile().setGender(gender);
+	}
+
 	@Override
 	@Transient
+	@JsonIgnore
 	public String getName() {
 		return getProfile() != null ? getProfile().getName() : null;
 	}
 
-	@Transient
-	public Gender getGender() {
-		return getProfile() != null ? getProfile().getGender() : null;
-	}
+	// @Transient
+	// public Gender getGender() {
+	// return getProfile() != null ? getProfile().getGender() : null;
+	// }
 
 	@Override
 	public int hashCode() {

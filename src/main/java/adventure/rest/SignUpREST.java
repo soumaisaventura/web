@@ -17,14 +17,14 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Health;
 import adventure.entity.Profile;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.ActivationSession;
 import adventure.security.Passwords;
 import adventure.validator.UniqueUserEmail;
@@ -71,17 +71,17 @@ public class SignUpREST {
 	@Consumes("application/json")
 	public void activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
 			throws Exception {
-		User persistedUser = userDAO.loadFull(data.email);
-		validate(token, persistedUser);
+		User persisted = userDAO.load(data.email);
+		validate(token, persisted);
 
-		login(persistedUser.getEmail(), token);
+		login(persisted.getEmail(), token);
 
-		persistedUser.setConfirmationToken(null);
-		persistedUser.setConfirmation(new Date());
-		userDAO.update(persistedUser);
+		persisted.setConfirmationToken(null);
+		persisted.setConfirmation(new Date());
+		userDAO.update(persisted);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendWelcome(persistedUser.getEmail(), baseUri);
+		Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
 	}
 
 	private void validate(String token, User user) throws Exception {

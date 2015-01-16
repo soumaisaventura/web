@@ -49,8 +49,8 @@ public abstract class OAuthLogon {
 			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
 
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			Beans.getReference(MailDAO.class).sendWelcome(oauth.getEmail(), baseUri);
 			login(oauth.getEmail());
+			Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
 
 		} else if (persisted.getConfirmation() == null) {
 			oauth.setConfirmation(new Date());

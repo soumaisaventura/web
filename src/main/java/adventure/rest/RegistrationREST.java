@@ -144,7 +144,7 @@ public class RegistrationREST {
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			User user = Beans.getReference(UserDAO.class).loadGender(id);
+			User user = Beans.getReference(UserDAO.class).loadBasics(id);
 
 			if (user == null) {
 				exception.addViolation("members", "usuário " + id + " inválido");

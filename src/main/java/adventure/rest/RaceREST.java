@@ -163,7 +163,7 @@ public class RaceREST {
 
 		} else {
 			for (Long userId : users) {
-				User user = Beans.getReference(UserDAO.class).loadForBill(userId);
+				User user = Beans.getReference(UserDAO.class).loadBasics(userId);
 
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");

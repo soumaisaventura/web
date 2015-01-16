@@ -14,34 +14,33 @@ import javax.ws.rs.Produces;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
-import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.ProfileDAO;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("profile")
 public class ProfileREST {
 
 	@Inject
-	private UserDAO userDAO;
+	private ProfileDAO profileDAO;
 
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile profile = userDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
+		Profile persisted = profileDAO.load(User.getLoggedIn());
 
 		ProfileData data = new ProfileData();
-		data.name = profile.getName();
-		data.rg = profile.getRg();
-		data.cpf = profile.getCpf();
-		data.birthday = profile.getBirthday();
-		data.gender = profile.getGender();
+		data.name = persisted.getName();
+		data.rg = persisted.getRg();
+		data.cpf = persisted.getCpf();
+		data.birthday = persisted.getBirthday();
+		data.gender = persisted.getGender();
+		data.pendent = persisted.isPendent();
 
 		return data;
 	}
@@ -52,15 +51,15 @@ public class ProfileREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(ProfileData data) throws Exception {
-		Profile profile = userDAO.loadFull(User.getLoggedIn().getEmail()).getProfile();
-		profile.setName(data.name);
-		profile.setRg(data.rg);
-		profile.setCpf(data.cpf);
-		profile.setBirthday(data.birthday);
-		profile.setGender(data.gender);
-		profile.setPendent(false);
+		Profile persisted = profileDAO.load(User.getLoggedIn());
+		persisted.setName(data.name);
+		persisted.setRg(data.rg);
+		persisted.setCpf(data.cpf);
+		persisted.setBirthday(data.birthday);
+		persisted.setGender(data.gender);
+		persisted.setPendent(false);
 
-		Beans.getReference(ProfileDAO.class).update(profile);
+		profileDAO.update(persisted);
 	}
 
 	public static class ProfileData {
@@ -81,5 +80,7 @@ public class ProfileREST {
 
 		@NotNull
 		public Gender gender;
+
+		public boolean pendent;
 	}
 }
