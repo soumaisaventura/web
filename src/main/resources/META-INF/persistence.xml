@@ -2,8 +2,12 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
+	<!--
 	<persistence-unit name="pu" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
+	-->
+	<persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
+		<non-jta-data-source>java:jboss/datasources/PostgreSQLDS</non-jta-data-source>
 
 		<class>adventure.entity.User</class>
 		<class>adventure.entity.Profile</class>
@@ -32,8 +36,10 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			-->
-
+			
+			<!--
 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+			-->
 		</properties>
 	</persistence-unit>
 
