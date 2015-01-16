@@ -12,19 +12,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("race")
@@ -32,13 +31,6 @@ public class RaceREST {
 
 	@Inject
 	private RaceDAO raceDAO;
-
-	@GET
-	@Produces("text/html")
-	public String x(@QueryParam("path") String path) throws Exception {
-		String result = Strings.parse(Reflections.getResourceAsStream(path));
-		return result.replace("{name}", "Cleverson");
-	}
 
 	@GET
 	@Path("next")
@@ -97,6 +89,19 @@ public class RaceREST {
 
 		data.courses.addAll(loadCourse(race));
 		return data;
+	}
+
+	@GET
+	@Path("{id}/banner")
+	@Produces("application/octet-stream")
+	public byte[] getBanner(@PathParam("id") Long id) throws Exception {
+		Race race = raceDAO.load(id);
+
+		if (race == null) {
+			throw new NotFoundException();
+		}
+
+		return race.getBanner();
 	}
 
 	private List<CourseData> loadCourse(Race race) throws Exception {

@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -44,6 +45,10 @@ public class Race implements Serializable {
 	@Column(name = "DATE")
 	@Index(name = "IDX_RACE_DATE")
 	private Date date;
+
+	@Lob
+	@Column(name = "BANNER")
+	private byte[] banner;
 
 	@Transient
 	private Boolean open;
@@ -123,6 +128,14 @@ public class Race implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public byte[] getBanner() {
+		return banner;
+	}
+
+	public void setBanner(byte[] banner) {
+		this.banner = banner;
 	}
 
 	public Boolean getOpen() {
