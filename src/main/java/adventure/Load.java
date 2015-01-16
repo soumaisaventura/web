@@ -169,11 +169,11 @@ public class Load {
 		// newRace("Desafio dos Sertões", null, "16/08/2014");
 		// newRace("Laskpé", null, "08/11/2014");
 
-		String description = "3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA.";
+		String description = "3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
 		np.setCity(em.find(City.class, Long.valueOf(533)));
-		newPeriod(np, "01/01/2015", "31/01/2015", 60.00);
+		newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
 		newPeriod(np, "21/02/2015", "20/03/2015", 100.00);
 		Course np45km = newCourse(np, 45);
@@ -181,9 +181,9 @@ public class Load {
 		newRaceCategory(np, np45km, duplaMasc);
 		newRaceCategory(np, np45km, duplaFem);
 		newRaceCategory(np, np45km, duplaMista);
-		newRaceCategory(np, np100km, duplaMasc);
-		newRaceCategory(np, np100km, duplaMista);
-		RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
+		// newRaceCategory(np, np100km, duplaMasc);
+		// newRaceCategory(np, np100km, duplaMista);
+		// RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
 
 		newRace("CARI - Sol do Salitre", null, "11/04/2015");
 		newRace("CICA - Mandacaru", null, "18/04/2015");
