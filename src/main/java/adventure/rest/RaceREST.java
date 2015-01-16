@@ -75,6 +75,7 @@ public class RaceREST {
 		data.id = race.getId();
 		data.name = race.getName();
 		data.date = race.getDate();
+		data.description = race.getDescription();
 		data.registration = new RegistrationData();
 		data.registration.open = race.getOpen();
 
@@ -216,6 +217,8 @@ public class RaceREST {
 		public Long id;
 
 		public String name;
+
+		public String description;
 
 		public Date date;
 

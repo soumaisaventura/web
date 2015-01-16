@@ -22,6 +22,7 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
 		jpql.append(" 	        count(p.id) as openPeriods) ");
 		jpql.append("   from Period p ");

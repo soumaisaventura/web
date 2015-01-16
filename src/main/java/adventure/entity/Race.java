@@ -60,10 +60,10 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
-	public Race(Long id, String name, Date date, Long openPeriods) {
-		// public Race(Long id, String name, Date date) {
+	public Race(Long id, String name, String description, Date date, Long openPeriods) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.date = date;
 		this.open = openPeriods > 0;
 	}

@@ -1,7 +1,7 @@
 $(function() {
 	// RaceProxy.findNext().done(findNextOk);
-	RaceProxy.getBanner(3).done(getBannerOk);
-	RaceProxy.load(3).done(loadOk);
+	RaceProxy.getBanner(1).done(getBannerOk);
+	RaceProxy.load(1).done(loadOk);
 });
 
 function getBannerOk(data){
