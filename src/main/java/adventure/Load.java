@@ -163,8 +163,8 @@ public class Load {
 		Category trioMisto = newCategory("Trio misto", "Trio contendo pelo menos uma mulher", 3, 1, 1);
 		Category solo = newCategory("Solo", "Único integrante independente do sexo", 1, null, null);
 
-		newRace("Desafio dos Sertões", null, "16/08/2014");
-		newRace("Laskpé", null, "08/11/2014");
+		// newRace("Desafio dos Sertões", null, "16/08/2014");
+		// newRace("Laskpé", null, "08/11/2014");
 
 		String description = "Descritivo: 3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");

@@ -107,7 +107,7 @@ public class MailDAO {
 
 	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
 		User creator = userDAO.loadBasics(registration.getCreator().getEmail());
-		registration = Beans.getReference(RegistrationDAO.class).loadForEmail(registration.getId());
+		registration = Beans.getReference(RegistrationDAO.class).loadForMail(registration.getId());
 
 		String[] memberNames = new String[members.size()];
 		for (int i = 0; i < members.size(); i++) {

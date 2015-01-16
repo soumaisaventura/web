@@ -20,7 +20,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		return super.insert(registration);
 	}
 
-	public Registration loadForEmail(Long id) {
+	public Registration loadForMail(Long id) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new Registration( ");

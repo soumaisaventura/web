@@ -53,10 +53,10 @@ public class Registration implements Serializable {
 	private Date date;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "CREATOR_ID")
+	@JoinColumn(name = "SUBMITTER_ID")
 	@ForeignKey(name = "FK_REGISTRATION_USER")
 	@Index(name = "IDX_REGISTRATION_USER")
-	private User creator;
+	private User submitter;
 
 	public Registration() {
 	}
@@ -156,10 +156,10 @@ public class Registration implements Serializable {
 	}
 
 	public User getCreator() {
-		return creator;
+		return submitter;
 	}
 
 	public void setCreator(User creator) {
-		this.creator = creator;
+		this.submitter = creator;
 	}
 }
