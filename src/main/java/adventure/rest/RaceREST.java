@@ -23,12 +23,14 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("race")
 public class RaceREST {
 
 	@GET
+	@Cache
 	@Path("next")
 	@Produces("application/json")
 	public List<RaceData> next() throws Exception {
@@ -52,6 +54,7 @@ public class RaceREST {
 	}
 
 	@GET
+	@Cache
 	@Path("{id}")
 	@Produces("application/json")
 	public RaceData load(@PathParam("id") Long id) throws Exception {
@@ -81,6 +84,7 @@ public class RaceREST {
 	}
 
 	@GET
+	@Cache
 	@Path("{id}/banner")
 	@Produces("application/octet-stream")
 	public byte[] getBanner(@PathParam("id") Long id) throws Exception {
@@ -135,6 +139,7 @@ public class RaceREST {
 	}
 
 	@GET
+	@Cache
 	@Path("{id}/courses")
 	@Produces("application/json")
 	public List<CourseData> findCourses(@PathParam("id") Long id) throws Exception {
