@@ -173,7 +173,7 @@ public class Load {
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
 		np.setCity(em.find(City.class, Long.valueOf(533)));
-		newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
+		// newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
 		newPeriod(np, "21/02/2015", "20/03/2015", 100.00);
 		Course np45km = newCourse(np, 45);
