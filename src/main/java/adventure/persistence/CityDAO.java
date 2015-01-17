@@ -7,12 +7,17 @@ import javax.persistence.TypedQuery;
 import adventure.entity.City;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
 public class CityDAO extends JPACrud<City, Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static CityDAO getInstance() {
+		return Beans.getReference(CityDAO.class);
+	}
 
 	public List<City> search(String filter) {
 		StringBuffer jpql = new StringBuffer();

@@ -2,6 +2,7 @@ package adventure.persistence;
 
 import static javax.mail.Message.RecipientType.TO;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,13 @@ import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
-public class MailDAO {
+public class MailDAO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	public static MailDAO getInstance() {
+		return Beans.getReference(MailDAO.class);
+	}
 
 	@Inject
 	private ApplicationConfig config;

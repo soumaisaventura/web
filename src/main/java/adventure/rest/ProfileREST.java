@@ -2,7 +2,6 @@ package adventure.rest;
 
 import java.util.Date;
 
-import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.ws.rs.Consumes;
@@ -25,14 +24,11 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 @Path("profile")
 public class ProfileREST {
 
-	@Inject
-	private ProfileDAO profileDAO;
-
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile persisted = profileDAO.load(User.getLoggedIn());
+		Profile persisted = ProfileDAO.getInstance().load(User.getLoggedIn());
 
 		ProfileData data = new ProfileData();
 		data.name = persisted.getName();
@@ -51,7 +47,7 @@ public class ProfileREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(ProfileData data) throws Exception {
-		Profile persisted = profileDAO.load(User.getLoggedIn());
+		Profile persisted = ProfileDAO.getInstance().load(User.getLoggedIn());
 		persisted.setName(data.name);
 		persisted.setRg(data.rg);
 		persisted.setCpf(data.cpf);
@@ -59,7 +55,7 @@ public class ProfileREST {
 		persisted.setGender(data.gender);
 		persisted.setPendent(false);
 
-		profileDAO.update(persisted);
+		ProfileDAO.getInstance().update(persisted);
 	}
 
 	public static class ProfileData {

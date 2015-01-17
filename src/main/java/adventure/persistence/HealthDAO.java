@@ -7,11 +7,16 @@ import adventure.entity.Health;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class HealthDAO extends JPACrud<Health, User> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static HealthDAO getInstance() {
+		return Beans.getReference(HealthDAO.class);
+	}
 
 	@Override
 	public Health load(User user) {

@@ -11,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import adventure.entity.City;
 import adventure.persistence.CityDAO;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("location")
@@ -25,7 +24,7 @@ public class LocationREST {
 		List<CityData> result = new ArrayList<CityData>();
 		CityData data;
 
-		for (City city : Beans.getReference(CityDAO.class).search(q)) {
+		for (City city : CityDAO.getInstance().search(q)) {
 			data = new CityData();
 			data.id = city.getId();
 			data.name = city.getName();

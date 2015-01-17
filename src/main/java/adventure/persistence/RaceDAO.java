@@ -11,11 +11,16 @@ import javax.persistence.TypedQuery;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class RaceDAO extends JPACrud<Race, Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static RaceDAO getInstance() {
+		return Beans.getReference(RaceDAO.class);
+	}
 
 	public Race loadForDetails(Long id) throws Exception {
 		StringBuffer jpql = new StringBuffer();
@@ -38,12 +43,12 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append("    and (p.id is null or :date between p.beginning and p.end) ");
 		jpql.append("  group by ");
 		jpql.append("        r.id, ");
-//		jpql.append("        r.name, ");
-//		jpql.append("        r.date, ");
+		// jpql.append("        r.name, ");
+		// jpql.append("        r.date, ");
 		jpql.append(" 	     c.id, ");
-//		jpql.append(" 	     c.name, ");
+		// jpql.append(" 	     c.name, ");
 		jpql.append(" 	     s.id ");
-//		jpql.append(" 	     s.name ");
+		// jpql.append(" 	     s.name ");
 		jpql.append("  order by ");
 		jpql.append("        r.date ");
 
@@ -95,12 +100,12 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append("    and (p.id is null or :date between p.beginning and p.end) ");
 		jpql.append("  group by ");
 		jpql.append("        r.id, ");
-//		jpql.append("        r.name, ");
-//		jpql.append("        r.date, ");
+		// jpql.append("        r.name, ");
+		// jpql.append("        r.date, ");
 		jpql.append(" 	     c.id, ");
-//		jpql.append(" 	     c.name, ");
+		// jpql.append(" 	     c.name, ");
 		jpql.append(" 	     s.id ");
-//		jpql.append(" 	     s.name ");
+		// jpql.append(" 	     s.name ");
 		jpql.append("  order by ");
 		jpql.append("        r.date ");
 

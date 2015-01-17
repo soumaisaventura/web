@@ -10,12 +10,17 @@ import adventure.entity.Race;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
 public class UserDAO extends JPACrud<User, Long> {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static UserDAO getInstance() {
+		return Beans.getReference(UserDAO.class);
+	}
 
 	@Override
 	public User insert(User user) {

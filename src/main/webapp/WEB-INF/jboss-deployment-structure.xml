@@ -10,6 +10,7 @@
 
 			<module name="adventure" />
 			<module name="org.codehaus.jackson.jackson-mapper-asl" />
+			<module name="org.jboss.resteasy.resteasy-cdi" />
 			<module name="org.hibernate" />
 
 			<!--

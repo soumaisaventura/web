@@ -8,11 +8,16 @@ import javax.persistence.TypedQuery;
 import adventure.entity.Registration;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static RegistrationDAO getInstance() {
+		return Beans.getReference(RegistrationDAO.class);
+	}
 
 	@Override
 	public Registration insert(Registration registration) {

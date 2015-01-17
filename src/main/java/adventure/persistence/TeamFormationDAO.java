@@ -7,15 +7,20 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.User;
 import adventure.entity.Race;
 import adventure.entity.TeamFormation;
+import adventure.entity.User;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class TeamFormationDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public static TeamFormationDAO getInstance() {
+		return Beans.getReference(TeamFormationDAO.class);
+	}
 
 	@Inject
 	private EntityManager em;

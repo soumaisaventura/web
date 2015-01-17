@@ -3,19 +3,18 @@ package adventure.rest;
 import java.net.URI;
 import java.util.Date;
 
-import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.User;
 import adventure.entity.Health;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.OAuthSession;
 import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -26,20 +25,17 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 public abstract class OAuthLogon {
 
-	@Inject
-	private UserDAO userDAO;
-
-	@Inject
-	private ProfileDAO profileDAO;
-
 	protected abstract User createUser(String code) throws Exception;
 
 	@POST
 	@Transactional
 	@ValidatePayload
 	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+		UserDAO userDAO = UserDAO.getInstance();
+		ProfileDAO profileDAO = ProfileDAO.getInstance();
+
 		User oauth = createUser(data.token);
-		User persisted = userDAO.loadForAuthentication(oauth.getEmail());
+		User persisted = UserDAO.getInstance().loadForAuthentication(oauth.getEmail());
 
 		if (persisted == null) {
 			oauth.setConfirmation(new Date());

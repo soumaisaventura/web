@@ -1,21 +1,18 @@
 package adventure.rest;
 
-import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Path("logout")
 public class LogoutREST {
 
-	@Inject
-	private SecurityContext securityContext;
-
 	@POST
 	@LoggedIn
 	public void logout() {
-		securityContext.logout();
+		Beans.getReference(SecurityContext.class).logout();
 	}
 }

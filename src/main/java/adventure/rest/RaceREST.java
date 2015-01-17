@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,16 +28,13 @@ import br.gov.frameworkdemoiselle.util.Strings;
 @Path("race")
 public class RaceREST {
 
-	@Inject
-	private RaceDAO raceDAO;
-
 	@GET
 	@Path("next")
 	@Produces("application/json")
 	public List<RaceData> next() throws Exception {
 		List<RaceData> result = new ArrayList<RaceREST.RaceData>();
 
-		for (Race race : raceDAO.findNext()) {
+		for (Race race : RaceDAO.getInstance().findNext()) {
 			RaceData data = new RaceData();
 			data.id = race.getId();
 			data.name = race.getName();
@@ -88,7 +84,7 @@ public class RaceREST {
 	@Path("{id}/banner")
 	@Produces("application/octet-stream")
 	public byte[] getBanner(@PathParam("id") Long id) throws Exception {
-		Race race = raceDAO.load(id);
+		Race race = RaceDAO.getInstance().load(id);
 
 		if (race == null) {
 			throw new NotFoundException();
@@ -185,7 +181,7 @@ public class RaceREST {
 	}
 
 	private Race loadRaceDetails(Long id) throws Exception {
-		Race result = raceDAO.loadForDetails(id);
+		Race result = RaceDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -195,7 +191,7 @@ public class RaceREST {
 	}
 
 	private Race loadJustRaceId(Long id) throws Exception {
-		Race result = raceDAO.loadJustId(id);
+		Race result = RaceDAO.getInstance().loadJustId(id);
 
 		if (result == null) {
 			throw new NotFoundException();

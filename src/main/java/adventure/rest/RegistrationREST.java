@@ -7,7 +7,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,19 +18,19 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.User;
 import adventure.entity.Category;
 import adventure.entity.Gender;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
-import adventure.persistence.UserDAO;
+import adventure.entity.User;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -43,12 +42,6 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race/{id}/registration")
 public class RegistrationREST {
-
-	@Inject
-	private RegistrationDAO registrationDAO;
-
-	@Inject
-	private TeamFormationDAO teamFormationDAO;
 
 	@POST
 	@LoggedIn
@@ -81,7 +74,8 @@ public class RegistrationREST {
 		}
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendRegistrationCreation(submitResult.registration, submitResult.members, baseUri);
+		Beans.getReference(MailDAO.class).sendRegistrationCreation(submitResult.registration, submitResult.members,
+				baseUri);
 		return submitResult.registration.getFormattedId();
 	}
 
@@ -91,7 +85,7 @@ public class RegistrationREST {
 		registration.setTeamName(data.teamName);
 		registration.setRaceCategory(validationResult.raceCategory);
 		registration.setCreator(Beans.getReference(UserDAO.class).load(User.getLoggedIn().getEmail()));
-		result.registration = registrationDAO.insert(registration);
+		result.registration = RegistrationDAO.getInstance().insert(registration);
 
 		for (User member : validationResult.members) {
 			User atachedMember = Beans.getReference(UserDAO.class).load(member.getId());
@@ -101,7 +95,7 @@ public class RegistrationREST {
 				teamFormation.setConfirmed(true);
 			}
 
-			teamFormationDAO.insert(teamFormation);
+			TeamFormationDAO.getInstance().insert(teamFormation);
 			result.members.add(atachedMember);
 		}
 
@@ -130,7 +124,8 @@ public class RegistrationREST {
 	}
 
 	private RaceCategory loadRaceCategory(Long raceId, Long courseId, Long categoryId) throws Exception {
-		RaceCategory result = Beans.getReference(RaceCategoryDAO.class).loadForRegistration(raceId, courseId, categoryId);
+		RaceCategory result = Beans.getReference(RaceCategoryDAO.class).loadForRegistration(raceId, courseId,
+				categoryId);
 
 		if (result == null) {
 			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");

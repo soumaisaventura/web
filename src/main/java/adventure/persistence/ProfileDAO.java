@@ -7,11 +7,16 @@ import adventure.entity.Profile;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class ProfileDAO extends JPACrud<Profile, User> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static ProfileDAO getInstance() {
+		return Beans.getReference(ProfileDAO.class);
+	}
 
 	@Override
 	public Profile insert(Profile profile) {

@@ -1,6 +1,5 @@
 package adventure.rest;
 
-import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,14 +18,11 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 @Path("health")
 public class HealthREST {
 
-	@Inject
-	private HealthDAO healthDAO;
-
 	@GET
 	@LoggedIn
 	@Produces("application/json")
 	public HealthData load() throws Exception {
-		Health persisted = healthDAO.load(User.getLoggedIn());
+		Health persisted = HealthDAO.getInstance().load(User.getLoggedIn());
 
 		HealthData data = new HealthData();
 		data.bloodType = persisted.getBloodType();
@@ -42,12 +38,12 @@ public class HealthREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(HealthData data) throws Exception {
-		Health persisted = healthDAO.load(User.getLoggedIn());
+		Health persisted = HealthDAO.getInstance().load(User.getLoggedIn());
 		persisted.setBloodType(data.bloodType);
 		persisted.setAllergy(data.allergy);
 		persisted.setPendent(false);
 
-		healthDAO.update(persisted);
+		HealthDAO.getInstance().update(persisted);
 	}
 
 	public static class HealthData {
