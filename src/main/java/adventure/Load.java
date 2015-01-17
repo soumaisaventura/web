@@ -169,7 +169,7 @@ public class Load {
 		// newRace("Desafio dos Sertões", null, "16/08/2014");
 		// newRace("Laskpé", null, "08/11/2014");
 
-		String description = "3ª Noite do Perrengue - Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
+		String description = "3ª Noite do Perrengue – Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
 		np.setCity(em.find(City.class, Long.valueOf(533)));
