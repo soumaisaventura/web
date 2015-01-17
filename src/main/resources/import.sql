@@ -722,6 +722,7 @@ insert into CITY (ID, NAME, STATE_ID) values (690,'Varzedo',1);
 insert into CITY (ID, NAME, STATE_ID) values (691,'Vera Cruz',1);
 insert into CITY (ID, NAME, STATE_ID) values (692,'Vereda',1);
 insert into CITY (ID, NAME, STATE_ID) values (693,'Vitória da Conquista',1);
+insert into CITY (ID, NAME, STATE_ID) values (694,'Costa do Sauípe',1);
 insert into CITY (ID, NAME, STATE_ID) values (694,'Wagner',1);
 insert into CITY (ID, NAME, STATE_ID) values (695,'Wanderley',1);
 insert into CITY (ID, NAME, STATE_ID) values (696,'Wenceslau Guimarães',1);

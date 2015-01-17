@@ -158,6 +158,9 @@ public class Load {
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 
+		User arnaldo = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
+		User gustavo = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
+
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
 		Category duplaFem = newCategory("Dupla feminina", "Dupla composta apenas por mulheres", 2, null, 2);
@@ -172,10 +175,12 @@ public class Load {
 		String description = "3ª Noite do Perrengue – Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
-		np.setCity(em.find(City.class, Long.valueOf(533)));
+		np.setCity(em.find(City.class, Long.valueOf(694)));
 		// newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
-		newPeriod(np, "21/02/2015", "20/03/2015", 100.00);
+		newPeriod(np, "21/02/2015", "10/03/2015", 90.00);
+		newPeriod(np, "11/03/2015", "20/03/2015", 100.00);
+
 		Course np45km = newCourse(np, 45);
 		Course np100km = newCourse(np, 100);
 		newRaceCategory(np, np45km, duplaMasc);

@@ -31,7 +31,7 @@ function loadOk(data) {
 		$("#race-registration-periods").append(
 				"<h4>" + moment(value.beginning, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " á "
 						+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " - R$ " + value.price
-						+ " <span style='font-size:0.8em; color:green'>(+anuidade)</span></h4>")
+						+ " <span style='font-size:0.8em; color:green'>+anuidade</span></h4>")
 	});
 
 	var category = "";
