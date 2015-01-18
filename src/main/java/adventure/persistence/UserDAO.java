@@ -17,7 +17,7 @@ import br.gov.frameworkdemoiselle.util.Strings;
 public class UserDAO extends JPACrud<User, Long> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static UserDAO getInstance() {
 		return Beans.getReference(UserDAO.class);
 	}
@@ -70,6 +70,24 @@ public class UserDAO extends JPACrud<User, Long> {
 
 		query.setParameter("excludeIds", excludeIds);
 		query.setParameter("filter", Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase() + "%");
+		query.setParameter("race", race);
+
+		return query.getResultList();
+	}
+
+	public List<User> findRaceOrganizers(Race race) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	 new User(o.id, o.email, p.name, p.gender) ");
+		jpql.append("   from RaceOrganizer ro ");
+		jpql.append("   join ro.organizer o, ");
+		jpql.append("        Profile p ");
+		jpql.append("  where o = p.user ");
+		jpql.append("    and ro.race = :race ");
+		jpql.append("  order by ");
+		jpql.append("        p.name ");
+
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();

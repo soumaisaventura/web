@@ -1,6 +1,4 @@
 $(function() {
-	// RaceProxy.findNext().done(findNextOk);
-
 	RaceProxy.getBanner($("#race").val()).done(getBannerOk);
 	RaceProxy.load($("#race").val()).done(loadOk);
 
@@ -10,38 +8,59 @@ $(function() {
 });
 
 function getBannerOk(data) {
-	$("#race-banner").attr("src", "data:image/png;base64," + data);
+	if (data) {
+		$("#banner").attr("src", "data:image/png;base64," + data);
+		$("#banner-section").show();
+	}
 }
 
 function loadOk(data) {
-	$("#race-name").prepend(data.name);
-	$("#race-description").prepend(data.description);
-	$("#race-date").prepend(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('L'));
-	$("#race-city").prepend(data.city);
+	$("#name").prepend(data.name);
+	$("#date").prepend(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('L'));
 
-	// if (data.registration.open) {
-	// $("#race-registration-open").addClass('label
-	// label-success').text("Abertas");
-	// } else {
-	// $("#race-registration-open").addClass('label
-	// label-danger').text("Encerradas");
-	// }
+	if (data.description) {
+		$("#description").prepend(data.description);
+	} else {
+		$("#description").hide();
+	}
 
-	$.each(data.registration.periods, function(index, value) {
-		$("#race-registration-periods").append(
-				"<h4>" + moment(value.beginning, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " á "
-						+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " - R$ " + value.price
-						+ " <span style='font-size:0.8em; color:green'>+anuidade</span></h4>")
-	});
+	if (data.city) {
+		$("#city").prepend(data.city);
+		$("#city-section").show();
+	}
 
-	var category = "";
-	$.each(data.courses, function(index, value) {
-		category += "<h4>" + value.length + " km</h4>";
-		category += "<ul>";
-		$.each(value.categories, function(index, value) {
-			category += "<li>" + value.name + " <span title='" + value.description + "'><span></li>";
+	if (data.registration.open) {
+		$("#bt-registration-section").show();
+	}
+
+	if (data.registration.periods.length > 0) {
+		$.each(data.registration.periods, function(index, value) {
+			$("#registration-periods").append(
+					"<h4>" + moment(value.beginning, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " à "
+							+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + ": R$ " + value.price
+							+ " <span style='font-size:0.8em; color:green'>+anuidade</span></h4>")
 		});
-		category += "</ul>";
-	});
-	$("#race-categories").after(category);
+		$("#registration-periods-section").show();
+	}
+
+	if (data.courses.length > 0) {
+		var category = "";
+		$.each(data.courses, function(index, value) {
+			category += "<h4>" + value.length + " km</h4>";
+			category += "<ul>";
+			$.each(value.categories, function(index, value) {
+				category += "<li>" + value.name + " <span title='" + value.description + "'><span></li>";
+			});
+			category += "</ul>";
+		});
+		$("#categories").after(category);
+		$("#categories-section").show();
+	}
+
+	if (data.organizers.length > 0) {
+		$.each(data.organizers, function(index, value) {
+			$("#organizers").append("<h4>" + value.name + " <span style='font-size:0.8em; color:#EA8E13'>" + value.email + "</span></h4>");
+		});
+		$("#organizers-section").show();
+	}
 }

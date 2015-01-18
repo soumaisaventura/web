@@ -18,6 +18,7 @@ import adventure.entity.Period;
 import adventure.entity.Profile;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
+import adventure.entity.RaceOrganizer;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
@@ -98,6 +99,12 @@ public class Load {
 		return availableCategory;
 	}
 
+	private RaceOrganizer newRaceOrganizer(Race race, User organizer) {
+		RaceOrganizer raceOrganizer = new RaceOrganizer(race, organizer);
+		em.persist(raceOrganizer);
+		return raceOrganizer;
+	}
+
 	private User newUser(String username, String password, String name, Gender gender, boolean verified) {
 		User user = new User();
 		user.setEmail(username);
@@ -158,8 +165,8 @@ public class Load {
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 
-		User arnaldo = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
-		User gustavo = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
+		User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
+		User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
@@ -175,8 +182,8 @@ public class Load {
 		String description = "3ª Noite do Perrengue – Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
-		np.setCity(em.find(City.class, Long.valueOf(694)));
-		// newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
+		np.setCity(em.find(City.class, Long.valueOf(5571)));
+		newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
 		newPeriod(np, "21/02/2015", "10/03/2015", 90.00);
 		newPeriod(np, "11/03/2015", "20/03/2015", 100.00);
@@ -190,11 +197,17 @@ public class Load {
 		// newRaceCategory(np, np100km, duplaMista);
 		// RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
 
+		newRaceOrganizer(np, arnaldoMaciel);
+		newRaceOrganizer(np, gustavoChagas);
+
 		newRace("CARI - Sol do Salitre", null, "11/04/2015");
 		newRace("CICA - Mandacaru", null, "18/04/2015");
 		newRace("CICA - Peleja", null, "13/06/2015");
 		newRace("CARI - Casco de Peba", null, "20/06/2015");
-		newRace("Corrida do CT", null, "07/07/2015");
+
+		Race ct = newRace("Corrida do CT Gantuá", null, "07/07/2015");
+		ct.setCity(em.find(City.class, Long.valueOf(544)));
+
 		newRace("CARI - Laskpé", null, "15/08/2015");
 		newRace("CICA - Cangaço", null, "30/08/2015");
 		newRace("CARI - Desafio dos Sertões", null, "10/10/2015");

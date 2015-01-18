@@ -36,7 +36,8 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append(" 	        s.abbreviation, ");
 		jpql.append(" 	       (select count(p.id) ");
 		jpql.append(" 	          from Period p ");
-		jpql.append(" 	         where :date between p.beginning and p.end) ");
+		jpql.append(" 	         where p.race = r ");
+		jpql.append(" 	           and :date between p.beginning and p.end) ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -86,7 +87,8 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		jpql.append(" 	        s.abbreviation, ");
 		jpql.append(" 	       (select count(p.id) ");
 		jpql.append(" 	          from Period p ");
-		jpql.append(" 	         where :date between p.beginning and p.end) ");
+		jpql.append(" 	         where p.race = r ");
+		jpql.append(" 	           and :date between p.beginning and p.end) ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");

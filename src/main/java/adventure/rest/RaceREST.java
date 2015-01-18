@@ -34,7 +34,7 @@ public class RaceREST {
 	@Path("next")
 	@Produces("application/json")
 	public List<RaceData> next() throws Exception {
-		List<RaceData> result = new ArrayList<RaceREST.RaceData>();
+		List<RaceData> result = new ArrayList<RaceData>();
 
 		for (Race race : RaceDAO.getInstance().findNext()) {
 			RaceData data = new RaceData();
@@ -65,21 +65,14 @@ public class RaceREST {
 		data.name = race.getName();
 		data.date = race.getDate();
 		data.description = race.getDescription();
-		data.city = race.getCity() != null ? race.getCity().getName() + "/"
+		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
 		data.registration = new RegistrationData();
 		data.registration.open = race.getOpen();
-
-		for (Period period : Beans.getReference(PeriodDAO.class).find(race)) {
-			PeriodData periodData = new PeriodData();
-			periodData.id = period.getId();
-			periodData.beginning = period.getBeginning();
-			periodData.end = period.getEnd();
-			periodData.price = period.getPrice();
-			data.registration.periods.add(periodData);
-		}
-
+		data.registration.periods.addAll(loadPeriod(race));
 		data.courses.addAll(loadCourse(race));
+		data.organizers.addAll(loadOrganizer(race));
+
 		return data;
 	}
 
@@ -97,8 +90,23 @@ public class RaceREST {
 		return race.getBanner();
 	}
 
+	private List<PeriodData> loadPeriod(Race race) throws Exception {
+		List<PeriodData> result = new ArrayList<PeriodData>();
+
+		for (Period period : Beans.getReference(PeriodDAO.class).find(race)) {
+			PeriodData periodData = new PeriodData();
+			periodData.id = period.getId();
+			periodData.beginning = period.getBeginning();
+			periodData.end = period.getEnd();
+			periodData.price = period.getPrice();
+			result.add(periodData);
+		}
+
+		return result;
+	}
+
 	private List<CourseData> loadCourse(Race race) throws Exception {
-		List<CourseData> result = new ArrayList<RaceREST.CourseData>();
+		List<CourseData> result = new ArrayList<CourseData>();
 
 		for (Course course : Beans.getReference(CourseDAO.class).findWithCategories(race)) {
 			CourseData courseData = new CourseData();
@@ -115,6 +123,21 @@ public class RaceREST {
 			}
 
 			result.add(courseData);
+		}
+
+		return result;
+	}
+
+	private List<OrganizerData> loadOrganizer(Race race) throws Exception {
+		List<OrganizerData> result = new ArrayList<OrganizerData>();
+
+		for (User organizers : Beans.getReference(UserDAO.class).findRaceOrganizers(race)) {
+			OrganizerData organizerData = new OrganizerData();
+			organizerData.id = organizers.getId();
+			organizerData.email = organizers.getEmail();
+			organizerData.name = organizers.getProfile().getName();
+
+			result.add(organizerData);
 		}
 
 		return result;
@@ -219,6 +242,8 @@ public class RaceREST {
 
 		public List<CourseData> courses = new ArrayList<CourseData>();
 
+		public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
+
 		public RegistrationData registration;
 	}
 
@@ -258,7 +283,15 @@ public class RaceREST {
 		public String description;
 
 		public Integer teamSize;
+	}
 
+	public static class OrganizerData {
+
+		public Long id;
+
+		public String name;
+
+		public String email;
 	}
 
 	public static class OrderData {

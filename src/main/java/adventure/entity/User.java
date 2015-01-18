@@ -88,23 +88,8 @@ public class User implements Principal, Serializable {
 		return (User) Beans.getReference(SecurityContext.class).getUser();
 	}
 
-	// public static User parse(User user) {
-	// Long id = user.getId();
-	// String email = user.getEmail();
-	// String name = user.getProfile().getName();
-	// Gender gender = user.getProfile().getGender();
-	//
-	// return new User(id, email, name, gender);
-	// }
-
 	public User() {
 	}
-
-	// public User(Long id, Gender gender) {
-	// setId(id);
-	// setProfile(new Profile());
-	// getProfile().setGender(gender);
-	// }
 
 	public User(Long id, String email, String name, Gender gender) {
 		setId(id);
@@ -137,11 +122,6 @@ public class User implements Principal, Serializable {
 	public String getName() {
 		return getProfile() != null ? getProfile().getName() : null;
 	}
-
-	// @Transient
-	// public Gender getGender() {
-	// return getProfile() != null ? getProfile().getGender() : null;
-	// }
 
 	@Override
 	public int hashCode() {
