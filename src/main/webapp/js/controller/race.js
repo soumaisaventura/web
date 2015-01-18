@@ -3,7 +3,14 @@ $(function() {
 	RaceProxy.load($("#race").val()).done(loadOk);
 
 	$("#bt-registration").click(function() {
-		location.href = $("#race").val() + "/registration";
+		var url = App.getContextPath() + "/race/" + $("#race").val() + "/registration";
+
+		if (App.isLoggedIn()) {
+			location.href = url;
+		} else {
+			App.saveLocation(url);
+			location.href = App.getContextPath() + "/login";
+		}
 	});
 });
 

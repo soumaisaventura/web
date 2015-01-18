@@ -11,6 +11,10 @@ var App = {
 	saveLocation : function() {
 		sessionStorage.setItem("saved_location", location.href);
 	},
+	
+	saveLocation : function($url) {
+		sessionStorage.setItem("saved_location", $url);
+	},
 
 	getToken : function() {
 		return sessionStorage.getItem(this.tokenKey);
@@ -21,8 +25,12 @@ var App = {
 		sessionStorage.setItem(this.tokenKey, token);
 	},
 
-	setHeader : function(request) {
-		request.setRequestHeader("Authorization", "Token " + App.getToken());
+	isLoggedIn : function() {
+		return App.getToken() != null;
+	},
+
+	setHeader : function($request) {
+		$request.setRequestHeader("Authorization", "Token " + App.getToken());
 	},
 
 	removeToken : function() {
@@ -61,22 +69,24 @@ var App = {
 			}
 		});
 	},
-	
+
 	loadDateCombos : function($day, $month, $year) {
-		for (i=1; i<=31; i++){
+		for (i = 1; i <= 31; i++) {
 			$($day).append(new Option(i, i));
-		};
-		
-		var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-		                   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
-		for (i=1; i<=12; i++){
-			$($month).append(new Option(monthNames[i-1], i));
-		};
-		
-		for (i=2015; i>= 1915; i--){
+		}
+		;
+
+		var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro",
+				"Dezembro" ];
+		for (i = 1; i <= 12; i++) {
+			$($month).append(new Option(monthNames[i - 1], i));
+		}
+		;
+
+		for (i = 2015; i >= 1915; i--) {
 			$($year).append(new Option(i, i));
 		}
-		
+
 	}
 };
 
