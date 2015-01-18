@@ -43,7 +43,7 @@ public class RaceREST {
 			data.date = race.getDate();
 			data.registration = new RegistrationData();
 			data.registration.open = race.getOpen();
-			data.city = race.getCity() != null ? race.getCity().getName() + "/"
+			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 					+ race.getCity().getState().getAbbreviation() : null;
 			data.registration.periods = null;
 			data.courses = null;
