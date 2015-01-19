@@ -19,4 +19,5 @@ function logoutOk() {
 	$(".loggedin-menu").hide();
 	$(".loggedout-menu").show();
 	App.removeToken();
+	location.href = App.getContextPath() + "/home";
 }

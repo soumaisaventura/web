@@ -4,12 +4,7 @@ var App = {
 
 	restoreLocation : function() {
 		var url = sessionStorage.getItem("saved_location");
-		location.href = url ? url : App.getContextPath() + "/home";
-		sessionStorage.removeItem("saved_location");
-	},
-
-	saveLocation : function() {
-		sessionStorage.setItem("saved_location", location.href);
+		location.href = (url ? url : App.getContextPath() + "/home");
 	},
 
 	saveLocation : function($url) {
@@ -92,8 +87,8 @@ $.ajaxSetup({
 	error : function(request) {
 		switch (request.status) {
 			case 401:
-				alert("Olá, precisamos saber quem é você")
-				App.saveLocation();
+				// alert(location.href);
+				App.saveLocation(location.href);
 				location.href = App.getContextPath() + "/login";
 				break;
 
