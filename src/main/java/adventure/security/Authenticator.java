@@ -44,10 +44,10 @@ public class Authenticator extends TokenAuthenticator {
 	private boolean doesConfirmationTokenMatch(User user) {
 		boolean result = false;
 
-		if (user.getConfirmationToken() != null) {
+		if (user.getActivationToken() != null) {
 			ActivationSession session = Beans.getReference(ActivationSession.class);
 			String hash = Passwords.hash(session.getToken(), user.getEmail());
-			result = user.getConfirmationToken().equals(hash);
+			result = user.getActivationToken().equals(hash);
 		}
 
 		return result;
@@ -59,7 +59,7 @@ public class Authenticator extends TokenAuthenticator {
 		if (user.getPassword() == null) {
 			throw new PasswordNotDefinedException();
 
-		} else if (user.getConfirmation() == null) {
+		} else if (user.getActivation() == null) {
 			throw new UnconfirmedUserException();
 
 		} else {

@@ -56,9 +56,9 @@ public class PasswordREST {
 			persisted.setPassword(Passwords.hash(data.newPassword, persisted.getEmail()));
 
 			boolean wasActivated = false;
-			if (persisted.getConfirmation() == null) {
-				persisted.setConfirmation(new Date());
-				persisted.setConfirmationToken(null);
+			if (persisted.getActivation() == null) {
+				persisted.setActivation(new Date());
+				persisted.setActivationToken(null);
 				wasActivated = true;
 			}
 

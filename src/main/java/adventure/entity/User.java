@@ -65,12 +65,12 @@ public class User implements Principal, Serializable {
 
 	@JsonIgnore
 	@Temporal(DATE)
-	@Column(name = "CONFIRMATION")
-	private Date confirmation;
+	@Column(name = "ACTIVATION")
+	private Date activation;
 
 	@JsonIgnore
-	@Column(name = "CONFIRMATION_TOKEN")
-	private String confirmationToken;
+	@Column(name = "ACTIVATION_TOKEN")
+	private String activationToken;
 
 	@JsonIgnore
 	@Temporal(DATE)
@@ -103,13 +103,13 @@ public class User implements Principal, Serializable {
 		getProfile().setGender(gender);
 	}
 
-	public User(Long id, String email, String password, Date confirmation, String confirmationToken, String name,
+	public User(Long id, String email, String password, Date activation, String activationToken, String name,
 			Gender gender) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
-		setConfirmation(confirmation);
-		setConfirmationToken(confirmationToken);
+		setActivation(activation);
+		setActivationToken(activationToken);
 
 		setProfile(new Profile());
 		getProfile().setName(name);
@@ -201,20 +201,20 @@ public class User implements Principal, Serializable {
 		this.creation = creation;
 	}
 
-	public Date getConfirmation() {
-		return confirmation;
+	public Date getActivation() {
+		return activation;
 	}
 
-	public void setConfirmation(Date confirmation) {
-		this.confirmation = confirmation;
+	public void setActivation(Date activation) {
+		this.activation = activation;
 	}
 
-	public String getConfirmationToken() {
-		return confirmationToken;
+	public String getActivationToken() {
+		return activationToken;
 	}
 
-	public void setConfirmationToken(String confirmationToken) {
-		this.confirmationToken = confirmationToken;
+	public void setActivationToken(String activationToken) {
+		this.activationToken = activationToken;
 	}
 
 	public Date getDeleted() {

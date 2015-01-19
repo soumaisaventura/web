@@ -110,7 +110,7 @@ public class Load {
 		user.setEmail(username);
 		user.setPassword(Passwords.hash(password, username));
 		user.setCreation(new Date());
-		user.setConfirmation(verified ? new Date() : null);
+		user.setActivation(verified ? new Date() : null);
 		em.persist(user);
 
 		Profile profile = new Profile(user);

@@ -48,13 +48,13 @@ public class MailDAO implements Serializable {
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
-		if (user.getConfirmationToken() == null) {
+		if (user.getActivationToken() == null) {
 			token = Passwords.randomToken();
 			User persisted = userDAO.load(user.getId());
-			persisted.setConfirmationToken(Passwords.hash(token, persisted.getEmail()));
+			persisted.setActivationToken(Passwords.hash(token, persisted.getEmail()));
 			userDAO.update(persisted);
 		} else {
-			token = user.getConfirmationToken();
+			token = user.getActivationToken();
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
