@@ -33,6 +33,18 @@ public class Health implements Serializable {
 	@Column(name = "ALLERGY")
 	private String allergy;
 
+	@Column(name = "HEALTH_CARE_NAME")
+	private String healthCareName;
+
+	@Column(name = "HEALTH_CARE_NUMBER")
+	private String healthCareNumber;
+
+	@Column(name = "EMERGENCY_CONTACT_NAME")
+	private String emergencyContactName;
+
+	@Column(name = "EMERGENCY_CONTACT_PHONE_NUMBER")
+	private String emergencyContactPhoneNumber;
+
 	@Column(name = "PENDENT", nullable = false)
 	private boolean pendent = true;
 
@@ -95,6 +107,38 @@ public class Health implements Serializable {
 
 	public void setAllergy(String allergy) {
 		this.allergy = allergy;
+	}
+
+	public String getHealthCareName() {
+		return healthCareName;
+	}
+
+	public void setHealthCareName(String healthCareName) {
+		this.healthCareName = healthCareName;
+	}
+
+	public String getHealthCareNumber() {
+		return healthCareNumber;
+	}
+
+	public void setHealthCareNumber(String healthCareNumber) {
+		this.healthCareNumber = healthCareNumber;
+	}
+
+	public String getEmergencyContactName() {
+		return emergencyContactName;
+	}
+
+	public void setEmergencyContactName(String emergencyContactName) {
+		this.emergencyContactName = emergencyContactName;
+	}
+
+	public String getEmergencyContactPhoneNumber() {
+		return emergencyContactPhoneNumber;
+	}
+
+	public void setEmergencyContactPhoneNumber(String emergencyContactPhoneNumber) {
+		this.emergencyContactPhoneNumber = emergencyContactPhoneNumber;
 	}
 
 	public boolean isPendent() {

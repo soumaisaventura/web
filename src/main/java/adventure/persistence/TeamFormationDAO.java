@@ -36,7 +36,7 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append(" 	new " + User.class.getName() + "(a.id, a.email, p.name, p.gender) ");
 		jpql.append(" from ");
 		jpql.append(" 	Profile p join p.user a");
-		jpql.append(" where a.confirmation is not null ");
+		jpql.append(" where a.activation is not null ");
 		jpql.append("   and a.id not in :exclusion ");
 		jpql.append("   and lower(p.name) like :filter ");
 

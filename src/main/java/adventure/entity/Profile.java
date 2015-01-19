@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,15 +54,45 @@ public class Profile implements Serializable {
 	@Column(name = "BIRTHDAY")
 	private Date birthday;
 
+	@Column(name = "MOBILE")
+	private String mobile;
+
 	@NotNull
 	@Enumerated(STRING)
 	@Column(name = "GENDER")
 	private Gender gender;
 
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "CITY_ID")
+	@ForeignKey(name = "FK_USER_CITY")
+	@Index(name = "IDX_USER_CITY")
+	private City city;
+
 	@Column(name = "PENDENT", nullable = false)
 	private boolean pendent = true;
 
 	public Profile() {
+	}
+
+	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, boolean pendent, Long userId,
+			String userEmail, Long cityId, String cityName, Long stateId, String stateName, String stateAbbreviation) {
+		setName(name);
+		setRg(rg);
+		setCpf(cpf);
+		setBirthday(birthday);
+		setMobile(mobile);
+		setGender(gender);
+		setPendent(pendent);
+		setUser(new User());
+		getUser().setId(userId);
+		getUser().setEmail(userEmail);
+		setCity(new City());
+		getCity().setId(cityId);
+		getCity().setName(cityName);
+		getCity().setState(new State());
+		getCity().getState().setId(stateId);
+		getCity().getState().setName(stateName);
+		getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	public Profile(User user) {
@@ -138,12 +169,28 @@ public class Profile implements Serializable {
 		this.birthday = birthday;
 	}
 
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public Gender getGender() {
 		return gender;
 	}
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public boolean isPendent() {

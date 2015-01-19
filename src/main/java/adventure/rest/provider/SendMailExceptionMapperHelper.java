@@ -6,31 +6,30 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import java.net.URI;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import br.gov.frameworkdemoiselle.security.Credentials;
+import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
 
 public abstract class SendMailExceptionMapperHelper {
 
-	@Inject
 	private Logger logger;
-
-	@Inject
-	private Credentials credentials;
 
 	@Context
 	private UriInfo uriInfo;
 
+	protected abstract void sendMail(Credentials credentials, URI baseUri) throws Exception;
+
 	public Response toResponse(Exception exception) {
 		int status = SC_UNAUTHORIZED;
-		logger.log(FINE, "Mapeando exceção", exception);
+		getLogger().log(FINE, "Mapeando exceção", exception);
 
 		try {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			sendMail(credentials, baseUri);
+			sendMail(Beans.getReference(Credentials.class), baseUri);
 		} catch (Exception cause) {
 			throw new RuntimeException(cause);
 		}
@@ -39,5 +38,11 @@ public abstract class SendMailExceptionMapperHelper {
 				.type("text/plain").build();
 	}
 
-	protected abstract void sendMail(Credentials credentials, URI baseUri) throws Exception;
+	protected Logger getLogger() {
+		if (logger == null) {
+			this.logger = Beans.getReference(Logger.class, new NameQualifier(this.getClass().getName()));
+		}
+
+		return this.logger;
+	}
 }

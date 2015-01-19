@@ -42,7 +42,8 @@ public class PasswordREST {
 	@ValidatePayload
 	@Path("reset/{token}")
 	@Consumes("application/json")
-	public void reset(@PathParam("token") String token, PerformResetData data) throws Exception {
+	public void reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+			throws Exception {
 		UserDAO dao = UserDAO.getInstance();
 		User persisted = dao.load(data.email);
 
@@ -53,11 +54,21 @@ public class PasswordREST {
 			persisted.setPasswordResetToken(null);
 			persisted.setPasswordResetRequest(null);
 			persisted.setPassword(Passwords.hash(data.newPassword, persisted.getEmail()));
-			persisted.setConfirmation(new Date());
-			persisted.setConfirmationToken(null);
-			dao.update(persisted);
 
+			boolean wasActivated = false;
+			if (persisted.getActivation() == null) {
+				persisted.setActivation(new Date());
+				persisted.setActivationToken(null);
+				wasActivated = true;
+			}
+
+			dao.update(persisted);
 			login(data.email, data.newPassword);
+
+			if (wasActivated) {
+				URI baseUri = uriInfo.getBaseUri().resolve("..");
+				Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
+			}
 		}
 	}
 

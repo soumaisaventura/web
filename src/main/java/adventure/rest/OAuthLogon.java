@@ -38,7 +38,7 @@ public abstract class OAuthLogon {
 		User persisted = UserDAO.getInstance().loadForAuthentication(oauth.getEmail());
 
 		if (persisted == null) {
-			oauth.setConfirmation(new Date());
+			oauth.setActivation(new Date());
 			userDAO.insert(oauth);
 			oauth.getProfile().setUser(oauth);
 			profileDAO.insert(oauth.getProfile());
@@ -48,8 +48,8 @@ public abstract class OAuthLogon {
 			login(oauth.getEmail());
 			Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
 
-		} else if (persisted.getConfirmation() == null) {
-			oauth.setConfirmation(new Date());
+		} else if (persisted.getActivation() == null) {
+			oauth.setActivation(new Date());
 		}
 
 		if (persisted != null) {

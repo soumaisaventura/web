@@ -7,6 +7,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import adventure.entity.BloodType;
 import adventure.entity.Health;
 import adventure.entity.User;
@@ -28,6 +30,10 @@ public class HealthREST {
 		data.bloodType = persisted.getBloodType();
 		data.allergy = persisted.getAllergy();
 		data.pendent = persisted.isPendent();
+		data.healthCareName = persisted.getHealthCareName();
+		data.healthCareNumber = persisted.getHealthCareNumber();
+		data.emergencyContactName = persisted.getEmergencyContactName();
+		data.emergencyContactPhoneNumber = persisted.getEmergencyContactPhoneNumber();
 
 		return data;
 	}
@@ -41,6 +47,10 @@ public class HealthREST {
 		Health persisted = HealthDAO.getInstance().load(User.getLoggedIn());
 		persisted.setBloodType(data.bloodType);
 		persisted.setAllergy(data.allergy);
+		persisted.setHealthCareName(data.healthCareName);
+		persisted.setHealthCareNumber(data.healthCareNumber);
+		persisted.setEmergencyContactName(data.emergencyContactName);
+		persisted.setEmergencyContactPhoneNumber(data.emergencyContactPhoneNumber);
 		persisted.setPendent(false);
 
 		HealthDAO.getInstance().update(persisted);
@@ -52,6 +62,16 @@ public class HealthREST {
 		public BloodType bloodType;
 
 		public String allergy;
+
+		public String healthCareName;
+
+		public String healthCareNumber;
+
+		@NotEmpty
+		public String emergencyContactName;
+
+		@NotEmpty
+		public String emergencyContactPhoneNumber;
 
 		private boolean pendent;
 

@@ -76,8 +76,8 @@ public class SignUpREST {
 
 		login(persisted.getEmail(), token);
 
-		persisted.setConfirmationToken(null);
-		persisted.setConfirmation(new Date());
+		persisted.setActivationToken(null);
+		persisted.setActivation(new Date());
 		userDAO.update(persisted);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
@@ -85,8 +85,8 @@ public class SignUpREST {
 	}
 
 	private void validate(String token, User user) throws Exception {
-		if (user == null || user.getConfirmationToken() == null
-				|| !user.getConfirmationToken().equals(Passwords.hash(token, user.getEmail()))) {
+		if (user == null || user.getActivationToken() == null
+				|| !user.getActivationToken().equals(Passwords.hash(token, user.getEmail()))) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 		}
 	}

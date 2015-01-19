@@ -49,7 +49,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append(" 	new User(a.id, a.email, p.name, p.gender) ");
 		jpql.append(" from ");
 		jpql.append(" 	Profile p join p.user a ");
-		jpql.append(" where a.confirmation is not null ");
+		jpql.append(" where a.activation is not null ");
 		jpql.append("   and lower(p.name) like :filter ");
 		jpql.append("   and a.id not in :excludeIds ");
 		jpql.append("   and a not in ( ");
@@ -100,8 +100,8 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append("       a.id, ");
 		jpql.append("       a.email, ");
 		jpql.append("       a.password, ");
-		jpql.append("       a.confirmation, ");
-		jpql.append("       a.confirmationToken, ");
+		jpql.append("       a.activation, ");
+		jpql.append("       a.activationToken, ");
 		jpql.append("       p.name, ");
 		jpql.append("       p.gender) ");
 		jpql.append("   from Profile p");

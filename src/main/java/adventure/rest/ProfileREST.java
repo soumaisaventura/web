@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
 import adventure.entity.User;
+import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -28,15 +29,20 @@ public class ProfileREST {
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile persisted = ProfileDAO.getInstance().load(User.getLoggedIn());
+		Profile profile = ProfileDAO.getInstance().loadDetails(User.getLoggedIn());
 
 		ProfileData data = new ProfileData();
-		data.name = persisted.getName();
-		data.rg = persisted.getRg();
-		data.cpf = persisted.getCpf();
-		data.birthday = persisted.getBirthday();
-		data.gender = persisted.getGender();
-		data.pendent = persisted.isPendent();
+		data.name = profile.getName();
+		data.rg = profile.getRg();
+		data.cpf = profile.getCpf();
+		data.birthday = profile.getBirthday();
+		data.mobile = profile.getMobile();
+		data.gender = profile.getGender();
+		data.pendent = profile.isPendent();
+		data.city = new CityData();
+		data.city.id = profile.getCity().getId();
+		data.city.name = profile.getCity().getName();
+		data.city.state = profile.getCity().getState().getAbbreviation();
 
 		return data;
 	}
@@ -54,6 +60,7 @@ public class ProfileREST {
 		persisted.setBirthday(data.birthday);
 		persisted.setGender(data.gender);
 		persisted.setPendent(false);
+		persisted.setCity(CityDAO.getInstance().load(data.city.id));
 
 		ProfileDAO.getInstance().update(persisted);
 	}
@@ -74,16 +81,29 @@ public class ProfileREST {
 		@NotNull
 		public Date birthday;
 
+		@NotEmpty
+		public String mobile;
+
 		@NotNull
 		public Gender gender;
 
 		@NotNull
-		public Long city;
+		public CityData city;
 
 		private boolean pendent;
 
 		public boolean isPendent() {
 			return pendent;
 		}
+	}
+
+	public static class CityData {
+
+		@NotNull
+		public Long id;
+
+		public String name;
+
+		public String state;
 	}
 }
