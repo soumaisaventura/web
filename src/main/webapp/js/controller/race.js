@@ -66,7 +66,9 @@ function loadOk(data) {
 
 	if (data.organizers.length > 0) {
 		$.each(data.organizers, function(index, value) {
-			$("#organizers").append("<h4>" + value.name + " <span style='font-size:0.8em; color:#EA8E13'>" + value.email + "</span></h4>");
+			$("#organizers").append(
+					"<h4>" + value.name + " <a style='font-size:0.8em; color:#EA8E13' href='mailto:" + value.email + "?Subject=Dúvida sobra a prova "
+							+ data.name + "'>" + value.email + "</a></h4>");
 		});
 		$("#organizers-section").show();
 	}

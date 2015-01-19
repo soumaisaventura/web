@@ -30,8 +30,8 @@ import br.gov.frameworkdemoiselle.util.Strings;
 public class RaceREST {
 
 	@GET
-	@Cache
 	@Path("next")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<RaceData> next() throws Exception {
 		List<RaceData> result = new ArrayList<RaceData>();
@@ -54,8 +54,8 @@ public class RaceREST {
 	}
 
 	@GET
-	@Cache
 	@Path("{id}")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData load(@PathParam("id") Long id) throws Exception {
 		RaceData data = new RaceData();
@@ -77,8 +77,8 @@ public class RaceREST {
 	}
 
 	@GET
-	@Cache
 	@Path("{id}/banner")
+	@Cache("max-age=28800")
 	@Produces("application/octet-stream")
 	public byte[] getBanner(@PathParam("id") Long id) throws Exception {
 		Race race = RaceDAO.getInstance().load(id);
@@ -162,7 +162,7 @@ public class RaceREST {
 	}
 
 	@GET
-	@Cache
+	@Cache("max-age=28800")
 	@Path("{id}/courses")
 	@Produces("application/json")
 	public List<CourseData> findCourses(@PathParam("id") Long id) throws Exception {
