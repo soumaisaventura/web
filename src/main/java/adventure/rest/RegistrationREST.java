@@ -34,8 +34,6 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
-import br.gov.frameworkdemoiselle.transaction.Transaction;
-import br.gov.frameworkdemoiselle.transaction.TransactionContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -56,26 +54,16 @@ public class RegistrationREST {
 
 	@POST
 	@LoggedIn
+	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("text/plain")
 	public String submit(RegistrationData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
-		Transaction transaction = Beans.getReference(TransactionContext.class).getCurrentTransaction();
-		transaction.begin();
-		SubmitResult submitResult = null;
-
-		try {
-			ValidationResult validationResult = validateData(data, id);
-			submitResult = submit(data, validationResult);
-			transaction.commit();
-		} catch (Exception cause) {
-			transaction.rollback();
-			throw cause;
-		}
+		ValidationResult validationResult = validateData(data, id);
+		SubmitResult submitResult = submit(data, validationResult);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendRegistrationCreation(submitResult.registration, submitResult.members,
-				baseUri);
+		MailDAO.getInstance().sendRegistrationCreation(submitResult.registration, submitResult.members, baseUri);
 		return submitResult.registration.getFormattedId();
 	}
 
@@ -114,18 +102,21 @@ public class RegistrationREST {
 	}
 
 	private Race loadRace(Long id) throws Exception {
-		Race result = Beans.getReference(RaceDAO.class).load(id);
+		Race result = RaceDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {
 			throw new NotFoundException();
+		}
+
+		if (!result.getOpen()) {
+			throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
 		}
 
 		return result;
 	}
 
 	private RaceCategory loadRaceCategory(Long raceId, Long courseId, Long categoryId) throws Exception {
-		RaceCategory result = Beans.getReference(RaceCategoryDAO.class).loadForRegistration(raceId, courseId,
-				categoryId);
+		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, courseId, categoryId);
 
 		if (result == null) {
 			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
