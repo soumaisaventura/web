@@ -1,6 +1,8 @@
 $(function() {
 	var members = [];
 
+	$("#name").focus();
+	
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
 	ProfileProxy.load().done(loadStep1Ok);
@@ -26,29 +28,37 @@ $(function() {
 					members.push(ui.item.value);
 					console.log(members);
 					$("#members").append(
-							'<li class="list-group-item">' 
-							+ ui.item.label
-							+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+							'<li class="list-group-item">' + ui.item.label
+									+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
 					$("#user").val("");
 					return false;
 				}
 			});
 
-	$("#city").autocomplete(
-			{
-				source : function(request, response) {
-					LocationProxy.searchCity(request.term).done(function(data) {
-						response(convertToLabelValueStructureFromCity(data));
-					});
-				},
-				minLength : 3,
-				select : function(event, ui) {
-					$("#city-id").val(ui.item.value);
-					$("#city").val(ui.item.label);
-					return false;
-				}
-			});
 	
+	$("#city").autocomplete({
+		source : function(request, response) {
+			LocationProxy.searchCity(request.term).done(function(data) {
+				response(convertToLabelValueStructureFromCity(data));
+			});
+		},
+		minLength : 3,
+		select : function(event, ui) {
+			$("#city").val(ui.item.label.split("/")[0]);
+			$("#city-id").val(ui.item.value);
+			return false;
+		},
+		change : function(event, ui) {
+			$("#city-id").val(ui.item ? ui.item.value : null);
+			return false;
+		},
+		focus: function( event, ui ) {
+			$("#city-id").val(ui.item.value);
+			$("#city").val(ui.item.label.split("/")[0]);
+			return false;
+		}
+	});
+
 	// Barra de Navegação
 	var navListItems = $('ul.setup-panel li a'), allWells = $('.setup-content');
 
@@ -70,22 +80,14 @@ $(function() {
 
 	// Cadastro dos dados pessoais
 	$('#activate-step-2').on('click', function(e) {
-		var birthday = "";
-		var year = $("#birthday-year").val();
-		var month = $("#birthday-month").val();
-		var day = $("#birthday").val();
-		
-		if (!isNaN(year) && !isNaN(month) && !isNaN(day)){
-			console.log('data válida');
-			birthday = new Date(year, month, day);
-		}
-
 		var data = {
 			'name' : $("#name").val(),
-			'birthday' : birthday,
+			'birthday' : $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val(),
 			'rg' : $("#rg").val(),
 			'cpf' : $("#cpf").val(),
-			'city-id' : $("#city-id").val(),
+			'city' : {
+				"id" : $("#city-id").val()
+			},
 			'gender' : $("#gender").val(),
 			'mobile' : $("#mobile").val()
 		};
@@ -122,12 +124,16 @@ $(function() {
  */
 function loadStep1Ok(data) {
 	console.log(data);
+	console.log(data.birthday.split("-")[1]);
 	$("#name").val(data.name);
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
-	// $("#birthday").val(data.birthday);
+	$("#birthday-year").val(parseInt(data.birthday.split("-")[0]));
+	$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
+	$("#birthday").val(parseInt(data.birthday.split("-")[2]));
 	$("#gender").val(data.gender);
-	$("#city").val(data.city);
+	$("#city-id").val(data.city.id);
+	$("#city").val(data.city.name);
 	$("#mobile").val(data.mobile);
 
 	$("#loggedUser").text(data.name);
@@ -301,7 +307,7 @@ function convertToLabelValueStructureFromCity(data) {
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
-			"label" : this.name + " - " + this.state,
+			"label" : this.name + "/" + this.state,
 			"value" : this.id
 		});
 	});

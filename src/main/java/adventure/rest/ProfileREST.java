@@ -58,6 +58,7 @@ public class ProfileREST {
 		persisted.setRg(data.rg);
 		persisted.setCpf(data.cpf);
 		persisted.setBirthday(data.birthday);
+		persisted.setMobile(data.mobile);
 		persisted.setGender(data.gender);
 		persisted.setPendent(false);
 		persisted.setCity(CityDAO.getInstance().load(data.city.id));
