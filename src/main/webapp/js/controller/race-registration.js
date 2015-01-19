@@ -114,7 +114,7 @@ $(function() {
 			'members' : members
 		};
 
-		RaceProxy.validateRegistration(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
 
 });

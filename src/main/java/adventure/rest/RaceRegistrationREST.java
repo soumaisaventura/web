@@ -39,7 +39,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race/{id}/registration")
-public class RegistrationREST {
+public class RaceRegistrationREST {
 
 	@POST
 	@LoggedIn
