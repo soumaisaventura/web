@@ -54,6 +54,9 @@ public class Profile implements Serializable {
 	@Column(name = "BIRTHDAY")
 	private Date birthday;
 
+	@Column(name = "MOBILE")
+	private String mobile;
+
 	@NotNull
 	@Enumerated(STRING)
 	@Column(name = "GENDER")
@@ -71,12 +74,13 @@ public class Profile implements Serializable {
 	public Profile() {
 	}
 
-	public Profile(String name, String rg, String cpf, Date birthday, Gender gender, boolean pendent, Long userId,
+	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, boolean pendent, Long userId,
 			String userEmail, Long cityId, String cityName, Long stateId, String stateName, String stateAbbreviation) {
 		setName(name);
 		setRg(rg);
 		setCpf(cpf);
 		setBirthday(birthday);
+		setMobile(mobile);
 		setGender(gender);
 		setPendent(pendent);
 		setUser(new User());
@@ -163,6 +167,14 @@ public class Profile implements Serializable {
 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public Gender getGender() {

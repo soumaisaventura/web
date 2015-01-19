@@ -35,6 +35,7 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 		jpql.append(" 	     p.rg, ");
 		jpql.append(" 	     p.cpf, ");
 		jpql.append(" 	     p.birthday, ");
+		jpql.append(" 	     p.mobile, ");
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendent, ");
 		jpql.append(" 	     u.id, ");

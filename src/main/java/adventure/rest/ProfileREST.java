@@ -36,6 +36,7 @@ public class ProfileREST {
 		data.rg = profile.getRg();
 		data.cpf = profile.getCpf();
 		data.birthday = profile.getBirthday();
+		data.mobile = profile.getMobile();
 		data.gender = profile.getGender();
 		data.pendent = profile.isPendent();
 		data.city = new CityData();
@@ -79,6 +80,9 @@ public class ProfileREST {
 		@Past
 		@NotNull
 		public Date birthday;
+
+		@NotEmpty
+		public String mobile;
 
 		@NotNull
 		public Gender gender;
