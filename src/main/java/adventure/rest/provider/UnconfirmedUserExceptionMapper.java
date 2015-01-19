@@ -24,5 +24,4 @@ public class UnconfirmedUserExceptionMapper extends SendMailExceptionMapperHelpe
 	protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
 		Beans.getReference(MailDAO.class).sendUserActivation(credentials.getUsername(), baseUri);
 	}
-
 }
