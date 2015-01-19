@@ -44,7 +44,7 @@ function loadOk(data) {
 		$.each(data.registration.periods, function(index, value) {
 			$("#registration-periods").append(
 					"<h4>" + moment(value.beginning, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " à "
-							+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + ": R$ " + value.price + "</h4>")
+							+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + ": R$ " + value.price + "<small>*</small></h4>")
 		});
 		$("#registration-periods-section").show();
 	}

@@ -124,7 +124,7 @@ public class Load {
 		return user;
 	}
 
-//	@Startup
+	@Startup
 	@SuppressWarnings("unused")
 	public void perform() throws Exception {
 		em.createQuery("delete from Registration").executeUpdate();
