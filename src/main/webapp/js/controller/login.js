@@ -1,10 +1,5 @@
 $(function() {
-
 	$("#username").focus();
-
-	$(window).load(function() {
-		$("#facebook-login, #google-login").removeAttr("disabled");
-	});
 
 	$("form").submit(function(event) {
 		event.preventDefault();
@@ -18,7 +13,9 @@ $(function() {
 		LogonProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
-	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	$(window).load(function() {
+		LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	});
 });
 
 function getOAuthAppIdsOk(data) {
@@ -50,6 +47,8 @@ function getOAuthAppIdsOk(data) {
 									'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login'
 								});
 					});
+
+	$("#facebook-login, #google-login").removeAttr("disabled");
 }
 
 // Regular login process
