@@ -11,7 +11,7 @@ var App = {
 	saveLocation : function() {
 		sessionStorage.setItem("saved_location", location.href);
 	},
-	
+
 	saveLocation : function($url) {
 		sessionStorage.setItem("saved_location", $url);
 	},
@@ -21,7 +21,6 @@ var App = {
 	},
 
 	setToken : function(token) {
-		console.log(token);
 		sessionStorage.setItem(this.tokenKey, token);
 	},
 
@@ -62,10 +61,10 @@ var App = {
 			});
 
 			if (message) {
-				$("#" + id + "-message").addClass("alert-danger").html(message).show();
+				$("#" + id.replace(".", "\\.") + "-message").addClass("alert-danger").html(message).show();
 				$(this).focus();
 			} else {
-				$("#" + id + "-message").removeClass("alert-danger").hide();
+				$("#" + id.replace(".", "\\.") + "-message").removeClass("alert-danger").hide();
 			}
 		});
 	},
@@ -75,14 +74,15 @@ var App = {
 			$($day).append(new Option(i, i));
 		}
 
-		var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
+		var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro",
+				"Dezembro" ];
 		for (i = 1; i <= 12; i++) {
 			$($month).append(new Option(monthNames[i - 1], i));
 		}
 
 		var year = (new Date()).getFullYear();
-		
-		for (i = year; i >= year-100; i--) {
+
+		for (i = year; i >= year - 100; i--) {
 			$($year).append(new Option(i, i));
 		}
 	}

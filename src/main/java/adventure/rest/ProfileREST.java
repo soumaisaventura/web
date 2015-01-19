@@ -2,6 +2,7 @@ package adventure.rest;
 
 import java.util.Date;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.ws.rs.Consumes;
@@ -88,6 +89,7 @@ public class ProfileREST {
 		@NotNull
 		public Gender gender;
 
+		@Valid
 		@NotNull
 		public CityData city;
 
@@ -100,7 +102,7 @@ public class ProfileREST {
 
 	public static class CityData {
 
-		@NotNull
+		@NotNull(message = "escolha uma cidade listada")
 		public Long id;
 
 		public String name;

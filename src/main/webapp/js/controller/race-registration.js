@@ -45,15 +45,15 @@ $(function() {
 		minLength : 3,
 		select : function(event, ui) {
 			$("#city").val(ui.item.label.split("/")[0]);
-			$("#city-id").val(ui.item.value);
+			$("#city\\.id").val(ui.item.value);
 			return false;
 		},
 		change : function(event, ui) {
-			$("#city-id").val(ui.item ? ui.item.value : null);
+			$("#city\\.id").val(ui.item ? ui.item.value : null);
 			return false;
 		},
 		focus: function( event, ui ) {
-			$("#city-id").val(ui.item.value);
+			$("#city\\.id").val(ui.item.value);
 			$("#city").val(ui.item.label.split("/")[0]);
 			return false;
 		}
@@ -86,7 +86,7 @@ $(function() {
 			'rg' : $("#rg").val(),
 			'cpf' : $("#cpf").val(),
 			'city' : {
-				"id" : $("#city-id").val()
+				"id" : $("#city\\.id").val()
 			},
 			'gender' : $("#gender").val(),
 			'mobile' : $("#mobile").val()
@@ -132,7 +132,7 @@ function loadStep1Ok(data) {
 	$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
 	$("#birthday").val(parseInt(data.birthday.split("-")[2]));
 	$("#gender").val(data.gender);
-	$("#city-id").val(data.city.id);
+	$("#city\\.id").val(data.city.id);
 	$("#city").val(data.city.name);
 	$("#mobile").val(data.mobile);
 
