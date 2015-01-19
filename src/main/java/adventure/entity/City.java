@@ -33,11 +33,12 @@ public class City {
 	public City() {
 	}
 
-	public City(Long id, String name, String stateName, String countryName) {
+	public City(Long id, String name, String stateName, String stateAbbreviation, String countryName) {
 		setId(id);
 		setName(name);
 		setState(new State());
 		getState().setName(stateName);
+		getState().setAbbreviation(stateAbbreviation);
 		getState().setCountry(new Country());
 		getState().getCountry().setName(countryName);
 	}

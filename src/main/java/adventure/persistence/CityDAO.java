@@ -26,6 +26,7 @@ public class CityDAO extends JPACrud<City, Long> {
 		jpql.append(" 	    c.id, ");
 		jpql.append(" 	    c.name, ");
 		jpql.append(" 	    s.name, ");
+		jpql.append(" 	    s.abbreviation, ");
 		jpql.append(" 	    o.name ");
 		jpql.append(" 	    ) ");
 		jpql.append("  from City c ");

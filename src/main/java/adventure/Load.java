@@ -164,6 +164,7 @@ public class Load {
 		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
+		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
 
 		User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
 		User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);

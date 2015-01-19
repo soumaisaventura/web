@@ -1,91 +1,121 @@
-$(document).ready(
-		function() {
-			var members = [];
+$(function() {
+	var members = [];
 
-			ProfileProxy.load().done(loadStep1Ok);
-			HealthProxy.load().done(loadStep2Ok);
-			RaceProxy.findCategories($("#race").val()).done(loadComboCategoriesOk);
+	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
-			/**
-			 * TODO Trazer o nome do atleta logo como primeiro item e sem
-			 * permissão de exclusão Guardar as informações num array e montar a
-			 * lista baseada no array. Ao remover item retirar do array.
-			 * Adicionar o excludes na pesquisa. Não permitir adicionar mais
-			 * atletas que a quantidade permitida da corrida.
-			 */
-			$("#user").autocomplete(
-					{
-						source : function(request, response) {
-							RaceProxy.searchAvailableUsers($("#race").val(), request.term, members).done(function(data) {
-								response(convertToLabelValueStructure(data));
-							});
-						},
-						minLength : 3,
-						select : function(event, ui) {
-							members.push(ui.item.value);
-							console.log(members);
-							$("#members").append(
-									'<li class="list-group-item">' + ui.item.label
-											+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
-							$("#user").val("");
-							return false;
-						}
+	ProfileProxy.load().done(loadStep1Ok);
+	HealthProxy.load().done(loadStep2Ok);
+	RaceProxy.findCategories($("#race").val()).done(loadComboCategoriesOk);
+
+	/**
+	 * TODO Trazer o nome do atleta logo como primeiro item e sem permissão de
+	 * exclusão Guardar as informações num array e montar a lista baseada no
+	 * array. Ao remover item retirar do array. Adicionar o excludes na
+	 * pesquisa. Não permitir adicionar mais atletas que a quantidade permitida
+	 * da corrida.
+	 */
+	$("#user").autocomplete(
+			{
+				source : function(request, response) {
+					RaceProxy.searchAvailableUsers($("#race").val(), request.term, members).done(function(data) {
+						response(convertToLabelValueStructureFromUser(data));
 					});
-
-			// Barra de Navegação
-			var navListItems = $('ul.setup-panel li a'), allWells = $('.setup-content');
-
-			allWells.hide();
-
-			navListItems.click(function(e) {
-				e.preventDefault();
-				var $target = $($(this).attr('href')), $item = $(this).closest('li');
-
-				if (!$item.hasClass('disabled')) {
-					navListItems.closest('li').removeClass('active');
-					$item.addClass('active');
-					allWells.hide();
-					$target.show();
+				},
+				minLength : 3,
+				select : function(event, ui) {
+					members.push(ui.item.value);
+					console.log(members);
+					$("#members").append(
+							'<li class="list-group-item">' 
+							+ ui.item.label
+							+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+					$("#user").val("");
+					return false;
 				}
 			});
 
-			$('ul.setup-panel li.active a').trigger('click');
-
-			// Cadastro dos dados pessoais
-			$('#activate-step-2').on('click', function(e) {
-				var data = {
-					'name' : $("#name").val(),
-					'rg' : $("#rg").val(),
-					'cpf' : $("#cpf").val(),
-					'birthday' : $("#birthday").val(),
-					'gender' : $("#gender").val()
-				};
-				ProfileProxy.update(data).done(updateStep1Ok).fail(updateStep1Fail);
+	$("#city").autocomplete(
+			{
+				source : function(request, response) {
+					LocationProxy.searchCity(request.term).done(function(data) {
+						response(convertToLabelValueStructureFromCity(data));
+					});
+				},
+				minLength : 3,
+				select : function(event, ui) {
+					$("#city-id").val(ui.item.value);
+					$("#city").val(ui.item.label);
+					return false;
+				}
 			});
+	
+	// Barra de Navegação
+	var navListItems = $('ul.setup-panel li a'), allWells = $('.setup-content');
 
-			// Cadastro dos dados médicos
-			$('#activate-step-3').on('click', function(e) {
-				var data = {
-					'bloodType' : $("#bloodType").val(),
-					'allergy' : $("#allergy").val()
-				};
-				HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
-			});
+	allWells.hide();
 
-			// Cadastro dos dados da corrida
-			$('#activate-step-4').on('click', function(e) {
+	navListItems.click(function(e) {
+		e.preventDefault();
+		var $target = $($(this).attr('href')), $item = $(this).closest('li');
 
-				var data = {
-					'teamName' : $("#teamName").val(),
-					'category' : $("#category").val().split("#")[0],
-					'course' : $("#category").val().split("#")[2],
-					'members' : members
-				};
+		if (!$item.hasClass('disabled')) {
+			navListItems.closest('li').removeClass('active');
+			$item.addClass('active');
+			allWells.hide();
+			$target.show();
+		}
+	});
 
-				RaceProxy.validateRegistration(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
-			});
+	$('ul.setup-panel li.active a').trigger('click');
 
-		});
+	// Cadastro dos dados pessoais
+	$('#activate-step-2').on('click', function(e) {
+		var birthday = "";
+		var year = $("#birthday-year").val();
+		var month = $("#birthday-month").val();
+		var day = $("#birthday").val();
+		
+		if (!isNaN(year) && !isNaN(month) && !isNaN(day)){
+			console.log('data válida');
+			birthday = new Date(year, month, day);
+		}
+
+		var data = {
+			'name' : $("#name").val(),
+			'birthday' : birthday,
+			'rg' : $("#rg").val(),
+			'cpf' : $("#cpf").val(),
+			'city-id' : $("#city-id").val(),
+			'gender' : $("#gender").val(),
+			'mobile' : $("#mobile").val()
+		};
+		console.log(data);
+		ProfileProxy.update(data).done(updateStep1Ok).fail(updateStep1Fail);
+	});
+
+	// Cadastro dos dados médicos
+	$('#activate-step-3').on('click', function(e) {
+		var data = {
+			'bloodType' : $("#bloodType").val(),
+			'allergy' : $("#allergy").val()
+		};
+		HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
+	});
+
+	// Cadastro dos dados da corrida
+	$('#activate-step-4').on('click', function(e) {
+
+		var data = {
+			'teamName' : $("#teamName").val(),
+			'category' : $("#category").val().split("#")[0],
+			'course' : $("#category").val().split("#")[2],
+			'members' : members
+		};
+
+		RaceProxy.validateRegistration(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+	});
+
+});
 
 /**
  * Função que carrega os dados pessoais do usuário.
@@ -95,8 +125,10 @@ function loadStep1Ok(data) {
 	$("#name").val(data.name);
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
-	$("#birthday").val(data.birthday);
+	// $("#birthday").val(data.birthday);
 	$("#gender").val(data.gender);
+	$("#city").val(data.city);
+	$("#mobile").val(data.mobile);
 
 	$("#loggedUser").text(data.name);
 }
@@ -250,11 +282,26 @@ function updateStep3Fail(request) {
  * Função utilitária que converte o objeto retornado no suggest para o formato
  * do jqueryUi.
  */
-function convertToLabelValueStructure(data) {
+function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
 			"label" : this.name,
+			"value" : this.id
+		});
+	});
+	return newData;
+}
+
+/**
+ * Função utilitária que converte o objeto retornado no suggest para o formato
+ * do jqueryUi.
+ */
+function convertToLabelValueStructureFromCity(data) {
+	var newData = [];
+	$.each(data, function() {
+		newData.push({
+			"label" : this.name + " - " + this.state,
 			"value" : this.id
 		});
 	});

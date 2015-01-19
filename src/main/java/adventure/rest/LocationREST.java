@@ -28,7 +28,7 @@ public class LocationREST {
 			data = new CityData();
 			data.id = city.getId();
 			data.name = city.getName();
-			data.state = city.getState().getName();
+			data.state = city.getState().getAbbreviation();
 
 			// if (!"brasil".equals(city.getState().getCountry().getName().toLowerCase())) {
 			data.country = city.getState().getCountry().getName();
