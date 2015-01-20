@@ -29,12 +29,7 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<ul class="nav nav-pills nav-justified thumbnail setup-panel">
-						<li class="active"><a href="#step-1" style="cursor:default;">
-								<p class="list-group-item-text">Dados Pessoais</p>
-						</a></li>
-						<li class="disabled"><a href="#step-2" style="cursor:default;">
-								<p class="list-group-item-text">Dados Médicos</p>
-						</a></li>
+						
 						<li class="disabled"><a href="#step-3" style="cursor:default;">
 								<p class="list-group-item-text">Dados da Equipe</p>
 						</a></li>
@@ -47,87 +42,6 @@
 					</ul>
 				</div>
 			</div>
-			<div class="row setup-content" id="step-1">
-				
-			</fgh>
-
-			<div class="row setup-content" id="step-2">
-				<form id="form-step-2">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="bloodType">Tipo Sanguíneo</label>
-									<select	id="bloodType" class="form-control">
-										<option value="" selected="selected"></option>
-										<option value="A+">A+</option>
-										<option value="A-">A-</option>
-										<option value="B+">B+</option>
-										<option value="B-">B-</option>
-										<option value="AB+">AB+</option>
-										<option value="AB-">AB-</option>
-										<option value="O+">O+</option>
-										<option value="O-">O-</option>
-									</select>
-									<span id="bloodType-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="allergy">Alergia</label>
-									<input id="allergy" type="text" class="form-control" /> 
-									<span id="allergy-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="healthCareName">Plano de Saúde</label>
-									<input id="healthCareName" type="text" class="form-control" /> 
-									<span id="healthCareName-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="healthCareNumber">Número do Plano de Saúde</label>
-									<input id="healthCareNumber" type="text" class="form-control" /> 
-									<span id="healthCareNumber-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="emergencyContactName">Nome do contato de emergência</label>
-									<input id="emergencyContactName" type="text" class="form-control" /> 
-									<span id="emergencyContactName-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="emergencyContactPhoneNumber">Número de telefone do contato de emergência</label>
-									<input id="emergencyContactPhoneNumber" type="text" class="form-control" /> 
-									<span id="emergencyContactPhoneNumber-message" hidden="true" class="label label-danger" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 text-center">
-								<div class="form-group">
-									<button type="button" id="activate-step-1" class="btn btn-lg btn-warning pull-left">
-										Anterior
-									</button>
-									<button type="button" id="activate-step-3" class="btn btn-lg btn-success pull-right">
-										Próximo
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-
 			
 			<div class="row setup-content" id="step-3">
 				<form id="form-step-3">
