@@ -91,20 +91,31 @@ public class User implements Principal, Serializable {
 	public User() {
 	}
 
-	public User(Long id, String email, String name, Gender gender) {
+	public User(Long id, String email, String profileName, Gender profileGender) {
 		setId(id);
 		setEmail(email);
 
-		if (getProfile() == null) {
-			setProfile(new Profile());
-		}
-
-		getProfile().setName(name);
-		getProfile().setGender(gender);
+		setProfile(new Profile());
+		getProfile().setName(profileName);
+		getProfile().setGender(profileGender);
 	}
 
-	public User(Long id, String email, String password, Date activation, String activationToken, String name,
-			Gender gender) throws Exception {
+	public User(Long id, String email, String profileName, Gender profileGender, boolean profilePendent,
+			boolean healthPendent) {
+		setId(id);
+		setEmail(email);
+
+		setProfile(new Profile());
+		getProfile().setName(profileName);
+		getProfile().setGender(profileGender);
+		getProfile().setPendent(profilePendent);
+
+		setHealth(new Health());
+		getHealth().setPendent(healthPendent);
+	}
+
+	public User(Long id, String email, String password, Date activation, String activationToken, String profileName,
+			Gender profileGender, boolean profilePendent, boolean healthPendent) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
@@ -112,8 +123,12 @@ public class User implements Principal, Serializable {
 		setActivationToken(activationToken);
 
 		setProfile(new Profile());
-		getProfile().setName(name);
-		getProfile().setGender(gender);
+		getProfile().setName(profileName);
+		getProfile().setGender(profileGender);
+		getProfile().setPendent(profilePendent);
+
+		setHealth(new Health());
+		getHealth().setPendent(healthPendent);
 	}
 
 	@Override

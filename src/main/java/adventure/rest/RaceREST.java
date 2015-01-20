@@ -22,7 +22,6 @@ import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -111,7 +110,7 @@ public class RaceREST {
 	private List<PeriodData> loadPeriod(Race race) throws Exception {
 		List<PeriodData> result = new ArrayList<PeriodData>();
 
-		for (Period period : Beans.getReference(PeriodDAO.class).find(race)) {
+		for (Period period : PeriodDAO.getInstance().find(race)) {
 			PeriodData periodData = new PeriodData();
 			periodData.id = period.getId();
 			periodData.beginning = period.getBeginning();
@@ -126,7 +125,7 @@ public class RaceREST {
 	private List<CourseData> loadCourse(Race race) throws Exception {
 		List<CourseData> result = new ArrayList<CourseData>();
 
-		for (Course course : Beans.getReference(CourseDAO.class).findWithCategories(race)) {
+		for (Course course : CourseDAO.getInstance().findWithCategories(race)) {
 			CourseData courseData = new CourseData();
 			courseData.id = course.getId();
 			courseData.length = course.getLength();
@@ -149,7 +148,7 @@ public class RaceREST {
 	private List<OrganizerData> loadOrganizer(Race race) throws Exception {
 		List<OrganizerData> result = new ArrayList<OrganizerData>();
 
-		for (User organizers : Beans.getReference(UserDAO.class).findRaceOrganizers(race)) {
+		for (User organizers : UserDAO.getInstance().findRaceOrganizers(race)) {
 			OrganizerData organizerData = new OrganizerData();
 			organizerData.id = organizers.getId();
 			organizerData.email = organizers.getEmail();
@@ -166,9 +165,9 @@ public class RaceREST {
 	@Produces("application/json")
 	public List<User> search(@PathParam("id") Long id, @QueryParam("q") String q,
 			@QueryParam("excludes") List<Long> excludes) throws Exception {
-		Race race = loadJustRaceId(id);
+		loadJustRaceId(id);
 		validate(q);
-		return Beans.getReference(UserDAO.class).searchAvailable(race, q, excludes);
+		return UserDAO.getInstance().search(q, excludes);
 	}
 
 	private void validate(String q) throws Exception {
@@ -195,7 +194,7 @@ public class RaceREST {
 	public OrderData getOrder(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
 		Race race = loadJustRaceId(id);
 
-		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(race);
+		Period period = PeriodDAO.getInstance().loadCurrent(race);
 		OrderData data = new OrderData();
 
 		if (users.isEmpty()) {
@@ -203,7 +202,7 @@ public class RaceREST {
 
 		} else {
 			for (Long userId : users) {
-				User user = Beans.getReference(UserDAO.class).loadBasics(userId);
+				User user = UserDAO.getInstance().loadBasics(userId);
 
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");

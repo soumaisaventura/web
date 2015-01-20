@@ -42,11 +42,11 @@ public abstract class OAuthLogon {
 			userDAO.insert(oauth);
 			oauth.getProfile().setUser(oauth);
 			profileDAO.insert(oauth.getProfile());
-			Beans.getReference(HealthDAO.class).insert(new Health(oauth));
+			HealthDAO.getInstance().insert(new Health(oauth));
 
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			login(oauth.getEmail());
-			Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
+			MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 
 		} else if (persisted.getActivation() == null) {
 			oauth.setActivation(new Date());

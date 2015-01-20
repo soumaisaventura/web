@@ -14,9 +14,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
+import adventure.entity.User;
 
 @Path("logon/oauth/facebook")
 public class FacebookLogonREST extends OAuthLogon {

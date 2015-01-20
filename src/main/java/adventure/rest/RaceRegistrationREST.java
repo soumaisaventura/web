@@ -35,7 +35,6 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race/{id}/registration")
@@ -72,17 +71,12 @@ public class RaceRegistrationREST {
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
 		registration.setRaceCategory(validationResult.raceCategory);
-		registration.setCreator(Beans.getReference(UserDAO.class).load(User.getLoggedIn().getEmail()));
+		registration.setCreator(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
 		result.registration = RegistrationDAO.getInstance().insert(registration);
 
 		for (User member : validationResult.members) {
-			User atachedMember = Beans.getReference(UserDAO.class).load(member.getId());
+			User atachedMember = UserDAO.getInstance().load(member.getId());
 			TeamFormation teamFormation = new TeamFormation(registration, atachedMember);
-
-			if (member.getId().equals(User.getLoggedIn().getId())) {
-				teamFormation.setConfirmed(true);
-			}
-
 			TeamFormationDAO.getInstance().insert(teamFormation);
 			result.members.add(atachedMember);
 		}
@@ -130,7 +124,7 @@ public class RaceRegistrationREST {
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
 		for (Long id : ids) {
-			User user = Beans.getReference(UserDAO.class).loadBasics(id);
+			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
 				exception.addViolation("members", "usuário " + id + " inválido");

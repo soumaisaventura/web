@@ -67,7 +67,7 @@ public class PasswordREST {
 
 			if (wasActivated) {
 				URI baseUri = uriInfo.getBaseUri().resolve("..");
-				Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
+				MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 			}
 		}
 	}

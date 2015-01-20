@@ -114,12 +114,12 @@ public class MailDAO implements Serializable {
 
 	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
 		User creator = userDAO.loadBasics(registration.getCreator().getEmail());
-		registration = Beans.getReference(RegistrationDAO.class).loadForMail(registration.getId());
+		registration = RegistrationDAO.getInstance().loadForMail(registration.getId());
 
 		String[] memberNames = new String[members.size()];
 		for (int i = 0; i < members.size(); i++) {
 			// TODO Não tem necessidade de novo select. Já poderia vir preenchido
-			Profile profile = Beans.getReference(ProfileDAO.class).load(members.get(i));
+			Profile profile = ProfileDAO.getInstance().load(members.get(i));
 			memberNames[i] = profile.getName();
 		}
 
@@ -135,7 +135,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
 		content = content.replace("{members}", Strings.join(" / ", memberNames));
 
-		Period period = Beans.getReference(PeriodDAO.class).loadCurrent(registration.getRaceCategory().getRace());
+		Period period = PeriodDAO.getInstance().loadCurrent(registration.getRaceCategory().getRace());
 		content = content.replace("{racePrice}", period.getPrice().toString().replace(".", ","));
 
 		String subject = "Portal FBCA - Pedido de inscrição";
@@ -165,16 +165,6 @@ public class MailDAO implements Serializable {
 
 		}.start();
 	}
-
-	// private User getUser(String email) {
-	// User user = userDAO.loadFull(email);
-	//
-	// if (user == null) {
-	// throw new IllegalStateException("Nenhuma conta associada ao e-mail " + email);
-	// }
-	//
-	// return user;
-	// }
 
 	private Session getSession() {
 		Properties props = new Properties();

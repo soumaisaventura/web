@@ -2,14 +2,12 @@ package adventure.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -35,18 +33,12 @@ public class TeamFormation implements Serializable {
 	@Index(name = "IDX_TEAM_FORMATION_USER")
 	private User user;
 
-	@NotNull
-	@Column(name = "CONFIRMED")
-	@Index(name = "IDX_TEAM_FORMATION_CONFIRMED")
-	private boolean confirmed;
-
 	public TeamFormation() {
 	}
 
 	public TeamFormation(Registration registration, User user) {
 		this.registration = registration;
 		this.user = user;
-		this.confirmed = false;
 	}
 
 	@Override
@@ -101,13 +93,5 @@ public class TeamFormation implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public boolean isConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(boolean confirmed) {
-		this.confirmed = confirmed;
 	}
 }

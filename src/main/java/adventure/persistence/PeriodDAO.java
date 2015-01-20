@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class PeriodDAO implements Serializable {
@@ -22,6 +23,10 @@ public class PeriodDAO implements Serializable {
 
 	@Inject
 	private EntityManager em;
+
+	public static PeriodDAO getInstance() {
+		return Beans.getReference(PeriodDAO.class);
+	}
 
 	public Period loadCurrent(Race race) throws Exception {
 		StringBuffer jpql = new StringBuffer();

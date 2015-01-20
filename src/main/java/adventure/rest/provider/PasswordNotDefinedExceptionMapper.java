@@ -9,7 +9,6 @@ import javax.ws.rs.ext.Provider;
 import adventure.persistence.MailDAO;
 import adventure.security.PasswordNotDefinedException;
 import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.util.Beans;
 
 @Provider
 public class PasswordNotDefinedExceptionMapper extends SendMailExceptionMapperHelper implements
@@ -22,6 +21,6 @@ public class PasswordNotDefinedExceptionMapper extends SendMailExceptionMapperHe
 
 	@Override
 	protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
-		Beans.getReference(MailDAO.class).sendPasswordCreationMail(credentials.getUsername(), baseUri);
+		MailDAO.getInstance().sendPasswordCreationMail(credentials.getUsername(), baseUri);
 	}
 }

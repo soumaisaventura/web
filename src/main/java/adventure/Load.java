@@ -35,9 +35,8 @@ public class Load {
 	@Inject
 	private EntityManager em;
 
-	private TeamFormation newTeamFormation(Registration registration, User user, boolean confirmed) throws Exception {
+	private TeamFormation newTeamFormation(Registration registration, User user) throws Exception {
 		TeamFormation teamFormation = new TeamFormation(registration, user);
-		teamFormation.setConfirmed(confirmed);
 		em.persist(teamFormation);
 		return teamFormation;
 	}
@@ -50,7 +49,7 @@ public class Load {
 		em.persist(registration);
 
 		for (int i = 0; i < members.length; i++) {
-			newTeamFormation(registration, members[i], i % 2 == 0);
+			newTeamFormation(registration, members[i]);
 		}
 
 		return registration;

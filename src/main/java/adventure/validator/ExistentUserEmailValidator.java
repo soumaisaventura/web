@@ -4,7 +4,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import adventure.persistence.UserDAO;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 public class ExistentUserEmailValidator implements ConstraintValidator<ExistentUserEmail, String> {
@@ -18,7 +17,7 @@ public class ExistentUserEmailValidator implements ConstraintValidator<ExistentU
 		boolean result = true;
 
 		if (!Strings.isEmpty(email)) {
-			result = Beans.getReference(UserDAO.class).load(email) != null;
+			result = UserDAO.getInstance().load(email) != null;
 		}
 
 		return result;

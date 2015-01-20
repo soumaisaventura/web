@@ -57,11 +57,11 @@ public class SignUpREST {
 		profile.setName(data.name);
 		profile.setBirthday(data.birthday);
 		profile.setGender(data.gender);
-		Beans.getReference(ProfileDAO.class).insert(profile);
-		Beans.getReference(HealthDAO.class).insert(new Health(user));
+		ProfileDAO.getInstance().insert(profile);
+		HealthDAO.getInstance().insert(new Health(user));
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendUserActivation(user.getEmail(), baseUri);
+		MailDAO.getInstance().sendUserActivation(user.getEmail(), baseUri);
 	}
 
 	@POST
@@ -81,7 +81,7 @@ public class SignUpREST {
 		userDAO.update(persisted);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		Beans.getReference(MailDAO.class).sendWelcome(User.getLoggedIn(), baseUri);
+		MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 	}
 
 	private void validate(String token, User user) throws Exception {

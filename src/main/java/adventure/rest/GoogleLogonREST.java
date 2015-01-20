@@ -2,9 +2,9 @@ package adventure.rest;
 
 import javax.ws.rs.Path;
 
-import adventure.entity.User;
 import adventure.entity.Gender;
 import adventure.entity.Profile;
+import adventure.entity.User;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.util.Beans;
 

@@ -11,11 +11,16 @@ import adventure.entity.Course;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
 public class CourseDAO extends JPACrud<Course, Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static CourseDAO getInstance() {
+		return Beans.getReference(CourseDAO.class);
+	}
 
 	public List<Course> findWithCategories(Race race) throws Exception {
 		StringBuffer jpql = new StringBuffer();
