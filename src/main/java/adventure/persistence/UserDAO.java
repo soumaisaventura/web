@@ -53,7 +53,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendent, ");
 		jpql.append(" 	     h.pendent ");
-		jpql.append(" 	 ) ");
+		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p ");
 		jpql.append("   join p.user u, ");
 		jpql.append("        Health h");
@@ -71,7 +71,6 @@ public class UserDAO extends JPACrud<User, Long> {
 
 		query.setParameter("excludeIds", excludeIds);
 		query.setParameter("filter", Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase() + "%");
-		// query.setParameter("race", race);
 
 		return query.getResultList();
 	}
@@ -107,6 +106,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append("        p.gender, ");
 		jpql.append(" 	     p.pendent, ");
 		jpql.append(" 	     h.pendent ");
+		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");
 		jpql.append("        Health h ");

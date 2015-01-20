@@ -28,19 +28,5 @@ var RaceProxy = {
 			type : "GET",
 			url : this.url + "/" + $race + "/banner"
 		});
-	},
-
-	searchAvailableUsers : function($race, $filter, $excludes) {
-		return $.ajax({
-			url : this.url + "/" + $race + "/users",
-			dataType : "json",
-			data : {
-				q : $filter,
-				excludes : $excludes
-			},
-			beforeSend : function(request) {
-				App.setHeader(request);
-			}
-		});
 	}
 };

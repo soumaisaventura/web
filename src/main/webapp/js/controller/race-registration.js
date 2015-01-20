@@ -4,28 +4,28 @@ $(function() {
 	 * Objeto que guardará os dados da equipe
 	 */
 	var teamData;
-	
+
 	/**
-	 * Array usado para armazenar os id dos membros da equipe
-	 * Já inicializa com id do usuário logado
+	 * Array usado para armazenar os id dos membros da equipe Já inicializa com
+	 * id do usuário logado
 	 */
 	var team = [];
-	UserProxy.getLoggedInUser().done(function(user){
+	UserProxy.getLoggedInUser().done(function(user) {
 		team.push(user.id);
 	});
-		
+
 	/**
-	 * Adiciona um event listener para remoção nos membros inseridos na equipe 
-	 * */
-	$(".list-group").on("click", "a", function(e){
+	 * Adiciona um event listener para remoção nos membros inseridos na equipe
+	 */
+	$(".list-group").on("click", "a", function(e) {
 		e.preventDefault();
 		var index = team.indexOf($(this).data("remove"));
 		if (index > -1) {
 			team.splice(index, 1);
-			$("#member-"+$(this).data("remove")).remove();
+			$("#member-" + $(this).data("remove")).remove();
 		}
 	});
-	
+
 	/**
 	 * Inicializa as combos da data de nascimento
 	 */
@@ -35,47 +35,52 @@ $(function() {
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
 	RaceProxy.findCourses($("#race").val()).done(loadComboCategoriesOk);
-	
+
 	/**
 	 * Carrega os dados pessoais
 	 */
 	ProfileProxy.load().done(loadStep1Ok);
-	
+
 	/**
 	 * Carrega os dados médicos
 	 */
 	HealthProxy.load().done(loadStep2Ok);
-	
-	
+
 	$("#name").focus();
 
 	/**
-	 * Habilita o autocomplete no campo Atleta
-	 * Ao selecionar o atleta automaticamente entra na lista de membros
+	 * Habilita o autocomplete no campo Atleta Ao selecionar o atleta
+	 * automaticamente entra na lista de membros
 	 */
-	$("#user").autocomplete(
-			{
-				source : function(request, response) {
-					RaceProxy.searchAvailableUsers($("#race").val(), request.term, team).done(function(data) {
-						response(convertToLabelValueStructureFromUser(data));
+	$("#user")
+			.autocomplete(
+					{
+						source : function(request, response) {
+							UserProxy.search(request.term, team).done(function(data) {
+								response(convertToLabelValueStructureFromUser(data));
+							});
+						},
+						minLength : 3,
+						select : function(event, ui) {
+							team.push(ui.item.value);
+							$("#members-list")
+									.append(
+											'<li class="list-group-item" id="member-'
+													+ ui.item.value
+													+ '">'
+													+ ui.item.label
+													+ '<a href="#" data-remove="'
+													+ ui.item.value
+													+ '"><span class="pull-right glyphicon glyphicon-remove" aria-hidden="true" title="Remover membro da equipe"></span></a></li>');
+							$("#user").val("");
+							console.log(team);
+							return false;
+						},
+						focus : function(event, ui) {
+							$("#user").val(ui.item.label);
+							return false;
+						}
 					});
-				},
-				minLength : 3,
-				select : function(event, ui) {
-					team.push(ui.item.value);
-					$("#members-list").append(
-							'<li class="list-group-item" id="member-' + ui.item.value + '">' 
-							+ ui.item.label
-							+ '<a href="#" data-remove="' + ui.item.value + '"><span class="pull-right glyphicon glyphicon-remove" aria-hidden="true" title="Remover membro da equipe"></span></a></li>');
-					$("#user").val("");
-					console.log(team);
-					return false;
-				},
-				focus: function( event, ui ) {
-					$("#user").val(ui.item.label);
-					return false;
-				}
-			});
 
 	/**
 	 * Habilita o autocomplete no campo Cidade de residência
@@ -96,7 +101,7 @@ $(function() {
 			$("#city\\.id").val(ui.item ? ui.item.value : null);
 			return false;
 		},
-		focus: function( event, ui ) {
+		focus : function(event, ui) {
 			$("#city\\.id").val(ui.item.value);
 			$("#city").val(ui.item.label.split("/")[0]);
 			return false;
@@ -126,15 +131,14 @@ $(function() {
 
 	/**
 	 * Cadastro dos dados pessoais
-	 */ 
+	 */
 	$('#activate-step-2').on('click', function(e) {
 		var birthday = "";
-		
-		if(!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())){
-			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val(); 
+
+		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
+			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
 		}
-		
-		
+
 		var data = {
 			'name' : $("#name").val(),
 			'birthday' : birthday,
@@ -151,7 +155,7 @@ $(function() {
 
 	/**
 	 * Cadastro dos dados médicos
-	 */ 
+	 */
 	$('#activate-step-3').on('click', function(e) {
 		var data = {
 			'bloodType' : $("#bloodType").val(),
@@ -166,7 +170,7 @@ $(function() {
 
 	/**
 	 * Cadastro dos dados da equipe
-	 */ 
+	 */
 	$('#activate-step-4').on('click', function(e) {
 
 		var data = {
@@ -175,7 +179,7 @@ $(function() {
 			'course' : $("#category").val().split("#")[1],
 			'members' : team
 		};
-		
+
 		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
 
@@ -190,13 +194,13 @@ function loadStep1Ok(data) {
 	$("#name").val(data.name);
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
-	
-	if(data.birthday){
+
+	if (data.birthday) {
 		$("#birthday-year").val(parseInt(data.birthday.split("-")[0]));
 		$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
 		$("#birthday").val(parseInt(data.birthday.split("-")[2]));
 	}
-	
+
 	$("#gender").val(data.gender);
 	$("#city\\.id").val(data.city.id);
 	$("#city").val(data.city.name);
@@ -228,10 +232,10 @@ function loadComboCategoriesOk(data) {
 		var optgroup = document.createElement("OPTGROUP");
 		optgroup.setAttribute("label", course.length + " km");
 		$("#category").append(optgroup);
-		$.each(course.categories, function(index, value){
-			$("#category").append(new Option(this.name, this.id+"#"+course.id));
+		$.each(course.categories, function(index, value) {
+			$("#category").append(new Option(this.name, this.id + "#" + course.id));
 		});
-		
+
 	});
 }
 

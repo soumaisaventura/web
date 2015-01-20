@@ -23,7 +23,6 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Cache;
-import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("race")
 public class RaceREST {
@@ -158,24 +157,6 @@ public class RaceREST {
 		}
 
 		return result;
-	}
-
-	@GET
-	@Path("{id}/users")
-	@Produces("application/json")
-	public List<User> search(@PathParam("id") Long id, @QueryParam("q") String q,
-			@QueryParam("excludes") List<Long> excludes) throws Exception {
-		loadJustRaceId(id);
-		validate(q);
-		return UserDAO.getInstance().search(q, excludes);
-	}
-
-	private void validate(String q) throws Exception {
-		if (Strings.isEmpty(q)) {
-			throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
-		} else if (q.length() < 3) {
-			throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
-		}
 	}
 
 	@GET
