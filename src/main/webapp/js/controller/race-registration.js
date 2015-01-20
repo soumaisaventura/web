@@ -84,9 +84,16 @@ $(function() {
 
 	// Cadastro dos dados pessoais
 	$('#activate-step-2').on('click', function(e) {
+		var birthday = "";
+		
+		if(!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())){
+			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val(); 
+		}
+		
+		
 		var data = {
 			'name' : $("#name").val(),
-			'birthday' : $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val(),
+			'birthday' : birthday,
 			'rg' : $("#rg").val(),
 			'cpf' : $("#cpf").val(),
 			'city' : {
@@ -129,14 +136,16 @@ $(function() {
  * Função que carrega os dados pessoais do usuário.
  */
 function loadStep1Ok(data) {
-	console.log(data);
-	console.log(data.birthday.split("-")[1]);
 	$("#name").val(data.name);
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
-	$("#birthday-year").val(parseInt(data.birthday.split("-")[0]));
-	$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
-	$("#birthday").val(parseInt(data.birthday.split("-")[2]));
+	
+	if(data.birthday){
+		$("#birthday-year").val(parseInt(data.birthday.split("-")[0]));
+		$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
+		$("#birthday").val(parseInt(data.birthday.split("-")[2]));
+	}
+	
 	$("#gender").val(data.gender);
 	$("#city\\.id").val(data.city.id);
 	$("#city").val(data.city.name);
