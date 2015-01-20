@@ -36,7 +36,6 @@ $(function() {
 	 */
 	$('#bt-save').on('click', function(e) {
 		var birthday = "";
-
 		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
 			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
 		}
@@ -91,6 +90,7 @@ function updateOk(data) {
 	console.log('updateOk');
 	$("[id$='-message'").hide();
 	$("#global-message").text("Dados atualizados com sucesso.").addClass("alert-success").show();
+	$("#profile-badge").text("");
 }
 
 /**

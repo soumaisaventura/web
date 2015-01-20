@@ -44,6 +44,7 @@ function updateOk(data) {
 	console.log('updateOk');
 	$("[id$='-message'").hide();
 	$("#global-message").text("Dados atualizados com sucesso.").addClass("alert-success").show();
+	$("#health-badge").text("");
 }
 
 /**

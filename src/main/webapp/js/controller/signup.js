@@ -8,11 +8,16 @@ $(function() {
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
+		var birthday = "";
+		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
+			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
+		}
+
 		var data = {
 			'name' : $("#name").val(),
 			'password' : $("#password").val(),
 			'email' : $("#email").val(),
-			'birthday' : $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val(),
+			'birthday' : birthday,
 			'gender' : $("#gender").val()
 		};
 		SignUpProxy.signup(data).done(signupOk);
