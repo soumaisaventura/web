@@ -38,11 +38,6 @@
 	</rule>
 
 	<rule>
-		<from>^/registration$</from>
-		<to>/registration.jsf</to>
-	</rule>
-
-	<rule>
 		<from>^/password/recovery$</from>
 		<to>/password-recovery.jsf</to>
 	</rule>
@@ -55,6 +50,16 @@
 	<rule>
 		<from>^/profile$</from>
 		<to>/profile.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/health$</from>
+		<to>/health.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/registration$</from>
+		<to>/registration.jsf</to>
 	</rule>
 
 	<rule>
