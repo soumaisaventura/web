@@ -1,13 +1,21 @@
 $(function() {
+
+	/**
+	 * Objeto que guardará os dados da equipe
+	 */
+	var teamData;
 	
+	/**
+	 * Array usado para armazenar os id dos membros da equipe
+	 * Já inicializa com id do usuário logado
+	 */
 	var team = [];
 	UserProxy.getLoggedInUser().done(function(user){
 		team.push(user.id);
 	});
-	
-	
+		
 	/**
-	 * 
+	 * Adiciona um event listener para remoção nos membros inseridos na equipe 
 	 * */
 	$(".list-group").on("click", "a", function(e){
 		e.preventDefault();
@@ -16,23 +24,34 @@ $(function() {
 			team.splice(index, 1);
 			$("#member-"+$(this).data("remove")).remove();
 		}
-		console.log(team);
 	});
 	
-	$("#name").focus();
-	
+	/**
+	 * Inicializa as combos da data de nascimento
+	 */
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
-	ProfileProxy.load().done(loadStep1Ok);
-	HealthProxy.load().done(loadStep2Ok);
+	/**
+	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
+	 */
 	RaceProxy.findCourses($("#race").val()).done(loadComboCategoriesOk);
+	
+	/**
+	 * Carrega os dados pessoais
+	 */
+	ProfileProxy.load().done(loadStep1Ok);
+	
+	/**
+	 * Carrega os dados médicos
+	 */
+	HealthProxy.load().done(loadStep2Ok);
+	
+	
+	$("#name").focus();
 
 	/**
-	 * TODO Trazer o nome do atleta logo como primeiro item e sem permissão de
-	 * exclusão Guardar as informações num array e montar a lista baseada no
-	 * array. Ao remover item retirar do array. Adicionar o excludes na
-	 * pesquisa. Não permitir adicionar mais atletas que a quantidade permitida
-	 * da corrida.
+	 * Habilita o autocomplete no campo Atleta
+	 * Ao selecionar o atleta automaticamente entra na lista de membros
 	 */
 	$("#user").autocomplete(
 			{
@@ -58,7 +77,9 @@ $(function() {
 				}
 			});
 
-	
+	/**
+	 * Habilita o autocomplete no campo Cidade de residência
+	 */
 	$("#city").autocomplete({
 		source : function(request, response) {
 			LocationProxy.searchCity(request.term).done(function(data) {
@@ -82,7 +103,9 @@ $(function() {
 		}
 	});
 
-	// Barra de Navegação
+	/**
+	 * Inicializa a barra de navegação
+	 */
 	var navListItems = $('ul.setup-panel li a'), allWells = $('.setup-content');
 
 	allWells.hide();
@@ -101,7 +124,9 @@ $(function() {
 
 	$('ul.setup-panel li.active a').trigger('click');
 
-	// Cadastro dos dados pessoais
+	/**
+	 * Cadastro dos dados pessoais
+	 */ 
 	$('#activate-step-2').on('click', function(e) {
 		var birthday = "";
 		
@@ -124,7 +149,9 @@ $(function() {
 		ProfileProxy.update(data).done(updateStep1Ok).fail(updateStep1Fail);
 	});
 
-	// Cadastro dos dados médicos
+	/**
+	 * Cadastro dos dados médicos
+	 */ 
 	$('#activate-step-3').on('click', function(e) {
 		var data = {
 			'bloodType' : $("#bloodType").val(),
@@ -137,7 +164,9 @@ $(function() {
 		HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
 	});
 
-	// Cadastro dos dados da equipe
+	/**
+	 * Cadastro dos dados da equipe
+	 */ 
 	$('#activate-step-4').on('click', function(e) {
 
 		var data = {
@@ -146,10 +175,13 @@ $(function() {
 			'course' : $("#category").val().split("#")[1],
 			'members' : team
 		};
+		
 		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
 
 });
+
+/* ---------------- Funções de Callback ---------------- */
 
 /**
  * Função que carrega os dados pessoais do usuário.
@@ -328,6 +360,8 @@ function updateStep3Fail(request) {
 			break;
 	}
 }
+
+/* ---------------- Funções Utilitárias ---------------- */
 
 /**
  * Função utilitária que converte o objeto retornado no suggest para o formato
