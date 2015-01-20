@@ -27,11 +27,6 @@ $(function() {
 	});
 
 	/**
-	 * Inicializa as combos da data de nascimento
-	 */
-	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
-
-	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
 	RaceProxy.findCourses($("#race").val()).done(loadComboCategoriesOk);
@@ -82,31 +77,7 @@ $(function() {
 						}
 					});
 
-	/**
-	 * Habilita o autocomplete no campo Cidade de residência
-	 */
-	$("#city").autocomplete({
-		source : function(request, response) {
-			LocationProxy.searchCity(request.term).done(function(data) {
-				response(convertToLabelValueStructureFromCity(data));
-			});
-		},
-		minLength : 3,
-		select : function(event, ui) {
-			$("#city").val(ui.item.label.split("/")[0]);
-			$("#city\\.id").val(ui.item.value);
-			return false;
-		},
-		change : function(event, ui) {
-			$("#city\\.id").val(ui.item ? ui.item.value : null);
-			return false;
-		},
-		focus : function(event, ui) {
-			$("#city\\.id").val(ui.item.value);
-			$("#city").val(ui.item.label.split("/")[0]);
-			return false;
-		}
-	});
+	
 
 	/**
 	 * Inicializa a barra de navegação
@@ -128,30 +99,6 @@ $(function() {
 	});
 
 	$('ul.setup-panel li.active a').trigger('click');
-
-	/**
-	 * Cadastro dos dados pessoais
-	 */
-	$('#activate-step-2').on('click', function(e) {
-		var birthday = "";
-
-		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
-			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
-		}
-
-		var data = {
-			'name' : $("#name").val(),
-			'birthday' : birthday,
-			'rg' : $("#rg").val(),
-			'cpf' : $("#cpf").val(),
-			'city' : {
-				"id" : $("#city\\.id").val()
-			},
-			'gender' : $("#gender").val(),
-			'mobile' : $("#mobile").val()
-		};
-		ProfileProxy.update(data).done(updateStep1Ok).fail(updateStep1Fail);
-	});
 
 	/**
 	 * Cadastro dos dados médicos
@@ -188,28 +135,6 @@ $(function() {
 /* ---------------- Funções de Callback ---------------- */
 
 /**
- * Função que carrega os dados pessoais do usuário.
- */
-function loadStep1Ok(data) {
-	$("#name").val(data.name);
-	$("#rg").val(data.rg);
-	$("#cpf").val(data.cpf);
-
-	if (data.birthday) {
-		$("#birthday-year").val(parseInt(data.birthday.split("-")[0]));
-		$("#birthday-month").val(parseInt(data.birthday.split("-")[1]));
-		$("#birthday").val(parseInt(data.birthday.split("-")[2]));
-	}
-
-	$("#gender").val(data.gender);
-	$("#city\\.id").val(data.city.id);
-	$("#city").val(data.city.name);
-	$("#mobile").val(data.mobile);
-
-	$("#loggedUser").text(data.name);
-}
-
-/**
  * Funçao que carrega os dados médicos do usuário.
  */
 function loadStep2Ok(data) {
@@ -239,15 +164,7 @@ function loadComboCategoriesOk(data) {
 	});
 }
 
-/**
- * 
- */
-function updateStep1Ok(data) {
-	console.log('updateStep1Ok');
-	$('ul.setup-panel li:eq(0)').addClass('disabled');
-	$('ul.setup-panel li:eq(1)').removeClass('disabled');
-	$('ul.setup-panel li a[href="#step-2"]').trigger('click');
-}
+
 
 /**
  * 
@@ -269,37 +186,7 @@ function updateStep3Ok(data) {
 	$('ul.setup-panel li a[href="#step-4"]').trigger('click');
 }
 
-/**
- * Tratamento de erro dos dados básicos.
- */
-function updateStep1Fail(request) {
-	console.log('updateFail');
-	switch (request.status) {
-		case 422:
-			$($("#form-step-1 input").get().reverse()).each(function() {
-				var id = $(this).attr('id');
-				var message = null;
 
-				$.each(request.responseJSON, function(index, value) {
-					if (id == value.property) {
-						message = value.message;
-						return;
-					}
-				});
-
-				if (message) {
-					$("#" + id + "-message").html(message).show();
-					$(this).focus();
-				} else {
-					$("#" + id + "-message").hide();
-				}
-			});
-			break;
-
-		default:
-			break;
-	}
-}
 
 /**
  * Tratamento de erro dos dados médicos.
@@ -382,17 +269,3 @@ function convertToLabelValueStructureFromUser(data) {
 	return newData;
 }
 
-/**
- * Função utilitária que converte o objeto retornado no suggest para o formato
- * do jqueryUi.
- */
-function convertToLabelValueStructureFromCity(data) {
-	var newData = [];
-	$.each(data, function() {
-		newData.push({
-			"label" : this.name + "/" + this.state,
-			"value" : this.id
-		});
-	});
-	return newData;
-}
