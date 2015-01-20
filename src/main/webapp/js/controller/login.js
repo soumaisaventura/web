@@ -1,10 +1,5 @@
 $(function() {
-
 	$("#username").focus();
-
-	$(window).load(function() {
-		$("#facebook-login, #google-login").removeAttr("disabled");
-	});
 
 	$("form").submit(function(event) {
 		event.preventDefault();
@@ -18,12 +13,15 @@ $(function() {
 		LogonProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
-	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	$(window).load(function() {
+		LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	});
 });
 
 function getOAuthAppIdsOk(data) {
 	$("#facebook-login").click(function() {
 		$("[id$='-message']").hide();
+		showModal();
 
 		FB.init({
 			appId : data.facebook,
@@ -41,6 +39,7 @@ function getOAuthAppIdsOk(data) {
 			.click(
 					function() {
 						$("[id$='-message']").hide();
+						showModal();
 
 						gapi.auth
 								.signIn({
@@ -50,6 +49,8 @@ function getOAuthAppIdsOk(data) {
 									'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login'
 								});
 					});
+
+	$("#facebook-login, #google-login").removeAttr("disabled");
 }
 
 // Regular login process
@@ -83,7 +84,7 @@ function facebookLogin(response) {
 
 		LogonProxy.facebookLogin(data).done(facebookLoginOk).fail(facebookLoginFailed);
 	} else {
-
+		hideModal();
 	}
 }
 
@@ -113,4 +114,34 @@ function googleLogin(authResult) {
 function googleLoginOk(data, status, request) {
 	gapi.auth.signOut();
 	loginOk(data, status, request);
+}
+
+function showModal() {
+	$('#modal').modal('show');
+
+	var opts = {
+		lines : 11, // The number of lines to draw
+		length : 19, // The length of each line
+		width : 10, // The line thickness
+		radius : 22, // The radius of the inner circle
+		corners : 1, // Corner roundness (0..1)
+		rotate : 0, // The rotation offset
+		direction : 1, // 1: clockwise, -1: counterclockwise
+		color : '#fff', // #rgb or #rrggbb or array of colors
+		speed : 1, // Rounds per second
+		trail : 50, // Afterglow percentage
+		shadow : false, // Whether to render a shadow
+		hwaccel : true, // Whether to use hardware acceleration
+		className : 'spinner', // The CSS class to assign to the spinner
+		zIndex : 2e9, // The z-index (defaults to 2000000000)
+		top : 'auto', // Top position relative to parent in px
+		left : 'auto' // Left position relative to parent in px
+	};
+
+	var target = document.getElementById('spin');
+	var spinner = new Spinner(opts).spin(target);
+}
+
+function hideModal() {
+	$('#modal').modal('hide');
 }

@@ -7,7 +7,7 @@ $(function() {
 
 	ProfileProxy.load().done(loadStep1Ok);
 	HealthProxy.load().done(loadStep2Ok);
-	RaceProxy.findCourses($("#race").val()).done(loadComboCategoriesOk);
+	RaceProxy.findCategories($("#race").val()).done(loadComboCategoriesOk);
 
 	/**
 	 * TODO Trazer o nome do atleta logo como primeiro item e sem permissão de
@@ -26,15 +26,11 @@ $(function() {
 				minLength : 3,
 				select : function(event, ui) {
 					members.push(ui.item.value);
+					console.log(members);
 					$("#members").append(
-							'<li class="list-group-item">' 
-							+ ui.item.label
-							+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+							'<li class="list-group-item">' + ui.item.label
+									+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
 					$("#user").val("");
-					return false;
-				},
-				focus: function( event, ui ) {
-					$("#user").val(ui.item.label);
 					return false;
 				}
 			});
@@ -103,11 +99,7 @@ $(function() {
 	$('#activate-step-3').on('click', function(e) {
 		var data = {
 			'bloodType' : $("#bloodType").val(),
-			'allergy' : $("#allergy").val(),
-			'healthCareName' : $("#healthCareName").val(),
-			'healthCareNumber' : $("#healthCareNumber").val(),
-			'emergencyContactName' : $("#emergencyContactName").val(),
-			'emergencyContactPhoneNumber' : $("#emergencyContactPhoneNumber").val(),
+			'allergy' : $("#allergy").val()
 		};
 		HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
 	});
@@ -118,11 +110,11 @@ $(function() {
 		var data = {
 			'teamName' : $("#teamName").val(),
 			'category' : $("#category").val().split("#")[0],
-			'course' : $("#category").val().split("#")[1],
+			'course' : $("#category").val().split("#")[2],
 			'members' : members
 		};
-		console.log(data);
-		RaceProxy.validateRegistration(data, $("#race").val()).done(updateStep3Ok).fail(updateStep3Fail);
+
+		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
 
 });
@@ -154,10 +146,6 @@ function loadStep2Ok(data) {
 	console.log(data);
 	$("#bloodType").val(data.bloodType);
 	$("#allergy").val(data.allergy);
-	$("#healthCareName").val(data.healthCareName);
-	$("#healthCareNumber").val(data.healthCareNumber);
-	$("#emergencyContactName").val(data.emergencyContactName);
-	$("#emergencyContactPhoneNumber").val(data.emergencyContactPhoneNumber);
 }
 
 /**
@@ -165,15 +153,8 @@ function loadStep2Ok(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadComboCategoriesOk(data) {
-	$.each(data, function(index, value) {
-		var course = value;
-		var optgroup = document.createElement("OPTGROUP");
-		optgroup.setAttribute("label", course.length + " km");
-		$("#category").append(optgroup);
-		$.each(course.categories, function(index, value){
-			$("#category").append(new Option(this.name, this.id+"#"+course.id));
-		});
-		
+	$.each(data, function() {
+		$("#category").append(new Option(this.name, this.id + "#" + this.teamSize + "#" + this.course));
 	});
 }
 
@@ -311,7 +292,7 @@ function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
-			"label" : this.profile.name,
+			"label" : this.name,
 			"value" : this.id
 		});
 	});

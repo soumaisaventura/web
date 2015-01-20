@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,6 +31,7 @@ public class Health implements Serializable {
 	@Column(name = "BLOOD_TYPE")
 	private BloodType bloodType;
 
+	@Lob
 	@Column(name = "ALLERGY")
 	private String allergy;
 

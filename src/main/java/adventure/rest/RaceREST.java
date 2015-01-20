@@ -77,6 +77,24 @@ public class RaceREST {
 	}
 
 	@GET
+	@Path("{id}/summary")
+	@Cache("max-age=28800")
+	@Produces("application/json")
+	public RaceData loadInfo(@PathParam("id") Long id) throws Exception {
+		RaceData data = new RaceData();
+		Race race = loadRaceDetails(id);
+
+		data.id = race.getId();
+		data.name = race.getName();
+		data.date = race.getDate();
+		data.description = race.getDescription();
+		data.registration = new RegistrationData();
+		data.registration.open = race.getOpen();
+
+		return data;
+	}
+
+	@GET
 	@Path("{id}/banner")
 	@Cache("max-age=28800")
 	@Produces("application/octet-stream")

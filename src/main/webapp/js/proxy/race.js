@@ -2,13 +2,13 @@ var RaceProxy = {
 
 	url : App.getContextPath() + "/api/race",
 
-	load : function($race){
+	load : function($race) {
 		return $.ajax({
-			type: "GET",
+			type : "GET",
 			url : this.url + "/" + $race
 		});
 	},
-		
+
 	findNext : function() {
 		return $.ajax({
 			type : "GET",
@@ -40,30 +40,6 @@ var RaceProxy = {
 			},
 			beforeSend : function(request) {
 				App.setHeader(request);
-			}
-		});
-	},
-
-	validateRegistration : function($data, $race) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/" + $race + "/registration/validate",
-			data : JSON.stringify($data),
-			contentType : "application/json",
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
-
-	submitRegistration : function($data, $race) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/" + $race + "/registration",
-			data : JSON.stringify($data),
-			contentType : "application/json",
-			beforeSend : function(request) {
-				App.setHeader(request)
 			}
 		});
 	}
