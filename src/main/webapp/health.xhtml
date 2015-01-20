@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+<ui:define name="lib">
+</ui:define>
+
+<ui:define name="proxy">
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/health.js"></script>
+</ui:define>
+
+<ui:define name="controller">
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/health.js"></script>
+</ui:define>
+
+<ui:define name="body">
+	health
+</ui:define>
+
+</ui:composition>
