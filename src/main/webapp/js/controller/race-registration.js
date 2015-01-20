@@ -1,6 +1,24 @@
 $(function() {
-	var members = [];
-
+	
+	var team = [];
+	UserProxy.getLoggedInUser().done(function(user){
+		team.push(user.id);
+	});
+	
+	
+	/**
+	 * 
+	 * */
+	$(".list-group").on("click", "a", function(e){
+		e.preventDefault();
+		var index = team.indexOf($(this).data("remove"));
+		if (index > -1) {
+			team.splice(index, 1);
+			$("#member-"+$(this).data("remove")).remove();
+		}
+		console.log(team);
+	});
+	
 	$("#name").focus();
 	
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
@@ -19,18 +37,19 @@ $(function() {
 	$("#user").autocomplete(
 			{
 				source : function(request, response) {
-					RaceProxy.searchAvailableUsers($("#race").val(), request.term, members).done(function(data) {
+					RaceProxy.searchAvailableUsers($("#race").val(), request.term, team).done(function(data) {
 						response(convertToLabelValueStructureFromUser(data));
 					});
 				},
 				minLength : 3,
 				select : function(event, ui) {
-					members.push(ui.item.value);
-					$("#members").append(
-							'<li class="list-group-item">' 
+					team.push(ui.item.value);
+					$("#members-list").append(
+							'<li class="list-group-item" id="member-' + ui.item.value + '">' 
 							+ ui.item.label
-							+ '<span class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+							+ '<a href="#" data-remove="' + ui.item.value + '"><span class="pull-right glyphicon glyphicon-remove" aria-hidden="true" title="Remover membro da equipe"></span></a></li>');
 					$("#user").val("");
+					console.log(team);
 					return false;
 				},
 				focus: function( event, ui ) {
@@ -118,14 +137,14 @@ $(function() {
 		HealthProxy.update(data).done(updateStep2Ok).fail(updateStep2Fail);
 	});
 
-	// Cadastro dos dados da corrida
+	// Cadastro dos dados da equipe
 	$('#activate-step-4').on('click', function(e) {
 
 		var data = {
 			'teamName' : $("#teamName").val(),
 			'category' : $("#category").val().split("#")[0],
 			'course' : $("#category").val().split("#")[1],
-			'members' : members
+			'members' : team
 		};
 		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
@@ -282,7 +301,7 @@ function updateStep2Fail(request) {
  * Tratamento de erro dos dados corrida.
  */
 function updateStep3Fail(request) {
-	console.log('updateFail');
+	console.log('updateStep3Fail');
 	switch (request.status) {
 		case 422:
 			$($("#form-step-3 input").get().reverse()).each(function() {

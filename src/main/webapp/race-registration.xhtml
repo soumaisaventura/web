@@ -36,7 +36,7 @@
 								<p class="list-group-item-text">Dados Médicos</p>
 						</a></li>
 						<li class="disabled"><a href="#step-3" style="cursor:default;">
-								<p class="list-group-item-text">Dados da Corrida</p>
+								<p class="list-group-item-text">Dados da Equipe</p>
 						</a></li>
 						<li class="disabled"><a href="#step-4" style="cursor:default;">
 								<p class="list-group-item-text">Confirmação</p>
@@ -245,11 +245,14 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								Membros da Equipe
-								<ol id="members" class="list-group">
-									<li id="loggedUser" class="list-group-item"></li>
-								</ol>
-								<span id="members-message" hidden="true" class="label label-danger" />
+								<div class="form-group">
+									<label>Membros da Equipe</label>
+									<input type="hidden" id="members"/> 
+									<ol id="members-list" class="list-group" style="margin-bottom: 0px;">
+										<li id="loggedUser" class="list-group-item"></li>
+									</ol>
+									<span id="members-message" hidden="true" class="label label-danger" />
+								</div>
 							</div>
 						</div>
 						<div class="row">
