@@ -9,7 +9,6 @@ $(function() {
 });
 
 function getLoggedInUserOk($data) {
-	console.log($data);
 	$(".loggedout-menu").hide();
 	$(".loggedin-menu").show();
 	$("#currentUser").html($data.profile.name);
