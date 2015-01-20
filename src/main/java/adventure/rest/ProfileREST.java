@@ -19,6 +19,7 @@ import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
+import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -39,7 +40,7 @@ public class ProfileREST {
 		data.birthday = profile.getBirthday();
 		data.mobile = profile.getMobile();
 		data.gender = profile.getGender();
-		data.pendent = profile.isPendent();
+		data.pendencies = profile.getPendencies();
 		data.city = new CityData();
 		data.city.id = profile.getCity().getId();
 		data.city.name = profile.getCity().getName();
@@ -61,10 +62,10 @@ public class ProfileREST {
 		persisted.setBirthday(data.birthday);
 		persisted.setMobile(data.mobile);
 		persisted.setGender(data.gender);
-		persisted.setPendent(false);
 		persisted.setCity(CityDAO.getInstance().load(data.city.id));
 
 		ProfileDAO.getInstance().update(persisted);
+		User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
 	}
 
 	public static class ProfileData {
@@ -93,10 +94,10 @@ public class ProfileREST {
 		@NotNull
 		public CityData city;
 
-		private boolean pendent;
+		private Integer pendencies;
 
-		public boolean isPendent() {
-			return pendent;
+		public Integer getPendencies() {
+			return pendencies;
 		}
 	}
 

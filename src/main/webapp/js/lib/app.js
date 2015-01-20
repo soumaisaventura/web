@@ -56,10 +56,10 @@ var App = {
 			});
 
 			if (message) {
-				$("#" + id.replace(".", "\\.") + "-message").addClass("alert-danger").html(message).show();
+				$("#" + id.replace(".", "\\.") + "-message").html(message).show();
 				$(this).focus();
 			} else {
-				$("#" + id.replace(".", "\\.") + "-message").removeClass("alert-danger").hide();
+				$("#" + id.replace(".", "\\.") + "-message").hide();
 			}
 		});
 	},

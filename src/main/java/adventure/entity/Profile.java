@@ -23,6 +23,8 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.util.PendencyCount;
+
 @Entity
 @Table(name = "PROFILE")
 public class Profile implements Serializable {
@@ -40,20 +42,24 @@ public class Profile implements Serializable {
 	@Index(name = "IDX_PROFILE_NAME")
 	private String name;
 
+	@PendencyCount
 	@Length(max = 10)
 	@Column(name = "RG")
 	private String rg;
 
+	@PendencyCount
 	@Length(max = 11)
 	@Column(name = "CPF")
 	@Index(name = "IDX_PROFILE_CPF")
 	private String cpf;
 
 	@Past
+	@PendencyCount
 	@Temporal(DATE)
 	@Column(name = "BIRTHDAY")
 	private Date birthday;
 
+	@PendencyCount
 	@Column(name = "MOBILE")
 	private String mobile;
 
@@ -62,27 +68,30 @@ public class Profile implements Serializable {
 	@Column(name = "GENDER")
 	private Gender gender;
 
+	@PendencyCount
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "CITY_ID")
 	@ForeignKey(name = "FK_USER_CITY")
 	@Index(name = "IDX_USER_CITY")
 	private City city;
 
-	@Column(name = "PENDENT", nullable = false)
-	private boolean pendent = true;
+	@NotNull
+	@Column(name = "PENDENCIES")
+	private Integer pendencies;
 
 	public Profile() {
 	}
 
-	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, boolean pendent, Long userId,
-			String userEmail, Long cityId, String cityName, Long stateId, String stateName, String stateAbbreviation) {
+	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, Integer pendencies,
+			Long userId, String userEmail, Long cityId, String cityName, Long stateId, String stateName,
+			String stateAbbreviation) {
 		setName(name);
 		setRg(rg);
 		setCpf(cpf);
 		setBirthday(birthday);
 		setMobile(mobile);
 		setGender(gender);
-		setPendent(pendent);
+		setPendencies(pendencies);
 		setUser(new User());
 		getUser().setId(userId);
 		getUser().setEmail(userEmail);
@@ -193,11 +202,11 @@ public class Profile implements Serializable {
 		this.city = city;
 	}
 
-	public boolean isPendent() {
-		return pendent;
+	public Integer getPendencies() {
+		return pendencies;
 	}
 
-	public void setPendent(boolean pendent) {
-		this.pendent = pendent;
+	public void setPendencies(Integer pendencies) {
+		this.pendencies = pendencies;
 	}
 }

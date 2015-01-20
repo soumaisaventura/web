@@ -51,8 +51,8 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     p.name, ");
 		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendent, ");
-		jpql.append(" 	     h.pendent ");
+		jpql.append(" 	     p.pendencies, ");
+		jpql.append(" 	     h.pendencies ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p ");
 		jpql.append("   join p.user u, ");
@@ -104,8 +104,8 @@ public class UserDAO extends JPACrud<User, Long> {
 		jpql.append("        u.activationToken, ");
 		jpql.append("        p.name, ");
 		jpql.append("        p.gender, ");
-		jpql.append(" 	     p.pendent, ");
-		jpql.append(" 	     h.pendent ");
+		jpql.append(" 	     p.pendencies, ");
+		jpql.append(" 	     h.pendencies ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");

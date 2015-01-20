@@ -12,8 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
+
+import adventure.util.PendencyCount;
 
 @Entity
 @Table(name = "HEALTH")
@@ -27,6 +30,7 @@ public class Health implements Serializable {
 	@ForeignKey(name = "FK_HEALTH_USER")
 	private User user;
 
+	@PendencyCount
 	@Enumerated(STRING)
 	@Column(name = "BLOOD_TYPE")
 	private BloodType bloodType;
@@ -41,14 +45,17 @@ public class Health implements Serializable {
 	@Column(name = "HEALTH_CARE_NUMBER")
 	private String healthCareNumber;
 
+	@PendencyCount
 	@Column(name = "EMERGENCY_CONTACT_NAME")
 	private String emergencyContactName;
 
+	@PendencyCount
 	@Column(name = "EMERGENCY_CONTACT_PHONE_NUMBER")
 	private String emergencyContactPhoneNumber;
 
-	@Column(name = "PENDENT", nullable = false)
-	private boolean pendent = true;
+	@NotNull
+	@Column(name = "PENDENCIES")
+	private Integer pendencies;
 
 	public Health() {
 	}
@@ -143,11 +150,11 @@ public class Health implements Serializable {
 		this.emergencyContactPhoneNumber = emergencyContactPhoneNumber;
 	}
 
-	public boolean isPendent() {
-		return pendent;
+	public Integer getPendencies() {
+		return pendencies;
 	}
 
-	public void setPendent(boolean pendent) {
-		this.pendent = pendent;
+	public void setPendencies(Integer pendencies) {
+		this.pendencies = pendencies;
 	}
 }

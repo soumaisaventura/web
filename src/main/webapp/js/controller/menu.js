@@ -12,6 +12,14 @@ function getLoggedInUserOk($data) {
 	$(".loggedout-menu").hide();
 	$(".loggedin-menu").show();
 	$("#currentUser").html($data.profile.name);
+	
+	if($data.profile.pendencies > 0){
+		$("#profile-badge").text($data.profile.pendencies);
+	}
+	
+	if($data.health.pendencies > 0){
+		$("#health-badge").text($data.health.pendencies);
+	}
 }
 
 function logoutOk() {

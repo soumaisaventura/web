@@ -13,6 +13,7 @@ import adventure.entity.BloodType;
 import adventure.entity.Health;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
+import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -29,7 +30,7 @@ public class HealthREST {
 		HealthData data = new HealthData();
 		data.bloodType = persisted.getBloodType();
 		data.allergy = persisted.getAllergy();
-		data.pendent = persisted.isPendent();
+		data.pendencies = persisted.getPendencies();
 		data.healthCareName = persisted.getHealthCareName();
 		data.healthCareNumber = persisted.getHealthCareNumber();
 		data.emergencyContactName = persisted.getEmergencyContactName();
@@ -51,9 +52,9 @@ public class HealthREST {
 		persisted.setHealthCareNumber(data.healthCareNumber);
 		persisted.setEmergencyContactName(data.emergencyContactName);
 		persisted.setEmergencyContactPhoneNumber(data.emergencyContactPhoneNumber);
-		persisted.setPendent(false);
 
 		HealthDAO.getInstance().update(persisted);
+		User.getLoggedIn().getHealth().setPendencies(PendencyCounter.count(persisted));
 	}
 
 	public static class HealthData {
@@ -73,10 +74,10 @@ public class HealthREST {
 		@NotEmpty
 		public String emergencyContactPhoneNumber;
 
-		private boolean pendent;
+		private Integer pendencies;
 
-		public boolean isPendent() {
-			return pendent;
+		public Integer getPendencies() {
+			return pendencies;
 		}
 	}
 }

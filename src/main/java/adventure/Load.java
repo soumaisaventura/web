@@ -24,6 +24,7 @@ import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import adventure.security.Passwords;
 import adventure.util.Dates;
+import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.lifecycle.Startup;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Reflections;
@@ -115,9 +116,11 @@ public class Load {
 		Profile profile = new Profile(user);
 		profile.setName(name);
 		profile.setGender(gender);
+		profile.setPendencies(PendencyCounter.count(profile));
 		em.persist(profile);
 
 		Health health = new Health(user);
+		health.setPendencies(PendencyCounter.count(health));
 		em.persist(health);
 
 		return user;
@@ -160,7 +163,7 @@ public class Load {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);

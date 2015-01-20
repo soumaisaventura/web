@@ -5,6 +5,7 @@ import javax.persistence.TypedQuery;
 
 import adventure.entity.Profile;
 import adventure.entity.User;
+import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -24,7 +25,14 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 			profile.setName(profile.getName().trim());
 		}
 
+		profile.setPendencies(PendencyCounter.count(profile));
 		return super.insert(profile);
+	}
+
+	@Override
+	public Profile update(Profile profile) {
+		profile.setPendencies(PendencyCounter.count(profile));
+		return super.update(profile);
 	}
 
 	public Profile loadDetails(User user) {
@@ -37,7 +45,7 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 		jpql.append(" 	     p.birthday, ");
 		jpql.append(" 	     p.mobile, ");
 		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendent, ");
+		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     u.id, ");
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     c.id, ");

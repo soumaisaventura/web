@@ -100,22 +100,22 @@ public class User implements Principal, Serializable {
 		getProfile().setGender(profileGender);
 	}
 
-	public User(Long id, String email, String profileName, Gender profileGender, boolean profilePendent,
-			boolean healthPendent) {
+	public User(Long id, String email, String profileName, Gender profileGender, Integer profilePendencies,
+			Integer healthPendencies) {
 		setId(id);
 		setEmail(email);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
 		getProfile().setGender(profileGender);
-		getProfile().setPendent(profilePendent);
+		getProfile().setPendencies(profilePendencies);
 
 		setHealth(new Health());
-		getHealth().setPendent(healthPendent);
+		getHealth().setPendencies(healthPendencies);
 	}
 
 	public User(Long id, String email, String password, Date activation, String activationToken, String profileName,
-			Gender profileGender, boolean profilePendent, boolean healthPendent) throws Exception {
+			Gender profileGender, Integer profilePendencies, Integer healthPendencies) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
@@ -125,10 +125,10 @@ public class User implements Principal, Serializable {
 		setProfile(new Profile());
 		getProfile().setName(profileName);
 		getProfile().setGender(profileGender);
-		getProfile().setPendent(profilePendent);
+		getProfile().setPendencies(profilePendencies);
 
 		setHealth(new Health());
-		getHealth().setPendent(healthPendent);
+		getHealth().setPendencies(healthPendencies);
 	}
 
 	@Override

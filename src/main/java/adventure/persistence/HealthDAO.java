@@ -5,6 +5,7 @@ import javax.persistence.TypedQuery;
 
 import adventure.entity.Health;
 import adventure.entity.User;
+import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -16,6 +17,18 @@ public class HealthDAO extends JPACrud<Health, User> {
 
 	public static HealthDAO getInstance() {
 		return Beans.getReference(HealthDAO.class);
+	}
+
+	@Override
+	public Health insert(Health health) {
+		health.setPendencies(PendencyCounter.count(health));
+		return super.insert(health);
+	}
+
+	@Override
+	public Health update(Health health) {
+		health.setPendencies(PendencyCounter.count(health));
+		return super.update(health);
 	}
 
 	@Override
