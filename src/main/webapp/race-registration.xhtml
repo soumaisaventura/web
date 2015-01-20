@@ -137,12 +137,12 @@
 
 			<div class="row setup-content" id="step-2">
 				<form id="form-step-2">
-					<div class="col-md-8">
+					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
-							<div class="col-md-4 col-md-offset-3">
+							<div class="col-md-6">
 								<div class="form-group">
-									<label for="bloodType">Tipo Sanguíneo</label> <select
-										id="bloodType" class="form-control">
+									<label for="bloodType">Tipo Sanguíneo</label>
+									<select	id="bloodType" class="form-control">
 										<option value="" selected="selected"></option>
 										<option value="A+">A+</option>
 										<option value="A-">A-</option>
@@ -152,27 +152,59 @@
 										<option value="AB-">AB-</option>
 										<option value="O+">O+</option>
 										<option value="O-">O-</option>
-									</select> <span id="bloodType-message" hidden="true"
-										class="label label-danger" />
+									</select>
+									<span id="bloodType-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="allergy">Alergia</label>
+									<input id="allergy" type="text" class="form-control" /> 
+									<span id="allergy-message" hidden="true" class="label label-danger" />
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6">
 								<div class="form-group">
-									<label for="allergy">Alergia</label> <input id="allergy"
-										type="text" class="form-control" /> <span id="allergy-message"
-										hidden="true" class="label label-danger" />
+									<label for="healthCareName">Plano de Saúde</label>
+									<input id="healthCareName" type="text" class="form-control" /> 
+									<span id="healthCareName-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="healthCareNumber">Número do Plano de Saúde</label>
+									<input id="healthCareNumber" type="text" class="form-control" /> 
+									<span id="healthCareNumber-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="emergencyContactName">Nome do contato de emergência</label>
+									<input id="emergencyContactName" type="text" class="form-control" /> 
+									<span id="emergencyContactName-message" hidden="true" class="label label-danger" />
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="emergencyContactPhoneNumber">Número de telefone do contato de emergência</label>
+									<input id="emergencyContactPhoneNumber" type="text" class="form-control" /> 
+									<span id="emergencyContactPhoneNumber-message" hidden="true" class="label label-danger" />
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<div class="form-group">
-									<button type="button" id="activate-step-1"
-										class="btn btn-warning">Anterior</button>
-									<button type="button" id="activate-step-3"
-										class="btn btn-success">Próximo</button>
+									<button type="button" id="activate-step-1" class="btn btn-lg btn-warning pull-left">
+										<span class="glyphicon glyphicon-arrow-left"></span> Anterior
+									</button>
+									<button type="button" id="activate-step-3" class="btn btn-lg btn-success pull-right">
+										Próximo <span class="glyphicon glyphicon-arrow-right"></span>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -180,21 +212,20 @@
 				</form>
 			</div>
 
+			
 			<div class="row setup-content" id="step-3">
 				<form id="form-step-3">
 					<input id="race" type="hidden" value="#{param.race}" />
-					<div class="col-md-12">
+					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label for="teamName">Nome da Equipe</label> <input type="text"
 										id="teamName" class="form-control" /> <span
 										id="teamName-message" hidden="true" class="label label-danger" />
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label for="category">Categoria</label> 
 									<select id="category" class="form-control">
@@ -205,27 +236,30 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label for="user">Atleta</label>
 									<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" /> 
 									<span id="user-message" hidden="true" class="label label-danger" />
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6">
 								Membros da Equipe
 								<ol id="members" class="list-group">
 									<li id="loggedUser" class="list-group-item"></li>
 								</ol>
+								<span id="members-message" hidden="true" class="label label-danger" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<div class="form-group">
-									<button type="button" id="activate-step-2" class="btn btn-warning">Anterior</button>
-									<button type="button" id="activate-step-4" class="btn btn-success">Próximo</button>
+									<button type="button" id="activate-step-2" class="btn btn-lg btn-warning pull-left">
+										<span class="glyphicon glyphicon-arrow-left"></span> Anterior
+									</button>
+									<button type="button" id="activate-step-4" class="btn btn-lg btn-success pull-right">
+										Próximo <span class="glyphicon glyphicon-arrow-right"></span>
+									</button>
 								</div>
 							</div>
 						</div>

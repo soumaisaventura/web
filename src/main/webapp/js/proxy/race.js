@@ -16,10 +16,10 @@ var RaceProxy = {
 		});
 	},
 
-	findCategories : function($race) {
+	findCourses : function($race) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/categories"
+			url : this.url + "/" + $race + "/courses"
 		});
 	},
 
