@@ -49,9 +49,9 @@ public class RaceCategory implements Serializable {
 		this.category = category;
 	}
 
-	public RaceCategory(Long categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
-			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Long courseId, Integer courseLength,
-			Long raceId) {
+	public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
+			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer courseId, Integer courseLength,
+			Integer raceId) {
 		setCategory(new Category());
 		getCategory().setId(categoryId);
 		getCategory().setName(categoryName);

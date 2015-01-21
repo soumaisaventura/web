@@ -47,7 +47,7 @@ public class RaceRegistrationREST {
 	@Path("validate")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public void validate(RegistrationData data, @PathParam("id") Long id) throws Exception {
+	public void validate(RegistrationData data, @PathParam("id") Integer id) throws Exception {
 		validateData(data, id);
 	}
 
@@ -57,7 +57,7 @@ public class RaceRegistrationREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("text/plain")
-	public String submit(RegistrationData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+	public String submit(RegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo) throws Exception {
 		ValidationResult validationResult = validateData(data, id);
 		SubmitResult submitResult = submit(data, validationResult);
 
@@ -71,7 +71,7 @@ public class RaceRegistrationREST {
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
 		registration.setRaceCategory(validationResult.raceCategory);
-		registration.setCreator(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
+		registration.setSubmitter(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
 		result.registration = RegistrationDAO.getInstance().insert(registration);
 
 		for (User member : validationResult.members) {
@@ -84,18 +84,18 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private ValidationResult validateData(RegistrationData data, Long id) throws Exception {
+	private ValidationResult validateData(RegistrationData data, Integer id) throws Exception {
 		ValidationResult result = new ValidationResult();
 
 		loadRace(id);
 		result.raceCategory = loadRaceCategory(id, data.course, data.category);
 		result.members = loadMembers(data.members);
-		validate(result.raceCategory.getCategory(), result.members);
+		validate(result.raceCategory, result.members);
 
 		return result;
 	}
 
-	private Race loadRace(Long id) throws Exception {
+	private Race loadRace(Integer id) throws Exception {
 		Race result = RaceDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {
@@ -109,7 +109,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private RaceCategory loadRaceCategory(Long raceId, Long courseId, Long categoryId) throws Exception {
+	private RaceCategory loadRaceCategory(Integer raceId, Integer courseId, Integer categoryId) throws Exception {
 		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, courseId, categoryId);
 
 		if (result == null) {
@@ -119,11 +119,11 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private List<User> loadMembers(List<Long> ids) throws Exception {
+	private List<User> loadMembers(List<Integer> ids) throws Exception {
 		List<User> result = new ArrayList<User>();
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
-		for (Long id : ids) {
+		for (Integer id : ids) {
 			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
@@ -142,22 +142,39 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private void validate(Category category, List<User> members) throws Exception {
+	private void validate(RaceCategory raceCategory, List<User> members) throws Exception {
 		int total = members.size();
+		UnprocessableEntityException exception = new UnprocessableEntityException();
+		Category category = raceCategory.getCategory();
+
 		if (total > category.getTeamSize()) {
-			throw new UnprocessableEntityException().addViolation("members", "tem muita gente");
+			exception.addViolation("members", "tem muita gente");
 		} else if (total < category.getTeamSize()) {
-			throw new UnprocessableEntityException().addViolation("members", "equipe incompleta");
+			exception.addViolation("members", "equipe incompleta");
 		}
 
 		int male = count(members, MALE);
 		if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-			throw new UnprocessableEntityException().addViolation("members", "está faltando macho");
+			exception.addViolation("members", "está faltando macho");
 		}
 
 		int female = count(members, FEMALE);
 		if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-			throw new UnprocessableEntityException().addViolation("members", "está faltando mulher");
+			exception.addViolation("members", "está faltando mulher");
+		}
+
+		for (User member : members) {
+			TeamFormation formation = TeamFormationDAO.getInstance().loadForRegistrationSubmissionValidation(
+					raceCategory.getRace(), member);
+
+			if (formation != null) {
+				exception.addViolation("members", member.getName() + " já faz parte da equipe "
+						+ formation.getRegistration().getTeamName());
+			}
+		}
+
+		if (!exception.getViolations().isEmpty()) {
+			throw exception;
 		}
 	}
 
@@ -195,12 +212,12 @@ public class RaceRegistrationREST {
 		public String teamName;
 
 		@NotNull
-		public Long category;
+		public Integer category;
 
 		@NotNull
-		public Long course;
+		public Integer course;
 
 		@NotEmpty
-		public List<Long> members;
+		public List<Integer> members;
 	}
 }

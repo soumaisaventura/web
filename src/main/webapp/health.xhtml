@@ -43,7 +43,7 @@
 			<div class="row">
 				<div class="form-group">
 					<label for="allergy">Alergias</label>
-					<textarea id="allergy" type="text" class="form-control" rows="4"></textarea> 
+					<textarea id="allergy" type="text" class="form-control" rows="4" maxlength="#{constants.textSize}" ></textarea> 
 					<span id="allergy-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
@@ -53,14 +53,14 @@
 			<div class="row">
 				<div class="form-group">
 					<label for="healthCareName">Nome do plano</label>
-					<input id="healthCareName" type="text" class="form-control" /> 
+					<input id="healthCareName" type="text" class="form-control" maxlength="#{constants.nameSize}" /> 
 					<span id="healthCareName-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group">
 					<label for="healthCareNumber">Número da carteira</label>
-					<input id="healthCareNumber" type="text" class="form-control" /> 
+					<input id="healthCareNumber" type="text" class="form-control" maxlength="#{constants.genericIdSize}" /> 
 					<span id="healthCareNumber-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
@@ -70,14 +70,14 @@
 			<div class="row">
 				<div class="form-group">
 					<label for="emergencyContactName">Nome *</label>
-					<input id="emergencyContactName" type="text" class="form-control" /> 
+					<input id="emergencyContactName" type="text" class="form-control" maxlength="#{constants.nameSize}" /> 
 					<span id="emergencyContactName-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group">
 					<label for="emergencyContactPhoneNumber">Celular ou fixo *</label>
-					<input id="emergencyContactPhoneNumber" type="text" class="form-control" placeholder="ex: (71) 8765-4321" maxlength="20" /> 
+					<input id="emergencyContactPhoneNumber" type="tel" class="form-control" placeholder="ex: (71) 8765-4321" maxlength="#{constants.telephoneSize}" /> 
 					<span id="emergencyContactPhoneNumber-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>

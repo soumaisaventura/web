@@ -5,7 +5,7 @@ import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @Transactional
-public class CategoryDAO extends JPACrud<Category, Long> {
+public class CategoryDAO extends JPACrud<Category, Integer> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -77,6 +77,7 @@ public class ProfileREST {
 		public String rg;
 
 		@CPF
+		@NotEmpty
 		public String cpf;
 
 		@Past
@@ -103,7 +104,7 @@ public class ProfileREST {
 	public static class CityData {
 
 		@NotNull(message = "escolha uma cidade listada")
-		public Long id;
+		public Integer id;
 
 		public String name;
 

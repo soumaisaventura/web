@@ -26,7 +26,8 @@ public class UserREST {
 	@GET
 	@Path("search")
 	@Produces("application/json")
-	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes") List<Long> excludes) throws Exception {
+	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes") List<Integer> excludes)
+			throws Exception {
 		validate(q);
 		return UserDAO.getInstance().search(q, excludes);
 	}

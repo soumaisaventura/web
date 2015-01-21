@@ -33,7 +33,7 @@ public class Period implements Serializable {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_PERIOD")
 	@SequenceGenerator(name = "SEQ_PERIOD", sequenceName = "SEQ_PERIOD", allocationSize = 1)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "RACE_ID")
@@ -54,7 +54,7 @@ public class Period implements Serializable {
 	private Date end;
 
 	@NotNull
-	@Column(name = "PRICE")
+	@Column(name = "PRICE", precision = 5, scale = 2)
 	private BigDecimal price;
 
 	public Period(Race race) {
@@ -94,11 +94,11 @@ public class Period implements Serializable {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

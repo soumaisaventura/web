@@ -1,7 +1,8 @@
 package adventure.entity;
 
+import static adventure.util.Constants.EMAIL_SIZE;
+import static adventure.util.Constants.HASH_SIZE;
 import static javax.persistence.GenerationType.SEQUENCE;
-import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -13,10 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Index;
@@ -36,21 +37,22 @@ public class User implements Principal, Serializable {
 	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_USER")
 	@SequenceGenerator(name = "SEQ_USER", sequenceName = "SEQ_USER", allocationSize = 1)
 	@Column(name = "ID")
-	private Long id;
+	private Integer id;
 
 	@Email
 	@NotEmpty
-	@Index(name = "IDX_USER_EMAIL")
+	@Size(max = EMAIL_SIZE)
 	@Column(name = "EMAIL")
+	@Index(name = "IDX_USER_EMAIL")
 	private String email;
 
 	@JsonIgnore
+	@Size(max = HASH_SIZE)
 	@Column(name = "PASSWORD")
 	private String password;
 
-	// private String sessionToken;
-
 	@JsonIgnore
+	@Size(max = HASH_SIZE)
 	@Column(name = "PASSWORD_RESET_TOKEN")
 	private String passwordResetToken;
 
@@ -59,21 +61,19 @@ public class User implements Principal, Serializable {
 	private Date passwordResetRequest;
 
 	@NotNull
-	@Temporal(DATE)
 	@Column(name = "CREATION")
 	private Date creation;
 
 	@JsonIgnore
-	@Temporal(DATE)
 	@Column(name = "ACTIVATION")
 	private Date activation;
 
 	@JsonIgnore
+	@Size(max = HASH_SIZE)
 	@Column(name = "ACTIVATION_TOKEN")
 	private String activationToken;
 
 	@JsonIgnore
-	@Temporal(DATE)
 	@Column(name = "DELETED")
 	@Index(name = "IDX_USER_DELETED")
 	private Date deleted;
@@ -91,7 +91,7 @@ public class User implements Principal, Serializable {
 	public User() {
 	}
 
-	public User(Long id, String email, String profileName, Gender profileGender) {
+	public User(Integer id, String email, String profileName, Gender profileGender) {
 		setId(id);
 		setEmail(email);
 
@@ -100,7 +100,7 @@ public class User implements Principal, Serializable {
 		getProfile().setGender(profileGender);
 	}
 
-	public User(Long id, String email, String profileName, Gender profileGender, Integer profilePendencies,
+	public User(Integer id, String email, String profileName, Gender profileGender, Integer profilePendencies,
 			Integer healthPendencies) {
 		setId(id);
 		setEmail(email);
@@ -114,7 +114,7 @@ public class User implements Principal, Serializable {
 		getHealth().setPendencies(healthPendencies);
 	}
 
-	public User(Long id, String email, String password, Date activation, String activationToken, String profileName,
+	public User(Integer id, String email, String password, Date activation, String activationToken, String profileName,
 			Gender profileGender, Integer profilePendencies, Integer healthPendencies) throws Exception {
 		setId(id);
 		setEmail(email);
@@ -168,11 +168,11 @@ public class User implements Principal, Serializable {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

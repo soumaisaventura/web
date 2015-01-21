@@ -14,7 +14,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class CourseDAO extends JPACrud<Course, Long> {
+public class CourseDAO extends JPACrud<Course, Integer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class CourseDAO extends JPACrud<Course, Long> {
 		query.setParameter("race", race);
 
 		List<Course> result = new ArrayList<Course>();
-		Long previousCourseId = null;
+		Integer previousCourseId = null;
 		Course course = null;
 
 		for (LoadWithCategories row : query.getResultList()) {
@@ -90,9 +90,9 @@ public class CourseDAO extends JPACrud<Course, Long> {
 
 		Race race = new Race();
 
-		public LoadWithCategories(Long categoryId, String categoryName, String categoryDescription,
+		public LoadWithCategories(Integer categoryId, String categoryName, String categoryDescription,
 				Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers,
-				Long courseId, Integer courseLength, Long raceId) throws Exception {
+				Integer courseId, Integer courseLength, Integer raceId) throws Exception {
 			course.setId(courseId);
 			course.setLength(courseLength);
 

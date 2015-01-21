@@ -1,5 +1,7 @@
 package adventure.entity;
 
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -33,13 +36,16 @@ public class Race implements Serializable {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_RACE")
 	@SequenceGenerator(name = "SEQ_RACE", sequenceName = "SEQ_RACE", allocationSize = 1)
-	private Long id;
+	private Integer id;
 
 	@NotEmpty
+	@Size(max = NAME_SIZE)
 	@Column(name = "NAME")
 	@Index(name = "IDX_RACE_NAME")
 	private String name;
 
+	@Lob
+	@Size(max = TEXT_SIZE)
 	@Column(name = "DESCRIPTION")
 	private String description;
 
@@ -65,12 +71,12 @@ public class Race implements Serializable {
 	public Race() {
 	}
 
-	public Race(Long id) {
+	public Race(Integer id) {
 		this.id = id;
 	}
 
-	public Race(Long id, String name, String description, Date date, Long cityId, String cityName, Long stateId,
-			String stateName, String stateAbbreviation, Long openPeriods) {
+	public Race(Integer id, String name, String description, Date date, Integer cityId, String cityName,
+			Integer stateId, String stateName, String stateAbbreviation, Long openPeriods) {
 		setId(id);
 		setName(name);
 		setDescription(description);
@@ -115,11 +121,11 @@ public class Race implements Serializable {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

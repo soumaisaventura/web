@@ -2,6 +2,12 @@
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
 .navbar-brand {
 	font-size: 1.3em;
 }
@@ -46,5 +52,5 @@
 }
 
 .label-as-badge {
-    border-radius: 1em;
+	border-radius: 1em;
 }

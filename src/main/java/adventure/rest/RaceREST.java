@@ -55,7 +55,7 @@ public class RaceREST {
 	@Path("{id}")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public RaceData load(@PathParam("id") Long id) throws Exception {
+	public RaceData load(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
 		Race race = loadRaceDetails(id);
 
@@ -78,7 +78,7 @@ public class RaceREST {
 	@Path("{id}/summary")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public RaceData loadInfo(@PathParam("id") Long id) throws Exception {
+	public RaceData loadInfo(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
 		Race race = loadRaceDetails(id);
 
@@ -96,7 +96,7 @@ public class RaceREST {
 	@Path("{id}/banner")
 	@Cache("max-age=28800")
 	@Produces("application/octet-stream")
-	public byte[] getBanner(@PathParam("id") Long id) throws Exception {
+	public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
 		Race race = RaceDAO.getInstance().load(id);
 
 		if (race == null) {
@@ -163,7 +163,7 @@ public class RaceREST {
 	@Cache("max-age=28800")
 	@Path("{id}/courses")
 	@Produces("application/json")
-	public List<CourseData> findCourses(@PathParam("id") Long id) throws Exception {
+	public List<CourseData> findCourses(@PathParam("id") Integer id) throws Exception {
 		Race race = loadJustRaceId(id);
 		List<CourseData> result = loadCourse(race);
 		return result.isEmpty() ? null : result;
@@ -172,7 +172,7 @@ public class RaceREST {
 	@GET
 	@Path("{id}/order")
 	@Produces("application/json")
-	public OrderData getOrder(@PathParam("id") Long id, @QueryParam("users") List<Long> users) throws Exception {
+	public OrderData getOrder(@PathParam("id") Integer id, @QueryParam("users") List<Integer> users) throws Exception {
 		Race race = loadJustRaceId(id);
 
 		Period period = PeriodDAO.getInstance().loadCurrent(race);
@@ -182,7 +182,7 @@ public class RaceREST {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
 		} else {
-			for (Long userId : users) {
+			for (Integer userId : users) {
 				User user = UserDAO.getInstance().loadBasics(userId);
 
 				if (user == null) {
@@ -206,7 +206,7 @@ public class RaceREST {
 		return data;
 	}
 
-	private Race loadRaceDetails(Long id) throws Exception {
+	private Race loadRaceDetails(Integer id) throws Exception {
 		Race result = RaceDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {
@@ -216,7 +216,7 @@ public class RaceREST {
 		return result;
 	}
 
-	private Race loadJustRaceId(Long id) throws Exception {
+	private Race loadJustRaceId(Integer id) throws Exception {
 		Race result = RaceDAO.getInstance().loadJustId(id);
 
 		if (result == null) {
@@ -228,7 +228,7 @@ public class RaceREST {
 
 	public static class RaceData {
 
-		public Long id;
+		public Integer id;
 
 		public String name;
 
@@ -254,7 +254,7 @@ public class RaceREST {
 
 	public static class PeriodData {
 
-		public Long id;
+		public Integer id;
 
 		public Date beginning;
 
@@ -265,7 +265,7 @@ public class RaceREST {
 
 	public static class CourseData {
 
-		public Long id;
+		public Integer id;
 
 		public Integer length;
 
@@ -274,7 +274,7 @@ public class RaceREST {
 
 	public static class CategoryData {
 
-		public Long id;
+		public Integer id;
 
 		public String name;
 
@@ -285,7 +285,7 @@ public class RaceREST {
 
 	public static class OrganizerData {
 
-		public Long id;
+		public Integer id;
 
 		public String name;
 
@@ -301,7 +301,7 @@ public class RaceREST {
 
 	public static class OrderRowData {
 
-		public Long id;
+		public Integer id;
 
 		public String name;
 

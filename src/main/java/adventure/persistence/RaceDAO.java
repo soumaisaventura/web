@@ -14,7 +14,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class RaceDAO extends JPACrud<Race, Long> {
+public class RaceDAO extends JPACrud<Race, Integer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		return Beans.getReference(RaceDAO.class);
 	}
 
-	public Race loadForDetails(Long id) throws Exception {
+	public Race loadForDetails(Integer id) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
@@ -59,7 +59,7 @@ public class RaceDAO extends JPACrud<Race, Long> {
 		return result;
 	}
 
-	public Race loadJustId(Long id) throws Exception {
+	public Race loadJustId(Integer id) throws Exception {
 		String jpql = "select new Race(r.id) from Race r where r.id = :id ";
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
 		query.setParameter("id", id);

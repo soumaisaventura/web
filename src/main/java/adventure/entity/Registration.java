@@ -1,7 +1,7 @@
 package adventure.entity;
 
+import static adventure.util.Constants.NAME_SIZE;
 import static javax.persistence.GenerationType.SEQUENCE;
-import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,8 +15,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -43,11 +43,11 @@ public class Registration implements Serializable {
 	private RaceCategory raceCategory;
 
 	@NotNull
+	@Size(max = NAME_SIZE)
 	@Column(name = "TEAM_NAME")
 	private String teamName;
 
 	@NotNull
-	@Temporal(DATE)
 	@Column(name = "DATE")
 	@Index(name = "IDX_REGISTRATION_DATE")
 	private Date date;
@@ -61,18 +61,18 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, Long creatorId,
-			String creatorName, Long raceId, String raceName, Date raceDate, Long categoryId, String categoryName,
-			Long courseId, Integer courseLength) {
+	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
+			String submitterName, Integer raceId, String raceName, Date raceDate, Integer categoryId,
+			String categoryName, Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
 
-		User creator = new User();
-		setCreator(creator);
-		getCreator().setId(creatorId);
-		getCreator().setProfile(new Profile(creator));
-		getCreator().getProfile().setName(categoryName);
+		User submitter = new User();
+		setSubmitter(submitter);
+		getSubmitter().setId(submitterId);
+		getSubmitter().setProfile(new Profile(submitter));
+		getSubmitter().getProfile().setName(categoryName);
 
 		setRaceCategory(new RaceCategory());
 		getRaceCategory().setCategory(new Category());
@@ -155,11 +155,11 @@ public class Registration implements Serializable {
 		this.date = date;
 	}
 
-	public User getCreator() {
+	public User getSubmitter() {
 		return submitter;
 	}
 
-	public void setCreator(User creator) {
-		this.submitter = creator;
+	public void setSubmitter(User submitter) {
+		this.submitter = submitter;
 	}
 }

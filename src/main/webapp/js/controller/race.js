@@ -23,7 +23,7 @@ function getBannerOk(data) {
 
 function loadOk(data) {
 	$("#name").prepend(data.name);
-	$("#date").prepend(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('L'));
+	$("#date").prepend(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL'));
 
 	if (data.description) {
 		$("#description").prepend(data.description);
