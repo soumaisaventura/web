@@ -1,5 +1,10 @@
 package adventure.entity;
 
+import static adventure.util.Constants.ENUM_SIZE;
+import static adventure.util.Constants.GENERIC_ID_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.TELEPHONE_SIZE;
+import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.EnumType.STRING;
 
 import java.io.Serializable;
@@ -13,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -32,24 +38,29 @@ public class Health implements Serializable {
 
 	@PendencyCount
 	@Enumerated(STRING)
-	@Column(name = "BLOOD_TYPE")
+	@Column(name = "BLOOD_TYPE", length = ENUM_SIZE)
 	private BloodType bloodType;
 
 	@Lob
+	@Size(max = TEXT_SIZE)
 	@Column(name = "ALLERGY")
 	private String allergy;
 
+	@Size(max = NAME_SIZE)
 	@Column(name = "HEALTH_CARE_NAME")
 	private String healthCareName;
 
+	@Size(max = GENERIC_ID_SIZE)
 	@Column(name = "HEALTH_CARE_NUMBER")
 	private String healthCareNumber;
 
 	@PendencyCount
+	@Size(max = NAME_SIZE)
 	@Column(name = "EMERGENCY_CONTACT_NAME")
 	private String emergencyContactName;
 
 	@PendencyCount
+	@Size(max = TELEPHONE_SIZE)
 	@Column(name = "EMERGENCY_CONTACT_PHONE_NUMBER")
 	private String emergencyContactPhoneNumber;
 

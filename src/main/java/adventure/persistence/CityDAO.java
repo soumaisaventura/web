@@ -11,7 +11,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
-public class CityDAO extends JPACrud<City, Long> {
+public class CityDAO extends JPACrud<City, Integer> {
 
 	private static final long serialVersionUID = 1L;
 

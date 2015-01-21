@@ -1,11 +1,14 @@
 package adventure.entity;
 
+import static adventure.util.Constants.NAME_SIZE;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -17,11 +20,12 @@ public class City {
 
 	@Id
 	@Column(name = "ID")
-	private Long id;
+	private Integer id;
 
 	@NotEmpty
-	@Index(name = "IDX_CITY_NAME")
+	@Size(max = NAME_SIZE)
 	@Column(name = "NAME")
+	@Index(name = "IDX_CITY_NAME")
 	private String name;
 
 	@ManyToOne(optional = false)
@@ -33,7 +37,7 @@ public class City {
 	public City() {
 	}
 
-	public City(Long id, String name, String stateName, String stateAbbreviation, String countryName) {
+	public City(Integer id, String name, String stateName, String stateAbbreviation, String countryName) {
 		setId(id);
 		setName(name);
 		setState(new State());
@@ -73,11 +77,11 @@ public class City {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

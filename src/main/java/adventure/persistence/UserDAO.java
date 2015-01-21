@@ -14,7 +14,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Transactional
-public class UserDAO extends JPACrud<User, Long> {
+public class UserDAO extends JPACrud<User, Integer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class UserDAO extends JPACrud<User, Long> {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		User user = load(id);
 
 		if (user != null) {
@@ -43,7 +43,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		}
 	}
 
-	public List<User> search(String filter, List<Long> excludeIds) {
+	public List<User> search(String filter, List<Integer> excludeIds) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append(" 	 new User( ");
@@ -66,7 +66,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		query.setMaxResults(10);
 
 		if (excludeIds.isEmpty()) {
-			excludeIds.add(Long.valueOf(-1));
+			excludeIds.add(-1);
 		}
 
 		query.setParameter("excludeIds", excludeIds);
@@ -126,7 +126,7 @@ public class UserDAO extends JPACrud<User, Long> {
 		return result;
 	}
 
-	public User loadBasics(Long id) {
+	public User loadBasics(Integer id) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append(" 	new User(u.id, u.email, p.name, p.gender) ");

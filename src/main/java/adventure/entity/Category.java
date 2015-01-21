@@ -1,5 +1,7 @@
 package adventure.entity;
 
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.SMALL_DESCRIPTION_SIZE;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Index;
 
@@ -24,14 +27,16 @@ public class Category implements Serializable {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_CATEGORY")
 	@SequenceGenerator(name = "SEQ_CATEGORY", sequenceName = "SEQ_CATEGORY", allocationSize = 1)
-	private Long id;
+	private Integer id;
 
 	@NotNull
+	@Size(max = NAME_SIZE)
 	@Column(name = "NAME")
 	@Index(name = "IDX_CATEGORY_NAME")
 	private String name;
 
 	@NotNull
+	@Size(max = SMALL_DESCRIPTION_SIZE)
 	@Column(name = "DESCRIPTION")
 	private String description;
 
@@ -75,11 +80,11 @@ public class Category implements Serializable {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

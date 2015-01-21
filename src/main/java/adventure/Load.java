@@ -163,7 +163,7 @@ public class Load {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
@@ -185,7 +185,7 @@ public class Load {
 		String description = "3ª Noite do Perrengue – Corrida de aventura com MTB, Trekking, Remo e Modalidade Surpresa. O melhor local, a melhor estrutura, a melhor diversão. Válido pelo RBCA – Ranking Brasileiro de Corrida de Aventura.";
 		Race np = newRace("Noite do Perrengue 3", description, "21/03/2015");
 		np.setBanner(Strings.parse(Reflections.getResourceAsStream("temp/np3-banner-base64.txt")).getBytes());
-		np.setCity(em.find(City.class, Long.valueOf(5571)));
+		np.setCity(em.find(City.class, 5571));
 		newPeriod(np, "01/01/2015", "31/01/2015", 200.00);
 		newPeriod(np, "01/02/2015", "20/02/2015", 80.00);
 		newPeriod(np, "21/02/2015", "10/03/2015", 90.00);
@@ -209,7 +209,7 @@ public class Load {
 		newRace("CARI - Casco de Peba", null, "20/06/2015");
 
 		Race ct = newRace("Corrida do CT Gantuá", null, "07/07/2015");
-		ct.setCity(em.find(City.class, Long.valueOf(544)));
+		ct.setCity(em.find(City.class, 544));
 
 		newRace("CARI - Laskpé", null, "15/08/2015");
 		newRace("CICA - Cangaço", null, "30/08/2015");

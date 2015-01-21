@@ -47,7 +47,7 @@ public class RaceRegistrationREST {
 	@Path("validate")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public void validate(RegistrationData data, @PathParam("id") Long id) throws Exception {
+	public void validate(RegistrationData data, @PathParam("id") Integer id) throws Exception {
 		validateData(data, id);
 	}
 
@@ -57,7 +57,7 @@ public class RaceRegistrationREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("text/plain")
-	public String submit(RegistrationData data, @PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+	public String submit(RegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo) throws Exception {
 		ValidationResult validationResult = validateData(data, id);
 		SubmitResult submitResult = submit(data, validationResult);
 
@@ -84,7 +84,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private ValidationResult validateData(RegistrationData data, Long id) throws Exception {
+	private ValidationResult validateData(RegistrationData data, Integer id) throws Exception {
 		ValidationResult result = new ValidationResult();
 
 		loadRace(id);
@@ -95,7 +95,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private Race loadRace(Long id) throws Exception {
+	private Race loadRace(Integer id) throws Exception {
 		Race result = RaceDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {
@@ -109,7 +109,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private RaceCategory loadRaceCategory(Long raceId, Long courseId, Long categoryId) throws Exception {
+	private RaceCategory loadRaceCategory(Integer raceId, Long courseId, Long categoryId) throws Exception {
 		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, courseId, categoryId);
 
 		if (result == null) {
@@ -119,11 +119,11 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private List<User> loadMembers(List<Long> ids) throws Exception {
+	private List<User> loadMembers(List<Integer> ids) throws Exception {
 		List<User> result = new ArrayList<User>();
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 
-		for (Long id : ids) {
+		for (Integer id : ids) {
 			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
@@ -201,6 +201,6 @@ public class RaceRegistrationREST {
 		public Long course;
 
 		@NotEmpty
-		public List<Long> members;
+		public List<Integer> members;
 	}
 }

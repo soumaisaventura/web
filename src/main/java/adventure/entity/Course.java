@@ -29,7 +29,7 @@ public class Course implements Serializable {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_COURSE")
 	@SequenceGenerator(name = "SEQ_COURSE", sequenceName = "SEQ_COURSE", allocationSize = 1)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "RACE_ID")
@@ -81,11 +81,11 @@ public class Course implements Serializable {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

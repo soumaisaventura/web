@@ -50,7 +50,7 @@ public class LocationREST {
 
 	public static class CityData {
 
-		public Long id;
+		public Integer id;
 
 		public String name;
 

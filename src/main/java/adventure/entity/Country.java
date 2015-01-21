@@ -1,9 +1,13 @@
 package adventure.entity;
 
+import static adventure.util.Constants.ABBREVIATION_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,16 +18,18 @@ public class Country {
 
 	@Id
 	@Column(name = "ID")
-	private Long id;
+	private Integer id;
 
 	@NotEmpty
-	@Index(name = "IDX_COUNTRY_NAME")
+	@Size(max = NAME_SIZE)
 	@Column(name = "NAME")
+	@Index(name = "IDX_COUNTRY_NAME")
 	private String name;
 
 	@NotEmpty
-	@Index(name = "IDX_COUNTRY_ABBREVIATION")
+	@Size(max = ABBREVIATION_SIZE)
 	@Column(name = "ABBREVIATION")
+	@Index(name = "IDX_COUNTRY_ABBREVIATION")
 	private String abbreviation;
 
 	@Override
@@ -56,11 +62,11 @@ public class Country {
 		return true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -18,7 +18,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		return Beans.getReference(RaceCategoryDAO.class);
 	}
 
-	public RaceCategory loadForRegistration(Long raceId, Long courseId, Long categoryId) throws Exception {
+	public RaceCategory loadForRegistration(Integer raceId, Long courseId, Long categoryId) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length, r.id) ");

@@ -1,5 +1,10 @@
 package adventure.entity;
 
+import static adventure.util.Constants.CPF_SIZE;
+import static adventure.util.Constants.ENUM_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.RG_SIZE;
+import static adventure.util.Constants.TELEPHONE_SIZE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
@@ -17,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -39,16 +45,17 @@ public class Profile implements Serializable {
 
 	@NotEmpty
 	@Column(name = "NAME")
+	@Size(max = NAME_SIZE)
 	@Index(name = "IDX_PROFILE_NAME")
 	private String name;
 
 	@PendencyCount
-	@Length(max = 10)
+	@Length(max = RG_SIZE)
 	@Column(name = "RG")
 	private String rg;
 
 	@PendencyCount
-	@Length(max = 11)
+	@Length(max = CPF_SIZE)
 	@Column(name = "CPF")
 	@Index(name = "IDX_PROFILE_CPF")
 	private String cpf;
@@ -60,12 +67,13 @@ public class Profile implements Serializable {
 	private Date birthday;
 
 	@PendencyCount
+	@Length(max = TELEPHONE_SIZE)
 	@Column(name = "MOBILE")
 	private String mobile;
 
 	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "GENDER")
+	@Column(name = "GENDER", length = ENUM_SIZE)
 	private Gender gender;
 
 	@PendencyCount
@@ -83,7 +91,7 @@ public class Profile implements Serializable {
 	}
 
 	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, Integer pendencies,
-			Long userId, String userEmail, Long cityId, String cityName, Long stateId, String stateName,
+			Integer userId, String userEmail, Integer cityId, String cityName, Integer stateId, String stateName,
 			String stateAbbreviation) {
 		setName(name);
 		setRg(rg);
