@@ -10,12 +10,10 @@
 
 <ui:define name="lib">
 	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
 </ui:define>
 
 <ui:define name="proxy">
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/location.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/profile.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/health.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race-registration.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
 </ui:define>
@@ -27,68 +25,40 @@
 <ui:define name="body">
 	<div class="container">
 		<input id="race" type="hidden" value="#{param.race}" />
-		
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="col-md-12">
-					<h2 id="race-name">Tralálá</h2> 
-				</div>
-			</div>
-  		</div>
-		<div class="row">
+		<div class="row" style="margin-bottom: 15px;">
   			<div class="col-md-8 col-md-offset-2">
-  				<div class="col-md-6">
-	  				<div class="row">		
-						<h4 id="race-name">Nome da equipe</h4> 
-						<input type="text" id="teamName" class="form-control" /> 
-						<span id="teamName-message" hidden="true" class="label label-danger" />
-					</div>
-	  				<div class="row">		
-						<h4 id="race-name">Categoria</h4> 
-						<select id="category" class="form-control">
-							<option value="" selected="selected"></option>
-						</select> 
-						<span id="category-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="row">
-		
-					<h4 for="user">Atleta</h4>
-					<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" /> 
-					<span id="user-message" hidden="true" class="label label-danger" />
-				</div>		
-				</div>
+				<h2 id="race-name"></h2>
+				<h4 id="race-detail"></h4>
 			</div>
-  		</div>
+		</div>
+		<div class="row" style="margin-bottom: 15px;">
+  			<div class="col-md-4 col-md-offset-2">
+				<label for="teamName">Nome da equipe</label> 
+				<input type="text" id="team" class="form-control" maxlength="255" /> 
+				<span id="teamName-message" hidden="true" class="label label-danger" />
+			</div>
+			<div class="col-md-4">
+				<label for="category">Categoria</label> 
+				<select id="category" class="form-control">
+					<option value="" selected="selected">Selecione...</option>
+				</select> 
+				<span id="category-message" hidden="true" class="label label-danger" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-2">
+				<label for="user">Buscar atleta</label>
+				<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" />
+			</div>
+			<div class="col-md-4">
+				<label>Membros da Equipe</label>
+				<input type="hidden" id="members"/> 
+				<ol id="members-list" class="list-group" style="margin-bottom: 0px;">
+					<li id="logged-user" class="list-group-item"></li>
+				</ol>
+				<span id="members-message" hidden="true" class="label label-danger" />
+			</div>
+		</div>
 	</div>
-
-<!-- 	<div class="container"> -->
-<!-- 		<div class="row"> -->
-<!-- 			<input id="race" type="hidden" value="#{param.race}" /> -->
-			
-<!-- 			</div> -->
-<!-- 			<div class="row"> -->
-<!-- 				<div class="form-group"> -->
-<!-- 					<label>Membros da Equipe</label> -->
-<!-- 					<input type="hidden" id="members"/>  -->
-<!-- 					<ol id="members-list" class="list-group" style="margin-bottom: 0px;"> -->
-<!-- 						<li id="loggedUser" class="list-group-item"></li> -->
-<!-- 					</ol> -->
-<!-- 					<span id="members-message" hidden="true" class="label label-danger" /> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div class="row" style="margin-bottom: 15px"> -->
-<!-- 				<div class="form-group"> -->
-<!-- 					<button type="button" id="bt-save" class="btn btn-lg btn-success pull-right"> -->
-<!-- 						Salvar -->
-<!-- 					</button> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div class="row"> -->
-<!-- 				<div id="global-message" hidden="true" class="alert"/> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
 </ui:define>
 </ui:composition>
