@@ -1,10 +1,11 @@
 $(function() {
-	
+	$("#name").focus();
+
 	/**
 	 * Inicializa a combos Data de nascimento
 	 */
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
-	
+
 	/**
 	 * Habilita o autocomplete no campo Cidade de residência
 	 */
@@ -30,11 +31,14 @@ $(function() {
 			return false;
 		}
 	});
-	
+
 	/**
 	 * Cadastro dos dados pessoais
 	 */
-	$('#bt-save').on('click', function(e) {
+	$("form").submit(function(event) {
+		event.preventDefault();
+		$("[id$='-message']").hide();
+
 		var birthday = "";
 		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
 			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
@@ -53,7 +57,7 @@ $(function() {
 		};
 		ProfileProxy.update(data).done(updateOk).fail(updateFail);
 	});
-	
+
 	/**
 	 * Carrega os dados pessoais
 	 */
@@ -100,7 +104,6 @@ function updateFail(request) {
 	console.log('updateFail');
 	$("#global-message").text("").removeClass("alert-success").hide();
 }
-
 
 /* ---------------- Funções Utilitárias ---------------- */
 

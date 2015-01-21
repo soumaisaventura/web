@@ -1,8 +1,6 @@
 $(function() {
-
-	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"))
-
 	$("#name").focus();
+	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"))
 
 	$("form").submit(function(event) {
 		event.preventDefault();

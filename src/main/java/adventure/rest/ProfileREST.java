@@ -77,7 +77,6 @@ public class ProfileREST {
 		public String rg;
 
 		@CPF
-		@NotEmpty
 		public String cpf;
 
 		@Past

@@ -1,9 +1,13 @@
 $(function() {
-	
+	$("#bloodType").focus();
+
 	/**
 	 * Cadastro dos dados médicos
 	 */
-	$('#bt-save').on('click', function(e) {
+	$("form").submit(function(event) {
+		event.preventDefault();
+		$("[id$='-message']").hide();
+
 		var data = {
 			'bloodType' : $("#bloodType").val(),
 			'allergy' : $("#allergy").val(),
@@ -14,7 +18,7 @@ $(function() {
 		};
 		HealthProxy.update(data).done(updateOk).fail(updateFail);
 	});
-	
+
 	/**
 	 * Carrega os dados médicos
 	 */
