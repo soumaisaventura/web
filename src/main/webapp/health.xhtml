@@ -17,11 +17,15 @@
 	<div class="main">
 		<div class="row" style="padding-bottom: 20px">
 			<h1>Dados Médicos</h1>
+			<h4>Em caso de acidentes utilizaremos estas informações</h4>
 		</div>
 		<form>
+			<div class="row" style="padding-bottom: 20px">
+				<h3>Informações básicas</h3>
+			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="bloodType">Tipo Sanguíneo</label>
+					<label for="bloodType">Tipo sanguíneo *</label>
 					<select	id="bloodType" class="form-control">
 						<option value="" selected="selected"></option>
 						<option value="A+">A+</option>
@@ -38,35 +42,41 @@
 			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="allergy">Alergia</label>
+					<label for="allergy">Alergias</label>
 					<textarea id="allergy" type="text" class="form-control" rows="4"></textarea> 
 					<span id="allergy-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
+			<div class="row" style="padding-bottom: 20px">
+				<h3>Plano de Saúde</h3>
+			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="healthCareName">Plano de Saúde</label>
+					<label for="healthCareName">Nome do plano</label>
 					<input id="healthCareName" type="text" class="form-control" /> 
 					<span id="healthCareName-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="healthCareNumber">Número do Plano de Saúde</label>
+					<label for="healthCareNumber">Número da carteira</label>
 					<input id="healthCareNumber" type="text" class="form-control" /> 
 					<span id="healthCareNumber-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
+			<div class="row" style="padding-bottom: 20px">
+				<h3>Contato para Emergências</h3>
+			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="emergencyContactName">Nome do contato de emergência</label>
+					<label for="emergencyContactName">Nome *</label>
 					<input id="emergencyContactName" type="text" class="form-control" /> 
 					<span id="emergencyContactName-message" hidden="true" class="label label-danger" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group">
-					<label for="emergencyContactPhoneNumber">Número de telefone do contato de emergência</label>
+					<label for="emergencyContactPhoneNumber">Celular ou fixo *</label>
 					<input id="emergencyContactPhoneNumber" type="text" class="form-control" /> 
 					<span id="emergencyContactPhoneNumber-message" hidden="true" class="label label-danger" />
 				</div>
