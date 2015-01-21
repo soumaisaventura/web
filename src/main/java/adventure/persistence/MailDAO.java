@@ -113,7 +113,7 @@ public class MailDAO implements Serializable {
 	}
 
 	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
-		User creator = userDAO.loadBasics(registration.getCreator().getEmail());
+		User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		registration = RegistrationDAO.getInstance().loadForMail(registration.getId());
 
 		String[] memberNames = new String[members.size()];

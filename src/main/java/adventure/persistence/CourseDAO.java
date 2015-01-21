@@ -14,7 +14,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class CourseDAO extends JPACrud<Course, Long> {
+public class CourseDAO extends JPACrud<Course, Integer> {
 
 	private static final long serialVersionUID = 1L;
 

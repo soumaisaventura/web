@@ -61,18 +61,18 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, Integer creatorId,
-			String creatorName, Integer raceId, String raceName, Date raceDate, Integer categoryId,
+	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
+			String submitterName, Integer raceId, String raceName, Date raceDate, Integer categoryId,
 			String categoryName, Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
 
-		User creator = new User();
-		setCreator(creator);
-		getCreator().setId(creatorId);
-		getCreator().setProfile(new Profile(creator));
-		getCreator().getProfile().setName(categoryName);
+		User submitter = new User();
+		setSubmitter(submitter);
+		getSubmitter().setId(submitterId);
+		getSubmitter().setProfile(new Profile(submitter));
+		getSubmitter().getProfile().setName(categoryName);
 
 		setRaceCategory(new RaceCategory());
 		getRaceCategory().setCategory(new Category());
@@ -155,11 +155,11 @@ public class Registration implements Serializable {
 		this.date = date;
 	}
 
-	public User getCreator() {
+	public User getSubmitter() {
 		return submitter;
 	}
 
-	public void setCreator(User creator) {
-		this.submitter = creator;
+	public void setSubmitter(User submitter) {
+		this.submitter = submitter;
 	}
 }

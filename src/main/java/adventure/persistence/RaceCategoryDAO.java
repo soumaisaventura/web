@@ -1,24 +1,29 @@
 package adventure.persistence;
 
+import java.io.Serializable;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.Category;
 import adventure.entity.RaceCategory;
-import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class RaceCategoryDAO extends JPACrud<Category, Long> {
+public class RaceCategoryDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private EntityManager em;
 
 	public static RaceCategoryDAO getInstance() {
 		return Beans.getReference(RaceCategoryDAO.class);
 	}
 
-	public RaceCategory loadForRegistration(Integer raceId, Long courseId, Long categoryId) throws Exception {
+	public RaceCategory loadForRegistration(Integer raceId, Integer courseId, Integer categoryId) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length, r.id) ");
@@ -34,7 +39,7 @@ public class RaceCategoryDAO extends JPACrud<Category, Long> {
 		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
 
-		TypedQuery<RaceCategory> query = getEntityManager().createQuery(jpql.toString(), RaceCategory.class);
+		TypedQuery<RaceCategory> query = em.createQuery(jpql.toString(), RaceCategory.class);
 		query.setParameter("raceId", raceId);
 		query.setParameter("courseId", courseId);
 		query.setParameter("categoryId", categoryId);

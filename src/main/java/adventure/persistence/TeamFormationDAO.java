@@ -1,10 +1,10 @@
 package adventure.persistence;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
@@ -30,19 +30,32 @@ public class TeamFormationDAO implements Serializable {
 		return entity;
 	}
 
-	public List<TeamFormation> find(Race race, User member) {
+	public TeamFormation loadForRegistrationSubmissionValidation(Race race, User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append(" 	new " + User.class.getName() + "(a.id, a.email, p.name, p.gender) ");
-		jpql.append(" from ");
-		jpql.append(" 	Profile p join p.user a");
-		jpql.append(" where a.activation is not null ");
-		jpql.append("   and a.id not in :exclusion ");
-		jpql.append("   and lower(p.name) like :filter ");
+		jpql.append("    new TeamFormation( ");
+		jpql.append("        u.id, ");
+		jpql.append("        r.id, ");
+		jpql.append("        r.teamName ");
+		jpql.append("        ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.user u ");
+		jpql.append("   join tf.registration r ");
+		jpql.append("   join r.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("  where ra = :race ");
+		jpql.append("    and u = :user ");
 
 		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
-		// query.setMaxResults(10);
+		query.setParameter("race", race);
+		query.setParameter("user", user);
 
-		return query.getResultList();
+		TeamFormation result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
 	}
 }

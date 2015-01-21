@@ -41,6 +41,15 @@ public class TeamFormation implements Serializable {
 		this.user = user;
 	}
 
+	public TeamFormation(Integer userId, Long registrationId, String registrationTeamName) {
+		setUser(new User());
+		getUser().setId(userId);
+
+		setRegistration(new Registration());
+		getRegistration().setId(registrationId);
+		getRegistration().setTeamName(registrationTeamName);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
