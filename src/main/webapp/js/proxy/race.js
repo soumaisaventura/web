@@ -28,5 +28,12 @@ var RaceProxy = {
 			type : "GET",
 			url : this.url + "/" + $race + "/banner"
 		});
+	},
+	
+	order : function($race, $users){
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $race + "/order?users=" + $users
+		});
 	}
 };

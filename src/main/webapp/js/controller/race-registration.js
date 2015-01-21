@@ -1,4 +1,9 @@
 $(function() {
+	numeral.language('pt-br');
+	var teamData;
+	var $total = 0;
+	var $teamIds = [];
+	var $race = $("#race").val();
 	
 	/**
 	 * Carrega os dados da corrida
@@ -8,22 +13,21 @@ $(function() {
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
-	RaceProxy.findCourses($("#race").val()).done(loadCategoriesOk);
+	RaceProxy.findCourses($race).done(loadCategoriesOk);
 
 	/**
-	 * Objeto que guardará os dados da equipe
+	 * Carrega o usuário logado na lista de membros da equipe
 	 */
-	var teamData;
-
-	/**
-	 * Array usado para armazenar os id dos membros da equipe Já inicializa com
-	 * id do usuário logado
-	 */
-	var teamIds = [];
 	UserProxy.getLoggedInUser().done(
-		function(data) {
-			teamIds.push(data.id);
-			$("#logged-user").text(data.profile.name);
+		function($user) {
+			console.log($user);
+			RaceProxy.order($race, $user.id).done(function($order){
+				console.log($order);
+				$teamIds.push($order.rows[0].id);
+				$total += $order.rows[0].amount;
+				addRowOnMemberList($order.rows[0], true);
+				showTotal($total);
+			});
 		}
 	);
 
@@ -33,7 +37,7 @@ $(function() {
 	 */
 	$("#user").autocomplete({
 		source:	function(request, response) {
-					UserProxy.search(request.term, teamIds).done(
+					UserProxy.search(request.term, $teamIds).done(
 							function(data) {
 								response(convertToLabelValueStructureFromUser(data));
 							}
@@ -41,24 +45,50 @@ $(function() {
 				},
 		minLength: 3,
 		select: function(event, ui) {
-					teamIds.push(ui.item.value);
-					$("#members-list").append(
-						'<li class="list-group-item" id="member-'
-						+ ui.item.value
-						+ '">'
-						+ ui.item.label
-						+ '<a href="#" data-remove="'
-						+ ui.item.value
-						+ '"><span class="pull-right glyphicon glyphicon-remove" aria-hidden="true" title="Remover membro da equipe"></span></a></li>'
-					);
+					console.log(ui);
+					RaceProxy.order($race, ui.item.value).done(function($order){
+						$teamIds.push($order.rows[0].id);
+						$total += $order.rows[0].amount;
+						addRowOnMemberList($order.rows[0], false);
+						showTotal($total);
+					});
 					$("#user").val("");
-					console.log(teamIds);
+					console.log($teamIds);
 					return false;
 				},
 		focus : function(event, ui) {
 					$("#user").val(ui.item.label);
 					return false;
 				}
+	});
+	
+	/**
+	 * TODO Recalcular o total
+	 * Adiciona um event listener para remoção nos membros inseridos na equipe
+	 */
+	$("#members-list").on("click", "a", function(e) {
+		e.preventDefault();
+		var index = $teamIds.indexOf($(this).data("remove"));
+		if (index > -1) {
+			$teamIds.splice(index, 1);
+			$("#member-" + $(this).data("remove")).remove();
+		}
+	});
+	
+	/**
+	 * TODO Ajustar método
+	 * Cadastro dos dados da equipe
+	 */
+	$('#activate-step-4').on('click', function(e) {
+
+		var data = {
+			'teamName' : $("#teamName").val(),
+			'category' : $("#category").val().split("#")[0],
+			'course' : $("#category").val().split("#")[1],
+			'members' : team
+		};
+
+		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
 	});
 
 });
@@ -93,9 +123,9 @@ function loadCategoriesOk(data) {
  * Função utilitária que converte o objeto retornado no suggest para o formato
  * do jqueryUi.
  */
-function convertToLabelValueStructureFromUser(data) {
+function convertToLabelValueStructureFromUser($data) {
 	var newData = [];
-	$.each(data, function() {
+	$.each($data, function() {
 		newData.push({
 			"label" : this.profile.name,
 			"value" : this.id
@@ -104,3 +134,21 @@ function convertToLabelValueStructureFromUser(data) {
 	return newData;
 }
 
+function addRowOnMemberList($athlete, $exclude){
+	console.log('addRowOnMemberList');
+	var row = "";
+	row = row.concat("<tr id='member-" + $athlete.id + "'>");
+	row = $exclude ? 
+			row.concat("<td></td>") : 
+				row.concat("<td><a href='#' data-remove='" + $athlete.id + "'><span class='glyphicon glyphicon-trash'/></a></td>");
+	row = row.concat("<td>" + $athlete.name + "</td>");
+	row = row.concat("<td class='text-right'>" + numeral($athlete.racePrice).format('$ 0,0.00') + "</td>");
+	row = row.concat("<td class='text-right'>" + numeral($athlete.annualFee).format('$ 0,0.00') + "</td>");
+	row = row.concat("<td class='text-right text-success'><strong>" + numeral($athlete.amount).format('$ 0,0.00') + "</strong></td>");
+	row = row.concat("</tr>");
+	$("#members-list tbody").append(row);
+}
+
+function showTotal($total){
+	$("#total").text(numeral($total).format('$ 0,0.00'));
+}
