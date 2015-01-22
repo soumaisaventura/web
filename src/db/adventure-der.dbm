@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="0,338" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="633,232" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -187,7 +187,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1086.02" y="172.4"/>
+	<position x="1088.02" y="186.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -241,21 +241,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="race_organizer_pkey" type="pk-constr" table="public.race_organizer">
 		<columns names="organizer_id,race_id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="receipt">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="1115" y="751.6"/>
-	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="registration_id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<constraint name="receipt_pkey" type="pk-constr" table="public.receipt">
-		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -508,14 +493,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_receipt_registration" table="public.receipt"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="registration_id"/>
-		</idxelement>
-</index>
-
 <index name="idx_registration_date" table="public.registration"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
@@ -716,12 +693,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_receipt_registration" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.registration" table="public.receipt">
-	<columns names="registration_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="fk_registration_user" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.registration">
 	<columns names="submitter_id" ref-type="src-columns"/>
@@ -822,12 +793,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#08f233"
 	 src-table="public.race_organizer"
 	 dst-table="public.user_account"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_receipt_registration" type="relfk"
-	 custom-color="#2e46ff"
-	 src-table="public.receipt"
-	 dst-table="public.registration"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_registration_user_account" type="relfk"
