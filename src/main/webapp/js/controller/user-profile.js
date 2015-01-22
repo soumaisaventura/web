@@ -55,13 +55,13 @@ $(function() {
 			'gender' : $("#gender").val(),
 			'mobile' : $("#mobile").val()
 		};
-		ProfileProxy.update(data).done(updateOk);
+		UserProfileProxy.update(data).done(updateOk);
 	});
 
 	/**
 	 * Carrega os dados pessoais
 	 */
-	ProfileProxy.load().done(loadOk);
+	UserProfileProxy.load().done(loadOk);
 });
 
 /* ---------------- Funções de Callback ---------------- */

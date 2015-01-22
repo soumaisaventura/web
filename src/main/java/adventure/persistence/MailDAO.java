@@ -59,7 +59,7 @@ public class MailDAO implements Serializable {
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
 		content = content.replace("{name}", user.getProfile().getName());
-		content = content.replace("{url}", baseUri.resolve("activation?token=" + token).toString());
+		content = content.replace("{url}", baseUri.resolve("user/activation?token=" + token).toString());
 
 		send("Portal FBCA - Confirmação de e-mail", content, "text/html", email);
 	}

@@ -25,5 +25,14 @@ var UserProxy = {
 				App.setHeader(request);
 			}
 		});
+	},
+
+	activate : function($data, $token) {
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/activation/" + $token,
+			data : JSON.stringify($data),
+			contentType : "application/json"
+		});
 	}
 };

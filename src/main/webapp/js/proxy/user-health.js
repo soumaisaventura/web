@@ -1,6 +1,6 @@
-var HealthProxy = {
+var UserHealthProxy = {
 
-	url : App.getContextPath() + "/api/health",
+	url : App.getContextPath() + "/api/user/health",
 
 	load : function() {
 		return $.ajax({
