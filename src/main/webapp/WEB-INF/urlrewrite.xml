@@ -33,11 +33,6 @@
 	</rule>
 
 	<rule>
-		<from>^/activation$</from>
-		<to>/activation.jsf</to>
-	</rule>
-
-	<rule>
 		<from>^/password/recovery$</from>
 		<to>/password-recovery.jsf</to>
 	</rule>
@@ -45,6 +40,11 @@
 	<rule>
 		<from>^/password/reset$</from>
 		<to>/password-reset.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/user/activation$</from>
+		<to>/user-activation.jsf</to>
 	</rule>
 
 	<rule>

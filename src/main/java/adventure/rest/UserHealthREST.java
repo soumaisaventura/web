@@ -18,8 +18,8 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("health")
-public class HealthREST {
+@Path("user/health")
+public class UserHealthREST {
 
 	@GET
 	@LoggedIn

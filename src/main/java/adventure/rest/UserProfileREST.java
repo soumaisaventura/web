@@ -23,8 +23,8 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("profile")
-public class ProfileREST {
+@Path("user/profile")
+public class UserProfileREST {
 
 	@GET
 	@LoggedIn

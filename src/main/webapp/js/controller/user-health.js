@@ -16,13 +16,13 @@ $(function() {
 			'emergencyContactName' : $("#emergencyContactName").val(),
 			'emergencyContactPhoneNumber' : $("#emergencyContactPhoneNumber").val(),
 		};
-		HealthProxy.update(data).done(updateOk);
+		UserHealthProxy.update(data).done(updateOk);
 	});
 
 	/**
 	 * Carrega os dados médicos
 	 */
-	HealthProxy.load().done(loadOk);
+	UserHealthProxy.load().done(loadOk);
 
 });
 

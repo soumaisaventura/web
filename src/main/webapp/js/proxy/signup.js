@@ -11,15 +11,6 @@ var SignUpProxy = {
 		});
 	},
 
-	activate : function($data, $token) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/activation/" + $token,
-			data : JSON.stringify($data),
-			contentType : "application/json"
-		});
-	},
-
 	unregistration : function() {
 		return $.ajax({
 			type : "DELETE",

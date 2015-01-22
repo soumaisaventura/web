@@ -10,7 +10,7 @@ $(function() {
 		};
 
 		var token = App.getUrlParameterByName('token');
-		SignUpProxy.activate(data, token).done(activateOk);
+		UserProxy.activate(data, token).done(activateOk);
 	});
 });
 

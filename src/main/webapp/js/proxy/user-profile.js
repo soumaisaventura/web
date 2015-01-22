@@ -1,6 +1,6 @@
-var ProfileProxy = {
+var UserProfileProxy = {
 
-	url : App.getContextPath() + "/api/profile",
+	url : App.getContextPath() + "/api/user/profile",
 
 	load : function() {
 		return $.ajax({
