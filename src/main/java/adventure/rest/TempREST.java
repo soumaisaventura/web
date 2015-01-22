@@ -57,6 +57,14 @@ public class TempREST {
 	}
 
 	@POST
+	@Path("reload")
+	@Transactional
+	public void reload(@Context UriInfo uriInfo) throws Exception {
+		unload(uriInfo);
+		load(uriInfo);
+	}
+
+	@POST
 	@Path("load")
 	@Transactional
 	public void load(@Context UriInfo uriInfo) throws Exception {
@@ -85,22 +93,13 @@ public class TempREST {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		try {
-			newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
-			// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
-			// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
-		} catch (Exception cause) {
-			System.out.println("usuário já cadastrado");
-		}
+		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
+		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
+		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
 
-		try {
-			newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
-		} catch (Exception cause) {
-			System.out.println("usuário já cadastrado");
-		}
-
-		// User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
-		// User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
+		User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
+		User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
 
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
@@ -128,8 +127,8 @@ public class TempREST {
 		// newRaceCategory(np, np100km, duplaMista);
 		// RaceCategory npQuarteto100km = newRaceCategory(np, np100km, quarteto);
 
-		// newRaceOrganizer(np, arnaldoMaciel);
-		// newRaceOrganizer(np, gustavoChagas);
+		newRaceOrganizer(np, arnaldoMaciel);
+		newRaceOrganizer(np, gustavoChagas);
 
 		newRace("CARI - Sol do Salitre", null, "11/04/2015");
 		newRace("CICA - Mandacaru", null, "18/04/2015");
