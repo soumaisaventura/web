@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CPF;
 
 import adventure.entity.Gender;
 import adventure.entity.Profile;
@@ -76,7 +75,7 @@ public class ProfileREST {
 		@NotEmpty
 		public String rg;
 
-		@CPF
+		// @CPF
 		@NotEmpty
 		public String cpf;
 

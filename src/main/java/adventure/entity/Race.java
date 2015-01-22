@@ -44,7 +44,6 @@ public class Race implements Serializable {
 	@Index(name = "IDX_RACE_NAME")
 	private String name;
 
-	@Lob
 	@Size(max = TEXT_SIZE)
 	@Column(name = "DESCRIPTION")
 	private String description;

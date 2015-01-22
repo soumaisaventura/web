@@ -35,7 +35,7 @@
 			<dependency>
 				<groupId>org.jboss.as</groupId>
 				<artifactId>jboss-as-parent</artifactId>
-				<version>7.2.0.Final</version>
+				<version>7.1.1.Final</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<scope>comppile</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

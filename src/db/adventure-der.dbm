@@ -3,93 +3,36 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="418,194" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="0,338" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
-<role name="zyc"
-      superuser="true"
-      encrypted="true"
-      password="********"
-      sql-disabled="true">
-</role>
-
-<database name="adventure" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
-	<role name="zyc"/>
+<database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
+	<role name="postgres"/>
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" protected="true" rect-visible="true" fill-color="#ffffff" sql-disabled="true">
+<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
-
-<table name="available_category">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="640" y="140"/>
-	<column name="race_id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="course_id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="category_id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<constraint name="available_category_pkey" type="pk-constr" table="public.available_category">
-		<columns names="category_id,course_id,race_id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<index name="idx_available_category_category" table="public.available_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="category_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_available_category_course" table="public.available_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="course_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_available_category_race" table="public.available_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="race_id"/>
-		</idxelement>
-</index>
-
-<sequence name="hibernate_sequence"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="public"/>
-	<role name="postgres"/>
-</sequence>
 
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1720" y="720"/>
+	<position x="1360" y="576"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="50"/>
 	</column>
 	<column name="description" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="100"/>
 	</column>
-	<column name="min_female_members">
+	<column name="team_size" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="min_male_members">
 		<type name="integer"/>
 	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="team_size" not-null="true">
+	<column name="min_female_members">
 		<type name="integer"/>
 	</column>
 	<constraint name="category_pkey" type="pk-constr" table="public.category">
@@ -100,15 +43,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="980" y="120"/>
+	<position x="760.859" y="23"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="integer"/>
 	</column>
 	<column name="state_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="50"/>
 	</column>
 	<constraint name="city_pkey" type="pk-constr" table="public.city">
 		<columns names="id" ref-type="src-columns"/>
@@ -118,15 +61,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1700" y="100"/>
+	<position x="1395.59" y="26"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="abbreviation" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="integer"/>
 	</column>
 	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="abbreviation" not-null="true">
+		<type name="character varying" length="2"/>
 	</column>
 	<constraint name="country_pkey" type="pk-constr" table="public.country">
 		<columns names="id" ref-type="src-columns"/>
@@ -136,15 +79,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1740" y="520"/>
+	<position x="1423.72" y="404"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="length" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="race_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="length" not-null="true">
+		<type name="integer"/>
 	</column>
 	<constraint name="course_pkey" type="pk-constr" table="public.course">
 		<columns names="id" ref-type="src-columns"/>
@@ -154,30 +97,30 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="500" y="520"/>
-	<column name="allergy">
-		<type name="text"/>
+	<position x="417.719" y="591"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<column name="blood_type">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="20"/>
 	</column>
-	<column name="emergency_contact_name">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="emergency_contact_phone_number">
-		<type name="character varying" length="255"/>
+	<column name="allergy">
+		<type name="character varying" length="500"/>
 	</column>
 	<column name="health_care_name">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="50"/>
 	</column>
 	<column name="health_care_number">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="emergency_contact_name">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="emergency_contact_phone_number">
+		<type name="character varying" length="15"/>
 	</column>
 	<column name="pendencies" not-null="true">
 		<type name="integer"/>
-	</column>
-	<column name="id" not-null="true">
-		<type name="bigint"/>
 	</column>
 	<constraint name="health_pkey" type="pk-constr" table="public.health">
 		<columns names="id" ref-type="src-columns"/>
@@ -187,9 +130,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1720" y="280"/>
-	<column name="id" not-null="true">
-		<type name="bigint"/>
+	<position x="1408" y="207.4"/>
+	<column name="race_id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<column name="beginning" not-null="true">
 		<type name="date"/>
@@ -198,15 +141,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="date"/>
 	</column>
 	<column name="price" not-null="true">
-		<type name="numeric" length="19" precision="2"/>
+		<type name="numeric" length="5" precision="2"/>
 	</column>
-	<column name="race_id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<constraint name="period_pkey" type="pk-constr" table="public.period">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-	<constraint name="period_race_id_beginning_key" type="uq-constr" table="public.period">
+	<constraint name="pk_period" type="pk-constr" table="public.period">
 		<columns names="race_id,beginning" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -214,33 +151,33 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="620" y="300"/>
-	<column name="birthday">
-		<type name="date"/>
-	</column>
-	<column name="cpf">
-		<type name="character varying" length="11"/>
-	</column>
-	<column name="gender" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="mobile">
-		<type name="character varying" length="255"/>
+	<position x="421.641" y="369.4"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="50"/>
 	</column>
-	<column name="pendencies" not-null="true">
-		<type name="integer"/>
+	<column name="gender" not-null="true">
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="birthday">
+		<type name="date"/>
 	</column>
 	<column name="rg">
 		<type name="character varying" length="10"/>
 	</column>
-	<column name="id" not-null="true">
-		<type name="bigint"/>
+	<column name="cpf">
+		<type name="character varying" length="11"/>
+	</column>
+	<column name="mobile">
+		<type name="character varying" length="15"/>
 	</column>
 	<column name="city_id">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="pendencies" not-null="true">
+		<type name="integer"/>
 	</column>
 	<constraint name="profile_pkey" type="pk-constr" table="public.profile">
 		<columns names="id" ref-type="src-columns"/>
@@ -250,24 +187,24 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1360" y="280"/>
+	<position x="1086.02" y="172.4"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
-	<column name="banner">
-		<type name="oid"/>
+	<column name="name" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="description">
+		<type name="character varying" length="500"/>
 	</column>
 	<column name="date" not-null="true">
 		<type name="date"/>
 	</column>
-	<column name="description">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
 	<column name="city_id">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="banner">
+		<type name="oid"/>
 	</column>
 	<constraint name="race_pkey" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
@@ -277,15 +214,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1380" y="520"/>
+	<position x="1103.27" y="391.4"/>
 	<column name="race_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
 	<column name="course_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
 	<column name="category_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
 	<constraint name="race_category_pkey" type="pk-constr" table="public.race_category">
 		<columns names="category_id,course_id,race_id" ref-type="src-columns"/>
@@ -295,12 +232,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1020" y="300"/>
-	<column name="organizer_id" not-null="true">
-		<type name="bigint"/>
-	</column>
+	<position x="783.188" y="220.4"/>
 	<column name="race_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="organizer_id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<constraint name="race_organizer_pkey" type="pk-constr" table="public.race_organizer">
 		<columns names="organizer_id,race_id" ref-type="src-columns"/>
@@ -310,7 +247,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="receipt">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1400" y="980"/>
+	<position x="1115" y="751.6"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -325,27 +262,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1360" y="740"/>
+	<position x="1076.59" y="564.6"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
-	<column name="date" not-null="true">
-		<type name="date"/>
-	</column>
-	<column name="team_name" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="category_id" not-null="true">
-		<type name="bigint"/>
+	<column name="race_id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<column name="course_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
-	<column name="race_id" not-null="true">
-		<type name="bigint"/>
+	<column name="category_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="team_name" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="timestamp"/>
 	</column>
 	<column name="submitter_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
 	</column>
 	<constraint name="registration_pkey" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
@@ -355,18 +292,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1360" y="100"/>
+	<position x="1084.25" y="12.6"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="abbreviation" not-null="true">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="255"/>
+		<type name="integer"/>
 	</column>
 	<column name="country_id" not-null="true">
-		<type name="bigint"/>
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="abbreviation" not-null="true">
+		<type name="character varying" length="2"/>
 	</column>
 	<constraint name="state_pkey" type="pk-constr" table="public.state">
 		<columns names="id" ref-type="src-columns"/>
@@ -376,12 +313,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1000" y="780"/>
-	<column name="user_id" not-null="true">
-		<type name="bigint"/>
-	</column>
+	<position x="773.766" y="594.6"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
+	</column>
+	<column name="user_id" not-null="true">
+		<type name="integer"/>
 	</column>
 	<constraint name="team_formation_pkey" type="pk-constr" table="public.team_formation">
 		<columns names="registration_id,user_id" ref-type="src-columns"/>
@@ -391,33 +328,33 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user_account">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="960" y="500"/>
+	<position x="728.531" y="372.6"/>
 	<column name="id" not-null="true">
-		<type name="bigint"/>
-	</column>
-	<column name="activation">
-		<type name="date"/>
-	</column>
-	<column name="activation_token">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="creation" not-null="true">
-		<type name="date"/>
-	</column>
-	<column name="deleted">
-		<type name="date"/>
+		<type name="integer"/>
 	</column>
 	<column name="email" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="password">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="64"/>
+	</column>
+	<column name="activation">
+		<type name="timestamp"/>
+	</column>
+	<column name="activation_token">
+		<type name="character varying" length="64"/>
 	</column>
 	<column name="password_reset_request">
 		<type name="timestamp"/>
 	</column>
 	<column name="password_reset_token">
-		<type name="character varying" length="255"/>
+		<type name="character varying" length="64"/>
+	</column>
+	<column name="creation" not-null="true">
+		<type name="timestamp"/>
+	</column>
+	<column name="deleted">
+		<type name="timestamp"/>
 	</column>
 	<constraint name="user_account_pkey" type="pk-constr" table="public.user_account">
 		<columns names="id" ref-type="src-columns"/>
@@ -468,22 +405,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </index>
 
 <index name="idx_course_race" table="public.course"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="race_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_period_beginning" table="public.period"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="beginning"/>
-		</idxelement>
-</index>
-
-<index name="idx_period_race" table="public.period"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -832,113 +753,109 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <relationship name="rel_city_state" type="relfk"
-	 custom-color="#166958"
+	 custom-color="#4fdcf1"
 	 src-table="public.city"
 	 dst-table="public.state"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_course_race" type="relfk"
-	 custom-color="#8e991e"
+	 custom-color="#eb5d98"
 	 src-table="public.course"
 	 dst-table="public.race"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_health_user_account" type="relfk"
-	 custom-color="#736eb3"
+	 custom-color="#a3a589"
 	 src-table="public.health"
 	 dst-table="public.user_account"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_period_race" type="relfk"
-	 custom-color="#9901d0"
+	 custom-color="#11346a"
 	 src-table="public.period"
 	 dst-table="public.race"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_profile_user_account" type="relfk"
-	 custom-color="#c199bc"
+	 custom-color="#8dc6ce"
 	 src-table="public.profile"
 	 dst-table="public.user_account"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_profile_city" type="relfk"
-	 custom-color="#e36996"
+	 custom-color="#4a964b"
 	 src-table="public.profile"
 	 dst-table="public.city"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_city" type="relfk"
-	 custom-color="#2881f8"
+	 custom-color="#7f078a"
 	 src-table="public.race"
 	 dst-table="public.city"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_category_category" type="relfk"
-	 custom-color="#e248f2"
+	 custom-color="#c74cd6"
 	 src-table="public.race_category"
 	 dst-table="public.category"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_category_race" type="relfk"
-	 custom-color="#62abb2"
+	 custom-color="#f5e80c"
 	 src-table="public.race_category"
 	 dst-table="public.race"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_category_course" type="relfk"
-	 custom-color="#8a1728"
+	 custom-color="#72bd34"
 	 src-table="public.race_category"
 	 dst-table="public.course"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_organizer_race" type="relfk"
-	 custom-color="#772384"
+	 custom-color="#38bf7f"
 	 src-table="public.race_organizer"
 	 dst-table="public.race"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_organizer_user_account" type="relfk"
-	 custom-color="#8b164d"
+	 custom-color="#08f233"
 	 src-table="public.race_organizer"
 	 dst-table="public.user_account"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="96.2213" y="-9.41068"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_receipt_registration" type="relfk"
-	 custom-color="#475a44"
+	 custom-color="#2e46ff"
 	 src-table="public.receipt"
 	 dst-table="public.registration"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_registration_user_account" type="relfk"
-	 custom-color="#11f001"
+	 custom-color="#faa5f1"
 	 src-table="public.registration"
 	 dst-table="public.user_account"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_registration_race_category" type="relfk"
-	 custom-color="#1e449f"
+	 custom-color="#31371e"
 	 src-table="public.registration"
 	 dst-table="public.race_category"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_state_country" type="relfk"
-	 custom-color="#5a1821"
+	 custom-color="#c58ca5"
 	 src-table="public.state"
 	 dst-table="public.country"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_team_formation_user_account" type="relfk"
-	 custom-color="#bd8e8c"
+	 custom-color="#90458d"
 	 src-table="public.team_formation"
 	 dst-table="public.user_account"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_team_formation_registration" type="relfk"
-	 custom-color="#e45b05"
+	 custom-color="#fc801a"
 	 src-table="public.team_formation"
 	 dst-table="public.registration"
 	 src-required="false" dst-required="false"/>

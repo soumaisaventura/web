@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -41,7 +40,6 @@ public class Health implements Serializable {
 	@Column(name = "BLOOD_TYPE", length = ENUM_SIZE)
 	private BloodType bloodType;
 
-	@Lob
 	@Size(max = TEXT_SIZE)
 	@Column(name = "ALLERGY")
 	private String allergy;

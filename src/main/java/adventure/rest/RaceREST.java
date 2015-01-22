@@ -111,7 +111,6 @@ public class RaceREST {
 
 		for (Period period : PeriodDAO.getInstance().find(race)) {
 			PeriodData periodData = new PeriodData();
-			periodData.id = period.getId();
 			periodData.beginning = period.getBeginning();
 			periodData.end = period.getEnd();
 			periodData.price = period.getPrice();
@@ -253,8 +252,6 @@ public class RaceREST {
 	}
 
 	public static class PeriodData {
-
-		public Integer id;
 
 		public Date beginning;
 

@@ -34,7 +34,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	       (select count(p.id) ");
+		jpql.append(" 	       (select count(p) ");
 		jpql.append(" 	          from Period p ");
 		jpql.append(" 	         where p.race = r ");
 		jpql.append(" 	           and :date between p.beginning and p.end) ");
@@ -85,7 +85,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	       (select count(p.id) ");
+		jpql.append(" 	       (select count(p) ");
 		jpql.append(" 	          from Period p ");
 		jpql.append(" 	         where p.race = r ");
 		jpql.append(" 	           and :date between p.beginning and p.end) ");
