@@ -2,29 +2,33 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/race-next.js"></script>
 	</ui:define>
 
 	<ui:define name="body">
 		<div class="container">
 			<div class="row" style="padding-bottom: 20px">
 				<div class="col-md-8 col-md-offset-2">
-					<div class="jumbotron">
-						<h1>Seja bem-vindo!</h1>
-						<p>Este é o site da FBCA – Federação Baiana de Corrida de Aventura – uma maneira unificada de se increver nas
-							provas da Bahia.</p>
-						<p>
-							<a class="btn btn-primary btn-lg" href="#{request.contextPath}/race/next" role="button">Ver provas</a>
-						</p>
+					<div class="row" style="padding-bottom: 20px">
+						<h1>Próximas provas</h1>
+						<h4>Fique de olho nos próximos eventos</h4>
+					</div>
+
+					<div class="row">
+						<table id="resultTable" class="table table-bordered">
+							<tbody></tbody>
+						</table>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</ui:define>
 

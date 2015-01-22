@@ -61,10 +61,15 @@
 		<from>^/registration/list$</from>
 		<to>/registration-list.jsf</to>
 	</rule>
-	
+
 	<rule>
 		<from>^/registration$</from>
 		<to>/registration.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/race/next$</from>
+		<to>/race-next.jsf</to>
 	</rule>
 
 	<rule>
