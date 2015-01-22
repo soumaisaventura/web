@@ -16,7 +16,7 @@ $(function() {
 			'emergencyContactName' : $("#emergencyContactName").val(),
 			'emergencyContactPhoneNumber' : $("#emergencyContactPhoneNumber").val(),
 		};
-		HealthProxy.update(data).done(updateOk).fail(updateFail);
+		HealthProxy.update(data).done(updateOk);
 	});
 
 	/**
@@ -45,13 +45,47 @@ function loadOk(data) {
  */
 function updateOk(data) {
 	$("[id$='-message']").hide();
-	$("#global-message").text("Dados atualizados com sucesso.").addClass("alert-success").show();
 	$("#health-badge").text("");
-}
 
-/**
- * Tratamento de erro dos dados básicos.
- */
-function updateFail(request) {
-	$("#global-message").text("").removeClass("alert-success").hide();
+	var content = {};
+
+	if ($("#profile-badge").text().length > 0) {
+		content = {
+			title : "Dados salvos",
+			message : "Porém você ainda possui pendências nos dados de pessoais. Deseja resolver isso logo?",
+			buttons : {
+				success : {
+					label : "Sim",
+					className : "btn-success",
+					callback : function() {
+						location.href = App.getContextPath() + "/user/profile";
+					}
+				},
+				danger : {
+					label : "Não",
+					className : "btn-danger",
+					callback : function() {
+						App.restoreLocation();
+					}
+				}
+			}
+
+		}
+	} else {
+		content = {
+			title : "Parabéns",
+			message : "Todas as pendências cadastrais foram resolvidas.",
+			buttons : {
+				success : {
+					label : "Ok",
+					className : "btn-success",
+					callback : function() {
+						App.restoreLocation();
+					}
+				}
+			}
+		}
+	}
+
+	bootbox.dialog(content);
 }

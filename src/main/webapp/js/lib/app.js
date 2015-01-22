@@ -4,7 +4,10 @@ var App = {
 
 	restoreLocation : function() {
 		var url = sessionStorage.getItem("saved_location");
-		location.href = (url ? url : App.getContextPath() + "/home");
+
+		if (url) {
+			location.href = App.getContextPath() + "/home";
+		}
 	},
 
 	saveLocation : function($url) {

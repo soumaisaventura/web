@@ -55,7 +55,7 @@ $(function() {
 			'gender' : $("#gender").val(),
 			'mobile' : $("#mobile").val()
 		};
-		ProfileProxy.update(data).done(updateOk).fail(updateFail);
+		ProfileProxy.update(data).done(updateOk);
 	});
 
 	/**
@@ -70,7 +70,6 @@ $(function() {
  * Função que carrega os dados pessoais do usuário.
  */
 function loadOk(data) {
-	console.log('loadOk');
 	$("#name").val(data.name);
 	$("#rg").val(data.rg);
 	$("#cpf").val(data.cpf);
@@ -91,18 +90,50 @@ function loadOk(data) {
  * 
  */
 function updateOk(data) {
-	console.log('updateOk');
-	$("[id$='-message'").hide();
-	$("#global-message").text("Dados atualizados com sucesso.").addClass("alert-success").show();
+	$("[id$='-message']").hide();
 	$("#profile-badge").text("");
-}
 
-/**
- * Tratamento de erro dos dados básicos.
- */
-function updateFail(request) {
-	console.log('updateFail');
-	$("#global-message").text("").removeClass("alert-success").hide();
+	var content = {};
+
+	if ($("#health-badge").text().length > 0) {
+		content = {
+			title : "Dados salvos",
+			message : "Porém você ainda possui pendências nos dados de saúde. Deseja resolver isso logo?",
+			buttons : {
+				success : {
+					label : "Sim",
+					className : "btn-success",
+					callback : function() {
+						location.href = App.getContextPath() + "/user/health";
+					}
+				},
+				danger : {
+					label : "Não",
+					className : "btn-danger",
+					callback : function() {
+						App.restoreLocation();
+					}
+				}
+			}
+
+		}
+	} else {
+		content = {
+			title : "Parabéns",
+			message : "Todas as pendências cadastrais foram resolvidas.",
+			buttons : {
+				success : {
+					label : "Ok",
+					className : "btn-success",
+					callback : function() {
+						App.restoreLocation();
+					}
+				}
+			}
+		}
+	}
+
+	bootbox.dialog(content);
 }
 
 /* ---------------- Funções Utilitárias ---------------- */

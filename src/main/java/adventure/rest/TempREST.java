@@ -44,6 +44,7 @@ public class TempREST {
 	public void unload(@Context UriInfo uriInfo) throws Exception {
 		validate(uriInfo);
 
+		getEntityManager().createQuery("delete from RaceOrganizer").executeUpdate();
 		getEntityManager().createQuery("delete from Registration").executeUpdate();
 		getEntityManager().createQuery("delete from TeamFormation").executeUpdate();
 		getEntityManager().createQuery("delete from RaceCategory").executeUpdate();
