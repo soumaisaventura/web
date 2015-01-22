@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="lib">
+	</ui:define>
+
+	<ui:define name="proxy">
+	</ui:define>
+
+	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/registration.js"></script>
+	</ui:define>
+
+	<ui:define name="body">
+		<div class="container">
+		<input id="race" type="hidden" value="#{param.registration}" />
+			<div class="row" style="padding-bottom: 20px">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="row" style="padding-bottom: 20px">
+						<h1>Registro: <span class="label label-primary">#{param.registration}</span></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
