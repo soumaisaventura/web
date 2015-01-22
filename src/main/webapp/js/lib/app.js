@@ -1,13 +1,10 @@
 var App = {
-	
+
 	tokenKey : "Token",
 
 	restoreLocation : function() {
 		var url = sessionStorage.getItem("saved_location");
-
-		if (url) {
-			location.href = App.getContextPath() + "/home";
-		}
+		location.href = (url ? url : App.getContextPath() + "/home");
 	},
 
 	saveLocation : function($url) {

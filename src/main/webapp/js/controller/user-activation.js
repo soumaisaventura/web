@@ -18,5 +18,5 @@ $(function() {
 
 function activateOk(data, status, request) {
 	App.setToken(request.getResponseHeader('Set-Token'));
-	App.restoreLocation();
+	location.href = App.getContextPath() + "/home";
 }

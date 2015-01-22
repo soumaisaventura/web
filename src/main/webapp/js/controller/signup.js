@@ -24,5 +24,5 @@ $(function() {
 
 // SignUp process
 function signupOk(data, status, request) {
-	$("#global-message").addClass('alert-success').text("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.").show();
+	$("#global-message").removeClass('alert-danger').addClass('alert-success').text("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.").show();
 }
