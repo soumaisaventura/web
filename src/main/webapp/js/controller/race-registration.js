@@ -1,5 +1,6 @@
 $(function() {
 	numeral.language('pt-br');
+	numeral.defaultFormat('$ 0,0');
 	var teamData;
 	var $total = 0;
 	var $teamIds = [];
@@ -81,8 +82,8 @@ $(function() {
 		var index = $teamIds.indexOf($(this).data("remove"));
 		if (index > -1) {
 			$teamIds.splice(index, 1);
+			$total -= numeral().unformat($("#member-" + $(this).data("remove") + " > td:last-child")[0].innerText);
 			$("#member-" + $(this).data("remove")).remove();
-			$total -= $order.rows[0].amount;
 			showTotal($total);
 		}
 	});
@@ -157,13 +158,13 @@ function addRowOnMemberList($athlete, $exclude){
 			row.concat("<td></td>") : 
 				row.concat("<td><a href='#' data-remove='" + $athlete.id + "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td>" + $athlete.name + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.racePrice).format('$ 0,0') + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.annualFee).format('$ 0,0') + "</td>");
-	row = row.concat("<td class='text-right text-success' nowrap='nowrap'><strong>" + numeral($athlete.amount).format('$ 0,0') + "</strong></td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.racePrice).format() + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.annualFee).format() + "</td>");
+	row = row.concat("<td class='text-right text-success' nowrap='nowrap'><strong>" + numeral($athlete.amount).format() + "</strong></td>");
 	row = row.concat("</tr>");
 	$("#members-list tbody").append(row);
 }
 
 function showTotal($total){
-	$("#total").text(numeral($total).format('$ 0,0'));
+	$("#total").text(numeral($total).format());
 }
