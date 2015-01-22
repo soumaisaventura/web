@@ -6,6 +6,8 @@
 				
 <ui:define name="lib">
 	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
 </ui:define>
 
 <ui:define name="proxy">
@@ -54,7 +56,7 @@
  		  			<div class="row" id="registration-periods-section" hidden="true">
  		  				<h3><span class="glyphicon glyphicon-usd" style="font-size: 0.8em"></span> Inscrição</h3>
   						<div id="registration-periods"></div>
-  						<h4><small>*valor por pessoa <span style='color:green'>+ R$ 10 de anuidade</span></small></h4>
+  						<h4><small><sup>*</sup>valor por pessoa <span class='text-success'>+ R$ 10 de anuidade</span></small></h4>
  		  			</div>
 				</div>
 	  			<div class="col-md-6">

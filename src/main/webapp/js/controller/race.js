@@ -1,4 +1,9 @@
 $(function() {
+
+	moment.locale("pt-br");
+	numeral.language('pt-br');
+	numeral.defaultFormat('$ 0,0');
+	
 	RaceProxy.getBanner($("#race").val()).done(getBannerOk);
 	RaceProxy.load($("#race").val()).done(loadOk);
 
@@ -44,7 +49,7 @@ function loadOk(data) {
 		$.each(data.registration.periods, function(index, value) {
 			$("#registration-periods").append(
 					"<h4>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
-							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ": R$ " + value.price + "<small>*</small></h4>")
+							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ": " + numeral(value.price).format() + "<sup>*</sup></h4>")
 		});
 		$("#registration-periods-section").show();
 	}
