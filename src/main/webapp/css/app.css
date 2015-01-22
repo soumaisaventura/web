@@ -54,3 +54,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .label-as-badge {
 	border-radius: 1em;
 }
+
+.jumbotron {
+	background-color: white;
+}
+
+.navbar-default {
+	background-color: white;
+	border-color: white;
+}
