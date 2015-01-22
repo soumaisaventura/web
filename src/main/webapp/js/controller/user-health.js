@@ -32,7 +32,6 @@ $(function() {
  * Funçao que carrega os dados médicos do usuário.
  */
 function loadOk(data) {
-	console.log('loadOk');
 	$("#bloodType").val(data.bloodType);
 	$("#allergy").val(data.allergy);
 	$("#healthCareName").val(data.healthCareName);
@@ -45,8 +44,7 @@ function loadOk(data) {
  * 
  */
 function updateOk(data) {
-	console.log('updateOk');
-	$("[id$='-message'").hide();
+	$("[id$='-message']").hide();
 	$("#global-message").text("Dados atualizados com sucesso.").addClass("alert-success").show();
 	$("#health-badge").text("");
 }
@@ -55,6 +53,5 @@ function updateOk(data) {
  * Tratamento de erro dos dados básicos.
  */
 function updateFail(request) {
-	console.log('updateFail');
 	$("#global-message").text("").removeClass("alert-success").hide();
 }
