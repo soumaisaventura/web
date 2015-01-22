@@ -29,8 +29,7 @@
 		<url-pattern>/signup</url-pattern>
 		<url-pattern>/activation</url-pattern>
 		<url-pattern>/password/*</url-pattern>
-		<url-pattern>/profile</url-pattern>
-		<url-pattern>/health</url-pattern>
+		<url-pattern>/user/*</url-pattern>
 		<url-pattern>/registration/*</url-pattern>
 		<url-pattern>/race/*</url-pattern>
 	</filter-mapping>

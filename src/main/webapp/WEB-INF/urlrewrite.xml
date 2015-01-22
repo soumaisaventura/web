@@ -48,13 +48,13 @@
 	</rule>
 
 	<rule>
-		<from>^/profile$</from>
-		<to>/profile.jsf</to>
+		<from>^/user/profile$</from>
+		<to>/user-profile.jsf</to>
 	</rule>
 
 	<rule>
-		<from>^/health$</from>
-		<to>/health.jsf</to>
+		<from>^/user/health$</from>
+		<to>/user-health.jsf</to>
 	</rule>
 
 	<rule>
