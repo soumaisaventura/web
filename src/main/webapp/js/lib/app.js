@@ -1,5 +1,9 @@
-var App = {
+moment.locale("pt-br");
+numeral.language('pt-br');
+numeral.defaultFormat('$ 0,0');
 
+var App = {
+	
 	tokenKey : "Token",
 
 	restoreLocation : function() {

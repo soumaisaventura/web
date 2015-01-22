@@ -23,7 +23,7 @@ function getBannerOk(data) {
 
 function loadOk(data) {
 	$("#name").prepend(data.name);
-	$("#date").prepend(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL'));
+	$("#date").prepend(moment(data.date, "YYYY-MM-DD").format('LL'));
 
 	if (data.description) {
 		$("#description").prepend(data.description);
@@ -43,8 +43,8 @@ function loadOk(data) {
 	if (data.registration.periods.length > 0) {
 		$.each(data.registration.periods, function(index, value) {
 			$("#registration-periods").append(
-					"<h4>" + moment(value.beginning, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + " à "
-							+ moment(value.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM') + ": R$ " + value.price + "<small>*</small></h4>")
+					"<h4>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
+							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ": R$ " + value.price + "<small>*</small></h4>")
 		});
 		$("#registration-periods-section").show();
 	}

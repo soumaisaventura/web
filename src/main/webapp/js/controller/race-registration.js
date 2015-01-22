@@ -1,6 +1,5 @@
 $(function() {
-	numeral.language('pt-br');
-	numeral.defaultFormat('$ 0,0');
+	
 	var teamData;
 	var $total = 0;
 	var $teamIds = [];
