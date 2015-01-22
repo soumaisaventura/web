@@ -1,36 +1,33 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:h="http://java.sun.com/jsf/html" 
-				xmlns:ui="http://java.sun.com/jsf/facelets" 
-				template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-<ui:define name="lib">
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
-</ui:define>
+	<ui:define name="lib">
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+	</ui:define>
 
-<ui:define name="proxy">
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
-</ui:define>
+	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+	</ui:define>
 
-<ui:define name="controller">
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/home.js"></script>
-</ui:define>
+	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/home.js"></script>
+	</ui:define>
 
-<ui:define name="body">
-	<div class="container">
-		<h2>Próximas provas</h2>
+	<ui:define name="body">
+		<div class="container">
+			<div class="row" style="padding-bottom: 20px">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="row" style="padding-bottom: 20px">
+						<h1>Próximas provas</h1>
+						<h4>Fique de olho nos próximos eventos</h4>
+					</div>
 
-		<table id="resultTable" class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Data</th>
-					<th>Local</th>
-					<th>Prova</th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
-</ui:define>
+					<table id="resultTable" class="table table-bordered">
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</ui:define>
 
 </ui:composition>
