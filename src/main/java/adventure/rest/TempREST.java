@@ -1,11 +1,16 @@
 package adventure.rest;
 
+import static adventure.entity.Gender.FEMALE;
+import static adventure.entity.Gender.MALE;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import adventure.entity.Category;
 import adventure.entity.City;
@@ -23,18 +28,22 @@ import adventure.entity.User;
 import adventure.security.Passwords;
 import adventure.util.Dates;
 import adventure.util.PendencyCounter;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("temp")
+@SuppressWarnings("unused")
 public class TempREST {
 
 	@POST
 	@Path("unload")
 	@Transactional
-	public void unload() throws Exception {
+	public void unload(@Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
+
 		getEntityManager().createQuery("delete from Registration").executeUpdate();
 		getEntityManager().createQuery("delete from TeamFormation").executeUpdate();
 		getEntityManager().createQuery("delete from RaceCategory").executeUpdate();
@@ -50,35 +59,45 @@ public class TempREST {
 	@POST
 	@Path("load")
 	@Transactional
-	@SuppressWarnings("unused")
-	public void load() throws Exception {
-		// User[] users = new User[50];
-		// for (int i = 0; i < users.length; i++) {
-		// String email = "guest_" + i + "@guest.com";
-		// String password = "guest";
-		// String name;
-		// Gender gender;
-		// boolean verified = true;
-		//
-		// if (i % 3 == 0) {
-		// name = "Usuário homem de exemplo #" + i;
-		// gender = MALE;
-		// } else {
-		// name = "Usuário mulher de exemplo #" + i;
-		// gender = FEMALE;
-		// }
-		//
-		// if (i % 2 == 1) {
-		// verified = false;
-		// }
-		//
-		// users[i] = newUser(email, password, name, gender, verified);
-		// }
+	public void load(@Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
 
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
-		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
-		// newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
+		User[] users = new User[50];
+		for (int i = 0; i < users.length; i++) {
+			String email = "guest_" + i + "@guest.com";
+			String password = "guest";
+			String name;
+			Gender gender;
+			boolean verified = true;
+
+			if (i % 3 == 0) {
+				name = "Usuário homem de exemplo #" + i;
+				gender = MALE;
+			} else {
+				name = "Usuário mulher de exemplo #" + i;
+				gender = FEMALE;
+			}
+
+			if (i % 2 == 1) {
+				verified = false;
+			}
+
+			users[i] = newUser(email, password, name, gender, verified);
+		}
+
+		try {
+			newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+			// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
+			// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
+		} catch (Exception cause) {
+			System.out.println("usuário já cadastrado");
+		}
+
+		try {
+			newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
+		} catch (Exception cause) {
+			System.out.println("usuário já cadastrado");
+		}
 
 		// User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
 		// User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
@@ -129,13 +148,18 @@ public class TempREST {
 		// users[12] });
 	}
 
+	private void validate(UriInfo uriInfo) throws Exception {
+		if (uriInfo.getBaseUri().toString().contains("fbca.com.br")) {
+			throw new ForbiddenException().addViolation("Em produção não pode!");
+		}
+	}
+
 	private TeamFormation newTeamFormation(Registration registration, User user) throws Exception {
 		TeamFormation teamFormation = new TeamFormation(registration, user);
 		getEntityManager().persist(teamFormation);
 		return teamFormation;
 	}
 
-	@SuppressWarnings("unused")
 	private Registration newRegistration(String teamName, RaceCategory raceCategory, User[] members) throws Exception {
 		Registration registration = new Registration();
 		registration.setTeamName(teamName);
