@@ -7,13 +7,18 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#{request.contextPath}/home"> <span
-					class="acronym" title="Federação Baiana de Corrida de Aventura">FBCA</span>
+					class="acronym" title="Federação Baiana de Corrida de Aventura">
+					<img src="#{request.contextPath}/images/fbca-logo-small.png" /></span>
 				</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul id="menu-left" class="nav navbar-nav">
-					<li><a href="#{request.contextPath}/profile" class="loggedin-menu" style="display: none">Dados Pessoais <span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span></a></li>
-					<li><a href="#{request.contextPath}/health"	class="loggedin-menu" style="display: none">Dados Médicos <span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span></a></li>
+					<li><a href="#{request.contextPath}/home">Próximas provas</a></li>
+				</ul>
+				<ul id="menu-left" class="nav navbar-nav">
+					<li><a href="#{request.contextPath}/profile" class="loggedin-menu" style="display: none">Dados pessoais <span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span></a></li>
+					<li><a href="#{request.contextPath}/health"	class="loggedin-menu" style="display: none">Dados de saúde <span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span></a></li>
+					<li><a href="#{request.contextPath}/registration/list" class="loggedin-menu" style="display: none">Minhas inscrições</a></li>
 				</ul>
 				<ul id="menu-right" class="nav navbar-nav navbar-right">
 					<li><p class="loggedin-menu navbar-text" id="currentUser" style="display: none"></p></li>
