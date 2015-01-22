@@ -35,6 +35,7 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Strings;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race/{id}/registration")
@@ -155,12 +156,12 @@ public class RaceRegistrationREST {
 
 		int male = count(members, MALE);
 		if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-			exception.addViolation("members", "está faltando macho");
+			exception.addViolation("members", "falta homem");
 		}
 
 		int female = count(members, FEMALE);
 		if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-			exception.addViolation("members", "está faltando mulher");
+			exception.addViolation("members", "falta mulher");
 		}
 
 		for (User member : members) {
@@ -168,14 +169,30 @@ public class RaceRegistrationREST {
 					raceCategory.getRace(), member);
 
 			if (formation != null) {
-				exception.addViolation("members", member.getName() + " já faz parte da equipe "
+				exception.addViolation("members", parse(member) + " já faz parte da equipe "
 						+ formation.getRegistration().getTeamName());
+			}
+
+			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
+				exception.addViolation("members", parse(member) + " possui pendências cadastrais");
 			}
 		}
 
 		if (!exception.getViolations().isEmpty()) {
 			throw exception;
 		}
+	}
+
+	private String parse(User user) {
+		String result = null;
+
+		if (user.equals(User.getLoggedIn())) {
+			result = "você";
+		} else {
+			result = Strings.firstToUpper(user.getName().split(" +")[0].toLowerCase());
+		}
+
+		return result;
 	}
 
 	private int count(List<User> members, Gender gender) {
