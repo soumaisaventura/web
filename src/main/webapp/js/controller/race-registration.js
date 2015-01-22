@@ -79,7 +79,6 @@ $(function() {
 	
 	
 	/**
-	 * TODO Recalcular o total
 	 * Adiciona um event listener para remoção nos membros inseridos na equipe
 	 */
 	$("#members-list").on("click", "a", function(e) {
@@ -97,16 +96,22 @@ $(function() {
 	 * TODO Ajustar método
 	 * Cadastro dos dados da equipe
 	 */
-	$('#activate-step-4').on('click', function(e) {
-
+	/**
+	 * Cadastro dos dados médicos
+	 */
+	$("form").submit(function(event) {
+		event.preventDefault();
+		
 		var data = {
 			'teamName' : $("#teamName").val(),
 			'category' : $("#category").val().split("#")[0],
 			'course' : $("#category").val().split("#")[1],
-			'members' : team
+			'members' : $teamIds
 		};
+		
+		console.log(data);
 
-		RaceRegistrationProxy.validateRegistration($("#race").val(), data).done(updateStep3Ok).fail(updateStep3Fail);
+		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(validateOk).fail(validateFail);
 	});
 
 });
@@ -135,6 +140,19 @@ function loadCategoriesOk(data) {
 	});
 }
 
+function validateOk(data){
+	$("[id$='-message']").hide();
+	console.log('validateOk');
+	console.log(data);
+	location.href = App.getContextPath() + "/registration/" + data;
+}
+
+function validateFail(data){
+	console.log('validateFail');
+	$("#global-message").text("").removeClass("alert-success").hide();
+	console.log(data);
+}
+
 /* ---------------- Funções Utilitárias ---------------- */
 
 /**
@@ -154,6 +172,7 @@ function convertToLabelValueStructureFromUser($data) {
 
 function addRowOnMemberList($athlete, $exclude){
 	console.log('addRowOnMemberList');
+	$("[id$='-message']").hide();
 	if($athlete.name.length > 30){
 		$athlete.name = $athlete.name.substr(0,27).concat("...");
 	}

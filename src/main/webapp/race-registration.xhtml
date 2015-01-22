@@ -42,7 +42,7 @@
 				<div class="row">
 	  				<div class="form-group">
 						<label for="teamName">Nome da equipe</label> 
-						<input type="text" id="team" class="form-control" maxlength="255" /> 
+						<input type="text" id="teamName" class="form-control" maxlength="255" /> 
 						<span id="teamName-message" hidden="true" class="label label-danger" />
 					</div>
 				</div>
@@ -50,14 +50,14 @@
 					<div class="form-group">
 						<label for="category">Categoria</label> 
 						<select id="category" class="form-control">
-							<option value="" selected="selected">Selecione...</option>
+							<option value="" selected="selected"></option>
 						</select> 
 						<span id="category-message" hidden="true" class="label label-danger" />
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group">
-						<label for="user">Equipe</label>
+						<label>Equipe</label>
 						<table id="members-list" class="table" style="margin-top:10px;">
 							<thead>
 						        <tr class="info text-primary">
@@ -70,13 +70,16 @@
 					    	</thead>
 					    	<tfoot>
 					        	<tr>
-					          		<th colspan="4" class="text-right">Total a pagar</th>
+					        		<th></th>
+					        		<th><span id="members-message" hidden="true" class="label label-danger" /></th>
+					          		<th colspan="2" class="text-right">Total a pagar</th>
 					          		<th id="total" class="text-right" nowrap='nowrap'></th>
 					        	</tr>
 					    	</tfoot>
 							<tbody></tbody>
 						</table>
-						<span id="members-message" hidden="true" class="label label-danger" />
+						<input type="hidden" id="members"/>
+						
 						<div class="input-group">
 					      <input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" />
 					      <input type="hidden" id="user-id"/>
