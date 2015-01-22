@@ -14,7 +14,6 @@ var UserProxy = {
 	},
 
 	search : function($filter, $excludes) {
-		console.log($excludes);
 		return $.ajax({
 			url : this.url + "/search",
 			dataType : "json",

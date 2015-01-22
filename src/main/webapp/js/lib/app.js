@@ -1,5 +1,5 @@
 var App = {
-
+	
 	tokenKey : "Token",
 
 	restoreLocation : function() {

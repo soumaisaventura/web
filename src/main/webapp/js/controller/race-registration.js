@@ -1,6 +1,9 @@
 $(function() {
+	
+	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
+	
 	var teamData;
 	var $total = 0;
 	var $teamIds = [];
@@ -62,12 +65,14 @@ $(function() {
 	 * 
 	 * */
 	$("#bt-add-athlete").click(function(){
-		RaceProxy.order($race, $("#user-id").val()).done(function($order){
-			$teamIds.push($order.rows[0].id);
-			$total += $order.rows[0].amount;
-			addRowOnMemberList($order.rows[0], false);
-			showTotal($total);
-		});
+		if($("#user").val() !== ""){
+			RaceProxy.order($race, $("#user-id").val()).done(function($order){
+				$teamIds.push($order.rows[0].id);
+				$total += $order.rows[0].amount;
+				addRowOnMemberList($order.rows[0], false);
+				showTotal($total);
+			});
+		}
 		$("#user-id").val("");
 		$("#user").val("");
 	});
