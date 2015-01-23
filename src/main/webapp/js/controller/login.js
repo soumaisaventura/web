@@ -89,7 +89,7 @@ function facebookLogin(response) {
 }
 
 function facebookLoginOk(data, status, request) {
-	FB.logout();
+	// FB.logout();
 	loginOk(data, status, request);
 }
 

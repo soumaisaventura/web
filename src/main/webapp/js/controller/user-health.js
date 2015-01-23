@@ -74,7 +74,7 @@ function updateOk(data) {
 	} else {
 		content = {
 			title : "Parabéns",
-			message : "Todas as pendências cadastrais foram resolvidas.",
+			message : "Você não possui pendências cadastrais.",
 			buttons : {
 				success : {
 					label : "Ok",
