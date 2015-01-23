@@ -24,9 +24,7 @@ $(function() {
 	 */
 	UserProxy.getLoggedInUser().done(
 		function($user) {
-			console.log($user);
 			RaceProxy.order($race, $user.id).done(function($order){
-				console.log($order);
 				$teamIds.push($order.rows[0].id);
 				$total += $order.rows[0].amount;
 				addRowOnMemberList($order.rows[0], true);
@@ -51,7 +49,6 @@ $(function() {
 		select: function(event, ui) {
 					$("#user-id").val(ui.item.value);
 					$("#user").val(ui.item.label);
-					console.log($teamIds);
 					return false;
 				},
 		focus : function(event, ui) {
@@ -109,9 +106,7 @@ $(function() {
 			'members' : $teamIds
 		};
 		
-		console.log(data);
-
-		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(validateOk).fail(validateFail);
+		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFail);
 	});
 
 });
@@ -140,17 +135,13 @@ function loadCategoriesOk(data) {
 	});
 }
 
-function validateOk(data){
+function registrationOk(data){
 	$("[id$='-message']").hide();
-	console.log('validateOk');
-	console.log(data);
 	location.href = App.getContextPath() + "/registration/" + data;
 }
 
-function validateFail(data){
-	console.log('validateFail');
+function registrationFail($request){
 	$("#global-message").text("").removeClass("alert-success").hide();
-	console.log(data);
 }
 
 /* ---------------- Funções Utilitárias ---------------- */
@@ -171,7 +162,6 @@ function convertToLabelValueStructureFromUser($data) {
 }
 
 function addRowOnMemberList($athlete, $exclude){
-	console.log('addRowOnMemberList');
 	$("[id$='-message']").hide();
 	if($athlete.name.length > 30){
 		$athlete.name = $athlete.name.substr(0,27).concat("...");

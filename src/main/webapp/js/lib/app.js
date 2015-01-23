@@ -45,15 +45,31 @@ var App = {
 		$($("form input, form select, form textarea").get().reverse()).each(function() {
 			var id = $(this).attr('id');
 			var message = null;
+			var cont = 0;
 
 			$.each($request.responseJSON, function(index, value) {
 				var aux = value.property ? value.property : "global";
 
 				if (id == aux) {
+					cont++;
 					message = value.message;
 					return;
 				}
 			});
+			
+			$("." + id.replace(".", "\\.") + "-message").each(function(index, value){
+				if(index === 0){
+					$(this).hide();
+				} else {
+					$(this).remove();
+				}
+			});
+			
+			if(cont>1){
+				$("br").remove();
+				showMultipleErrorMessage(id, $request.responseJSON);
+				return;
+			}
 
 			if (message) {
 				$("#" + id.replace(".", "\\.") + "-message").html(message).show();
@@ -98,3 +114,21 @@ $.ajaxSetup({
 		}
 	}
 });
+
+function showMultipleErrorMessage($atribute, $messages){
+	$.each($messages, function(index, value){
+		if (index === 0){
+			$("." + $atribute.replace(".", "\\.") + "-message").last().text(value.message);
+		} else {
+			$("." + $atribute.replace(".", "\\.") + "-message")
+				.last()
+				.clone()
+				.insertAfter($("#" + $atribute.replace(".", "\\.") + "-message").last())
+				.text(value.message);
+		}
+	});
+	
+	$("." + $atribute.replace(".", "\\.") + "-message").each(function(){
+		$(this).after("<br/>").show();
+	});
+}
