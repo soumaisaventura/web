@@ -71,8 +71,8 @@ public class RaceRegistrationREST {
 		result = RegistrationDAO.getInstance().insert(registration);
 
 		for (User member : members) {
-			User atachedMember = UserDAO.getInstance().load(member.getId());
-			// User atachedMember = member;
+			// User atachedMember = UserDAO.getInstance().load(member.getId());
+			User atachedMember = member;
 			TeamFormation teamFormation = new TeamFormation(registration, atachedMember);
 			TeamFormationDAO.getInstance().insert(teamFormation);
 		}
