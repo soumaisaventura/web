@@ -91,7 +91,7 @@ public class User implements Principal, Serializable {
 	public User() {
 	}
 
-	public User(Integer id, String email, String profileName, Gender profileGender) {
+	public User(Integer id, String email, String profileName, GenderType profileGender) {
 		setId(id);
 		setEmail(email);
 
@@ -100,7 +100,7 @@ public class User implements Principal, Serializable {
 		getProfile().setGender(profileGender);
 	}
 
-	public User(Integer id, String email, String profileName, Gender profileGender, Integer profilePendencies,
+	public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,
 			Integer healthPendencies) {
 		setId(id);
 		setEmail(email);
@@ -115,7 +115,7 @@ public class User implements Principal, Serializable {
 	}
 
 	public User(Integer id, String email, String password, Date activation, String activationToken, String profileName,
-			Gender profileGender, Integer profilePendencies, Integer healthPendencies) throws Exception {
+			GenderType profileGender, Integer profilePendencies, Integer healthPendencies) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);

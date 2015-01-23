@@ -34,6 +34,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        re.teamName, ");
 		jpql.append("        su.id, ");
 		jpql.append("        pr.name, ");
+		jpql.append("        re.status, ");
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
 		jpql.append("        ra.date, ");

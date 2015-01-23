@@ -2,7 +2,7 @@ package adventure.rest;
 
 import javax.ws.rs.Path;
 
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.util.ApplicationConfig;
@@ -49,7 +49,7 @@ public class GoogleLogonREST extends OAuthLogon {
 		profile.setName(userInfo.getName());
 
 		if (userInfo.getGender() != null) {
-			profile.setGender(Gender.valueOf(userInfo.getGender().toUpperCase()));
+			profile.setGender(GenderType.valueOf(userInfo.getGender().toUpperCase()));
 		}
 
 		User user = new User();

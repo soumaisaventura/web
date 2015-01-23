@@ -1,7 +1,7 @@
 package adventure.rest;
 
-import static adventure.entity.Gender.FEMALE;
-import static adventure.entity.Gender.MALE;
+import static adventure.entity.GenderType.FEMALE;
+import static adventure.entity.GenderType.MALE;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +15,7 @@ import javax.ws.rs.core.UriInfo;
 import adventure.entity.Category;
 import adventure.entity.City;
 import adventure.entity.Course;
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Health;
 import adventure.entity.Period;
 import adventure.entity.Profile;
@@ -76,7 +76,7 @@ public class TempREST {
 			String email = "guest_" + i + "@guest.com";
 			String password = "guest";
 			String name;
-			Gender gender;
+			GenderType gender;
 			boolean verified = true;
 
 			if (i % 3 == 0) {
@@ -222,7 +222,7 @@ public class TempREST {
 		return raceOrganizer;
 	}
 
-	private User newUser(String username, String password, String name, Gender gender, boolean verified) {
+	private User newUser(String username, String password, String name, GenderType gender, boolean verified) {
 		User user = new User();
 		user.setEmail(username);
 		user.setPassword(Passwords.hash(password, username));

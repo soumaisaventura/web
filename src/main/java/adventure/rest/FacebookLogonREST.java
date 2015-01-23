@@ -14,7 +14,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Profile;
 import adventure.entity.User;
 
@@ -46,7 +46,7 @@ public class FacebookLogonREST extends OAuthLogon {
 		profile.setName(rootNode.get("name").asText());
 
 		if (rootNode.get("gender") != null) {
-			profile.setGender(Gender.valueOf(rootNode.get("gender").asText().toUpperCase()));
+			profile.setGender(GenderType.valueOf(rootNode.get("gender").asText().toUpperCase()));
 		}
 
 		if (rootNode.get("birthday") != null) {

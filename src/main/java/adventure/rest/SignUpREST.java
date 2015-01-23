@@ -15,7 +15,7 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Health;
 import adventure.entity.Profile;
 import adventure.entity.User;
@@ -83,7 +83,7 @@ public class SignUpREST {
 		public Date birthday;
 
 		@NotNull
-		public Gender gender;
+		public GenderType gender;
 	}
 
 	public static class ActivationData {

@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
@@ -87,7 +87,7 @@ public class UserProfileREST {
 		public String mobile;
 
 		@NotNull
-		public Gender gender;
+		public GenderType gender;
 
 		@Valid
 		@NotNull

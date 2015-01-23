@@ -1,6 +1,8 @@
 package adventure.entity;
 
+import static adventure.util.Constants.ENUM_SIZE;
 import static adventure.util.Constants.NAME_SIZE;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -58,15 +61,22 @@ public class Registration implements Serializable {
 	@Index(name = "IDX_REGISTRATION_USER")
 	private User submitter;
 
+	@NotNull
+	@Enumerated(STRING)
+	@Column(name = "STATUS", length = ENUM_SIZE)
+	@Index(name = "IDX_REGISTRATION_STATUS")
+	private StatusType status;
+
 	public Registration() {
 	}
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
-			String submitterName, Integer raceId, String raceName, Date raceDate, Integer categoryId,
-			String categoryName, Integer courseId, Integer courseLength) {
+			String submitterName, StatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
+			Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
+		setStatus(registrationStatus);
 
 		User submitter = new User();
 		setSubmitter(submitter);
@@ -161,5 +171,13 @@ public class Registration implements Serializable {
 
 	public void setSubmitter(User submitter) {
 		this.submitter = submitter;
+	}
+
+	public StatusType getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusType status) {
+		this.status = status;
 	}
 }

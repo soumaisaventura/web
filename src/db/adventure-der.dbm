@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="633,232" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="462,109" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -269,6 +269,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="submitter_id" not-null="true">
 		<type name="integer"/>
 	</column>
+	<column name="status" not-null="true">
+		<type name="character varying" length="20"/>
+	</column>
 	<constraint name="registration_pkey" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -298,7 +301,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="773.766" y="594.6"/>
+	<position x="774.766" y="607.6"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -620,6 +623,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 </sequence>
+
+<index name="idx_registration_status" table="public.registration"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="status"/>
+		</idxelement>
+</index>
 
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">

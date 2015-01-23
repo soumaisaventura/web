@@ -3,13 +3,13 @@ package adventure.entity;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
-public enum Gender {
+public enum StatusType {
 
-	MALE("M"), FEMALE("F");
+	PENDENT("pendent"), CONFIRMED("confirmed"), CANCELLED("cancelled");
 
 	private final String value;
 
-	Gender(String value) {
+	StatusType(String value) {
 		this.value = value;
 	}
 
@@ -19,10 +19,10 @@ public enum Gender {
 	}
 
 	@JsonCreator
-	public static Gender fromValue(String value) {
-		Gender result = null;
+	public static StatusType fromValue(String value) {
+		StatusType result = null;
 
-		for (Gender sexo : values()) {
+		for (StatusType sexo : values()) {
 			if (sexo.toString().equalsIgnoreCase(value)) {
 				result = sexo;
 				break;

@@ -119,7 +119,8 @@ public class MailDAO implements Serializable {
 		String[] memberNames = new String[members.size()];
 		for (int i = 0; i < members.size(); i++) {
 			// TODO Não tem necessidade de novo select. Já poderia vir preenchido
-			Profile profile = ProfileDAO.getInstance().load(members.get(i));
+			// Profile profile = ProfileDAO.getInstance().load(members.get(i));
+			Profile profile = members.get(i).getProfile();
 			memberNames[i] = profile.getName();
 		}
 

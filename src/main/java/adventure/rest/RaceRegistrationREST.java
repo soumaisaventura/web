@@ -1,7 +1,8 @@
 package adventure.rest;
 
-import static adventure.entity.Gender.FEMALE;
-import static adventure.entity.Gender.MALE;
+import static adventure.entity.GenderType.FEMALE;
+import static adventure.entity.GenderType.MALE;
+import static adventure.entity.StatusType.PENDENT;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Category;
-import adventure.entity.Gender;
+import adventure.entity.GenderType;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
@@ -45,53 +46,36 @@ public class RaceRegistrationREST {
 	@LoggedIn
 	@Transactional
 	@ValidatePayload
-	@Path("validate")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public void validate(RegistrationData data, @PathParam("id") Integer id) throws Exception {
-		validateData(data, id);
-	}
-
-	@POST
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Consumes("application/json")
 	@Produces("text/plain")
+	@Consumes("application/json")
 	public String submit(RegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo) throws Exception {
-		ValidationResult validationResult = validateData(data, id);
-		SubmitResult submitResult = submit(data, validationResult);
+		loadRace(id);
+		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
+		List<User> members = loadMembers(data.members);
+		validate(raceCategory, members);
+
+		Registration result = submit(data, raceCategory, members);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationCreation(submitResult.registration, submitResult.members, baseUri);
-		return submitResult.registration.getFormattedId();
+		MailDAO.getInstance().sendRegistrationCreation(result, members, baseUri);
+		return result.getFormattedId();
 	}
 
-	private SubmitResult submit(RegistrationData data, ValidationResult validationResult) {
-		SubmitResult result = new SubmitResult();
+	private Registration submit(RegistrationData data, RaceCategory raceCategory, List<User> members) {
+		Registration result = null;
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
-		registration.setRaceCategory(validationResult.raceCategory);
+		registration.setRaceCategory(raceCategory);
 		registration.setSubmitter(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
-		result.registration = RegistrationDAO.getInstance().insert(registration);
+		registration.setStatus(PENDENT);
+		result = RegistrationDAO.getInstance().insert(registration);
 
-		for (User member : validationResult.members) {
+		for (User member : members) {
 			User atachedMember = UserDAO.getInstance().load(member.getId());
+			// User atachedMember = member;
 			TeamFormation teamFormation = new TeamFormation(registration, atachedMember);
 			TeamFormationDAO.getInstance().insert(teamFormation);
-			result.members.add(atachedMember);
 		}
-
-		return result;
-	}
-
-	private ValidationResult validateData(RegistrationData data, Integer id) throws Exception {
-		ValidationResult result = new ValidationResult();
-
-		loadRace(id);
-		result.raceCategory = loadRaceCategory(id, data.course, data.category);
-		result.members = loadMembers(data.members);
-		validate(result.raceCategory, result.members);
 
 		return result;
 	}
@@ -195,7 +179,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private int count(List<User> members, Gender gender) {
+	private int count(List<User> members, GenderType gender) {
 		int result = 0;
 
 		for (User user : members) {
@@ -205,22 +189,6 @@ public class RaceRegistrationREST {
 		}
 
 		return result;
-	}
-
-	private class ValidationResult {
-
-		RaceCategory raceCategory;
-
-		List<User> members = new ArrayList<User>();
-
-	}
-
-	private class SubmitResult {
-
-		Registration registration;
-
-		List<User> members = new ArrayList<User>();
-
 	}
 
 	public static class RegistrationData {

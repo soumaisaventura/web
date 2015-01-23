@@ -74,7 +74,7 @@ public class Profile implements Serializable {
 	@NotNull
 	@Enumerated(STRING)
 	@Column(name = "GENDER", length = ENUM_SIZE)
-	private Gender gender;
+	private GenderType gender;
 
 	@PendencyCount
 	@ManyToOne(optional = true)
@@ -90,7 +90,7 @@ public class Profile implements Serializable {
 	public Profile() {
 	}
 
-	public Profile(String name, String rg, String cpf, Date birthday, String mobile, Gender gender, Integer pendencies,
+	public Profile(String name, String rg, String cpf, Date birthday, String mobile, GenderType gender, Integer pendencies,
 			Integer userId, String userEmail, Integer cityId, String cityName, Integer stateId, String stateName,
 			String stateAbbreviation) {
 		setName(name);
@@ -194,11 +194,11 @@ public class Profile implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public Gender getGender() {
+	public GenderType getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(GenderType gender) {
 		this.gender = gender;
 	}
 
