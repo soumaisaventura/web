@@ -23,10 +23,39 @@ import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.LocationREST.CityData;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 
 @Path("registration")
 public class RegistrationREST {
+
+	@GET
+	@LoggedIn
+	@Produces("application/json")
+	public List<RegistrationData> find() throws Exception {
+		List<RegistrationData> result = new ArrayList<RegistrationData>();
+		User loggedInUser = User.getLoggedIn();
+
+		for (Registration registration : RegistrationDAO.getInstance().find(loggedInUser)) {
+			RegistrationData data = new RegistrationData();
+			data.id = registration.getId();
+			data.number = registration.getFormattedId();
+			data.teamName = registration.getTeamName();
+			data.status = registration.getStatus();
+			data.race = new RaceData();
+			data.race.id = registration.getRaceCategory().getRace().getId();
+			data.race.name = registration.getRaceCategory().getRace().getName();
+			data.race.date = registration.getRaceCategory().getRace().getDate();
+
+			// data.race.id = registration.getRaceCategory().getRace().getId();
+			// data.race.name = registration.getRaceCategory().getRace().getName();
+
+			result.add(data);
+		}
+
+		return result.isEmpty() ? null : result;
+	}
 
 	@GET
 	@Path("{id}")
@@ -50,7 +79,14 @@ public class RegistrationREST {
 		Integer year = calendar.get(YEAR);
 
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-		for (User user : UserDAO.getInstance().findTeamFormation(registration)) {
+		List<User> list = UserDAO.getInstance().findTeamFormation(registration);
+		User loggedInUser = User.getLoggedIn();
+
+		if (!registration.getSubmitter().equals(loggedInUser) && !list.contains(loggedInUser)) {
+			throw new ForbiddenException();
+		}
+
+		for (User user : list) {
 			UserData member = new UserData();
 			member.id = user.getId();
 			member.email = user.getEmail();

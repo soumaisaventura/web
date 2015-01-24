@@ -77,6 +77,18 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
+	public Registration(Long registrationId, StatusType registrationStatus, String reistrationTeamName, Integer raceId,
+			String raceName, Date raceDate) {
+		setId(registrationId);
+		setStatus(registrationStatus);
+		setTeamName(reistrationTeamName);
+		setRaceCategory(new RaceCategory());
+		getRaceCategory().setRace(new Race());
+		getRaceCategory().getRace().setId(raceId);
+		getRaceCategory().getRace().setName(raceName);
+		getRaceCategory().getRace().setDate(raceDate);
+	}
+
 	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
 			String submitterEmail, String submitterName, StatusType registrationStatus, Integer raceId,
 			String raceName, Date raceDate, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName,

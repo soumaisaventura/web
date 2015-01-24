@@ -1,9 +1,12 @@
 package adventure.persistence;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Registration;
+import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -66,5 +69,30 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 			result = null;
 		}
 		return result;
+	}
+
+	public List<Registration> find(User loggedInUser) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select  ");
+		jpql.append("    new Registration( ");
+		jpql.append("        re.id, ");
+		jpql.append("        re.status, ");
+		jpql.append("        re.teamName, ");
+		jpql.append("        ra.id, ");
+		jpql.append("        ra.name, ");
+		jpql.append("        ra.date ");
+		jpql.append("    ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("  where tf.user = :user ");
+		jpql.append("  order by ");
+		jpql.append("        re.date ");
+
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		query.setParameter("user", loggedInUser);
+
+		return query.getResultList();
 	}
 }

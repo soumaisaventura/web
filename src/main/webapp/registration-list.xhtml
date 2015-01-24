@@ -2,10 +2,11 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
-		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/registration.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
@@ -19,6 +20,12 @@
 					<div class="row" style="padding-bottom: 20px">
 						<h1>Minhas Inscrições</h1>
 						<h4>Acompanhe o andamento das suas inscrições</h4>
+
+						<table>
+							<table id="resultTable" class="table table-bordered">
+								<tbody></tbody>
+							</table>
+						</table>
 					</div>
 				</div>
 			</div>
