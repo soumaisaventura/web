@@ -3,6 +3,7 @@ package adventure.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -50,6 +51,7 @@ public class LocationREST {
 
 	public static class CityData {
 
+		@NotNull(message = "{adventure.validation.constraints.NotNullCityId.message}")
 		public Integer id;
 
 		public String name;

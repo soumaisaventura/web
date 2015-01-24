@@ -63,7 +63,10 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("    and u.id not in :excludeIds ");
 
 		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-		query.setMaxResults(10);
+
+		if (!"%".equals(filter)) {
+			query.setMaxResults(10);
+		}
 
 		if (excludeIds.isEmpty()) {
 			excludeIds.add(-1);

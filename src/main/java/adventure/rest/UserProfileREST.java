@@ -1,16 +1,23 @@
 package adventure.rest;
 
+import static adventure.util.Constants.CPF_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.RG_SIZE;
+import static adventure.util.Constants.TELEPHONE_SIZE;
+
 import java.util.Date;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.GenderType;
@@ -18,6 +25,7 @@ import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
+import adventure.rest.LocationREST.CityData;
 import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -70,13 +78,16 @@ public class UserProfileREST {
 	public static class ProfileData {
 
 		@NotEmpty
+		@Size(max = NAME_SIZE)
 		public String name;
 
 		@NotEmpty
+		@Length(max = RG_SIZE)
 		public String rg;
 
 		// @CPF
 		@NotEmpty
+		@Length(max = CPF_SIZE)
 		public String cpf;
 
 		@Past
@@ -84,6 +95,7 @@ public class UserProfileREST {
 		public Date birthday;
 
 		@NotEmpty
+		@Length(max = TELEPHONE_SIZE)
 		public String mobile;
 
 		@NotNull
@@ -98,15 +110,5 @@ public class UserProfileREST {
 		public Integer getPendencies() {
 			return pendencies;
 		}
-	}
-
-	public static class CityData {
-
-		@NotNull(message = "escolha uma cidade listada")
-		public Integer id;
-
-		public String name;
-
-		public String state;
 	}
 }

@@ -1,6 +1,12 @@
 package adventure.rest;
 
+import static adventure.util.Constants.GENERIC_ID_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.TELEPHONE_SIZE;
+import static adventure.util.Constants.TEXT_SIZE;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -62,16 +68,21 @@ public class UserHealthREST {
 		@NotNull
 		public BloodType bloodType;
 
+		@Size(max = TEXT_SIZE)
 		public String allergy;
 
+		@Size(max = NAME_SIZE)
 		public String healthCareName;
 
+		@Size(max = GENERIC_ID_SIZE)
 		public String healthCareNumber;
 
 		@NotEmpty
+		@Size(max = NAME_SIZE)
 		public String emergencyContactName;
 
 		@NotEmpty
+		@Size(max = TELEPHONE_SIZE)
 		public String emergencyContactPhoneNumber;
 
 		private Integer pendencies;

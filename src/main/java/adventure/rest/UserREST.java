@@ -1,6 +1,7 @@
 package adventure.rest;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,13 @@ public class UserREST {
 			throws Exception {
 		validate(q);
 		return UserDAO.getInstance().search(q, excludes);
+	}
+
+	@GET
+	@Path("all")
+	@Produces("application/json")
+	public List<User> findAll() throws Exception {
+		return UserDAO.getInstance().search("%", new ArrayList<Integer>());
 	}
 
 	private void validate(String q) throws Exception {
