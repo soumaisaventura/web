@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="665,284" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="613,176" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -16,7 +16,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1369" y="581"/>
+	<position x="1448" y="574"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -43,7 +43,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="760.859" y="23"/>
+	<position x="841.859" y="143"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -61,7 +61,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1395.59" y="26"/>
+	<position x="1541.59" y="66"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -79,7 +79,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1431.72" y="402"/>
+	<position x="1614.72" y="346"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -97,7 +97,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="417.719" y="591"/>
+	<position x="469.719" y="660"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -130,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1409" y="194.4"/>
+	<position x="1111" y="398.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -160,7 +160,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="421.641" y="369.4"/>
+	<position x="509.641" y="115.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -196,7 +196,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1088.02" y="186.4"/>
+	<position x="1349.02" y="197.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -223,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1103.27" y="391.4"/>
+	<position x="1371.27" y="400.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -241,7 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="789.188" y="214.4"/>
+	<position x="861.188" y="301.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -256,7 +256,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1076.59" y="564.6"/>
+	<position x="1142.59" y="585.6"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -267,6 +267,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 	</column>
 	<column name="category_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="period_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="team_name" not-null="true">
@@ -289,7 +292,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1084.25" y="12.6"/>
+	<position x="1223.25" y="62.6"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -310,7 +313,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="774.766" y="607.6"/>
+	<position x="858.766" y="437.6"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -325,7 +328,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user_account">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="728.531" y="372.6"/>
+	<position x="485.531" y="401.6"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -561,19 +564,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_user_deleted" table="public.user_account"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="deleted"/>
-		</idxelement>
-</index>
-
 <index name="idx_user_email" table="public.user_account"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
 			<column name="email"/>
+		</idxelement>
+</index>
+
+<index name="idx_user_deleted" table="public.user_account"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="deleted"/>
 		</idxelement>
 </index>
 
@@ -663,6 +666,51 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
+<table name="annual_fee">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="884" y="599"/>
+	<column name="year" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="fee">
+		<type name="numeric" length="3" precision="2"/>
+	</column>
+	<constraint name="pk_annual_fee" type="pk-constr" table="public.annual_fee">
+		<columns names="year" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="annual_fee_payment">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="850" y="700"/>
+	<column name="year" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="user_id" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="registration_id" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<constraint name="pk_annual_fee_payment" type="pk-constr" table="public.annual_fee_payment">
+		<columns names="year,user_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_anual_fee_payment_registration" table="public.annual_fee_payment"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="registration_id"/>
+		</idxelement>
+</index>
+
+<extension name="adminpack" cur-version="1.0">
+	<schema name="pg_catalog"/>
+</extension>
+
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">
 	<columns names="state_id" ref-type="src-columns"/>
@@ -747,6 +795,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="category_id,course_id,race_id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_resgistration_period" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.period" table="public.registration">
+	<columns names="period_id,race_id" ref-type="src-columns"/>
+	<columns names="id,race_id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk_state_country" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.country" table="public.state">
 	<columns names="country_id" ref-type="src-columns"/>
@@ -761,6 +815,24 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <constraint name="fk_team_formation_registration" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.registration" table="public.team_formation">
+	<columns names="registration_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_anual_fee_payment_annual_fee" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.annual_fee" table="public.annual_fee_payment">
+	<columns names="year" ref-type="src-columns"/>
+	<columns names="year" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_anual_fee_payment_user" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.annual_fee_payment">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_anual_fee_payment_registration" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.registration" table="public.annual_fee_payment">
 	<columns names="registration_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -841,7 +913,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#faa5f1"
 	 src-table="public.registration"
 	 dst-table="public.user_account"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="132.536" y="-35.7606"/>
+	</label>
+</relationship>
 
 <relationship name="rel_registration_race_category" type="relfk"
 	 custom-color="#31371e"
@@ -865,6 +941,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#fc801a"
 	 src-table="public.team_formation"
 	 dst-table="public.registration"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_annual_fee_payment_annual_fee" type="relfk"
+	 src-table="public.annual_fee_payment"
+	 dst-table="public.annual_fee"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_annual_fee_payment_user_account" type="relfk"
+	 src-table="public.annual_fee_payment"
+	 dst-table="public.user_account"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_annual_fee_payment_registration" type="relfk"
+	 src-table="public.annual_fee_payment"
+	 dst-table="public.registration"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_registration_period" type="relfk"
+	 src-table="public.registration"
+	 dst-table="public.period"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
