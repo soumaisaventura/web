@@ -91,13 +91,14 @@ public class User implements Principal, Serializable {
 	public User() {
 	}
 
-	public User(Integer id, String email, String profileName, GenderType profileGender) {
+	public User(Integer id, String email, String profileName, GenderType profileGender, String profileMobile) {
 		setId(id);
 		setEmail(email);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
 		getProfile().setGender(profileGender);
+		getProfile().setMobile(profileMobile);
 	}
 
 	public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,

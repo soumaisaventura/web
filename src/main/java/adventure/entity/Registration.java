@@ -77,8 +77,9 @@ public class Registration implements Serializable {
 	}
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
-			String submitterName, StatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
-			Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
+			String submitterEmail, String submitterName, StatusType registrationStatus, Integer raceId,
+			String raceName, Date raceDate, Integer cityId, String cityName, Integer stateId, String stateName,
+			String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -87,22 +88,31 @@ public class Registration implements Serializable {
 		User submitter = new User();
 		setSubmitter(submitter);
 		getSubmitter().setId(submitterId);
-		getSubmitter().setProfile(new Profile(submitter));
-		getSubmitter().getProfile().setName(categoryName);
+		getSubmitter().setEmail(submitterEmail);
+		getSubmitter().setProfile(new Profile());
+		getSubmitter().getProfile().setName(submitterName);
 
 		setRaceCategory(new RaceCategory());
-		getRaceCategory().setCategory(new Category());
-		getRaceCategory().getCategory().setId(categoryId);
-		getRaceCategory().getCategory().setName(categoryName);
-
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDate(raceDate);
 
+		getRaceCategory().getRace().setCity(new City());
+		getRaceCategory().getRace().getCity().setId(cityId);
+		getRaceCategory().getRace().getCity().setName(cityName);
+		getRaceCategory().getRace().getCity().setState(new State());
+		getRaceCategory().getRace().getCity().getState().setId(stateId);
+		getRaceCategory().getRace().getCity().getState().setName(stateName);
+		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+
 		getRaceCategory().setCourse(new Course());
 		getRaceCategory().getCourse().setId(courseId);
 		getRaceCategory().getCourse().setLength(courseLength);
+
+		getRaceCategory().setCategory(new Category());
+		getRaceCategory().getCategory().setId(categoryId);
+		getRaceCategory().getCategory().setName(categoryName);
 	}
 
 	public String getFormattedId() {

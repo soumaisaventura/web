@@ -78,7 +78,7 @@ public class RaceREST {
 	@Path("{id}/summary")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public RaceData loadInfo(@PathParam("id") Integer id) throws Exception {
+	public RaceData loadSummary(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
 		Race race = loadRaceDetails(id);
 
