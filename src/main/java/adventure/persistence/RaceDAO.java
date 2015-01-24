@@ -22,7 +22,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		return Beans.getReference(RaceDAO.class);
 	}
 
-	public Race loadForDetails(Integer id) throws Exception {
+	public Race loadForDetail(Integer id) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");

@@ -9,6 +9,16 @@ var RaceProxy = {
 		});
 	},
 
+	loadSummary : function($race) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $race + "/summary",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	findNext : function() {
 		return $.ajax({
 			type : "GET",
@@ -29,8 +39,8 @@ var RaceProxy = {
 			url : this.url + "/" + $race + "/banner"
 		});
 	},
-	
-	order : function($race, $users){
+
+	order : function($race, $users) {
 		return $.ajax({
 			type : "GET",
 			url : this.url + "/" + $race + "/order?users=" + $users

@@ -89,7 +89,7 @@ public class RaceRegistrationREST {
 	}
 
 	private Race loadRace(Integer id) throws Exception {
-		Race result = RaceDAO.getInstance().loadForDetails(id);
+		Race result = RaceDAO.getInstance().loadForDetail(id);
 
 		if (result == null) {
 			throw new NotFoundException();

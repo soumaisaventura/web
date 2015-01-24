@@ -1,7 +1,10 @@
 package adventure.rest;
 
+import static java.util.Calendar.YEAR;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,11 +14,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import adventure.entity.AnnualFee;
+import adventure.entity.AnnualFeePayment;
 import adventure.entity.Category;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
+import adventure.persistence.AnnualFeeDAO;
+import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
@@ -86,6 +93,8 @@ public class RaceREST {
 		data.name = race.getName();
 		data.date = race.getDate();
 		data.description = race.getDescription();
+		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+				+ race.getCity().getState().getAbbreviation() : null;
 		data.registration = new RegistrationData();
 		data.registration.open = race.getOpen();
 
@@ -181,21 +190,27 @@ public class RaceREST {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
 		} else {
+			Calendar calendar = Calendar.getInstance();
+			Integer year = calendar.get(YEAR);
+			AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
+			
 			for (Integer userId : users) {
 				User user = UserDAO.getInstance().loadBasics(userId);
 
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
+					AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
+
 					OrderRowData row = new OrderRowData();
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
-					row.racePrice = period.getPrice();
-					row.annualFee = BigDecimal.valueOf(10);
-					row.amount = row.racePrice.add(row.annualFee);
+					row.racePrice = period.getPrice().floatValue();
+					row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
+					row.amount = row.racePrice + row.annualFee;
 
 					data.rows.add(row);
-					data.total = data.total.add(row.amount);
+					data.total += row.amount;
 				}
 			}
 		}
@@ -206,7 +221,7 @@ public class RaceREST {
 	}
 
 	private Race loadRaceDetails(Integer id) throws Exception {
-		Race result = RaceDAO.getInstance().loadForDetails(id);
+		Race result = RaceDAO.getInstance().loadForDetail(id);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -293,7 +308,7 @@ public class RaceREST {
 
 		public List<OrderRowData> rows = new ArrayList<OrderRowData>();
 
-		public BigDecimal total = BigDecimal.valueOf(0);
+		public float total;
 	}
 
 	public static class OrderRowData {
@@ -302,10 +317,10 @@ public class RaceREST {
 
 		public String name;
 
-		public BigDecimal racePrice;
+		public float racePrice;
 
-		public BigDecimal annualFee;
+		public float annualFee;
 
-		public BigDecimal amount = BigDecimal.valueOf(0);
+		public float amount;
 	}
 }

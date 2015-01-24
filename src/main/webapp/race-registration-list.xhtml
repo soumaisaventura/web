@@ -9,7 +9,6 @@
 </ui:define>
 
 <ui:define name="lib">
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
@@ -28,16 +27,24 @@
 	<div class="container">
 		<div class="main" style="max-width: 420px">
 			<div class="row" style="padding-bottom: 20px">
-				<h1 id="race-name"></h1>
-				<h4 id="race-detail"></h4>
-				
-<!-- 				<h4>Inscrição de equipe</h4> -->
-<!-- 				<h4>Monte sua equipe e confirme sua inscrição.</h4> -->
+				<h1>Inscrição de equipe</h1>
+				<h4>Monte sua equipe e confirme sua inscrição.</h4>
 			</div>
 			<form>
 				<input id="race" type="hidden" value="#{param.race}" />
-				
-				
+				<div class="row">
+	  				<div class="form-group">
+						<h3 id="race-name" class="text-primary"></h3>
+						<h5 id="race-detail" class="text-primary"></h5>
+					</div>
+				</div>
+				<div class="row">
+	  				<div class="form-group">
+						<label for="teamName">Nome da equipe</label> 
+						<input type="text" id="teamName" class="form-control" maxlength="255" /> 
+						<span id="teamName-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
 				<div class="row">
 					<div class="form-group">
 						<label for="category">Categoria</label> 
@@ -47,49 +54,17 @@
 						<span id="category-message" hidden="true" class="label label-danger" />
 					</div>
 				</div>
-				
 				<div class="row">
-	  				<div class="form-group">
-						<label for="teamName">Nome da equipe</label> 
-						<input type="text" id="teamName" class="form-control" maxlength="255" /> 
-						<span id="teamName-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				
-				<div class="row">
-				
-				
-					<div class="form-group" style="padding-top: 20px">
-						<h4>Formação da equipe</h4>
-					</div>
-				
-					<label>Pesquisa de atleta</label>
 					<div class="form-group">
-						<div class="input-group">
-					      <input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" />
-					      <input type="hidden" id="user-id"/>
-					      <span class="input-group-btn">
-					        <button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
-					      </span>
-					      
-					    </div>
-					</div>
-					<!--
-					-->
-				
-				
-					<label>Equipe</label>
-					<div class="form-group">
-						<table id="members-list" class="table" style="margin-top:0px; margin-bottom: 5px">
-							<!--
-							-->
+						<label>Equipe</label>
+						<table id="members-list" class="table" style="margin-top:10px; margin-bottom: 5px">
 							<thead>
 						        <tr class="info text-primary">
 					    	    	<th></th>
-					        	  	<th><small>atleta</small></th>
-					          		<th class="text-right"><small>inscrição</small></th>
-					          		<th class="text-right"><small>anuidade*</small></th>
-					          		<th class="text-right"><small>total</small></th>
+					        	  	<th>Atleta</th>
+					          		<th class="text-right">Inscrição</th>
+					          		<th class="text-right">Anuidade</th>
+					          		<th class="text-right">Total</th>
 					        	</tr>
 					    	</thead>
 					    	<tfoot>
@@ -101,18 +76,22 @@
 					    	</tfoot>
 							<tbody></tbody>
 						</table>
-						<div>
-						* A taxa anual da federação será cobrada apenas na primeira prova que o atleta se inscrever
-						no ano corrente.
-						</div>
-						
 						<span id="members-message" hidden="true" class="members-message label label-danger" />
 						<input type="hidden" id="members"/>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+					      <input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" />
+					      <input type="hidden" id="user-id"/>
+					      <span class="input-group-btn">
+					        <button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir atleta</button>
+					      </span>
+					    </div>
 					</div>
 				</div>
 				<div class="row" style="margin-bottom: 15px">
 					<div class="form-group">
-						<button type="submit" class="btn btn-lg btn-success">Inscrever equipe</button>
+						<button type="submit" class="btn btn-lg btn-success">Salvar</button>
 					</div>
 				</div>
 				<div class="row">

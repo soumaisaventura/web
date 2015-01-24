@@ -1,19 +1,19 @@
 $(function() {
-	
+
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
-	
+
 	var teamData;
 	var $total = 0;
 	var $teamIds = [];
 	var $race = $("#race").val();
-	
+
 	/**
 	 * Carrega os dados da corrida
 	 */
-	RaceProxy.load($("#race").val()).done(loadOk);
-	
+	RaceProxy.loadSummary($("#race").val()).done(loadOk);
+
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
@@ -22,48 +22,44 @@ $(function() {
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
 	 */
-	UserProxy.getLoggedInUser().done(
-		function($user) {
-			RaceProxy.order($race, $user.id).done(function($order){
-				$teamIds.push($order.rows[0].id);
-				$total += $order.rows[0].amount;
-				addRowOnMemberList($order.rows[0], true);
-				showTotal($total);
-			});
-		}
-	);
+	UserProxy.getLoggedInUser().done(function($user) {
+		RaceProxy.order($race, $user.id).done(function($order) {
+			$teamIds.push($order.rows[0].id);
+			$total += $order.rows[0].amount;
+			addRowOnMemberList($order.rows[0], true);
+			showTotal($total);
+		});
+	});
 
 	/**
 	 * Habilita o autocomplete no campo Atleta Ao selecionar o atleta
 	 * automaticamente entra na lista de membros
 	 */
 	$("#user").autocomplete({
-		source:	function(request, response) {
-					UserProxy.search(request.term, $teamIds).done(
-							function(data) {
-								response(convertToLabelValueStructureFromUser(data));
-							}
-						);
-				},
-		minLength: 3,
-		select: function(event, ui) {
-					$("#user-id").val(ui.item.value);
-					$("#user").val(ui.item.label);
-					return false;
-				},
+		source : function(request, response) {
+			UserProxy.search(request.term, $teamIds).done(function(data) {
+				response(convertToLabelValueStructureFromUser(data));
+			});
+		},
+		minLength : 3,
+		select : function(event, ui) {
+			$("#user-id").val(ui.item.value);
+			$("#user").val(ui.item.label);
+			return false;
+		},
 		focus : function(event, ui) {
-					$("#user-id").val(ui.item.value);
-					$("#user").val(ui.item.label);
-					return false;
-				}
+			$("#user-id").val(ui.item.value);
+			$("#user").val(ui.item.label);
+			return false;
+		}
 	});
-	
+
 	/**
 	 * 
-	 * */
-	$("#bt-add-athlete").click(function(){
-		if($("#user").val() !== ""){
-			RaceProxy.order($race, $("#user-id").val()).done(function($order){
+	 */
+	$("#bt-add-athlete").click(function() {
+		if ($("#user").val() !== "") {
+			RaceProxy.order($race, $("#user-id").val()).done(function($order) {
 				$teamIds.push($order.rows[0].id);
 				$total += $order.rows[0].amount;
 				addRowOnMemberList($order.rows[0], false);
@@ -73,8 +69,7 @@ $(function() {
 		$("#user-id").val("");
 		$("#user").val("");
 	});
-	
-	
+
 	/**
 	 * Adiciona um event listener para remoção nos membros inseridos na equipe
 	 */
@@ -88,24 +83,23 @@ $(function() {
 			showTotal($total);
 		}
 	});
-	
+
 	/**
-	 * TODO Ajustar método
-	 * Cadastro dos dados da equipe
+	 * TODO Ajustar método Cadastro dos dados da equipe
 	 */
 	/**
 	 * Cadastro dos dados médicos
 	 */
 	$("form").submit(function(event) {
 		event.preventDefault();
-		
+
 		var data = {
 			'teamName' : $("#teamName").val(),
 			'category' : $("#category").val().split("#")[0],
 			'course' : $("#category").val().split("#")[1],
 			'members' : $teamIds
 		};
-		
+
 		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFail);
 	});
 
@@ -118,7 +112,7 @@ $(function() {
  */
 function loadOk(data) {
 	$("#race-name").text(data.name)
-	$("#race-detail").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL') + " - " + data.city);
+	$("#race-detail").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL') + " – " + data.city);
 }
 
 /**
@@ -135,12 +129,12 @@ function loadCategoriesOk(data) {
 	});
 }
 
-function registrationOk(data){
+function registrationOk(data) {
 	$("[id$='-message']").hide();
 	location.href = App.getContextPath() + "/registration/" + data;
 }
 
-function registrationFail($request){
+function registrationFail($request) {
 	$("#global-message").text("").removeClass("alert-success").hide();
 }
 
@@ -161,24 +155,23 @@ function convertToLabelValueStructureFromUser($data) {
 	return newData;
 }
 
-function addRowOnMemberList($athlete, $exclude){
+function addRowOnMemberList($athlete, $exclude) {
 	$("[id$='-message']").hide();
-	if($athlete.name.length > 30){
-		$athlete.name = $athlete.name.substr(0,27).concat("...");
+	if ($athlete.name.length > 30) {
+		$athlete.name = $athlete.name.substr(0, 27).concat("...");
 	}
 	var row = "";
 	row = row.concat("<tr id='member-" + $athlete.id + "'>");
-	row = $exclude ? 
-			row.concat("<td></td>") : 
-				row.concat("<td><a href='#' data-remove='" + $athlete.id + "'><span class='glyphicon glyphicon-trash'/></a></td>");
+	row = $exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + $athlete.id
+			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td>" + $athlete.name + "</td>");
 	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.racePrice).format() + "</td>");
 	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.annualFee).format() + "</td>");
-	row = row.concat("<td class='text-right text-success' nowrap='nowrap'><strong>" + numeral($athlete.amount).format() + "</strong></td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.amount).format() + "</td>");
 	row = row.concat("</tr>");
-	$("#members-list tbody").append(row);
+	$("#members-list > tbody:last").append(row);
 }
 
-function showTotal($total){
+function showTotal($total) {
 	$("#total").text(numeral($total).format());
 }
