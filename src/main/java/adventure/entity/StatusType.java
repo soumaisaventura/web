@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum StatusType {
 
-	PENDENT("pendent"), CONFIRMED("confirmed"), CANCELLED("cancelled");
+	PENDENT("Pendente"), CONFIRMED("Confirmada"), CANCELLED("Cancelada");
 
 	private final String value;
 

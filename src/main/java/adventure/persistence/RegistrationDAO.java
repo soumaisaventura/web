@@ -31,6 +31,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
 		jpql.append("        ra.date, ");
+		jpql.append("        pe.id, ");
+		jpql.append("        pe.price, ");
 		jpql.append("        ci.id, ");
 		jpql.append("        ci.name, ");
 		jpql.append("        st.id, ");
@@ -47,6 +49,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join rc.race ra ");
 		jpql.append("   join rc.course co ");
 		jpql.append("   join rc.category ca ");
+		jpql.append("   join re.period pe ");
 		jpql.append("   left join ra.city ci ");
 		jpql.append("   left join ci.state st, ");
 		jpql.append("        Profile pr ");

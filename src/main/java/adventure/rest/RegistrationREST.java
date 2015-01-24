@@ -1,7 +1,9 @@
 package adventure.rest;
 
-import java.math.BigDecimal;
+import static java.util.Calendar.YEAR;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +12,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import adventure.entity.AnnualFee;
+import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
 import adventure.entity.User;
+import adventure.persistence.AnnualFeeDAO;
+import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.LocationREST.CityData;
@@ -29,7 +35,8 @@ public class RegistrationREST {
 		Registration registration = loadRegistration(id);
 
 		RegistrationData data = new RegistrationData();
-		data.id = registration.getFormattedId();
+		data.id = registration.getId();
+		data.number = registration.getFormattedId();
 		data.date = registration.getDate();
 		data.status = registration.getStatus();
 		data.submitter = new UserData();
@@ -38,17 +45,23 @@ public class RegistrationREST {
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
 
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(registration.getDate());
+		Integer year = calendar.get(YEAR);
+
+		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
 		for (User user : UserDAO.getInstance().findTeamFormation(registration)) {
 			UserData member = new UserData();
 			member.id = user.getId();
 			member.email = user.getEmail();
 			member.name = user.getProfile().getName();
 			member.phone = user.getProfile().getMobile();
+
+			AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
 			member.bill = new BillData();
-			// member.bill.racePrice = null;
-			// member.bill.annualFee = null;
-			// member.bill.amount.add(member.bill.racePrice);
-			// member.bill.amount.add(member.bill.annualFee);
+			member.bill.racePrice = registration.getPeriod().getPrice().floatValue();
+			member.bill.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
+			member.bill.amount = member.bill.racePrice + member.bill.annualFee;
 			data.teamFormation.add(member);
 		}
 
@@ -93,7 +106,9 @@ public class RegistrationREST {
 
 	public static class RegistrationData {
 
-		public String id;
+		public Long id;
+
+		public String number;
 
 		public Date date;
 
@@ -154,10 +169,10 @@ public class RegistrationREST {
 
 	public static class BillData {
 
-		public BigDecimal racePrice;
+		public float racePrice;
 
-		public BigDecimal annualFee;
+		public float annualFee;
 
-		public BigDecimal amount = BigDecimal.valueOf(0);
+		public float amount;
 	}
 }

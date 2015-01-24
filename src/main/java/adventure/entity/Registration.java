@@ -6,6 +6,7 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -78,8 +79,9 @@ public class Registration implements Serializable {
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,
 			String submitterEmail, String submitterName, StatusType registrationStatus, Integer raceId,
-			String raceName, Date raceDate, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
+			String raceName, Date raceDate, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName,
+			Integer stateId, String stateName, String stateAbbreviation, Integer categoryId, String categoryName,
+			Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -105,6 +107,10 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().getCity().getState().setId(stateId);
 		getRaceCategory().getRace().getCity().getState().setName(stateName);
 		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+
+		setPeriod(new Period());
+		getPeriod().setId(periodId);
+		getPeriod().setPrice(periodPrice);
 
 		getRaceCategory().setCourse(new Course());
 		getRaceCategory().getCourse().setId(courseId);
