@@ -55,7 +55,7 @@ public class Period implements Serializable {
 	private Date end;
 
 	@NotNull
-	@Column(name = "PRICE", precision = 5, scale = 2)
+	@Column(name = "PRICE", precision = 7, scale = 2)
 	private BigDecimal price;
 
 	public Period(Race race) {

@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
 
 @Entity
 @IdClass(TeamFormationPk.class)
@@ -23,14 +22,12 @@ public class TeamFormation implements Serializable {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "REGISTRATION_ID")
 	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTRATION")
-	@Index(name = "IDX_TEAM_FORMATION_REGISTRATION")
 	private Registration registration;
 
 	@Id
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "USER_ID")
 	@ForeignKey(name = "FK_TEAM_FORMATION_USER")
-	@Index(name = "IDX_TEAM_FORMATION_USER")
 	private User user;
 
 	public TeamFormation() {

@@ -19,8 +19,10 @@
 		<class>adventure.entity.Country</class>
 		<class>adventure.entity.State</class>
 		<class>adventure.entity.City</class>
+		<class>adventure.entity.AnnualFee</class>
+		<class>adventure.entity.AnnualFeePayment</class>
 
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="false" />

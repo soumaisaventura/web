@@ -1,7 +1,5 @@
 package adventure.persistence;
 
-import java.util.Date;
-
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -17,12 +15,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 	public static RegistrationDAO getInstance() {
 		return Beans.getReference(RegistrationDAO.class);
-	}
-
-	@Override
-	public Registration insert(Registration registration) {
-		registration.setDate(new Date());
-		return super.insert(registration);
 	}
 
 	public Registration loadForMail(Long id) {

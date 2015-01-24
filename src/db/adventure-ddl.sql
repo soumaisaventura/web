@@ -99,7 +99,7 @@ CREATE TABLE public.period(
 	race_id integer NOT NULL,
 	beginning date NOT NULL,
 	ending date NOT NULL,
-	price numeric(5,2) NOT NULL,
+	price numeric(7,2) NOT NULL,
 	CONSTRAINT pk_period PRIMARY KEY (id),
 	CONSTRAINT uk_period_beginning UNIQUE (race_id,beginning),
 	CONSTRAINT uk_period_ending UNIQUE (race_id,ending)
@@ -176,6 +176,7 @@ CREATE TABLE public.registration(
 	race_id integer NOT NULL,
 	course_id integer NOT NULL,
 	category_id integer NOT NULL,
+	period_id integer NOT NULL,
 	team_name character varying(50) NOT NULL,
 	date timestamp NOT NULL,
 	submitter_id integer NOT NULL,
@@ -350,51 +351,6 @@ CREATE INDEX idx_race_city ON public.race
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: idx_race_category_race | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_category_race;
-CREATE INDEX idx_race_category_race ON public.race_category
-	USING btree
-	(
-	  race_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_race_category_course | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_category_course;
-CREATE INDEX idx_race_category_course ON public.race_category
-	USING btree
-	(
-	  course_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_race_category_category | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_category_category;
-CREATE INDEX idx_race_category_category ON public.race_category
-	USING btree
-	(
-	  category_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_race_organizer_race | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_organizer_race;
-CREATE INDEX idx_race_organizer_race ON public.race_organizer
-	USING btree
-	(
-	  race_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_race_organizer | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_organizer;
-CREATE INDEX idx_race_organizer ON public.race_organizer
-	USING btree
-	(
-	  organizer_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
 -- object: idx_registration_date | type: INDEX --
 -- DROP INDEX IF EXISTS public.idx_registration_date;
 CREATE INDEX idx_registration_date ON public.registration
@@ -440,21 +396,12 @@ CREATE INDEX idx_state_country ON public.state
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: idx_team_formation_user | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_team_formation_user;
-CREATE INDEX idx_team_formation_user ON public.team_formation
+-- object: idx_user_email | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_user_email;
+CREATE INDEX idx_user_email ON public.user_account
 	USING btree
 	(
-	  user_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_team_formation_registration | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_team_formation_registration;
-CREATE INDEX idx_team_formation_registration ON public.team_formation
-	USING btree
-	(
-	  registration_id
+	  email
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
@@ -464,15 +411,6 @@ CREATE INDEX idx_user_deleted ON public.user_account
 	USING btree
 	(
 	  deleted
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_user_email | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_user_email;
-CREATE INDEX idx_user_email ON public.user_account
-	USING btree
-	(
-	  email
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
@@ -603,6 +541,49 @@ CREATE UNIQUE INDEX idx_period_beginning ON public.period
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
+-- object: public.annual_fee | type: TABLE --
+-- DROP TABLE IF EXISTS public.annual_fee;
+CREATE TABLE public.annual_fee(
+	year integer NOT NULL,
+	fee numeric(5,2),
+	CONSTRAINT pk_annual_fee PRIMARY KEY (year)
+
+);
+-- ddl-end --
+ALTER TABLE public.annual_fee OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.annual_fee_payment | type: TABLE --
+-- DROP TABLE IF EXISTS public.annual_fee_payment;
+CREATE TABLE public.annual_fee_payment(
+	year integer NOT NULL,
+	user_id integer NOT NULL,
+	registration_id bigint NOT NULL,
+	CONSTRAINT pk_annual_fee_payment PRIMARY KEY (year,user_id)
+
+);
+-- ddl-end --
+ALTER TABLE public.annual_fee_payment OWNER TO postgres;
+-- ddl-end --
+
+-- object: idx_anual_fee_payment_registration | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_anual_fee_payment_registration;
+CREATE INDEX idx_anual_fee_payment_registration ON public.annual_fee_payment
+	USING btree
+	(
+	  registration_id ASC NULLS LAST
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: adminpack | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS pg_catalog.adminpack;
+CREATE EXTENSION adminpack
+      WITH SCHEMA pg_catalog
+      VERSION '1.0';
+-- ddl-end --
+COMMENT ON EXTENSION pg_catalog.adminpack IS 'administrative functions for PostgreSQL';
+-- ddl-end --
+
 -- object: fk_city_state | type: CONSTRAINT --
 -- ALTER TABLE public.city DROP CONSTRAINT IF EXISTS fk_city_state;
 ALTER TABLE public.city ADD CONSTRAINT fk_city_state FOREIGN KEY (state_id)
@@ -701,6 +682,13 @@ REFERENCES public.race_category (category_id,course_id,race_id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
+-- object: fk_resgistration_period | type: CONSTRAINT --
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_resgistration_period;
+ALTER TABLE public.registration ADD CONSTRAINT fk_resgistration_period FOREIGN KEY (period_id)
+REFERENCES public.period (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
 -- object: fk_state_country | type: CONSTRAINT --
 -- ALTER TABLE public.state DROP CONSTRAINT IF EXISTS fk_state_country;
 ALTER TABLE public.state ADD CONSTRAINT fk_state_country FOREIGN KEY (country_id)
@@ -719,6 +707,27 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE public.team_formation DROP CONSTRAINT IF EXISTS fk_team_formation_registration;
 ALTER TABLE public.team_formation ADD CONSTRAINT fk_team_formation_registration FOREIGN KEY (registration_id)
 REFERENCES public.registration (id) MATCH SIMPLE
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_anual_fee_payment_annual_fee | type: CONSTRAINT --
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_annual_fee;
+ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_annual_fee FOREIGN KEY (year)
+REFERENCES public.annual_fee (year) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_anual_fee_payment_user | type: CONSTRAINT --
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_user;
+ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_user FOREIGN KEY (user_id)
+REFERENCES public.user_account (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_anual_fee_payment_registration | type: CONSTRAINT --
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_registration;
+ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_registration FOREIGN KEY (registration_id)
+REFERENCES public.registration (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

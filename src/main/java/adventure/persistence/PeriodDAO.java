@@ -29,6 +29,10 @@ public class PeriodDAO implements Serializable {
 	}
 
 	public Period loadCurrent(Race race) throws Exception {
+		return load(race, new Date());
+	}
+
+	public Period load(Race race, Date date) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select p ");
 		jpql.append("   from Period p ");
@@ -40,7 +44,7 @@ public class PeriodDAO implements Serializable {
 
 		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
 		query.setParameter("race", race);
-		query.setParameter("date", new Date(), DATE);
+		query.setParameter("date", date, DATE);
 
 		Period result;
 		try {

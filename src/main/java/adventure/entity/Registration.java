@@ -45,6 +45,12 @@ public class Registration implements Serializable {
 			@JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID") })
 	private RaceCategory raceCategory;
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "PERIOD_ID")
+	@ForeignKey(name = "FK_REGISTRATION_PERIOD")
+	@Index(name = "IDX_REGISTRATION_PERIOD")
+	private Period period;
+
 	@NotNull
 	@Size(max = NAME_SIZE)
 	@Column(name = "TEAM_NAME")
@@ -147,6 +153,14 @@ public class Registration implements Serializable {
 
 	public void setRaceCategory(RaceCategory raceCategory) {
 		this.raceCategory = raceCategory;
+	}
+
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 
 	public String getTeamName() {

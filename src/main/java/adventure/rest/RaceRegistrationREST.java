@@ -6,6 +6,7 @@ import static adventure.entity.StatusType.PENDENT;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -21,12 +22,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.Category;
 import adventure.entity.GenderType;
+import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import adventure.persistence.MailDAO;
+import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
@@ -50,24 +53,30 @@ public class RaceRegistrationREST {
 	@Consumes("application/json")
 	public String submit(RegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo) throws Exception {
 		loadRace(id);
+		Date date = new Date();
+
 		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
 		List<User> members = loadMembers(data.members);
+		Period period = loadPeriod(raceCategory.getRace(), date);
 		validate(raceCategory, members);
 
-		Registration result = submit(data, raceCategory, members);
+		Registration result = submit(data, raceCategory, members, date, period);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationCreation(result, members, baseUri);
 		return result.getFormattedId();
 	}
 
-	private Registration submit(RegistrationData data, RaceCategory raceCategory, List<User> members) {
+	private Registration submit(RegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
+			Period period) {
 		Registration result = null;
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
 		registration.setRaceCategory(raceCategory);
 		registration.setSubmitter(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
 		registration.setStatus(PENDENT);
+		registration.setDate(date);
+		registration.setPeriod(period);
 		result = RegistrationDAO.getInstance().insert(registration);
 
 		for (User member : members) {
@@ -84,10 +93,6 @@ public class RaceRegistrationREST {
 
 		if (result == null) {
 			throw new NotFoundException();
-		}
-
-		if (!result.getOpen()) {
-			throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
 		}
 
 		return result;
@@ -121,6 +126,16 @@ public class RaceRegistrationREST {
 
 		if (!exception.getViolations().isEmpty()) {
 			throw exception;
+		}
+
+		return result;
+	}
+
+	private Period loadPeriod(Race race, Date date) throws Exception {
+		Period result = PeriodDAO.getInstance().load(race, date);
+
+		if (result == null) {
+			throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
 		}
 
 		return result;

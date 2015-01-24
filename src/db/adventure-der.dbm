@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="613,176" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="495,340" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -144,7 +144,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="date"/>
 	</column>
 	<column name="price" not-null="true">
-		<type name="numeric" length="5" precision="2"/>
+		<type name="numeric" length="7" precision="2"/>
 	</column>
 	<constraint name="pk_period" type="pk-constr" table="public.period">
 		<columns names="id" ref-type="src-columns"/>
@@ -223,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1371.27" y="400.4"/>
+	<position x="1374.27" y="434.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -241,7 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="861.188" y="301.4"/>
+	<position x="869.188" y="309.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -313,7 +313,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="858.766" y="437.6"/>
+	<position x="870.766" y="450.6"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -468,46 +468,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_category_race" table="public.race_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="race_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_category_course" table="public.race_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="course_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_category_category" table="public.race_category"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="category_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_organizer_race" table="public.race_organizer"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="race_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_organizer" table="public.race_organizer"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="organizer_id"/>
-		</idxelement>
-</index>
-
 <index name="idx_registration_date" table="public.registration"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
@@ -545,22 +505,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
 			<column name="country_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_team_formation_user" table="public.team_formation"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="user_id"/>
-		</idxelement>
-</index>
-
-<index name="idx_team_formation_registration" table="public.team_formation"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="registration_id"/>
 		</idxelement>
 </index>
 
@@ -671,10 +615,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<position x="884" y="599"/>
 	<column name="year" not-null="true">
-		<type name="smallint"/>
+		<type name="integer"/>
 	</column>
 	<column name="fee">
-		<type name="numeric" length="3" precision="2"/>
+		<type name="numeric" length="5" precision="2"/>
 	</column>
 	<constraint name="pk_annual_fee" type="pk-constr" table="public.annual_fee">
 		<columns names="year" ref-type="src-columns"/>
@@ -684,12 +628,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="annual_fee_payment">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="850" y="700"/>
+	<position x="852" y="702"/>
 	<column name="year" not-null="true">
-		<type name="smallint"/>
+		<type name="integer"/>
 	</column>
 	<column name="user_id" not-null="true">
-		<type name="smallint"/>
+		<type name="integer"/>
 	</column>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
@@ -709,6 +653,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <extension name="adminpack" cur-version="1.0">
 	<schema name="pg_catalog"/>
+	<comment><![CDATA[administrative functions for PostgreSQL]]></comment>
 </extension>
 
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
@@ -797,8 +742,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <constraint name="fk_resgistration_period" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.period" table="public.registration">
-	<columns names="period_id,race_id" ref-type="src-columns"/>
-	<columns names="id,race_id" ref-type="dst-columns"/>
+	<columns names="period_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_state_country" type="fk-constr" comparison-type="MATCH SIMPLE"
