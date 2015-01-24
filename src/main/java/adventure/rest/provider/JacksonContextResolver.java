@@ -11,7 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.module.SimpleModule;
 
 @Provider
 @Produces("application/json")
@@ -20,7 +22,11 @@ public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
 	private final ObjectMapper objectMapper;
 
 	public JacksonContextResolver() throws Exception {
+		SimpleModule module = new SimpleModule("App Custom Module", new Version(1, 0, 0, null));
+		module.addDeserializer(String.class, new EmptyStringAsNull());
+
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(module);
 		objectMapper.configure(INDENT_OUTPUT, true);
 		objectMapper.configure(WRITE_ENUMS_USING_TO_STRING, true);
 		objectMapper.configure(FAIL_ON_EMPTY_BEANS, false);
