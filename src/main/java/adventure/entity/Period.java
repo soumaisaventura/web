@@ -1,5 +1,6 @@
 package adventure.entity;
 
+import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
@@ -8,32 +9,39 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
 @Entity
-@IdClass(PeriodPk.class)
-@Table(name = "PERIOD")
+@Table(name = "PERIOD", uniqueConstraints = {
+		@UniqueConstraint(name = "UK_PERIOD_BEGINNING", columnNames = { "RACE_ID", "BEGINNING" }),
+		@UniqueConstraint(name = "UK_PERIOD_ENDING", columnNames = { "RACE_ID", "ENDING" }) })
 public class Period implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_PERIOD")
+	@SequenceGenerator(name = "SEQ_PERIOD", sequenceName = "SEQ_PERIOD", allocationSize = 1)
+	private Integer id;
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "RACE_ID")
 	@ForeignKey(name = "FK_PERIOD_RACE")
 	@Index(name = "IDX_PERIOD_RACE")
 	private Race race;
 
-	@Id
 	@NotNull
 	@Temporal(DATE)
 	@Column(name = "BEGINNING")
@@ -50,19 +58,18 @@ public class Period implements Serializable {
 	@Column(name = "PRICE", precision = 5, scale = 2)
 	private BigDecimal price;
 
-	public Period() {
-	}
-
 	public Period(Race race) {
 		this.race = race;
+	}
+
+	public Period() {
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((beginning == null) ? 0 : beginning.hashCode());
-		result = prime * result + ((race == null) ? 0 : race.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -78,21 +85,22 @@ public class Period implements Serializable {
 			return false;
 		}
 		Period other = (Period) obj;
-		if (beginning == null) {
-			if (other.beginning != null) {
+		if (id == null) {
+			if (other.id != null) {
 				return false;
 			}
-		} else if (!beginning.equals(other.beginning)) {
-			return false;
-		}
-		if (race == null) {
-			if (other.race != null) {
-				return false;
-			}
-		} else if (!race.equals(other.race)) {
+		} else if (!id.equals(other.id)) {
 			return false;
 		}
 		return true;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Race getRace() {

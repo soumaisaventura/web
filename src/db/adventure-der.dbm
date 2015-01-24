@@ -3,20 +3,20 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="462,109" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="665,284" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+<schema name="public" protected="true" fill-color="#ffffff" sql-disabled="true">
 </schema>
 
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1360" y="576"/>
+	<position x="1369" y="581"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -79,7 +79,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1423.72" y="404"/>
+	<position x="1431.72" y="402"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -89,7 +89,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="length" not-null="true">
 		<type name="integer"/>
 	</column>
-	<constraint name="course_pkey" type="pk-constr" table="public.course">
+	<constraint name="pk_course" type="pk-constr" table="public.course">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -130,7 +130,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1408" y="207.4"/>
+	<position x="1409" y="194.4"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
+	</column>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -144,7 +147,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="numeric" length="5" precision="2"/>
 	</column>
 	<constraint name="pk_period" type="pk-constr" table="public.period">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_period_beginning" type="uq-constr" table="public.period">
 		<columns names="race_id,beginning" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_period_ending" type="uq-constr" table="public.period">
+		<columns names="race_id,ending" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -232,7 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="783.188" y="220.4"/>
+	<position x="789.188" y="214.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -344,10 +353,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="deleted">
 		<type name="timestamp"/>
 	</column>
-	<constraint name="user_account_pkey" type="pk-constr" table="public.user_account">
+	<constraint name="pk_user_account" type="pk-constr" table="public.user_account">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="user_account_email_key" type="uq-constr" table="public.user_account">
+	<constraint name="uk_user_account_email" type="uq-constr" table="public.user_account">
 		<columns names="email" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -400,11 +409,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_period_ending" table="public.period"
+<index name="idx_period_race" table="public.period"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="ending"/>
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
 		</idxelement>
 </index>
 
@@ -629,6 +638,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="status"/>
+		</idxelement>
+</index>
+
+<index name="idx_period_ending" table="public.period"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="ending"/>
+		</idxelement>
+</index>
+
+<index name="idx_period_beginning" table="public.period"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="beginning"/>
 		</idxelement>
 </index>
 

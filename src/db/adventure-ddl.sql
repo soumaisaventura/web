@@ -1,6 +1,6 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.0-beta1
--- PostgreSQL version: 9.2
+-- PostgreSQL version: 9.4
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
 
@@ -67,7 +67,7 @@ CREATE TABLE public.course(
 	id integer NOT NULL,
 	race_id integer NOT NULL,
 	length integer NOT NULL,
-	CONSTRAINT course_pkey PRIMARY KEY (id)
+	CONSTRAINT pk_course PRIMARY KEY (id)
 
 );
 -- ddl-end --
@@ -79,7 +79,7 @@ ALTER TABLE public.course OWNER TO postgres;
 CREATE TABLE public.health(
 	id integer NOT NULL,
 	blood_type character varying(20),
-	allergy text,
+	allergy character varying(500),
 	health_care_name character varying(50),
 	health_care_number character varying(20),
 	emergency_contact_name character varying(50),
@@ -97,11 +97,12 @@ ALTER TABLE public.health OWNER TO postgres;
 CREATE TABLE public.period(
 	id integer NOT NULL,
 	race_id integer NOT NULL,
-	price numeric(5,2) NOT NULL,
 	beginning date NOT NULL,
 	ending date NOT NULL,
-	CONSTRAINT period_pkey PRIMARY KEY (id),
-	CONSTRAINT period_race_id_beginning_key UNIQUE (race_id,beginning)
+	price numeric(5,2) NOT NULL,
+	CONSTRAINT pk_period PRIMARY KEY (id),
+	CONSTRAINT uk_period_beginning UNIQUE (race_id,beginning),
+	CONSTRAINT uk_period_ending UNIQUE (race_id,ending)
 
 );
 -- ddl-end --
@@ -132,7 +133,7 @@ ALTER TABLE public.profile OWNER TO postgres;
 CREATE TABLE public.race(
 	id integer NOT NULL,
 	name character varying(50) NOT NULL,
-	description text,
+	description character varying(500),
 	date date NOT NULL,
 	city_id integer,
 	banner oid,
@@ -168,18 +169,6 @@ CREATE TABLE public.race_organizer(
 ALTER TABLE public.race_organizer OWNER TO postgres;
 -- ddl-end --
 
--- object: public.receipt | type: TABLE --
--- DROP TABLE IF EXISTS public.receipt;
-CREATE TABLE public.receipt(
-	id bigint NOT NULL,
-	registration_id bigint NOT NULL,
-	CONSTRAINT receipt_pkey PRIMARY KEY (id)
-
-);
--- ddl-end --
-ALTER TABLE public.receipt OWNER TO postgres;
--- ddl-end --
-
 -- object: public.registration | type: TABLE --
 -- DROP TABLE IF EXISTS public.registration;
 CREATE TABLE public.registration(
@@ -190,6 +179,7 @@ CREATE TABLE public.registration(
 	team_name character varying(50) NOT NULL,
 	date timestamp NOT NULL,
 	submitter_id integer NOT NULL,
+	status character varying(20) NOT NULL,
 	CONSTRAINT registration_pkey PRIMARY KEY (id)
 
 );
@@ -235,8 +225,8 @@ CREATE TABLE public.user_account(
 	password_reset_token character varying(64),
 	creation timestamp NOT NULL,
 	deleted timestamp,
-	CONSTRAINT user_account_pkey PRIMARY KEY (id),
-	CONSTRAINT user_account_email_key UNIQUE (email)
+	CONSTRAINT pk_user_account PRIMARY KEY (id),
+	CONSTRAINT uk_user_account_email UNIQUE (email)
 
 );
 -- ddl-end --
@@ -297,30 +287,12 @@ CREATE INDEX idx_course_race ON public.course
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: idx_period_beginning | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_period_beginning;
-CREATE INDEX idx_period_beginning ON public.period
-	USING btree
-	(
-	  beginning
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
 -- object: idx_period_race | type: INDEX --
 -- DROP INDEX IF EXISTS public.idx_period_race;
 CREATE INDEX idx_period_race ON public.period
 	USING btree
 	(
-	  race_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_period_ending | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_period_ending;
-CREATE INDEX idx_period_ending ON public.period
-	USING btree
-	(
-	  ending
+	  race_id ASC NULLS LAST
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
@@ -420,15 +392,6 @@ CREATE INDEX idx_race_organizer ON public.race_organizer
 	USING btree
 	(
 	  organizer_id
-	)	WITH (FILLFACTOR = 90);
--- ddl-end --
-
--- object: idx_receipt_registration | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_receipt_registration;
-CREATE INDEX idx_receipt_registration ON public.receipt
-	USING btree
-	(
-	  registration_id
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
@@ -611,6 +574,35 @@ CREATE SEQUENCE public.seq_user
 ALTER SEQUENCE public.seq_user OWNER TO postgres;
 -- ddl-end --
 
+-- object: idx_registration_status | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_registration_status;
+CREATE INDEX idx_registration_status ON public.registration
+	USING btree
+	(
+	  status ASC NULLS LAST
+	);
+-- ddl-end --
+
+-- object: idx_period_ending | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_period_ending;
+CREATE UNIQUE INDEX idx_period_ending ON public.period
+	USING btree
+	(
+	  race_id ASC NULLS LAST,
+	  ending
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
+-- object: idx_period_beginning | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_period_beginning;
+CREATE UNIQUE INDEX idx_period_beginning ON public.period
+	USING btree
+	(
+	  race_id ASC NULLS LAST,
+	  beginning ASC NULLS LAST
+	)	WITH (FILLFACTOR = 90);
+-- ddl-end --
+
 -- object: fk_city_state | type: CONSTRAINT --
 -- ALTER TABLE public.city DROP CONSTRAINT IF EXISTS fk_city_state;
 ALTER TABLE public.city ADD CONSTRAINT fk_city_state FOREIGN KEY (state_id)
@@ -692,13 +684,6 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer;
 ALTER TABLE public.race_organizer ADD CONSTRAINT fk_race_organizer FOREIGN KEY (organizer_id)
 REFERENCES public.user_account (id) MATCH SIMPLE
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
--- object: fk_receipt_registration | type: CONSTRAINT --
--- ALTER TABLE public.receipt DROP CONSTRAINT IF EXISTS fk_receipt_registration;
-ALTER TABLE public.receipt ADD CONSTRAINT fk_receipt_registration FOREIGN KEY (registration_id)
-REFERENCES public.registration (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
