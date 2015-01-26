@@ -28,6 +28,7 @@
 	<div class="container">
 		<div class="main" style="max-width: 420px">
 			<div class="row" style="padding-bottom: 20px">
+				<input id="race" type="hidden" value="#{param.race}" />
 				<h1 id="race-name"></h1>
 				<h4>
 					<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
@@ -37,10 +38,8 @@
 					<span id="race-city"></span>
 				</h4>
 			</div>
+
 			<form>
-				<input id="race" type="hidden" value="#{param.race}" />
-				
-				
 				<div class="row">
 					<div class="form-group">
 						<label for="category">Categoria</label> 

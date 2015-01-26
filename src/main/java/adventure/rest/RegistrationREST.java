@@ -26,9 +26,14 @@ import adventure.rest.LocationREST.CityData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.util.Beans;
 
 @Path("registration")
 public class RegistrationREST {
+	
+	public static RegistrationREST getInstance() {
+		return Beans.getReference(RegistrationREST.class);
+	}
 
 	@GET
 	@LoggedIn

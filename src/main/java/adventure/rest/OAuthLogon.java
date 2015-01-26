@@ -3,7 +3,9 @@ package adventure.rest;
 import java.net.URI;
 import java.util.Date;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -30,7 +32,9 @@ public abstract class OAuthLogon {
 	@POST
 	@Transactional
 	@ValidatePayload
-	public void login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+	@Consumes("application/json")
+	@Produces("application/json")
+	public User login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
 		UserDAO userDAO = UserDAO.getInstance();
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 
@@ -63,6 +67,8 @@ public abstract class OAuthLogon {
 
 			login(oauth.getEmail());
 		}
+
+		return User.getLoggedIn();
 	}
 
 	protected void login(String username) {

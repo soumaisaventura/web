@@ -2,6 +2,8 @@ var App = {
 
 	tokenKey : "Token",
 
+	userKey : "User",
+
 	restoreLocation : function() {
 		var url = sessionStorage.getItem("saved_location");
 		location.href = (url ? url : App.getContextPath() + "/home");
@@ -9,6 +11,19 @@ var App = {
 
 	saveLocation : function($url) {
 		sessionStorage.setItem("saved_location", $url);
+	},
+
+	setLoggedInUser : function($user) {
+		sessionStorage.setItem(this.userKey, JSON.stringify($user));
+	},
+
+	getLoggedInUser : function() {
+		return JSON.parse(sessionStorage.getItem(this.userKey));
+	},
+
+	clearAuthentication : function() {
+		sessionStorage.removeItem(this.userKey);
+		sessionStorage.removeItem(this.tokenKey);
 	},
 
 	getToken : function() {
@@ -25,10 +40,6 @@ var App = {
 
 	setHeader : function($request) {
 		$request.setRequestHeader("Authorization", "Token " + App.getToken());
-	},
-
-	removeToken : function() {
-		sessionStorage.removeItem(this.tokenKey);
 	},
 
 	getContextPath : function() {
@@ -56,16 +67,16 @@ var App = {
 					return;
 				}
 			});
-			
-			$("." + id.replace(".", "\\.") + "-message").each(function(index, value){
-				if(index === 0){
+
+			$("." + id.replace(".", "\\.") + "-message").each(function(index, value) {
+				if (index === 0) {
 					$(this).hide();
 				} else {
 					$(this).remove();
 				}
 			});
-			
-			if(cont>1){
+
+			if (cont > 1) {
 				$("br").remove();
 				showMultipleErrorMessage(id, $request.responseJSON);
 				return;
@@ -103,7 +114,7 @@ $.ajaxSetup({
 	error : function(request) {
 		switch (request.status) {
 			case 401:
-				// alert(location.href);
+				App.clearAuthentication();
 				App.saveLocation(location.href);
 				location.href = App.getContextPath() + "/login";
 				break;
@@ -115,20 +126,17 @@ $.ajaxSetup({
 	}
 });
 
-function showMultipleErrorMessage($atribute, $messages){
-	$.each($messages, function(index, value){
-		if (index === 0){
+function showMultipleErrorMessage($atribute, $messages) {
+	$.each($messages, function(index, value) {
+		if (index === 0) {
 			$("." + $atribute.replace(".", "\\.") + "-message").last().text(value.message);
 		} else {
-			$("." + $atribute.replace(".", "\\.") + "-message")
-				.last()
-				.clone()
-				.insertAfter($("#" + $atribute.replace(".", "\\.") + "-message").last())
-				.text(value.message);
+			$("." + $atribute.replace(".", "\\.") + "-message").last().clone()
+					.insertAfter($("#" + $atribute.replace(".", "\\.") + "-message").last()).text(value.message);
 		}
 	});
-	
-	$("." + $atribute.replace(".", "\\.") + "-message").each(function(){
+
+	$("." + $atribute.replace(".", "\\.") + "-message").each(function() {
 		$(this).after("<br/>").show();
 	});
 }

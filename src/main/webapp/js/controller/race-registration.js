@@ -1,5 +1,4 @@
 $(function() {
-
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
@@ -22,13 +21,13 @@ $(function() {
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
 	 */
-	UserProxy.getLoggedInUser().done(function($user) {
-		RaceProxy.order($race, $user.id).done(function($order) {
-			$teamIds.push($order.rows[0].id);
-			$total += $order.rows[0].amount;
-			addRowOnMemberList($order.rows[0], true);
-			showTotal($total);
-		});
+
+	var $user = App.getLoggedInUser();
+	RaceProxy.order($race, $user.id).done(function($order) {
+		$teamIds.push($order.rows[0].id);
+		$total += $order.rows[0].amount;
+		addRowOnMemberList($order.rows[0], true);
+		showTotal($total);
 	});
 
 	/**
