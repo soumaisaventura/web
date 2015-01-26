@@ -11,4 +11,14 @@ var RegistrationProxy = {
 			}
 		});
 	},
+	
+	load : function($id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $id,
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	}
 };
