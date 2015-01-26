@@ -125,8 +125,11 @@ public class MailDAO implements Serializable {
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-recovery.html"));
 		content = content.replace("{name}", user.getProfile().getName());
-		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
-		send("Portal FBCA - Recuperação de senha", content, "text/html", email);
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("password/reset?token=" + token).toString() + "$2");
+		send("Sou+ Aventura" + " - Recuperação de senha", content, "text/html", email);
 	}
 
 	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
