@@ -47,9 +47,10 @@ public class RegistrationREST {
 			data.race.id = registration.getRaceCategory().getRace().getId();
 			data.race.name = registration.getRaceCategory().getRace().getName();
 			data.race.date = registration.getRaceCategory().getRace().getDate();
-
-			// data.race.id = registration.getRaceCategory().getRace().getId();
-			// data.race.name = registration.getRaceCategory().getRace().getName();
+			data.race.city = new CityData();
+			data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
+			data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
+			data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
 
 			result.add(data);
 		}
@@ -77,8 +78,8 @@ public class RegistrationREST {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(registration.getDate());
 		Integer year = calendar.get(YEAR);
-
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
+
 		List<User> list = UserDAO.getInstance().findTeamFormation(registration);
 		User loggedInUser = User.getLoggedIn();
 

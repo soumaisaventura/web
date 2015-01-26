@@ -78,7 +78,7 @@ public class Registration implements Serializable {
 	}
 
 	public Registration(Long registrationId, StatusType registrationStatus, String reistrationTeamName, Integer raceId,
-			String raceName, Date raceDate) {
+			String raceName, Date raceDate, Integer cityId, String cityName, String stateAbbreviation) {
 		setId(registrationId);
 		setStatus(registrationStatus);
 		setTeamName(reistrationTeamName);
@@ -87,6 +87,12 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDate(raceDate);
+
+		getRaceCategory().getRace().setCity(new City());
+		getRaceCategory().getRace().getCity().setId(cityId);
+		getRaceCategory().getRace().getCity().setName(cityName);
+		getRaceCategory().getRace().getCity().setState(new State());
+		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, Integer submitterId,

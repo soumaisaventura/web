@@ -193,7 +193,7 @@ public class RaceREST {
 			Calendar calendar = Calendar.getInstance();
 			Integer year = calendar.get(YEAR);
 			AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-			
+
 			for (Integer userId : users) {
 				User user = UserDAO.getInstance().loadBasics(userId);
 

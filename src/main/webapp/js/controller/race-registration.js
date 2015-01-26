@@ -112,7 +112,8 @@ $(function() {
  */
 function loadOk(data) {
 	$("#race-name").text(data.name)
-	$("#race-detail").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL') + " – " + data.city);
+	$("#race-date").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL'));
+	$("#race-city").text(data.city);
 }
 
 /**

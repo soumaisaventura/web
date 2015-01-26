@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import adventure.entity.AnnualFee;
 import adventure.entity.Category;
 import adventure.entity.City;
 import adventure.entity.Course;
@@ -44,6 +45,8 @@ public class TempREST {
 	public void unload(@Context UriInfo uriInfo) throws Exception {
 		validate(uriInfo);
 
+		getEntityManager().createQuery("delete from AnnualFeePayment").executeUpdate();
+		getEntityManager().createQuery("delete from AnnualFee").executeUpdate();
 		getEntityManager().createQuery("delete from RaceOrganizer").executeUpdate();
 		getEntityManager().createQuery("delete from Registration").executeUpdate();
 		getEntityManager().createQuery("delete from TeamFormation").executeUpdate();
@@ -102,6 +105,8 @@ public class TempREST {
 		User arnaldoMaciel = newUser("arnaldo_maciel@hotmail.com", "123", "Arnaldo Maciel", MALE, true);
 		User gustavoChagas = newUser("chagas77@yahoo.com.br", "123", "Gustavo Chagas", MALE, true);
 
+		newAnnualFee(2015, 10);
+
 		Category quarteto = newCategory("Quarteto", "Quarteto contendo pelo menos uma mulher", 4, 1, 1);
 		Category duplaMasc = newCategory("Dupla masculina", "Dupla composta apenas por homens", 2, 2, null);
 		Category duplaFem = newCategory("Dupla feminina", "Dupla composta apenas por mulheres", 2, null, 2);
@@ -152,6 +157,14 @@ public class TempREST {
 		if (uriInfo.getBaseUri().toString().contains("fbca.com.br")) {
 			throw new ForbiddenException().addViolation("Em produção não pode!");
 		}
+	}
+
+	private AnnualFee newAnnualFee(Integer year, float fee) throws Exception {
+		AnnualFee annualFee = new AnnualFee();
+		annualFee.setYear(year);
+		annualFee.setFee(BigDecimal.valueOf(fee));
+		getEntityManager().persist(annualFee);
+		return annualFee;
 	}
 
 	private TeamFormation newTeamFormation(Registration registration, User user) throws Exception {
