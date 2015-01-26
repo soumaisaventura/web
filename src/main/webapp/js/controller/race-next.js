@@ -10,7 +10,7 @@ function findNextOk(data) {
 		var td2 = '<td><h3><a href="' + App.getContextPath() + '/race/' + value.id + '">' + value.name + '</a>';
 
 		if (value.registration.open) {
-			td2 += ' <span class="label label-danger">Insrições abertas</span>';
+			td2 += '&nbsp;&nbsp;&nbsp;<small><span class="label label-success">Insrições abertas</span></small>';
 		}
 
 		td2 += '</h3><small>' + (value.city ? value.city : '') + '</small></td>';
