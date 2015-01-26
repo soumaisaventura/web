@@ -17,8 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import adventure.entity.Period;
-import adventure.entity.Profile;
+import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.User;
 import adventure.security.Passwords;
@@ -78,15 +77,6 @@ public class MailDAO implements Serializable {
 		send("Sou+ Aventura" + " - Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
 
-	// public static void main(String[] args) {
-	// String original =
-	// "<h1 style=\"Margin-top: 0;color: #2e3b4e;font-size: 36px;Margin-bottom: 24px;font-family: sans-serif;text-align: center;line-height: 44px\">Bem-vindo!</h1><p style=\"Margin-top: 0;color: #4e5561;font-size: 16px;font-family: sans-serif;line-height: 25px;Margin-bottom: 25px;font-weight: 300;text-align: left\">{name}, o seu cadastro no {appName} foi conclu&#237;do com sucesso.&nbsp;Sabemos que voc&#234; n&#227;o esquecer&#225; o endere&#231;o, mas n&#227;o custa nada lembrar:</p><h2 style=\"Margin-top: 0;color: #2e3b4e;font-size: 26px;Margin-bottom: 20px;font-family: sans-serif;line-height: 34px;text-align: center\"><a style=\"text-decoration: none;transition: all 0.2s;color: #2186b8\" data-emb-href-display=\"url1.url1\" href=\"http://adventure.createsend1.com/t/t-l-triiudk-l-r/\">url1.url1</a></h2><p style=\"Margin-top: 0;color: #4e5561;font-size: 16px;font-family:";
-	// System.out.println(original);
-	//
-	// original = original.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + "xx" + "$2");
-	// System.out.println(original);
-	// }
-
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
@@ -137,32 +127,49 @@ public class MailDAO implements Serializable {
 		User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 
-		String[] memberNames = new String[members.size()];
+		String memberNames = "";
 		for (int i = 0; i < members.size(); i++) {
-			// TODO Não tem necessidade de novo select. Já poderia vir preenchido
-			// Profile profile = ProfileDAO.getInstance().load(members.get(i));
-			Profile profile = members.get(i).getProfile();
-			memberNames[i] = profile.getName();
+			String separator;
+
+			if (i == 0) {
+				separator = "";
+			} else if (i == members.size() - 1) {
+				separator = " e ";
+			} else {
+				separator = ", ";
+			}
+
+			memberNames += separator + members.get(i).getProfile().getName();
 		}
 
+		Race race = registration.getRaceCategory().getRace();
+
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-creation.html"));
-		content = content.replace("{name}", creator.getProfile().getName());
-		content = content.replace("{teamName}", registration.getTeamName());
-		content = content.replace("{raceName}", registration.getRaceCategory().getRace().getName());
-		content = content.replace("{raceDate}", Dates.parse(registration.getRaceCategory().getRace().getDate()));
-		content = content.replace("{url}", baseUri.resolve("registration/" + registration.getId()).toString());
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replace("{registrationTeamName}", registration.getTeamName());
+		content = content.replace("{raceName}", race.getName());
+		content = content.replace("{raceCity}", race.getCity().getName());
+		content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
+		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("registration/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
 		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
-		content = content.replace("{members}", Strings.join(" / ", memberNames));
+		content = content.replace("{teamFormation}", memberNames);
 
-		Period period = PeriodDAO.getInstance().loadCurrent(registration.getRaceCategory().getRace());
-		content = content.replace("{racePrice}", period.getPrice().toString().replace(".", ","));
+		String replacement = "";
+		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
+			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+					+ "; " + organizer.getEmail() + "$2\r";
+		}
+		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
 
 		String subject = "Sou+ Aventura" + " - Pedido de inscrição";
 		subject += " #" + registration.getFormattedId();
-		subject += " - " + registration.getRaceCategory().getRace().getName();
+		subject += " - " + race.getName();
 
 		send(subject, content, "text/html", creator.getEmail());
 	}

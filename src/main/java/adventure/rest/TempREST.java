@@ -40,8 +40,19 @@ import br.gov.frameworkdemoiselle.util.Strings;
 public class TempREST {
 
 	@POST
-	@Path("unload")
 	@Transactional
+	@Path("unload/registration")
+	public void unloadRegistration(@Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
+
+		getEntityManager().createQuery("delete from AnnualFeePayment").executeUpdate();
+		getEntityManager().createQuery("delete from TeamFormation").executeUpdate();
+		getEntityManager().createQuery("delete from Registration").executeUpdate();
+	}
+
+	@POST
+	@Transactional
+	@Path("unload")
 	public void unload(@Context UriInfo uriInfo) throws Exception {
 		validate(uriInfo);
 
@@ -61,8 +72,8 @@ public class TempREST {
 	}
 
 	@POST
-	@Path("reload")
 	@Transactional
+	@Path("reload")
 	public void reload(@Context UriInfo uriInfo) throws Exception {
 		unload(uriInfo);
 		load(uriInfo);
