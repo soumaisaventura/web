@@ -4,27 +4,123 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/template/main.xhtml">
 
-	<ui:define name="lib">
-	</ui:define>
+<ui:define name="lib">
+</ui:define>
 
-	<ui:define name="proxy">
-	</ui:define>
+<ui:define name="proxy">
+	<script type="text/javascript" src="#{request.contextPath}/js/proxy/registration.js"></script>
+</ui:define>
 
-	<ui:define name="controller">
-		<script type="text/javascript" src="#{request.contextPath}/js/controller/registration.js"></script>
-	</ui:define>
+<ui:define name="controller">
+	<script type="text/javascript" src="#{request.contextPath}/js/controller/registration.js"></script>
+</ui:define>
 
-	<ui:define name="body">
-		<div class="container">
-		<input id="race" type="hidden" value="#{param.registration}" />
-			<div class="row" style="padding-bottom: 20px">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="row" style="padding-bottom: 20px">
-						<h1>Registro: <span class="label label-primary">#{param.registration}</span></h1>
-					</div>
+<ui:define name="body">
+<style>
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
+    background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
+}
+</style>
+<div class="container">
+	<form>
+	<input id="registration" type="hidden" value="#{param.registration}" />
+	
+	<div class="col-md-6 col-md-offset-3">
+		<div class="row">
+			<div class="text-center">
+				<h1><strong>Noite do Perrengue 3</strong></h1>
+				<h4>
+					<strong>01 de março de 2015</strong> - <strong>Costa do Sauípe/BA</strong>
+				</h4>
+				<h2>
+					<strong>##{param.registration}</strong>
+				</h2>
+				<h3>
+					<span class="label label-warning">Pendente</span>
+				</h3>
+				<h3>
+					<strong>Gantuá Fast / Dupla Masculina 45km</strong> 
+				</h3>			
+			</div>
+		</div>
+		<div class="row">
+			<table id="members-list" class="table">
+				<thead>
+			        <tr>
+		        	  	<th style="padding-left: 0px;">Atletas</th>
+		          		<th class="text-right">Inscrição</th>
+		          		<th class="text-right">Anuidade*</th>
+		          		<th class="text-right">Total</th>
+		        	</tr>
+		    	</thead>
+		    	<tfoot>
+		        	<tr>
+		          		<th colspan="3" class="text-right">Total a pagar</th>
+		          		<th id="total" class="text-right" nowrap="nowrap">R$ 809</th>
+		        	</tr>
+		    	</tfoot>
+				<tbody>
+					<tr id="member-216">
+						<td class="text-left" style="padding-left: 0px;">
+							Clevérson Sacramento
+							<br/>cleverson.sacramento@gmail.com
+							<br/>(71) 2343-3434
+						</td>
+						<td class="text-right" nowrap="nowrap">R$ 799</td>
+						<td class="text-right" nowrap="nowrap">R$ 10</td>
+						<td class="text-right" nowrap="nowrap">R$ 809</td>
+					</tr>
+					<tr id="member-215">
+						<td class="text-left" style="padding-left: 0px;">
+							Clevérson Sacramento
+							<br/>cleverson.sacramento@gmail.com
+							<br/>(71) 2343-3434
+						</td>
+						<td class="text-right" nowrap="nowrap">R$ 799</td>
+						<td class="text-right" nowrap="nowrap">R$ 10</td>
+						<td class="text-right" nowrap="nowrap">R$ 809</td>
+					</tr>
+				</tbody>
+			</table>	
+		</div>
+		<div class="row" style="margin-bottom: 15px;">
+			<div class="col-md-12 text-center bg-success" style="padding: 5px">
+				<strong>Dados para Depósito</strong><br/>
+				Banco do Brasil / Ag: 0001-X / CC: 2334-3
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center">
+					<h5>Inscrição feita em <strong>26/01/2015</strong> por <strong>Cleverson Sacramento</strong>.</h5>
 				</div>
 			</div>
 		</div>
-	</ui:define>
+		<hr/>
+		<div class="row" style="margin-bottom: 15px;">
+			<div class="col-md-12 text-center">
+				<h4>Organizadores da prova</h4>
+			</div>
+			<div class="col-md-6 text-center">
+				<h4><strong>Arnaldo Silva</strong></h4>
+				<h5>organizador1@gmail.com</h5>
+				<h5>(71) 9922-2234</h5>
+			</div>
+			<div class="col-md-6 text-center">
+				<h4><strong>Gustavo Gaia</strong></h4>
+				<h5>organizador1@gmail.com</h5>
+				<h5>(71) 9922-2234</h5>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+</ui:define>
 
 </ui:composition>
