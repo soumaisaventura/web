@@ -16,7 +16,8 @@ $(function() {
 
 // Activation process
 
-function activateOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
+function activateOk($data, $status, $request) {
+	App.setToken($request.getResponseHeader('Set-Token'));
+	App.setLoggedInUser($data);
 	location.href = App.getContextPath() + "/home";
 }

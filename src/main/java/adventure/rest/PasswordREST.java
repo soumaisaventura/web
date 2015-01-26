@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -42,7 +43,8 @@ public class PasswordREST {
 	@ValidatePayload
 	@Path("reset/{token}")
 	@Consumes("application/json")
-	public void reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+	@Produces("application/json")
+	public User reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		UserDAO dao = UserDAO.getInstance();
 		User persisted = dao.load(data.email);
@@ -70,6 +72,8 @@ public class PasswordREST {
 				MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 			}
 		}
+
+		return User.getLoggedIn();
 	}
 
 	private void login(String email, String password) {

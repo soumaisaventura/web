@@ -48,8 +48,8 @@ public class TempREST {
 		getEntityManager().createQuery("delete from AnnualFeePayment").executeUpdate();
 		getEntityManager().createQuery("delete from AnnualFee").executeUpdate();
 		getEntityManager().createQuery("delete from RaceOrganizer").executeUpdate();
-		getEntityManager().createQuery("delete from Registration").executeUpdate();
 		getEntityManager().createQuery("delete from TeamFormation").executeUpdate();
+		getEntityManager().createQuery("delete from Registration").executeUpdate();
 		getEntityManager().createQuery("delete from RaceCategory").executeUpdate();
 		getEntityManager().createQuery("delete from Category").executeUpdate();
 		getEntityManager().createQuery("delete from Course").executeUpdate();
@@ -97,7 +97,7 @@ public class TempREST {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);

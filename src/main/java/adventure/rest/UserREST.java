@@ -61,7 +61,8 @@ public class UserREST {
 	@ValidatePayload
 	@Path("activation/{token}")
 	@Consumes("application/json")
-	public void activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
+	@Produces("application/json")
+	public User activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
 			throws Exception {
 		UserDAO userDAO = UserDAO.getInstance();
 		User persisted = userDAO.load(data.email);
@@ -75,6 +76,8 @@ public class UserREST {
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+
+		return User.getLoggedIn();
 	}
 
 	private void validate(String token, User user) throws Exception {

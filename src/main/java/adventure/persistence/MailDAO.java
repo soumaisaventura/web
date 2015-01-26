@@ -67,10 +67,24 @@ public class MailDAO implements Serializable {
 	public void sendWelcome(User user, URI baseUri) throws Exception {
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
 		content = content.replace("{name}", user.getProfile().getName());
-		content = content.replace("{url}", baseUri.toString());
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + baseUri.toString() + "$2");
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\")", "$1"
+				+ baseUri.resolve("user/profile").toString() + "$2");
+		content = content.replace("url1.url1", baseUri.toString());
 
-		send("Portal FBCA - Seja bem-vindo!", content, "text/html", user.getEmail());
+		send("Sou+ Aventura" + " - Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
+
+	// public static void main(String[] args) {
+	// String original =
+	// "<h1 style=\"Margin-top: 0;color: #2e3b4e;font-size: 36px;Margin-bottom: 24px;font-family: sans-serif;text-align: center;line-height: 44px\">Bem-vindo!</h1><p style=\"Margin-top: 0;color: #4e5561;font-size: 16px;font-family: sans-serif;line-height: 25px;Margin-bottom: 25px;font-weight: 300;text-align: left\">{name}, o seu cadastro no {appName} foi conclu&#237;do com sucesso.&nbsp;Sabemos que voc&#234; n&#227;o esquecer&#225; o endere&#231;o, mas n&#227;o custa nada lembrar:</p><h2 style=\"Margin-top: 0;color: #2e3b4e;font-size: 26px;Margin-bottom: 20px;font-family: sans-serif;line-height: 34px;text-align: center\"><a style=\"text-decoration: none;transition: all 0.2s;color: #2186b8\" data-emb-href-display=\"url1.url1\" href=\"http://adventure.createsend1.com/t/t-l-triiudk-l-r/\">url1.url1</a></h2><p style=\"Margin-top: 0;color: #4e5561;font-size: 16px;font-family:";
+	// System.out.println(original);
+	//
+	// original = original.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + "xx" + "$2");
+	// System.out.println(original);
+	// }
 
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
 		User user = userDAO.loadForAuthentication(email);
@@ -88,8 +102,11 @@ public class MailDAO implements Serializable {
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-creation.html"));
 		content = content.replace("{name}", user.getProfile().getName());
-		content = content.replace("{url}", baseUri.resolve("password/reset?token=" + token).toString());
-		send("Portal FBCA - Criação de senha", content, "text/html", email);
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("password/reset?token=" + token).toString() + "$2");
+		send("Sou+ Aventura" + " - Criação de senha", content, "text/html", email);
 	}
 
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {

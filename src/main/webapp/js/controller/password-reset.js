@@ -17,7 +17,8 @@ $(function() {
 
 // Password Reset process
 
-function resetOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
+function resetOk($data, $status, $request) {
+	App.setToken($request.getResponseHeader('Set-Token'));
+	App.setLoggedInUser($data);
 	App.restoreLocation();
 }
