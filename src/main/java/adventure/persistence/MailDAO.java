@@ -59,9 +59,11 @@ public class MailDAO implements Serializable {
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
 		content = content.replace("{name}", user.getProfile().getName());
-		content = content.replace("{url}", baseUri.resolve("user/activation?token=" + token).toString());
-
-		send("Portal FBCA - Confirmação de e-mail", content, "text/html", email);
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("user/activation?token=" + token).toString() + "$2");
+		send("Sou+ Aventura" + " - Confirmação de e-mail", content, "text/html", email);
 	}
 
 	public void sendWelcome(User user, URI baseUri) throws Exception {
@@ -73,7 +75,6 @@ public class MailDAO implements Serializable {
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\")", "$1"
 				+ baseUri.resolve("user/profile").toString() + "$2");
 		content = content.replace("url1.url1", baseUri.toString());
-
 		send("Sou+ Aventura" + " - Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
 
@@ -159,7 +160,7 @@ public class MailDAO implements Serializable {
 		Period period = PeriodDAO.getInstance().loadCurrent(registration.getRaceCategory().getRace());
 		content = content.replace("{racePrice}", period.getPrice().toString().replace(".", ","));
 
-		String subject = "Portal FBCA - Pedido de inscrição";
+		String subject = "Sou+ Aventura" + " - Pedido de inscrição";
 		subject += " #" + registration.getFormattedId();
 		subject += " - " + registration.getRaceCategory().getRace().getName();
 
