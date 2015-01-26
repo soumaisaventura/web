@@ -21,7 +21,9 @@ function findOk($data, $status, $request) {
 			break;
 
 		case 200:
-			console.log("xxxxxxxx");
+			$.each($data, function(index, value) {
+				$('#resultTable > tbody:last').append('<tr><td>' + value.id + " – " + value.teamName + " – " + value.status + '</td></tr>');
+			});
 			break;
 	}
 }

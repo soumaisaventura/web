@@ -23,7 +23,6 @@ import adventure.security.ActivationSession;
 import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -32,13 +31,6 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("user")
 public class UserREST {
-
-	@GET
-	@LoggedIn
-	@Produces("application/json")
-	public User getLoggedInUser() {
-		return User.getLoggedIn();
-	}
 
 	@GET
 	@Path("search")

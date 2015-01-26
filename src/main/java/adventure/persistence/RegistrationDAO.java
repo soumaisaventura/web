@@ -116,8 +116,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ci.name, ");
 		jpql.append("        st.abbreviation ");
 		jpql.append("    ) ");
-		jpql.append("   from TeamFormation tf ");
-		jpql.append("   join tf.registration re ");
+		jpql.append("   from Registration re ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
 		jpql.append("   left join ra.city ci ");
