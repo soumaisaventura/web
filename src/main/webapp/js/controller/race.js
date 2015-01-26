@@ -1,9 +1,8 @@
 $(function() {
-
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
-	
+
 	RaceProxy.getBanner($("#race").val()).done(getBannerOk);
 	RaceProxy.load($("#race").val()).done(loadOk);
 
@@ -16,6 +15,10 @@ $(function() {
 			App.saveLocation(url);
 			location.href = App.getContextPath() + "/login";
 		}
+	});
+
+	$("#bt-manage-section").click(function() {
+		location.href = App.getContextPath() + "/race/" + $("#race").val() + "/registration/list";
 	});
 });
 
@@ -41,15 +44,11 @@ function loadOk(data) {
 		$("#city-section").show();
 	}
 
-	if (data.registration.open) {
-		$("#bt-registration-section").show();
-	}
-
 	if (data.registration.periods.length > 0) {
 		$.each(data.registration.periods, function(index, value) {
 			$("#registration-periods").append(
-					"<h4>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
-							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ": " + numeral(value.price).format() + "<sup>*</sup></h4>")
+					"<h4><span style='font-size: 0.8em'>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
+							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ":</span> " + numeral(value.price).format() + "<sup>*</sup></h4>")
 		});
 		$("#registration-periods-section").show();
 	}
@@ -68,12 +67,25 @@ function loadOk(data) {
 		$("#categories-section").show();
 	}
 
+	var isOrganizer = false;
 	if (data.organizers.length > 0) {
 		$.each(data.organizers, function(index, value) {
 			$("#organizers").append(
 					"<h4>" + value.name + " <a style='font-size:0.8em; color:#EA8E13' href='mailto:" + value.email + "?Subject=Dúvida sobra a prova "
 							+ data.name + "'>" + value.email + "</a></h4>");
+
+			if (App.isLoggedIn() && value.email == App.getLoggedInUser().email && !isOrganizer) {
+				isOrganizer = true;
+			}
 		});
 		$("#organizers-section").show();
+	}
+
+	if (data.registration.open && !isOrganizer) {
+		$("#bt-registration-section").show();
+	}
+
+	if (isOrganizer) {
+		$("#bt-manage-section").show();
 	}
 }

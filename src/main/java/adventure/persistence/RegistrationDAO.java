@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
@@ -98,6 +99,36 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
 		query.setParameter("user", loggedInUser);
 
+		return query.getResultList();
+	}
+	
+	public List<Registration> find(Race race) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select  ");
+		jpql.append("    new Registration( ");
+		jpql.append("        re.id, ");
+		jpql.append("        re.status, ");
+		jpql.append("        re.teamName, ");
+		jpql.append("        ra.id, ");
+		jpql.append("        ra.name, ");
+		jpql.append("        ra.date, ");
+		jpql.append("        ci.id, ");
+		jpql.append("        ci.name, ");
+		jpql.append("        st.abbreviation ");
+		jpql.append("    ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   left join ra.city ci ");
+		jpql.append("   left join ci.state st ");
+		jpql.append("  where ra = :race ");
+		jpql.append("  order by ");
+		jpql.append("        re.date ");
+		
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		query.setParameter("race", race);
+		
 		return query.getResultList();
 	}
 }

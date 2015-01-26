@@ -24,5 +24,15 @@ var RaceRegistrationProxy = {
 				App.setHeader(request)
 			}
 		});
-	}
+	},
+
+	find : function($race) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $race + "/registration/list",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
 };

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -35,6 +36,9 @@ import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.LocationREST.CityData;
+import adventure.rest.RegistrationREST.RaceData;
+import adventure.rest.RegistrationREST.RegistrationData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -51,7 +55,8 @@ public class RaceRegistrationREST {
 	@ValidatePayload
 	@Produces("text/plain")
 	@Consumes("application/json")
-	public String submit(RegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo) throws Exception {
+	public String submit(RaceRegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo)
+			throws Exception {
 		loadRace(id);
 		Date date = new Date();
 
@@ -67,7 +72,7 @@ public class RaceRegistrationREST {
 		return result.getFormattedId();
 	}
 
-	private Registration submit(RegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
+	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
 			Period period) {
 		Registration result = null;
 		Registration registration = new Registration();
@@ -86,6 +91,37 @@ public class RaceRegistrationREST {
 		}
 
 		return result;
+	}
+
+	@GET
+	@LoggedIn
+	@Path("list")
+	@Transactional
+	@Produces("application/json")
+	public List<RegistrationData> find(@PathParam("id") Integer id) throws Exception {
+		Race race = loadRace(id);
+		List<RegistrationData> result = new ArrayList<RegistrationData>();
+		User loggedInUser = User.getLoggedIn();
+
+		for (Registration registration : RegistrationDAO.getInstance().find(race)) {
+			RegistrationData data = new RegistrationData();
+			data.id = registration.getId();
+			data.number = registration.getFormattedId();
+			data.teamName = registration.getTeamName();
+			data.status = registration.getStatus();
+			data.race = new RaceData();
+			data.race.id = registration.getRaceCategory().getRace().getId();
+			data.race.name = registration.getRaceCategory().getRace().getName();
+			data.race.date = registration.getRaceCategory().getRace().getDate();
+			data.race.city = new CityData();
+			data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
+			data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
+			data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
+
+			result.add(data);
+		}
+
+		return result.isEmpty() ? null : result;
 	}
 
 	private Race loadRace(Integer id) throws Exception {
@@ -205,7 +241,7 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	public static class RegistrationData {
+	public static class RaceRegistrationData {
 
 		@NotEmpty
 		public String teamName;
