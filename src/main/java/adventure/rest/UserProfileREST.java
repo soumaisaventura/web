@@ -30,6 +30,7 @@ import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+import br.gov.frameworkdemoiselle.validation.annotation.Cpf;
 
 @Path("user/profile")
 public class UserProfileREST {
@@ -85,7 +86,7 @@ public class UserProfileREST {
 		@Length(max = RG_SIZE)
 		public String rg;
 
-		// @CPF
+		@Cpf
 		@NotEmpty
 		@Length(max = CPF_SIZE)
 		public String cpf;

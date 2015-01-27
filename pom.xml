@@ -49,6 +49,12 @@
 			<artifactId>demoiselle-jpa</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>br.gov.frameworkdemoiselle.component</groupId>
+			<artifactId>demoiselle-validation</artifactId>
+			<version>2.0.0</version>
+			<scope>compile</scope>
+		</dependency>
 		<!--
 		<dependency>
 			<groupId>br.gov.frameworkdemoiselle</groupId>
@@ -164,6 +170,11 @@
 	</dependencies>
 
 	<repositories>
+		<repository>
+			<id>demoiselle-releases</id>
+			<name>Demoiselle Releases</name>
+			<url>http://demoiselle.sourceforge.net/repository/release</url>
+		</repository>
 		<repository>
 			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
