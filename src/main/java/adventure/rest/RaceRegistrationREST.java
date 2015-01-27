@@ -3,6 +3,7 @@ package adventure.rest;
 import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
 import static adventure.entity.StatusType.PENDENT;
+import static adventure.util.Constants.NAME_SIZE;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -244,6 +246,7 @@ public class RaceRegistrationREST {
 	public static class RaceRegistrationData {
 
 		@NotEmpty
+		@Size(max = NAME_SIZE)
 		public String teamName;
 
 		@NotNull

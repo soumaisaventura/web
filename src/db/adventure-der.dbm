@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="78,136" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="505,211" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -16,7 +16,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="704" y="755"/>
+	<position x="740" y="756"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -43,7 +43,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1010.86" y="226"/>
+	<position x="1572.86" y="273"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -61,7 +61,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1571.51" y="354.769"/>
+	<position x="850.51" y="277.769"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -79,7 +79,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="756.72" y="407"/>
+	<position x="803.72" y="418"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -97,7 +97,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1508.95" y="966.154"/>
+	<position x="1510.95" y="847.154"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -130,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1013" y="573.4"/>
+	<position x="1026" y="582.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -160,7 +160,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1570.41" y="476.169"/>
+	<position x="1569.41" y="411.169"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -196,7 +196,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1012.02" y="384.4"/>
+	<position x="1025.02" y="390.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -223,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="752.27" y="584.4"/>
+	<position x="788.27" y="592.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -241,7 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1293.19" y="459.4"/>
+	<position x="1316.19" y="459.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -256,7 +256,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1003.51" y="756.215"/>
+	<position x="1017.51" y="753.215"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -292,7 +292,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1320.4" y="219.215"/>
+	<position x="1154.4" y="268.215"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -313,7 +313,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1312.62" y="905.538"/>
+	<position x="1315.62" y="868.538"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -328,7 +328,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user_account">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1538.53" y="754.6"/>
+	<position x="1537.53" y="635.6"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -613,7 +613,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="annual_fee">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1311" y="568"/>
+	<position x="1315" y="549"/>
 	<column name="year" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -628,7 +628,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="annual_fee_payment">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1275" y="674"/>
+	<position x="1281" y="651"/>
 	<column name="year" not-null="true">
 		<type name="integer"/>
 	</column>

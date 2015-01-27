@@ -86,11 +86,9 @@ $(function() {
 	/**
 	 * TODO Ajustar método Cadastro dos dados da equipe
 	 */
-	/**
-	 * Cadastro dos dados médicos
-	 */
 	$("form").submit(function(event) {
 		event.preventDefault();
+		$("[id$='-message']").hide();
 
 		var data = {
 			'teamName' : $("#teamName").val(),
@@ -99,7 +97,7 @@ $(function() {
 			'members' : $teamIds
 		};
 
-		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFail);
+		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk);
 	});
 
 });
@@ -134,10 +132,6 @@ function registrationOk(data) {
 	location.href = App.getContextPath() + "/registration/" + data;
 }
 
-function registrationFail($request) {
-	$("#global-message").text("").removeClass("alert-success").hide();
-}
-
 /* ---------------- Funções Utilitárias ---------------- */
 
 /**
@@ -156,7 +150,6 @@ function convertToLabelValueStructureFromUser($data) {
 }
 
 function addRowOnMemberList($athlete, $exclude) {
-	$("[id$='-message']").hide();
 	if ($athlete.name.length > 30) {
 		$athlete.name = $athlete.name.substr(0, 27).concat("...");
 	}
@@ -167,7 +160,7 @@ function addRowOnMemberList($athlete, $exclude) {
 	row = row.concat("<td>" + $athlete.name + "</td>");
 	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.racePrice).format() + "</td>");
 	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.annualFee).format() + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.amount).format() + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap'><em>" + numeral($athlete.amount).format() + "</em></td>");
 	row = row.concat("</tr>");
 	$("#members-list > tbody:last").append(row);
 }

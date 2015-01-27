@@ -55,38 +55,35 @@ var App = {
 	handleValidation : function($request) {
 		$($("form input, form select, form textarea").get().reverse()).each(function() {
 			var id = $(this).attr('id');
-			var message = null;
-			var cont = 0;
+			var messages = [];
 
 			$.each($request.responseJSON, function(index, value) {
 				var aux = value.property ? value.property : "global";
 
 				if (id == aux) {
-					cont++;
-					message = value.message;
+					messages.push(value.message);
 					return;
 				}
 			});
 
-			$("." + id.replace(".", "\\.") + "-message").each(function(index, value) {
-				if (index === 0) {
-					$(this).hide();
-				} else {
-					$(this).remove();
+			var message = $("#" + id.replace(".", "\\.") + "-message");
+
+			if (messages.length > 1) {
+				var ul = message.children("ul");
+				ul.empty();
+
+				while (messages.length > 0) {
+					ul.append("<li>" + messages.pop() + "</li>");
 				}
-			});
 
-			if (cont > 1) {
-				$("br").remove();
-				showMultipleErrorMessage(id, $request.responseJSON);
-				return;
-			}
+				message.show();
 
-			if (message) {
-				$("#" + id.replace(".", "\\.") + "-message").html(message).show();
+			} else if (messages.length == 1) {
+				message.html(messages.pop()).show();
 				$(this).focus();
+
 			} else {
-				$("#" + id.replace(".", "\\.") + "-message").hide();
+				message.hide();
 			}
 		});
 	},
@@ -125,18 +122,3 @@ $.ajaxSetup({
 		}
 	}
 });
-
-function showMultipleErrorMessage($atribute, $messages) {
-	$.each($messages, function(index, value) {
-		if (index === 0) {
-			$("." + $atribute.replace(".", "\\.") + "-message").last().text(value.message);
-		} else {
-			$("." + $atribute.replace(".", "\\.") + "-message").last().clone()
-					.insertAfter($("#" + $atribute.replace(".", "\\.") + "-message").last()).text(value.message);
-		}
-	});
-
-	$("." + $atribute.replace(".", "\\.") + "-message").each(function() {
-		$(this).after("<br/>").show();
-	});
-}

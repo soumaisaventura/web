@@ -1,127 +1,121 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-<ui:define name="css">
-	<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
-</ui:define>
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
+	</ui:define>
 
-<ui:define name="lib">
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
-</ui:define>
+	<ui:define name="lib">
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+	</ui:define>
 
-<ui:define name="proxy">
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race-registration.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
-</ui:define>
+	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race-registration.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
+	</ui:define>
 
-<ui:define name="controller">
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/race-registration.js"></script>
-</ui:define>
+	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/race-registration.js"></script>
+	</ui:define>
 
-<ui:define name="body">
-	<div class="container">
-		<div class="main" style="max-width: 420px">
-			<div class="row" style="padding-bottom: 20px">
-				<input id="race" type="hidden" value="#{param.race}" />
-				<h1 id="race-name"></h1>
-				<h4>
-					<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-					<span id="race-date"></span>
-					&#160;&#160;
-					<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
-					<span id="race-city"></span>
-				</h4>
-			</div>
-
-			<form>
-				<div class="row">
-					<div class="form-group">
-						<label for="category">Categoria</label> 
-						<select id="category" class="form-control">
-							<option value="" selected="selected"></option>
-						</select> 
-						<span id="category-message" hidden="true" class="label label-danger" />
-					</div>
+	<ui:define name="body">
+		<div class="container">
+			<div class="main" style="max-width: 420px">
+				<div class="row" style="padding-bottom: 20px">
+					<input id="race" type="hidden" value="#{param.race}" />
+					<h1 id="race-name"></h1>
+					<h4>
+						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span> <span id="race-date"></span>
+						&#160;&#160; <span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span> <span id="race-city"></span>
+					</h4>
 				</div>
-				
-				<div class="row">
-	  				<div class="form-group">
-						<label for="teamName">Nome da equipe</label> 
-						<input type="text" id="teamName" class="form-control" maxlength="255" /> 
-						<span id="teamName-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				
-				<div class="row">
-				
-				
-					<div class="form-group" style="padding-top: 20px">
-						<h4>Formação da equipe</h4>
-					</div>
-				
-					<label>Pesquisa por atleta</label>
-					<div class="form-group">
-						<div class="input-group">
-					      <input type="text" id="user" class="form-control" placeholder="Digite nome do atleta" />
-					      <input type="hidden" id="user-id"/>
-					      <span class="input-group-btn">
-					        <button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
-					      </span>
-					      
-					    </div>
-					</div>
-					<!--
-					-->
-				
-				
-					<label>Equipe</label>
-					<div class="form-group">
-						<table id="members-list" class="table" style="margin-top:0px; margin-bottom: 5px">
-							<!--
-							-->
-							<thead>
-						        <tr class="info text-primary">
-					    	    	<th></th>
-					        	  	<th><small>atleta</small></th>
-					          		<th class="text-right"><small>inscrição</small></th>
-					          		<th class="text-right"><small>anuidade*</small></th>
-					          		<th class="text-right"><small>total</small></th>
-					        	</tr>
-					    	</thead>
-					    	<tfoot>
-					        	<tr>
-					        		<th></th>
-					          		<th colspan="3" class="text-right">Total a pagar</th>
-					          		<th id="total" class="text-right" nowrap='nowrap'></th>
-					        	</tr>
-					    	</tfoot>
-							<tbody></tbody>
-						</table>
-						<div>
-						* A taxa anual da federação será cobrada apenas na primeira prova do Campeonato Baiano
-						que o atleta se inscrever no ano corrente.
+
+				<form>
+					<div class="row">
+						<div class="form-group">
+							<label for="category">Categoria</label> <select id="category" class="form-control">
+								<option value="" selected="selected"></option>
+							</select> <span id="category-message" hidden="true" class="label label-danger" />
 						</div>
-						
-						<span id="members-message" hidden="true" class="members-message label label-danger" />
-						<input type="hidden" id="members"/>
 					</div>
-				</div>
-				<div class="row" style="margin-bottom: 15px">
-					<div class="form-group">
-						<button type="submit" class="btn btn-lg btn-success">Inscrever equipe</button>
+
+					<div class="row">
+						<div class="form-group">
+							<label for="teamName">Nome da equipe</label> <input type="text" id="teamName" class="form-control"
+								maxlength="#{constants.nameSize}" /> <span id="teamName-message" hidden="true" class="label label-danger" />
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div id="global-message" hidden="true" class="alert"/>
-				</div>
-			</form>
+
+					<div class="row">
+
+
+						<div class="form-group" style="padding-top: 20px">
+							<h4>Formação da equipe</h4>
+						</div>
+
+						<label>Pesquisa por atleta</label>
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta"
+									maxlength="#{constants.nameSize}" /> <input type="hidden" id="user-id" /> <span class="input-group-btn">
+									<button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
+								</span>
+
+							</div>
+						</div>
+						<!--
+					-->
+
+
+						<label>Equipe</label>
+						<div class="form-group">
+							<table id="members-list" class="table" style="margin-top: 0px; margin-bottom: 5px">
+								<!--
+							-->
+								<thead>
+									<tr class="info text-primary">
+										<th></th>
+										<th><small>atleta</small></th>
+										<th class="text-right"><small>inscrição</small></th>
+										<th class="text-right"><small>anuidade*</small></th>
+										<th class="text-right"><small>total</small></th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th colspan="2" class="text-left"></th>
+										<th class="text-right" nowrap='nowrap'>total a pagar</th>
+										<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
+									</tr>
+								</tfoot>
+								<tbody></tbody>
+							</table>
+							<input type="hidden" id="members" />
+							<div  id="members-message" class="alert alert-danger" hidden="true">
+								<ul>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group" style="padding-top: 20px; padding-bottom: 20px">* A taxa anual da federação será
+							cobrada apenas na primeira prova do Campeonato Baiano que o atleta se inscrever no ano corrente.</div>
+					</div>
+
+					<div class="row" style="margin-bottom: 15px">
+						<div class="form-group">
+							<button type="submit" class="btn btn-lg btn-success">Inscrever equipe</button>
+						</div>
+					</div>
+					<div class="row">
+						<div id="global-message" hidden="true" class="alert" />
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
-</ui:define>
+	</ui:define>
 </ui:composition>
