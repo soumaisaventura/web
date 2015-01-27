@@ -180,7 +180,7 @@ public class MailDAO implements Serializable {
 			public void run() {
 				try {
 					MimeMessage message = new MimeMessage(getSession());
-					message.setFrom(new InternetAddress("contato@fbca.com.br"));
+					message.setFrom(new InternetAddress("contato@soumaisaventura.com.br"));
 					message.setSubject(subject, "UTF-8");
 					message.setRecipients(TO, Strings.join(",", to));
 					message.setContent(content, type);
