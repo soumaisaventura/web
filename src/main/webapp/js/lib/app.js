@@ -107,6 +107,12 @@ var App = {
 		for (i = year; i >= year - 100; i--) {
 			$($year).append(new Option(i, i));
 		}
+	},
+	
+	translateStatus : function($status){
+		if ($status === "pendent"){
+			return "Pendente";
+		}
 	}
 };
 
