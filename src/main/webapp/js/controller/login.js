@@ -13,9 +13,7 @@ $(function() {
 		LogonProxy.login(data).done(loginOk).fail(loginFailed);
 	});
 
-	$(window).load(function() {
-		LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
-	});
+	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
 });
 
 function getOAuthAppIdsOk(data) {

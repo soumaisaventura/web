@@ -108,7 +108,7 @@ public class TempREST {
 			users[i] = newUser(email, password, name, gender, verified);
 		}
 
-		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
+		newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, true);
 		// newUser("cleverson.sacramento@gmail.com", "123", "Cleverson Sacramento", MALE, false);
 		// newUser("cleverson.sacramento@gmail.com", null, "Cleverson Sacramento", MALE, true);
 		newUser("lucianosantosborges@gmail.com", "123", "Luciano Borges", MALE, true);
