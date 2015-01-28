@@ -1,9 +1,6 @@
 package adventure.rest;
 
-import static java.util.Calendar.YEAR;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,15 +9,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
+import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.AnnualFeeDAO;
-import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.RegistrationDAO;
+import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.LocationREST.CityData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
@@ -30,7 +25,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 
 @Path("registration")
 public class RegistrationREST {
-	
+
 	public static RegistrationREST getInstance() {
 		return Beans.getReference(RegistrationREST.class);
 	}
@@ -80,29 +75,23 @@ public class RegistrationREST {
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(registration.getDate());
-		Integer year = calendar.get(YEAR);
-		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-
-		List<User> list = UserDAO.getInstance().findTeamFormation(registration);
+		List<TeamFormation> list = TeamFormationDAO.getInstance().find(registration);
 		User loggedInUser = User.getLoggedIn();
 
 		if (!registration.getSubmitter().equals(loggedInUser) && !list.contains(loggedInUser)) {
 			throw new ForbiddenException();
 		}
 
-		for (User user : list) {
+		for (TeamFormation teamFormation : list) {
 			UserData member = new UserData();
-			member.id = user.getId();
-			member.email = user.getEmail();
-			member.name = user.getProfile().getName();
-			member.phone = user.getProfile().getMobile();
+			member.id = teamFormation.getUser().getId();
+			member.email = teamFormation.getUser().getEmail();
+			member.name = teamFormation.getUser().getProfile().getName();
+			member.phone = teamFormation.getUser().getProfile().getMobile();
 
-			AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
 			member.bill = new BillData();
-			member.bill.racePrice = registration.getPeriod().getPrice().floatValue();
-			member.bill.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
+			member.bill.racePrice = teamFormation.getRacePrice().floatValue();
+			member.bill.annualFee = teamFormation.getAnnualFee().floatValue();
 			member.bill.amount = member.bill.racePrice + member.bill.annualFee;
 			data.teamFormation.add(member);
 		}

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="505,211" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1229,902" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -313,12 +313,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1315.62" y="868.538"/>
+	<position x="1287.03" y="832.723"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
 	<column name="user_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="race_price" not-null="true">
+		<type name="numeric" length="7" precision="2"/>
+	</column>
+	<column name="annual_fee" not-null="true">
+		<type name="numeric" length="5" precision="2"/>
 	</column>
 	<constraint name="team_formation_pkey" type="pk-constr" table="public.team_formation">
 		<columns names="registration_id,user_id" ref-type="src-columns"/>

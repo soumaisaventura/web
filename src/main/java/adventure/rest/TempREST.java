@@ -36,7 +36,6 @@ import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("temp")
-@SuppressWarnings("unused")
 public class TempREST {
 
 	@POST
@@ -178,24 +177,31 @@ public class TempREST {
 		return annualFee;
 	}
 
-	private TeamFormation newTeamFormation(Registration registration, User user) throws Exception {
-		TeamFormation teamFormation = new TeamFormation(registration, user);
+	private TeamFormation newTeamFormation(Registration registration, User user, BigDecimal racePrice,
+			BigDecimal annualFee) throws Exception {
+		TeamFormation teamFormation = new TeamFormation();
+		teamFormation.setRegistration(registration);
+		teamFormation.setUser(user);
+		teamFormation.setRacePrice(racePrice);
+		teamFormation.setAnnualFee(annualFee);
+
 		getEntityManager().persist(teamFormation);
 		return teamFormation;
 	}
 
-	private Registration newRegistration(String teamName, RaceCategory raceCategory, User[] members) throws Exception {
-		Registration registration = new Registration();
-		registration.setTeamName(teamName);
-		registration.setRaceCategory(raceCategory);
-		getEntityManager().persist(registration);
-
-		for (int i = 0; i < members.length; i++) {
-			newTeamFormation(registration, members[i]);
-		}
-
-		return registration;
-	}
+	// private Registration newRegistration(String teamName, RaceCategory raceCategory, User[] members) throws Exception
+	// {
+	// Registration registration = new Registration();
+	// registration.setTeamName(teamName);
+	// registration.setRaceCategory(raceCategory);
+	// getEntityManager().persist(registration);
+	//
+	// for (int i = 0; i < members.length; i++) {
+	// newTeamFormation(registration, members[i]);
+	// }
+	//
+	// return registration;
+	// }
 
 	private Race newRace(String name, String description, String date) throws Exception {
 		Race race = new Race();

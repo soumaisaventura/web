@@ -103,32 +103,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 		return query.getResultList();
 	}
 
-	public List<User> findTeamFormation(Registration registration) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     pr.name, ");
-		jpql.append(" 	     pr.gender, ");
-		jpql.append(" 	     pr.mobile ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from TeamFormation tf ");
-		jpql.append("   join tf.user u ");
-		jpql.append("   join tf.registration r ");
-		jpql.append("   join r.period pe, ");
-		jpql.append("        Profile pr ");
-		jpql.append("  where u = pr.user ");
-		jpql.append("    and tf.registration = :registration ");
-		jpql.append("  order by ");
-		jpql.append("        pr.name ");
-
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-		query.setParameter("registration", registration);
-
-		return query.getResultList();
-	}
-
 	public User loadForAuthentication(String email) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");

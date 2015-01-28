@@ -1,13 +1,16 @@
 package adventure.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -30,12 +33,30 @@ public class TeamFormation implements Serializable {
 	@ForeignKey(name = "FK_TEAM_FORMATION_USER")
 	private User user;
 
+	@NotNull
+	@Column(name = "RACE_PRICE", precision = 7, scale = 2)
+	private BigDecimal racePrice;
+
+	@NotNull
+	@Column(name = "ANNUAL_FEE", precision = 5, scale = 2)
+	private BigDecimal annualFee;
+
 	public TeamFormation() {
 	}
 
-	public TeamFormation(Registration registration, User user) {
-		this.registration = registration;
-		this.user = user;
+	public TeamFormation(Integer userId, String userEmail, String profileName, GenderType profileGender,
+			String profileMobile, BigDecimal racePrice, BigDecimal annualFee) {
+		setUser(new User());
+		getUser().setId(userId);
+		getUser().setEmail(userEmail);
+
+		getUser().setProfile(new Profile());
+		getUser().getProfile().setName(profileName);
+		getUser().getProfile().setGender(profileGender);
+		getUser().getProfile().setMobile(profileMobile);
+		
+		setRacePrice(racePrice);
+		setAnnualFee(annualFee);
 	}
 
 	public TeamFormation(Integer userId, Long registrationId, String registrationTeamName) {
@@ -99,5 +120,21 @@ public class TeamFormation implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public BigDecimal getRacePrice() {
+		return racePrice;
+	}
+
+	public void setRacePrice(BigDecimal racePrice) {
+		this.racePrice = racePrice;
+	}
+
+	public BigDecimal getAnnualFee() {
+		return annualFee;
+	}
+
+	public void setAnnualFee(BigDecimal annualFee) {
+		this.annualFee = annualFee;
 	}
 }

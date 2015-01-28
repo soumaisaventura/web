@@ -1,6 +1,7 @@
 package adventure.persistence;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
+import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -30,6 +32,33 @@ public class TeamFormationDAO implements Serializable {
 		return entity;
 	}
 
+	public List<TeamFormation> find(Registration registration) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	 new TeamFormation( ");
+		jpql.append(" 	     u.id, ");
+		jpql.append(" 	     u.email, ");
+		jpql.append(" 	     pr.name, ");
+		jpql.append(" 	     pr.gender, ");
+		jpql.append(" 	     pr.mobile, ");
+		jpql.append(" 	     tf.racePrice, ");
+		jpql.append(" 	     tf.annualFee ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.user u ");
+		jpql.append("   join tf.registration r, ");
+		jpql.append("        Profile pr ");
+		jpql.append("  where u = pr.user ");
+		jpql.append("    and r = :registration ");
+		jpql.append("  order by ");
+		jpql.append("        pr.name ");
+
+		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
+		query.setParameter("registration", registration);
+
+		return query.getResultList();
+	}
+	
 	public TeamFormation loadForRegistrationSubmissionValidation(Race race, User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
