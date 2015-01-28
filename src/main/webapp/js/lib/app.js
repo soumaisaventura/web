@@ -109,9 +109,18 @@ var App = {
 	},
 
 	translateStatus : function($status) {
-		if ($status === "pendent") {
-			return "Aguardando pagamento";
+		switch($status){
+			case "pendent":
+				return "Pendente";
+				break;
+			case "confirmed":
+				return "Confirmado";
+				break;
+			case "cancelled":
+				return "Cancelado";
+				break;
 		}
+ 
 	}
 };
 

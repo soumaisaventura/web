@@ -7,12 +7,15 @@
 
 	<ui:define name="lib">
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/footable.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/footable.filter.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race-registration.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/registration.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
 	</ui:define>
 
@@ -23,11 +26,11 @@
 	<ui:define name="body">
 		<div class="container">
 			<div class="row" style="padding-bottom: 20px">
-				<div class="col-md-8 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-3">
 					<div class="row" style="padding-bottom: 20px">
 						<div class="col-md-12">
 							<input id="race" type="hidden" value="#{param.race}" />
-							<h1>Gerenciamento de inscrições</h1>
+							<h1>Gerenciamento de inscrições </h1>
 							<h4>
 								<span id="race-name"></span>&#160;&#160;&#160;&#160;<small><span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
 									<span id="race-date"></span> &#160;&#160; <span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
@@ -59,56 +62,8 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<table id="resultTable" class="table-condensed footable" data-filter="#filter" data-filter-text-only="true">
+							<table id="resultTable" class="table table-condensed footable" data-filter="#filter" data-filter-text-only="true">
 								<tbody>
-									<tr>
-										<td class="text-center" style="vertical-align: top">
-											<h4 style="margin: 5px"><a href="/adventure/registration/00001">#00001</a></h4>
-											<h4><span class="label label-warning">Pendente</span></h4>
-										</td>
-										<td style="vertical-align: top">
-											<h4 style="margin: 5px">Gantuá Fast</h4>
-											<h5 style="margin: 5px">Dupla masculina 45km</h5>
-											<h6 style="margin: 5px">Cleverson Sacramento / Luciano Santos Borges</h6>
-											<h6 style="margin: 5px">Data inscrição: <strong>25/01/2015</strong></h6>
-										</td>
-										<td class="text-center" style="vertical-align: top" nowrap="nowrap">
-											<h4 style="margin: 5px">R$ 1.608</h4>
-											<button type="button" class="btn btn-success btn-sm">
-												<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>	Aprovar
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td class="text-center" style="vertical-align: top">
-											<h4 style="margin: 5px"><a href="/adventure/registration/00002">#00002</a></h4>
-											<h4><span class="label label-success">Confirmado</span></h4>
-										</td>
-										<td style="vertical-align: top">
-											<h4 style="margin: 5px">Gantuá Charmosas</h4>
-											<h5 style="margin: 5px">Dupla feminina 45km</h5>
-											<h6 style="margin: 5px">Allana Oliveira Gomes Dias Borges / Cláudia Tedesco</h6>
-											<h6 style="margin: 5px">Data inscrição: <strong>25/01/2015</strong></h6>
-										</td>
-										<td class="text-center" style="vertical-align: top" nowrap="nowrap">
-											<h4 style="margin: 5px">R$ 1.608</h4>
-										</td>
-									</tr>
-									<tr>
-										<td class="text-center" style="vertical-align: top">
-											<h4 style="margin: 5px"><a href="/adventure/registration/00003">#00003</a></h4>
-											<h4><span class="label label-danger">Cancelado</span></h4>
-										</td>
-										<td style="vertical-align: top">
-											<h4 style="margin: 5px">Equipe Gantuá Sowitec</h4>
-											<h5 style="margin: 5px">Dupla masculina 45km</h5>
-											<h6 style="margin: 5px">Hugo Miserê / Bruno cabeleira</h6>
-											<h6 style="margin: 5px">Data inscrição: <strong>25/01/2015</strong></h6>
-										</td>
-										<td class="text-center" style="vertical-align: top" nowrap="nowrap">
-											<h4 style="margin: 5px">R$ 1.608</h4>
-										</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>

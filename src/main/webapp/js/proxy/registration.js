@@ -20,5 +20,15 @@ var RegistrationProxy = {
 				App.setHeader(request)
 			}
 		});
+	},
+	
+	confirm : function($id){
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/" + $id + "/confirm",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
 	}
 };
