@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1229,902" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1023,832" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -16,7 +16,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="740" y="756"/>
+	<position x="731.111" y="756"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -130,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1026" y="582.4"/>
+	<position x="1026" y="578.696"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -223,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="788.27" y="592.4"/>
+	<position x="778.64" y="592.4"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -256,7 +256,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1017.51" y="753.215"/>
+	<position x="1021.95" y="748.771"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -283,6 +283,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="status" not-null="true">
 		<type name="character varying" length="20"/>
+	</column>
+	<column name="status_date" not-null="true">
+		<type name="timestamp"/>
+	</column>
+	<column name="approver_id">
+		<type name="integer"/>
 	</column>
 	<constraint name="registration_pkey" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
@@ -313,7 +319,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1287.03" y="832.723"/>
+	<position x="1289.99" y="832.723"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -482,7 +488,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_registration_user" table="public.registration"
+<index name="idx_registration_submitter" table="public.registration"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -662,6 +668,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment><![CDATA[administrative functions for PostgreSQL]]></comment>
 </extension>
 
+<index name="idx_registration_approver" table="public.registration"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="approver_id"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">
 	<columns names="state_id" ref-type="src-columns"/>
@@ -734,7 +748,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_registration_user" type="fk-constr" comparison-type="MATCH SIMPLE"
+<constraint name="fk_registration_submitter" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.registration">
 	<columns names="submitter_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
@@ -749,6 +763,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk_resgistration_period" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.period" table="public.registration">
 	<columns names="period_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_registration_approver" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.registration">
+	<columns names="approver_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 

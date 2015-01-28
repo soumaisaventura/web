@@ -8,6 +8,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -64,8 +66,8 @@ public class Registration implements Serializable {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "SUBMITTER_ID")
-	@ForeignKey(name = "FK_REGISTRATION_USER")
-	@Index(name = "IDX_REGISTRATION_USER")
+	@ForeignKey(name = "FK_REGISTRATION_SUBMITTER")
+	@Index(name = "IDX_REGISTRATION_SUBMITTER")
 	private User submitter;
 
 	@NotNull
@@ -73,6 +75,19 @@ public class Registration implements Serializable {
 	@Column(name = "STATUS", length = ENUM_SIZE)
 	@Index(name = "IDX_REGISTRATION_STATUS")
 	private StatusType status;
+
+	@NotNull
+	@Column(name = "STATUS_DATE")
+	private Date statusDate;
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "APPROVER_ID")
+	@ForeignKey(name = "FK_REGISTRATION_APPROVER")
+	@Index(name = "IDX_REGISTRATION_APPROVER")
+	private User approver;
+
+	@Transient
+	private List<TeamFormation> teamFormations;
 
 	public Registration() {
 	}
@@ -227,5 +242,29 @@ public class Registration implements Serializable {
 
 	public void setStatus(StatusType status) {
 		this.status = status;
+	}
+
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
+	public User getApprover() {
+		return approver;
+	}
+
+	public void setApprover(User approver) {
+		this.approver = approver;
+	}
+
+	public List<TeamFormation> getTeamFormations() {
+		return teamFormations;
+	}
+
+	public void setTeamFormations(List<TeamFormation> teamFormations) {
+		this.teamFormations = teamFormations;
 	}
 }

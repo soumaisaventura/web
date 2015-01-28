@@ -1,5 +1,6 @@
 package adventure.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -7,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
 import adventure.entity.Registration;
+import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -101,8 +103,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		return query.getResultList();
 	}
-	
-	public List<Registration> find(Race race) {
+
+	public List<Registration> findToUser(Race race) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select  ");
 		jpql.append("    new Registration( ");
@@ -124,10 +126,64 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("  where ra = :race ");
 		jpql.append("  order by ");
 		jpql.append("        re.date ");
-		
+
 		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
 		query.setParameter("race", race);
-		
+
 		return query.getResultList();
+	}
+
+	public List<Registration> findToOrganizer(Race race) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	 new TeamFormation( ");
+		jpql.append(" 	     u.id, ");
+		jpql.append(" 	     u.email, ");
+		jpql.append(" 	     p.name, ");
+		jpql.append(" 	     p.mobile, ");
+		jpql.append(" 	     tf.racePrice, ");
+		jpql.append(" 	     tf.annualFee, ");
+		jpql.append(" 	     re.id, ");
+		jpql.append(" 	     re.status, ");
+		jpql.append(" 	     re.teamName, ");
+		jpql.append(" 	     re.date, ");
+		jpql.append(" 	     ra.id, ");
+		jpql.append(" 	     ca.id, ");
+		jpql.append(" 	     ca.name, ");
+		jpql.append(" 	     co.id, ");
+		jpql.append(" 	     co.length ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.user u ");
+		jpql.append("   join tf.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join rc.category ca ");
+		jpql.append("   join rc.course co, ");
+		jpql.append("        Profile p ");
+		jpql.append("  where u = p.user ");
+		jpql.append("    and ra = :race ");
+		jpql.append("  order by ");
+		jpql.append("        re.status, ");
+		jpql.append("        re.date, ");
+		jpql.append("        ra.id ");
+
+		TypedQuery<TeamFormation> query = getEntityManager().createQuery(jpql.toString(), TeamFormation.class);
+		query.setParameter("race", race);
+
+		Registration registration = null;
+		List<Registration> result = new ArrayList<Registration>();
+		for (TeamFormation teamFormation : query.getResultList()) {
+			if (!teamFormation.getRegistration().equals(registration)) {
+				registration = teamFormation.getRegistration();
+				registration.setTeamFormations(new ArrayList<TeamFormation>());
+				result.add(registration);
+			}
+
+			teamFormation.setRegistration(null);
+			registration.getTeamFormations().add(teamFormation);
+		}
+
+		return result;
 	}
 }

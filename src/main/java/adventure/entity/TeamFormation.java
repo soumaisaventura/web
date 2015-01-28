@@ -2,6 +2,7 @@ package adventure.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +45,39 @@ public class TeamFormation implements Serializable {
 	public TeamFormation() {
 	}
 
+	public TeamFormation(Integer userId, String userEmail, String profileName, String profileMobile,
+			BigDecimal racePrice, BigDecimal annualFee, Long registrationId, StatusType registrationStatus,
+			String registrationTeamName, Date registrationDate, Integer raceId, Integer categoryId,
+			String categoryName, Integer courseId, Integer courseLength) {
+
+		setUser(new User());
+		getUser().setId(userId);
+		getUser().setEmail(userEmail);
+
+		getUser().setProfile(new Profile());
+		getUser().getProfile().setName(profileName);
+		getUser().getProfile().setMobile(profileMobile);
+
+		setRacePrice(racePrice);
+		setAnnualFee(annualFee);
+
+		setRegistration(new Registration());
+		getRegistration().setId(registrationId);
+		getRegistration().setStatus(registrationStatus);
+		getRegistration().setTeamName(registrationTeamName);
+		getRegistration().setDate(registrationDate);
+
+		getRegistration().setRaceCategory(new RaceCategory());
+		getRegistration().getRaceCategory().setRace(new Race());
+		getRegistration().getRaceCategory().getRace().setId(raceId);
+		getRegistration().getRaceCategory().setCategory(new Category());
+		getRegistration().getRaceCategory().getCategory().setId(categoryId);
+		getRegistration().getRaceCategory().getCategory().setName(categoryName);
+		getRegistration().getRaceCategory().setCourse(new Course());
+		getRegistration().getRaceCategory().getCourse().setId(courseId);
+		getRegistration().getRaceCategory().getCourse().setLength(courseLength);
+	}
+
 	public TeamFormation(Integer userId, String userEmail, String profileName, GenderType profileGender,
 			String profileMobile, BigDecimal racePrice, BigDecimal annualFee) {
 		setUser(new User());
@@ -54,7 +88,7 @@ public class TeamFormation implements Serializable {
 		getUser().getProfile().setName(profileName);
 		getUser().getProfile().setGender(profileGender);
 		getUser().getProfile().setMobile(profileMobile);
-		
+
 		setRacePrice(racePrice);
 		setAnnualFee(annualFee);
 	}

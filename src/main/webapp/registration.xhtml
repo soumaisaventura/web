@@ -32,15 +32,14 @@ hr {
 }
 </style>
 <div class="container">
-	<form>
 	<input id="registration" type="hidden" value="#{param.registration}" />
 	
-	<div class="col-md-5 col-md-offset-3">
+	<div class="col-md-6 col-md-offset-3">
 		<div class="row">
 			<h2>Inscrição #<span id="registration-id"></span> <small><span id="race-status" class="pull-right label label-warning"></span></small></h2>
 		</div>
 		
-		<div class="row" style="padding-top: 20px;">
+		<div class="row" style="padding-top: 30px;">
 			<h4><span id="race-name"></span></h4>
 			<h5>
 				<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span> <span id="race-date"></span>
@@ -48,7 +47,7 @@ hr {
 			</h5>
 		</div>
 		
-		<div class="row" style="padding-top: 20px;">
+		<div class="row" style="padding-top: 30px;">
 			<h4 style="margin-bottom: 0px;"><spam id="team-name"></spam></h4>
 			
 			<table id="team-formation" class="table" style="margin-bottom: 0px;">
@@ -86,30 +85,25 @@ hr {
 			</div>
 			
 			<div class="alert alert-danger" role="alert">
-<!-- 				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  -->
 				Após o pagamento, enviar o comprovante para os organizadores.
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top: 10px;">
 			<h4>Organizadores</h4>
+			
+			<div id="race-organizers" class="row" style="margin-bottom: 15px;">
+			</div>
 		</div>
 			
-		<div class="row">
-			<div class="col-md-12">
-				<div class="text-center">
-					<h5 id="race.submission"></h5>
-				</div>
-			</div>
-		</div>
-		<hr/>
-		<div id="race.organizers" class="row" style="margin-bottom: 15px;">
-			<div class="col-md-12 text-center">
-				<h4>Organizadores da prova</h4>
-			</div>
+		<div class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
+			<h4>
+				Inscrição efetuada por
+				<br /><strong><span id="registration-submitter"></span></strong>
+				<br />no dia <span id="registration-date"></span>
+			</h4>
 		</div>
 	</div>
-	</form>
 </div>
 </ui:define>
 
