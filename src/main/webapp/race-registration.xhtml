@@ -36,7 +36,7 @@
 				<form>
 					<div class="row">
 						<div class="form-group">
-							<label for="category">Categoria</label> <select id="category" class="form-control">
+							<label for="category">Categoria*</label> <select id="category" class="form-control">
 								<option value="" selected="selected"></option>
 							</select> <span id="category-message" hidden="true" class="label label-danger" />
 						</div>
@@ -44,43 +44,29 @@
 
 					<div class="row">
 						<div class="form-group">
-							<label for="teamName">Nome da equipe</label> <input type="text" id="teamName" class="form-control"
+							<label for="teamName">Nome da equipe*</label> <input type="text" id="teamName" class="form-control"
 								maxlength="#{constants.nameSize}" /> <span id="teamName-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
-
+					<!--
 					<div class="row">
-
-
 						<div class="form-group" style="padding-top: 20px">
 							<h4>Formação da equipe</h4>
 						</div>
-
-						<label>Pesquisa por atleta</label>
-						<div class="form-group">
-							<div class="input-group">
-								<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta"
-									maxlength="#{constants.nameSize}" /> <input type="hidden" id="user-id" /> <span class="input-group-btn">
-									<button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
-								</span>
-
-							</div>
-						</div>
-						<!--
+					</div>
 					-->
-
-
+					<div class="row">
 						<label>Equipe</label>
 						<div class="form-group">
 							<table id="members-list" class="table" style="margin-top: 0px; margin-bottom: 5px">
-								<!--
+							<!--
 							-->
 								<thead>
 									<tr class="info text-primary">
 										<th></th>
 										<th><small>atleta</small></th>
 										<th class="text-right"><small>inscrição</small></th>
-										<th class="text-right"><small>anuidade*</small></th>
+										<th class="text-right"><small>anuidade**</small></th>
 										<th class="text-right"><small>total</small></th>
 									</tr>
 								</thead>
@@ -94,6 +80,11 @@
 								</tfoot>
 								<tbody></tbody>
 							</table>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
 							<input type="hidden" id="members" />
 							<div  id="members-message" class="alert alert-danger" hidden="true">
 								<ul>
@@ -101,9 +92,25 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="row">
-						<div class="form-group" style="padding-top: 20px; padding-bottom: 20px">* A taxa anual da federação será
-							cobrada apenas na primeira prova do Campeonato Baiano que o atleta se inscrever no ano corrente.</div>
+						<div class="form-group">
+							<label>Pesquisa por atleta cadastrado***</label>
+							<div class="input-group">
+								<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta"
+									maxlength="#{constants.nameSize}" /> <input type="hidden" id="user-id" /> <span class="input-group-btn">
+									<button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" style="padding-top: 20px; padding-bottom: 20px">
+						<div class="form-group">* Campos de preenchimento obrigatório.</div>
+											
+						<div class="form-group">** <span id="annual-fee-description"></span></div>
+							
+						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a conta.</div>
 					</div>
 
 					<div class="row" style="margin-bottom: 15px">
@@ -111,6 +118,7 @@
 							<button type="submit" class="btn btn-lg btn-success">Inscrever equipe</button>
 						</div>
 					</div>
+					
 					<div class="row">
 						<div id="global-message" hidden="true" class="alert" />
 					</div>

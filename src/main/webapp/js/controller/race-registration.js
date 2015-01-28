@@ -8,6 +8,9 @@ $(function() {
 	var $teamIds = [];
 	var $race = $("#race").val();
 
+	$("#category").focus();
+	$("#annual-fee-description").text(App.annualFeeDescription);
+	
 	/**
 	 * Carrega os dados da corrida
 	 */
@@ -157,10 +160,10 @@ function addRowOnMemberList($athlete, $exclude) {
 	row = row.concat("<tr id='member-" + $athlete.id + "'>");
 	row = $exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + $athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
-	row = row.concat("<td>" + $athlete.name + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.racePrice).format() + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($athlete.annualFee).format() + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap'><em>" + numeral($athlete.amount).format() + "</em></td>");
+	row = row.concat("<td style='vertical-align:middle;'>" + $athlete.name + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($athlete.racePrice).format() + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($athlete.annualFee).format() + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'><em>" + numeral($athlete.amount).format() + "</em></td>");
 	row = row.concat("</tr>");
 	$("#members-list > tbody:last").append(row);
 }

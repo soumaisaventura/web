@@ -22,7 +22,7 @@ function findOk($data, $status, $request) {
 				td1 += "<td>";
 
 				td1 += "<h3><a href='" + App.getContextPath() + "/registration/" + value.number + "'>" + value.race.name
-						+ "</a>&nbsp;&nbsp;&nbsp;<small>" + parseStatus(value.status) + "</small></h3>";
+						+ "</a>&nbsp;&nbsp;&nbsp;" + App.translateStatus(value.status) + "</h3>";
 				td1 += "<h5>";
 				td1 += "<span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> ";
 				td1 += moment(value.race.date, "YYYY-MM-DD").locale("pt-br").format('LL');
@@ -39,23 +39,4 @@ function findOk($data, $status, $request) {
 			});
 			break;
 	}
-}
-
-function parseStatus($status) {
-	var result;
-
-	switch ($status) {
-		case "confirmed":
-			result = '<span class="label label-success">Confirmada</span>';
-			break;
-
-		case "pendent":
-			result = '<span class="label label-warning">Aguardando pagamento</span>';
-			break;
-
-		default:
-			result = '<span class="label label-danger">Cancelada</span>';
-	}
-
-	return result;
 }
