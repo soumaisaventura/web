@@ -45,9 +45,12 @@ import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
-import adventure.rest.LocationREST.CityData;
-import adventure.rest.RegistrationREST.RaceData;
+import adventure.rest.RegistrationREST.BillData;
+import adventure.rest.RegistrationREST.CategoryData;
+import adventure.rest.RegistrationREST.CourseData;
 import adventure.rest.RegistrationREST.RegistrationData;
+import adventure.rest.RegistrationREST.UserData;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -122,22 +125,42 @@ public class RaceRegistrationREST {
 	public List<RegistrationData> find(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRace(id);
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
-		User loggedInUser = User.getLoggedIn();
 
-		for (Registration registration : RegistrationDAO.getInstance().find(race)) {
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		for (Registration registration : RegistrationDAO.getInstance().findToOrganizer(race)) {
 			RegistrationData data = new RegistrationData();
 			data.id = registration.getId();
 			data.number = registration.getFormattedId();
 			data.teamName = registration.getTeamName();
+			data.date = registration.getDate();
 			data.status = registration.getStatus();
-			data.race = new RaceData();
-			data.race.id = registration.getRaceCategory().getRace().getId();
-			data.race.name = registration.getRaceCategory().getRace().getName();
-			data.race.date = registration.getRaceCategory().getRace().getDate();
-			data.race.city = new CityData();
-			data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
-			data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
-			data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
+
+			data.category = new CategoryData();
+			data.category.id = registration.getRaceCategory().getCategory().getId();
+			data.category.name = registration.getRaceCategory().getCategory().getName();
+
+			data.course = new CourseData();
+			data.course.id = registration.getRaceCategory().getCourse().getId();
+			data.course.length = registration.getRaceCategory().getCourse().getLength();
+
+			data.teamFormation = new ArrayList<UserData>();
+			for (TeamFormation teamFormation : registration.getTeamFormations()) {
+				UserData userData = new UserData();
+				userData.id = teamFormation.getUser().getId();
+				userData.email = teamFormation.getUser().getEmail();
+				userData.name = teamFormation.getUser().getProfile().getName();
+				userData.phone = teamFormation.getUser().getProfile().getMobile();
+				userData.bill = new BillData();
+				userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
+				userData.bill.annualFee = teamFormation.getAnnualFee().floatValue();
+				userData.bill.amount = userData.bill.racePrice + userData.bill.annualFee;
+
+				data.teamFormation.add(userData);
+			}
 
 			result.add(data);
 		}

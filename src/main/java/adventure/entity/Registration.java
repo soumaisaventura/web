@@ -8,6 +8,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -73,6 +75,9 @@ public class Registration implements Serializable {
 	@Column(name = "STATUS", length = ENUM_SIZE)
 	@Index(name = "IDX_REGISTRATION_STATUS")
 	private StatusType status;
+
+	@Transient
+	private List<TeamFormation> teamFormations;
 
 	public Registration() {
 	}
@@ -227,5 +232,13 @@ public class Registration implements Serializable {
 
 	public void setStatus(StatusType status) {
 		this.status = status;
+	}
+
+	public List<TeamFormation> getTeamFormations() {
+		return teamFormations;
+	}
+
+	public void setTeamFormations(List<TeamFormation> teamFormations) {
+		this.teamFormations = teamFormations;
 	}
 }

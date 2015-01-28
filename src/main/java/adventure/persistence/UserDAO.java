@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
-import adventure.entity.Registration;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
