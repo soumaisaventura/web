@@ -154,9 +154,9 @@ public class RaceRegistrationREST {
 			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
-				exception.addViolation("members", "usuário " + id + " inválido");
+				exception.addViolation("members", "Usuário " + id + " inválido.");
 			} else if (result.contains(user)) {
-				exception.addViolation("members", "usuário " + id + "duplicado");
+				exception.addViolation("members", "Usuário " + id + "duplicado.");
 			} else {
 				result.add(user);
 			}
@@ -185,19 +185,19 @@ public class RaceRegistrationREST {
 		Category category = raceCategory.getCategory();
 
 		if (total > category.getTeamSize()) {
-			exception.addViolation("members", "tem muita gente");
+			exception.addViolation("members", "Tem muita gente na equipe.");
 		} else if (total < category.getTeamSize()) {
-			exception.addViolation("members", "equipe incompleta");
+			exception.addViolation("members", "Falta gente na equipe.");
 		}
 
 		int male = count(members, MALE);
 		if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-			exception.addViolation("members", "falta homem");
+			exception.addViolation("members", "Falta atleta do sexo masculino.");
 		}
 
 		int female = count(members, FEMALE);
 		if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-			exception.addViolation("members", "falta mulher");
+			exception.addViolation("members", "Falta atleta do sexo feminino.");
 		}
 
 		for (User member : members) {
@@ -206,11 +206,11 @@ public class RaceRegistrationREST {
 
 			if (formation != null) {
 				exception.addViolation("members", parse(member) + " já faz parte da equipe "
-						+ formation.getRegistration().getTeamName());
+						+ formation.getRegistration().getTeamName() + ".");
 			}
 
 			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
-				exception.addViolation("members", parse(member) + " possui pendências cadastrais");
+				exception.addViolation("members", parse(member) + " possui pendências cadastrais.");
 			}
 		}
 
@@ -223,7 +223,7 @@ public class RaceRegistrationREST {
 		String result = null;
 
 		if (user.equals(User.getLoggedIn())) {
-			result = "você";
+			result = "Você";
 		} else {
 			result = Strings.firstToUpper(user.getName().split(" +")[0].toLowerCase());
 		}
