@@ -164,6 +164,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("  where u = p.user ");
 		jpql.append("    and ra = :race ");
 		jpql.append("  order by ");
+		jpql.append("        re.status, ");
 		jpql.append("        re.date, ");
 		jpql.append("        ra.id ");
 
