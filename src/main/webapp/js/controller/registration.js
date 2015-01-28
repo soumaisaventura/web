@@ -20,30 +20,42 @@ function loadOk($data){
 	
 	var totalAmount = 0;
 	
-	$("#race\\.name > strong").text($data.race.name);
-	$("#race\\.detail > strong").text(moment($data.race.date).format('LL') + " - " + $data.race.city.name + "/" + $data.race.city.state);
-	$("#race\\.status > span").text(App.translateStatus($data.status));
-	$("#race\\.team > strong").text($data.teamName + " / " + $data.category.name + " " + $data.course.length + " km");
+	$("#registration-id").text($data.number);
+	
+	$("#race-name").text($data.race.name);
+	$("#race-date").text(moment($data.race.date).format('LL'));
+	$("#race-city").text($data.race.city.name + "/" + $data.race.city.state);
+	$("#race-status").text(App.translateStatus($data.status));
+	$("#team-name").text($data.teamName);
+	$("#race-category").text($data.category.name + " " + $data.course.length + " km");
 	
 	$.each($data.teamFormation, function($i, $member){
 		totalAmount += $member.bill.amount;
 		var row = "";
 		row = row.concat("<tr>");
 		row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
-		row = row.concat($member.name);
+		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+		row = row.concat("<span style='font-size: 1.0em'>" + $member.name + "</span>");
 		row = row.concat("<br/>");
+		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
 		row = row.concat($member.email);
 		row = row.concat("<br/>");
+		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
 		row = row.concat($member.phone);
 		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($member.bill.racePrice).format() + "</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($member.bill.annualFee).format() + "</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap'>" + numeral($member.bill.amount).format() + "</td>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($member.bill.racePrice).format() + "</td>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($member.bill.annualFee).format() + "</td>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'><em>" + numeral($member.bill.amount).format() + "</em></td>");
 		row = row.concat("</tr>");
-		$("#race\\.teamFormation > tbody:last").append(row);
+		$("#team-formation > tbody:last").append(row);
 	});
 	
-	$("#race\\.totalAmount").text(numeral(totalAmount).format());
+	$("#bill-total-amount").text(numeral(totalAmount).format());
+	
+	
+	console.log(App.annualFeeDescription);
+	
+	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	$("#race\\.submission").html("Inscrição feita em <strong>" + moment($data.date).format('L') + "</strong> por <strong>" + $data.submitter.name + "</strong>.");
 	
