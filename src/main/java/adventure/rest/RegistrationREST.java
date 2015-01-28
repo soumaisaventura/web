@@ -104,6 +104,8 @@ public class RegistrationREST {
 		}
 
 		registration.setStatus(CONFIRMED);
+		registration.setStatusDate(new Date());
+		registration.setApprover(User.getLoggedIn());
 		RegistrationDAO.getInstance().update(registration);
 
 		// TODO Enviar e-mail de confirmação da inscrição;

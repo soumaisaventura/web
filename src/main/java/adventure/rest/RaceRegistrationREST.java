@@ -92,6 +92,7 @@ public class RaceRegistrationREST {
 		registration.setRaceCategory(raceCategory);
 		registration.setSubmitter(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
 		registration.setStatus(PENDENT);
+		registration.setStatusDate(date);
 		registration.setDate(date);
 		registration.setPeriod(period);
 		result = RegistrationDAO.getInstance().insert(registration);
