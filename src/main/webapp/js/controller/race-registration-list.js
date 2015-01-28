@@ -1,12 +1,22 @@
 $(function() {
 	moment.locale("pt-br");
 	var $race = $("#race").val();
-
-	$('.footable').footable();
+	
+    $('#resultTable').footable().bind('footable_filtering', function (e) {
+    	var selected = $('.filter-status').find(':selected').text();
+    	if (selected && selected.length > 0) {
+    		e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+    		e.clear = !e.filter;
+    	}
+    });
+    
+    $('.filter-status').change(function (e) {
+    	e.preventDefault();
+    	$('#resultTable').trigger('footable_filter', {filter: $('#filter').val()});
+    });
 	
 	RaceProxy.loadSummary($race).done(loadOk);
 	//RaceRegistrationProxy.find($race).done(findOk);
-	
 	
 });
 

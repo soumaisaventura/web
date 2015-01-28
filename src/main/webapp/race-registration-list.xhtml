@@ -8,6 +8,7 @@
 	<ui:define name="lib">
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/footable.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/footable.filter.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -36,26 +37,29 @@
 						</div>
 					</div>
 					<div class="row" style="margin-bottom: 15px">
-						<div class="col-md-12">
-							<form class="form-inline">
-							  <div class="form-group">
-							    <label for="exampleInputName2">Filtro: </label>
-							    <input type="text" class="form-control" id="exampleInputName2"/>
-							  </div>
-							  <div class="form-group">
-							    <select class="form-control">
-									<option value="">Selecione</option>
-									<option value="pendent">Pendente</option>
-									<option value="approved">Aprovado</option>
-									<option value="canceled">Cancelado</option>
-								</select>
-							  </div>
-							</form>
-						</div>
+						<form>
+							<div class="col-md-4">
+								  <div class="form-group">
+								    <label for="filter">Filtro: </label>
+								    <input type="text" class="form-control" id="filter"/>
+								  </div>
+							</div>
+							<div class="col-md-3">
+								  <div class="form-group">
+								    <label for="status">Status: </label>
+								    <select id="status" class="form-control filter-status">
+										<option value=""></option>
+										<option value="pendente">Pendente</option>
+										<option value="confirmado">Confirmado</option>
+										<option value="cancelado">Cancelado</option>
+									</select>
+								  </div>
+							</div>
+						</form>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<table id="resultTable" class="table table-condensed footable">
+							<table id="resultTable" class="table-condensed footable" data-filter="#filter" data-filter-text-only="true">
 								<tbody>
 									<tr>
 										<td class="text-center" style="vertical-align: top">
@@ -91,7 +95,7 @@
 										</td>
 									</tr>
 									<tr>
-									<td class="text-center" style="vertical-align: top">
+										<td class="text-center" style="vertical-align: top">
 											<h4 style="margin: 5px"><a href="/adventure/registration/00003">#00003</a></h4>
 											<h4><span class="label label-danger">Cancelado</span></h4>
 										</td>
