@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -76,7 +75,6 @@ public class RegistrationREST {
 	@LoggedIn
 	@Transactional
 	@Path("{id}/confirm")
-	@Consumes("application/json")
 	public void confirm(@PathParam("id") Long id) throws Exception {
 		Registration registration = loadRegistration(id);
 
@@ -98,7 +96,7 @@ public class RegistrationREST {
 			if (teamFormation.getAnnualFee().floatValue() > 0) {
 				AnnualFeePayment annualFeePayment = new AnnualFeePayment();
 				annualFeePayment.setRegistration(registration);
-				annualFeePayment.setUser(teamFormation.getUser());
+				annualFeePayment.setUser(UserDAO.getInstance().load(teamFormation.getUser().getId()));
 				annualFeePayment.setAnnualFee(annualFee);
 
 				AnnualFeePaymentDAO.getInstance().insert(annualFeePayment);
