@@ -93,6 +93,7 @@ function updateOk(data) {
 	$("[id$='-message']").hide();
 	var user = App.getLoggedInUser();
 	user.profile.pendencies = null;
+	user.profile.name = $("#name").val();;
 	App.setLoggedInUser(user);
 
 	var content = {};
