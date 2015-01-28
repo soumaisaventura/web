@@ -1,26 +1,39 @@
 package adventure.rest;
 
+import static adventure.entity.StatusType.CONFIRMED;
+import static adventure.entity.StatusType.PENDENT;
+import static java.util.Calendar.YEAR;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import adventure.entity.AnnualFee;
+import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.persistence.AnnualFeeDAO;
+import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.LocationREST.CityData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Path("registration")
@@ -32,6 +45,7 @@ public class RegistrationREST {
 
 	@GET
 	@LoggedIn
+	@Transactional
 	@Produces("application/json")
 	public List<RegistrationData> find() throws Exception {
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
@@ -58,7 +72,47 @@ public class RegistrationREST {
 		return result.isEmpty() ? null : result;
 	}
 
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("{id}/confirm")
+	@Consumes("application/json")
+	public void confirm(@PathParam("id") Long id) throws Exception {
+		Registration registration = loadRegistration(id);
+
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
+		if (!organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		if (registration.getStatus() != PENDENT) {
+			throw new UnprocessableEntityException().addViolation("Só é possível confirmar inscrições pendentes.");
+		}
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(registration.getDate());
+		Integer year = calendar.get(YEAR);
+		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
+
+		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
+			if (teamFormation.getAnnualFee().floatValue() > 0) {
+				AnnualFeePayment annualFeePayment = new AnnualFeePayment();
+				annualFeePayment.setRegistration(registration);
+				annualFeePayment.setUser(teamFormation.getUser());
+				annualFeePayment.setAnnualFee(annualFee);
+
+				AnnualFeePaymentDAO.getInstance().insert(annualFeePayment);
+			}
+		}
+
+		registration.setStatus(CONFIRMED);
+		RegistrationDAO.getInstance().update(registration);
+
+		// TODO Enviar e-mail de confirmação da inscrição;
+	}
+
 	@GET
+	@Transactional
 	@Path("{id}")
 	@Produces("application/json")
 	public RegistrationData load(@PathParam("id") Long id) throws Exception {

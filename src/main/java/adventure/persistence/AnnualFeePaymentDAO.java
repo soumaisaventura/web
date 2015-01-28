@@ -24,6 +24,12 @@ public class AnnualFeePaymentDAO implements Serializable {
 		return Beans.getReference(AnnualFeePaymentDAO.class);
 	}
 
+	@Transactional
+	public AnnualFeePayment insert(AnnualFeePayment entity) {
+		em.persist(entity);
+		return entity;
+	}
+
 	public AnnualFeePayment load(User user, Integer year) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select afp ");
