@@ -150,9 +150,9 @@ function convertToLabelValueStructureFromUser($data) {
 }
 
 function addRowOnMemberList($athlete, $exclude) {
-	if ($athlete.name.length > 30) {
-		$athlete.name = $athlete.name.substr(0, 27).concat("...");
-	}
+	// if ($athlete.name.length > 30) {
+	// $athlete.name = $athlete.name.substr(0, 27).concat("...");
+	// }
 	var row = "";
 	row = row.concat("<tr id='member-" + $athlete.id + "'>");
 	row = $exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + $athlete.id
