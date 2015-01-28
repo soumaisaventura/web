@@ -230,7 +230,7 @@ public class RaceRegistrationREST {
 		if (total > category.getTeamSize()) {
 			exception.addViolation("members", "Tem muita gente na equipe.");
 		} else if (total < category.getTeamSize()) {
-			exception.addViolation("members", "Falta gente na equipe.");
+			exception.addViolation("members", "A equipe está incompleta.");
 		}
 
 		int male = count(members, MALE);
@@ -268,7 +268,8 @@ public class RaceRegistrationREST {
 		if (user.equals(User.getLoggedIn())) {
 			result = "Você";
 		} else {
-			result = Strings.firstToUpper(user.getName().split(" +")[0].toLowerCase());
+			// result = Strings.firstToUpper(user.getName().split(" +")[0].toLowerCase());
+			result = user.getName();
 		}
 
 		return result;

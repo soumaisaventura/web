@@ -25,7 +25,7 @@ function loadOk($data) {
 	$("#race-name").text($data.race.name);
 	$("#race-date").text(moment($data.race.date).format('LL'));
 	$("#race-city").text($data.race.city.name + "/" + $data.race.city.state);
-	$("#race-status").text(App.translateStatus($data.status));
+	$("#race-status").html(App.translateStatus($data.status));
 	$("#team-name").text($data.teamName);
 	$("#race-category").text($data.category.name + " " + $data.course.length + " km");
 
