@@ -56,7 +56,7 @@ function getOAuthAppIdsOk(data) {
 function loginOk($data, $status, $request) {
 	App.setToken($request.getResponseHeader('Set-Token'));
 	App.setLoggedInUser($data);
-	App.restoreLocation();
+	App.restoreSavedLocation();
 }
 
 function loginFailed(request) {

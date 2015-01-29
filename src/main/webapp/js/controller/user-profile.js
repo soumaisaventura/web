@@ -113,7 +113,7 @@ function updateOk(data) {
 					label : "Não",
 					className : "btn-danger",
 					callback : function() {
-						App.restoreLocation();
+						App.restoreSavedLocation();
 					}
 				}
 			}
@@ -128,7 +128,7 @@ function updateOk(data) {
 					label : "Ok",
 					className : "btn-success",
 					callback : function() {
-						App.restoreLocation();
+						App.restoreSavedLocation();
 					}
 				}
 			}

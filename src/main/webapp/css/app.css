@@ -64,6 +64,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .navbar-default {
 	background-color: white;
 	border-color: white;
+	border-bottom-color: #F0F0F0;
 }
 
 .modal-dialog {

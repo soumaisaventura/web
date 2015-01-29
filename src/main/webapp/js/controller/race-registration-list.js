@@ -56,7 +56,7 @@ function findOk($data, $status, $request) {
 				tr = tr.concat("<tr>");
 				tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/registration/" + $registration.number + "'>#" + $registration.number + "</a></h4>");
-				tr = tr.concat("<h4><span class='registration label label-warning'>" + App.translateStatus($registration.status) + "</span></h4>");
+				tr = tr.concat("<h4>" + App.translateStatus($registration.status) + "</h4>");
 				tr = tr.concat("</td>");
 				tr = tr.concat("<td style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + $registration.teamName + "</h4>");

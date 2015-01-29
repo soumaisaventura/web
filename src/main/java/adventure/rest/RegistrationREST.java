@@ -93,7 +93,7 @@ public class RegistrationREST {
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
 
 		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
-			if (teamFormation.getAnnualFee().floatValue() > 0) {
+			if (teamFormation.getAnnualFee().equals(annualFee.getFee())) {
 				AnnualFeePayment annualFeePayment = new AnnualFeePayment();
 				annualFeePayment.setRegistration(registration);
 				annualFeePayment.setUser(UserDAO.getInstance().load(teamFormation.getUser().getId()));
@@ -129,14 +129,18 @@ public class RegistrationREST {
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
 
-		List<TeamFormation> list = TeamFormationDAO.getInstance().find(registration);
+		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
+		Race race = registration.getRaceCategory().getRace();
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!registration.getSubmitter().equals(loggedInUser) && !list.contains(loggedInUser)) {
+		if (!registration.getSubmitter().equals(loggedInUser)
+				&& !teamFormations.contains(new TeamFormation(registration, loggedInUser))
+				&& !organizers.contains(loggedInUser)) {
 			throw new ForbiddenException();
 		}
 
-		for (TeamFormation teamFormation : list) {
+		for (TeamFormation teamFormation : teamFormations) {
 			UserData member = new UserData();
 			member.id = teamFormation.getUser().getId();
 			member.email = teamFormation.getUser().getEmail();
@@ -150,7 +154,6 @@ public class RegistrationREST {
 			data.teamFormation.add(member);
 		}
 
-		Race race = registration.getRaceCategory().getRace();
 		data.race = new RaceData();
 		data.race.id = race.getId();
 		data.race.name = race.getName();

@@ -45,6 +45,11 @@ public class TeamFormation implements Serializable {
 	public TeamFormation() {
 	}
 
+	public TeamFormation(Registration registration, User user) {
+		setRegistration(registration);
+		setUser(user);
+	}
+
 	public TeamFormation(Integer userId, String userEmail, String profileName, String profileMobile,
 			BigDecimal racePrice, BigDecimal annualFee, Long registrationId, StatusType registrationStatus,
 			String registrationTeamName, Date registrationDate, Integer raceId, Integer categoryId,
@@ -78,8 +83,11 @@ public class TeamFormation implements Serializable {
 		getRegistration().getRaceCategory().getCourse().setLength(courseLength);
 	}
 
-	public TeamFormation(Integer userId, String userEmail, String profileName, GenderType profileGender,
-			String profileMobile, BigDecimal racePrice, BigDecimal annualFee) {
+	public TeamFormation(Long registrationId, Integer userId, String userEmail, String profileName,
+			GenderType profileGender, String profileMobile, BigDecimal racePrice, BigDecimal annualFee) {
+		setRegistration(new Registration());
+		getRegistration().setId(registrationId);
+
 		setUser(new User());
 		getUser().setId(userId);
 		getUser().setEmail(userEmail);

@@ -28,6 +28,7 @@ function logoutOk() {
 	$(".loggedin-menu").hide();
 	$(".loggedout-menu").show();
 	App.clearAuthentication();
+	App.clearSavedLocation();
 
 	location.href = App.getContextPath() + "/home";
 }

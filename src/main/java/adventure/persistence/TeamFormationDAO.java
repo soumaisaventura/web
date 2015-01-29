@@ -36,6 +36,7 @@ public class TeamFormationDAO implements Serializable {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append(" 	 new TeamFormation( ");
+		jpql.append(" 	     r.id, ");
 		jpql.append(" 	     u.id, ");
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     pr.name, ");

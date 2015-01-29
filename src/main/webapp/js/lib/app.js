@@ -4,15 +4,21 @@ var App = {
 
 	userKey : "User",
 
+	savedLocationKey : "Saved Location",
+
 	annualFeeDescription : "A taxa anual da federação será cobrada na primeira prova do Campeonato Baiano que o atleta se inscrever no ano corrente.",
 
 	restoreLocation : function() {
-		var url = sessionStorage.getItem("saved_location");
+		var url = sessionStorage.getItem(this.savedLocationKey);
 		location.href = (url ? url : App.getContextPath() + "/home");
 	},
 
 	saveLocation : function($url) {
-		sessionStorage.setItem("saved_location", $url);
+		sessionStorage.setItem(this.savedLocationKey, $url);
+	},
+
+	clearSavedLocation : function() {
+		sessionStorage.removeItem(this.savedLocationKey);
 	},
 
 	setLoggedInUser : function($user) {
@@ -112,17 +118,17 @@ var App = {
 		switch ($status) {
 			case "pendent":
 				return '<span class="label label-warning">Aguardando pagamento</span>';
-				
+
 			case "confirmed":
 				return '<span class="label label-success">Confirmada</span>';
-				
+
 			case "cancelled":
 				return '<span class="label label-danger">Cancelada</span>';
-				
+
 			default:
 				return '<span class="label label-danger">Status desconhecido</span>';
 		}
- 	}
+	}
 };
 
 $.ajaxSetup({
