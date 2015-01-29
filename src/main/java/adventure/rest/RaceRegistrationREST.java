@@ -3,7 +3,6 @@ package adventure.rest;
 import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
 import static adventure.entity.StatusType.PENDENT;
-import static adventure.util.Constants.NAME_SIZE;
 import static java.util.Calendar.YEAR;
 
 import java.math.BigDecimal;
@@ -13,8 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,8 +20,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
@@ -81,6 +76,8 @@ public class RaceRegistrationREST {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationCreation(result, members, baseUri);
 		return result.getFormattedId();
+
+		// return "00000";
 	}
 
 	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
@@ -288,17 +285,17 @@ public class RaceRegistrationREST {
 
 	public static class RaceRegistrationData {
 
-		@NotEmpty
-		@Size(max = NAME_SIZE)
+		// @NotEmpty
+		// @Size(max = NAME_SIZE)
 		public String teamName;
 
-		@NotNull
+		// @NotNull
 		public Integer category;
 
-		@NotNull
+		// @NotNull
 		public Integer course;
 
-		@NotEmpty
+		// @NotEmpty
 		public List<Integer> members;
 	}
 }

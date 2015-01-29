@@ -36,7 +36,7 @@ var RaceProxy = {
 	getBanner : function($race) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/banner"
+			url : this.url + "/" + $race + "/banner/base64"
 		});
 	},
 
