@@ -86,7 +86,6 @@
 			<artifactId>resteasy-multipart-provider</artifactId>
 			<scope>provided</scope>
 		</dependency>
-    
 		
 		<!-- JSON  -->
 		<dependency>
@@ -100,6 +99,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
 			<version>3.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 			<scope>compile</scope>
 		</dependency>
 

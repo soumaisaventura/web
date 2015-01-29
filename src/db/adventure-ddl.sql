@@ -137,6 +137,7 @@ CREATE TABLE public.race(
 	date date NOT NULL,
 	city_id integer,
 	banner oid,
+	logo oid,
 	CONSTRAINT race_pkey PRIMARY KEY (id)
 
 );
@@ -181,6 +182,8 @@ CREATE TABLE public.registration(
 	date timestamp NOT NULL,
 	submitter_id integer NOT NULL,
 	status character varying(20) NOT NULL,
+	status_date timestamp NOT NULL,
+	approver_id integer,
 	CONSTRAINT registration_pkey PRIMARY KEY (id)
 
 );
@@ -207,6 +210,8 @@ ALTER TABLE public.state OWNER TO postgres;
 CREATE TABLE public.team_formation(
 	registration_id bigint NOT NULL,
 	user_id integer NOT NULL,
+	race_price numeric(7,2) NOT NULL,
+	annual_fee numeric(5,2) NOT NULL,
 	CONSTRAINT team_formation_pkey PRIMARY KEY (registration_id,user_id)
 
 );
@@ -360,9 +365,9 @@ CREATE INDEX idx_registration_date ON public.registration
 	)	WITH (FILLFACTOR = 90);
 -- ddl-end --
 
--- object: idx_registration_user | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_registration_user;
-CREATE INDEX idx_registration_user ON public.registration
+-- object: idx_registration_submitter | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_registration_submitter;
+CREATE INDEX idx_registration_submitter ON public.registration
 	USING btree
 	(
 	  submitter_id
@@ -584,6 +589,15 @@ CREATE EXTENSION adminpack
 COMMENT ON EXTENSION pg_catalog.adminpack IS 'administrative functions for PostgreSQL';
 -- ddl-end --
 
+-- object: idx_registration_approver | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_registration_approver;
+CREATE INDEX idx_registration_approver ON public.registration
+	USING btree
+	(
+	  approver_id ASC NULLS LAST
+	);
+-- ddl-end --
+
 -- object: fk_city_state | type: CONSTRAINT --
 -- ALTER TABLE public.city DROP CONSTRAINT IF EXISTS fk_city_state;
 ALTER TABLE public.city ADD CONSTRAINT fk_city_state FOREIGN KEY (state_id)
@@ -668,9 +682,9 @@ REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_registration_user | type: CONSTRAINT --
--- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_user;
-ALTER TABLE public.registration ADD CONSTRAINT fk_registration_user FOREIGN KEY (submitter_id)
+-- object: fk_registration_submitter | type: CONSTRAINT --
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_submitter;
+ALTER TABLE public.registration ADD CONSTRAINT fk_registration_submitter FOREIGN KEY (submitter_id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -686,6 +700,13 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_resgistration_period;
 ALTER TABLE public.registration ADD CONSTRAINT fk_resgistration_period FOREIGN KEY (period_id)
 REFERENCES public.period (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_registration_approver | type: CONSTRAINT --
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_approver;
+ALTER TABLE public.registration ADD CONSTRAINT fk_registration_approver FOREIGN KEY (approver_id)
+REFERENCES public.user_account (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

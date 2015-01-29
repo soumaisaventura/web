@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1023,832" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1029,489" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -196,7 +196,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1025.02" y="390.4"/>
+	<position x="1025.02" y="392.622"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -213,6 +213,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 	</column>
 	<column name="banner">
+		<type name="oid"/>
+	</column>
+	<column name="logo">
 		<type name="oid"/>
 	</column>
 	<constraint name="race_pkey" type="pk-constr" table="public.race">

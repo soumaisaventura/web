@@ -2,17 +2,25 @@ package adventure.rest;
 
 import static java.util.Calendar.YEAR;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
@@ -29,6 +37,8 @@ import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 
 @Path("race")
@@ -102,6 +112,15 @@ public class RaceREST {
 	}
 
 	@GET
+	@Cache("max-age=28800")
+	@Path("{id}/banner/base64")
+	@Produces("application/octet-stream")
+	public byte[] getBannerBase64(@PathParam("id") Integer id) throws Exception {
+		Race race = loadRace(id);
+		return Base64.encodeBase64(race.getBanner());
+	}
+
+	@GET
 	@Path("{id}/banner")
 	@Cache("max-age=28800")
 	@Produces("application/octet-stream")
@@ -110,18 +129,44 @@ public class RaceREST {
 		return race.getBanner();
 	}
 
-	// @PUT
-	// @Path("{id}/banner")
-	// @Consumes("multipart/form-data")
-	// public void getBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
-	// loadRace(id);
-	//
-	// List<InputPart> parts = null;
-	// Collection<List<InputPart>> values = input.getFormDataMap().values();
-	// if (values != null && !values.isEmpty()) {
-	// parts = values.iterator().next();
-	// }
-	// }
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("{id}/banner")
+	@Consumes("multipart/form-data")
+	public void setBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
+		Race race = loadRace(id);
+
+		InputPart file = input.getFormDataMap().get("file").get(0);
+		InputStream inputStream = file.getBody(InputStream.class, null);
+		race.setBanner(IOUtils.toByteArray(inputStream));
+
+		RaceDAO.getInstance().update(race);
+	}
+
+	@GET
+	@Path("{id}/logo")
+	@Cache("max-age=28800")
+	@Produces("application/octet-stream")
+	public byte[] getLogo(@PathParam("id") Integer id) throws Exception {
+		Race race = loadRace(id);
+		return race.getLogo();
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("{id}/logo")
+	@Consumes("multipart/form-data")
+	public void setLogo(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
+		Race race = loadRace(id);
+
+		InputPart file = input.getFormDataMap().get("file").get(0);
+		InputStream inputStream = file.getBody(InputStream.class, null);
+		race.setLogo(IOUtils.toByteArray(inputStream));
+
+		RaceDAO.getInstance().update(race);
+	}
 
 	private List<PeriodData> loadPeriod(Race race) throws Exception {
 		List<PeriodData> result = new ArrayList<PeriodData>();

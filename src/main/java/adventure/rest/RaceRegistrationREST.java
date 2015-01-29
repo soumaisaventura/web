@@ -81,6 +81,8 @@ public class RaceRegistrationREST {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationCreation(result, members, baseUri);
 		return result.getFormattedId();
+
+		// return "00000";
 	}
 
 	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,

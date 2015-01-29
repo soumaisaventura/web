@@ -163,21 +163,24 @@ function registrationOk($data) {
 					location.href = url;
 				}
 			});
+
+	console.log(url);
 }
 
 function shareOnFacebook() {
 	var raceUrl = App.getBaseUrl() + "/race/" + $("#race").val();
 	var url = "";
-
 	url += "http://www.facebook.com/dialog/feed";
 	url += "?app_id=" + $("#facebook-appid").val();
 	url += "&name=" + $("#teamName").val() + " vai para a " + $("#race-name").text() + "!";
 	url += "&description=Eu acabei de inscrever a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia "
 			+ $("#race-date").text() + " em " + $("#race-city").text() + ".";
 	url += "&link=" + raceUrl;
-	url += "&picture=" + raceUrl + "/logo";
+	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#race").val() + "/logo";
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
-	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/registration/' }]";
+	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/registration' }]";
+
+	// console.log(url);
 
 	window.open(url, '_blank');
 }
