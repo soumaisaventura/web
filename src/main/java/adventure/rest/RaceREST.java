@@ -106,14 +106,22 @@ public class RaceREST {
 	@Cache("max-age=28800")
 	@Produces("application/octet-stream")
 	public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
-		Race race = RaceDAO.getInstance().load(id);
-
-		if (race == null) {
-			throw new NotFoundException();
-		}
-
+		Race race = loadRace(id);
 		return race.getBanner();
 	}
+
+	// @PUT
+	// @Path("{id}/banner")
+	// @Consumes("multipart/form-data")
+	// public void getBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
+	// loadRace(id);
+	//
+	// List<InputPart> parts = null;
+	// Collection<List<InputPart>> values = input.getFormDataMap().values();
+	// if (values != null && !values.isEmpty()) {
+	// parts = values.iterator().next();
+	// }
+	// }
 
 	private List<PeriodData> loadPeriod(Race race) throws Exception {
 		List<PeriodData> result = new ArrayList<PeriodData>();
@@ -218,6 +226,16 @@ public class RaceREST {
 		period.setRace(null);
 
 		return data;
+	}
+
+	private Race loadRace(Integer id) throws Exception {
+		Race result = RaceDAO.getInstance().load(id);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
 	}
 
 	private Race loadRaceDetails(Integer id) throws Exception {

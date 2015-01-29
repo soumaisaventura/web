@@ -75,11 +75,18 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Resteasy  -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+    
 		
 		<!-- JSON  -->
 		<dependency>
