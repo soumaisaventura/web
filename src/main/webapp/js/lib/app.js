@@ -50,6 +50,10 @@ var App = {
 		$request.setRequestHeader("Authorization", "Token " + App.getToken());
 	},
 
+	getBaseUrl : function() {
+		return location.protocol + "//" + location.host + this.getContextPath();
+	},
+
 	getContextPath : function() {
 		return $("#contextPath").val();
 	},
@@ -92,7 +96,7 @@ var App = {
 
 				message.show();
 				console.log($(this));
-				
+
 				$(this).focus();
 
 			} else if (messages.length == 1) {

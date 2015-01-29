@@ -11,6 +11,8 @@ $(function() {
 	$("#category").focus();
 	$("#annual-fee-description").text(App.annualFeeDescription);
 
+	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+
 	/**
 	 * Carrega os dados da corrida
 	 */
@@ -24,7 +26,6 @@ $(function() {
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
 	 */
-
 	var $user;
 
 	if (!($user = App.getLoggedInUser())) {
@@ -112,6 +113,10 @@ $(function() {
 
 /* ---------------- Funções de Callback ---------------- */
 
+function getOAuthAppIdsOk($data) {
+	$("#facebook-appid").val($data.facebook);
+}
+
 /**
  * Carrega dados da corrida
  */
@@ -135,9 +140,46 @@ function loadCategoriesOk(data) {
 	});
 }
 
-function registrationOk(data) {
+function registrationOk($data) {
 	$("[id$='-message']").hide();
-	location.href = App.getContextPath() + "/registration/" + data;
+	var url = App.getContextPath() + "/registration/" + $data;
+
+	bootbox
+			.dialog({
+				title : "Parabéns",
+				message : "Seu pedido de inscrição <strong>#" + $data
+						+ "</strong> foi registrado com sucesso. Compartilhe esta boa notícia com seus amigos.",
+				buttons : {
+					main : {
+						label : "Compartilhar no Facebook",
+						className : "btn-primary",
+						callback : function() {
+							shareOnFacebook();
+							location.href = url;
+						}
+					}
+				},
+				onEscape : function() {
+					location.href = url;
+				}
+			});
+}
+
+function shareOnFacebook() {
+	var raceUrl = App.getBaseUrl() + "/race/" + $("#race").val();
+	var url = "";
+
+	url += "http://www.facebook.com/dialog/feed";
+	url += "?app_id=" + $("#facebook-appid").val();
+	url += "&name=" + $("#teamName").val() + " vai para a " + $("#race-name").text() + "!";
+	url += "&description=Eu acabei de inscrever a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia "
+			+ $("#race-date").text() + " em " + $("#race-city").text() + ".";
+	url += "&link=" + raceUrl;
+	url += "&picture=" + raceUrl + "/logo";
+	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
+	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/registration/' }]";
+
+	window.open(url, '_blank');
 }
 
 /* ---------------- Funções Utilitárias ---------------- */

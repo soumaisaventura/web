@@ -10,9 +10,11 @@
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootbox.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/logon.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race-registration.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/proxy/race.js"></script>
 	</ui:define>
@@ -116,9 +118,9 @@
 						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a
 							conta.</div>
 					</div>
-
 					<div class="row" style="margin-bottom: 15px">
 						<div class="form-group">
+							<input id="facebook-appid" type="hidden" />
 							<button type="submit" class="btn btn-lg btn-success pull-right">Inscrever equipe</button>
 						</div>
 					</div>
