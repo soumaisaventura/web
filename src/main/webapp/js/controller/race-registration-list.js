@@ -19,8 +19,14 @@ $(function() {
     });
     
     $('table').on('click','.approve', function(){
-    	RegistrationProxy.confirm($(this).data("registration")).done(confirmOk);
-    });
+    	$this = $(this);
+    	bootbox.confirm("Confirma que a equipe efetuou o pagamento da inscrição?", function(result) {
+			if(result){
+				RegistrationProxy.confirm($this.data("registration")).done(confirmOk);
+			}
+    	}); 
+
+	});
 	
 	RaceProxy.loadSummary($race).done(loadOk);
 	RaceRegistrationProxy.find($race).done(findOk);
