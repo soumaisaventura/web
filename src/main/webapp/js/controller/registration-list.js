@@ -22,7 +22,7 @@ function findOk($data, $status, $request) {
 				td1 += "<td>";
 
 				td1 += "<h3><a href='" + App.getContextPath() + "/registration/" + value.number + "'>" + value.race.name
-						+ "</a>&nbsp;&nbsp;&nbsp;" + App.translateStatus(value.status) + "</h3>";
+						+ "</a>&nbsp;&nbsp;&nbsp;<span class='pull-right'>" + App.translateStatus(value.status) + "</span></h3>";
 				td1 += "<h5>";
 				td1 += "<span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> ";
 				td1 += moment(value.race.date, "YYYY-MM-DD").locale("pt-br").format('LL');

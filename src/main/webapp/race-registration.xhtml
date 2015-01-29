@@ -23,7 +23,7 @@
 
 	<ui:define name="body">
 		<div class="container">
-			<div class="main" style="max-width: 420px">
+			<div class="col-md-5 col-md-offset-3">
 				<div class="row" style="padding-bottom: 20px">
 					<input id="race" type="hidden" value="#{param.race}" />
 					<h1 id="race-name"></h1>
@@ -85,7 +85,7 @@
 
 					<div class="row">
 						<div class="form-group">
-							<input type="hidden" id="members" />
+<!-- 							<input type="hidden" id="members" /> -->
 							<div  id="members-message" class="alert alert-danger" hidden="true">
 								<ul>
 								</ul>
@@ -97,8 +97,8 @@
 						<div class="form-group">
 							<label>Pesquisa por atleta cadastrado***</label>
 							<div class="input-group">
-								<input type="text" id="user" class="form-control" placeholder="Digite nome do atleta"
-									maxlength="#{constants.nameSize}" /> <input type="hidden" id="user-id" /> <span class="input-group-btn">
+								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta"
+									maxlength="#{constants.nameSize}" /> <input type="hidden" id="members-id" /> <span class="input-group-btn">
 									<button id="bt-add-athlete" class="btn btn-primary" type="button">Incluir na equipe</button>
 								</span>
 							</div>
@@ -115,12 +115,8 @@
 
 					<div class="row" style="margin-bottom: 15px">
 						<div class="form-group">
-							<button type="submit" class="btn btn-lg btn-success">Inscrever equipe</button>
+							<button type="submit" class="btn btn-lg btn-success pull-right">Inscrever equipe</button>
 						</div>
-					</div>
-					
-					<div class="row">
-						<div id="global-message" hidden="true" class="alert" />
 					</div>
 				</form>
 			</div>

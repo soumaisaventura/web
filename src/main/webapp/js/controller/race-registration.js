@@ -10,7 +10,7 @@ $(function() {
 
 	$("#category").focus();
 	$("#annual-fee-description").text(App.annualFeeDescription);
-	
+
 	/**
 	 * Carrega os dados da corrida
 	 */
@@ -25,7 +25,12 @@ $(function() {
 	 * Carrega o usuário logado na lista de membros da equipe
 	 */
 
-	var $user = App.getLoggedInUser();
+	var $user;
+
+	if (!($user = App.getLoggedInUser())) {
+		App.handle401();
+	}
+
 	RaceProxy.order($race, $user.id).done(function($order) {
 		$teamIds.push($order.rows[0].id);
 		$total += $order.rows[0].amount;
@@ -37,7 +42,7 @@ $(function() {
 	 * Habilita o autocomplete no campo Atleta Ao selecionar o atleta
 	 * automaticamente entra na lista de membros
 	 */
-	$("#user").autocomplete({
+	$("#members").autocomplete({
 		source : function(request, response) {
 			UserProxy.search(request.term, $teamIds).done(function(data) {
 				response(convertToLabelValueStructureFromUser(data));
@@ -45,13 +50,13 @@ $(function() {
 		},
 		minLength : 3,
 		select : function(event, ui) {
-			$("#user-id").val(ui.item.value);
-			$("#user").val(ui.item.label);
+			$("#members-id").val(ui.item.value);
+			$("#members").val(ui.item.label);
 			return false;
 		},
 		focus : function(event, ui) {
-			$("#user-id").val(ui.item.value);
-			$("#user").val(ui.item.label);
+			$("#members-id").val(ui.item.value);
+			$("#members").val(ui.item.label);
 			return false;
 		}
 	});
@@ -60,16 +65,16 @@ $(function() {
 	 * 
 	 */
 	$("#bt-add-athlete").click(function() {
-		if ($("#user").val() !== "") {
-			RaceProxy.order($race, $("#user-id").val()).done(function($order) {
+		if ($("#members").val() !== "") {
+			RaceProxy.order($race, $("#members-id").val()).done(function($order) {
 				$teamIds.push($order.rows[0].id);
 				$total += $order.rows[0].amount;
 				addRowOnMemberList($order.rows[0], false);
 				showTotal($total);
 			});
 		}
-		$("#user-id").val("");
-		$("#user").val("");
+		$("#members-id").val("");
+		$("#members").val("");
 	});
 
 	/**

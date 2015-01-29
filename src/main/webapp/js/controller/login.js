@@ -62,7 +62,7 @@ function loginOk($data, $status, $request) {
 function loginFailed(request) {
 	switch (request.status) {
 		case 422:
-			App.handleValidation(request);
+			App.handle422(request);
 			break;
 
 		case 401:

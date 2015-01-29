@@ -8,7 +8,7 @@ var App = {
 
 	annualFeeDescription : "A taxa anual da federação será cobrada na primeira prova do Campeonato Baiano que o atleta se inscrever no ano corrente.",
 
-	restoreLocation : function() {
+	restoreSavedLocation : function() {
 		var url = sessionStorage.getItem(this.savedLocationKey);
 		location.href = (url ? url : App.getContextPath() + "/home");
 	},
@@ -60,7 +60,13 @@ var App = {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	},
 
-	handleValidation : function($request) {
+	handle401 : function($request) {
+		this.clearAuthentication();
+		this.saveLocation(location.href);
+		location.href = App.getContextPath() + "/login";
+	},
+
+	handle422 : function($request) {
 		$($("form input, form select, form textarea").get().reverse()).each(function() {
 			var id = $(this).attr('id');
 			var messages = [];
@@ -85,6 +91,9 @@ var App = {
 				}
 
 				message.show();
+				console.log($(this));
+				
+				$(this).focus();
 
 			} else if (messages.length == 1) {
 				message.html(messages.pop()).show();
@@ -132,16 +141,14 @@ var App = {
 };
 
 $.ajaxSetup({
-	error : function(request) {
-		switch (request.status) {
+	error : function($request) {
+		switch ($request.status) {
 			case 401:
-				App.clearAuthentication();
-				App.saveLocation(location.href);
-				location.href = App.getContextPath() + "/login";
+				App.handle401($request);
 				break;
 
 			case 422:
-				App.handleValidation(request);
+				App.handle422($request);
 				break;
 		}
 	}
