@@ -3,17 +3,31 @@ package adventure.rest;
 import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
 import static java.util.Calendar.YEAR;
+import static java.util.Locale.US;
 
+import java.net.URI;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
@@ -29,11 +43,13 @@ import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.LocationREST.CityData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
+import br.gov.frameworkdemoiselle.HttpViolationException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("registration")
 public class RegistrationREST {
@@ -180,6 +196,79 @@ public class RegistrationREST {
 		data.category.name = registration.getRaceCategory().getCategory().getName();
 
 		return data;
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("{id}/payment")
+	@Produces("text/plain")
+	public Response payment(@PathParam("id") Long id) throws Exception {
+		Registration registration = loadRegistration(id);
+
+		List<BasicNameValuePair> paylod = new ArrayList<BasicNameValuePair>();
+		paylod.add(new BasicNameValuePair("email", "arnaldo_maciel@hotmail.com"));
+		paylod.add(new BasicNameValuePair("token", "F5320349987D4692BD5E599695E7CF5D"));
+		paylod.add(new BasicNameValuePair("currency", "BRL"));
+		paylod.add(new BasicNameValuePair("reference", registration.getFormattedId()));
+
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(US);
+		numberFormat.setMaximumFractionDigits(2);
+		numberFormat.setMinimumFractionDigits(2);
+
+		int i = 0;
+		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
+		for (TeamFormation teamFormation : teamFormations) {
+			if (teamFormation.getRacePrice().doubleValue() > 0) {
+				i++;
+				paylod.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
+				paylod.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
+						+ teamFormation.getUser().getName()));
+				paylod.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getRacePrice())));
+				paylod.add(new BasicNameValuePair("itemQuantity" + i, "1"));
+			}
+
+			if (teamFormation.getAnnualFee().doubleValue() > 0) {
+				i++;
+				paylod.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
+				paylod.add(new BasicNameValuePair("itemDescription" + i, "Anuidade de "
+						+ teamFormation.getUser().getName()));
+				paylod.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAnnualFee())));
+				paylod.add(new BasicNameValuePair("itemQuantity" + i, "1"));
+			}
+		}
+
+		User user = User.getLoggedIn();
+		paylod.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
+		paylod.add(new BasicNameValuePair("senderEmail", user.getEmail()));
+
+		HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkout/");
+		String entity = URLEncodedUtils.format(paylod, "UTF-8");
+		request.setEntity(new StringEntity(entity));
+		request.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8;");
+
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(request);
+		String body = Strings.parse(response.getEntity().getContent());
+		String code = null;
+
+		if (response.getStatusLine().getStatusCode() == 200 && body != null) {
+			Pattern pattern = Pattern.compile("<checkout>.*<code>(\\w+)</code>.*</checkout>");
+			Matcher matcher = pattern.matcher(body);
+
+			if (matcher.find()) {
+				code = matcher.group(1);
+			}
+		}
+
+		if (code == null) {
+			// TODO Retirar o Sysout e colocar log.
+			System.out.println(body);
+			throw new HttpViolationException(502).addViolation("Falha na comunicação com o PagSeguro");
+		}
+
+		URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code);
+		return Response.created(location).entity(code).build();
 	}
 
 	private Registration loadRegistration(Long id) throws Exception {
