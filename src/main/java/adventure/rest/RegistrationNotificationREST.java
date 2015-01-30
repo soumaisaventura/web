@@ -2,6 +2,7 @@ package adventure.rest;
 
 import static adventure.entity.StatusType.CANCELLED;
 import static adventure.entity.StatusType.CONFIRMED;
+import static adventure.entity.StatusType.PENDENT;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +56,8 @@ public class RegistrationNotificationREST {
 		RegistrationDAO dao = RegistrationDAO.getInstance();
 		Registration registration = dao.loadForDetails(registrationId);
 
-		if (registration != null && race.equals(registration.getRaceCategory().getRace())) {
+		if (registration != null && registration.getStatus() == PENDENT
+				&& race.equals(registration.getRaceCategory().getRace())) {
 			Registration persistedRegistration = dao.load(registrationId);
 			persistedRegistration.setStatus(status);
 			persistedRegistration.setDate(new Date());
