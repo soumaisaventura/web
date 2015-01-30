@@ -13,12 +13,14 @@
 	<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="#{request.contextPath}/css/app.css" />
 	<ui:insert name="css" />
+	<ui:insert name="scriptlet" />
 </h:head>
 
 <h:body>
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
 
 	<ui:include src="/menu.xhtml" />
+	
 	<ui:insert name="body" />
 
 	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
