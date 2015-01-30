@@ -134,7 +134,7 @@ function loadCategoriesOk(data) {
 	$.each(data, function(index, value) {
 		var course = value;
 		$.each(course.categories, function(index, value) {
-			$("#category").append(new Option(this.name + " " + course.length + " km", this.id + "#" + course.id));
+			$("#category").append(new Option(this.name + " " + course.length + "km", this.id + "#" + course.id));
 		});
 
 	});

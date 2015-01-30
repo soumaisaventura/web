@@ -68,6 +68,12 @@ public class Race implements Serializable {
 	@Column(name = "LOGO")
 	private byte[] logo;
 
+	@Column(name = "PAYMENT_ACCOUNT")
+	private String paymentAccount;
+
+	@Column(name = "PAYMENT_TOKEN")
+	private String paymentToken;
+
 	@Transient
 	private Boolean open;
 
@@ -178,6 +184,22 @@ public class Race implements Serializable {
 
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
+	}
+
+	public String getPaymentAccount() {
+		return paymentAccount;
+	}
+
+	public void setPaymentAccount(String paymentAccount) {
+		this.paymentAccount = paymentAccount;
+	}
+
+	public String getPaymentToken() {
+		return paymentToken;
+	}
+
+	public void setPaymentToken(String paymentToken) {
+		this.paymentToken = paymentToken;
 	}
 
 	public Boolean getOpen() {

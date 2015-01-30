@@ -29,8 +29,6 @@ function sendPaymentFailed($request) {
  * Carrega dados da inscrição
  */
 function loadOk($data) {
-	console.log($data);
-
 	var totalAmount = 0;
 
 	$("#registration-id").text($data.number);
@@ -41,6 +39,10 @@ function loadOk($data) {
 	$("#race-status").html(App.translateStatus($data.status));
 	$("#team-name").text($data.teamName);
 	$("#race-category").text($data.category.name + " " + $data.course.length + " km");
+
+	if ($data.status == 'pendent') {
+		$('#payment-section').show();
+	}
 
 	$.each($data.teamFormation, function($i, $member) {
 		totalAmount += $member.bill.amount;
@@ -67,13 +69,9 @@ function loadOk($data) {
 	});
 
 	$("#bill-total-amount").text(numeral(totalAmount).format());
-
-	console.log(App.annualFeeDescription);
-
 	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	$.each($data.race.organizers, function($i, $organizer) {
-		console.log($organizer);
 		var row = "";
 		row = row.concat("<div class='col-md-6'>");
 		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
@@ -103,13 +101,13 @@ function refreshPaymentButton() {
 	var transaction = $("#transaction").val();
 
 	if (transaction) {
-		$("#payment-description").text('Continuar pagamento');
+		$("#payment-description").text('Continuar o pagamento');
 		$("#payment").click(function() {
 			window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transaction, '_blank').show();
 		});
 
 	} else {
-		$("#payment-description").text('Pagar agora com PagSeguro');
+		$("#payment-description").text('Pagar com PagSeguro');
 		$("#payment").click(function() {
 			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed).show();
 		});

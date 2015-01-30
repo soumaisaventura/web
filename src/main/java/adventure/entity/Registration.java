@@ -87,12 +87,6 @@ public class Registration implements Serializable {
 	@Index(name = "IDX_REGISTRATION_APPROVER")
 	private User approver;
 
-	@Column(name = "PAYMENT_ACCOUNT")
-	private String paymentAccount;
-
-	@Column(name = "PAYMENT_TOKEN")
-	private String paymentToken;
-
 	@Column(name = "PAYMENT_TRANSACTION")
 	private String paymentTransaction;
 
@@ -120,9 +114,9 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentAccount,
-			String paymentToken, String paymentTransaction, Integer submitterId, String submitterEmail,
-			String submitterName, StatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
+	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentTransaction,
+			Integer submitterId, String submitterEmail, String submitterName, StatusType registrationStatus,
+			Integer raceId, String raceName, Date raceDate, String racePaymentAccount, String racePaymentToken,
 			Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
 			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
 			Integer courseLength) {
@@ -130,8 +124,6 @@ public class Registration implements Serializable {
 		setDate(registrationDate);
 		setTeamName(teamName);
 		setStatus(registrationStatus);
-		setPaymentAccount(paymentAccount);
-		setPaymentToken(paymentToken);
 		setPaymentTransaction(paymentTransaction);
 		// setPaymentTransactionDate(paymentTransactionDate);
 
@@ -147,6 +139,8 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDate(raceDate);
+		getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
+		getRaceCategory().getRace().setPaymentToken(racePaymentToken);
 
 		getRaceCategory().getRace().setCity(new City());
 		getRaceCategory().getRace().getCity().setId(cityId);
@@ -273,22 +267,6 @@ public class Registration implements Serializable {
 
 	public void setApprover(User approver) {
 		this.approver = approver;
-	}
-
-	public String getPaymentAccount() {
-		return paymentAccount;
-	}
-
-	public void setPaymentAccount(String paymentAccount) {
-		this.paymentAccount = paymentAccount;
-	}
-
-	public String getPaymentToken() {
-		return paymentToken;
-	}
-
-	public void setPaymentToken(String paymentToken) {
-		this.paymentToken = paymentToken;
 	}
 
 	public String getPaymentTransaction() {

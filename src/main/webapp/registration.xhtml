@@ -19,16 +19,16 @@
 
 	<ui:define name="body">
 		<style>
-			hr {
-				border: 0;
-				height: 1px;
-				background: #333;
-				background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
-				background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
-				background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
-				background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
-			}
-		</style>
+hr {
+	border: 0;
+	height: 1px;
+	background: #333;
+	background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
+}
+</style>
 		<div class="container">
 			<input id="registration" type="hidden" value="#{param.registration}" />
 
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 
-				<div class="row alert alert-success" role="alert">
+				<div id="payment-section" hidden="true" class="row alert alert-success" role="alert">
 					<h3 class="text-success" style="margin-top: 0px;">
 						<strong>Pagamento</strong>
 					</h3>
@@ -108,7 +108,7 @@
 				</div>
 
 				<div class="row">
-					<h4>Organizadores</h4>
+					<h3>Organizadores</h3>
 
 					<p classstyle="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
 

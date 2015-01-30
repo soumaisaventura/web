@@ -138,6 +138,8 @@ CREATE TABLE public.race(
 	city_id integer,
 	banner oid,
 	logo oid,
+	payment_account character varying(255),
+	payment_token character varying(64),
 	CONSTRAINT race_pkey PRIMARY KEY (id)
 
 );
@@ -184,7 +186,9 @@ CREATE TABLE public.registration(
 	status character varying(20) NOT NULL,
 	status_date timestamp NOT NULL,
 	approver_id integer,
-	CONSTRAINT registration_pkey PRIMARY KEY (id)
+	payment_transaction character varying(64),
+	CONSTRAINT pk_registration PRIMARY KEY (id),
+	CONSTRAINT uk_registration_payment_transaction UNIQUE (payment_transaction)
 
 );
 -- ddl-end --

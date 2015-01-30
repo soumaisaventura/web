@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1185,963" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1002,806" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -130,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1026" y="578.696"/>
+	<position x="1037.85" y="599.437"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -218,6 +218,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="logo">
 		<type name="oid"/>
 	</column>
+	<column name="payment_account">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="payment_token">
+		<type name="character varying" length="64"/>
+	</column>
 	<constraint name="race_pkey" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -259,7 +265,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1010.84" y="766.549"/>
+	<position x="1013.8" y="794.697"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -292,12 +298,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="approver_id">
 		<type name="integer"/>
-	</column>
-	<column name="payment_account">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="payment_token">
-		<type name="character varying" length="64"/>
 	</column>
 	<column name="payment_transaction">
 		<type name="character varying" length="64"/>

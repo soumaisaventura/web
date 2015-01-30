@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,6 +42,7 @@ import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import adventure.persistence.AnnualFeeDAO;
 import adventure.persistence.AnnualFeePaymentDAO;
+import adventure.persistence.MailDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
@@ -52,8 +56,6 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
-
-import com.sun.istack.logging.Logger;
 
 @Path("registration")
 public class RegistrationREST {
@@ -95,7 +97,7 @@ public class RegistrationREST {
 	@LoggedIn
 	@Transactional
 	@Path("{id}/confirm")
-	public void confirm(@PathParam("id") Long id) throws Exception {
+	public void confirm(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
@@ -111,6 +113,7 @@ public class RegistrationREST {
 		calendar.setTime(registration.getDate());
 		Integer year = calendar.get(YEAR);
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
+		List<User> members = new ArrayList<User>();
 
 		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
 			if (teamFormation.getAnnualFee().equals(annualFee.getFee())) {
@@ -121,6 +124,8 @@ public class RegistrationREST {
 
 				AnnualFeePaymentDAO.getInstance().insert(annualFeePayment);
 			}
+
+			members.add(teamFormation.getUser());
 		}
 
 		registration.setStatus(CONFIRMED);
@@ -128,7 +133,8 @@ public class RegistrationREST {
 		registration.setApprover(User.getLoggedIn());
 		RegistrationDAO.getInstance().update(registration);
 
-		// TODO Enviar e-mail de confirmação da inscrição;
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailDAO.getInstance().sendRegistrationConfirmation(registration, members, baseUri);
 	}
 
 	@GET
@@ -243,8 +249,8 @@ public class RegistrationREST {
 
 	private String createCode(Registration registration) throws Exception {
 		List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
-		payload.add(new BasicNameValuePair("email", registration.getPaymentAccount()));
-		payload.add(new BasicNameValuePair("token", registration.getPaymentToken()));
+		payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getPaymentAccount()));
+		payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getPaymentToken()));
 		payload.add(new BasicNameValuePair("currency", "BRL"));
 		payload.add(new BasicNameValuePair("reference", registration.getFormattedId()));
 
