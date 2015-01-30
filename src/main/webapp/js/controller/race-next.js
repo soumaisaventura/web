@@ -25,9 +25,12 @@ function findNextOk(data) {
 						td2 += '</div>';
 
 						td2 += '<div class="col-md-4">';
-						td2 += '<div style="width: 88px;" class="pull-right text-center">';
+						td2 += '<div style="width: 100px;" class="pull-right text-center">';
 						if (value.registration.open) {
-							td2 += ("<button type='button' class='registration btn btn-success' data-race='" + value.id + "'>Inscrições</button><br>");
+							td2 += "<button type='button' class='registration btn btn-success' data-race='" + value.id + "'>";
+							td2 += "<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span> ";
+							td2 += "Inscrições";
+							td2 += "</button><br>";
 						}
 						td2 += '<a href="' + App.getContextPath() + '/race/' + value.id + '">ver detalhes</a>';
 						td2 += '</div>';
