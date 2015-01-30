@@ -2,8 +2,8 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 <ui:define name="lib">
-	<script async="async" defer="defer" src="https://connect.facebook.net/pt_BR/all.js"></script>
-	<script async="async" defer="defer" src="https://apis.google.com/js/client:plus.js"></script>
+<!-- 	<script async="async" defer="defer" src="https://connect.facebook.net/pt_BR/all.js"></script> -->
+<!-- 	<script async="async" defer="defer" src="https://apis.google.com/js/client:plus.js"></script> -->
 	<script src="#{request.contextPath}/js/lib/spin.min.js"></script>
 </ui:define>
 
@@ -13,6 +13,26 @@
 
 <ui:define name="controller">
 	<script src="#{request.contextPath}/js/controller/login.js"></script>
+</ui:define>
+
+<ui:define name="scriptlet">
+	<script type="text/javascript">
+		(function(){
+			var google = document.createElement('script');
+			var fb = document.createElement('script');
+			var s = document.getElementsByTagName('script')[0]; 
+			
+			google.type = "text/javascript";
+			google.async = true;
+			google.src = "https://apis.google.com/js/client:plus.js";
+	
+			fb.id = "facebook-jssdk";
+			fb.src = "https://connect.facebook.net/pt_BR/all.js"
+	
+			s.parentNode.insertBefore(google,s);		
+			s.parentNode.insertBefore(fb,s);		
+		})();
+	</script>
 </ui:define>
 
 <ui:define name="body">
@@ -41,7 +61,7 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="username">E-mail</label>
-							<input id="username" type="email" class="form-control" maxlength="#{constants.emailSize}" value="lucianosantosborges@gmail.com" />
+							<input id="username" type="email" class="form-control" maxlength="#{constants.emailSize}" />
 							<span id="username-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
@@ -49,7 +69,7 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="password">Senha (<a href="password/recovery">Esqueceu sua senha?</a>)</label>
-							<input id="password" type="password" class="form-control" maxlength="#{constants.passwordSize}" value="123" />
+							<input id="password" type="password" class="form-control" maxlength="#{constants.passwordSize}" />
 							<span id="password-message"
 								hidden="true" class="label label-danger" />
 						</div>
