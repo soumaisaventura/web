@@ -22,16 +22,16 @@
 	<ui:include src="/menu.xhtml" />
 	<ui:insert name="body" />
 
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/app.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/lib/app.js"></script>
 	<ui:insert name="lib" />
 
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/user.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/logout.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/proxy/user.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/proxy/logout.js"></script>
 	<ui:insert name="proxy" />
 
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/menu.js"></script>
+	<script async="async" defer="defer" src="#{request.contextPath}/js/controller/menu.js"></script>
 	<ui:insert name="controller" />
 </h:body>
 </html>
