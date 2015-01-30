@@ -50,26 +50,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- JSF resources -->
-	<!--
-	<servlet>
-		<servlet-name>Faces Config</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Faces Config</servlet-name>
-		<url-pattern>*.jsf</url-pattern>
-	</servlet-mapping>
-	-->
-	<!--
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>JSF</web-resource-name>
-			<url-pattern>*.jsf</url-pattern>
-		</web-resource-collection>
-		<auth-constraint />
-	</security-constraint>
-	-->
+
 	<context-param>
 		<param-name>resteasy.use.deployment.sensitive.factory</param-name>
 		<param-value>false</param-value>
@@ -92,9 +73,9 @@
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
-		<!--
 		<param-value>Production</param-value>
+		<!--
+		<param-value>Development</param-value>
 		-->
 	</context-param>
 

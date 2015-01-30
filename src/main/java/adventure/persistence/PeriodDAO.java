@@ -61,6 +61,8 @@ public class PeriodDAO implements Serializable {
 		jpql.append("   from Period p ");
 		jpql.append("   join p.race r ");
 		jpql.append("  where r = :race ");
+		jpql.append("  order by ");
+		jpql.append("        p.beginning ");
 
 		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
 		query.setParameter("race", race);

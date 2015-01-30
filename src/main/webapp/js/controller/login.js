@@ -66,7 +66,7 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			$("#global-message").html(request.responseText).show();
+			$("#global-message").html('Usuário ou senha inválidos.').show();
 			break;
 	}
 }
