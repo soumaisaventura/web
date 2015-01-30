@@ -46,6 +46,10 @@ public class ApplicationConfig {
 	@Name("oauth.google.secret")
 	private String oAuthGoogleSecret;
 
+	@NotEmpty
+	@Name("analytics.google.id")
+	private String analyticsGoogleId;
+
 	public String getTitle() {
 		return title;
 	}
@@ -84,5 +88,9 @@ public class ApplicationConfig {
 
 	public String getOAuthGoogleSecret() {
 		return oAuthGoogleSecret;
+	}
+
+	public String getAnalyticsGoogleId() {
+		return analyticsGoogleId;
 	}
 }

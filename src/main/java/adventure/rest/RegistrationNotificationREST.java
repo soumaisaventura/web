@@ -7,6 +7,7 @@ import static adventure.entity.StatusType.PENDENT;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,16 +29,22 @@ import adventure.entity.StatusType;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("registration/notification")
 public class RegistrationNotificationREST {
+
+	private transient Logger logger;
 
 	@POST
 	@Transactional
 	@Consumes("application/x-www-form-urlencoded")
 	public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type)
 			throws Exception {
+
+		getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
 
 		if ("transaction".equalsIgnoreCase(type)) {
 			for (Race race : RaceDAO.getInstance().findOpen()) {
@@ -78,12 +85,17 @@ public class RegistrationNotificationREST {
 			url += "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + code;
 			url += "?" + URLEncodedUtils.format(payload, "UTF-8");
 
+			getLogger().info("Invocando [" + url + "]");
+
 			HttpGet request = new HttpGet(url);
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute(request);
 
+			getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
+
 			if (response.getStatusLine().getStatusCode() == 200) {
 				result = Strings.parse(response.getEntity().getContent());
+				getLogger().fine("Body recebido [" + result + "]");
 			}
 		}
 
@@ -130,5 +142,14 @@ public class RegistrationNotificationREST {
 		}
 
 		return result;
+	}
+
+	private Logger getLogger() {
+		if (this.logger == null) {
+			this.logger = Beans.getReference(Logger.class,
+					new NameQualifier(RegistrationNotificationREST.class.getName()));
+		}
+
+		return this.logger;
 	}
 }

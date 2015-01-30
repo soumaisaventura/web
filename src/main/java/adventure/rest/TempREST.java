@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -37,6 +38,12 @@ import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("temp")
 public class TempREST {
+
+	@GET
+	@Path("date")
+	public Date getDate() {
+		return new Date();
+	}
 
 	@POST
 	@Transactional
