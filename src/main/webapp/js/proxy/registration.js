@@ -22,7 +22,7 @@ var RegistrationProxy = {
 		});
 	},
 
-	payment : function($id) {
+	sendPayment : function($id) {
 		return $.ajax({
 			type : "POST",
 			url : this.url + "/" + $id + "/payment",

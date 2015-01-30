@@ -50,7 +50,10 @@ import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
+
+import com.sun.istack.logging.Logger;
 
 @Path("registration")
 public class RegistrationREST {
@@ -145,6 +148,7 @@ public class RegistrationREST {
 		data.submitter.email = registration.getSubmitter().getEmail();
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
+		data.transaction = registration.getPaymentTransaction();
 
 		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
 		Race race = registration.getRaceCategory().getRace();
@@ -204,7 +208,7 @@ public class RegistrationREST {
 	@Transactional
 	@Path("{id}/payment")
 	@Produces("text/plain")
-	public Response payment(@PathParam("id") Long id) throws Exception {
+	public Response sendPayment(@PathParam("id") Long id) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 		String code = registration.getPaymentTransaction();
 		int status;
@@ -294,9 +298,11 @@ public class RegistrationREST {
 		}
 
 		if (code == null) {
-			// TODO Retirar o Sysout e colocar log.
-			System.out.println(body);
-			throw new HttpViolationException(502).addViolation("Falha na comunicação com o PagSeguro");
+			String message = "Falha na comunicação com o PagSeguro.";
+			Logger logger = Beans.getReference(Logger.class, new NameQualifier(RegistrationREST.class.getName()));
+			logger.severe(message + ":" + response.toString());
+			System.out.println(response.toString());
+			throw new HttpViolationException(502).addViolation(message);
 		}
 
 		return code;
@@ -332,6 +338,8 @@ public class RegistrationREST {
 
 		public StatusType status;
 
+		public String transaction;
+
 		public UserData submitter;
 
 		public RaceData race;
@@ -343,6 +351,7 @@ public class RegistrationREST {
 		public String teamName;
 
 		public List<UserData> teamFormation = new ArrayList<UserData>();
+
 	}
 
 	public static class RaceData {
