@@ -2,13 +2,11 @@ package adventure.rest;
 
 import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
-import static java.util.Calendar.YEAR;
 import static java.util.Locale.US;
 
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,15 +31,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.AnnualFeeDAO;
-import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
@@ -109,29 +103,15 @@ public class RegistrationREST {
 			throw new UnprocessableEntityException().addViolation("Só é possível confirmar inscrições pendentes.");
 		}
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(registration.getDate());
-		Integer year = calendar.get(YEAR);
-		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-		List<User> members = new ArrayList<User>();
-
-		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
-			if (teamFormation.getAnnualFee().equals(annualFee.getFee())) {
-				AnnualFeePayment annualFeePayment = new AnnualFeePayment();
-				annualFeePayment.setRegistration(registration);
-				annualFeePayment.setUser(UserDAO.getInstance().load(teamFormation.getUser().getId()));
-				annualFeePayment.setAnnualFee(annualFee);
-
-				AnnualFeePaymentDAO.getInstance().insert(annualFeePayment);
-			}
-
-			members.add(teamFormation.getUser());
-		}
-
 		registration.setStatus(CONFIRMED);
 		registration.setStatusDate(new Date());
 		registration.setApprover(User.getLoggedIn());
 		RegistrationDAO.getInstance().update(registration);
+
+		List<User> members = new ArrayList<User>();
+		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
+			members.add(teamFormation.getUser());
+		}
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationConfirmation(registration, members, baseUri);

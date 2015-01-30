@@ -29,6 +29,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.paymentAccount, ");
+		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
 		jpql.append(" 	        c.name, ");
 		jpql.append(" 	        s.id, ");
@@ -80,6 +82,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.paymentAccount, ");
+		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
 		jpql.append(" 	        c.name, ");
 		jpql.append(" 	        s.id, ");
@@ -94,6 +98,40 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append("   left join r.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where r.date >= :date ");
+		jpql.append("  order by ");
+		jpql.append("        r.date ");
+
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
+		query.setParameter("date", new Date(), DATE);
+
+		return query.getResultList();
+	}
+
+	public List<Race> findOpen() throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Race( ");
+		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.paymentAccount, ");
+		jpql.append(" 	        r.paymentToken, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation, ");
+		jpql.append(" 	        count(r.id) ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Period p ");
+		jpql.append("   join p.race r ");
+		jpql.append("   left join r.city c ");
+		jpql.append("   left join c.state s ");
+		jpql.append("  where :date between p.beginning and p.end ");
+		jpql.append("  group by ");
+		jpql.append("        r.id, ");
+		jpql.append("        c.id, ");
+		jpql.append("        s.id ");
 		jpql.append("  order by ");
 		jpql.append("        r.date ");
 

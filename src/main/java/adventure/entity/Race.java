@@ -84,12 +84,15 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
-	public Race(Integer id, String name, String description, Date date, Integer cityId, String cityName,
-			Integer stateId, String stateName, String stateAbbreviation, Long openPeriods) {
+	public Race(Integer id, String name, String description, Date date, String paymentAccount, String paymentToken,
+			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
+			Long openPeriods) {
 		setId(id);
 		setName(name);
 		setDescription(description);
 		setDate(date);
+		setPaymentAccount(paymentAccount);
+		setPaymentToken(paymentToken);
 		setCity(new City());
 		getCity().setId(cityId);
 		getCity().setName(cityName);

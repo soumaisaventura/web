@@ -144,25 +144,24 @@ function registrationOk($data) {
 	$("[id$='-message']").hide();
 	var url = App.getContextPath() + "/registration/" + $data;
 
-	bootbox
-			.dialog({
-				title : "Parabéns",
-				message : "Seu pedido de inscrição <strong>#" + $data
-						+ "</strong> foi registrado com sucesso. Compartilhe esta boa notícia com seus amigos.",
-				buttons : {
-					main : {
-						label : "Compartilhar no Facebook",
-						className : "btn-primary",
-						callback : function() {
-							shareOnFacebook();
-							location.href = url;
-						}
-					}
-				},
-				onEscape : function() {
+	bootbox.dialog({
+		title : "Parabéns",
+		message : "Seu pedido de inscrição <strong>#" + $data
+				+ "</strong> foi registrado com sucesso. Compartilhe esta boa notícia com os seus amigos.",
+		buttons : {
+			main : {
+				label : "Compartilhar no Facebook",
+				className : "btn-primary",
+				callback : function() {
+					shareOnFacebook();
 					location.href = url;
 				}
-			});
+			}
+		},
+		onEscape : function() {
+			location.href = url;
+		}
+	});
 
 	console.log(url);
 }
@@ -173,8 +172,8 @@ function shareOnFacebook() {
 	url += "http://www.facebook.com/dialog/feed";
 	url += "?app_id=" + $("#facebook-appid").val();
 	url += "&name=" + $("#teamName").val() + " vai para a " + $("#race-name").text() + "!";
-	url += "&description=Eu acabei de inscrever a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia "
-			+ $("#race-date").text() + " em " + $("#race-city").text() + ".";
+	url += "&description=Eu inscrevi a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia " + $("#race-date").text() + " em "
+			+ $("#race-city").text() + ".";
 	url += "&link=" + raceUrl;
 	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#race").val() + "/logo";
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
