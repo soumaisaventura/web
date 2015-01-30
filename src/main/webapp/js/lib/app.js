@@ -130,16 +130,16 @@ var App = {
 	translateStatus : function($status) {
 		switch ($status) {
 			case "pendent":
-				return '<span class="label label-warning">Aguardando pagamento</span>';
+				return '<span class="registration label label-warning">Aguardando pagamento</span>';
 
 			case "confirmed":
-				return '<span class="label label-success">Confirmada</span>';
+				return '<span class="registration label label-success">Confirmada</span>';
 
 			case "cancelled":
-				return '<span class="label label-danger">Cancelada</span>';
+				return '<span class="registration label label-danger">Cancelada</span>';
 
 			default:
-				return '<span class="label label-danger">Status desconhecido</span>';
+				return '<span class="registration label label-danger">Status desconhecido</span>';
 		}
 	}
 };
