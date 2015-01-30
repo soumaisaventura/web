@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/languages.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/bootbox.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -32,14 +33,21 @@ hr {
 			<input id="registration" type="hidden" value="#{param.registration}" />
 
 			<div class="col-md-6 col-md-offset-3">
-				<div class="row">
-					<h2>
-						Inscrição #<span id="registration-id"></span> <span id="race-status" class="pull-right"></span>
-					</h2>
-					<h5 style="margin-bottom: 0px;">
-						Equipe
-						<spam id="team-name"></spam>
-					</h5>
+				<div class="row" style="vertical-align: middle;">
+					<div class="col-md-9 col-md-offset-0" style="padding: 0px;">
+						<h2>
+							Inscrição #<span id="registration-id"></span>
+						</h2>
+						<h5 style="margin-bottom: 0px;">
+							Equipe
+							<spam id="team-name"></spam>
+						</h5>
+					</div>
+					<div class="col-md-3 text-center" style="padding: 0px;">
+						<h4 style="padding-top: 15px;">
+							<span id="race-status" class="pull-right"></span>
+						</h4>
+					</div>
 				</div>
 
 				<div class="row" style="padding-top: 28px;">
@@ -80,7 +88,7 @@ hr {
 				</div>
 
 				<div class="row alert alert-success" role="alert">
-					<h3 class="text-success">
+					<h3 class="text-success" style="margin-top: 0px;">
 						<strong>Pagamento</strong>
 					</h3>
 
@@ -91,16 +99,12 @@ hr {
 					<p class="text-success" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
 						demorará até 1h para ser atualizado automaticamente.</p>
 
-					<button id="pay" type="button" class="btn btn-lg btn-success pull-right">
-						<span class="glyphicon glyphicon-usd" aria-hidden="true" style="font-size: 0.8em;"></span> Pagar agora com
-							PagSeguro 
-					</button>
+					<input id="transaction" type="hidden" />
 
-					<!--
-			<div class="alert alert-success" role="alert">
-				Após o pagamento, enviar o comprovante para os organizadores.
-			</div>
-			-->
+					<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
+						<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span> <span
+							id="payment-description"></span>
+					</button>
 				</div>
 
 				<div class="row">

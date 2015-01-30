@@ -2,24 +2,27 @@ $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
-	var $id = $("#registration").val();
-
-	$("#pay").click(function() {
-		RegistrationProxy.payment($id).done(paymentOk);
-	});
 
 	/**
 	 * Carrega dados da inscrição
 	 */
-	RegistrationProxy.load($id).done(loadOk);
-
+	RegistrationProxy.load($("#registration").val()).done(loadOk);
 });
 
 /* ---------------- Funções de Callback ---------------- */
 
-function paymentOk($data, $status, $request) {
-	var url = $request.getResponseHeader('Location');
-	window.open(url, "_bank");
+function sendPaymentOk($data, $status, $request) {
+	window.open($request.getResponseHeader('Location'), "_bank");
+	$("#transaction").val($data);
+	refreshPaymentButton();
+}
+
+function sendPaymentFailed($request) {
+	switch ($request.status) {
+		case 502:
+			bootbox.alert("Ocorreu uma falha na comunicação com o PagSeguro. Espere alguns minutos e tente novamente.");
+			break;
+	}
 }
 
 /**
@@ -89,7 +92,26 @@ function loadOk($data) {
 		$("#race-organizers").append(row);
 	});
 
+	$("#transaction").val($data.transaction);
 	$("#registration-submitter").text($data.submitter.name);
-
 	$("#registration-date").text(moment($data.date).format('L'));
+
+	refreshPaymentButton();
+}
+
+function refreshPaymentButton() {
+	var transaction = $("#transaction").val();
+
+	if (transaction) {
+		$("#payment-description").text('Continuar pagamento');
+		$("#payment").click(function() {
+			window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transaction, '_blank').show();
+		});
+
+	} else {
+		$("#payment-description").text('Pagar agora com PagSeguro');
+		$("#payment").click(function() {
+			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed).show();
+		});
+	}
 }
