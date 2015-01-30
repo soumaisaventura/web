@@ -2,33 +2,33 @@
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
-		<script async="async" defer="defer" src="#{request.contextPath}/js/lib/moment.min.js"></script>
-		<script async="async" defer="defer" src="#{request.contextPath}/js/lib/languages.min.js"></script>
-		<script async="async" defer="defer" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
-		<script async="async" defer="defer" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
-		<script async="async" defer="defer" src="#{request.contextPath}/js/lib/bootbox.js"></script>
+		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/languages.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script async="async" defer="defer" src="#{request.contextPath}/js/proxy/registration.js"></script>
+		<script src="#{request.contextPath}/js/proxy/registration.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
-		<script async="async" defer="defer" src="#{request.contextPath}/js/controller/registration.js"></script>
+		<script src="#{request.contextPath}/js/controller/registration.js"></script>
 	</ui:define>
 
 	<ui:define name="body">
 		<style>
-hr {
-	border: 0;
-	height: 1px;
-	background: #333;
-	background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
-}
-</style>
+			hr {
+				border: 0;
+				height: 1px;
+				background: #333;
+				background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+				background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
+				background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
+				background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
+			}
+		</style>
 		<div class="container">
 			<input id="registration" type="hidden" value="#{param.registration}" />
 

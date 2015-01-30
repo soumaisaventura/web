@@ -8,11 +8,11 @@
 </ui:define>
 
 <ui:define name="proxy">
-	<script async="async" defer="defer" src="#{request.contextPath}/js/proxy/logon.js"></script>
+	<script src="#{request.contextPath}/js/proxy/logon.js"></script>
 </ui:define>
 
 <ui:define name="controller">
-	<script async="async" defer="defer" src="#{request.contextPath}/js/controller/login.js"></script>
+	<script src="#{request.contextPath}/js/controller/login.js"></script>
 </ui:define>
 
 <ui:define name="body">
@@ -41,7 +41,7 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="username">E-mail</label>
-							<input id="username" type="email" class="form-control" maxlength="#{constants.emailSize}" />
+							<input id="username" type="email" class="form-control" maxlength="#{constants.emailSize}" value="lucianosantosborges@gmail.com" />
 							<span id="username-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="password">Senha (<a href="password/recovery">Esqueceu sua senha?</a>)</label>
-							<input id="password" type="password" class="form-control" maxlength="#{constants.passwordSize}" />
+							<input id="password" type="password" class="form-control" maxlength="#{constants.passwordSize}" value="123" />
 							<span id="password-message"
 								hidden="true" class="label label-danger" />
 						</div>
