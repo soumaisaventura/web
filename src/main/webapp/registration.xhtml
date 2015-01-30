@@ -1,109 +1,124 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-<ui:define name="lib">
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/languages.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
-</ui:define>
+	<ui:define name="lib">
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/languages.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+	</ui:define>
 
-<ui:define name="proxy">
-	<script type="text/javascript" src="#{request.contextPath}/js/proxy/registration.js"></script>
-</ui:define>
+	<ui:define name="proxy">
+		<script type="text/javascript" src="#{request.contextPath}/js/proxy/registration.js"></script>
+	</ui:define>
 
-<ui:define name="controller">
-	<script type="text/javascript" src="#{request.contextPath}/js/controller/registration.js"></script>
-</ui:define>
+	<ui:define name="controller">
+		<script type="text/javascript" src="#{request.contextPath}/js/controller/registration.js"></script>
+	</ui:define>
 
-<ui:define name="body">
-<style>
+	<ui:define name="body">
+		<style>
 hr {
-    border: 0;
-    height: 1px;
-    background: #333;
-    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
-    background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
-    background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
-    background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
+	border: 0;
+	height: 1px;
+	background: #333;
+	background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
+	background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
 }
 </style>
-<div class="container">
-	<input id="registration" type="hidden" value="#{param.registration}" />
-	
-	<div class="col-md-6 col-md-offset-3">
-		<div class="row">
-			<h2>Inscrição #<span id="registration-id"></span> <span id="race-status" class="pull-right"></span></h2>
-			<h5 style="margin-bottom: 0px;">Equipe <spam id="team-name"></spam></h5>
-		</div>
-		
-		<div class="row" style="padding-top: 28px;">
-			<h3><span id="race-name"></span></h3>
-			<h5>
-				<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span> <span id="race-date"></span>
-				&#160;&#160; <span class="glyphicon glyphicon-map-marker" aria-hidden='true' style="font-size: 0.8em"></span> <span id="race-city"></span>
-			</h5>
-		</div>
-		
-		<div class="row" style="padding-top: 30px;">
-			<table id="team-formation" class="table" style="margin-bottom: 0px;">
-				<thead>
-			        <tr>
-		        	  	<th style="padding-left: 0px; font-weight: 500;"><span class="glyphicon glyphicon-th-large" aria-hidden='true' style="font-size: 0.8em;"></span> <spam id="race-category"></spam></th>
-		          		<th class="text-right" style="font-size: 0.9em;">inscrição</th>
-		          		<th class="text-right" style="font-size: 0.9em;">anuidade*</th>
-		          		<th class="text-right" style="font-size: 0.9em;"><em>total</em></th>
-		        	</tr>
-		    	</thead>
-		    	<tfoot>
-		        	<tr>
-		          		<th colspan="3" class="text-right" style="font-size: 0.9em;"><em>total a pagar</em></th>
-		          		<th class="text-right" nowrap="nowrap"><em><span id="bill-total-amount"></span></em></th>
-		        	</tr>
-		    	</tfoot>
-				<tbody>
-				</tbody>
-			</table>
-			
-			<div style="padding-top: 10px;">
-				* <span id="annual-fee-description"></span>
-			</div>
-		</div>
-		
-		<div class="row" style="padding-top: 20px;">
-			<h3 style="color: #a94442;"><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true" style="font-size: 0.8em;"></span> <strong>Pagamento</strong></h3>
-			
-			<div style="padding-bottom: 20px; color: #a94442;">
-				Escrever todos os dados para pagamento.<br />
-				Incluindo banco / agência / conta.<br />
-				Não esquecer de informar o Nome e CPF do correntista.<br />
-				Sendo possível colocar um link para o PagSeguro também.<br />
-			</div>
-			
-			<div class="alert alert-danger" role="alert">
+		<div class="container">
+			<input id="registration" type="hidden" value="#{param.registration}" />
+
+			<div class="col-md-6 col-md-offset-3">
+				<div class="row">
+					<h2>
+						Inscrição #<span id="registration-id"></span> <span id="race-status" class="pull-right"></span>
+					</h2>
+					<h5 style="margin-bottom: 0px;">
+						Equipe
+						<spam id="team-name"></spam>
+					</h5>
+				</div>
+
+				<div class="row" style="padding-top: 28px;">
+					<h3>
+						<span id="race-name"></span>
+					</h3>
+					<h5>
+						<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span> <span
+							id="race-date"></span> &#160;&#160; <span class="glyphicon glyphicon-map-marker" aria-hidden='true'
+							style="font-size: 0.8em"></span> <span id="race-city"></span>
+					</h5>
+				</div>
+
+				<div class="row" style="padding-top: 30px; padding-bottom: 20px;">
+					<table id="team-formation" class="table" style="margin-bottom: 0px;">
+						<thead>
+							<tr>
+								<th style="padding-left: 0px; font-weight: 500;"><span class="glyphicon glyphicon-th-large"
+									aria-hidden='true' style="font-size: 0.8em;"></span> <spam id="race-category"></spam></th>
+								<th class="text-right" style="font-size: 0.9em;">inscrição</th>
+								<th class="text-right" style="font-size: 0.9em;">anuidade*</th>
+								<th class="text-right" style="font-size: 0.9em;"><em>total</em></th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th colspan="3" class="text-right" style="font-size: 0.9em;"><em>total a pagar</em></th>
+								<th class="text-right" nowrap="nowrap"><em><span id="bill-total-amount"></span></em></th>
+							</tr>
+						</tfoot>
+						<tbody>
+						</tbody>
+					</table>
+
+					<div style="padding-top: 10px;">
+						* <span id="annual-fee-description"></span>
+					</div>
+				</div>
+
+				<div class="row alert alert-success" role="alert">
+					<h3 class="text-success">
+						<strong>Pagamento</strong>
+					</h3>
+
+					<p class="text-success" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece
+						diversas opções, tais como: parcelamento em cartões de crédito, boleto bancário, débito online e depósito em
+						conta.</p>
+
+					<p class="text-success" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
+						demorará até 1h para ser atualizado automaticamente.</p>
+
+					<button id="pay" type="button" class="btn btn-lg btn-success pull-right">
+						<span class="glyphicon glyphicon-usd" aria-hidden="true" style="font-size: 0.8em;"></span> Pagar agora com
+							PagSeguro 
+					</button>
+
+					<!--
+			<div class="alert alert-success" role="alert">
 				Após o pagamento, enviar o comprovante para os organizadores.
 			</div>
-		</div>
-		
-		<div class="row" style="padding-top: 10px;">
-			<h4>Organizadores</h4>
-			
-			<div id="race-organizers" class="row" style="margin-bottom: 15px;">
+			-->
+				</div>
+
+				<div class="row">
+					<h4>Organizadores</h4>
+
+					<p classstyle="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
+
+					<div id="race-organizers" class="row" style="padding-top: 20px; padding-bottom: 15px;"></div>
+				</div>
+
+				<div class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
+					<h5>
+						Inscrição efetuada por <br /> <strong><span id="registration-submitter"></span></strong> <br />no dia <span
+							id="registration-date"></span>
+					</h5>
+				</div>
 			</div>
 		</div>
-			
-		<div class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
-			<h5>
-				Inscrição efetuada por
-				<br /><strong><span id="registration-submitter"></span></strong>
-				<br />no dia <span id="registration-date"></span>
-			</h5>
-		</div>
-	</div>
-</div>
-</ui:define>
+	</ui:define>
 
 </ui:composition>

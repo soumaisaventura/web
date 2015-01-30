@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1029,489" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1185,963" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -97,7 +97,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1510.95" y="847.154"/>
+	<position x="1556.14" y="849.376"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -259,7 +259,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1021.95" y="748.771"/>
+	<position x="1010.84" y="766.549"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -293,8 +293,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="approver_id">
 		<type name="integer"/>
 	</column>
-	<constraint name="registration_pkey" type="pk-constr" table="public.registration">
+	<column name="payment_account">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="payment_token">
+		<type name="character varying" length="64"/>
+	</column>
+	<column name="payment_transaction">
+		<type name="character varying" length="64"/>
+	</column>
+	<constraint name="pk_registration" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_registration_payment_transaction" type="uq-constr" table="public.registration">
+		<columns names="payment_transaction" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -322,7 +334,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1289.99" y="832.723"/>
+	<position x="1332.21" y="849.76"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>

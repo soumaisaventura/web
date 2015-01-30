@@ -11,7 +11,7 @@ var RegistrationProxy = {
 			}
 		});
 	},
-	
+
 	load : function($id) {
 		return $.ajax({
 			type : "GET",
@@ -21,8 +21,18 @@ var RegistrationProxy = {
 			}
 		});
 	},
-	
-	confirm : function($id){
+
+	payment : function($id) {
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/" + $id + "/payment",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
+	confirm : function($id) {
 		return $.ajax({
 			type : "POST",
 			url : this.url + "/" + $id + "/confirm",

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -92,7 +93,7 @@ public class RegistrationREST {
 	@Transactional
 	@Path("{id}/confirm")
 	public void confirm(@PathParam("id") Long id) throws Exception {
-		Registration registration = loadRegistration(id);
+		Registration registration = loadRegistrationForDetails(id);
 
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
 		if (!organizers.contains(User.getLoggedIn())) {
@@ -132,7 +133,7 @@ public class RegistrationREST {
 	@Path("{id}")
 	@Produces("application/json")
 	public RegistrationData load(@PathParam("id") Long id) throws Exception {
-		Registration registration = loadRegistration(id);
+		Registration registration = loadRegistrationForDetails(id);
 
 		RegistrationData data = new RegistrationData();
 		data.id = registration.getId();
@@ -204,13 +205,44 @@ public class RegistrationREST {
 	@Path("{id}/payment")
 	@Produces("text/plain")
 	public Response payment(@PathParam("id") Long id) throws Exception {
-		Registration registration = loadRegistration(id);
+		Registration registration = loadRegistrationForDetails(id);
+		String code = registration.getPaymentTransaction();
+		int status;
 
-		List<BasicNameValuePair> paylod = new ArrayList<BasicNameValuePair>();
-		paylod.add(new BasicNameValuePair("email", "arnaldo_maciel@hotmail.com"));
-		paylod.add(new BasicNameValuePair("token", "F5320349987D4692BD5E599695E7CF5D"));
-		paylod.add(new BasicNameValuePair("currency", "BRL"));
-		paylod.add(new BasicNameValuePair("reference", registration.getFormattedId()));
+		if (code == null) {
+			code = createCode(registration);
+
+			Registration persistedRegistration = RegistrationDAO.getInstance().load(registration.getId());
+			persistedRegistration.setPaymentTransaction(code);
+			RegistrationDAO.getInstance().update(persistedRegistration);
+
+			status = 201;
+		} else {
+			status = 200;
+		}
+
+		URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code);
+		return Response.status(status).location(location).entity(code).build();
+	}
+
+	// TODO Só os organizadores ou os admins poderiam fazer isso
+	@DELETE
+	@LoggedIn
+	@Transactional
+	@Path("{id}/payment")
+	@Produces("text/plain")
+	public void deletePayment(@PathParam("id") Long id) throws Exception {
+		Registration registration = loadRegistration(id);
+		registration.setPaymentTransaction(null);
+		RegistrationDAO.getInstance().update(registration);
+	}
+
+	private String createCode(Registration registration) throws Exception {
+		List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+		payload.add(new BasicNameValuePair("email", registration.getPaymentAccount()));
+		payload.add(new BasicNameValuePair("token", registration.getPaymentToken()));
+		payload.add(new BasicNameValuePair("currency", "BRL"));
+		payload.add(new BasicNameValuePair("reference", registration.getFormattedId()));
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(US);
 		numberFormat.setMaximumFractionDigits(2);
@@ -221,29 +253,29 @@ public class RegistrationREST {
 		for (TeamFormation teamFormation : teamFormations) {
 			if (teamFormation.getRacePrice().doubleValue() > 0) {
 				i++;
-				paylod.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
-				paylod.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
+				payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
+				payload.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
 						+ teamFormation.getUser().getName()));
-				paylod.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getRacePrice())));
-				paylod.add(new BasicNameValuePair("itemQuantity" + i, "1"));
+				payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getRacePrice())));
+				payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
 			}
 
 			if (teamFormation.getAnnualFee().doubleValue() > 0) {
 				i++;
-				paylod.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
-				paylod.add(new BasicNameValuePair("itemDescription" + i, "Anuidade de "
+				payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
+				payload.add(new BasicNameValuePair("itemDescription" + i, "Anuidade de "
 						+ teamFormation.getUser().getName()));
-				paylod.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAnnualFee())));
-				paylod.add(new BasicNameValuePair("itemQuantity" + i, "1"));
+				payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAnnualFee())));
+				payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
 			}
 		}
 
 		User user = User.getLoggedIn();
-		paylod.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
-		paylod.add(new BasicNameValuePair("senderEmail", user.getEmail()));
+		payload.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
+		payload.add(new BasicNameValuePair("senderEmail", user.getEmail()));
 
 		HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkout/");
-		String entity = URLEncodedUtils.format(paylod, "UTF-8");
+		String entity = URLEncodedUtils.format(payload, "UTF-8");
 		request.setEntity(new StringEntity(entity));
 		request.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8;");
 
@@ -267,11 +299,20 @@ public class RegistrationREST {
 			throw new HttpViolationException(502).addViolation("Falha na comunicação com o PagSeguro");
 		}
 
-		URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code);
-		return Response.created(location).entity(code).build();
+		return code;
 	}
 
 	private Registration loadRegistration(Long id) throws Exception {
+		Registration result = RegistrationDAO.getInstance().load(id);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private Registration loadRegistrationForDetails(Long id) throws Exception {
 		Registration result = RegistrationDAO.getInstance().loadForDetails(id);
 
 		if (result == null) {

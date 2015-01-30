@@ -2,15 +2,25 @@ $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
+	var $id = $("#registration").val();
+
+	$("#pay").click(function() {
+		RegistrationProxy.payment($id).done(paymentOk);
+	});
 
 	/**
 	 * Carrega dados da inscrição
 	 */
-	RegistrationProxy.load($("#registration").val()).done(loadOk);
+	RegistrationProxy.load($id).done(loadOk);
 
 });
 
 /* ---------------- Funções de Callback ---------------- */
+
+function paymentOk($data, $status, $request) {
+	var url = $request.getResponseHeader('Location');
+	window.open(url, "_bank");
+}
 
 /**
  * Carrega dados da inscrição
