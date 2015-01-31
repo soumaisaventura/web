@@ -1,9 +1,5 @@
 package adventure.rest;
 
-import static adventure.entity.StatusType.CANCELLED;
-import static adventure.entity.StatusType.CONFIRMED;
-import static adventure.entity.StatusType.PENDENT;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +34,10 @@ public class RegistrationNotificationREST {
 
 	private transient Logger logger;
 
+	enum PaymentStatus {
+		CONFIRMED, CANCELLED
+	}
+
 	@POST
 	@Transactional
 	@Consumes("application/x-www-form-urlencoded")
@@ -50,24 +50,30 @@ public class RegistrationNotificationREST {
 			for (Race race : RaceDAO.getInstance().findOpen()) {
 				String body = getBody(code, race);
 				Long registerId = parseRegiserId(body);
-				StatusType statusType = parseStatus(body);
+				PaymentStatus status = parseStatus(body);
 
-				if (registerId != null && statusType != null) {
-					update(registerId, statusType, race);
+				if (registerId != null && status != null) {
+					update(registerId, status, race);
 				}
 			}
 		}
 	}
 
-	private void update(Long registrationId, StatusType status, Race race) {
+	private void update(Long registrationId, PaymentStatus status, Race race) {
 		RegistrationDAO dao = RegistrationDAO.getInstance();
 		Registration registration = dao.loadForDetails(registrationId);
 
-		if (registration != null && registration.getStatus() == PENDENT
+		if (registration != null && registration.getStatus() == StatusType.PENDENT
 				&& race.equals(registration.getRaceCategory().getRace())) {
 			Registration persistedRegistration = dao.load(registrationId);
-			persistedRegistration.setStatus(status);
-			persistedRegistration.setDate(new Date());
+
+			if (status == PaymentStatus.CONFIRMED) {
+				persistedRegistration.setStatus(StatusType.CONFIRMED);
+				persistedRegistration.setDate(new Date());
+
+			} else if (status == PaymentStatus.CANCELLED) {
+				persistedRegistration.setPaymentTransaction(null);
+			}
 
 			dao.update(persistedRegistration);
 		}
@@ -102,8 +108,8 @@ public class RegistrationNotificationREST {
 		return result;
 	}
 
-	private StatusType parseStatus(String body) {
-		StatusType statusType = null;
+	private PaymentStatus parseStatus(String body) {
+		PaymentStatus paymentStatus = null;
 
 		if (body != null) {
 			Pattern pattern = Pattern.compile("<transaction>.*<status>(\\d)</status>.*</transaction>");
@@ -116,17 +122,16 @@ public class RegistrationNotificationREST {
 
 			switch (status) {
 				case 3:
-					statusType = CONFIRMED;
+					paymentStatus = PaymentStatus.CONFIRMED;
 					break;
 
-				case 6:
 				case 7:
-					statusType = CANCELLED;
+					paymentStatus = PaymentStatus.CANCELLED;
 					break;
 			}
 		}
 
-		return statusType;
+		return paymentStatus;
 	}
 
 	private Long parseRegiserId(String body) {
