@@ -155,7 +155,13 @@ public class MailDAO implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		send(subject, content, "text/html", creator.getEmail());
+		for (User member : members) {
+			send(subject, content, "text/html", member.getEmail());
+		}
+
+		if (!members.contains(creator)) {
+			send(subject, content, "text/html", creator.getEmail());
+		}
 	}
 
 	public void sendRegistrationConfirmation(Registration registration, List<User> members, URI baseUri)
@@ -164,7 +170,8 @@ public class MailDAO implements Serializable {
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
-		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-confirmation.html"));
+		String content = Strings
+				.parse(Reflections.getResourceAsStream("mail-templates/registration-confirmation.html"));
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{registrationTeamName}", registration.getTeamName());
@@ -183,7 +190,13 @@ public class MailDAO implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		send(subject, content, "text/html", creator.getEmail());
+		for (User member : members) {
+			send(subject, content, "text/html", member.getEmail());
+		}
+
+		if (!members.contains(creator)) {
+			send(subject, content, "text/html", creator.getEmail());
+		}
 	}
 
 	private String stringfy(List<User> members) {
