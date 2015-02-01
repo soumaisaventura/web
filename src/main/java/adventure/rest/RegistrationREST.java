@@ -48,6 +48,7 @@ import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -117,9 +118,12 @@ public class RegistrationREST {
 		MailDAO.getInstance().sendRegistrationConfirmation(registration, members, baseUri);
 	}
 
+
+
 	@GET
-	@Transactional
+	@LoggedIn
 	@Path("{id}")
+	@Transactional
 	@Produces("application/json")
 	public RegistrationData load(@PathParam("id") Long id) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);

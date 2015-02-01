@@ -72,10 +72,10 @@ function loginOk($data, $status, $request) {
 	if (pendencies) {
 		bootbox.dialog({
 			title : "Atenção!",
-			message : "Você possui pendências cadastrais. Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
+			message : "Seus dados cadastrais estão incompletos. Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
 			buttons : {
 				main : {
-					label : "Resolver agora!",
+					label : "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='font-size: 0.8em;'></span> Resolver agora",
 					className : "btn-success",
 					callback : function() {
 						location.href = url;

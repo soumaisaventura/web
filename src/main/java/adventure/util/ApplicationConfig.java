@@ -9,8 +9,8 @@ import br.gov.frameworkdemoiselle.configuration.Configuration;
 public class ApplicationConfig {
 
 	@NotEmpty
-	@Name("title")
-	private String title = "Adventure";
+	@Name("app.title")
+	private String appTitle = "Adventure";
 
 	@NotEmpty
 	@Name("mail.smtp.host")
@@ -50,8 +50,8 @@ public class ApplicationConfig {
 	@Name("analytics.google.id")
 	private String analyticsGoogleId;
 
-	public String getTitle() {
-		return title;
+	public String getAppTitle() {
+		return appTitle;
 	}
 
 	public String getMailSmtpHost() {

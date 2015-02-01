@@ -22,6 +22,13 @@ var RegistrationProxy = {
 		});
 	},
 
+	loadPublic : function($id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + $id + "/public"
+		});
+	},
+
 	sendPayment : function($id) {
 		return $.ajax({
 			type : "POST",

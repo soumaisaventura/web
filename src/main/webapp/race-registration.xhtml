@@ -102,26 +102,29 @@
 							<div class="input-group">
 								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta"
 									maxlength="#{constants.nameSize}" /> <input type="hidden" id="members-id" /> <span class="input-group-btn">
-									<button id="bt-add-athlete" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir na equipe</button>
+									<button id="bt-add-athlete" class="btn btn-primary" type="button">
+										<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir na equipe
+									</button>
 								</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="row" style="padding-top: 20px; padding-bottom: 20px">
-						<div class="form-group">* Campos de preenchimento obrigatório.</div>
-
+						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a
+							conta.</div>
 						<div class="form-group">
 							** <span id="annual-fee-description"></span>
 						</div>
-
-						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a
-							conta.</div>
+						<div class="form-group">* Campos de preenchimento obrigatório.</div>
 					</div>
 					<div class="row" style="margin-bottom: 15px">
 						<div class="form-group">
 							<input id="facebook-appid" type="hidden" />
-							<button type="submit" class="btn btn-lg btn-success pull-right"><span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span> Inscrever equipe</button>
+							<input id="registration-id" type="hidden" />
+							<button type="submit" class="btn btn-lg btn-success pull-right">
+								<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span> Inscrever equipe
+							</button>
 						</div>
 					</div>
 				</form>

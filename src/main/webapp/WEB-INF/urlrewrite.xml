@@ -63,7 +63,12 @@
 	</rule>
 
 	<rule>
-		<from>^/registration/(.*)$</from>
+		<from>^/registration/(\d+)/public$</from>
+		<to>/registration-public.jsf?registration=$1</to>
+	</rule>
+	
+	<rule>
+		<from>^/registration/(\d+)$</from>
 		<to>/registration.jsf?registration=$1</to>
 	</rule>
 
@@ -73,17 +78,17 @@
 	</rule>
 
 	<rule>
-		<from>^/race/(.*)/registration/list$</from>
+		<from>^/race/(\d+)/registration/list$</from>
 		<to>/race-registration-list.jsf?race=$1</to>
 	</rule>
 
 	<rule>
-		<from>^/race/(.*)/registration$</from>
+		<from>^/race/(\d+)/registration$</from>
 		<to>/race-registration.jsf?race=$1</to>
 	</rule>
 
 	<rule>
-		<from>^/race/(.*)$</from>
+		<from>^/race/(\d+)$</from>
 		<to>/race.jsf?race=$1</to>
 	</rule>
 
@@ -94,7 +99,7 @@
 
 	<rule>
 		<from>^/(.+)/$</from>
-		<to type="redirect">%{context-path}/$1</to>
+		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
 
 </urlrewrite>

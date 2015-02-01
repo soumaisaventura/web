@@ -179,6 +179,11 @@ function shareOnFacebook() {
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
 	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/registration' }]";
 
+	// var url = "";
+	// url += "http://www.facebook.com/sharer/sharer.php?u=";
+	// url += App.getBaseUrl() + "/registration/" + $("#registration-id").val()
+	// + "/public";
+
 	// console.log(url);
 
 	window.open(url, '_blank');

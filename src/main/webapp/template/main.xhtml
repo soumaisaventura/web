@@ -6,7 +6,13 @@
 
 <h:head profile="http://www.w3.org/2005/10/profile">
 	<meta charset="UTF-8" />
-	<title>Sou+ Aventura</title>
+	<ui:insert name="meta-ogg">
+		<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
+		<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
+		<meta property="og:description"
+			content="O Sou+ Aventura é uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia." />
+	</ui:insert>
+	<title>#{applicationConfigHelper.appTitle}</title>
 	<!--
 	<ui:include src="favicon.xhtml" />
 	-->
@@ -20,7 +26,7 @@
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
 
 	<ui:include src="/menu.xhtml" />
-	
+
 	<ui:insert name="body" />
 
 	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
@@ -42,7 +48,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '#{htmlConfig.analyticsGoogleId}', 'auto');
+  ga('create', '#{applicationConfigHelper.analyticsGoogleId}', 'auto');
   ga('send', 'pageview');
 
 </script>

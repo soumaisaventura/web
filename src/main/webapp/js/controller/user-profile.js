@@ -103,14 +103,14 @@ function updateOk(data) {
 			message : "Porém você ainda possui pendências nos dados de saúde. Deseja resolver isso logo?",
 			buttons : {
 				success : {
-					label : "Sim",
+					label : "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true' style='font-size: 0.8em;'></span> Sim",
 					className : "btn-success",
 					callback : function() {
 						location.href = App.getContextPath() + "/user/health";
 					}
 				},
 				danger : {
-					label : "Não",
+					label : "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true' style='font-size: 0.8em;'></span> Não",
 					className : "btn-danger",
 					callback : function() {
 						App.restoreSavedLocation();
@@ -125,7 +125,7 @@ function updateOk(data) {
 			message : "Você não possui pendências cadastrais.",
 			buttons : {
 				success : {
-					label : "Ok",
+					label : "<span class='glyphicon glyphicon-ok' aria-hidden='true' style='font-size: 0.8em;'></span> Ok",
 					className : "btn-success",
 					callback : function() {
 						App.restoreSavedLocation();
