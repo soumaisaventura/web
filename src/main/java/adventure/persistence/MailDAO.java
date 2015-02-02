@@ -19,10 +19,12 @@ import javax.mail.internet.MimeMessage;
 
 import adventure.entity.Race;
 import adventure.entity.Registration;
+import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import adventure.util.Dates;
+import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
@@ -123,8 +125,9 @@ public class MailDAO implements Serializable {
 		send("Recuperação de senha", content, "text/html", email);
 	}
 
-	public void sendRegistrationCreation(Registration registration, List<User> members, URI baseUri) throws Exception {
-		User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
+	public void sendRegistrationCreation(Registration registration, List<TeamFormation> members, URI baseUri)
+			throws Exception {
+		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -142,7 +145,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
 		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
-		content = content.replace("{teamFormation}", stringfy(members));
+		content = content.replace("{teamFormation}", Misc.stringfyTeamFormation(members));
 
 		String replacement = "";
 		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
@@ -155,18 +158,18 @@ public class MailDAO implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (User member : members) {
-			send(subject, content, "text/html", member.getEmail());
+		for (TeamFormation member : members) {
+			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 
-		if (!members.contains(creator)) {
-			send(subject, content, "text/html", creator.getEmail());
-		}
+		// if (!members.contains(creator)) {
+		// send(subject, content, "text/html", creator.getEmail());
+		// }
 	}
 
-	public void sendRegistrationConfirmation(Registration registration, List<User> members, URI baseUri)
+	public void sendRegistrationConfirmation(Registration registration, List<TeamFormation> members, URI baseUri)
 			throws Exception {
-		User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
+		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -184,40 +187,22 @@ public class MailDAO implements Serializable {
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
 		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
-		content = content.replace("{teamFormation}", stringfy(members));
+		content = content.replace("{teamFormation}", Misc.stringfyTeamFormation(members));
 
 		String subject = "Confirmação da inscrição";
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (User member : members) {
-			send(subject, content, "text/html", member.getEmail());
+		for (TeamFormation member : members) {
+			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 
-		if (!members.contains(creator)) {
-			send(subject, content, "text/html", creator.getEmail());
-		}
+		// if (!members.contains(creator)) {
+		// send(subject, content, "text/html", creator.getEmail());
+		// }
 	}
 
-	private String stringfy(List<User> members) {
-		String memberNames = "";
-		for (int i = 0; i < members.size(); i++) {
-			String separator;
-
-			if (i == 0) {
-				separator = "";
-			} else if (i == members.size() - 1) {
-				separator = " e ";
-			} else {
-				separator = ", ";
-			}
-
-			memberNames += separator + members.get(i).getProfile().getName();
-		}
-		return memberNames;
-	}
-
-	private void send(final String subject, final String content, final String type, final String... to) {
+	private void send(final String subject, final String content, final String type, final String to) {
 		new Thread() {
 
 			public void run() {
@@ -228,7 +213,8 @@ public class MailDAO implements Serializable {
 					MimeMessage message = new MimeMessage(getSession());
 					message.setFrom(new InternetAddress("contato@soumaisaventura.com.br"));
 					message.setSubject(PREFIX + subject + SUFIX, "UTF-8");
-					message.setRecipients(TO, Strings.join(",", to));
+					// message.setRecipients(TO, Strings.join(",", to));
+					message.setRecipients(TO, to);
 					message.setContent(content, type);
 
 					Transport.send(message);

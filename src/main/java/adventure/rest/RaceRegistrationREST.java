@@ -79,10 +79,8 @@ public class RaceRegistrationREST {
 		Registration result = submit(data, raceCategory, members, date, period);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationCreation(result, members, baseUri);
+		MailDAO.getInstance().sendRegistrationCreation(result, result.getTeamFormations(), baseUri);
 		return result.getFormattedId();
-
-		// return "00000";
 	}
 
 	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
@@ -103,6 +101,7 @@ public class RaceRegistrationREST {
 		Integer year = calendar.get(YEAR);
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
 
+		result.setTeamFormations(new ArrayList<TeamFormation>());
 		for (User member : members) {
 			User atachedMember = UserDAO.getInstance().load(member.getId());
 			TeamFormation teamFormation = new TeamFormation();
@@ -114,6 +113,7 @@ public class RaceRegistrationREST {
 			teamFormation.setRacePrice(period.getPrice());
 
 			TeamFormationDAO.getInstance().insert(teamFormation);
+			result.getTeamFormations().add(teamFormation);
 		}
 
 		return result;

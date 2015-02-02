@@ -48,7 +48,6 @@ import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -109,16 +108,10 @@ public class RegistrationREST {
 		registration.setApprover(User.getLoggedIn());
 		RegistrationDAO.getInstance().update(registration);
 
-		List<User> members = new ArrayList<User>();
-		for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
-			members.add(teamFormation.getUser());
-		}
-
+		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationConfirmation(registration, members, baseUri);
 	}
-
-
 
 	@GET
 	@LoggedIn
