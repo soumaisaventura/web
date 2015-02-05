@@ -23,9 +23,9 @@ public enum BloodType {
 	public static BloodType fromValue(String value) {
 		BloodType result = null;
 
-		for (BloodType sexo : values()) {
-			if (sexo.toString().equalsIgnoreCase(value)) {
-				result = sexo;
+		for (BloodType bloodType : values()) {
+			if (bloodType.toString().equalsIgnoreCase(value)) {
+				result = bloodType;
 				break;
 			}
 		}
