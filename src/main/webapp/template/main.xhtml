@@ -6,6 +6,8 @@
 
 <h:head profile="http://www.w3.org/2005/10/profile">
 	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!--
 	-->
@@ -36,7 +38,7 @@
 <h:body>
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
 
-	<ui:include src="/menu.xhtml" />
+	<ui:include src="menu.xhtml" />
 
 	<ui:insert name="body" />
 
@@ -51,6 +53,8 @@
 
 	<script src="#{request.contextPath}/js/controller/menu.js"></script>
 	<ui:insert name="controller" />
+
+	<!-- 	<ui:include src="footer.xhtml" /> -->
 </h:body>
 
 <script>

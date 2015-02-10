@@ -1,8 +1,9 @@
 @font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato Regular'), url('../fonts/Lato-Regular.ttf') format ('truetype');
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Lato Regular'), local('Lato Regular'),
+		url('../fonts/Lato-Regular.ttf') format('truetype');
 }
 
 * {
@@ -15,16 +16,13 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	margin: 0;
 }
 
-.navbar-brand {
-	font-size: 1.3em;
-}
-
+/*
 .acronym {
 	font-weight: bold;
 	font-size: 2em;
 	padding-right: 5px;
 }
-
+*/
 .main {
 	max-width: 320px;
 	margin: 0 auto;
@@ -66,12 +64,21 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	background-color: white;
 }
 
+/*
+body {
+	padding-top: 70px;
+}
+
 .navbar-default {
 	background-color: white;
 	border-color: white;
 	border-bottom-color: #F0F0F0;
 }
 
+.navbar-brand {
+	font-size: 1.3em;
+}
+*/
 .modal-dialog {
 	width: 400px;
 }

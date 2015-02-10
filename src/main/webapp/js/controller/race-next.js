@@ -7,6 +7,10 @@ $(function() {
 });
 
 function findNextOk(data) {
+	
+	
+	
+	
 	$
 			.each(
 					data,
