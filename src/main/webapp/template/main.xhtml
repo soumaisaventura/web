@@ -7,10 +7,7 @@
 <h:head profile="http://www.w3.org/2005/10/profile">
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-	<!--
-	-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<ui:insert name="meta-ogg-static">
 		<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
 		<meta property="og:type" content="website" />
@@ -37,10 +34,9 @@
 
 <h:body>
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
-
 	<ui:include src="menu.xhtml" />
-
 	<ui:insert name="body" />
+	<!-- 	<ui:include src="footer.xhtml" /> -->
 
 	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
 	<script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
@@ -53,8 +49,6 @@
 
 	<script src="#{request.contextPath}/js/controller/menu.js"></script>
 	<ui:insert name="controller" />
-
-	<!-- 	<ui:include src="footer.xhtml" /> -->
 </h:body>
 
 <script>
@@ -65,7 +59,6 @@
 
   ga('create', '#{applicationConfigHelper.analyticsGoogleId}', 'auto');
   ga('send', 'pageview');
-
 </script>
 </html>
 
