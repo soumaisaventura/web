@@ -22,9 +22,9 @@ public enum StatusType {
 	public static StatusType fromValue(String value) {
 		StatusType result = null;
 
-		for (StatusType sexo : values()) {
-			if (sexo.toString().equalsIgnoreCase(value)) {
-				result = sexo;
+		for (StatusType statusType : values()) {
+			if (statusType.toString().equalsIgnoreCase(value)) {
+				result = statusType;
 				break;
 			}
 		}
