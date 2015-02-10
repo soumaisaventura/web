@@ -6,13 +6,24 @@
 
 <h:head profile="http://www.w3.org/2005/10/profile">
 	<meta charset="UTF-8" />
+
+	<!--
+	-->
+	<ui:insert name="meta-ogg-static">
+		<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="pt_BR" />
+		<meta property="fb:app_id" content="#{applicationConfigHelper.OAuthFacebookId}" />
+	</ui:insert>
 	<ui:insert name="meta-ogg">
 		<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
-		<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
 		<meta property="og:description"
-			content="O Sou+ Aventura é uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia." />
+			content="Cadastre-se no Sou+ Avententura, uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia. Se você é organizador, não perca tempo e cadastre a sua prova. É tudo gratuito!" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/images/default-ogg-image.png" />
 	</ui:insert>
+
 	<title>#{applicationConfigHelper.appTitle}</title>
+
 	<!--
 	<ui:include src="favicon.xhtml" />
 	-->

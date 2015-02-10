@@ -1,18 +1,22 @@
+<!--
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="meta-ogg">
-		#{registrationPublicHelper.initialize(request)}
-		<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
-		<meta property="og:site_name" content="#{registrationPublicHelper.siteName}" />
-		<meta property="og:url" content="#{registrationPublicHelper.url}" />
+		#{registrationPublicHelper.initialize(request, response)}
+		<meta property="og:image" content="#{registrationPublicHelper.image}" />
+		<meta property="og:title" content="#{registrationPublicHelper.title}" />
+		<meta property="og:url-2" content="#{registrationPublicHelper.url}" />
 		<meta property="og:description" content="#{registrationPublicHelper.description}" />
 		<meta property="og:image" content="#{registrationPublicHelper.image}" />
-		<meta property="fb:app_id" content="#{applicationConfigHelper.OAuthFacebookId}" />
-		<meta http-equiv="Refresh" content="2; URL=#{registrationPublicHelper.raceUrl}" />
+		<meta http-equiv="Refresh"
+			contenthttp://localhost:8080/adventure/registration/00044/public="2; URL=#{registrationPublicHelper.raceUrl}" />
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="container">Redirecionando...</div>
+		<div class="container">
+			<h1 class="text-center" style="padding-top: 100px;">Redirecionando...</h1>
+		</div>
 	</ui:define>
 </ui:composition>
+-->

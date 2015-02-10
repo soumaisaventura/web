@@ -39,7 +39,7 @@ var RaceProxy = {
 			url : this.url + "/" + $race + "/banner/base64"
 		});
 	},
-
+	
 	order : function($race, $users) {
 		return $.ajax({
 			type : "GET",
