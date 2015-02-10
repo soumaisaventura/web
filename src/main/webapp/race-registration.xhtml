@@ -1,5 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
@@ -30,8 +30,11 @@
 					<input id="race" type="hidden" value="#{param.race}" />
 					<h1 id="race-name"></h1>
 					<h4>
-						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span> <span id="race-date"></span>
-						&#160;&#160; <span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span> <span id="race-city"></span>
+						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
+						<span id="race-date"></span>
+						&#160;&#160;
+						<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
+						<span id="race-city"></span>
 					</h4>
 					<a href="#{request.contextPath}/race/#{param.race}">ver detalhes desta prova</a>
 				</div>
@@ -39,16 +42,19 @@
 				<form>
 					<div class="row">
 						<div class="form-group">
-							<label for="category">Categoria*</label> <select id="category" class="form-control">
+							<label for="category">Categoria*</label>
+							<select id="category" class="form-control">
 								<option value="" selected="selected"></option>
-							</select> <span id="category-message" hidden="true" class="label label-danger" />
+							</select>
+							<span id="category-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="form-group">
-							<label for="teamName">Nome da equipe*</label> <input type="text" id="teamName" class="form-control"
-								maxlength="#{constants.nameSize}" /> <span id="teamName-message" hidden="true" class="label label-danger" />
+							<label for="teamName">Nome da equipe*</label>
+							<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" />
+							<span id="teamName-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
 					<!--
@@ -67,10 +73,18 @@
 								<thead>
 									<tr class="info text-primary">
 										<th></th>
-										<th><small>atleta</small></th>
-										<th class="text-right"><small>inscrição</small></th>
-										<th class="text-right"><small>anuidade**</small></th>
-										<th class="text-right"><small>total</small></th>
+										<th>
+											<small>atleta</small>
+										</th>
+										<th class="text-right">
+											<small>inscrição</small>
+										</th>
+										<th class="text-right">
+											<small>anuidade**</small>
+										</th>
+										<th class="text-right">
+											<small>total</small>
+										</th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -100,10 +114,12 @@
 						<div class="form-group">
 							<label>Pesquisa por atleta cadastrado***</label>
 							<div class="input-group">
-								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta"
-									maxlength="#{constants.nameSize}" /> <input type="hidden" id="members-id" /> <span class="input-group-btn">
+								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
+								<input type="hidden" id="members-id" />
+								<span class="input-group-btn">
 									<button id="bt-add-athlete" class="btn btn-primary" type="button">
-										<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir na equipe
+										<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
+										Incluir na equipe
 									</button>
 								</span>
 							</div>
@@ -111,10 +127,10 @@
 					</div>
 
 					<div class="row" style="padding-top: 20px; padding-bottom: 20px">
-						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a
-							conta.</div>
+						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a conta.</div>
 						<div class="form-group">
-							** <span id="annual-fee-description"></span>
+							**
+							<span id="annual-fee-description"></span>
 						</div>
 						<div class="form-group">* Campos de preenchimento obrigatório.</div>
 					</div>
@@ -123,7 +139,8 @@
 							<input id="facebook-appid" type="hidden" />
 							<input id="registration-id" type="hidden" />
 							<button type="submit" class="btn btn-lg btn-success pull-right">
-								<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span> Inscrever equipe
+								<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
+								Inscrever equipe
 							</button>
 						</div>
 					</div>

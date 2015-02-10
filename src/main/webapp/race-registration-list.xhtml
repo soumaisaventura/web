@@ -1,5 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/footable.core.min.css" />
@@ -31,10 +31,15 @@
 					<div class="row" style="padding-bottom: 20px">
 						<div class="col-md-12">
 							<input id="race" type="hidden" value="#{param.race}" />
-							<h1>Gerenciamento de inscrições </h1>
+							<h1>Gerenciamento de inscrições</h1>
 							<h4>
-								<span id="race-name"></span>&#160;&#160;&#160;&#160;<small><span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-									<span id="race-date"></span> &#160;&#160; <span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
+								<span id="race-name"></span>
+								&#160;&#160;&#160;&#160;
+								<small>
+									<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
+									<span id="race-date"></span>
+									&#160;&#160;
+									<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
 									<span id="race-city"></span>
 								</small>
 							</h4>
@@ -43,21 +48,21 @@
 					<div class="row" style="margin-bottom: 15px">
 						<form>
 							<div class="col-md-7">
-								  <div class="form-group">
-								    <label for="filter">Filtro: </label>
-								    <input type="text" class="form-control" id="filter"/>
-								  </div>
+								<div class="form-group">
+									<label for="filter">Filtro: </label>
+									<input type="text" class="form-control" id="filter" />
+								</div>
 							</div>
 							<div class="col-md-5">
-								  <div class="form-group">
-								    <label for="status">Status: </label>
-								    <select id="status" class="form-control filter-status">
+								<div class="form-group">
+									<label for="status">Status: </label>
+									<select id="status" class="form-control filter-status">
 										<option value=""></option>
 										<option value="Aguardando pagamento">Aguardando pagamento</option>
 										<option value="Confirmada">Confirmada</option>
 										<option value="Cancelada">Cancelada</option>
 									</select>
-								  </div>
+								</div>
 							</div>
 						</form>
 					</div>
