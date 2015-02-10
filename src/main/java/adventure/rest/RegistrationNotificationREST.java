@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,8 +25,11 @@ import org.apache.http.message.BasicNameValuePair;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
+import adventure.entity.TeamFormation;
+import adventure.persistence.MailDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
+import adventure.persistence.TeamFormationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
@@ -41,8 +47,8 @@ public class RegistrationNotificationREST {
 	@POST
 	@Transactional
 	@Consumes("application/x-www-form-urlencoded")
-	public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type)
-			throws Exception {
+	public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type,
+			@Context UriInfo uriInfo) throws Exception {
 
 		getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
 
@@ -53,29 +59,33 @@ public class RegistrationNotificationREST {
 				PaymentStatus status = parseStatus(body);
 
 				if (registerId != null && status != null) {
-					update(registerId, status, race);
+					update(registerId, status, race, uriInfo);
 				}
 			}
 		}
 	}
 
-	private void update(Long registrationId, PaymentStatus status, Race race) {
+	private void update(Long registrationId, PaymentStatus status, Race race, UriInfo uriInfo) throws Exception {
 		RegistrationDAO dao = RegistrationDAO.getInstance();
 		Registration registration = dao.loadForDetails(registrationId);
 
 		if (registration != null && registration.getStatus() == StatusType.PENDENT
 				&& race.equals(registration.getRaceCategory().getRace())) {
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			Registration persistedRegistration = dao.load(registrationId);
 
 			if (status == PaymentStatus.CONFIRMED) {
 				persistedRegistration.setStatus(StatusType.CONFIRMED);
 				persistedRegistration.setDate(new Date());
+				dao.update(persistedRegistration);
+
+				List<TeamFormation> teamFormation = TeamFormationDAO.getInstance().find(persistedRegistration);
+				MailDAO.getInstance().sendRegistrationConfirmation(registration, teamFormation, baseUri);
 
 			} else if (status == PaymentStatus.CANCELLED) {
 				persistedRegistration.setPaymentTransaction(null);
+				dao.update(persistedRegistration);
 			}
-
-			dao.update(persistedRegistration);
 		}
 	}
 
