@@ -108,9 +108,8 @@ public class RegistrationREST {
 		registration.setApprover(User.getLoggedIn());
 		RegistrationDAO.getInstance().update(registration);
 
-		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationConfirmation(registration, members, baseUri);
+		MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
 	}
 
 	@GET

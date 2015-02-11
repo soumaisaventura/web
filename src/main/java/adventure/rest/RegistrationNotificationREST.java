@@ -25,17 +25,15 @@ import org.apache.http.message.BasicNameValuePair;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
-import adventure.entity.TeamFormation;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.TeamFormationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
 
-@Path("registration/notification")
+@Path("registration")
 public class RegistrationNotificationREST {
 
 	private transient Logger logger;
@@ -46,6 +44,7 @@ public class RegistrationNotificationREST {
 
 	@POST
 	@Transactional
+	@Path("notification")
 	@Consumes("application/x-www-form-urlencoded")
 	public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type,
 			@Context UriInfo uriInfo) throws Exception {
@@ -79,8 +78,7 @@ public class RegistrationNotificationREST {
 				persistedRegistration.setDate(new Date());
 				dao.update(persistedRegistration);
 
-				List<TeamFormation> teamFormation = TeamFormationDAO.getInstance().find(persistedRegistration);
-				MailDAO.getInstance().sendRegistrationConfirmation(registration, teamFormation, baseUri);
+				MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
 
 			} else if (status == PaymentStatus.CANCELLED) {
 				persistedRegistration.setPaymentTransaction(null);

@@ -125,9 +125,9 @@ public class MailDAO implements Serializable {
 		send("Recuperação de senha", content, "text/html", email);
 	}
 
-	public void sendRegistrationCreation(Registration registration, List<TeamFormation> members, URI baseUri)
-			throws Exception {
+	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
 		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
+		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -167,9 +167,9 @@ public class MailDAO implements Serializable {
 		// }
 	}
 
-	public void sendRegistrationConfirmation(Registration registration, List<TeamFormation> members, URI baseUri)
-			throws Exception {
+	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
 		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
+		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 

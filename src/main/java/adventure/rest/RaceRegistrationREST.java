@@ -79,7 +79,7 @@ public class RaceRegistrationREST {
 		Registration result = submit(data, raceCategory, members, date, period);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationCreation(result, result.getTeamFormations(), baseUri);
+		MailDAO.getInstance().sendRegistrationCreation(result, baseUri);
 		return result.getFormattedId();
 	}
 

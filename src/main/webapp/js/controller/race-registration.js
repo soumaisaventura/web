@@ -106,7 +106,7 @@ $(function() {
 			'members' : $teamIds
 		};
 
-		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk);
+		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFailed);
 	});
 
 });
@@ -164,6 +164,17 @@ function registrationOk($data) {
 	});
 
 	console.log(url);
+}
+
+function registrationFailed(request) {
+	switch (request.status) {
+		case 500:
+			$("#members-message")
+					.html(
+							"Ocorreu um erro interno no servidor e sua inscrição não foi concluída. Informe ao administrador pelo e-mail: contato@soumaisaventura.com.br")
+					.show();
+			break;
+	}
 }
 
 function shareOnFacebook() {

@@ -2,11 +2,15 @@ package adventure.rest;
 
 import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
+import static adventure.entity.StatusType.CONFIRMED;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,10 +31,15 @@ import adventure.entity.RaceOrganizer;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.persistence.MailDAO;
+import adventure.persistence.RegistrationDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
 import adventure.util.Dates;
 import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.ForbiddenException;
+import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
@@ -43,6 +52,36 @@ public class TempREST {
 	@Path("date")
 	public Date getDate() {
 		return new Date();
+	}
+
+	@POST
+	@Transactional
+	@Path("reset-password")
+	public void resetPassword(@FormParam("email") String email, @FormParam("password") String password,
+			@Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
+
+		UserDAO userDAO = UserDAO.getInstance();
+		User user = userDAO.load(email);
+		user.setPassword(Passwords.hash(password, user.getEmail()));
+		userDAO.update(user);
+	}
+
+	@POST
+	@Transactional
+	@Path("registration-email")
+	@Consumes("application/json")
+	public void unloadRegistration(Long registerId, @Context UriInfo uriInfo) throws Exception {
+		Registration registration = RegistrationDAO.getInstance().loadForDetails(registerId);
+
+		if (registration == null) {
+			throw new NotFoundException();
+		} else if (registration.getStatus() != CONFIRMED) {
+			throw new UnprocessableEntityException();
+		}
+
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
 	}
 
 	@POST
