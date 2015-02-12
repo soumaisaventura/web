@@ -1,5 +1,6 @@
 $(function() {
 	$("#username").focus();
+	$("#login-menu-item").addClass("active");
 
 	$("form").submit(function(event) {
 		event.preventDefault();

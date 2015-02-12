@@ -22,24 +22,24 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul id="menu-left" class="nav navbar-nav">
-					<li>
+					<li id="race-next-menu-item">
 						<a href="#{request.contextPath}/race/next">Próximas provas</a>
 					</li>
 				</ul>
 				<ul id="menu-left" class="nav navbar-nav">
-					<li>
+					<li id="user-profile-menu-item">
 						<a href="#{request.contextPath}/user/profile" class="loggedin-menu" style="display: none">
 							Dados pessoais
 							<span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
 						</a>
 					</li>
-					<li>
+					<li id="user-health-menu-item">
 						<a href="#{request.contextPath}/user/health" class="loggedin-menu" style="display: none">
 							Dados de saúde
 							<span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
 						</a>
 					</li>
-					<li>
+					<li id="registration-list-menu-item">
 						<a href="#{request.contextPath}/registration/list" class="loggedin-menu" style="display: none">Minhas inscrições</a>
 					</li>
 				</ul>
@@ -51,10 +51,10 @@
 					<li>
 						<a href="#" id="bt-logout" class="loggedin-menu" style="display: none">Sair</a>
 					</li>
-					<li>
+					<li id="login-menu-item">
 						<a href="#{request.contextPath}/login" id="bt-login" class="loggedout-menu">Login</a>
 					</li>
-					<li>
+					<li id="signup-menu-item">
 						<a href="#{request.contextPath}/signup" id="bt-signup" class="loggedout-menu">Registre-se</a>
 					</li>
 				</ul>

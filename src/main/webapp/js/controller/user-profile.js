@@ -1,5 +1,6 @@
 $(function() {
 	$("#name").focus();
+	$("#user-profile-menu-item").addClass("active");
 
 	/**
 	 * Inicializa a combos Data de nascimento
@@ -17,7 +18,7 @@ $(function() {
 		},
 		minLength : 3,
 		select : function(event, ui) {
-			$("#city").val(ui.item.label.split("/")[0]);
+			$("#city").val(ui.item.label);
 			$("#city\\.id").val(ui.item.value);
 			return false;
 		},
@@ -27,7 +28,7 @@ $(function() {
 		},
 		focus : function(event, ui) {
 			$("#city\\.id").val(ui.item.value);
-			$("#city").val(ui.item.label.split("/")[0]);
+			$("#city").val(ui.item.label);
 			return false;
 		}
 	});
@@ -82,7 +83,7 @@ function loadOk(data) {
 
 	$("#gender").val(data.gender);
 	$("#city\\.id").val(data.city.id);
-	$("#city").val(data.city.name);
+	$("#city").val(data.city.name + "/" + data.city.state);
 	$("#mobile").val(data.mobile);
 }
 
@@ -93,7 +94,8 @@ function updateOk(data) {
 	$("[id$='-message']").hide();
 	var user = App.getLoggedInUser();
 	user.profile.pendencies = null;
-	user.profile.name = $("#name").val();;
+	user.profile.name = $("#name").val();
+	;
 	App.setLoggedInUser(user);
 
 	var content = {};

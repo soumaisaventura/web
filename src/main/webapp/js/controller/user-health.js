@@ -1,5 +1,6 @@
 $(function() {
 	$("#bloodType").focus();
+	$("#user-health-menu-item").addClass("active");
 
 	/**
 	 * Cadastro dos dados médicos

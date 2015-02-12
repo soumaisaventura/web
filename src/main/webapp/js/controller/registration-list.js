@@ -1,5 +1,6 @@
 $(function() {
 	moment.locale("pt-br");
+	$("#registration-list-menu-item").addClass("active");
 
 	RegistrationProxy.find().done(findOk);
 });

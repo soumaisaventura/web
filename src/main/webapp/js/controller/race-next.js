@@ -1,4 +1,6 @@
 $(function() {
+	$("#race-next-menu-item").addClass("active");
+
 	RaceProxy.findNext().done(findNextOk);
 
 	$('table').on('click', '.registration', function() {
@@ -7,10 +9,6 @@ $(function() {
 });
 
 function findNextOk(data) {
-	
-	
-	
-	
 	$
 			.each(
 					data,

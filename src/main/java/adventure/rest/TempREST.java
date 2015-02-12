@@ -10,7 +10,6 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -56,15 +55,15 @@ public class TempREST {
 
 	@POST
 	@Transactional
-	@Path("reset-password")
-	public void resetPassword(@FormParam("email") String email, @FormParam("password") String password,
-			@Context UriInfo uriInfo) throws Exception {
+	@Path("reset-passwords")
+	public void resetPassword(@Context UriInfo uriInfo) throws Exception {
 		validate(uriInfo);
 
 		UserDAO userDAO = UserDAO.getInstance();
-		User user = userDAO.load(email);
-		user.setPassword(Passwords.hash(password, user.getEmail()));
-		userDAO.update(user);
+		for (User user : userDAO.findAll()) {
+			user.setPassword(Passwords.hash("123", user.getEmail()));
+			userDAO.update(user);
+		}
 	}
 
 	@POST
@@ -72,6 +71,7 @@ public class TempREST {
 	@Path("registration-email")
 	@Consumes("application/json")
 	public void unloadRegistration(Long registerId, @Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
 		Registration registration = RegistrationDAO.getInstance().loadForDetails(registerId);
 
 		if (registration == null) {
@@ -120,6 +120,7 @@ public class TempREST {
 	@Transactional
 	@Path("reload")
 	public void reload(@Context UriInfo uriInfo) throws Exception {
+		validate(uriInfo);
 		unload(uriInfo);
 		load(uriInfo);
 	}

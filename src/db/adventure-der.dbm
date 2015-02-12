@@ -3,10 +3,14 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1002,806" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta1" last-position="1525,671" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
+<role name="adminendyfwd"
+      superuser="true">
+</role>
+
 <database name="fbca" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
-	<role name="postgres"/>
+	<role name="adminendyfwd"/>
 	<tablespace name="pg_default"/>
 </database>
 
@@ -355,7 +359,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user_account">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1537.53" y="635.6"/>
+	<position x="1573.09" y="625.97"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -382,6 +386,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="deleted">
 		<type name="timestamp"/>
+	</column>
+	<column name="admin" not-null="true" default-value="false">
+		<type name="boolean"/>
 	</column>
 	<constraint name="pk_user_account" type="pk-constr" table="public.user_account">
 		<columns names="id" ref-type="src-columns"/>
@@ -688,6 +695,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="approver_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_user_admin" table="public.user_account"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="admin"/>
 		</idxelement>
 </index>
 
