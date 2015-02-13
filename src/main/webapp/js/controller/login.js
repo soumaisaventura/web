@@ -1,3 +1,5 @@
+var googleAppId;
+
 $(function() {
 	$("#username").focus();
 	$("#login-menu-item").addClass("active");
@@ -18,21 +20,67 @@ $(function() {
 });
 
 function getOAuthAppIdsOk(data) {
+	loadFacebook(data.facebook);
+	loadGoogle(data.google);
+}
+
+function loadFacebook(appId) {
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : appId,
+			status : true,
+			cookie : true,
+			xfbml : true,
+			version : 'v2.0'
+		});
+
+		FB.getLoginStatus(loadFacebookOk);
+	};
+
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "//connect.facebook.net/pt_BR/all.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+}
+
+function loadFacebookOk(response) {
+	$("#facebook-login").removeAttr("disabled");
+
 	$("#facebook-login").click(function() {
 		$("[id$='-message']").hide();
 		showModal();
-
-		FB.init({
-			appId : data.facebook,
-			status : true,
-			cookie : true,
-			xfbml : true
-		});
 
 		FB.login(facebookLogin, {
 			scope : 'email,user_birthday'
 		});
 	});
+}
+
+function loadGoogle(appId) {
+	googleAppId = appId;
+
+	window.___gcfg = {
+		lang : 'pt-BR'
+	};
+
+	(function() {
+		var po = document.createElement('script');
+		po.type = 'text/javascript';
+		po.async = true;
+		po.src = 'https://apis.google.com/js/client:plusone.js?onload=loadGoogleOk';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(po, s);
+	})();
+}
+
+function loadGoogleOk() {
+	$("#google-login").removeAttr("disabled");
 
 	$("#google-login")
 			.click(
@@ -42,14 +90,12 @@ function getOAuthAppIdsOk(data) {
 
 						gapi.auth
 								.signIn({
-									'clientid' : data.google,
+									'clientid' : googleAppId,
 									'cookiepolicy' : 'single_host_origin',
 									'callback' : 'googleLogin',
 									'scope' : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login'
 								});
 					});
-
-	$("#facebook-login, #google-login").removeAttr("disabled");
 }
 
 // Regular login process
