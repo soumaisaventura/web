@@ -27,7 +27,6 @@ $(function() {
 				RegistrationProxy.confirm($this.data("registration")).done(confirmOk);
 			}
 		});
-
 	});
 
 	RaceProxy.loadSummary($race).done(loadOk);

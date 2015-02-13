@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite">
+
+	<composite:interface>
+		<composite:attribute name="id" />
+		<composite:attribute name="dayId" />
+		<composite:attribute name="monthId" />
+		<composite:attribute name="yearId" />
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.id}">
+			<div class="col-xs-3" style="padding-left: 0px; margin-bottom: 15px;">
+				<select id="#{cc.attrs.dayId}" class="form-control" style="width: 100%;">
+					<option value="">Dia</option>
+				</select>
+			</div>
+			<div class="col-xs-5" style="padding: 0px;">
+				<select id="#{cc.attrs.monthId}" class="form-control" style="width: 100%;">
+					<option value="">Mês</option>
+				</select>
+			</div>
+			<div class="col-xs-4" style="padding-right: 0px;">
+				<select id="#{cc.attrs.yearId}" class="form-control" style="width: 100%;">
+					<option value="">Ano</option>
+				</select>
+			</div>
+		</div>
+	</composite:implementation>
+
+</ui:composition>

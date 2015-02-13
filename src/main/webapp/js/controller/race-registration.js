@@ -1,7 +1,7 @@
 $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
-	numeral.defaultFormat('$ 0,0');
+	numeral.defaultFormat('$ 0,0.00');
 
 	var teamData;
 	var $total = 0;
