@@ -20,8 +20,8 @@ $(function() {
 });
 
 function getOAuthAppIdsOk(data) {
-	loadFacebook(data.facebook);
-	loadGoogle(data.google);
+	setTimeout(loadFacebook, 0, data.facebook);
+	setTimeout(loadGoogle, 0, data.google);
 }
 
 function loadFacebook(appId) {
