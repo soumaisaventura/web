@@ -4,11 +4,12 @@ $(function() {
 	numeral.defaultFormat('$ 0,0.00');
 
 	var teamData;
-	var $total = 0;
-	var $teamIds = [];
-	var $race = $("#race").val();
+	var total = 0;
+	var teamIds = [];
+	var race = $("#race").val();
 
 	$("#category").focus();
+	$('#members-list').footable();
 	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
@@ -21,22 +22,22 @@ $(function() {
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
-	RaceProxy.findCourses($race).done(loadCategoriesOk);
+	RaceProxy.findCourses(race).done(loadCategoriesOk);
 
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
 	 */
-	var $user;
+	var user;
 
-	if (!($user = App.getLoggedInUser())) {
+	if (!(user = App.getLoggedInUser())) {
 		App.handle401();
 	}
 
-	RaceProxy.order($race, $user.id).done(function($order) {
-		$teamIds.push($order.rows[0].id);
-		$total += $order.rows[0].amount;
-		addRowOnMemberList($order.rows[0], true);
-		showTotal($total);
+	RaceProxy.order(race, user.id).done(function(order) {
+		teamIds.push(order.rows[0].id);
+		total += order.rows[0].amount;
+		addRowOnMemberList(order.rows[0], true);
+		showTotal(total);
 	});
 
 	/**
@@ -45,7 +46,7 @@ $(function() {
 	 */
 	$("#members").autocomplete({
 		source : function(request, response) {
-			UserProxy.search(request.term, $teamIds).done(function(data) {
+			UserProxy.search(request.term, teamIds).done(function(data) {
 				response(convertToLabelValueStructureFromUser(data));
 			});
 		},
@@ -66,16 +67,26 @@ $(function() {
 	 * 
 	 */
 	$("#bt-add-athlete").click(function() {
-		if ($("#members").val() !== "") {
-			RaceProxy.order($race, $("#members-id").val()).done(function($order) {
-				$teamIds.push($order.rows[0].id);
-				$total += $order.rows[0].amount;
-				addRowOnMemberList($order.rows[0], false);
-				showTotal($total);
+		var members = $("#members");
+		var id = $("#members-id");
+		$("#members-message").hide();
+
+		if (id.val()) {
+			RaceProxy.order(race, id.val()).done(function(order) {
+				teamIds.push(order.rows[0].id);
+				total += order.rows[0].amount;
+				addRowOnMemberList(order.rows[0], false);
+				showTotal(total);
 			});
+
+			id.val("");
+			members.val("");
+
+		} else {
+			$("#members-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
+			members.focus();
 		}
-		$("#members-id").val("");
-		$("#members").val("");
+
 	});
 
 	/**
@@ -83,12 +94,12 @@ $(function() {
 	 */
 	$("#members-list").on("click", "a", function(e) {
 		e.preventDefault();
-		var index = $teamIds.indexOf($(this).data("remove"));
+		var index = teamIds.indexOf($(this).data("remove"));
 		if (index > -1) {
-			$teamIds.splice(index, 1);
-			$total -= numeral().unformat($("#member-" + $(this).data("remove") + " > td:last-child")[0].innerText);
+			teamIds.splice(index, 1);
+			total -= numeral().unformat($("#member-" + $(this).data("remove") + " > td:last-child")[0].innerText);
 			$("#member-" + $(this).data("remove")).remove();
-			showTotal($total);
+			showTotal(total);
 		}
 	});
 
@@ -103,7 +114,7 @@ $(function() {
 			'teamName' : $("#teamName").val(),
 			'category' : $("#category").val().split("#")[0],
 			'course' : $("#category").val().split("#")[1],
-			'members' : $teamIds
+			'members' : teamIds
 		};
 
 		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFailed);
@@ -113,8 +124,8 @@ $(function() {
 
 /* ---------------- Funções de Callback ---------------- */
 
-function getOAuthAppIdsOk($data) {
-	$("#facebook-appid").val($data.facebook);
+function getOAuthAppIdsOk(data) {
+	$("#facebook-appid").val(data.facebook);
 }
 
 /**
@@ -140,13 +151,13 @@ function loadCategoriesOk(data) {
 	});
 }
 
-function registrationOk($data) {
+function registrationOk(data) {
 	$("[id$='-message']").hide();
-	var url = App.getContextPath() + "/registration/" + $data;
+	var url = App.getContextPath() + "/registration/" + data;
 
 	bootbox.dialog({
 		title : "Parabéns",
-		message : "Seu pedido de inscrição <strong>#" + $data
+		message : "Seu pedido de inscrição <strong>#" + data
 				+ "</strong> foi registrado com sucesso. Compartilhe esta boa notícia com os seus amigos.",
 		buttons : {
 			main : {
@@ -206,9 +217,9 @@ function shareOnFacebook() {
  * Função utilitária que converte o objeto retornado no suggest para o formato
  * do jqueryUi.
  */
-function convertToLabelValueStructureFromUser($data) {
+function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
-	$.each($data, function() {
+	$.each(data, function() {
 		newData.push({
 			"label" : this.profile.name,
 			"value" : this.id
@@ -217,22 +228,25 @@ function convertToLabelValueStructureFromUser($data) {
 	return newData;
 }
 
-function addRowOnMemberList($athlete, $exclude) {
-	// if ($athlete.name.length > 30) {
-	// $athlete.name = $athlete.name.substr(0, 27).concat("...");
+function addRowOnMemberList(athlete, exclude) {
+	// if (athlete.name.length > 30) {
+	// athlete.name = athlete.name.substr(0, 27).concat("...");
 	// }
 	var row = "";
-	row = row.concat("<tr id='member-" + $athlete.id + "'>");
-	row = $exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + $athlete.id
+	row = row.concat("<tr id='member-" + athlete.id + "'>");
+	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
-	row = row.concat("<td style='vertical-align:middle;'>" + $athlete.name + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($athlete.racePrice).format() + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral($athlete.annualFee).format() + "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'><em>" + numeral($athlete.amount).format() + "</em></td>");
+	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
+	row = row.concat("<td class='text-right hidden-xs' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.racePrice).format()
+			+ "</td>");
+	row = row.concat("<td class='text-right hidden-xs' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.annualFee).format()
+			+ "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'><em>" + numeral(athlete.amount).format() + "</em></td>");
 	row = row.concat("</tr>");
-	$("#members-list > tbody:last").append(row);
+	// $("#members-list > tbody:last").append(row);
+	$('#members-list').data('footable').appendRow(row);
 }
 
-function showTotal($total) {
-	$("#total").text(numeral($total).format());
+function showTotal(total) {
+	$("#total").text(numeral(total).format());
 }

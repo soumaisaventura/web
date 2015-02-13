@@ -10,6 +10,7 @@
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/footable.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
 	</ui:define>
 
@@ -28,8 +29,8 @@
 			<div class="col-md-5 col-md-offset-3">
 				<div class="row" style="padding-bottom: 20px">
 					<input id="race" type="hidden" value="#{param.race}" />
-					<h1 id="race-name"></h1>
-					<h4>
+					<h2 id="race-name"></h2>
+					<h4 class="hidden-xs">
 						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
 						<span id="race-date"></span>
 						&#160;&#160;
@@ -42,9 +43,9 @@
 				<form>
 					<div class="row">
 						<div class="form-group">
-							<label for="category">Categoria*</label>
+							<label for="category">Categoria *</label>
 							<select id="category" class="form-control">
-								<option value="" selected="selected"></option>
+								<option value="" disabled="disabled" selected="selected">Escolha a categoria</option>
 							</select>
 							<span id="category-message" hidden="true" class="label label-danger" />
 						</div>
@@ -52,8 +53,8 @@
 
 					<div class="row">
 						<div class="form-group">
-							<label for="teamName">Nome da equipe*</label>
-							<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" />
+							<label for="teamName">Nome da equipe *</label>
+							<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
 							<span id="teamName-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
@@ -67,7 +68,7 @@
 					<div class="row">
 						<label>Equipe</label>
 						<div class="form-group">
-							<table id="members-list" class="table" style="margin-top: 0px; margin-bottom: 5px">
+							<table id="members-list" class="table footable" style="margin-top: 0px; margin-bottom: 5px">
 								<!--
 							-->
 								<thead>
@@ -76,22 +77,25 @@
 										<th>
 											<small>atleta</small>
 										</th>
-										<th class="text-right">
+										<th class="text-right hidden-xs">
 											<small>inscrição</small>
 										</th>
-										<th class="text-right">
-											<small>anuidade**</small>
+										<th class="text-right hidden-xs">
+											<small>anuidade **</small>
 										</th>
 										<th class="text-right">
 											<small>total</small>
+											<span class="visible-xs-inline"> **</span>
 										</th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th></th>
-										<th colspan="2" class="text-left"></th>
-										<th class="text-right" nowrap='nowrap'>total a pagar</th>
+										<th data-hide="phone" colspan="2" class="text-left hidden-xs"></th>
+										<th class="text-right" nowrap='nowrap'>
+											<span class="hidden-xs">total a pagar</span>
+										</th>
 										<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
 									</tr>
 								</tfoot>
@@ -102,24 +106,21 @@
 
 					<div class="row">
 						<div class="form-group">
-							<!-- 							<input type="hidden" id="members" /> -->
-							<div id="members-message" class="alert alert-danger" hidden="true">
-								<ul>
-								</ul>
-							</div>
+							<div id="members-message" class="alert alert-danger" hidden="true"></div>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="form-group">
-							<label>Pesquisa por atleta cadastrado***</label>
+							<label>Pesquisa por atleta cadastrado</label>
 							<div class="input-group">
 								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
 								<input type="hidden" id="members-id" />
 								<span class="input-group-btn">
 									<button id="bt-add-athlete" class="btn btn-primary" type="button">
 										<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
-										Incluir na equipe
+										Incluir
+										<span class="hidden-xs">na equipe</span>
 									</button>
 								</span>
 							</div>
@@ -127,18 +128,17 @@
 					</div>
 
 					<div class="row" style="padding-top: 20px; padding-bottom: 20px">
-						<div class="form-group">*** Para incluir um atleta na equipe, ele precisa se cadastrar no site e ativar a conta.</div>
-						<div class="form-group">
+						<p class="form-group text-justify">
 							**
 							<span id="annual-fee-description"></span>
-						</div>
-						<div class="form-group">* Campos de preenchimento obrigatório.</div>
+						</p>
+						<p class="form-group text-justify">* Campos de preenchimento obrigatório.</p>
 					</div>
 					<div class="row" style="margin-bottom: 15px">
 						<div class="form-group">
 							<input id="facebook-appid" type="hidden" />
 							<input id="registration-id" type="hidden" />
-							<button type="submit" class="btn btn-lg btn-success pull-right">
+							<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-5">
 								<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
 								Inscrever equipe
 							</button>
