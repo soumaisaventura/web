@@ -113,19 +113,19 @@ var App = {
 
 	loadDateCombos : function(day, month, year) {
 		for (i = 1; i <= 31; i++) {
-			$(day).append(new Option(i, i));
+			day.append(new Option(i, i));
 		}
 
 		var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro",
 				"Dezembro" ];
 		for (i = 1; i <= 12; i++) {
-			$(month).append(new Option(monthNames[i - 1], i));
+			month.append(new Option(monthNames[i - 1], i));
 		}
 
-		var year = (new Date()).getFullYear();
+		var fullYear = (new Date()).getFullYear();
 
-		for (i = year; i >= year - 100; i--) {
-			$(year).append(new Option(i, i));
+		for (i = fullYear; i >= fullYear - 100; i--) {
+			year.append(new Option(i, i));
 		}
 	},
 

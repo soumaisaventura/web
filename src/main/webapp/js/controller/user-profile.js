@@ -5,6 +5,10 @@ $(function() {
 	/**
 	 * Inicializa a combos Data de nascimento
 	 */
+	console.log($("#birthday"));
+	console.log($("#birthday-month"));
+	console.log($("#birthday-year"));
+
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
 	/**
