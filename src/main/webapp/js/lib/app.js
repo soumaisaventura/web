@@ -161,13 +161,21 @@ $.ajaxSetup({
 });
 
 $('document').ready(function() {
-	var maskBehavior = function(val) {
-		return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-	}, options = {
-		onKeyPress : function(val, e, field, options) {
-			field.mask(maskBehavior.apply({}, arguments), options);
-		}
-	};
+	var inputs = $('input[type="tel"]');
 
-	$('input[type="tel"]').mask(maskBehavior, options);
+	if (inputs.length > 0) {
+		var maskBehavior = function(val) {
+			return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+		}, options = {
+			onKeyPress : function(val, e, field, options) {
+				field.mask(maskBehavior.apply({}, arguments), options);
+			}
+		};
+
+		try {
+			inputs.mask(maskBehavior, options);
+		} catch (err) {
+			console.log("você esqueceu de importar jquery.mask.min.js nesta página.");
+		}
+	}
 });
