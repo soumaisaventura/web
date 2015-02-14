@@ -4,6 +4,12 @@
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
 
+-- object: adminendyfwd | type: ROLE --
+-- DROP ROLE IF EXISTS adminendyfwd;
+CREATE ROLE adminendyfwd WITH 
+	SUPERUSER;
+-- ddl-end --
+
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
@@ -14,7 +20,7 @@
 -- 	LC_COLLATE = 'en_US.UTF8'
 -- 	LC_CTYPE = 'en_US.UTF8'
 -- 	TABLESPACE = pg_default
--- 	OWNER = postgres
+-- 	OWNER = adminendyfwd
 -- ;
 -- -- ddl-end --
 -- 
@@ -235,6 +241,7 @@ CREATE TABLE public.user_account(
 	password_reset_token character varying(64),
 	creation timestamp NOT NULL,
 	deleted timestamp,
+	admin boolean NOT NULL DEFAULT false,
 	CONSTRAINT pk_user_account PRIMARY KEY (id),
 	CONSTRAINT uk_user_account_email UNIQUE (email)
 
@@ -599,6 +606,15 @@ CREATE INDEX idx_registration_approver ON public.registration
 	USING btree
 	(
 	  approver_id ASC NULLS LAST
+	);
+-- ddl-end --
+
+-- object: idx_user_admin | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_user_admin;
+CREATE INDEX idx_user_admin ON public.user_account
+	USING btree
+	(
+	  admin ASC NULLS LAST
 	);
 -- ddl-end --
 
