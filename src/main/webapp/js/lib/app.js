@@ -90,7 +90,7 @@ var App = {
 
 			if (messages.length > 1) {
 				message.empty();
-				var ul = message.add("ul")
+				var ul = message.append("<ul></ul>")
 
 				while (messages.length > 0) {
 					ul.append("<li>" + messages.pop() + "</li>");

@@ -110,10 +110,12 @@ $(function() {
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
+		var category = $("#category");
+
 		var data = {
 			'teamName' : $("#teamName").val(),
-			'category' : $("#category").val().split("#")[0],
-			'course' : $("#category").val().split("#")[1],
+			'category' : category.val() ? category.val().split("#")[0] : "",
+			'course' : category.val() ? category.val().split("#")[1] : "",
 			'members' : teamIds
 		};
 
