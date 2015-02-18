@@ -39,6 +39,7 @@ function loadOk(data) {
 	$("#healthCareNumber").val(data.healthCareNumber);
 	$("#emergencyContactName").val(data.emergencyContactName);
 	$("#emergencyContactPhoneNumber").val(data.emergencyContactPhoneNumber);
+	$("#form-section").show();
 }
 
 /**

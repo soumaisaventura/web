@@ -32,18 +32,16 @@ function loadOk($data) {
 	var totalAmount = 0;
 
 	$("#registration-id").text($data.number);
+	$("#team-name").text($data.teamName);
+	$("#race-status").html(App.translateStatus($data.status));
+	$("#summary-section").show();
 
 	$("#race-name").text($data.race.name);
 	$("#race-date").text(moment($data.race.date).format('LL'));
 	$("#race-city").text($data.race.city.name + "/" + $data.race.city.state);
-	$("#race-status").html(App.translateStatus($data.status));
-	$("#team-name").text($data.teamName);
+	$("#race-section").show();
+
 	$("#race-category").text($data.category.name + " " + $data.course.length + " km");
-
-	if ($data.status == 'pendent') {
-		$('#payment-section').show();
-	}
-
 	$.each($data.teamFormation, function($i, $member) {
 		totalAmount += $member.bill.amount;
 		var row = "";
@@ -67,9 +65,15 @@ function loadOk($data) {
 		row = row.concat("</tr>");
 		$("#team-formation > tbody:last").append(row);
 	});
-
 	$("#bill-total-amount").text(numeral(totalAmount).format());
 	$("#annual-fee-description").text(App.annualFeeDescription);
+	$("#team-section").show();
+
+	$("#transaction").val($data.transaction);
+	if ($data.status == 'pendent') {
+		$('#payment-section').show();
+	}
+	refreshPaymentButton();
 
 	$.each($data.race.organizers, function($i, $organizer) {
 		var row = "";
@@ -89,12 +93,11 @@ function loadOk($data) {
 		row = row.concat("</div>");
 		$("#race-organizers").append(row);
 	});
+	$("#organizers-section").show();
 
-	$("#transaction").val($data.transaction);
 	$("#registration-submitter").text($data.submitter.name);
 	$("#registration-date").text(moment($data.date).format('L'));
-
-	refreshPaymentButton();
+	$("#footer-section").show();
 }
 
 function refreshPaymentButton() {

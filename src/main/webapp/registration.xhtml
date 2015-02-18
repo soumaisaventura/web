@@ -18,22 +18,11 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<style>
-hr {
-	border: 0;
-	height: 1px;
-	background: #333;
-	background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
-	background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
-}
-</style>
 		<div class="container">
 			<input id="registration" type="hidden" value="#{param.registration}" />
 
 			<div class="col-md-6 col-md-offset-3">
-				<div class="row" style="vertical-align: middle;">
+				<div id="summary-section" hidden="true" class="row" style="vertical-align: middle;">
 					<div class="col-md-9 col-md-offset-0" style="padding: 0px;">
 						<h2>
 							Inscrição #
@@ -51,7 +40,7 @@ hr {
 					</div>
 				</div>
 
-				<div class="row" style="padding-top: 28px;">
+				<div id="race-section" hidden="true" class="row" style="padding-top: 28px;">
 					<h3>
 						<span id="race-name"></span>
 					</h3>
@@ -64,7 +53,7 @@ hr {
 					</h5>
 				</div>
 
-				<div class="row" style="padding-top: 30px; padding-bottom: 20px;">
+				<div id="team-section" hidden="true"  class="row" style="padding-top: 30px; padding-bottom: 20px;">
 					<table id="team-formation" class="table" style="margin-bottom: 0px;">
 						<thead>
 							<tr>
@@ -120,7 +109,7 @@ hr {
 					</button>
 				</div>
 
-				<div class="row">
+				<div id="organizers-section" hidden="true" class="row">
 					<h3>Organizadores</h3>
 
 					<p classstyle="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
@@ -128,7 +117,7 @@ hr {
 					<div id="race-organizers" class="row" style="padding-top: 20px; padding-bottom: 15px;"></div>
 				</div>
 
-				<div class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
+				<div id="footer-section" hidden="true" class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
 					<h5>
 						Inscrição efetuada por
 						<br />
