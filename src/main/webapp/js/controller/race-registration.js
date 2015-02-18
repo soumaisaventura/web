@@ -3,13 +3,15 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0.00');
 
-	var teamData;
-	var total = 0;
-	var teamIds = [];
+	var memberIds = [];
 	var race = $("#race").val();
 
 	$("#category").focus();
-	$('#members-list').footable();
+	$('#members-list').footable({
+		breakpoints : {
+			phone : 470
+		}
+	});
 	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
@@ -34,10 +36,9 @@ $(function() {
 	}
 
 	RaceProxy.order(race, user.id).done(function(order) {
-		teamIds.push(order.rows[0].id);
-		total += order.rows[0].amount;
+		memberIds.push(order.rows[0].id);
 		addRowOnMemberList(order.rows[0], true);
-		showTotal(total);
+		updateTotal();
 	});
 
 	/**
@@ -46,7 +47,7 @@ $(function() {
 	 */
 	$("#members").autocomplete({
 		source : function(request, response) {
-			UserProxy.search(request.term, teamIds).done(function(data) {
+			UserProxy.search(request.term, memberIds).done(function(data) {
 				response(convertToLabelValueStructureFromUser(data));
 			});
 		},
@@ -73,10 +74,9 @@ $(function() {
 
 		if (id.val()) {
 			RaceProxy.order(race, id.val()).done(function(order) {
-				teamIds.push(order.rows[0].id);
-				total += order.rows[0].amount;
+				memberIds.push(order.rows[0].id);
 				addRowOnMemberList(order.rows[0], false);
-				showTotal(total);
+				updateTotal();
 			});
 
 			id.val("");
@@ -86,21 +86,20 @@ $(function() {
 			$("#members-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
 			members.focus();
 		}
-
 	});
 
 	/**
 	 * Adiciona um event listener para remoção nos membros inseridos na equipe
 	 */
-	$("#members-list").on("click", "a", function(e) {
+	$("#members-list").on("click", ".remove", function(e) {
 		e.preventDefault();
-		var index = teamIds.indexOf($(this).data("remove"));
-		if (index > -1) {
-			teamIds.splice(index, 1);
-			total -= numeral().unformat($("#member-" + $(this).data("remove") + " > td:last-child")[0].innerText);
-			$("#member-" + $(this).data("remove")).remove();
-			showTotal(total);
-		}
+
+		var teamId = $(this).data("id");
+		memberIds.splice($.inArray(teamId, memberIds), 1);
+
+		var row = $(this).parents('tr:first');
+		$('#members-list').data('footable').removeRow(row);
+		updateTotal();
 	});
 
 	/**
@@ -116,10 +115,10 @@ $(function() {
 			'teamName' : $("#teamName").val(),
 			'category' : category.val() ? category.val().split("#")[0] : "",
 			'course' : category.val() ? category.val().split("#")[1] : "",
-			'members' : teamIds
+			'members' : memberIds
 		};
 
-		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk).fail(registrationFailed);
+		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk);
 	});
 
 });
@@ -175,8 +174,6 @@ function registrationOk(data) {
 			location.href = url;
 		}
 	});
-
-	console.log(url);
 }
 
 function registrationFailed(request) {
@@ -236,19 +233,24 @@ function addRowOnMemberList(athlete, exclude) {
 	// }
 	var row = "";
 	row = row.concat("<tr id='member-" + athlete.id + "'>");
-	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' data-remove='" + athlete.id
+	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
-	row = row.concat("<td class='text-right hidden-xs' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.racePrice).format()
-			+ "</td>");
-	row = row.concat("<td class='text-right hidden-xs' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.annualFee).format()
-			+ "</td>");
-	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'><em>" + numeral(athlete.amount).format() + "</em></td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.racePrice).format() + "</td>");
+	row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>" + numeral(athlete.annualFee).format() + "</td>");
+	row = row.concat("<td class='text-right ammount' nowrap='nowrap' style='vertical-align:middle;' data-ammount='" + athlete.amount + "'><em>"
+			+ numeral(athlete.amount).format() + "</em></td>");
 	row = row.concat("</tr>");
 	// $("#members-list > tbody:last").append(row);
 	$('#members-list').data('footable').appendRow(row);
 }
 
-function showTotal(total) {
+function updateTotal() {
+	var total = 0;
+
+	$(".ammount").each(function() {
+		total += $(this).data("ammount");
+	});
+
 	$("#total").text(numeral(total).format());
 }

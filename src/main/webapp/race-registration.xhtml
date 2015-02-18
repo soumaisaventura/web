@@ -3,6 +3,12 @@
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
+		<link rel="stylesheet" href="#{request.contextPath}/css/footable.core.min.css" />
+		<style>
+.footable-row-detail-name {
+	padding-left: 30px;
+}
+</style>
 	</ui:define>
 
 	<ui:define name="lib">
@@ -58,32 +64,23 @@
 							<span id="teamName-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
-					<!--
-					<div class="row">
-						<div class="form-group" style="padding-top: 20px">
-							<h4>Formação da equipe</h4>
-						</div>
-					</div>
-					-->
 					<div class="row">
 						<label>Equipe</label>
 						<div class="form-group">
-							<table id="members-list" class="table footable" style="margin-top: 0px; margin-bottom: 5px">
-								<!--
-							-->
+							<table id="members-list" class="table footable toggle-arrow-small toggle-medium" style="margin-top: 0px; margin-bottom: 5px">
 								<thead>
 									<tr class="info text-primary">
-										<th></th>
+										<th style="width: 30px;"></th>
 										<th>
 											<small>atleta</small>
 										</th>
-										<th class="text-right hidden-xs">
+										<th class="text-right" data-hide="phone">
 											<small>inscrição</small>
 										</th>
-										<th class="text-right hidden-xs">
+										<th class="text-right" data-hide="phone">
 											<small>anuidade **</small>
 										</th>
-										<th class="text-right">
+										<th class="text-right" data-toggle="true">
 											<small>total</small>
 											<span class="visible-xs-inline"> **</span>
 										</th>

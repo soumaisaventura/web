@@ -111,6 +111,10 @@ var App = {
 		});
 	},
 
+	handle500 : function(request) {
+		alert("Ocorreu um erro interno no servidor e o processamento não foi concluído. Informe ao administrador pelo e-mail: contato@soumaisaventura.com.br");
+	},
+
 	loadDateCombos : function(day, month, year) {
 		for (i = 1; i <= 31; i++) {
 			day.append(new Option(i, i));
@@ -155,6 +159,10 @@ $.ajaxSetup({
 
 			case 422:
 				App.handle422(request);
+				break;
+
+			case 500:
+				App.handle500(request);
 				break;
 		}
 	}

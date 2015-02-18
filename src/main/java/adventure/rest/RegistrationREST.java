@@ -137,7 +137,7 @@ public class RegistrationREST {
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!registration.getSubmitter().equals(loggedInUser)
+		if (!User.getLoggedIn().getAdmin() && !registration.getSubmitter().equals(loggedInUser)
 				&& !teamFormations.contains(new TeamFormation(registration, loggedInUser))
 				&& !organizers.contains(loggedInUser)) {
 			throw new ForbiddenException();

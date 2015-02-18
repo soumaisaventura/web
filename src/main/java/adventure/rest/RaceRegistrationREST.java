@@ -129,7 +129,7 @@ public class RaceRegistrationREST {
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
 
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!organizers.contains(User.getLoggedIn())) {
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 

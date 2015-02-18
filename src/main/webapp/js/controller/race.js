@@ -67,25 +67,26 @@ function loadOk(data) {
 		$("#categories-section").show();
 	}
 
-	var isOrganizer = false;
+	var user = App.getLoggedInUser();
+	var authorized = user ? user.admin : null;
 	if (data.organizers.length > 0) {
 		$.each(data.organizers, function(index, value) {
 			$("#organizers").append(
 					"<h4>" + value.name + " <a style='font-size:0.8em; color:#EA8E13' href='mailto:" + value.email + "?Subject=Dúvida sobra a prova "
 							+ data.name + "'>" + value.email + "</a></h4>");
 
-			if (App.isLoggedIn() && value.email == App.getLoggedInUser().email && !isOrganizer) {
-				isOrganizer = true;
+			if (App.isLoggedIn() && value.email == App.getLoggedInUser().email && !authorized) {
+				authorized = true;
 			}
 		});
 		$("#organizers-section").show();
 	}
 
-	if (data.registration.open && !isOrganizer) {
+	if (data.registration.open && !authorized) {
 		$("#bt-registration-section").show();
 	}
 
-	if (isOrganizer) {
+	if (authorized) {
 		$("#bt-manage-section").show();
 	}
 }

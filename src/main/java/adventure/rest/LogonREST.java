@@ -41,6 +41,10 @@ public class LogonREST {
 		// if (user.getHealth().getPendencies() == 0) {
 		// user.setHealth(null);
 		// }
+		
+		if (!user.getAdmin()) {
+			user.setAdmin(null);
+		}
 
 		return user;
 	}

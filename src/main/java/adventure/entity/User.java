@@ -78,7 +78,6 @@ public class User implements Principal, Serializable {
 	@Index(name = "IDX_USER_DELETED")
 	private Date deleted;
 
-	@JsonIgnore
 	@Column(name = "ADMIN")
 	@Index(name = "IDX_USER_ADMIN")
 	private Boolean admin;

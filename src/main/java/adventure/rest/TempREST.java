@@ -55,12 +55,15 @@ public class TempREST {
 
 	@POST
 	@Transactional
-	@Path("reset-passwords")
-	public void resetPassword(@Context UriInfo uriInfo) throws Exception {
+	@Path("prepare")
+	public void prepare(@Context UriInfo uriInfo) throws Exception {
 		validate(uriInfo);
 
 		UserDAO userDAO = UserDAO.getInstance();
 		for (User user : userDAO.findAll()) {
+			if (!user.getAdmin()) {
+				user.setEmail("test_" + user.getEmail());
+			}
 			user.setPassword(Passwords.hash("123", user.getEmail()));
 			userDAO.update(user);
 		}
