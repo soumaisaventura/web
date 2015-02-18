@@ -32,7 +32,17 @@ public class LogonREST {
 
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		securityContext.login();
-		return User.getLoggedIn();
+
+		User user = User.getLoggedIn();
+		// if (user.getProfile().getPendencies() == 0) {
+		// user.getProfile().setPendencies(null);
+		// }
+		//
+		// if (user.getHealth().getPendencies() == 0) {
+		// user.setHealth(null);
+		// }
+
+		return user;
 	}
 
 	@GET

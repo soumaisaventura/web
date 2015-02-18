@@ -9,7 +9,7 @@ $(function() {
 		$("[id$='-message']").hide();
 
 		var birthday = "";
-		if (!isNaN($("#birthday-year").val()) && !isNaN($("#birthday-month").val()) && !isNaN($("#birthday").val())) {
+		if ($("#birthday-year").val() && $("#birthday-month").val() && $("#birthday").val()) {
 			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
 		}
 

@@ -34,21 +34,21 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="name">Nome *</label>
-							<input id="name" type="text" class="form-control" maxlength="#{constants.nameSize}" />
+							<input id="name" type="text" class="form-control" placeholder="Digite o seu nome" maxlength="#{constants.nameSize}" />
 							<span id="name-message" hidden="true" class="label label-danger" maxlength="#{constants.nameSize}" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group">
 							<label for="rg">RG *</label>
-							<input id="rg" type="text" class="form-control" maxlength="#{constants.rgSize}" />
+							<input id="rg" type="text" class="form-control" placeholder="Digite o seu RG" maxlength="#{constants.rgSize}" />
 							<span id="rg-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group">
 							<label for="cpf">CPF *</label>
-							<input id="cpf" type="text" class="form-control" maxlength="#{constants.cpfSize}" />
+							<input id="cpf" type="text" class="form-control" placeholder="Digite o seu CPF" maxlength="#{constants.cpfSize}" />
 							<span id="cpf-message" hidden="true" class="label label-danger" />
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 						<div class="form-group">
 							<label for="gender">Sexo *</label>
 							<select id="gender" class="form-control">
-								<option value="" selected="selected"></option>
+								<option disabled="disabled" selected="selected">Escolha o sexo</option>
 								<option value="M">Masculino</option>
 								<option value="F">Feminino</option>
 							</select>
@@ -73,15 +73,15 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="city">Cidade de residência *</label>
-							<input id="city-id" type="hidden" />
-							<input id="city" type="text" class="form-control" maxlength="#{constants.nameSize}" />
-							<span id="city-id-message" hidden="true" class="label label-danger"></span>
+							<input id="city.id" type="hidden" />
+							<input id="city" type="text" class="form-control" placeholder="Cidade de residência" maxlength="#{constants.nameSize}" />
+							<span id="city.id-message" hidden="true" class="label label-danger"></span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group">
 							<label for="mobile">Celular ou fixo *</label>
-							<input id="mobile" type="tel" class="form-control" placeholder="ex: (71) 8765-4321" maxlength="#{constants.telephoneSize}" />
+							<input id="mobile" type="tel" class="form-control" placeholder="Telefone para contato com DDD" maxlength="#{constants.telephoneSize}" />
 							<span id="mobile-message" hidden="true" class="label label-danger"></span>
 						</div>
 					</div>

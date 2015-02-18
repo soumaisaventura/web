@@ -48,7 +48,7 @@ function loadOk(data) {
 function updateOk(data) {
 	$("[id$='-message']").hide();
 	var user = App.getLoggedInUser();
-	user.health.pendencies = null;
+	user.health = null;
 	App.setLoggedInUser(user);
 
 	var content = {};

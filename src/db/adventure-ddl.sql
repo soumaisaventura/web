@@ -1,5 +1,5 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
--- pgModeler  version: 0.8.0-beta1
+-- pgModeler  version: 0.8.0-beta2
 -- PostgreSQL version: 9.4
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
@@ -26,7 +26,7 @@ CREATE ROLE adminendyfwd WITH
 -- 
 
 -- object: public.category | type: TABLE --
--- DROP TABLE IF EXISTS public.category;
+-- DROP TABLE IF EXISTS public.category CASCADE;
 CREATE TABLE public.category(
 	id integer NOT NULL,
 	name character varying(50) NOT NULL,
@@ -42,7 +42,7 @@ ALTER TABLE public.category OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.city | type: TABLE --
--- DROP TABLE IF EXISTS public.city;
+-- DROP TABLE IF EXISTS public.city CASCADE;
 CREATE TABLE public.city(
 	id integer NOT NULL,
 	state_id integer NOT NULL,
@@ -55,7 +55,7 @@ ALTER TABLE public.city OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.country | type: TABLE --
--- DROP TABLE IF EXISTS public.country;
+-- DROP TABLE IF EXISTS public.country CASCADE;
 CREATE TABLE public.country(
 	id integer NOT NULL,
 	name character varying(50) NOT NULL,
@@ -68,7 +68,7 @@ ALTER TABLE public.country OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.course | type: TABLE --
--- DROP TABLE IF EXISTS public.course;
+-- DROP TABLE IF EXISTS public.course CASCADE;
 CREATE TABLE public.course(
 	id integer NOT NULL,
 	race_id integer NOT NULL,
@@ -81,7 +81,7 @@ ALTER TABLE public.course OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.health | type: TABLE --
--- DROP TABLE IF EXISTS public.health;
+-- DROP TABLE IF EXISTS public.health CASCADE;
 CREATE TABLE public.health(
 	id integer NOT NULL,
 	blood_type character varying(20),
@@ -99,7 +99,7 @@ ALTER TABLE public.health OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.period | type: TABLE --
--- DROP TABLE IF EXISTS public.period;
+-- DROP TABLE IF EXISTS public.period CASCADE;
 CREATE TABLE public.period(
 	id integer NOT NULL,
 	race_id integer NOT NULL,
@@ -116,7 +116,7 @@ ALTER TABLE public.period OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.profile | type: TABLE --
--- DROP TABLE IF EXISTS public.profile;
+-- DROP TABLE IF EXISTS public.profile CASCADE;
 CREATE TABLE public.profile(
 	id integer NOT NULL,
 	name character varying(50) NOT NULL,
@@ -135,7 +135,7 @@ ALTER TABLE public.profile OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.race | type: TABLE --
--- DROP TABLE IF EXISTS public.race;
+-- DROP TABLE IF EXISTS public.race CASCADE;
 CREATE TABLE public.race(
 	id integer NOT NULL,
 	name character varying(50) NOT NULL,
@@ -154,7 +154,7 @@ ALTER TABLE public.race OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.race_category | type: TABLE --
--- DROP TABLE IF EXISTS public.race_category;
+-- DROP TABLE IF EXISTS public.race_category CASCADE;
 CREATE TABLE public.race_category(
 	race_id integer NOT NULL,
 	course_id integer NOT NULL,
@@ -167,7 +167,7 @@ ALTER TABLE public.race_category OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.race_organizer | type: TABLE --
--- DROP TABLE IF EXISTS public.race_organizer;
+-- DROP TABLE IF EXISTS public.race_organizer CASCADE;
 CREATE TABLE public.race_organizer(
 	race_id integer NOT NULL,
 	organizer_id integer NOT NULL,
@@ -179,7 +179,7 @@ ALTER TABLE public.race_organizer OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.registration | type: TABLE --
--- DROP TABLE IF EXISTS public.registration;
+-- DROP TABLE IF EXISTS public.registration CASCADE;
 CREATE TABLE public.registration(
 	id bigint NOT NULL,
 	race_id integer NOT NULL,
@@ -202,7 +202,7 @@ ALTER TABLE public.registration OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.state | type: TABLE --
--- DROP TABLE IF EXISTS public.state;
+-- DROP TABLE IF EXISTS public.state CASCADE;
 CREATE TABLE public.state(
 	id integer NOT NULL,
 	country_id integer NOT NULL,
@@ -216,7 +216,7 @@ ALTER TABLE public.state OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.team_formation | type: TABLE --
--- DROP TABLE IF EXISTS public.team_formation;
+-- DROP TABLE IF EXISTS public.team_formation CASCADE;
 CREATE TABLE public.team_formation(
 	registration_id bigint NOT NULL,
 	user_id integer NOT NULL,
@@ -230,7 +230,7 @@ ALTER TABLE public.team_formation OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.user_account | type: TABLE --
--- DROP TABLE IF EXISTS public.user_account;
+-- DROP TABLE IF EXISTS public.user_account CASCADE;
 CREATE TABLE public.user_account(
 	id integer NOT NULL,
 	email character varying(255) NOT NULL,
@@ -251,7 +251,7 @@ ALTER TABLE public.user_account OWNER TO postgres;
 -- ddl-end --
 
 -- object: idx_category_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_category_name;
+-- DROP INDEX IF EXISTS public.idx_category_name CASCADE;
 CREATE INDEX idx_category_name ON public.category
 	USING btree
 	(
@@ -260,7 +260,7 @@ CREATE INDEX idx_category_name ON public.category
 -- ddl-end --
 
 -- object: idx_city_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_city_name;
+-- DROP INDEX IF EXISTS public.idx_city_name CASCADE;
 CREATE INDEX idx_city_name ON public.city
 	USING btree
 	(
@@ -269,7 +269,7 @@ CREATE INDEX idx_city_name ON public.city
 -- ddl-end --
 
 -- object: idx_city_state | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_city_state;
+-- DROP INDEX IF EXISTS public.idx_city_state CASCADE;
 CREATE INDEX idx_city_state ON public.city
 	USING btree
 	(
@@ -278,7 +278,7 @@ CREATE INDEX idx_city_state ON public.city
 -- ddl-end --
 
 -- object: idx_country_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_country_name;
+-- DROP INDEX IF EXISTS public.idx_country_name CASCADE;
 CREATE INDEX idx_country_name ON public.country
 	USING btree
 	(
@@ -287,7 +287,7 @@ CREATE INDEX idx_country_name ON public.country
 -- ddl-end --
 
 -- object: idx_country_abbreviation | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_country_abbreviation;
+-- DROP INDEX IF EXISTS public.idx_country_abbreviation CASCADE;
 CREATE INDEX idx_country_abbreviation ON public.country
 	USING btree
 	(
@@ -296,7 +296,7 @@ CREATE INDEX idx_country_abbreviation ON public.country
 -- ddl-end --
 
 -- object: idx_course_race | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_course_race;
+-- DROP INDEX IF EXISTS public.idx_course_race CASCADE;
 CREATE INDEX idx_course_race ON public.course
 	USING btree
 	(
@@ -305,7 +305,7 @@ CREATE INDEX idx_course_race ON public.course
 -- ddl-end --
 
 -- object: idx_period_race | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_period_race;
+-- DROP INDEX IF EXISTS public.idx_period_race CASCADE;
 CREATE INDEX idx_period_race ON public.period
 	USING btree
 	(
@@ -314,7 +314,7 @@ CREATE INDEX idx_period_race ON public.period
 -- ddl-end --
 
 -- object: idx_profile_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_profile_name;
+-- DROP INDEX IF EXISTS public.idx_profile_name CASCADE;
 CREATE INDEX idx_profile_name ON public.profile
 	USING btree
 	(
@@ -323,7 +323,7 @@ CREATE INDEX idx_profile_name ON public.profile
 -- ddl-end --
 
 -- object: idx_user_city | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_user_city;
+-- DROP INDEX IF EXISTS public.idx_user_city CASCADE;
 CREATE INDEX idx_user_city ON public.profile
 	USING btree
 	(
@@ -332,7 +332,7 @@ CREATE INDEX idx_user_city ON public.profile
 -- ddl-end --
 
 -- object: idx_profile_cpf | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_profile_cpf;
+-- DROP INDEX IF EXISTS public.idx_profile_cpf CASCADE;
 CREATE INDEX idx_profile_cpf ON public.profile
 	USING btree
 	(
@@ -341,7 +341,7 @@ CREATE INDEX idx_profile_cpf ON public.profile
 -- ddl-end --
 
 -- object: idx_race_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_name;
+-- DROP INDEX IF EXISTS public.idx_race_name CASCADE;
 CREATE INDEX idx_race_name ON public.race
 	USING btree
 	(
@@ -350,7 +350,7 @@ CREATE INDEX idx_race_name ON public.race
 -- ddl-end --
 
 -- object: idx_race_date | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_date;
+-- DROP INDEX IF EXISTS public.idx_race_date CASCADE;
 CREATE INDEX idx_race_date ON public.race
 	USING btree
 	(
@@ -359,7 +359,7 @@ CREATE INDEX idx_race_date ON public.race
 -- ddl-end --
 
 -- object: idx_race_city | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_race_city;
+-- DROP INDEX IF EXISTS public.idx_race_city CASCADE;
 CREATE INDEX idx_race_city ON public.race
 	USING btree
 	(
@@ -368,7 +368,7 @@ CREATE INDEX idx_race_city ON public.race
 -- ddl-end --
 
 -- object: idx_registration_date | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_registration_date;
+-- DROP INDEX IF EXISTS public.idx_registration_date CASCADE;
 CREATE INDEX idx_registration_date ON public.registration
 	USING btree
 	(
@@ -377,7 +377,7 @@ CREATE INDEX idx_registration_date ON public.registration
 -- ddl-end --
 
 -- object: idx_registration_submitter | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_registration_submitter;
+-- DROP INDEX IF EXISTS public.idx_registration_submitter CASCADE;
 CREATE INDEX idx_registration_submitter ON public.registration
 	USING btree
 	(
@@ -386,7 +386,7 @@ CREATE INDEX idx_registration_submitter ON public.registration
 -- ddl-end --
 
 -- object: idx_state_name | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_state_name;
+-- DROP INDEX IF EXISTS public.idx_state_name CASCADE;
 CREATE INDEX idx_state_name ON public.state
 	USING btree
 	(
@@ -395,7 +395,7 @@ CREATE INDEX idx_state_name ON public.state
 -- ddl-end --
 
 -- object: idx_state_abbreviation | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_state_abbreviation;
+-- DROP INDEX IF EXISTS public.idx_state_abbreviation CASCADE;
 CREATE INDEX idx_state_abbreviation ON public.state
 	USING btree
 	(
@@ -404,7 +404,7 @@ CREATE INDEX idx_state_abbreviation ON public.state
 -- ddl-end --
 
 -- object: idx_state_country | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_state_country;
+-- DROP INDEX IF EXISTS public.idx_state_country CASCADE;
 CREATE INDEX idx_state_country ON public.state
 	USING btree
 	(
@@ -413,7 +413,7 @@ CREATE INDEX idx_state_country ON public.state
 -- ddl-end --
 
 -- object: idx_user_email | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_user_email;
+-- DROP INDEX IF EXISTS public.idx_user_email CASCADE;
 CREATE INDEX idx_user_email ON public.user_account
 	USING btree
 	(
@@ -422,7 +422,7 @@ CREATE INDEX idx_user_email ON public.user_account
 -- ddl-end --
 
 -- object: idx_user_deleted | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_user_deleted;
+-- DROP INDEX IF EXISTS public.idx_user_deleted CASCADE;
 CREATE INDEX idx_user_deleted ON public.user_account
 	USING btree
 	(
@@ -431,7 +431,7 @@ CREATE INDEX idx_user_deleted ON public.user_account
 -- ddl-end --
 
 -- object: public.seq_category | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_category;
+-- DROP SEQUENCE IF EXISTS public.seq_category CASCADE;
 CREATE SEQUENCE public.seq_category
 	INCREMENT BY 1
 	MINVALUE 1
@@ -445,7 +445,7 @@ ALTER SEQUENCE public.seq_category OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_course | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_course;
+-- DROP SEQUENCE IF EXISTS public.seq_course CASCADE;
 CREATE SEQUENCE public.seq_course
 	INCREMENT BY 1
 	MINVALUE 1
@@ -459,7 +459,7 @@ ALTER SEQUENCE public.seq_course OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_period | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_period;
+-- DROP SEQUENCE IF EXISTS public.seq_period CASCADE;
 CREATE SEQUENCE public.seq_period
 	INCREMENT BY 1
 	MINVALUE 1
@@ -473,7 +473,7 @@ ALTER SEQUENCE public.seq_period OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_race | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_race;
+-- DROP SEQUENCE IF EXISTS public.seq_race CASCADE;
 CREATE SEQUENCE public.seq_race
 	INCREMENT BY 1
 	MINVALUE 1
@@ -487,7 +487,7 @@ ALTER SEQUENCE public.seq_race OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_receipt | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_receipt;
+-- DROP SEQUENCE IF EXISTS public.seq_receipt CASCADE;
 CREATE SEQUENCE public.seq_receipt
 	INCREMENT BY 1
 	MINVALUE 1
@@ -501,7 +501,7 @@ ALTER SEQUENCE public.seq_receipt OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_registration | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_registration;
+-- DROP SEQUENCE IF EXISTS public.seq_registration CASCADE;
 CREATE SEQUENCE public.seq_registration
 	INCREMENT BY 1
 	MINVALUE 1
@@ -515,7 +515,7 @@ ALTER SEQUENCE public.seq_registration OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.seq_user | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS public.seq_user;
+-- DROP SEQUENCE IF EXISTS public.seq_user CASCADE;
 CREATE SEQUENCE public.seq_user
 	INCREMENT BY 1
 	MINVALUE 1
@@ -529,7 +529,7 @@ ALTER SEQUENCE public.seq_user OWNER TO postgres;
 -- ddl-end --
 
 -- object: idx_registration_status | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_registration_status;
+-- DROP INDEX IF EXISTS public.idx_registration_status CASCADE;
 CREATE INDEX idx_registration_status ON public.registration
 	USING btree
 	(
@@ -538,7 +538,7 @@ CREATE INDEX idx_registration_status ON public.registration
 -- ddl-end --
 
 -- object: idx_period_ending | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_period_ending;
+-- DROP INDEX IF EXISTS public.idx_period_ending CASCADE;
 CREATE UNIQUE INDEX idx_period_ending ON public.period
 	USING btree
 	(
@@ -548,7 +548,7 @@ CREATE UNIQUE INDEX idx_period_ending ON public.period
 -- ddl-end --
 
 -- object: idx_period_beginning | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_period_beginning;
+-- DROP INDEX IF EXISTS public.idx_period_beginning CASCADE;
 CREATE UNIQUE INDEX idx_period_beginning ON public.period
 	USING btree
 	(
@@ -558,7 +558,7 @@ CREATE UNIQUE INDEX idx_period_beginning ON public.period
 -- ddl-end --
 
 -- object: public.annual_fee | type: TABLE --
--- DROP TABLE IF EXISTS public.annual_fee;
+-- DROP TABLE IF EXISTS public.annual_fee CASCADE;
 CREATE TABLE public.annual_fee(
 	year integer NOT NULL,
 	fee numeric(5,2),
@@ -570,7 +570,7 @@ ALTER TABLE public.annual_fee OWNER TO postgres;
 -- ddl-end --
 
 -- object: public.annual_fee_payment | type: TABLE --
--- DROP TABLE IF EXISTS public.annual_fee_payment;
+-- DROP TABLE IF EXISTS public.annual_fee_payment CASCADE;
 CREATE TABLE public.annual_fee_payment(
 	year integer NOT NULL,
 	user_id integer NOT NULL,
@@ -583,7 +583,7 @@ ALTER TABLE public.annual_fee_payment OWNER TO postgres;
 -- ddl-end --
 
 -- object: idx_anual_fee_payment_registration | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_anual_fee_payment_registration;
+-- DROP INDEX IF EXISTS public.idx_anual_fee_payment_registration CASCADE;
 CREATE INDEX idx_anual_fee_payment_registration ON public.annual_fee_payment
 	USING btree
 	(
@@ -592,16 +592,16 @@ CREATE INDEX idx_anual_fee_payment_registration ON public.annual_fee_payment
 -- ddl-end --
 
 -- object: adminpack | type: EXTENSION --
--- DROP EXTENSION IF EXISTS pg_catalog.adminpack;
+-- DROP EXTENSION IF EXISTS adminpack CASCADE;
 CREATE EXTENSION adminpack
       WITH SCHEMA pg_catalog
       VERSION '1.0';
 -- ddl-end --
-COMMENT ON EXTENSION pg_catalog.adminpack IS 'administrative functions for PostgreSQL';
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
 -- ddl-end --
 
 -- object: idx_registration_approver | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_registration_approver;
+-- DROP INDEX IF EXISTS public.idx_registration_approver CASCADE;
 CREATE INDEX idx_registration_approver ON public.registration
 	USING btree
 	(
@@ -610,7 +610,7 @@ CREATE INDEX idx_registration_approver ON public.registration
 -- ddl-end --
 
 -- object: idx_user_admin | type: INDEX --
--- DROP INDEX IF EXISTS public.idx_user_admin;
+-- DROP INDEX IF EXISTS public.idx_user_admin CASCADE;
 CREATE INDEX idx_user_admin ON public.user_account
 	USING btree
 	(
@@ -619,154 +619,154 @@ CREATE INDEX idx_user_admin ON public.user_account
 -- ddl-end --
 
 -- object: fk_city_state | type: CONSTRAINT --
--- ALTER TABLE public.city DROP CONSTRAINT IF EXISTS fk_city_state;
+-- ALTER TABLE public.city DROP CONSTRAINT IF EXISTS fk_city_state CASCADE;
 ALTER TABLE public.city ADD CONSTRAINT fk_city_state FOREIGN KEY (state_id)
 REFERENCES public.state (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_course_race | type: CONSTRAINT --
--- ALTER TABLE public.course DROP CONSTRAINT IF EXISTS fk_course_race;
+-- ALTER TABLE public.course DROP CONSTRAINT IF EXISTS fk_course_race CASCADE;
 ALTER TABLE public.course ADD CONSTRAINT fk_course_race FOREIGN KEY (race_id)
 REFERENCES public.race (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_health_user | type: CONSTRAINT --
--- ALTER TABLE public.health DROP CONSTRAINT IF EXISTS fk_health_user;
+-- ALTER TABLE public.health DROP CONSTRAINT IF EXISTS fk_health_user CASCADE;
 ALTER TABLE public.health ADD CONSTRAINT fk_health_user FOREIGN KEY (id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_period_race | type: CONSTRAINT --
--- ALTER TABLE public.period DROP CONSTRAINT IF EXISTS fk_period_race;
+-- ALTER TABLE public.period DROP CONSTRAINT IF EXISTS fk_period_race CASCADE;
 ALTER TABLE public.period ADD CONSTRAINT fk_period_race FOREIGN KEY (race_id)
 REFERENCES public.race (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_profile_user | type: CONSTRAINT --
--- ALTER TABLE public.profile DROP CONSTRAINT IF EXISTS fk_profile_user;
+-- ALTER TABLE public.profile DROP CONSTRAINT IF EXISTS fk_profile_user CASCADE;
 ALTER TABLE public.profile ADD CONSTRAINT fk_profile_user FOREIGN KEY (id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_user_city | type: CONSTRAINT --
--- ALTER TABLE public.profile DROP CONSTRAINT IF EXISTS fk_user_city;
+-- ALTER TABLE public.profile DROP CONSTRAINT IF EXISTS fk_user_city CASCADE;
 ALTER TABLE public.profile ADD CONSTRAINT fk_user_city FOREIGN KEY (city_id)
 REFERENCES public.city (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_city | type: CONSTRAINT --
--- ALTER TABLE public.race DROP CONSTRAINT IF EXISTS fk_race_city;
+-- ALTER TABLE public.race DROP CONSTRAINT IF EXISTS fk_race_city CASCADE;
 ALTER TABLE public.race ADD CONSTRAINT fk_race_city FOREIGN KEY (city_id)
 REFERENCES public.city (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_category_category | type: CONSTRAINT --
--- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_category;
+-- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_category CASCADE;
 ALTER TABLE public.race_category ADD CONSTRAINT fk_race_category_category FOREIGN KEY (category_id)
 REFERENCES public.category (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_category_race | type: CONSTRAINT --
--- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_race;
+-- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_race CASCADE;
 ALTER TABLE public.race_category ADD CONSTRAINT fk_race_category_race FOREIGN KEY (race_id)
 REFERENCES public.race (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_category_course | type: CONSTRAINT --
--- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_course;
+-- ALTER TABLE public.race_category DROP CONSTRAINT IF EXISTS fk_race_category_course CASCADE;
 ALTER TABLE public.race_category ADD CONSTRAINT fk_race_category_course FOREIGN KEY (course_id)
 REFERENCES public.course (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_organizer_race | type: CONSTRAINT --
--- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race;
+-- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race CASCADE;
 ALTER TABLE public.race_organizer ADD CONSTRAINT fk_race_organizer_race FOREIGN KEY (race_id)
 REFERENCES public.race (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_race_organizer | type: CONSTRAINT --
--- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer;
+-- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer CASCADE;
 ALTER TABLE public.race_organizer ADD CONSTRAINT fk_race_organizer FOREIGN KEY (organizer_id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_registration_submitter | type: CONSTRAINT --
--- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_submitter;
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_submitter CASCADE;
 ALTER TABLE public.registration ADD CONSTRAINT fk_registration_submitter FOREIGN KEY (submitter_id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_registration_race_category | type: CONSTRAINT --
--- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_race_category;
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_race_category CASCADE;
 ALTER TABLE public.registration ADD CONSTRAINT fk_registration_race_category FOREIGN KEY (category_id,course_id,race_id)
 REFERENCES public.race_category (category_id,course_id,race_id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_resgistration_period | type: CONSTRAINT --
--- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_resgistration_period;
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_resgistration_period CASCADE;
 ALTER TABLE public.registration ADD CONSTRAINT fk_resgistration_period FOREIGN KEY (period_id)
 REFERENCES public.period (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_registration_approver | type: CONSTRAINT --
--- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_approver;
+-- ALTER TABLE public.registration DROP CONSTRAINT IF EXISTS fk_registration_approver CASCADE;
 ALTER TABLE public.registration ADD CONSTRAINT fk_registration_approver FOREIGN KEY (approver_id)
 REFERENCES public.user_account (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_state_country | type: CONSTRAINT --
--- ALTER TABLE public.state DROP CONSTRAINT IF EXISTS fk_state_country;
+-- ALTER TABLE public.state DROP CONSTRAINT IF EXISTS fk_state_country CASCADE;
 ALTER TABLE public.state ADD CONSTRAINT fk_state_country FOREIGN KEY (country_id)
 REFERENCES public.country (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_team_formation_user | type: CONSTRAINT --
--- ALTER TABLE public.team_formation DROP CONSTRAINT IF EXISTS fk_team_formation_user;
+-- ALTER TABLE public.team_formation DROP CONSTRAINT IF EXISTS fk_team_formation_user CASCADE;
 ALTER TABLE public.team_formation ADD CONSTRAINT fk_team_formation_user FOREIGN KEY (user_id)
 REFERENCES public.user_account (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_team_formation_registration | type: CONSTRAINT --
--- ALTER TABLE public.team_formation DROP CONSTRAINT IF EXISTS fk_team_formation_registration;
+-- ALTER TABLE public.team_formation DROP CONSTRAINT IF EXISTS fk_team_formation_registration CASCADE;
 ALTER TABLE public.team_formation ADD CONSTRAINT fk_team_formation_registration FOREIGN KEY (registration_id)
 REFERENCES public.registration (id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_anual_fee_payment_annual_fee | type: CONSTRAINT --
--- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_annual_fee;
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_annual_fee CASCADE;
 ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_annual_fee FOREIGN KEY (year)
 REFERENCES public.annual_fee (year) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_anual_fee_payment_user | type: CONSTRAINT --
--- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_user;
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_user CASCADE;
 ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_user FOREIGN KEY (user_id)
 REFERENCES public.user_account (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_anual_fee_payment_registration | type: CONSTRAINT --
--- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_registration;
+-- ALTER TABLE public.annual_fee_payment DROP CONSTRAINT IF EXISTS fk_anual_fee_payment_registration CASCADE;
 ALTER TABLE public.annual_fee_payment ADD CONSTRAINT fk_anual_fee_payment_registration FOREIGN KEY (registration_id)
 REFERENCES public.registration (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;

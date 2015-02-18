@@ -78,6 +78,11 @@ public class User implements Principal, Serializable {
 	@Index(name = "IDX_USER_DELETED")
 	private Date deleted;
 
+	@JsonIgnore
+	@Column(name = "ADMIN")
+	@Index(name = "IDX_USER_ADMIN")
+	private Boolean admin;
+
 	@Transient
 	private Profile profile;
 
@@ -116,12 +121,13 @@ public class User implements Principal, Serializable {
 	}
 
 	public User(Integer id, String email, String password, Date activation, String activationToken, String profileName,
-			GenderType profileGender, Integer profilePendencies, Integer healthPendencies) throws Exception {
+			GenderType profileGender, Integer profilePendencies, Integer healthPendencies, Boolean admin) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
 		setActivation(activation);
 		setActivationToken(activationToken);
+		setAdmin(admin);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
@@ -239,6 +245,14 @@ public class User implements Principal, Serializable {
 
 	public void setDeleted(Date deleted) {
 		this.deleted = deleted;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 	public Profile getProfile() {

@@ -60,6 +60,7 @@ public class UserHealthREST {
 		persisted.setEmergencyContactPhoneNumber(data.emergencyContactPhoneNumber);
 
 		HealthDAO.getInstance().update(persisted);
+		User.getLoggedIn().setHealth(new Health());
 		User.getLoggedIn().getHealth().setPendencies(PendencyCounter.count(persisted));
 	}
 

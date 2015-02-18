@@ -114,7 +114,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("        p.name, ");
 		jpql.append("        p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies ");
+		jpql.append(" 	     h.pendencies, ");
+		jpql.append(" 	     u.admin ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");

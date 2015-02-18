@@ -29,7 +29,7 @@ function loadFacebook(appId) {
 		FB.init({
 			appId : appId,
 			status : true,
-			cookie : true,
+			cookie : false,
 			xfbml : true,
 			version : 'v2.0'
 		});
@@ -100,18 +100,18 @@ function loadGoogleOk() {
 
 // Regular login process
 
-function loginOk($data, $status, $request) {
-	App.setToken($request.getResponseHeader('Set-Token'));
-	App.setLoggedInUser($data);
+function loginOk(data, status, request) {
+	App.setToken(request.getResponseHeader('Set-Token'));
+	App.setLoggedInUser(data);
 
 	var url;
 	var pendencies = false;
 
-	if ($data.profile.pendencies > 0) {
+	if (data.profile.pendencies > 0) {
 		url = App.getContextPath() + "/user/profile";
 		pendencies = true;
 
-	} else if ($data.health.pendencies > 0) {
+	} else if (data.health && data.health.pendencies > 0) {
 		url = App.getContextPath() + "/user/health";
 		pendencies = true;
 	}

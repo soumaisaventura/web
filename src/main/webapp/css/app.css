@@ -56,6 +56,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	margin-bottom: 0px !important;
 }
 
+.label {
+	border-radius: 0em;
+}
+
 .label-as-badge {
 	border-radius: 1em;
 }
