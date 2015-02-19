@@ -42,9 +42,9 @@ public class LogonREST {
 		// user.setHealth(null);
 		// }
 		
-		if (!user.getAdmin()) {
-			user.setAdmin(null);
-		}
+		// if (!user.getAdmin()) {
+		// user.setAdmin(null);
+		// }
 
 		return user;
 	}

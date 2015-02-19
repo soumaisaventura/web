@@ -4,6 +4,7 @@ import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
 import static java.util.Locale.US;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,11 +33,15 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import adventure.entity.AnnualFee;
+import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.persistence.AnnualFeeDAO;
+import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
@@ -95,7 +101,7 @@ public class RegistrationREST {
 		Registration registration = loadRegistrationForDetails(id);
 
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
-		if (!organizers.contains(User.getLoggedIn())) {
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 
@@ -137,7 +143,7 @@ public class RegistrationREST {
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!User.getLoggedIn().getAdmin() && !registration.getSubmitter().equals(loggedInUser)
+		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
 				&& !teamFormations.contains(new TeamFormation(registration, loggedInUser))
 				&& !organizers.contains(loggedInUser)) {
 			throw new ForbiddenException();
@@ -209,6 +215,84 @@ public class RegistrationREST {
 
 		URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code);
 		return Response.status(status).location(location).entity(code).build();
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("{id}/member/{memberId}/price")
+	public void updateRacePrice(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal price)
+			throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+		Race race = registration.getRaceCategory().getRace();
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		User member = loadMember(memberId);
+		User loggedInUser = User.getLoggedIn();
+
+		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
+			throw new ForbiddenException();
+		}
+
+		TeamFormation teamFormation = TeamFormationDAO.getInstance().load(registration, member);
+		if (teamFormation == null) {
+			throw new UnprocessableEntityException().addViolation("member", member.getProfile().getName()
+					+ " não faz parte da equipe " + registration.getTeamName());
+		}
+
+		if (price.doubleValue() < 0) {
+			throw new UnprocessableEntityException().addViolation("price", "Valor inválido");
+		}
+
+		teamFormation.setRacePrice(price);
+		TeamFormationDAO.getInstance().update(teamFormation);
+
+		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+		Registration persisted = registrationDAO.load(id);
+		persisted.setPaymentTransaction(null);
+		registrationDAO.update(persisted);
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("{id}/member/{memberId}/fee")
+	public void updateAnnualFee(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal fee)
+			throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+		Race race = registration.getRaceCategory().getRace();
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		User member = loadMember(memberId);
+		User loggedInUser = User.getLoggedIn();
+
+		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
+			throw new ForbiddenException();
+		}
+
+		TeamFormation teamFormation = TeamFormationDAO.getInstance().load(registration, member);
+		if (teamFormation == null) {
+			throw new UnprocessableEntityException().addViolation("member", member.getProfile().getName()
+					+ " não faz parte da equipe " + registration.getTeamName());
+		}
+
+		AnnualFee annualFee = AnnualFeeDAO.getInstance().loadCurrent();
+		if (fee.doubleValue() < 0) {
+			throw new UnprocessableEntityException().addViolation("fee", "Valor inválido");
+		} else if (fee.doubleValue() != annualFee.getFee().doubleValue() && fee.doubleValue() != 0) {
+			throw new UnprocessableEntityException().addViolation("fee", "Não é possível fazer insenção parcial");
+		}
+
+		AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().loadCurrent(member);
+		if (annualFeePayment != null && fee.doubleValue() > 0) {
+			throw new UnprocessableEntityException().addViolation("fee", "Esta taxa já foi paga");
+		}
+
+		teamFormation.setAnnualFee(fee);
+		TeamFormationDAO.getInstance().update(teamFormation);
+
+		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+		Registration persisted = registrationDAO.load(id);
+		persisted.setPaymentTransaction(null);
+		registrationDAO.update(persisted);
 	}
 
 	// TODO Só os organizadores ou os admins poderiam fazer isso
@@ -305,6 +389,17 @@ public class RegistrationREST {
 
 		if (result == null) {
 			throw new NotFoundException();
+		}
+
+		return result;
+
+	}
+
+	private User loadMember(Integer id) throws Exception {
+		User result = UserDAO.getInstance().loadBasics(id);
+
+		if (result == null) {
+			throw new UnprocessableEntityException().addViolation("member", "Usuário inválido");
 		}
 
 		return result;

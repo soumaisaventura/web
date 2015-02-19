@@ -1,12 +1,18 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap-editable.css" />
+	</ui:define>
+
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/languages.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
+		<script src="#{request.contextPath}/js/lib/bootstrap-editable.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -53,7 +59,7 @@
 					</h5>
 				</div>
 
-				<div id="team-section" hidden="true"  class="row" style="padding-top: 30px; padding-bottom: 20px;">
+				<div id="team-section" hidden="true" class="row" style="padding-top: 30px; padding-bottom: 20px;">
 					<table id="team-formation" class="table" style="margin-bottom: 0px;">
 						<thead>
 							<tr>
@@ -61,10 +67,10 @@
 									<span class="glyphicon glyphicon-th-large" aria-hidden='true' style="font-size: 0.8em;"></span>
 									<spam id="race-category"></spam>
 								</th>
-								<th class="text-right" style="font-size: 0.9em;">inscrição</th>
-								<th class="text-right" style="font-size: 0.9em;">anuidade*</th>
+								<th class="text-right" style="font-size: 0.9em;">inscrição (R$)</th>
+								<th class="text-right" style="font-size: 0.9em;">anuidade* (R$)</th>
 								<th class="text-right" style="font-size: 0.9em;">
-									<em>total</em>
+									<em>total (R$)</em>
 								</th>
 							</tr>
 						</thead>
@@ -75,7 +81,7 @@
 								</th>
 								<th class="text-right" nowrap="nowrap">
 									<em>
-										<span id="bill-total-amount"></span>
+										<span id="payment-ammount"></span>
 									</em>
 								</th>
 							</tr>

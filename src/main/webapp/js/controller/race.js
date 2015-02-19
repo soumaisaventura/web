@@ -75,7 +75,7 @@ function loadOk(data) {
 					"<h4>" + value.name + " <a style='font-size:0.8em; color:#EA8E13' href='mailto:" + value.email + "?Subject=Dúvida sobra a prova "
 							+ data.name + "'>" + value.email + "</a></h4>");
 
-			if (App.isLoggedIn() && value.email == App.getLoggedInUser().email && !authorized) {
+			if (user && value.email == user.email) {
 				authorized = true;
 			}
 		});

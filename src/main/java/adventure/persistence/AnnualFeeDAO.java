@@ -1,6 +1,9 @@
 package adventure.persistence;
 
+import static java.util.Calendar.YEAR;
+
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -21,6 +24,10 @@ public class AnnualFeeDAO implements Serializable {
 
 	public static AnnualFeeDAO getInstance() {
 		return Beans.getReference(AnnualFeeDAO.class);
+	}
+
+	public AnnualFee loadCurrent() {
+		return load(Calendar.getInstance().get(YEAR));
 	}
 
 	public AnnualFee load(Integer year) {

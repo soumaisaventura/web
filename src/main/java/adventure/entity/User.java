@@ -106,9 +106,10 @@ public class User implements Principal, Serializable {
 	}
 
 	public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,
-			Integer healthPendencies) {
+			Integer healthPendencies, Boolean admin) {
 		setId(id);
 		setEmail(email);
+		setAdmin(admin);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
@@ -120,7 +121,8 @@ public class User implements Principal, Serializable {
 	}
 
 	public User(Integer id, String email, String password, Date activation, String activationToken, String profileName,
-			GenderType profileGender, Integer profilePendencies, Integer healthPendencies, Boolean admin) throws Exception {
+			GenderType profileGender, Integer profilePendencies, Integer healthPendencies, Boolean admin)
+			throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);

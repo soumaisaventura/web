@@ -86,6 +86,10 @@ var App = {
 				}
 			});
 
+			if (!id) {
+				return;
+			}
+
 			var message = $("#" + id.replace(".", "\\.") + "-message");
 
 			if (messages.length > 1) {

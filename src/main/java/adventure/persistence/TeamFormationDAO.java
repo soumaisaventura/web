@@ -32,6 +32,11 @@ public class TeamFormationDAO implements Serializable {
 		return entity;
 	}
 
+	public TeamFormation update(TeamFormation entity) {
+		em.merge(entity);
+		return entity;
+	}
+
 	public List<TeamFormation> find(Registration registration) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
@@ -59,7 +64,27 @@ public class TeamFormationDAO implements Serializable {
 
 		return query.getResultList();
 	}
-	
+
+	public TeamFormation load(Registration registration, User user) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select tf ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("  where tf.registration = :registration ");
+		jpql.append("    and tf.user = :user ");
+
+		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
+		query.setParameter("registration", registration);
+		query.setParameter("user", user);
+
+		TeamFormation result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	public TeamFormation loadForRegistrationSubmissionValidation(Race race, User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");

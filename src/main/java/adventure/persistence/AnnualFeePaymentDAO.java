@@ -1,6 +1,9 @@
 package adventure.persistence;
 
+import static java.util.Calendar.YEAR;
+
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -28,6 +31,10 @@ public class AnnualFeePaymentDAO implements Serializable {
 	public AnnualFeePayment insert(AnnualFeePayment entity) {
 		em.persist(entity);
 		return entity;
+	}
+
+	public AnnualFeePayment loadCurrent(User user) {
+		return load(user, Calendar.getInstance().get(YEAR));
 	}
 
 	public AnnualFeePayment load(User user, Integer year) {

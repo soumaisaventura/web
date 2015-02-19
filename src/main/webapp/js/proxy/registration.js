@@ -39,6 +39,30 @@ var RegistrationProxy = {
 		});
 	},
 
+	updateRacePrice : function($id, member, price) {
+		return $.ajax({
+			type : "PUT",
+			url : this.url + "/" + $id + "/member/" + member + "/price",
+			data : price,
+			contentType : "application/json",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
+	updateAnnualFee : function($id, member, fee) {
+		return $.ajax({
+			type : "PUT",
+			url : this.url + "/" + $id + "/member/" + member + "/fee",
+			data : fee,
+			contentType : "application/json",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	confirm : function($id) {
 		return $.ajax({
 			type : "POST",
