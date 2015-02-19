@@ -13,8 +13,7 @@ $(function() {
 
 function sendPaymentOk(data, status, request) {
 	window.open(request.getResponseHeader('Location'), "_bank");
-	$("#transaction").val(data);
-	updatePaymentButton();
+	updatePaymentButton(data);
 }
 
 function sendPaymentFailed(request) {
@@ -73,11 +72,10 @@ function loadOk(data) {
 	$("#annual-fee-description").text(App.annualFeeDescription);
 	$("#team-section").show();
 
-	$("#transaction").val(data.transaction);
 	if (data.status == 'pendent') {
 		$('#payment-section').show();
 	}
-	updatePaymentButton();
+	updatePaymentButton(data.transaction);
 
 	var user = App.getLoggedInUser();
 	var authorized = user ? user.admin : null;
@@ -130,8 +128,6 @@ function loadEditable(registerId, enabled) {
 			var updateValuesOk = function(data) {
 				d.resolve();
 				updateTotal();
-
-				$("#transaction").val('');
 				updatePaymentButton();
 			};
 
@@ -185,23 +181,25 @@ function updateTotal() {
 	$("#payment-ammount").text(numeral(total).format());
 }
 
-function updatePaymentButton() {
-	var transaction = $("#transaction").val();
-
+function updatePaymentButton(transaction) {
 	if ($("#payment-ammount").data("value") == 0 || $("#race-status").data('status') != 'pendent') {
 		$("#payment-section").hide();
 	} else {
 		$("#payment-section").show();
 	}
 
+	$("#payment").unbind('click');
+
 	if (transaction) {
 		$("#payment-description").text('Continuar o pagamento');
 		$("#payment").click(function() {
-			window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transaction, '_blank').show();
+			console.log(transaction);
+			window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transaction, '_blank');
 		});
 	} else {
 		$("#payment-description").text('Pagar com PagSeguro');
 		$("#payment").click(function() {
+			console.log('aqui');
 			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed);
 		});
 	}
