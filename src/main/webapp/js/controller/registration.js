@@ -1,7 +1,7 @@
 $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
-	numeral.defaultFormat('0,0.00');
+	numeral.defaultFormat('0');
 
 	/**
 	 * Carrega dados da inscrição
@@ -53,15 +53,15 @@ function loadOk(data) {
 		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
 		row = row.concat(member.phone);
 		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
 		row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"racePrice\"}' class='editable'>"
 				+ numeral(member.bill.racePrice).format() + "</a>");
 		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
 		row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"annualFee\"}' class='editable'>"
 				+ numeral(member.bill.annualFee).format() + "</a>");
 		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>");
+		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
 		row = row.concat("<em class='partial' data-pk='" + member.id + "'>" + numeral(member.bill.amount).format() + "</em>");
 		row = row.concat("</td>");
 		row = row.concat("</tr>");
@@ -113,7 +113,7 @@ function loadOk(data) {
 
 function loadEditable(registerId, enabled) {
 	$(".editable").editable({
-		// type : 'text',
+		type : 'text',
 		// defaultValue : '0,00',
 		// emptytext : '0,00',
 		disabled : !enabled,
@@ -153,9 +153,9 @@ function loadEditable(registerId, enabled) {
 	$('.editable').on('shown', function() {
 		var input = $(this).data('editable').input.$input;
 
-		input.mask('#.##0,00', {
+		input.mask('##0', {
 			selectOnFocus : true,
-			placeholder : "0,00",
+			placeholder : "0",
 			reverse : true
 		});
 	});
@@ -178,7 +178,7 @@ function updateTotal() {
 	});
 
 	$("#payment-ammount").data("value", total);
-	$("#payment-ammount").text(numeral(total).format());
+	$("#payment-ammount").text("R$ " + numeral(total).format());
 }
 
 function updatePaymentButton(transaction) {

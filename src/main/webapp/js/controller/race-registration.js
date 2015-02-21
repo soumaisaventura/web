@@ -1,7 +1,7 @@
 $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
-	numeral.defaultFormat('0,0.00');
+	numeral.defaultFormat('$ 0');
 
 	var memberIds = [];
 	var race = $("#race").val();
