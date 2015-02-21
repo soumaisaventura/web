@@ -1,12 +1,15 @@
 package adventure.rest;
 
+import static adventure.entity.StatusType.CONFIRMED;
+import static adventure.entity.StatusType.PENDENT;
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
+
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,6 +17,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,7 +32,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.entity.StatusType;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
@@ -38,10 +45,6 @@ public class RegistrationNotificationREST {
 
 	private transient Logger logger;
 
-	enum PaymentStatus {
-		CONFIRMED, CANCELLED
-	}
-
 	@POST
 	@Transactional
 	@Path("notification")
@@ -53,42 +56,47 @@ public class RegistrationNotificationREST {
 
 		if ("transaction".equalsIgnoreCase(type)) {
 			for (Race race : RaceDAO.getInstance().findOpen()) {
-				String body = getBody(code, race);
-				Long registerId = parseRegiserId(body);
-				PaymentStatus status = parseStatus(body);
+				InputStream body = getBody(code, race);
+				Transaction transaction = parse(body);
 
-				if (registerId != null && status != null) {
-					update(registerId, status, race, uriInfo);
-				}
+				update(race, transaction, uriInfo);
 			}
 		}
 	}
 
-	private void update(Long registrationId, PaymentStatus status, Race race, UriInfo uriInfo) throws Exception {
+	private void update(Race race, Transaction transaction, UriInfo uriInfo) throws Exception {
 		RegistrationDAO dao = RegistrationDAO.getInstance();
-		Registration registration = dao.loadForDetails(registrationId);
+		Registration registration = dao.loadForDetails(transaction.reference);
 
-		if (registration != null && registration.getStatus() == StatusType.PENDENT
+		if (registration != null && registration.getStatus() == PENDENT
 				&& race.equals(registration.getRaceCategory().getRace())) {
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			Registration persistedRegistration = dao.load(registrationId);
+			Registration persistedRegistration = dao.load(transaction.reference);
 
-			if (status == PaymentStatus.CONFIRMED) {
-				persistedRegistration.setStatus(StatusType.CONFIRMED);
-				persistedRegistration.setDate(new Date());
-				dao.update(persistedRegistration);
+			switch (transaction.status) {
+				case 1: // iniciada
+					persistedRegistration.setPaymentTransaction(transaction.code);
+					dao.update(persistedRegistration);
+					break;
 
-				MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
+				case 3: // paga
+					persistedRegistration.setPaymentTransaction(transaction.code);
+					persistedRegistration.setStatus(CONFIRMED);
+					persistedRegistration.setDate(new Date());
+					dao.update(persistedRegistration);
 
-			} else if (status == PaymentStatus.CANCELLED) {
-				persistedRegistration.setPaymentTransaction(null);
-				dao.update(persistedRegistration);
+					MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
+					break;
+
+				case 7: // cancelada
+					persistedRegistration.setPaymentTransaction(null);
+					dao.update(persistedRegistration);
 			}
 		}
 	}
 
-	private String getBody(String code, Race race) throws Exception {
-		String result = null;
+	private InputStream getBody(String code, Race race) throws Exception {
+		InputStream result = null;
 
 		if (code != null) {
 			List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
@@ -108,53 +116,20 @@ public class RegistrationNotificationREST {
 			getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
 
 			if (response.getStatusLine().getStatusCode() == 200) {
-				result = Strings.parse(response.getEntity().getContent());
-				getLogger().fine("Body recebido [" + result + "]");
+				result = response.getEntity().getContent();
+				getLogger().fine("Body recebido [" + Strings.parse(result) + "]");
 			}
 		}
 
 		return result;
 	}
 
-	private PaymentStatus parseStatus(String body) {
-		PaymentStatus paymentStatus = null;
+	private Transaction parse(InputStream body) throws Exception {
+		JAXBContext jc = JAXBContext.newInstance(Transaction.class);
+		Unmarshaller unmarshaller = jc.createUnmarshaller();
+		Transaction transaction = (Transaction) unmarshaller.unmarshal(body);
 
-		if (body != null) {
-			Pattern pattern = Pattern.compile("<transaction>.*<status>(\\d)</status>.*</transaction>");
-			Matcher matcher = pattern.matcher(body);
-
-			int status = 0;
-			if (matcher.find()) {
-				status = Integer.parseInt(matcher.group(1));
-			}
-
-			switch (status) {
-				case 3:
-					paymentStatus = PaymentStatus.CONFIRMED;
-					break;
-
-				case 7:
-					paymentStatus = PaymentStatus.CANCELLED;
-					break;
-			}
-		}
-
-		return paymentStatus;
-	}
-
-	private Long parseRegiserId(String body) {
-		Long result = null;
-
-		if (body != null) {
-			Pattern pattern = Pattern.compile("<transaction>.*<reference>(\\d+)</reference>.*</transaction>");
-			Matcher matcher = pattern.matcher(body);
-
-			if (matcher.find()) {
-				result = Long.parseLong(matcher.group(1));
-			}
-		}
-
-		return result;
+		return transaction;
 	}
 
 	private Logger getLogger() {
@@ -164,5 +139,28 @@ public class RegistrationNotificationREST {
 		}
 
 		return this.logger;
+	}
+
+	// public static void main(String[] args) throws Exception {
+	// File file = new File("/Users/zyc/Workspace/zyc/adventure/target/x.xml");
+	//
+	// RegistrationNotificationREST r = new RegistrationNotificationREST();
+	// Transaction transaction = r.parse(FileUtils.openInputStream(file));
+	//
+	// System.out.println(transaction);
+	// }
+
+	@XmlAccessorType(FIELD)
+	@XmlRootElement(name = "transaction")
+	static class Transaction {
+
+		@XmlElement(name = "code")
+		String code;
+
+		@XmlElement(name = "status")
+		int status;
+
+		@XmlElement(name = "reference")
+		Long reference;
 	}
 }

@@ -60,6 +60,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        re.id, ");
 		jpql.append("        re.date, ");
 		jpql.append("        re.teamName, ");
+		jpql.append("        re.paymentCode, ");
 		jpql.append("        re.paymentTransaction, ");
 		jpql.append("        su.id, ");
 		jpql.append("        su.email, ");

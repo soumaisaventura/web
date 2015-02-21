@@ -12,7 +12,7 @@ $(function() {
 /* ---------------- Funções de Callback ---------------- */
 
 function sendPaymentOk(data, status, request) {
-	window.open(request.getResponseHeader('Location'), "_bank");
+	openPaymentFlow(data);
 	updatePaymentButton(data);
 }
 
@@ -75,7 +75,7 @@ function loadOk(data) {
 	if (data.status == 'pendent') {
 		$('#payment-section').show();
 	}
-	updatePaymentButton(data.transaction);
+	updatePaymentButton(data.payment.code, data.payment.transaction);
 
 	var user = App.getLoggedInUser();
 	var authorized = user ? user.admin : null;
@@ -181,7 +181,7 @@ function updateTotal() {
 	$("#payment-ammount").text("R$ " + numeral(total).format());
 }
 
-function updatePaymentButton(transaction) {
+function updatePaymentButton(code, transaction) {
 	if ($("#payment-ammount").data("value") == 0 || $("#race-status").data('status') != 'pendent') {
 		$("#payment-section").hide();
 	} else {
@@ -189,18 +189,29 @@ function updatePaymentButton(transaction) {
 	}
 
 	$("#payment").unbind('click');
-
 	if (transaction) {
-		$("#payment-description").text('Continuar o pagamento');
+		$("#payment-alert").show();
+		$("#payment").attr("disabled", true);
+
+	} else if (code) {
+		$("#payment-alert").hide();
+		$("#payment").attr("disabled", false);
+
 		$("#payment").click(function() {
-			console.log(transaction);
-			window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transaction, '_blank');
+			openPaymentFlow(code);
 		});
 	} else {
-		$("#payment-description").text('Pagar com PagSeguro');
+		$("#payment-alert").hide();
+		$("#payment").attr("disabled", false);
+
 		$("#payment").click(function() {
-			console.log('aqui');
 			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed);
 		});
 	}
+}
+
+function openPaymentFlow(code) {
+	// window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
+	// + code);
+	location.href = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + code;
 }

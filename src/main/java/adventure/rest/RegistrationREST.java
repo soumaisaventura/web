@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -136,7 +135,9 @@ public class RegistrationREST {
 		data.submitter.email = registration.getSubmitter().getEmail();
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
-		data.transaction = registration.getPaymentTransaction();
+		data.payment = new PaymentData();
+		data.payment.code = registration.getPaymentCode();
+		data.payment.transaction = registration.getPaymentTransaction();
 
 		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
 		Race race = registration.getRaceCategory().getRace();
@@ -196,16 +197,17 @@ public class RegistrationREST {
 	@Transactional
 	@Path("{id}/payment")
 	@Produces("text/plain")
-	public Response sendPayment(@PathParam("id") Long id) throws Exception {
+	public Response sendPayment(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
-		String code = registration.getPaymentTransaction();
+		String code = registration.getPaymentCode();
 		int status;
 
 		if (code == null) {
-			code = createCode(registration);
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
+			code = createCode(registration, baseUri);
 
 			Registration persistedRegistration = RegistrationDAO.getInstance().load(registration.getId());
-			persistedRegistration.setPaymentTransaction(code);
+			persistedRegistration.setPaymentCode(code);
 			RegistrationDAO.getInstance().update(persistedRegistration);
 
 			status = 201;
@@ -239,6 +241,10 @@ public class RegistrationREST {
 					+ " não faz parte da equipe " + registration.getTeamName());
 		}
 
+		if (registration.getPaymentTransaction() != null) {
+			throw new UnprocessableEntityException().addViolation("transaction", "O pagamento já está em andamento");
+		}
+
 		if (price.doubleValue() < 0) {
 			throw new UnprocessableEntityException().addViolation("price", "Valor inválido");
 		}
@@ -248,7 +254,7 @@ public class RegistrationREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
-		persisted.setPaymentTransaction(null);
+		persisted.setPaymentCode(null);
 		registrationDAO.update(persisted);
 	}
 
@@ -274,6 +280,10 @@ public class RegistrationREST {
 					+ " não faz parte da equipe " + registration.getTeamName());
 		}
 
+		if (registration.getPaymentTransaction() != null) {
+			throw new UnprocessableEntityException().addViolation("transaction", "O pagamento já está em andamento");
+		}
+
 		AnnualFee annualFee = AnnualFeeDAO.getInstance().loadCurrent();
 		if (fee.doubleValue() < 0) {
 			throw new UnprocessableEntityException().addViolation("fee", "Valor inválido");
@@ -291,28 +301,18 @@ public class RegistrationREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
-		persisted.setPaymentTransaction(null);
+		persisted.setPaymentCode(null);
 		registrationDAO.update(persisted);
 	}
 
-	// TODO Só os organizadores ou os admins poderiam fazer isso
-	@DELETE
-	@LoggedIn
-	@Transactional
-	@Path("{id}/payment")
-	@Produces("text/plain")
-	public void deletePayment(@PathParam("id") Long id) throws Exception {
-		Registration registration = loadRegistration(id);
-		registration.setPaymentTransaction(null);
-		RegistrationDAO.getInstance().update(registration);
-	}
-
-	private String createCode(Registration registration) throws Exception {
+	private String createCode(Registration registration, URI baseUri) throws Exception {
 		List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
 		payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getPaymentAccount()));
 		payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getPaymentToken()));
 		payload.add(new BasicNameValuePair("currency", "BRL"));
 		payload.add(new BasicNameValuePair("reference", registration.getFormattedId()));
+		payload.add(new BasicNameValuePair("redirectURL", baseUri.toString() + "registration/"
+				+ registration.getFormattedId()));
 
 		NumberFormat numberFormat = NumberFormat.getNumberInstance(US);
 		numberFormat.setMaximumFractionDigits(2);
@@ -374,16 +374,6 @@ public class RegistrationREST {
 		return code;
 	}
 
-	private Registration loadRegistration(Long id) throws Exception {
-		Registration result = RegistrationDAO.getInstance().load(id);
-
-		if (result == null) {
-			throw new NotFoundException();
-		}
-
-		return result;
-	}
-
 	private Registration loadRegistrationForDetails(Long id) throws Exception {
 		Registration result = RegistrationDAO.getInstance().loadForDetails(id);
 
@@ -415,7 +405,7 @@ public class RegistrationREST {
 
 		public StatusType status;
 
-		public String transaction;
+		public PaymentData payment;
 
 		public UserData submitter;
 
@@ -478,5 +468,12 @@ public class RegistrationREST {
 		public float annualFee;
 
 		public float amount;
+	}
+
+	public static class PaymentData {
+
+		public String code;
+
+		public String transaction;
 	}
 }

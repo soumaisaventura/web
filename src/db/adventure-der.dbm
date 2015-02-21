@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="1003,351" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="997,882" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -306,8 +306,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="payment_transaction">
 		<type name="character varying" length="64"/>
 	</column>
+	<column name="payment_code">
+		<type name="character varying" length="64"/>
+	</column>
 	<constraint name="pk_registration" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_registration_payment_code" type="uq-constr" table="public.registration">
+		<columns names="payment_code" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_registration_payment_transaction" type="uq-constr" table="public.registration">
 		<columns names="payment_transaction" ref-type="src-columns"/>

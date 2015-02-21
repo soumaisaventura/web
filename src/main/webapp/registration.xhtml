@@ -107,10 +107,13 @@
 					<p class="text-success" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição demorará até 1h para ser
 						atualizado automaticamente.</p>
 
-					<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
-						<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span>
-						<span id="payment-description"></span>
-					</button>
+					<div class="pull-right">
+						<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
+							<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span>
+							Pagar com PagSeguro
+						</button>
+						<div id="payment-alert" style="color: red;" hidden="true">Processo de pagamento em andamento</div>
+					</div>
 				</div>
 
 				<div id="organizers-section" hidden="true" class="row">

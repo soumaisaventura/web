@@ -31,7 +31,9 @@ import org.hibernate.annotations.Index;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Entity
-@Table(name = "REGISTRATION", uniqueConstraints = { @UniqueConstraint(name = "UK_REGISTRATION_PAYMENT_TRANSACTION", columnNames = { "PAYMENT_TRANSACTION" }) })
+@Table(name = "REGISTRATION", uniqueConstraints = {
+		@UniqueConstraint(name = "UK_REGISTRATION_PAYMENT_CODE", columnNames = { "PAYMENT_CODE" }),
+		@UniqueConstraint(name = "UK_REGISTRATION_PAYMENT_TRANSACTION", columnNames = { "PAYMENT_TRANSACTION" }) })
 public class Registration implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -87,6 +89,9 @@ public class Registration implements Serializable {
 	@Index(name = "IDX_REGISTRATION_APPROVER")
 	private User approver;
 
+	@Column(name = "PAYMENT_CODE")
+	private String paymentCode;
+
 	@Column(name = "PAYMENT_TRANSACTION")
 	private String paymentTransaction;
 
@@ -114,18 +119,18 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentTransaction,
-			Integer submitterId, String submitterEmail, String submitterName, StatusType registrationStatus,
-			Integer raceId, String raceName, Date raceDate, String racePaymentAccount, String racePaymentToken,
-			Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
-			Integer courseLength) {
+	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
+			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
+			StatusType registrationStatus, Integer raceId, String raceName, Date raceDate, String racePaymentAccount,
+			String racePaymentToken, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName,
+			Integer stateId, String stateName, String stateAbbreviation, Integer categoryId, String categoryName,
+			Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
 		setStatus(registrationStatus);
+		setPaymentCode(paymentCode);
 		setPaymentTransaction(paymentTransaction);
-		// setPaymentTransactionDate(paymentTransactionDate);
 
 		User submitter = new User();
 		setSubmitter(submitter);
@@ -275,6 +280,14 @@ public class Registration implements Serializable {
 
 	public void setPaymentTransaction(String paymentTransaction) {
 		this.paymentTransaction = paymentTransaction;
+	}
+
+	public String getPaymentCode() {
+		return paymentCode;
+	}
+
+	public void setPaymentCode(String paymentCode) {
+		this.paymentCode = paymentCode;
 	}
 
 	public List<TeamFormation> getTeamFormations() {
