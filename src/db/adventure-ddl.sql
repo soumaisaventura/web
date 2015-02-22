@@ -193,7 +193,9 @@ CREATE TABLE public.registration(
 	status_date timestamp NOT NULL,
 	approver_id integer,
 	payment_transaction character varying(64),
+	payment_code character varying(64),
 	CONSTRAINT pk_registration PRIMARY KEY (id),
+	CONSTRAINT uk_registration_payment_code UNIQUE (payment_code),
 	CONSTRAINT uk_registration_payment_transaction UNIQUE (payment_transaction)
 
 );

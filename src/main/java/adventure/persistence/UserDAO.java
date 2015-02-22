@@ -30,6 +30,10 @@ public class UserDAO extends JPACrud<User, Integer> {
 			user.setEmail(user.getEmail().trim());
 		}
 
+		if (user.getAdmin() == null) {
+			user.setAdmin(false);
+		}
+
 		return super.insert(user);
 	}
 
