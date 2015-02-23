@@ -45,7 +45,10 @@ public class FacebookLogonREST extends OAuthLogon {
 		Profile profile = new Profile();
 		profile.setName(rootNode.get("name").asText());
 
+		// TODO Tratar gender null;
+		
 		if (rootNode.get("gender") != null) {
+			// TODO Tratar gender de outro tipo adventure.entity.GenderType.OTHER
 			profile.setGender(GenderType.valueOf(rootNode.get("gender").asText().toUpperCase()));
 		}
 
@@ -55,6 +58,7 @@ public class FacebookLogonREST extends OAuthLogon {
 		}
 
 		User user = new User();
+		// TODO Tratar email nulo
 		user.setEmail(rootNode.get("email").asText());
 		user.setProfile(profile);
 

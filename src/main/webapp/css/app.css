@@ -72,9 +72,8 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	height: 30px;
 }
 
-/*
 body {
-	padding-top: 70px;
+	padding-top: 80px;
 }
 
 .navbar-default {
@@ -83,6 +82,7 @@ body {
 	border-bottom-color: #F0F0F0;
 }
 
+/*
 .navbar-brand {
 	font-size: 1.3em;
 }
