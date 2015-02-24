@@ -4,7 +4,7 @@ import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
 import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
-import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +56,7 @@ public class RegistrationNotificationREST {
 
 		if ("transaction".equalsIgnoreCase(type)) {
 			for (Race race : RaceDAO.getInstance().findOpen()) {
-				InputStream body = getBody(code, race);
+				String body = getBody(code, race);
 				Transaction transaction = parse(body);
 
 				update(race, transaction, uriInfo);
@@ -95,8 +95,8 @@ public class RegistrationNotificationREST {
 		}
 	}
 
-	private InputStream getBody(String code, Race race) throws Exception {
-		InputStream result = null;
+	private String getBody(String code, Race race) throws Exception {
+		String result = null;
 
 		if (code != null) {
 			List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
@@ -116,18 +116,19 @@ public class RegistrationNotificationREST {
 			getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
 
 			if (response.getStatusLine().getStatusCode() == 200) {
-				result = response.getEntity().getContent();
-				getLogger().fine("Body recebido [" + Strings.parse(result) + "]");
+				result = Strings.parse(response.getEntity().getContent());
+				getLogger().fine("Body recebido [" + result + "]");
 			}
 		}
 
 		return result;
 	}
 
-	private Transaction parse(InputStream body) throws Exception {
+	private Transaction parse(String body) throws Exception {
 		JAXBContext jc = JAXBContext.newInstance(Transaction.class);
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
-		Transaction transaction = (Transaction) unmarshaller.unmarshal(body);
+		StringReader reader = new StringReader(body);
+		Transaction transaction = (Transaction) unmarshaller.unmarshal(reader);
 
 		return transaction;
 	}
