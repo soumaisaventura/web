@@ -30,9 +30,10 @@ $(function() {
 	});
 
 	$('table').on('click', '.approve', function() {
+		var button = $(this);
 		bootbox.confirm("Confirma que a equipe efetuou o pagamento da inscrição?", function(result) {
 			if (result) {
-				RegistrationProxy.confirm($(this).data("registration")).done(confirmOk);
+				RegistrationProxy.confirm(button.data("registration")).done(confirmOk);
 			}
 		});
 	});
@@ -99,7 +100,7 @@ function findOk(data, status, request) {
 				tr = tr.concat("<td class='text-center' style='vertical-align: top' nowrap='nowrap'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + numeral(amount).format() + "</h4>");
 				if (registration.status === "pendent") {
-					tr = tr.concat("<button type='button' class='approve btn btn-success btn-sm' data-registration='" + registration.number
+					tr = tr.concat("<button type='button' class='approve btn btn-success btn-sm' data-registration='" + registration.id
 							+ "'>Aprovar</button>");
 				}
 				tr = tr.concat("</td>");
