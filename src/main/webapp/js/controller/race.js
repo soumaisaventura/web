@@ -44,7 +44,7 @@ function loadOk(data) {
 		$("#city-section").show();
 	}
 
-	if (data.registration.periods.length > 0) {
+	if (data.registration.periods && data.registration.periods.length > 0) {
 		$.each(data.registration.periods, function(index, value) {
 			$("#registration-periods").append(
 					"<h4><span style='font-size: 0.8em'>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
@@ -53,7 +53,7 @@ function loadOk(data) {
 		$("#registration-periods-section").show();
 	}
 
-	if (data.courses.length > 0) {
+	if (data.courses && data.courses.length > 0) {
 		var category = "";
 		$.each(data.courses, function(index, value) {
 			category += "<h4>" + value.length + " km</h4>";

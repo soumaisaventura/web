@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Category;
@@ -20,6 +21,26 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 
 	public static CourseDAO getInstance() {
 		return Beans.getReference(CourseDAO.class);
+	}
+
+	public Course load(Race race, Integer length) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select c ");
+		jpql.append("   from Course c ");
+		jpql.append("  where c.race = :race ");
+		jpql.append("  where c.length = :length ");
+
+		TypedQuery<Course> query = getEntityManager().createQuery(jpql.toString(), Course.class);
+		query.setParameter("race", race);
+		query.setParameter("length", length);
+
+		Course result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
 	}
 
 	public List<Course> findWithCategories(Race race) throws Exception {
