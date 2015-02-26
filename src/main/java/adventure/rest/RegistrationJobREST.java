@@ -53,7 +53,7 @@ public class RegistrationJobREST {
 
 			getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");
 
-			URI baseUri = uriInfo.getBaseUri().resolve("../..");
+			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			mailDAO.sendRegistrationPeriodChanging(registration, period.getBeginning(), period.getEnd(), baseUri);
 		}
 	}

@@ -25,21 +25,26 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
 import adventure.entity.Category;
+import adventure.entity.City;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
 import adventure.persistence.AnnualFeeDAO;
 import adventure.persistence.AnnualFeePaymentDAO;
+import adventure.persistence.CityDAO;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.provider.PATCH;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race")
 public class RaceREST {
@@ -136,6 +141,7 @@ public class RaceREST {
 	@Consumes("multipart/form-data")
 	public void setBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
 		Race race = loadRace(id);
+		checkPermission(race);
 
 		InputPart file = input.getFormDataMap().get("file").get(0);
 		InputStream inputStream = file.getBody(InputStream.class, null);
@@ -160,10 +166,46 @@ public class RaceREST {
 	@Consumes("multipart/form-data")
 	public void setLogo(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
 		Race race = loadRace(id);
+		checkPermission(race);
 
 		InputPart file = input.getFormDataMap().get("file").get(0);
 		InputStream inputStream = file.getBody(InputStream.class, null);
 		race.setLogo(IOUtils.toByteArray(inputStream));
+
+		RaceDAO.getInstance().update(race);
+	}
+
+	@PATCH
+	@LoggedIn
+	@Path("{id}")
+	@Transactional
+	@ValidatePayload
+	@Consumes("application/json")
+	public void update(@PathParam("id") Integer id, RaceUpdateData data) throws Exception {
+		Race race = loadRace(id);
+		checkPermission(race);
+
+		if (data.name != null) {
+			race.setName(data.name);
+		}
+
+		if (data.description != null) {
+			race.setDescription(data.description);
+		}
+
+		if (data.date != null) {
+			race.setDate(data.date);
+		}
+
+		if (data.cityId != null) {
+			City city = CityDAO.getInstance().load(data.cityId);
+
+			if (city == null) {
+				throw new UnprocessableEntityException().addViolation("cityId", "Cidade inválida");
+			}
+
+			race.setCity(city);
+		}
 
 		RaceDAO.getInstance().update(race);
 	}
@@ -218,6 +260,13 @@ public class RaceREST {
 		}
 
 		return result;
+	}
+
+	private void checkPermission(Race race) throws ForbiddenException {
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
 	}
 
 	@GET
@@ -301,6 +350,18 @@ public class RaceREST {
 		}
 
 		return result;
+	}
+
+	public static class RaceUpdateData {
+
+		public String name;
+
+		public String description;
+
+		public Integer cityId;
+
+		public Date date;
+
 	}
 
 	public static class RaceData {
