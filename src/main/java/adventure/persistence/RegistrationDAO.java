@@ -1,10 +1,13 @@
 package adventure.persistence;
 
 import static adventure.entity.StatusType.CONFIRMED;
+import static adventure.entity.StatusType.PENDENT;
 import static java.util.Calendar.YEAR;
+import static javax.persistence.TemporalType.DATE;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -106,6 +109,61 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 			result = null;
 		}
 		return result;
+	}
+
+	public List<Registration> findForUpdatePeriod() {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new Registration( ");
+		jpql.append("        re.id, ");
+		jpql.append("        re.date, ");
+		jpql.append("        re.teamName, ");
+		jpql.append("        re.paymentCode, ");
+		jpql.append("        re.paymentTransaction, ");
+		jpql.append("        su.id, ");
+		jpql.append("        su.email, ");
+		jpql.append("        pr.name, ");
+		jpql.append("        re.status, ");
+		jpql.append("        ra.id, ");
+		jpql.append("        ra.name, ");
+		jpql.append("        ra.date, ");
+		jpql.append("        ra.paymentAccount, ");
+		jpql.append("        ra.paymentToken, ");
+		jpql.append("        pe.id, ");
+		jpql.append("        pe.price, ");
+		jpql.append("        ci.id, ");
+		jpql.append("        ci.name, ");
+		jpql.append("        st.id, ");
+		jpql.append("        st.name, ");
+		jpql.append("        st.abbreviation, ");
+		jpql.append("        ca.id, ");
+		jpql.append("        ca.name, ");
+		jpql.append("        co.id, ");
+		jpql.append("        co.length ");
+		jpql.append("        ) ");
+		jpql.append("   from Registration re ");
+		jpql.append("   join re.submitter su ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join rc.course co ");
+		jpql.append("   join rc.category ca ");
+		jpql.append("   join re.period pe ");
+		jpql.append("   left join ra.city ci ");
+		jpql.append("   left join ci.state st, ");
+		jpql.append("        Profile pr, ");
+		jpql.append("        Period pe2 ");
+		jpql.append("  where su.id = pr.id ");
+		jpql.append("    and not :date between pe.beginning and pe.end ");
+		jpql.append("    and pe2.race = ra ");
+		jpql.append("    and :date between pe2.beginning and pe2.end ");
+		jpql.append("    and re.status = :status ");
+		jpql.append("    and re.paymentTransaction is null ");
+
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		query.setParameter("date", new Date(), DATE);
+		query.setParameter("status", PENDENT);
+
+		return query.getResultList();
 	}
 
 	public List<Registration> findToOrganizer(Race race) {

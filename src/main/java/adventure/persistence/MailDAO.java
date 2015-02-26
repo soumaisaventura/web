@@ -126,7 +126,6 @@ public class MailDAO implements Serializable {
 	}
 
 	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
-		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
@@ -161,10 +160,44 @@ public class MailDAO implements Serializable {
 		for (TeamFormation member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
+	}
 
-		// if (!members.contains(creator)) {
-		// send(subject, content, "text/html", creator.getEmail());
-		// }
+	public void sendRegistrationPeriodChanging(Registration registration, Date newPeriodBegining, Date newPeriodEnd,
+			URI baseUri) throws Exception {
+		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
+		Race race = registration.getRaceCategory().getRace();
+
+		String content = Strings.parse(Reflections
+				.getResourceAsStream("mail-templates/registration-period-changing.html"));
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replace("{raceName}", race.getName());
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("registration/" + registration.getFormattedId()).toString() + "$2");
+		content = content.replace("{registrationId}", registration.getFormattedId());
+		content = content.replace("{teamFormation}", Misc.stringfyTeamFormation(members));
+		content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
+		content = content.replace("{newPeriodEnd}", Dates.parse(newPeriodEnd));
+		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", getOrganizerInfo(race));
+
+		String subject = "Reajuste no pedido";
+		subject += " #" + registration.getFormattedId();
+		subject += " – " + race.getName();
+
+		for (TeamFormation member : members) {
+			send(subject, content, "text/html", member.getUser().getEmail());
+		}
+	}
+
+	private String getOrganizerInfo(Race race) {
+		String replacement = "";
+		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
+			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+					+ "; " + organizer.getEmail() + "$2\r";
+		}
+
+		return replacement;
 	}
 
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
