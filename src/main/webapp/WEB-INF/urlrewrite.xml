@@ -99,12 +99,6 @@
 		<from>^/race/(\d+)$</from>
 		<to>/race.jsf?race=$1</to>
 	</rule>
-	<!--
-	<outbound-rule>
-		<from>^/race.jsf?race=(\d+)$</from>
-		<to>/race/$1</to>
-	</outbound-rule>
-	-->
 
 	<rule>
 		<from>^/close$</from>

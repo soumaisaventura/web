@@ -1,6 +1,12 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="meta-ogg">
+		<meta property="og:title" content="#{raceHelper.getTitle(request)}" />
+		<meta property="og:description" content="#{raceHelper.getDescription(request)}" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/race/#{param.race}/logo" />
+	</ui:define>
+
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
