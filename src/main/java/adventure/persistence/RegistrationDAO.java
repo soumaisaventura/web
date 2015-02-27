@@ -1,5 +1,6 @@
 package adventure.persistence;
 
+import static adventure.entity.PaymentType.AUTO;
 import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
 import static java.util.Calendar.YEAR;
@@ -152,7 +153,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   left join ci.state st, ");
 		jpql.append("        Profile pr, ");
 		jpql.append("        Period pe2 ");
-		jpql.append("  where su.id = pr.id ");
+		jpql.append("  where ra.paymentType = :paymentType ");
+		jpql.append("    and su.id = pr.id ");
 		jpql.append("    and not :date between pe.beginning and pe.end ");
 		jpql.append("    and pe2.race = ra ");
 		jpql.append("    and :date between pe2.beginning and pe2.end ");
@@ -161,6 +163,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
 		query.setParameter("date", new Date(), DATE);
+		query.setParameter("paymentType", AUTO);
 		query.setParameter("status", PENDENT);
 
 		return query.getResultList();

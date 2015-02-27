@@ -55,7 +55,7 @@ public class RegistrationNotificationREST {
 		getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
 
 		if ("transaction".equalsIgnoreCase(type)) {
-			for (Race race : RaceDAO.getInstance().findOpen()) {
+			for (Race race : RaceDAO.getInstance().findOpenAutoPayment()) {
 				String body = getBody(code, race);
 				Transaction transaction = parse(body);
 

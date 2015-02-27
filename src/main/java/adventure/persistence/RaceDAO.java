@@ -1,5 +1,6 @@
 package adventure.persistence;
 
+import static adventure.entity.PaymentType.AUTO;
 import static javax.persistence.TemporalType.DATE;
 
 import java.util.Date;
@@ -107,7 +108,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		return query.getResultList();
 	}
 
-	public List<Race> findOpen() throws Exception {
+	public List<Race> findOpenAutoPayment() throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
@@ -128,6 +129,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append("   left join r.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where :date between p.beginning and p.end ");
+		jpql.append("    and r.paymentType = :paymentType ");
 		jpql.append("  group by ");
 		jpql.append("        r.id, ");
 		jpql.append("        c.id, ");
@@ -137,6 +139,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
 		query.setParameter("date", new Date(), DATE);
+		query.setParameter("paymentType", AUTO);
 
 		return query.getResultList();
 	}
