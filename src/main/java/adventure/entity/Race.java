@@ -1,7 +1,11 @@
 package adventure.entity;
 
+import static adventure.util.Constants.EMAIL_SIZE;
+import static adventure.util.Constants.ENUM_SIZE;
+import static adventure.util.Constants.HASH_SIZE;
 import static adventure.util.Constants.NAME_SIZE;
 import static adventure.util.Constants.TEXT_SIZE;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
@@ -10,6 +14,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -68,9 +73,21 @@ public class Race implements Serializable {
 	@Column(name = "LOGO")
 	private byte[] logo;
 
+	@NotNull
+	@Enumerated(STRING)
+	@Column(name = "PAYMENT_TYPE", length = ENUM_SIZE)
+	@Index(name = "IDX_RACE_PAYMENT_TYPE")
+	private PaymentType paymentType;
+
+	@Size(max = TEXT_SIZE)
+	@Column(name = "PAYMENT_INFO")
+	private String paymentInfo;
+
+	@Size(max = EMAIL_SIZE)
 	@Column(name = "PAYMENT_ACCOUNT")
 	private String paymentAccount;
 
+	@Size(max = HASH_SIZE)
 	@Column(name = "PAYMENT_TOKEN")
 	private String paymentToken;
 
@@ -187,6 +204,22 @@ public class Race implements Serializable {
 
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
+	}
+
+	public PaymentType getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public String getPaymentInfo() {
+		return paymentInfo;
+	}
+
+	public void setPaymentInfo(String paymentInfo) {
+		this.paymentInfo = paymentInfo;
 	}
 
 	public String getPaymentAccount() {

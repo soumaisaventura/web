@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="997,882" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="1018,292" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -47,7 +47,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1624.71" y="273"/>
+	<position x="1477.3" y="230.037"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -65,7 +65,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="850.51" y="277.769"/>
+	<position x="780.88" y="234.065"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -134,7 +134,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1026" y="612.77"/>
+	<position x="1042.3" y="642.4"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -164,7 +164,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1617.56" y="405.984"/>
+	<position x="1641.26" y="383.021"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -200,7 +200,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1006.5" y="393.363"/>
+	<position x="1026.5" y="378.548"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -221,6 +221,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="logo">
 		<type name="oid"/>
+	</column>
+	<column name="payment_type">
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="payment_info">
+		<type name="character varying" length="500"/>
 	</column>
 	<column name="payment_account">
 		<type name="character varying" length="255"/>
@@ -254,7 +260,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1316.19" y="459.4"/>
+	<position x="1364.34" y="457.178"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -269,7 +275,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1030.84" y="780.623"/>
+	<position x="1020.47" y="839.882"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -323,7 +329,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1154.4" y="268.215"/>
+	<position x="1129.96" y="225.252"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -344,7 +350,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1358.88" y="846.056"/>
+	<position x="1364.07" y="910.5"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -709,6 +715,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="admin"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_payment_type" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="payment_type"/>
 		</idxelement>
 </index>
 

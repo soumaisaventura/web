@@ -144,6 +144,8 @@ CREATE TABLE public.race(
 	city_id integer,
 	banner oid,
 	logo oid,
+	payment_type character varying(20),
+	payment_info character varying(500),
 	payment_account character varying(255),
 	payment_token character varying(64),
 	CONSTRAINT race_pkey PRIMARY KEY (id)
@@ -617,6 +619,15 @@ CREATE INDEX idx_user_admin ON public.user_account
 	USING btree
 	(
 	  admin ASC NULLS LAST
+	);
+-- ddl-end --
+
+-- object: idx_race_payment_type | type: INDEX --
+-- DROP INDEX IF EXISTS public.idx_race_payment_type CASCADE;
+CREATE INDEX idx_race_payment_type ON public.race
+	USING btree
+	(
+	  payment_type ASC NULLS LAST
 	);
 -- ddl-end --
 
