@@ -113,6 +113,10 @@
 		<from>^/race/(\d+)/registration/list$</from>
 		<to>/race-registration-list.jsf?race=$1</to>
 	</rule>
+	<rule>
+		<from>^/prova/(\d+)/painel/inscricoes$</from>
+		<to>/race-registration-list.jsf?race=$1</to>
+	</rule>
 
 	<rule>
 		<from>^/race/(\d+)/registration$</from>

@@ -29,14 +29,20 @@ $(function() {
 		applyFilter();
 	});
 
-	$('table').on('click', '.approve', function() {
-		var button = $(this);
-		bootbox.confirm("Confirma que a equipe efetuou o pagamento da inscrição?", function(result) {
-			if (result) {
-				RegistrationProxy.confirm(button.data("registration")).done(confirmOk);
-			}
-		});
-	});
+	$('table').on(
+			'click',
+			'.approve',
+			function() {
+				var button = $(this);
+				bootbox.confirm("Confirma que a equipe <strong>" + button.data("team-name") + "</strong> efetuou o pagamento da inscrição <strong>#"
+						+ button.data("registration") + "</strong> no valor de <strong>" + button.data("ammount") + "</strong> ?", function(result) {
+					if (result) {
+						button.addClass("confirmed");
+						RegistrationProxy.confirm(button.data("registration")).done(confirmOk);
+						confirmOk();
+					}
+				});
+			});
 
 	RaceProxy.loadSummary(race).done(loadOk);
 	RaceRegistrationProxy.find(race).done(findOk);
@@ -44,8 +50,9 @@ $(function() {
 });
 
 function confirmOk() {
-	$(".registration").removeClass("label-warning").addClass("label-success").text("Confirmado");
-	$(".approve").remove();
+	var registration = $(".confirmed").data("registration");
+	$("#regstration-status-" + registration).html(App.translateStatus('confirmed'));
+	$(".confirmed").remove();
 	applyFilter();
 }
 
@@ -76,9 +83,9 @@ function findOk(data, status, request) {
 				var tr = "";
 				tr = tr.concat("<tr>");
 				tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
-				tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/registration/" + registration.number + "'>#"
+				tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/inscricao/" + registration.number + "'>#"
 						+ registration.number + "</a></h4>");
-				tr = tr.concat("<h4>" + App.translateStatus(registration.status) + "</h4>");
+				tr = tr.concat("<span id='regstration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";
 				tr = tr.concat("</td>");
 				tr = tr.concat("<td style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + registration.teamName + "</h4>");
@@ -100,8 +107,8 @@ function findOk(data, status, request) {
 				tr = tr.concat("<td class='text-center' style='vertical-align: top' nowrap='nowrap'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + numeral(amount).format() + "</h4>");
 				if (registration.status === "pendent") {
-					tr = tr.concat("<button type='button' class='approve btn btn-success btn-sm' data-registration='" + registration.id
-							+ "'>Aprovar</button>");
+					tr = tr.concat("<button type='button' class='approve btn btn-success' data-registration='" + registration.number
+							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format() + "'>Aprovar</button>");
 				}
 				tr = tr.concat("</td>");
 				tr = tr.concat("</tr>");

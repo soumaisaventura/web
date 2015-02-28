@@ -7,7 +7,7 @@ $(function() {
 	RaceProxy.load($("#race").val()).done(loadOk);
 
 	$("#bt-registration").click(function() {
-		var url = App.getContextPath() + "/race/" + $("#race").val() + "/registration";
+		var url = App.getContextPath() + "/prova/" + $("#race").val() + "/inscricao";
 
 		if (App.isLoggedIn()) {
 			location.href = url;
@@ -18,7 +18,7 @@ $(function() {
 	});
 
 	$("#bt-manage-section").click(function() {
-		location.href = App.getContextPath() + "/race/" + $("#race").val() + "/registration/list";
+		location.href = App.getContextPath() + "/prova/" + $("#race").val() + "/painel/inscricoes";
 	});
 });
 

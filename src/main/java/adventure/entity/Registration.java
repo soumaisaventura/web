@@ -171,7 +171,7 @@ public class Registration implements Serializable {
 	}
 
 	public String getFormattedId() {
-		return this.getId() != null ? Strings.insertZeros(this.getId().toString(), 5) : null;
+		return this.getId() != null ? Strings.insertZeros(this.getId().toString(), 4) : null;
 	}
 
 	@Override
