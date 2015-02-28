@@ -110,6 +110,11 @@
 	</rule>
 
 	<rule>
+		<from>^/prova/(\d+)/painel$</from>
+		<to>/prova-painel.jsf?id=$1</to>
+	</rule>
+
+	<rule>
 		<from>^/race/(\d+)/registration/list$</from>
 		<to>/race-registration-list.jsf?race=$1</to>
 	</rule>

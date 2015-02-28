@@ -44,7 +44,6 @@ public final class Misc {
 		return memberNames;
 	}
 
-	// TODO Não precisa de 2 for.
 	public static String stringfyTeamFormation(List<TeamFormation> members) {
 		List<String> result = new ArrayList<String>();
 		for (TeamFormation teamFormation : members) {
@@ -54,12 +53,24 @@ public final class Misc {
 		return stringfy(result);
 	}
 
-	// public static String stringfyUsers(List<User> members) {
-	// List<String> result = new ArrayList<String>();
-	// for (User user : members) {
-	// result.add(user.getProfile().getName());
-	// }
-	//
-	// return stringfy(result);
-	// }
+	public static String capitalize(String string) throws Exception {
+		String capitalized = null;
+
+		if (string != null) {
+			capitalized = "";
+
+			for (String part : string.toLowerCase().split(" ")) {
+				if (part.length() > 2) {
+					capitalized += Strings.firstToUpper(part);
+				} else {
+					capitalized += part;
+				}
+				capitalized += " ";
+			}
+
+			capitalized = capitalized.trim();
+		}
+
+		return capitalized;
+	}
 }
