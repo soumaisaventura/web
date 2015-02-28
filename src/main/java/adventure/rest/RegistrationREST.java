@@ -34,6 +34,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
+import adventure.entity.PaymentType;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.StatusType;
@@ -136,6 +137,8 @@ public class RegistrationREST {
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
 		data.payment = new PaymentData();
+		data.payment.type = registration.getRaceCategory().getRace().getPaymentType();
+		data.payment.info = registration.getRaceCategory().getRace().getPaymentInfo();
 		data.payment.code = registration.getPaymentCode();
 		data.payment.transaction = registration.getPaymentTransaction();
 
@@ -471,6 +474,10 @@ public class RegistrationREST {
 	}
 
 	public static class PaymentData {
+
+		public PaymentType type;
+
+		public String info;
 
 		public String code;
 

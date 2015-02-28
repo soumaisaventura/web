@@ -214,7 +214,7 @@ public class TempREST {
 	}
 
 	private void validate(UriInfo uriInfo) throws Exception {
-		if (uriInfo.getBaseUri().toString().contains("fbca.com.br")) {
+		if (uriInfo.getBaseUri().toString().contains("com.br")) {
 			throw new ForbiddenException().addViolation("Em produção não pode!");
 		}
 	}

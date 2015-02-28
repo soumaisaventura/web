@@ -64,6 +64,15 @@ var App = {
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	},
 
+	replaceEmailByMailTo : function(text) {
+		if (!text) {
+			return text;
+		}
+
+		var email_regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+		return text.replace(email_regex, '<a href="mailto:$1">$1</a>');
+	},
+
 	handle401 : function(request) {
 		this.clearAuthentication();
 		this.saveLocation(location.href);

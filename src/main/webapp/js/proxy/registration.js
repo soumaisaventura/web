@@ -12,37 +12,37 @@ var RegistrationProxy = {
 		});
 	},
 
-	load : function($id) {
+	load : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $id,
+			url : this.url + "/" + id,
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}
 		});
 	},
 
-	loadPublic : function($id) {
+	loadPublic : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $id + "/public"
+			url : this.url + "/" + id + "/public"
 		});
 	},
 
-	sendPayment : function($id) {
+	sendPayment : function(id) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/" + $id + "/payment",
+			url : this.url + "/" + id + "/payment",
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}
 		});
 	},
 
-	updateRacePrice : function($id, member, price) {
+	updateRacePrice : function(id, member, price) {
 		return $.ajax({
 			type : "PUT",
-			url : this.url + "/" + $id + "/member/" + member + "/price",
+			url : this.url + "/" + id + "/member/" + member + "/price",
 			data : price,
 			contentType : "application/json",
 			beforeSend : function(request) {
@@ -51,10 +51,10 @@ var RegistrationProxy = {
 		});
 	},
 
-	updateAnnualFee : function($id, member, fee) {
+	updateAnnualFee : function(id, member, fee) {
 		return $.ajax({
 			type : "PUT",
-			url : this.url + "/" + $id + "/member/" + member + "/fee",
+			url : this.url + "/" + id + "/member/" + member + "/fee",
 			data : fee,
 			contentType : "application/json",
 			beforeSend : function(request) {
@@ -63,10 +63,10 @@ var RegistrationProxy = {
 		});
 	},
 
-	confirm : function($id) {
+	confirm : function(id) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/" + $id + "/confirm",
+			url : this.url + "/" + id + "/confirm",
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}

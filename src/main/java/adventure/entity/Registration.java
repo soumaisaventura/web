@@ -121,10 +121,10 @@ public class Registration implements Serializable {
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
 			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
-			StatusType registrationStatus, Integer raceId, String raceName, Date raceDate, String racePaymentAccount,
-			String racePaymentToken, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName,
-			Integer stateId, String stateName, String stateAbbreviation, Integer categoryId, String categoryName,
-			Integer courseId, Integer courseLength) {
+			StatusType registrationStatus, Integer raceId, String raceName, Date raceDate, PaymentType racePaymentType,
+			String racePaymentInfo, String racePaymentAccount, String racePaymentToken, Integer periodId,
+			BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId, String stateName,
+			String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -144,6 +144,8 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDate(raceDate);
+		getRaceCategory().getRace().setPaymentType(racePaymentType);
+		getRaceCategory().getRace().setPaymentInfo(racePaymentInfo);
 		getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
 		getRaceCategory().getRace().setPaymentToken(racePaymentToken);
 

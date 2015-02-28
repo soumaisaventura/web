@@ -73,16 +73,21 @@ function loadOk(data) {
 	$("#team-section").show();
 
 	if (data.status == 'pendent') {
+		$(".payment-type").hide();
+		$(".payment-type-" + data.payment.type).show();
+		$('#registration-payment-info').html(data.payment.info ? App.replaceEmailByMailTo(data.payment.info.replace(/\n|\r/g, '<br>')) : '');
+
+		updatePaymentButton(data.payment.code, data.payment.transaction);
+
 		$('#payment-section').show();
 	}
-	updatePaymentButton(data.payment.code, data.payment.transaction);
 
 	var user = App.getLoggedInUser();
 	var authorized = user ? user.admin : null;
 
 	$.each(data.race.organizers, function(i, organizer) {
 		var row = "";
-		row = row.concat("<div class='col-md-6'>");
+		row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
 		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
 		row = row.concat(organizer.name);
 		row = row.concat("<br/>");

@@ -101,13 +101,21 @@
 						<strong>Pagamento</strong>
 					</h3>
 
-					<p class="text-success" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece diversas opções, tais como:
-						parcelamento em cartões de crédito, boleto bancário, débito online e depósito em conta.</p>
+					<p class="text-success payment-type payment-type-manual" style="padding-bottom: 20px;">
+						<br />
+						Efetuar a transferência do valor total para a seguinte conta:
+						<br />
+						<br />
+						<span id="registration-payment-info"></span>
+					</p>
 
-					<p class="text-success" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição demorará até 1h para ser
-						atualizado automaticamente.</p>
+					<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece
+						diversas opções, tais como: parcelamento em cartões de crédito, boleto bancário, débito online e depósito em conta.</p>
 
-					<div class="pull-right">
+					<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
+						demorará até 1h para ser atualizado automaticamente.</p>
+
+					<div class="pull-right payment-type payment-type-auto">
 						<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
 							<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span>
 							Pagar com PagSeguro

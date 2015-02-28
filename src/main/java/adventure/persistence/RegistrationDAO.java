@@ -73,6 +73,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
 		jpql.append("        ra.date, ");
+		jpql.append("        ra.paymentType, ");
+		jpql.append("        ra.paymentInfo, ");
 		jpql.append("        ra.paymentAccount, ");
 		jpql.append("        ra.paymentToken, ");
 		jpql.append("        pe.id, ");
@@ -128,6 +130,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
 		jpql.append("        ra.date, ");
+		jpql.append("        ra.paymentType, ");
+		jpql.append("        ra.paymentInfo, ");
 		jpql.append("        ra.paymentAccount, ");
 		jpql.append("        ra.paymentToken, ");
 		jpql.append("        pe.id, ");
