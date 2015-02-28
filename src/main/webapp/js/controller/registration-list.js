@@ -18,7 +18,7 @@ function findOk($data, $status, $request) {
 				var td1;
 				td1 += "<td class='col-md-4 text-center' style='vertical-align:middle; padding: 0px; padding-top: 20px; padding-bottom: 20px;'>";
 				td1 += "<div >";
-				td1 += "<a href='" + App.getContextPath() + "/registration/" + value.number + "'>";
+				td1 += "<a href='" + App.getContextPath() + "/inscricao/" + value.number + "'>";
 				td1 += "<h3 style='margin: 0px;'>#" + value.number + "</h3>";
 				td1 += "</a>";
 				td1 += "<h4 style='margin: 0px;'>";

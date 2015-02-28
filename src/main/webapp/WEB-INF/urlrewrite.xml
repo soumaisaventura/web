@@ -16,6 +16,10 @@
 		<from>^/home$</from>
 		<to>/home.jsf</to>
 	</rule>
+	<rule>
+		<from>^/inicio$</from>
+		<to>/home.jsf</to>
+	</rule>
 	<!--
 	<outbound-rule>
 		<from>^/home.jsf$</from>
@@ -32,9 +36,17 @@
 		<from>^/signup$</from>
 		<to>/signup.jsf</to>
 	</rule>
+	<rule>
+		<from>^/registre-se$</from>
+		<to>/signup.jsf</to>
+	</rule>
 
 	<rule>
 		<from>^/password/recovery$</from>
+		<to>/password-recovery.jsf</to>
+	</rule>
+	<rule>
+		<from>^/recupera-senha$</from>
 		<to>/password-recovery.jsf</to>
 	</rule>
 
@@ -62,6 +74,10 @@
 		<from>^/registration/list$</from>
 		<to>/registration-list.jsf</to>
 	</rule>
+	<rule>
+		<from>^/minhas-inscricoes$</from>
+		<to>/registration-list.jsf</to>
+	</rule>
 
 	<rule>
 		<from>^/registration$</from>
@@ -79,9 +95,17 @@
 		<from>^/registration/(\d+)$</from>
 		<to>/registration.jsf?registration=$1</to>
 	</rule>
+	<rule>
+		<from>^/inscricao/(\d+)$</from>
+		<to>/registration.jsf?registration=$1</to>
+	</rule>
 
 	<rule>
 		<from>^/race/next$</from>
+		<to>/race-next.jsf</to>
+	</rule>
+	<rule>
+		<from>^/proximas-provas$</from>
 		<to>/race-next.jsf</to>
 	</rule>
 
@@ -94,9 +118,17 @@
 		<from>^/race/(\d+)/registration$</from>
 		<to>/race-registration.jsf?race=$1</to>
 	</rule>
+	<rule>
+		<from>^/prova/(\d+)/inscricao$</from>
+		<to>/race-registration.jsf?race=$1</to>
+	</rule>
 
 	<rule>
 		<from>^/race/(\d+)$</from>
+		<to>/race.jsf?race=$1</to>
+	</rule>
+	<rule>
+		<from>^/prova/(\d+)$</from>
 		<to>/race.jsf?race=$1</to>
 	</rule>
 

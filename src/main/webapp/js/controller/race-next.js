@@ -4,7 +4,7 @@ $(function() {
 	RaceProxy.findNext().done(findNextOk);
 
 	$('table').on('click', '.registration', function() {
-		location.href = App.getContextPath() + '/race/' + $(this).data("race") + '/registration';
+		location.href = App.getContextPath() + '/prova/' + $(this).data("race") + '/inscricao';
 	});
 });
 
@@ -34,7 +34,7 @@ function findNextOk(data) {
 							td2 += "Inscrições";
 							td2 += "</button><br>";
 						}
-						td2 += '<a href="' + App.getContextPath() + '/race/' + value.id + '">ver detalhes</a>';
+						td2 += '<a href="' + App.getContextPath() + '/prova/' + value.id + '">ver detalhes</a>';
 						td2 += '</div>';
 						td2 += '</div>';
 

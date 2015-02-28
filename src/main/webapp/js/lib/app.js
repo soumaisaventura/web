@@ -10,7 +10,7 @@ var App = {
 
 	restoreSavedLocation : function() {
 		var url = sessionStorage.getItem(this.savedLocationKey);
-		location.href = (url ? url : App.getContextPath() + "/home");
+		location.href = (url ? url : App.getContextPath() + "/inicio");
 	},
 
 	saveLocation : function(url) {

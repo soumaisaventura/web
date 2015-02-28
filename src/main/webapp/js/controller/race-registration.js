@@ -143,6 +143,9 @@ function loadOk(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadCategoriesOk(data) {
+	
+	console.log(JSON.stringify(data));
+	
 	$.each(data, function(index, value) {
 		var course = value;
 		$.each(course.categories, function(index, value) {
@@ -154,7 +157,7 @@ function loadCategoriesOk(data) {
 
 function registrationOk(data) {
 	$("[id$='-message']").hide();
-	var url = App.getContextPath() + "/registration/" + data;
+	var url = App.getContextPath() + "/inscricao/" + data;
 
 	bootbox.dialog({
 		title : "Parabéns",
@@ -188,7 +191,7 @@ function registrationFailed(request) {
 }
 
 function shareOnFacebook() {
-	var raceUrl = App.getBaseUrl() + "/race/" + $("#race").val();
+	var raceUrl = App.getBaseUrl() + "/prova/" + $("#race").val();
 	var url = "";
 	url += "http://www.facebook.com/dialog/feed";
 	url += "?app_id=" + $("#facebook-appid").val();
@@ -198,7 +201,7 @@ function shareOnFacebook() {
 	url += "&link=" + raceUrl;
 	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#race").val() + "/logo";
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
-	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/registration' }]";
+	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
 
 	// var url = "";
 	// url += "http://www.facebook.com/sharer/sharer.php?u=";
