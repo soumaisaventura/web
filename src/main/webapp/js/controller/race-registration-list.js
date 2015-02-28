@@ -10,7 +10,7 @@ $(function() {
 	});
 
 	$('#resultTable').footable().bind('footable_filtering', function(e) {
-		var selected = $('#filter-status').find(':selected').text();
+		var selected = $('#filter-status').find(':selected').attr('value');
 		if (selected && selected.length > 0) {
 			e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
 			e.clear = !e.filter;

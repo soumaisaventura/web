@@ -204,7 +204,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("  where u = p.user ");
 		jpql.append("    and ra = :race ");
 		jpql.append("  order by ");
-		jpql.append("        ra.id ");
+		jpql.append("        re.id desc ");
 
 		TypedQuery<TeamFormation> query = getEntityManager().createQuery(jpql.toString(), TeamFormation.class);
 		query.setParameter("race", race);
