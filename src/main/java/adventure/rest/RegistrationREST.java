@@ -461,6 +461,10 @@ public class RegistrationREST {
 
 		public String phone;
 
+		public String city;
+
+		public String state;
+
 		public BillData bill;
 	}
 

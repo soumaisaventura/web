@@ -302,13 +302,19 @@ public class RaceREST {
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
-					AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
 
 					OrderRowData row = new OrderRowData();
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice().floatValue();
-					row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
+
+					if (race.getId().equals(2)) {
+						row.annualFee = 0;
+					} else {
+						AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
+						row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
+					}
+
 					row.amount = row.racePrice + row.annualFee;
 
 					data.rows.add(row);

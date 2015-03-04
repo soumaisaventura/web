@@ -181,6 +181,12 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     p.name, ");
 		jpql.append(" 	     p.mobile, ");
+
+		jpql.append(" 	     ci.id, ");
+		jpql.append(" 	     ci.name, ");
+		jpql.append(" 	     st.id, ");
+		jpql.append(" 	     st.abbreviation, ");
+
 		jpql.append(" 	     tf.racePrice, ");
 		jpql.append(" 	     tf.annualFee, ");
 		jpql.append(" 	     re.id, ");
@@ -201,6 +207,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join rc.category ca ");
 		jpql.append("   join rc.course co, ");
 		jpql.append("        Profile p ");
+		jpql.append("   join p.city ci ");
+		jpql.append("   join ci.state st ");
 		jpql.append("  where u = p.user ");
 		jpql.append("    and ra = :race ");
 		jpql.append("  order by ");

@@ -108,8 +108,14 @@ public class RaceRegistrationREST {
 			teamFormation.setRegistration(registration);
 			teamFormation.setUser(atachedMember);
 
-			AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(member, year);
-			teamFormation.setAnnualFee(annualFeePayment != null ? BigDecimal.valueOf(0) : annualFee.getFee());
+			// TODO Verificar isso com um campo n atabela race.
+			if (raceCategory.getRace().getId().equals(2)) {
+				teamFormation.setAnnualFee(BigDecimal.valueOf(0));
+			} else {
+				AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(member, year);
+				teamFormation.setAnnualFee(annualFeePayment != null ? BigDecimal.valueOf(0) : annualFee.getFee());
+			}
+
 			teamFormation.setRacePrice(period.getPrice());
 
 			TeamFormationDAO.getInstance().insert(teamFormation);
@@ -156,6 +162,9 @@ public class RaceRegistrationREST {
 				userData.email = teamFormation.getUser().getEmail();
 				userData.name = teamFormation.getUser().getProfile().getName();
 				userData.phone = teamFormation.getUser().getProfile().getMobile();
+				userData.city = teamFormation.getUser().getProfile().getCity().getName();
+				userData.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
+
 				userData.bill = new BillData();
 				userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
 				userData.bill.annualFee = teamFormation.getAnnualFee().floatValue();
