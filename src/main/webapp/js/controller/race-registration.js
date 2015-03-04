@@ -133,7 +133,7 @@ function getOAuthAppIdsOk(data) {
  * Carrega dados da corrida
  */
 function loadOk(data) {
-	$("#race-name").text(data.name)
+	$(".race-name").text(data.name)
 	$("#race-date").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL'));
 	$("#race-city").text(data.city);
 }
@@ -143,9 +143,9 @@ function loadOk(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadCategoriesOk(data) {
-	
+
 	console.log(JSON.stringify(data));
-	
+
 	$.each(data, function(index, value) {
 		var course = value;
 		$.each(course.categories, function(index, value) {

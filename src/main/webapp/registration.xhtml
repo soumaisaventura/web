@@ -23,6 +23,28 @@
 		<script src="#{request.contextPath}/js/controller/registration.js"></script>
 	</ui:define>
 
+	<!--
+	<ui:define name="breadcrumb">
+		<ol class="breadcrumb">
+			<li>
+				<a href="#{request.contextPath}/inicio">Início</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/provas">Provas</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/prova/#{param.race}">
+					<span class="race-name"></span>
+				</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/prova/#{param.race}/inscricao">Inscrição</a>
+			</li>
+			<li class="active">##{param.registration}</li>
+		</ol>
+	</ui:define>
+	-->
+
 	<ui:define name="body">
 		<input id="registration" type="hidden" value="#{param.registration}" />
 
@@ -47,7 +69,7 @@
 
 			<div id="race-section" hidden="true" class="row" style="padding-top: 28px;">
 				<h3>
-					<span id="race-name"></span>
+					<span class="race-name"></span>
 				</h3>
 				<h5>
 					<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span>

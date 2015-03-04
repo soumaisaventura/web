@@ -34,7 +34,7 @@ function loadOk(data) {
 	$("#race-status").data('status', data.status);
 	$("#summary-section").show();
 
-	$("#race-name").text(data.race.name);
+	$(".race-name").text(data.race.name);
 	$("#race-date").text(moment(data.race.date).format('LL'));
 	$("#race-city").text(data.race.city.name + "/" + data.race.city.state);
 	$("#race-section").show();

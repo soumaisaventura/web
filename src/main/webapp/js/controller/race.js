@@ -5,21 +5,6 @@ $(function() {
 
 	RaceProxy.getBanner($("#race").val()).done(getBannerOk);
 	RaceProxy.load($("#race").val()).done(loadOk);
-
-	$("#bt-registration").click(function() {
-		var url = App.getContextPath() + "/prova/" + $("#race").val() + "/inscricao";
-
-		if (App.isLoggedIn()) {
-			location.href = url;
-		} else {
-			App.saveLocation(url);
-			location.href = App.getContextPath() + "/login";
-		}
-	});
-
-	$("#bt-manage-section").click(function() {
-		location.href = App.getContextPath() + "/prova/" + $("#race").val() + "/painel/inscricoes";
-	});
 });
 
 function getBannerOk(data) {
@@ -30,7 +15,7 @@ function getBannerOk(data) {
 }
 
 function loadOk(data) {
-	$("#name").prepend(data.name);
+	$(".race-name").text(data.name);
 	$("#date").prepend(moment(data.date, "YYYY-MM-DD").format('LL'));
 
 	if (data.description) {

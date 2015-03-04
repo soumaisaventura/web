@@ -63,7 +63,7 @@ function applyFilter() {
 }
 
 function loadOk(data) {
-	$("#race-name").text(data.name)
+	$(".race-name").text(data.name)
 	$("#race-date").text(moment(data.date, "YYYY-MM-DD").locale("pt-br").format('LL'));
 	$("#race-city").text(data.city);
 }

@@ -9,12 +9,29 @@
 
 	<ui:define name="proxy">
 		<script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
+		<script src="#{request.contextPath}/js/proxy/race.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
 		<script src="#{request.contextPath}/js/controller/prova-painel.js"></script>
 	</ui:define>
 
+	<ui:define name="breadcrumb">
+		<ol class="breadcrumb">
+			<li>
+				<a href="#{request.contextPath}/inicio">Início</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/provas">Provas</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/prova/#{param.id}">
+					<span class="race-name"></span>
+				</a>
+			</li>
+			<li class="active">Painel</li>
+		</ol>
+	</ui:define>
 	<ui:define name="body">
 		<input id="race-id" type="hidden" value="#{param.id}" />
 
@@ -52,6 +69,19 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="panel panel-default">
+					<div class="panel-heading">Resumo das inscrições</div>
+					<div class="panel-body">
+						<div id="analytic-data" style="height: 300px; width: 100%;">
+							<div style="height: 250px;">Em construção...</div>
+							<div>
+								<a href="#{request.contextPath}/prova/#{param.id}/painel/inscricoes" class="btn btn-primary btn-lg pull-right">Gerenciar inscrições</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
 					<div class="panel-heading">Incrições por status</div>
 					<div class="panel-body">
 						<div id="status-chart" style="height: 300px; width: 100%;"></div>
@@ -66,7 +96,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 hidden-xs">
 				<div class="panel panel-default">
 					<div class="panel-heading">Atletas confirmados</div>
 					<div class="panel-body">
