@@ -43,8 +43,10 @@
 <h:body>
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
 	<ui:include src="menu.xhtml" />
-	<ui:insert name="body" />
-	<!-- 	<ui:include src="footer.xhtml" /> -->
+
+	<div class="container">
+		<ui:insert name="body" />
+	</div>
 
 	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
 	<script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>

@@ -22,95 +22,93 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="container">
-			<input id="race" type="hidden" value="#{param.race}" />
-			<div class="row" id="banner-section" hidden="true">
-				<div class="col-md-8 col-md-offset-2">
-					<img id="banner" class="img-responsive" />
-				</div>
+		<input id="race" type="hidden" value="#{param.race}" />
+		<div class="row" id="banner-section" hidden="true">
+			<div class="col-md-8 col-md-offset-2">
+				<img id="banner" class="img-responsive" />
 			</div>
-			<div class="row">
-				<div class="col-md-5 col-md-offset-2">
-					<h2 id="name"></h2>
-				</div>
-				<div class="col-md-3 text-right" id="bt-registration-section" hidden="true">
-					<h2>
-						<button id="bt-registration" type="button" class="btn btn-lg btn-success">
-							<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span>
-							Inscreva sua equipe
-						</button>
-					</h2>
-				</div>
-				<div class="col-md-3 text-right" id="bt-manage-section" hidden="true">
-					<h2>
-						<button id="bt-manage" type="button" class="btn btn-lg btn-warning">
-							<span class='glyphicon glyphicon-menu-hamburger' aria-hidden='true' style='font-size: 0.8em;'></span>
-							Gerenciar inscrições
-						</button>
-					</h2>
-				</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-md-offset-2">
+				<h2 id="name"></h2>
 			</div>
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<h4>
-						<p class="text-justify" id="description"></p>
-					</h4>
-				</div>
+			<div class="col-md-3 text-right" id="bt-registration-section" hidden="true">
+				<h2>
+					<button id="bt-registration" type="button" class="btn btn-lg btn-success">
+						<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span>
+						Inscreva sua equipe
+					</button>
+				</h2>
 			</div>
+			<div class="col-md-3 text-right" id="bt-manage-section" hidden="true">
+				<h2>
+					<button id="bt-manage" type="button" class="btn btn-lg btn-warning">
+						<span class='glyphicon glyphicon-menu-hamburger' aria-hidden='true' style='font-size: 0.8em;'></span>
+						Gerenciar inscrições
+					</button>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<h4>
+					<p class="text-justify" id="description"></p>
+				</h4>
+			</div>
+		</div>
 
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="col-md-6">
-						<div class="row">
-							<h3>
-								<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-								Data
-							</h3>
-							<h4 id="date"></h4>
-						</div>
-						<div class="row" id="city-section" hidden="true">
-							<h3>
-								<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
-								Local
-							</h3>
-							<h4 id="city"></h4>
-						</div>
-						<div class="row" id="registration-periods-section" hidden="true">
-							<h3>
-								<span class="glyphicon glyphicon-usd" style="font-size: 0.8em"></span>
-								Inscrição
-								<small>por pessoa</small>
-							</h3>
-							<div id="registration-periods"></div>
-							<h4>
-								<small>
-									*
-									<span class='text-danger'>+R$ 10 de anuidade</span>
-								</small>
-							</h4>
-						</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="col-md-6">
+					<div class="row">
+						<h3>
+							<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
+							Data
+						</h3>
+						<h4 id="date"></h4>
 					</div>
-					<div class="col-md-6">
-						<div class="row" id="categories-section" hidden="true">
-							<h3 id="categories">
-								<span class="glyphicon glyphicon-th-large" style="font-size: 0.8em"></span>
-								Categorias
-							</h3>
-						</div>
-						<div class="row" id="organizers-section" hidden="true">
-							<h3>
-								<span class="glyphicon glyphicon glyphicon-user" style="font-size: 0.8em"></span>
-								Organizadores
-							</h3>
-							<div id="organizers"></div>
-						</div>
+					<div class="row" id="city-section" hidden="true">
+						<h3>
+							<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
+							Local
+						</h3>
+						<h4 id="city"></h4>
+					</div>
+					<div class="row" id="registration-periods-section" hidden="true">
+						<h3>
+							<span class="glyphicon glyphicon-usd" style="font-size: 0.8em"></span>
+							Inscrição
+							<small>por pessoa</small>
+						</h3>
+						<div id="registration-periods"></div>
+						<h4>
+							<small>
+								*
+								<span class='text-danger'>+R$ 10 de anuidade</span>
+							</small>
+						</h4>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row" id="categories-section" hidden="true">
+						<h3 id="categories">
+							<span class="glyphicon glyphicon-th-large" style="font-size: 0.8em"></span>
+							Categorias
+						</h3>
+					</div>
+					<div class="row" id="organizers-section" hidden="true">
+						<h3>
+							<span class="glyphicon glyphicon glyphicon-user" style="font-size: 0.8em"></span>
+							Organizadores
+						</h3>
+						<div id="organizers"></div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="row" style="margin-top: 20px;">
-				<div class="col-md-8 col-md-offset-2 text-center"></div>
-			</div>
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-md-8 col-md-offset-2 text-center"></div>
 		</div>
 	</ui:define>
 

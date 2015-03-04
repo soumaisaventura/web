@@ -107,41 +107,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 		return query.getResultList();
 	}
 
-	public List<User> findConfirmed(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		// jpql.append(" select ");
-		// jpql.append(" 	 new Profile( ");
-		// jpql.append(" 	     p.name, ");
-		// jpql.append(" 	     p.rg, ");
-		// jpql.append(" 	     p.cpf, ");
-		// jpql.append(" 	     p.birthday, ");
-		// jpql.append(" 	     p.mobile, ");
-		// jpql.append(" 	     p.gender, ");
-		// jpql.append(" 	     p.pendencies, ");
-		// jpql.append(" 	     u.id, ");
-		// jpql.append(" 	     u.email, ");
-		// jpql.append(" 	     c.id, ");
-		// jpql.append(" 	     c.name, ");
-		// jpql.append(" 	     s.id, ");
-		// jpql.append(" 	     s.name, ");
-		// jpql.append(" 	     s.abbreviation ");
-		// jpql.append(" 	 ) ");
-		jpql.append("   from TeamFormation tf ");
-		jpql.append("   join tf.user u ");
-		jpql.append("   join tf.registration re ");
-		jpql.append("   join r.raceCategory rc, ");
-		jpql.append("        Profile p ");
-		jpql.append("   join p.city ci ");
-		jpql.append("   join ci.state st ");
-		jpql.append("  where p.user = :u ");
-		jpql.append("    and rc.race = :race ");
-
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-		query.setParameter("race", race);
-
-		return query.getResultList();
-	}
-
 	public User loadForAuthentication(String email) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");

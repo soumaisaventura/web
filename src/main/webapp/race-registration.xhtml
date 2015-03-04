@@ -31,118 +31,116 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="container">
-			<div class="col-md-5 col-md-offset-3">
-				<div class="row" style="padding-bottom: 20px">
-					<input id="race" type="hidden" value="#{param.race}" />
-					<h2 id="race-name"></h2>
-					<h4 class="hidden-xs">
-						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-						<span id="race-date"></span>
-						&#160;&#160;
-						<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
-						<span id="race-city"></span>
-					</h4>
-					<a href="#{request.contextPath}/race/#{param.race}">ver detalhes desta prova</a>
+		<div class="col-md-5 col-md-offset-3">
+			<div class="row" style="padding-bottom: 20px">
+				<input id="race" type="hidden" value="#{param.race}" />
+				<h2 id="race-name"></h2>
+				<h4 class="hidden-xs">
+					<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
+					<span id="race-date"></span>
+					&#160;&#160;
+					<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
+					<span id="race-city"></span>
+				</h4>
+				<a href="#{request.contextPath}/race/#{param.race}">ver detalhes desta prova</a>
+			</div>
+
+			<form>
+				<div class="row">
+					<div class="form-group">
+						<label for="category">Categoria *</label>
+						<select id="category" class="form-control">
+							<option disabled="disabled" selected="selected">Escolha a categoria</option>
+						</select>
+						<span id="category-message" hidden="true" class="label label-danger" />
+					</div>
 				</div>
 
-				<form>
-					<div class="row">
-						<div class="form-group">
-							<label for="category">Categoria *</label>
-							<select id="category" class="form-control">
-								<option disabled="disabled" selected="selected">Escolha a categoria</option>
-							</select>
-							<span id="category-message" hidden="true" class="label label-danger" />
-						</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="teamName">Nome da equipe *</label>
+						<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
+						<span id="teamName-message" hidden="true" class="label label-danger" />
 					</div>
+				</div>
+				<div class="row">
+					<label>Equipe</label>
+					<div class="form-group">
+						<table id="members-list" class="table footable toggle-arrow-small toggle-medium" style="margin-top: 0px; margin-bottom: 5px">
+							<thead>
+								<tr class="info text-primary">
+									<th style="width: 30px;"></th>
+									<th data-toggle="true">
+										<small>atleta</small>
+									</th>
+									<th class="text-right" data-hide="phone">
+										<small>inscrição</small>
+									</th>
+									<th class="text-right" data-hide="phone">
+										<small>anuidade**</small>
+									</th>
+									<th class="text-right">
+										<small>total</small>
+										<span class="visible-xs-inline">**</span>
+									</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th></th>
+									<th data-hide="phone" colspan="2" class="text-left hidden-xs"></th>
+									<th class="text-right" nowrap='nowrap'>
+										<span class="hidden-xs">total a pagar</span>
+									</th>
+									<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
+								</tr>
+							</tfoot>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
 
-					<div class="row">
-						<div class="form-group">
-							<label for="teamName">Nome da equipe *</label>
-							<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
-							<span id="teamName-message" hidden="true" class="label label-danger" />
-						</div>
+				<div class="row">
+					<div class="form-group">
+						<div id="members-message" class="alert alert-danger" hidden="true"></div>
 					</div>
-					<div class="row">
-						<label>Equipe</label>
-						<div class="form-group">
-							<table id="members-list" class="table footable toggle-arrow-small toggle-medium" style="margin-top: 0px; margin-bottom: 5px">
-								<thead>
-									<tr class="info text-primary">
-										<th style="width: 30px;"></th>
-										<th data-toggle="true">
-											<small>atleta</small>
-										</th>
-										<th class="text-right" data-hide="phone">
-											<small>inscrição</small>
-										</th>
-										<th class="text-right" data-hide="phone">
-											<small>anuidade**</small>
-										</th>
-										<th class="text-right">
-											<small>total</small>
-											<span class="visible-xs-inline">**</span>
-										</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th></th>
-										<th data-hide="phone" colspan="2" class="text-left hidden-xs"></th>
-										<th class="text-right" nowrap='nowrap'>
-											<span class="hidden-xs">total a pagar</span>
-										</th>
-										<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
-									</tr>
-								</tfoot>
-								<tbody></tbody>
-							</table>
-						</div>
-					</div>
+				</div>
 
-					<div class="row">
-						<div class="form-group">
-							<div id="members-message" class="alert alert-danger" hidden="true"></div>
+				<div class="row">
+					<div class="form-group">
+						<label>Pesquisa por atleta cadastrado</label>
+						<div class="input-group">
+							<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
+							<input type="hidden" id="members-id" />
+							<span class="input-group-btn">
+								<button id="bt-add-athlete" class="btn btn-primary" type="button">
+									<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
+									Incluir
+									<span class="hidden-xs">na equipe</span>
+								</button>
+							</span>
 						</div>
 					</div>
+				</div>
 
-					<div class="row">
-						<div class="form-group">
-							<label>Pesquisa por atleta cadastrado</label>
-							<div class="input-group">
-								<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
-								<input type="hidden" id="members-id" />
-								<span class="input-group-btn">
-									<button id="bt-add-athlete" class="btn btn-primary" type="button">
-										<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
-										Incluir
-										<span class="hidden-xs">na equipe</span>
-									</button>
-								</span>
-							</div>
-						</div>
+				<div class="row" style="padding-top: 20px; padding-bottom: 20px">
+					<p class="form-group text-justify">
+						**
+						<span id="annual-fee-description"></span>
+					</p>
+					<p class="form-group text-justify">* Campos de preenchimento obrigatório.</p>
+				</div>
+				<div class="row" style="margin-bottom: 15px">
+					<div class="form-group">
+						<input id="facebook-appid" type="hidden" />
+						<input id="registration-id" type="hidden" />
+						<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-5">
+							<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
+							Inscrever equipe
+						</button>
 					</div>
-
-					<div class="row" style="padding-top: 20px; padding-bottom: 20px">
-						<p class="form-group text-justify">
-							**
-							<span id="annual-fee-description"></span>
-						</p>
-						<p class="form-group text-justify">* Campos de preenchimento obrigatório.</p>
-					</div>
-					<div class="row" style="margin-bottom: 15px">
-						<div class="form-group">
-							<input id="facebook-appid" type="hidden" />
-							<input id="registration-id" type="hidden" />
-							<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
-								Inscrever equipe
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 	</ui:define>
 </ui:composition>

@@ -24,125 +24,124 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="container">
-			<input id="registration" type="hidden" value="#{param.registration}" />
+		<input id="registration" type="hidden" value="#{param.registration}" />
 
-			<div class="col-md-6 col-md-offset-3">
-				<div id="summary-section" hidden="true" class="row" style="vertical-align: middle;">
-					<div class="col-md-9 col-md-offset-0" style="padding: 0px;">
-						<h2>
-							Inscrição #<span id="registration-id"></span>
-						</h2>
-						<h5 style="margin-bottom: 0px;">
-							Equipe
-							<spam id="team-name"></spam>
-						</h5>
-					</div>
-					<div class="col-md-3 text-center" style="padding: 0px;">
-						<h4 style="padding-top: 15px;">
-							<span id="race-status" class="pull-right"></span>
-						</h4>
-					</div>
-				</div>
-
-				<div id="race-section" hidden="true" class="row" style="padding-top: 28px;">
-					<h3>
-						<span id="race-name"></span>
-					</h3>
-					<h5>
-						<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span>
-						<span id="race-date"></span>
-						&#160;&#160;
-						<span class="glyphicon glyphicon-map-marker" aria-hidden='true' style="font-size: 0.8em"></span>
-						<span id="race-city"></span>
+		<div class="col-md-6 col-md-offset-3">
+			<div id="summary-section" hidden="true" class="row" style="vertical-align: middle;">
+				<div class="col-md-9 col-md-offset-0" style="padding: 0px;">
+					<h2>
+						Inscrição #
+						<span id="registration-id"></span>
+					</h2>
+					<h5 style="margin-bottom: 0px;">
+						Equipe
+						<spam id="team-name"></spam>
 					</h5>
 				</div>
-
-				<div id="team-section" hidden="true" class="row" style="padding-top: 30px; padding-bottom: 20px;">
-					<table id="team-formation" class="table" style="margin-bottom: 0px;">
-						<thead>
-							<tr>
-								<th style="padding-left: 0px; font-weight: 500;">
-									<span class="glyphicon glyphicon-th-large" aria-hidden='true' style="font-size: 0.8em;"></span>
-									<spam id="race-category"></spam>
-								</th>
-								<th class="text-right" style="font-size: 0.9em;">inscrição</th>
-								<th class="text-right" style="font-size: 0.9em;">anuidade*</th>
-								<th class="text-right" style="font-size: 0.9em;">
-									<em>total</em>
-								</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<th colspan="3" class="text-right" style="font-size: 0.9em;">
-									<em>total a pagar</em>
-								</th>
-								<th class="text-right" nowrap="nowrap">
-									<em>
-										<span id="payment-ammount"></span>
-									</em>
-								</th>
-							</tr>
-						</tfoot>
-						<tbody>
-						</tbody>
-					</table>
-
-					<div style="padding-top: 10px;">
-						*
-						<span id="annual-fee-description"></span>
-					</div>
+				<div class="col-md-3 text-center" style="padding: 0px;">
+					<h4 style="padding-top: 15px;">
+						<span id="race-status" class="pull-right"></span>
+					</h4>
 				</div>
+			</div>
 
-				<div id="payment-section" hidden="true" class="row alert alert-success" role="alert">
-					<h3 class="text-success" style="margin-top: 0px;">
-						<strong>Pagamento</strong>
-					</h3>
+			<div id="race-section" hidden="true" class="row" style="padding-top: 28px;">
+				<h3>
+					<span id="race-name"></span>
+				</h3>
+				<h5>
+					<span class="glyphicon glyphicon-calendar" aria-hidden='true' style="font-size: 0.8em;"></span>
+					<span id="race-date"></span>
+					&#160;&#160;
+					<span class="glyphicon glyphicon-map-marker" aria-hidden='true' style="font-size: 0.8em"></span>
+					<span id="race-city"></span>
+				</h5>
+			</div>
 
-					<p class="text-success payment-type payment-type-manual" style="padding-bottom: 20px;">
-						<br />
-						Efetuar a transferência do valor total para a seguinte conta:
-						<br />
-						<br />
-						<span id="registration-payment-info"></span>
-					</p>
+			<div id="team-section" hidden="true" class="row" style="padding-top: 30px; padding-bottom: 20px;">
+				<table id="team-formation" class="table" style="margin-bottom: 0px;">
+					<thead>
+						<tr>
+							<th style="padding-left: 0px; font-weight: 500;">
+								<span class="glyphicon glyphicon-th-large" aria-hidden='true' style="font-size: 0.8em;"></span>
+								<spam id="race-category"></spam>
+							</th>
+							<th class="text-right" style="font-size: 0.9em;">inscrição</th>
+							<th class="text-right" style="font-size: 0.9em;">anuidade*</th>
+							<th class="text-right" style="font-size: 0.9em;">
+								<em>total</em>
+							</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th colspan="3" class="text-right" style="font-size: 0.9em;">
+								<em>total a pagar</em>
+							</th>
+							<th class="text-right" nowrap="nowrap">
+								<em>
+									<span id="payment-ammount"></span>
+								</em>
+							</th>
+						</tr>
+					</tfoot>
+					<tbody>
+					</tbody>
+				</table>
 
-					<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece
-						diversas opções, tais como: parcelamento em cartões de crédito, boleto bancário, débito online e depósito em conta.</p>
-
-					<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
-						demorará até 1h para ser atualizado automaticamente.</p>
-
-					<div class="pull-right payment-type payment-type-auto">
-						<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
-							<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span>
-							Pagar com PagSeguro
-						</button>
-						<div id="payment-alert" style="color: red;" hidden="true">Processo de pagamento em andamento</div>
-					</div>
+				<div style="padding-top: 10px;">
+					*
+					<span id="annual-fee-description"></span>
 				</div>
+			</div>
 
-				<div id="organizers-section" hidden="true" class="row">
-					<h3>Organizadores</h3>
+			<div id="payment-section" hidden="true" class="row alert alert-success" role="alert">
+				<h3 class="text-success" style="margin-top: 0px;">
+					<strong>Pagamento</strong>
+				</h3>
 
-					<p classstyle="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
+				<p class="text-success payment-type payment-type-manual" style="padding-bottom: 20px;">
+					<br />
+					Efetuar a transferência do valor total para a seguinte conta:
+					<br />
+					<br />
+					<span id="registration-payment-info"></span>
+				</p>
 
-					<div id="race-organizers" class="row" style="padding-top: 20px; padding-bottom: 15px;"></div>
+				<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece
+					diversas opções, tais como: parcelamento em cartões de crédito, boleto bancário, débito online e depósito em conta.</p>
+
+				<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
+					demorará até 1h para ser atualizado automaticamente.</p>
+
+				<div class="pull-right payment-type payment-type-auto">
+					<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
+						<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span>
+						Pagar com PagSeguro
+					</button>
+					<div id="payment-alert" style="color: red;" hidden="true">Processo de pagamento em andamento</div>
 				</div>
+			</div>
 
-				<div id="footer-section" hidden="true" class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
-					<h5>
-						Inscrição efetuada por
-						<br />
-						<strong>
-							<span id="registration-submitter"></span>
-						</strong>
-						<br />
-						no dia
-						<span id="registration-date"></span>
-					</h5>
-				</div>
+			<div id="organizers-section" hidden="true" class="row">
+				<h3>Organizadores</h3>
+
+				<p classstyle="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
+
+				<div id="race-organizers" class="row" style="padding-top: 20px; padding-bottom: 15px;"></div>
+			</div>
+
+			<div id="footer-section" hidden="true" class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
+				<h5>
+					Inscrição efetuada por
+					<br />
+					<strong>
+						<span id="registration-submitter"></span>
+					</strong>
+					<br />
+					no dia
+					<span id="registration-date"></span>
+				</h5>
 			</div>
 		</div>
 	</ui:define>

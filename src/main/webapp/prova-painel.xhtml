@@ -1,48 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-	<ui:define name="css">
-		<style>
-/* .doughnut-legend { */
-/* 	list-style: none; */
-/* 	/* 	position: absolute; */
-*
-/
-/* 	right: 8px; */
-/* 	top: 0; */
-/* } */
-
-/* .doughnut-legend li { */
-/* 	display: block; */
-/* 	padding-left: 30px; */
-/* 	position: relative; */
-/* 	margin-bottom: 4px; */
-/* 	border-radius: 5px; */
-/* 	padding: 2px 8px 2px 28px; */
-/* 	font-size: 14px; */
-/* 	cursor: default; */
-/* 	-webkit-transition: background-color 200ms ease-in-out; */
-/* 	-moz-transition: background-color 200ms ease-in-out; */
-/* 	-o-transition: background-color 200ms ease-in-out; */
-/* 	transition: background-color 200ms ease-in-out; */
-/* } */
-
-/* .doughnut-legend li:hover { */
-/* 	background-color: #fafafa; */
-/* } */
-
-/* .doughnut-legend li span { */
-/* 	display: block; */
-/* 	position: absolute; */
-/* 	left: 0; */
-/* 	top: 0; */
-/* 	width: 20px; */
-/* 	height: 100%; */
-/* 	border-radius: 5px; */
-/* } */
-</style>
-	</ui:define>
-
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/chart.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/canvasjs.min.js"></script>
@@ -58,11 +16,9 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="container">
-			<input id="race-id" type="hidden" value="#{param.id}" />
+		<input id="race-id" type="hidden" value="#{param.id}" />
 
-
-			<!--
+		<!--
 			<div class="row">
 				<div class="col-md-4">
 					<div class="row">
@@ -93,30 +49,28 @@
 			</div>
 			-->
 
-
-			<div class="row">
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Incrições por status</div>
-						<div class="panel-body">
-							<div id="status-chart" style="height: 300px; width: 100%;"></div>
-						</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">Incrições por status</div>
+					<div class="panel-body">
+						<div id="status-chart" style="height: 300px; width: 100%;"></div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Equipes confirmadas</div>
-						<div class="panel-body">
-							<div id="category-chart" style="height: 300px; width: 100%;"></div>
-						</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">Equipes confirmadas</div>
+					<div class="panel-body">
+						<div id="category-chart" style="height: 300px; width: 100%;"></div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Atletas confirmados</div>
-						<div class="panel-body">
-							<div id="city-chart" style="height: 300px; width: 100%;"></div>
-						</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">Atletas confirmados</div>
+					<div class="panel-body">
+						<div id="city-chart" style="height: 300px; width: 100%;"></div>
 					</div>
 				</div>
 			</div>
