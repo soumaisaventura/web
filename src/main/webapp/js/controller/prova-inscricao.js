@@ -24,7 +24,7 @@ $(function() {
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
-	RaceProxy.findCourses(race).done(loadCategoriesOk);
+	RaceProxy.findCourses(id).done(loadCategoriesOk);
 
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
@@ -35,7 +35,7 @@ $(function() {
 		App.handle401();
 	}
 
-	RaceProxy.order(race, user.id).done(function(order) {
+	RaceProxy.order(id, user.id).done(function(order) {
 		memberIds.push(order.rows[0].id);
 		addRowOnMemberList(order.rows[0], true);
 		updateTotal();
@@ -69,17 +69,17 @@ $(function() {
 	 */
 	$("#bt-add-athlete").click(function() {
 		var members = $("#members");
-		var id = $("#members-id");
+		var membersId = $("#members-id");
 		$("#members-message").hide();
 
-		if (id.val()) {
-			RaceProxy.order(race, id.val()).done(function(order) {
+		if (membersId) {
+			RaceProxy.order(id, membersId.val()).done(function(order) {
 				memberIds.push(order.rows[0].id);
 				addRowOnMemberList(order.rows[0], false);
 				updateTotal();
 			});
 
-			id.val("");
+			membersId.val("");
 			members.val("");
 
 		} else {

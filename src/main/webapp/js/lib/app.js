@@ -110,8 +110,6 @@ var App = {
 				}
 
 				message.show();
-				console.log($(this));
-
 				$(this).focus();
 
 			} else if (messages.length == 1) {
