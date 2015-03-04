@@ -4,12 +4,12 @@ $(function() {
 	numeral.defaultFormat('$ 0');
 
 	var memberIds = [];
-	var race = $("#race").val();
+	var id = $("#id").val();
 
 	$("#category").focus();
 	$('#members-list').footable({
 		breakpoints : {
-			phone : 470
+			phone : 450
 		}
 	});
 	$("#annual-fee-description").text(App.annualFeeDescription);
@@ -19,7 +19,7 @@ $(function() {
 	/**
 	 * Carrega os dados da corrida
 	 */
-	RaceProxy.loadSummary($("#race").val()).done(loadOk);
+	RaceProxy.loadSummary(id).done(loadOk);
 
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
@@ -118,9 +118,8 @@ $(function() {
 			'members' : memberIds
 		};
 
-		RaceRegistrationProxy.submitRegistration($("#race").val(), data).done(registrationOk);
+		RaceRegistrationProxy.submitRegistration(id, data).done(registrationOk);
 	});
-
 });
 
 /* ---------------- Funções de Callback ---------------- */
@@ -143,15 +142,11 @@ function loadOk(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadCategoriesOk(data) {
-
-	console.log(JSON.stringify(data));
-
 	$.each(data, function(index, value) {
 		var course = value;
 		$.each(course.categories, function(index, value) {
 			$("#category").append(new Option(this.name + " " + course.length + "km", this.id + "#" + course.id));
 		});
-
 	});
 }
 
@@ -191,7 +186,7 @@ function registrationFailed(request) {
 }
 
 function shareOnFacebook() {
-	var raceUrl = App.getBaseUrl() + "/prova/" + $("#race").val();
+	var raceUrl = App.getBaseUrl() + "/prova/" + $("#id").val();
 	var url = "";
 	url += "http://www.facebook.com/dialog/feed";
 	url += "?app_id=" + $("#facebook-appid").val();
@@ -199,7 +194,7 @@ function shareOnFacebook() {
 	url += "&description=Eu inscrevi a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia " + $("#race-date").text() + " em "
 			+ $("#race-city").text() + ".";
 	url += "&link=" + raceUrl;
-	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#race").val() + "/logo";
+	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#id").val() + "/logo";
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
 	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
 

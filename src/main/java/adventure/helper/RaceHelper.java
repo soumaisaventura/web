@@ -21,7 +21,7 @@ public class RaceHelper {
 		if (!initialized) {
 			initialized = true;
 
-			String param = request.getParameter("race");
+			String param = request.getParameter("id");
 			Race race = RaceDAO.getInstance().load(Integer.parseInt(param));
 
 			this.title = race.getName();

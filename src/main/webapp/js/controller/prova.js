@@ -3,8 +3,10 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
 
-	RaceProxy.getBanner($("#race").val()).done(getBannerOk);
-	RaceProxy.load($("#race").val()).done(loadOk);
+	var id = $("#id").val();
+
+	RaceProxy.getBanner(id).done(getBannerOk);
+	RaceProxy.load(id).done(loadOk);
 });
 
 function getBannerOk(data) {

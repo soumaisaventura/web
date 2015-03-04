@@ -46,55 +46,58 @@
 
 
 	<ui:define name="body">
-		<div class="col-md-5 col-md-offset-3">
+		<form>
+			<input id="id" type="hidden" value="#{param.id}" />
+
 			<div class="row" style="padding-bottom: 20px">
-				<input id="race" type="hidden" value="#{param.id}" />
-				<h2 id="race-name" class="race-name"></h2>
-				<h4 class="hidden-xs">
-					<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-					<span id="race-date"></span>
-					&#160;&#160;
-					<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
-					<span id="race-city"></span>
-				</h4>
-				<a href="#{request.contextPath}/prova/#{param.id}">ver detalhes desta prova</a>
+				<div class="form-group col-md-offset-3 col-md-6">
+					<h2 id="race-name" class="race-name"></h2>
+					<h4 class="hidden-xs">
+						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
+						<span id="race-date"></span>
+						&#160;&#160;
+						<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
+						<span id="race-city"></span>
+					</h4>
+					<a href="#{request.contextPath}/prova/#{param.id}">ver detalhes desta prova</a>
+				</div>
 			</div>
 
-			<form>
-				<div class="row">
-					<div class="form-group">
-						<label for="category">Categoria *</label>
-						<select id="category" class="form-control">
-							<option disabled="disabled" selected="selected">Escolha a categoria</option>
-						</select>
-						<span id="category-message" hidden="true" class="label label-danger" />
-					</div>
+			<div class="row">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<label for="category">Categoria *</label>
+					<select id="category" class="form-control">
+						<option disabled="disabled" selected="selected">Escolha a categoria</option>
+					</select>
+					<span id="category-message" hidden="true" class="label label-danger" />
 				</div>
+			</div>
 
-				<div class="row">
-					<div class="form-group">
-						<label for="teamName">Nome da equipe *</label>
-						<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
-						<span id="teamName-message" hidden="true" class="label label-danger" />
-					</div>
+			<div class="row">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<label for="teamName">Nome da equipe *</label>
+					<input type="text" id="teamName" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
+					<span id="teamName-message" hidden="true" class="label label-danger" />
 				</div>
-				<div class="row">
+			</div>
+			<div class="row">
+				<div class="form-group col-md-offset-3 col-md-6">
 					<label>Equipe</label>
-					<div class="form-group">
+					<div>
 						<table id="members-list" class="table footable toggle-arrow-small toggle-medium" style="margin-top: 0px; margin-bottom: 5px">
 							<thead>
 								<tr class="info text-primary">
 									<th style="width: 30px;"></th>
-									<th data-toggle="true">
+									<th class="col-md-6" data-toggle="true">
 										<small>atleta</small>
 									</th>
-									<th class="text-right" data-hide="phone">
+									<th class="text-right col-md-2" data-hide="phone">
 										<small>inscrição</small>
 									</th>
-									<th class="text-right" data-hide="phone">
+									<th class="text-right col-md-2" data-hide="phone">
 										<small>anuidade**</small>
 									</th>
-									<th class="text-right">
+									<th class="text-right col-md-2">
 										<small>total</small>
 										<span class="visible-xs-inline">**</span>
 									</th>
@@ -114,48 +117,50 @@
 						</table>
 					</div>
 				</div>
+			</div>
 
-				<div class="row">
-					<div class="form-group">
-						<div id="members-message" class="alert alert-danger" hidden="true"></div>
+			<div class="row">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<div id="members-message" class="alert alert-danger" hidden="true"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<label>Pesquisa por atleta cadastrado</label>
+					<input type="hidden" id="members-id" />
+					<div class="input-group">
+						<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
+						<span class="input-group-btn">
+							<button id="bt-add-athlete" class="btn btn-primary" type="button">
+								<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
+								Incluir
+								<span class="hidden-xs">na equipe</span>
+							</button>
+						</span>
 					</div>
 				</div>
+			</div>
 
-				<div class="row">
-					<div class="form-group">
-						<label>Pesquisa por atleta cadastrado</label>
-						<div class="input-group">
-							<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
-							<input type="hidden" id="members-id" />
-							<span class="input-group-btn">
-								<button id="bt-add-athlete" class="btn btn-primary" type="button">
-									<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
-									Incluir
-									<span class="hidden-xs">na equipe</span>
-								</button>
-							</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="row" style="padding-top: 20px; padding-bottom: 20px">
-					<p class="form-group text-justify">
+			<div class="row" style="padding-top: 20px; padding-bottom: 20px">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<p class="text-justify">
 						**
 						<span id="annual-fee-description"></span>
 					</p>
-					<p class="form-group text-justify">* Campos de preenchimento obrigatório.</p>
+					<p class="text-justify">* Campos de preenchimento obrigatório.</p>
 				</div>
-				<div class="row" style="margin-bottom: 15px">
-					<div class="form-group">
-						<input id="facebook-appid" type="hidden" />
-						<input id="registration-id" type="hidden" />
-						<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-5">
-							<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
-							Inscrever equipe
-						</button>
-					</div>
+			</div>
+			<div class="row" style="margin-bottom: 15px">
+				<div class="form-group col-md-offset-3 col-md-6">
+					<input id="facebook-appid" type="hidden" />
+					<input id="registration-id" type="hidden" />
+					<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-6">
+						<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
+						Inscrever equipe
+					</button>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</ui:define>
 </ui:composition>

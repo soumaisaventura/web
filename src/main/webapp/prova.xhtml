@@ -4,7 +4,7 @@
 	<ui:define name="meta-ogg">
 		<meta property="og:title" content="#{raceHelper.getTitle(request)}" />
 		<meta property="og:description" content="#{raceHelper.getDescription(request)}" />
-		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/race/#{param.race}/logo" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/race/#{param.id}/logo" />
 	</ui:define>
 
 	<ui:define name="lib">
@@ -18,7 +18,7 @@
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/race.js"></script>
+		<script src="#{request.contextPath}/js/controller/prova.js"></script>
 	</ui:define>
 
 	<ui:define name="breadcrumb">
@@ -33,7 +33,8 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<input id="race" type="hidden" value="#{param.race}" />
+		<input id="id" type="hidden" value="#{param.id}" />
+
 		<div class="row" id="banner-section" hidden="true">
 			<div class="col-md-8 col-md-offset-2">
 				<img id="banner" class="img-responsive" />
@@ -45,7 +46,7 @@
 			</div>
 			<div class="col-md-3 text-right" id="bt-registration-section" hidden="true">
 				<h2>
-					<a class="btn btn-lg btn-success" href="#{request.contextPath}/prova/#{param.race}/inscricao">
+					<a class="btn btn-lg btn-success" href="#{request.contextPath}/prova/#{param.id}/inscricao">
 						<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span>
 						Inscreva sua equipe
 					</a>
@@ -53,7 +54,7 @@
 			</div>
 			<div class="col-md-3 text-right" id="bt-manage-section" hidden="true">
 				<h2>
-					<a class="btn btn-lg btn-warning" href="#{request.contextPath}/prova/#{param.race}/painel">
+					<a class="btn btn-lg btn-warning" href="#{request.contextPath}/prova/#{param.id}/painel">
 						<span class='glyphicon glyphicon-menu-hamburger' aria-hidden='true' style='font-size: 0.8em;'></span>
 						Gerenciar inscrições
 					</a>

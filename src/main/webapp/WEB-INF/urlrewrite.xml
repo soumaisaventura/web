@@ -134,11 +134,11 @@
 
 	<rule>
 		<from>^/race/(\d+)$</from>
-		<to>/race.jsf?race=$1</to>
+		<to>/prova.jsf?id=$1</to>
 	</rule>
 	<rule>
 		<from>^/prova/(\d+)$</from>
-		<to>/race.jsf?race=$1</to>
+		<to>/prova.jsf?id=$1</to>
 	</rule>
 
 	<rule>
