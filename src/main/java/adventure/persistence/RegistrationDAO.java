@@ -255,7 +255,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   left join ci.state st ");
 		jpql.append("  where tf.user = :user ");
 		jpql.append("  order by ");
-		jpql.append("        re.date ");
+		jpql.append("        re.date desc ");
 
 		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
 		query.setParameter("user", loggedInUser);
