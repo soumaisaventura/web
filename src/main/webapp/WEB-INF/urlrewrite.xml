@@ -125,11 +125,11 @@
 
 	<rule>
 		<from>^/race/(\d+)/registration$</from>
-		<to>/race-registration.jsf?race=$1</to>
+		<to>/prova-inscricao.jsf?id=$1</to>
 	</rule>
 	<rule>
 		<from>^/prova/(\d+)/inscricao$</from>
-		<to>/race-registration.jsf?race=$1</to>
+		<to>/prova-inscricao.jsf?id=$1</to>
 	</rule>
 
 	<rule>

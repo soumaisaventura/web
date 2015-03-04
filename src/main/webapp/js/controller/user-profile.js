@@ -10,6 +10,43 @@ $(function() {
 	/**
 	 * Habilita o autocomplete no campo Cidade de residência
 	 */
+
+	$("#city-select").select2({
+		ajax : {
+			url : App.getContextPath() + "/api/location/city",
+			dataType : 'json',
+			delay : 250,
+			data : function(params) {
+				return {
+					q : params.term, // search term
+					page : params.page
+				};
+			},
+			processResults : function(data, page) {
+				// parse the results into the format expected by Select2.
+				// since we are using custom formatting functions we do not need
+				// to
+				// alter the remote JSON data
+				return {
+					results : data
+				};
+			},
+			cache : true
+		},
+		escapeMarkup : function(markup) {
+			return markup;
+		}, // let our custom formatter work
+		minimumInputLength : 3,
+		templateResult : function(item) {
+			return item.name + "/" + item.state;
+		}, // omitted for brevity, see the source
+		// of this page
+		templateSelection : function(item) {
+			return item.name + "/" + item.state;
+		}
+	// omitted for brevity, see the source of this page
+	});
+
 	$("#city").autocomplete({
 		source : function(request, response) {
 			LocationProxy.searchCity(request.term).done(function(data) {
