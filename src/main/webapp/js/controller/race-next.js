@@ -67,12 +67,11 @@ function findNextOk(data) {
 						race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
 								+ "/banner/{breakpoint-name}'/>";
 						race += "</div>";
-						race += "</div>";
 						race += "<div class='panel-body' style='padding-top: 5px'>";
 						race += "<div class='row'>";
 						race += "<div class='col-md-12 text-right'>";
 						race += "<h5 class='pull-left' style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> "
-								+ day.date() + ' ' + day.locale("pt-br").format("MMMM") + "</h5>";
+								+ day.locale("pt-br").format("DD [de] MMMM") + "</h5>";
 						race += "<h5 class='pull-right' style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> "
 								+ (value.city ? value.city : 'Local não definido') + "</h5>";
 						race += "</div>";
