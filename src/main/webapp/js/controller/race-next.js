@@ -3,43 +3,62 @@ $(function() {
 
 	RaceProxy.findNext().done(findNextOk);
 
-	$('table').on('click', '.registration', function() {
+	$('#open-races').on('click', '.registration', function() {
 		location.href = App.getContextPath() + '/prova/' + $(this).data("race") + '/inscricao';
 	});
 });
 
 function findNextOk(data) {
-	$
-			.each(
-					data,
-					function(index, value) {
-						var day = moment(value.date, "YYYY-MM-DD");
+	$.each(data, function(index, value) {
 
-						var td1 = '<td class="text-capitalize text-center" style="vertical-align:middle; padding: 20px;"><h1 style="margin-top: 0px; margin-bottom: 0px;">'
-								+ day.date() + '</h1><span class="text-danger">' + day.locale("pt-br").format("MMMM") + '</span></td>';
+		RaceProxy.getBanner(value.id).done(function(data) {
+			carregarBanner(value.id, data);
+		});
 
-						var td2 = '';
-						td2 += '<td style="vertical-align:middle; margin-top: 10px; padding: 20px;">';
-						td2 += '<div class="col-md-8">';
-						td2 += '<h3 style="margin-top: 0px; margin-bottom: 0px;">';
-						td2 += value.name;
-						td2 += '</h3>' + (value.city ? value.city : '');
-						td2 += '</div>';
+		console.log(value);
 
-						td2 += '<div class="col-md-4">';
-						td2 += '<div style="width: 100px;" class="pull-right text-center">';
-						if (value.registration.open) {
-							td2 += "<button type='button' class='registration btn btn-success' data-race='" + value.id + "'>";
-							td2 += "<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span> ";
-							td2 += "Inscrições";
-							td2 += "</button><br>";
-						}
-						td2 += '<a href="' + App.getContextPath() + '/prova/' + value.id + '">ver detalhes</a>';
-						td2 += '</div>';
-						td2 += '</div>';
+		var day = moment(value.date, "YYYY-MM-DD");
 
-						td2 += '</td>';
+		var race = "";
+		race += "<div class='col-md-4'>";
+		race += "<div class='panel panel-default'>";
+		race += "<div class='panel-heading' style='padding:0'>";
+		race += "<img id='banner-" + value.id + "' src='' style='width: 100%;' />";
+		race += "</div>";
+		race += "<div class='panel-body' style='padding-top: 5px'>";
+		race += "<h3 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> " + day.date() + ' ' + day.locale("pt-br").format("MMMM") + "</h3>";
+		race += "<h3 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> " + (value.city ? value.city : 'Local não definido') + "</h3>";
+		race += "</div>";
+		race += "<div class='panel-footer' style='background-color: white;'>";
+		race += "<div class='row'>";
+		race += "<div class='col-md-6'>";
+		race += "<a href='" + App.getContextPath() + "/prova/" + value.id + "' class='registration btn btn-block btn-default'>";
+		race += "<span class='glyphicon glyphicon-eye-open' aria-hidden='true' style='font-size: 0.8em;'></span>";
+		race += " Ver detalhes";
+		race += "</a>";
+		race += "</div>";
+		race += "<div class='col-md-6'>";
+		if (value.registration.open) {
+			race += "<button type='button' class='registration btn btn-block btn-success' data-race='" + value.id + "'>";
+			race += "<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span>";
+			race += " Inscrições";
+			race += "</button>";
+		}
+		race += "</div>";
+		race += "</div>";
+		race += "</div>";
 
-						$('#resultTable > tbody:last').append('<tr>' + td1 + td2 + '</tr>');
-					});
+		$('#open-races').append(race);
+
+	});
+}
+
+function carregarBanner(id, data) {
+	var banner = "";
+	if (data) {
+		banner = "data:image/png;base64," + data;
+	} else {
+		banner = "http://placehold.it/350x150";
+	}
+	$("#banner-" + id).attr("src", banner);
 }
