@@ -24,6 +24,23 @@
 		<script src="#{request.contextPath}/js/controller/race-registration-list.js"></script>
 	</ui:define>
 
+	<ui:define name="breadcrumb">
+		<ol class="breadcrumb">
+			<li>
+				<a href="#{request.contextPath}/provas">Provas</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/prova/#{param.race}">
+					<span class="race-name"></span>
+				</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/prova/#{param.race}/painel">Painel</a>
+			</li>
+			<li class="active">Inscrições</li>
+		</ol>
+	</ui:define>
+
 	<ui:define name="body">
 		<div class="row" style="padding-bottom: 20px">
 			<div class="col-md-6 col-md-offset-3">
@@ -32,7 +49,7 @@
 						<input id="race" type="hidden" value="#{param.race}" />
 						<h1>Gerenciamento de inscrições</h1>
 						<h4>
-							<span id="race-name"></span>
+							<span class="race-name"></span>
 							&#160;&#160;&#160;&#160;
 							<small>
 								<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>

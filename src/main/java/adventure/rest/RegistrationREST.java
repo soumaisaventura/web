@@ -222,6 +222,13 @@ public class RegistrationREST {
 		return Response.status(status).location(location).entity(code).build();
 	}
 
+	// @PUT
+	// @LoggedIn
+	// @Transactional
+	// @Path("{id}/team/name")
+	// public void update(@PathParam("id") Long id, String name) {
+	// }
+
 	@PUT
 	@LoggedIn
 	@Transactional

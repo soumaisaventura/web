@@ -3,12 +3,15 @@
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
+		<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="#{request.contextPath}/css/select2-bootstrap.css" />
 	</ui:define>
 
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -75,6 +78,16 @@
 						<input id="city.id" type="hidden" />
 						<input id="city" type="text" class="form-control" placeholder="Cidade de residência" maxlength="#{constants.nameSize}" />
 						<span id="city.id-message" hidden="true" class="label label-danger"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="city-select">Apenas mais *</label>
+						<span style="display: block;">
+							<select id="city-select" class="form-control" style="width:100%;">
+							</select>
+						</span>
+						<span id="city-select-message" hidden="true" class="label label-danger"></span>
 					</div>
 				</div>
 				<div class="row">

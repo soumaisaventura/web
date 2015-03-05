@@ -1,10 +1,16 @@
 $(function() {
+	var id = $("#race-id").val();
 
-	RaceRegistrationProxy.find($("#race-id").val()).done(findOk);
+	RaceProxy.loadSummary(id).done(loadOk);
+	RaceRegistrationProxy.find(id).done(findOk);
 });
 
-function findOk(data) {
+function loadOk(data) {
+	$(".race-name").text(data.name);
+}
 
+function findOk(data) {
+	// var analytic
 	var statusMetadata = {
 		confirmed : {
 			label : "confirmadas",
@@ -94,7 +100,7 @@ function showChart(element, data) {
 		animationEnabled : true,
 		data : [ {
 			type : "doughnut",
-			startAngle : 20,
+			startAngle : 120,
 			toolTipContent : "<strong>#percent%</strong>",
 			indexLabel : "{y} {label}",
 			dataPoints : data

@@ -75,7 +75,9 @@ public class MailDAO implements Serializable {
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + baseUri.toString() + "$2");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\")", "$1"
 				+ baseUri.resolve("user/profile").toString() + "$2");
-		content = content.replace("url1.url1", baseUri.toString());
+		content = content.replace("url1.url1",
+				baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
+						: baseUri.toString());
 		send("Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
 
@@ -139,7 +141,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
 		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("registration/" + registration.getFormattedId()).toString() + "$2");
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
@@ -174,7 +176,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{raceName}", race.getName());
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("registration/" + registration.getFormattedId()).toString() + "$2");
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{teamFormation}", Misc.stringfyTeamFormation(members));
 		content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
@@ -240,7 +242,7 @@ public class MailDAO implements Serializable {
 
 			public void run() {
 				try {
-					final String PREFIX = "Sou+ Aventura – ";
+					final String PREFIX = config.getAppTitle() + " – ";
 					final String SUFIX = "";
 
 					MimeMessage message = new MimeMessage(getSession());
