@@ -31,7 +31,7 @@ function findNextOk(data) {
 						var day = moment(value.date, "YYYY-MM-DD");
 
 						var race = "";
-						race += "<div class='race col-md-4'>";
+						race += "<div id='block-" + value.id + "' class='race col-md-4' hidden='true'>";
 						race += "<div class='panel panel-default' data-race='" + value.id + "'>";
 						race += "<div class='panel-heading' style='padding:0'>";
 
@@ -62,10 +62,13 @@ function findNextOk(data) {
 
 function carregarBanner(id, data) {
 	var banner = "";
+	
 	if (data) {
 		banner = "data:image/png;base64," + data;
 	} else {
 		banner = "http://placehold.it/750x350";
 	}
+	
 	$("#banner-" + id).attr("src", banner);
+	$("#block-" + id).show();
 }
