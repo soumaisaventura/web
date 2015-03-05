@@ -7,14 +7,14 @@ $(function() {
 		location.href = App.getContextPath() + "/prova/" + $(this).data("race");
 	});
 
-	$('#open-races').on('mouseover', '.panel', function() {
-		$(this).css('cursor', 'pointer');
-		$("#banner-" + $(this).data("race")).fadeTo("fast", 0.75);
-	});
-
-	$('#open-races').on('mouseout', '.panel', function() {
-		$("#banner-" + $(this).data("race")).fadeTo("fast", 1);
-	});
+	// $('#open-races').on('mouseover', '.panel', function() {
+	// $(this).css('cursor', 'pointer');
+	// $("#banner-" + $(this).data("race")).fadeTo(0, 0.75);
+	// });
+	//
+	// $('#open-races').on('mouseout', '.panel', function() {
+	// $("#banner-" + $(this).data("race")).fadeTo(0, 1);
+	// });
 
 });
 
@@ -34,7 +34,11 @@ function findNextOk(data) {
 						race += "<div class='race col-md-4'>";
 						race += "<div class='panel panel-default' data-race='" + value.id + "'>";
 						race += "<div class='panel-heading' style='padding:0'>";
+
+						race += "<a href='#' class='darken'>";
 						race += "<img id='banner-" + value.id + "' src='' style='width: 100%;' />";
+						race += "</a>";
+
 						race += "</div>";
 						race += "<div class='panel-body' style='padding-top: 5px'>";
 

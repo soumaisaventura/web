@@ -108,6 +108,10 @@
 		<from>^/provas$</from>
 		<to>/race-next.jsf</to>
 	</rule>
+	<rule>
+		<from>^/calendario/(\d+)$</from>
+		<to>/race-next.jsf</to>
+	</rule>
 
 	<rule>
 		<from>^/prova/(\d+)/painel$</from>
