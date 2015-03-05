@@ -144,7 +144,7 @@ CREATE TABLE public.race(
 	city_id integer,
 	banner oid,
 	logo oid,
-	payment_type character varying(20),
+	payment_type character varying(20) NOT NULL,
 	payment_info character varying(500),
 	payment_account character varying(255),
 	payment_token character varying(64),

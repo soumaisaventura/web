@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="1525,743" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="922,445" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -222,7 +222,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="logo">
 		<type name="oid"/>
 	</column>
-	<column name="payment_type">
+	<column name="payment_type" not-null="true">
 		<type name="character varying" length="20"/>
 	</column>
 	<column name="payment_info">

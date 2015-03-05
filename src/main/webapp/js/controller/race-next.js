@@ -26,8 +26,10 @@ function findNextOk(data) {
 		race += "<img id='banner-" + value.id + "' src='' style='width: 100%;' />";
 		race += "</div>";
 		race += "<div class='panel-body' style='padding-top: 5px'>";
-		race += "<h3 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> " + day.date() + ' ' + day.locale("pt-br").format("MMMM") + "</h3>";
-		race += "<h3 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> " + (value.city ? value.city : 'Local não definido') + "</h3>";
+		race += "<h5 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> "
+				+ day.date() + ' ' + day.locale("pt-br").format("MMMM") + "</h5>";
+		race += "<h5 style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> "
+				+ (value.city ? value.city : 'Local não definido') + "</h5>";
 		race += "</div>";
 		race += "<div class='panel-footer' style='background-color: white;'>";
 		race += "<div class='row'>";
