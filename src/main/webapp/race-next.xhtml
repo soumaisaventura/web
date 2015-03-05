@@ -1,10 +1,38 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="meta">
+		<!-- Mobile viewport optimization: Required!! -->
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="MobileOptimized" content="0" />
+		<meta name="viewport" content="width=device-width" />
+	</ui:define>
+
 	<ui:define name="css">
 		<style>
+img {
+	max-width: 100%;
+}
+
+.lt-ie8 img {
+	-ms-interpolation-mode: bicubic;
+}
+
+.lt-ie7 img {
+	width: 100%;
+}
+
+.no-js img.responsive, .no-js img.main-col-images {
+	display: none;
+}
+
+img.responsive, img.main-col-images {
+	visibility: hidden;
+	min-height: 100px;
+}
+
+/*
 a.darken {
-	/* 	display: inline-block; */
 	display: block;
 	background: black;
 	padding: 0;
@@ -22,11 +50,14 @@ a.darken img {
 a.darken:hover img {
 	opacity: 0.8;
 }
+*/
 </style>
 	</ui:define>
 
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/riloadr.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/riloadr.jquery.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">

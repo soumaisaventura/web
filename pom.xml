@@ -143,7 +143,14 @@
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-core</artifactId>
 			<scope>provided</scope>
-		</dependency>  
+		</dependency>
+
+		<!-- Image manipulation -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 
 		<!-- EJB dependencies for Mail and Cache usages -->
 		<!--

@@ -2,6 +2,8 @@ package adventure.rest;
 
 import static java.util.Calendar.YEAR;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -121,8 +125,16 @@ public class RaceREST {
 	@Path("{id}/banner/base64")
 	@Produces("application/octet-stream")
 	public byte[] getBannerBase64(@PathParam("id") Integer id) throws Exception {
+		return getBannerBase64(id, null);
+	}
+
+	@GET
+	@Cache("max-age=28800")
+	@Path("{id}/banner/base64/{width}")
+	@Produces("image/png")
+	public byte[] getBannerBase64(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
 		Race race = loadRace(id);
-		return Base64.encodeBase64(race.getBanner());
+		return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
 	}
 
 	@GET
@@ -130,8 +142,28 @@ public class RaceREST {
 	@Cache("max-age=28800")
 	@Produces("application/octet-stream")
 	public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
+		return getBanner(id, null);
+	}
+
+	@GET
+	@Path("{id}/banner/{width}")
+	@Cache("max-age=28800")
+	@Produces("image/png")
+	public byte[] getBanner(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
 		Race race = loadRace(id);
-		return race.getBanner();
+		return resizeImage(race.getBanner(), 750, width);
+	}
+
+	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
+		byte[] result = image;
+
+		if (width != null && width != defaultWidth) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
+			result = out.toByteArray();
+		}
+
+		return result;
 	}
 
 	@PUT
