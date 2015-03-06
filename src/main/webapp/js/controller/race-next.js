@@ -4,27 +4,27 @@ $(function() {
 
 	RaceProxy.findNext().done(findNextOk);
 
-//	$('#open-races').on('mouseover', '.panel', function() {
-//		$(this).unwrap("<div style='background-color: black; z-index: 2;'></div>");
-//	});
-	
-//	$('#open-races').on('mouseout', '.panel', function() {
-//		$(this).wrapInner("<div 'background-color: black; z-index: 2;'></div>");
-//	});
-	
+	// $('#open-races').on('mouseover', '.panel', function() {
+	// $(this).unwrap("<div style='background-color: black; z-index:
+	// 2;'></div>");
+	// });
+
+	// $('#open-races').on('mouseout', '.panel', function() {
+	// $(this).wrapInner("<div 'background-color: black; z-index: 2;'></div>");
+	// });
+
 	$('#open-races').on('click', '.panel', function() {
-		
 		location.href = App.getContextPath() + "/prova/" + $(this).data("race");
 	});
 
-	 $('#open-races').on('mouseover', '.panel', function() {
-		 $(this).css('cursor', 'pointer');
-//		 $("#banner-" + $(this).data("race")).fadeTo(0, 0.75);
-	 });
-	
-//	 $('#open-races').on('mouseout', '.panel', function() {
-//	 $("#banner-" + $(this).data("race")).fadeTo(0, 1);
-//	 });
+	$('#open-races').on('mouseover', '.panel', function() {
+		$(this).css('cursor', 'pointer');
+		// $("#banner-" + $(this).data("race")).fadeTo(0, 0.75);
+	});
+
+	// $('#open-races').on('mouseout', '.panel', function() {
+	// $("#banner-" + $(this).data("race")).fadeTo(0, 1);
+	// });
 
 });
 
@@ -61,11 +61,16 @@ function findNextOk(data) {
 						race += "<div class='panel panel-default' data-race='" + value.id + "'>";
 						race += "<div class='panel-heading' style='padding:0'>";
 
-						if(value.registration.open)
-						race += "<div class='box'><div class='corner'><span>Inscrições abertas</span></div>";
+						if (value.registration.open) {
+							race += "<div class='box'><div class='corner'><span>inscrições abertas</span></div>";
+							race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
+									+ "/banner/{breakpoint-name}'/>";
+							race += "</div>";
+						} else {
+							race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
+									+ "/banner/{breakpoint-name}'/>";
+						}
 
-						race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
-								+ "/banner/{breakpoint-name}'/>";
 						race += "</div>";
 						race += "<div class='panel-body' style='padding-top: 5px'>";
 						race += "<div class='row'>";
