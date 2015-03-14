@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view contentType="text/html" locale="pt_BR" />
+
+<h:head profile="http://www.w3.org/2005/10/profile">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<ui:insert name="meta" />
+	<ui:insert name="meta-ogg-static">
+		<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="pt_BR" />
+		<meta property="fb:app_id" content="#{applicationConfigHelper.OAuthFacebookId}" />
+	</ui:insert>
+	<ui:insert name="meta-ogg">
+		<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
+		<meta property="og:description"
+			content="Cadastre-se no Sou+ Avententura, uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia. Se você é organizador, não perca tempo e cadastre a sua prova. É tudo gratuito!" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/images/default-ogg-image.png" />
+	</ui:insert>
+
+	<title>#{applicationConfigHelper.appTitle}</title>
+
+	<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" />
+	<style>
+		html, body {
+			height: 100%;
+		}
+		
+		.carousel, .item, .active {
+			height: 100%;
+		}
+		
+		.carousel-inner {
+			height: 100%;
+		}
+		
+		.fill {
+			width: 100%;
+			height: 100%;
+			background-position: center;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			background-size: cover;
+			-o-background-size: cover;
+			opacity: 0.4;
+    		filter: alpha(opacity=40); /* For IE8 and earlier */
+		}
+	</style>
+</h:head>
+
+<h:body>
+	<header id="myCarousel" class="carousel slide">
+		<div class="carousel-inner">
+			<div class="item active">
+				<div class="fill img-responsive" style="background-image: url('images/foto01.jpg'); "></div>
+			</div>
+			<div class="item">
+				<div class="fill img-responsive" style="background-image: url('images/foto02.jpg');"></div>
+			</div>
+			<div class="item">
+				<div class="fill img-responsive" style="background-image: url('images/foto03.jpg');"></div>
+			</div>
+		</div>
+	</header>
+	
+	<img src="images/logov2.png" style="position: absolute; top: 50%; left:50%; margin-top: -250px; margin-left:-517px"/>
+	
+	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+	<script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+	<script>
+		$('.carousel').carousel({
+	    	interval: 5000
+		});
+	
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', '#{applicationConfigHelper.analyticsGoogleId}', 'auto');
+		ga('send', 'pageview');
+	</script>
+</h:body>
+</html>

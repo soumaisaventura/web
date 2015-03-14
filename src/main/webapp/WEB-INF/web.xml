@@ -25,6 +25,7 @@
 		<url-pattern>/api/metadata/*</url-pattern>
 		<url-pattern>*.jsf</url-pattern>
 		<url-pattern>/home</url-pattern>
+		<url-pattern>/teste</url-pattern>
 		<url-pattern>/login</url-pattern>
 		<url-pattern>/signup</url-pattern>
 		<url-pattern>/password/*</url-pattern>

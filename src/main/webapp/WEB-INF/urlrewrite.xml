@@ -17,6 +17,11 @@
 		<to>/home.jsf</to>
 	</rule>
 	<rule>
+		<from>^/teste$</from>
+		<to>/teste.jsf</to>
+	</rule>
+	
+	<rule>
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
 	</rule>
