@@ -121,15 +121,15 @@ public class RaceREST {
 	}
 
 	@GET
-	@Cache("max-age=28800")
+	@Cache("max-age=604800000")
 	@Path("{id}/banner/base64")
-	@Produces("application/octet-stream")
+	@Produces("image/png")
 	public byte[] getBannerBase64(@PathParam("id") Integer id) throws Exception {
 		return getBannerBase64(id, null);
 	}
 
 	@GET
-	@Cache("max-age=28800")
+	@Cache("max-age=604800000")
 	@Path("{id}/banner/base64/{width}")
 	@Produces("image/png")
 	public byte[] getBannerBase64(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
@@ -139,15 +139,15 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}/banner")
-	@Cache("max-age=28800")
-	@Produces("application/octet-stream")
+	@Cache("max-age=604800000")
+	@Produces("image/png")
 	public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
 		return getBanner(id, null);
 	}
 
 	@GET
 	@Path("{id}/banner/{width}")
-	@Cache("max-age=28800")
+	@Cache("max-age=604800000")
 	@Produces("image/png")
 	public byte[] getBanner(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
 		Race race = loadRace(id);
@@ -184,7 +184,7 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}/logo")
-	@Cache("max-age=28800")
+	@Cache("max-age=604800000")
 	@Produces("application/octet-stream")
 	public byte[] getLogo(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRace(id);

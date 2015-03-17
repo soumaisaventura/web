@@ -69,7 +69,6 @@ function loadOk(data) {
 }
 
 function findOk(data, status, request) {
-
 	switch (request.status) {
 		case 204:
 			var message = "Nenhuma equipe se inscreveu ainda."
@@ -99,6 +98,8 @@ function findOk(data, status, request) {
 					} else {
 						tr = tr.concat(" / " + member.name);
 					}
+
+					tr = tr.concat("<span class='email' hidden='true'>" + member.email + "</span>");
 				});
 
 				tr = tr.concat("</h6>");
@@ -135,5 +136,12 @@ function updateTotal(length) {
 			text = length + ' registros encontrados';
 	}
 
+	var email = "";
+	$(".footable tbody tr:not(.footable-filtered) .email").each(function(i, value) {
+		console.log(value);
+		email += $(value).text() + ",";
+	});
+
+	$("#email-all").attr("href", "mailto:" + email);
 	$("#total").text(text);
 }

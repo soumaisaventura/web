@@ -218,7 +218,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
 		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("registration/" + registration.getFormattedId()).toString() + "$2");
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{categoryName}", registration.getRaceCategory().getCategory().getName());
 		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
