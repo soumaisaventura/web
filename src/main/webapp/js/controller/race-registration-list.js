@@ -126,17 +126,20 @@ function updateTotal(length) {
 	switch (length) {
 		case 0:
 			text = 'nenhum registro encontrado';
+			$("#email-all").hide();
 			break;
 
 		case 1:
 			text = length + ' registro encontrado';
+			$("#email-all").show();
 			break;
 
 		default:
 			text = length + ' registros encontrados';
+			$("#email-all").show();
 	}
 
-	var email = "";
+	var email = "?bcc=";
 	$(".footable tbody tr:not(.footable-filtered) .email").each(function(i, value) {
 		console.log(value);
 		email += $(value).text() + ",";
