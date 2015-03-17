@@ -133,15 +133,29 @@ function findOk(data, status, request) {
 				tr = tr.concat("<h4 style='margin: 5px'>" + numeral(amount).format() + "</h4>");
 				if (registration.status === "pendent") {
 					tr = tr.concat("<button type='button' class='approve btn btn-xs btn-success' data-registration='" + registration.number
-							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format() + "'>Aprovar</button>");
-				}
-				if (registration.status === "pendent" && registration.status !== "cancelled") {
+							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format()
+							+ "' title='Confirmar inscrição'><span class='glyphicon glyphicon-ok' /></button>");
+					// }
+					// if (registration.status === "pendent" &&
+					// registration.status !== "cancelled") {
 					tr = tr.concat(" ");
+					// }
+					// if (registration.status !== "cancelled") {
+					// tr = tr.concat("<button type='button' class='cancel btn
+					// btn-xs btn-danger' data-registration='" +
+					// registration.number
+					// + "' data-team-name='" + registration.teamName + "'
+					// data-ammount='" + numeral(amount).format()
+					// + "' title='Cancelar inscrição'><span class='glyphicon
+					// glyphicon-remove' /></button>");
 				}
-				if (registration.status !== "cancelled") {
+
+				if (registration.status == "pendent" || (App.isAdmin() && registration.status == "confirmed")) {
 					tr = tr.concat("<button type='button' class='cancel btn btn-xs btn-danger' data-registration='" + registration.number
-							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format() + "'>Cancelar</button>");
+							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format()
+							+ "' title='Cancelar inscrição'><span class='glyphicon glyphicon-remove' /></button>");
 				}
+
 				tr = tr.concat("</td>");
 				tr = tr.concat("</tr>");
 				$('#resultTable > tbody:last').append(tr);

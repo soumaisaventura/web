@@ -136,6 +136,11 @@ public class RegistrationREST {
 				throw new UnprocessableEntityException().addViolation("Esta inscrição já foi cancelada.");
 
 			case CONFIRMED:
+				if (!User.getLoggedIn().getAdmin()) {
+					throw new ForbiddenException()
+							.addViolation("Somente os administradores podem cancelar uma inscrição já confirmada.");
+				}
+
 				AnnualFeePaymentDAO.getInstance().delete(registration);
 				break;
 

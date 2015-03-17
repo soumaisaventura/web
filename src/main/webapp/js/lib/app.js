@@ -25,6 +25,11 @@ var App = {
 		sessionStorage.setItem(this.userKey, JSON.stringify(user));
 	},
 
+	isAdmin : function() {
+		var user = this.getLoggedInUser();
+		return user ? user.admin : false;
+	},
+
 	getLoggedInUser : function() {
 		return JSON.parse(sessionStorage.getItem(this.userKey));
 	},
