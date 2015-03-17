@@ -8,9 +8,11 @@ import java.util.Calendar;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.AnnualFeePayment;
+import adventure.entity.Registration;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -56,5 +58,15 @@ public class AnnualFeePaymentDAO implements Serializable {
 			result = null;
 		}
 		return result;
+	}
+
+	public void delete(Registration registration) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" delete AnnualFeePayment afp ");
+		jpql.append("  where afp.registration = :registration ");
+
+		Query query = em.createQuery(jpql.toString());
+		query.setParameter("registration", registration);
+		query.executeUpdate();
 	}
 }

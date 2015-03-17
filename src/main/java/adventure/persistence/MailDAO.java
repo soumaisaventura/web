@@ -192,6 +192,33 @@ public class MailDAO implements Serializable {
 		}
 	}
 
+	public void sendRegistrationCancellation(Registration registration, URI baseUri) throws Exception {
+		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
+		Race race = registration.getRaceCategory().getRace();
+
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-cancelled.html"));
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replace("{raceName}", race.getName());
+		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
+		content = content.replace("{raceCity}", race.getCity().getName());
+		content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+		content = content.replace("{registrationId}", registration.getFormattedId());
+		content = content.replace("{teamFormation}", Misc.stringfyTeamFormation(members));
+		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", getOrganizerInfo(race));
+
+		String subject = "Cancelamento da inscrição";
+		subject += " #" + registration.getFormattedId();
+		subject += " – " + race.getName();
+
+		for (TeamFormation member : members) {
+			send(subject, content, "text/html", member.getUser().getEmail());
+		}
+	}
+
 	private String getOrganizerInfo(Race race) {
 		String replacement = "";
 		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {

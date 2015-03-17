@@ -44,6 +44,22 @@ $(function() {
 				});
 			});
 
+	$('table').on(
+			'click',
+			'.cancel',
+			function() {
+				var button = $(this);
+				bootbox.confirm("Tem certeza que você quer cancelar a inscrição <strong>#" + button.data("registration")
+						+ "</strong> da equipe <strong>" + button.data("team-name") + "</strong> no valor de <strong>" + button.data("ammount")
+						+ "</strong> ?", function(result) {
+					if (result) {
+						button.addClass("cancelled");
+						RegistrationProxy.cancel(button.data("registration")).done(cancelOk);
+						confirmOk();
+					}
+				});
+			});
+
 	RaceProxy.loadSummary(race).done(loadOk);
 	RaceRegistrationProxy.find(race).done(findOk);
 
@@ -51,8 +67,16 @@ $(function() {
 
 function confirmOk() {
 	var registration = $(".confirmed").data("registration");
-	$("#regstration-status-" + registration).html(App.translateStatus('confirmed'));
+	$("#registration-status-" + registration).html(App.translateStatus('confirmed'));
 	$(".confirmed").remove();
+	applyFilter();
+}
+
+function cancelOk() {
+	var registration = $(".cancelled").data("registration");
+	$("#registration-status-" + registration).html(App.translateStatus('cancelled'));
+	$(".cancelled").prev(".approve").remove();
+	$(".cancelled").remove();
 	applyFilter();
 }
 
@@ -84,7 +108,7 @@ function findOk(data, status, request) {
 				tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/inscricao/" + registration.number + "'>#"
 						+ registration.number + "</a></h4>");
-				tr = tr.concat("<span id='regstration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";
+				tr = tr.concat("<span id='registration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";
 				tr = tr.concat("</td>");
 				tr = tr.concat("<td style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + registration.teamName + "</h4>");
@@ -108,8 +132,15 @@ function findOk(data, status, request) {
 				tr = tr.concat("<td class='text-center' style='vertical-align: top' nowrap='nowrap'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + numeral(amount).format() + "</h4>");
 				if (registration.status === "pendent") {
-					tr = tr.concat("<button type='button' class='approve btn btn-success' data-registration='" + registration.number
+					tr = tr.concat("<button type='button' class='approve btn btn-xs btn-success' data-registration='" + registration.number
 							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format() + "'>Aprovar</button>");
+				}
+				if (registration.status === "pendent" && registration.status !== "cancelled") {
+					tr = tr.concat(" ");
+				}
+				if (registration.status !== "cancelled") {
+					tr = tr.concat("<button type='button' class='cancel btn btn-xs btn-danger' data-registration='" + registration.number
+							+ "' data-team-name='" + registration.teamName + "' data-ammount='" + numeral(amount).format() + "'>Cancelar</button>");
 				}
 				tr = tr.concat("</td>");
 				tr = tr.concat("</tr>");
@@ -141,7 +172,6 @@ function updateTotal(length) {
 
 	var email = "?bcc=";
 	$(".footable tbody tr:not(.footable-filtered) .email").each(function(i, value) {
-		console.log(value);
 		email += $(value).text() + ",";
 	});
 

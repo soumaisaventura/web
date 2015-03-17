@@ -71,5 +71,15 @@ var RegistrationProxy = {
 				App.setHeader(request)
 			}
 		});
+	},
+
+	cancel : function(id) {
+		return $.ajax({
+			type : "POST",
+			url : this.url + "/" + id + "/cancel",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
 	}
 };

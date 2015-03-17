@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import static adventure.entity.StatusType.CANCELLED;
 import static adventure.entity.StatusType.CONFIRMED;
 import static adventure.entity.StatusType.PENDENT;
 import static java.util.Locale.US;
@@ -116,6 +117,39 @@ public class RegistrationREST {
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("{id}/cancel")
+	public void cancel(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		switch (registration.getStatus()) {
+			case CANCELLED:
+				throw new UnprocessableEntityException().addViolation("Esta inscrição já foi cancelada.");
+
+			case CONFIRMED:
+				AnnualFeePaymentDAO.getInstance().delete(registration);
+				break;
+
+			default:
+				break;
+		}
+
+		registration.setStatus(CANCELLED);
+		registration.setStatusDate(new Date());
+		registration.setApprover(User.getLoggedIn());
+		RegistrationDAO.getInstance().update(registration);
+
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailDAO.getInstance().sendRegistrationCancellation(registration, baseUri);
 	}
 
 	@GET

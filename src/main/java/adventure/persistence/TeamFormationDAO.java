@@ -1,5 +1,7 @@
 package adventure.persistence;
 
+import static adventure.entity.StatusType.CANCELLED;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -100,10 +102,12 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append("   join rc.race ra ");
 		jpql.append("  where ra = :race ");
 		jpql.append("    and u = :user ");
+		jpql.append("    and r.status <> :status ");
 
 		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
 		query.setParameter("race", race);
 		query.setParameter("user", user);
+		query.setParameter("status", CANCELLED);
 
 		TeamFormation result;
 		try {
