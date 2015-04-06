@@ -6,11 +6,17 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -20,6 +26,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import net.coobird.thumbnailator.Thumbnails;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -49,14 +58,37 @@ import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
+import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race")
 public class RaceREST {
 
 	@GET
+	@Path("{id}/form")
+	@Produces("application/pdf")
+	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
+		Race race = loadRaceDetails(id);
+
+		Context context = new InitialContext();
+		DataSource dataSource = (DataSource) context.lookup("java:jboss/datasources/PostgreSQLDS");
+		Connection conn = dataSource.getConnection();
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("RACE_ID", race.getId());
+
+		String reportSource = Reflections.getResourceAsURL("/report/ficha_inscricao.jasper").getPath();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
+
+		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
+
+		return oututStream.toByteArray();
+	}
+
+	@GET
 	@Path("year/{year}")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
 		List<RaceData> result = new ArrayList<RaceData>();
@@ -79,7 +111,7 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData load(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
@@ -105,7 +137,7 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}/summary")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData loadSummary(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
@@ -118,10 +150,6 @@ public class RaceREST {
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
 		data.status = race.getRaceStatusType();
-		// data.registration = new RegistrationData();
-		// data.registration.period = new PeriodData();
-		// data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
-		// data.registration.period.end = race.getRegistrationPeriod().getEnd();
 
 		return data;
 	}
