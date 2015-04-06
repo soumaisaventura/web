@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
-<!-- 2015-03-19T15:27:53 -->
+<!-- 2015-04-04T15:43:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -13,52 +12,35 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
+	<parameter name="RACE_ID" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT re.id AS registration_id,
 '#' ||LPAD (re.id::text, 4, '0') AS registration_number,
          re.date AS registration_date,
          re.team_number AS team_number,
-         re.team_name AS team_name,
+      re.team_name AS team_name,
          ca.name AS team_category_name,
          co.length AS team_course_length,
          ra.id AS race_id,
          ra.name AS race_name,
          ra.date AS race_date,
          raci.name AS race_city_name,
-         rast.abbreviation AS race_state_name,
-   us.email AS user_email,
-         pr.name AS profile_name,
-   substring (pr.gender FOR 1) AS profile_gender,
-         pr.birthday AS profile_birthday,
-         pr.rg AS profile_rg,
-   pr.mobile AS profile_mobile,
-    replace(to_char(pr.cpf::numeric, '000=000=000-00'), '=' , '.') AS  profile_cpf,
-         prc.name AS profile_city_name,
-         prs.abbreviation AS profile_state_name,
-         he.allergy AS health_allergy,
-         substring (he.blood_type FOR 1) ||  CASE WHEN position('_P' IN he.blood_type) > 0 THEN '+' ELSE '-' END AS health_blood_type,
-     he.health_care_name AS health_care_name,
-     he.health_care_number AS health_care_number,
-     he.emergency_contact_name AS health_emergency_contact_name,
-     he.emergency_contact_phone_number AS health_emergency_contact_phone
+         rast.abbreviation AS race_state_name
     FROM (  SELECT '#'  || LPAD (_re.id::text, 3, '0')
                       AS team_number,
                    _re.*
               FROM registration _re
-             WHERE _re.race_id = 1 AND _re.status = 'CONFIRMED'
+             WHERE _re.race_id = $P{RACE_ID} AND _re.status = 'CONFIRMED'
           ORDER BY _re.id) re,
          race_category rc,
             race ra,
             category ca,
             course co,
             city raci,
-           state rast,
-            team_formation tf,
-           user_account us,
-           profile pr,
-           city prc,
-           state prs,
-           health he
+           state rast
    WHERE     re.race_id = rc.race_id
          AND re.category_id = rc.category_id
          AND re.course_id = rc.course_id
@@ -66,14 +48,7 @@
         AND rc.category_id = ca.id
         AND rc.course_id = co.id
         AND ra.city_id = raci.id
-       AND raci.state_id = rast.id
-        AND re.id = tf.registration_id
-         AND tf.user_id = us.id
-         AND us.id = pr.id
-         AND pr.city_id = prc.id
-         AND prc.state_id = prs.id
-         AND us.id = he.id
-ORDER BY re.id;]]>
+       AND raci.state_id = rast.id]]>
 	</queryString>
 	<field name="registration_id" class="java.lang.Long"/>
 	<field name="registration_date" class="java.sql.Timestamp"/>
@@ -86,121 +61,20 @@ ORDER BY re.id;]]>
 	<field name="race_date" class="java.sql.Date"/>
 	<field name="race_city_name" class="java.lang.String"/>
 	<field name="race_state_name" class="java.lang.String"/>
-	<field name="profile_name" class="java.lang.String"/>
-	<field name="profile_gender" class="java.lang.String"/>
-	<field name="profile_birthday" class="java.sql.Date"/>
-	<field name="profile_rg" class="java.lang.String"/>
-	<field name="profile_cpf" class="java.lang.String"/>
-	<field name="profile_city_name" class="java.lang.String"/>
-	<field name="profile_state_name" class="java.lang.String"/>
-	<field name="health_allergy" class="java.lang.String"/>
-	<field name="health_blood_type" class="java.lang.String"/>
-	<field name="health_care_name" class="java.lang.String"/>
-	<field name="health_care_number" class="java.lang.String"/>
-	<field name="health_emergency_contact_name" class="java.lang.String"/>
-	<field name="health_emergency_contact_phone" class="java.lang.String"/>
-	<field name="registration_number" class="java.lang.String"/>
-	<field name="user_email" class="java.lang.String"/>
-	<field name="profile_mobile" class="java.lang.String"/>
-	<variable name="ATLETA_NUM" class="java.lang.Integer" resetType="Group" resetGroup="Ficha" incrementType="Column" calculation="Count">
-		<initialValueExpression><![CDATA[1]]></initialValueExpression>
-	</variable>
-	<group name="Ficha" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+	<group name="Split" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{registration_id}]]></groupExpression>
 		<groupHeader>
-			<band height="44">
-				<textField>
-					<reportElement x="0" y="4" width="555" height="19" uuid="bc98e3a5-6d97-49aa-a6e0-6f8af7118974"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA["FICHA DE INSCRIÇÃO – " + $F{race_name}.toUpperCase();]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="0" y="23" width="555" height="20" uuid="a01ff3c2-36b1-4b3c-8c2c-7cfddc455e52"/>
-					<textElement textAlignment="Center">
-						<font fontName="SansSerif" size="10" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Equipe " + $F{team_number} + " – " +$F{team_name} + " – " +$F{team_category_name} + " " + $F{team_course_length} + " km"]]></textFieldExpression>
-				</textField>
+			<band>
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</band>
 		</groupHeader>
-		<groupFooter>
-			<band height="404">
-				<staticText>
-					<reportElement x="0" y="29" width="555" height="310" uuid="30db3b43-698f-408e-86c8-0f3c83c85878"/>
-					<textElement textAlignment="Justified">
-						<font fontName="SansSerif" size="8"/>
-						<paragraph lineSpacing="Single"/>
-					</textElement>
-					<text><![CDATA[Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:
-1. Os riscos, conhecidos ou não, de acidentes nas modalidades envolvidas nesta competição são significativos, reconheço e assumo total responsabilidade pela minha participação; e
-2. Como participante da prova, comprometo-me a respeitar a legislação vigente, seja ela municipal, estadual, ou federal, bem como o regulamento desta competição, assumindo toda e qualquer conseqüência de meus atos no período de duração da prova e naqueles que antecedem e a sucedem; e
-3. Declaro que a minha equipe está de posse de todos os itens e/ou equipamentos obrigatórios citados no regulamento da prova. A falta de qualquer dos itens durante a prova, é de total responsabilidade da equipe, isentando de quaisquer prejuízos e/ou responsabilidade, a organização, os apoiadores e demais envolvidos nesta competição, podendo haver penalização, ou a desclassificação da equipe; e
-4. Respeitarei à natureza, em todas as formas, e a terceiros, tanto física quanto moralmente, sejam eles participantes, organizadores, assistentes ou demais pessoas ou bens; e
-5. Eu, por mim mesmo, meus herdeiros, representantes legais e parentes próximos, isento e desobrigo a organização da prova e seus colaboradores sob qualquer vínculo, autoridades, agentes ou empregados, outros participantes, entidades patrocinadoras, anunciantes, colaboradores, e, se aplicável, proprietários de locais usados para realizar a competição, de qualquer responsabilidade legal, com respeito a qualquer e todo dano, invalidez, morte, perda ou dano a pessoa ou propriedade; e
-6. Eu atesto que estou apto para participar desta competição, sou maior de idade, responsável pelos meus atos; e
-7. Tenho conhecimento e aceito que aos organizadores cabe o direito de adiar, cancelar ou modificar esta competição. Nenhum reembolso será requerido por mim, por meus outorgados legais, herdeiros ou familiares; e
-8. O resgate, quando necessário, dar-se-á caso haja condições favoráveis e que permitam tal operação sem riscos a mim e a equipe de resgate; e
-9. Eu autorizo a organização desta competição e terceiros por eles autorizados, os patrocinadores e apoiadores desta competição, a utilizar livremente a minha imagem através de qualquer forma lícita, e/ou a minha voz para fins de exibição em veículos de comunicação, bem como para produção de material promocional em qualquer tipo de mídia como VHS, CD-ROM, DVD, Mini-DV, Internet, entre outras, inclusive imprensa, e/ou disseminá-la através da Internet, para promoção da Corrida de Aventura e seus organizadores citados acima; e
-10. A autorização prevista acima não tem limitação de tempo ou de número de vezes, podendo ocorrer no Brasil e/ou no exterior sem que me seja devida, a qualquer tempo e sob qualquer título, pagamento de valor antecipado ou posterior pelo uso de minha imagem e/ou voz; e
-11. A presente autorização é concedida em caráter gratuito, não oneroso, irretratável e irrevogável obrigando a mim, meus herdeiros e sucessores a qualquer título;
-
-Após ter lido este termo de Responsabilidade e acordo de implicação de riscos e tendo compreendido-o, entendo que estou desistindo de direitos substanciais através da assinatura do mesmo, a qual faz livre e voluntariamente, sem qualquer coerção, na presença de testemunhas instrumentárias.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="0" y="1" width="555" height="26" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
-					<textElement textAlignment="Center">
-						<font fontName="SansSerif" isBold="false"/>
-					</textElement>
-					<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
-				</staticText>
-				<textField pattern="dd/MM/yyyy">
-					<reportElement x="0" y="330" width="555" height="18" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
-						<property name="local_mesure_unitheight" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-						<topPen lineWidth="0.0"/>
-						<leftPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.0"/>
-						<rightPen lineWidth="0.0"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{race_city_name} + ", " + DATEFORMAT($F{race_date}, "dd 'de' MMMM 'de' yyyy")]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="0" y="390" width="246" height="14" uuid="ed481746-7281-45eb-b01d-022f3e9e1dd8">
-						<property name="local_mesure_unitheight" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box>
-						<topPen lineWidth="0.2"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Assinatura do Atleta 1]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="309" y="390" width="246" height="14" uuid="3fccdd6a-b002-4a75-9b18-846f1803ce30">
-						<property name="local_mesure_unitheight" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<box>
-						<topPen lineWidth="0.2"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Assinatura do Atleta 2]]></text>
-				</staticText>
-			</band>
-		</groupFooter>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="15" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="279" height="10" uuid="83c2dfc7-d1b5-4f49-a5ba-11d2faa5cbd0"/>
 				<textElement>
@@ -209,7 +83,7 @@ Após ter lido este termo de Responsabilidade e acordo de implicação de riscos
 				<text><![CDATA[Sou+ Aventura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="279" y="0" width="264" height="10" uuid="80204b59-c13c-4ecb-8e75-71f1e76acbe2"/>
+				<reportElement x="290" y="0" width="264" height="10" uuid="80204b59-c13c-4ecb-8e75-71f1e76acbe2"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
@@ -218,433 +92,185 @@ Após ter lido este termo de Responsabilidade e acordo de implicação de riscos
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="123" splitType="Stretch">
+		<band height="39" splitType="Stretch">
 			<textField>
-				<reportElement x="59" y="1" width="318" height="18" uuid="bc07e170-424c-4631-984d-e0d3adb841ce">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="true"/>
+				<reportElement x="0" y="0" width="555" height="19" uuid="bc98e3a5-6d97-49aa-a6e0-6f8af7118974"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_name}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="19" width="59" height="18" uuid="2fd60b8b-fd5f-4d29-8e89-44feb5e53f59">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Email:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="59" y="19" width="232" height="18" uuid="b100a3f9-65d3-4a6f-8769-31f0cccdb9de">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{user_email}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="291" y="19" width="46" height="18" uuid="8d949ad7-409a-4e9b-8cc8-93098a863b81">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Sexo:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="377" y="19" width="42" height="18" uuid="d91ae94f-7ff8-45ba-be50-6a882b38afd8">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[RG:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="209" y="37" width="82" height="18" uuid="3ec43ab5-12e5-435d-bcc9-69d1bf27010f">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Nascimento:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="37" width="59" height="18" uuid="88923624-8185-4e68-a9d9-cc8bde7b4e57">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Cidade:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="377" y="37" width="42" height="18" uuid="c5ff3683-0599-4569-b55d-6749eb1757cf">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Tel:]]></text>
-			</staticText>
-			<textField pattern="">
-				<reportElement x="419" y="1" width="136" height="18" uuid="5c623676-653a-4255-b955-617a1ab33c80">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_cpf}]]></textFieldExpression>
-			</textField>
-			<textField pattern="">
-				<reportElement x="419" y="19" width="136" height="18" uuid="94554cce-5e27-454e-9b83-540ef1281ced">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_rg}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="337" y="19" width="40" height="18" uuid="bd8ac739-399a-48d4-9be9-b8611bdaca44">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_gender}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="377" y="1" width="42" height="18" uuid="75841cc1-49de-44ad-a504-dddef1391e9f">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[CPF:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="59" y="37" width="150" height="18" uuid="b0aa5839-0d9d-4958-b67b-5bd7bb76f789">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_city_name} + "/" + $F{profile_state_name}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="291" y="37" width="86" height="18" uuid="64c28509-2c59-4f17-8563-0233c7838c66">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_birthday}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="419" y="37" width="136" height="18" uuid="65e3ac31-b5e7-4ad6-8f8a-c1be876d509d">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_mobile}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="76" width="91" height="18" uuid="fbe5a574-ebb7-4cc2-a069-837bd24b1b07">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Plano de saúde:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="291" y="76" width="128" height="18" uuid="7bbcdb0b-b488-40ad-b7be-565cac4e7773">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Número de registro:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="91" y="76" width="200" height="18" uuid="e8c04ceb-8046-439f-bd02-58534f5122f9">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_care_name}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="419" y="76" width="136" height="18" uuid="58bf7bc8-37b7-4dd2-875c-52e8f0d89699">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_care_number}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["FICHA DE INSCRIÇÃO – " + $F{race_name}.toUpperCase();]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="91" y="94" width="200" height="18" uuid="63764118-630c-4fa3-832c-c19653acdaea">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Top">
-					<font fontName="SansSerif"/>
+				<reportElement x="0" y="19" width="555" height="20" uuid="a01ff3c2-36b1-4b3c-8c2c-7cfddc455e52"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{health_allergy}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{team_number} != null ? "Equipe " + $F{team_number} + " – " +$F{team_name} + " – " +$F{team_category_name} + " " + $F{team_course_length} + " km" : "\nNúmero da equipe:\nNome da equipe:\nCategoria:\n"]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="17">
+			<subreport>
+				<reportElement key="" x="0" y="0" width="555" height="17" uuid="e8864116-5434-49e8-9a19-ed819800bc58"/>
+				<subreportParameter name="REGISTRATION_ID">
+					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["src/main/resources/report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="369">
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="94" width="91" height="18" uuid="0b812809-3013-4d62-b385-eadbc6d74c5b">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
+				<reportElement x="0" y="144" width="555" height="40" uuid="c1c6905f-7f00-43ea-b817-a985a82e9324"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Alergia:]]></text>
-			</staticText>
-			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="419" y="94" width="136" height="18" uuid="42692fcc-c383-4f8d-b04c-7bf267b3359c">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_blood_type}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="291" y="94" width="128" height="18" uuid="a11a5706-8156-48e8-86c6-1dbc42576926">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Tipo sanguíneo:]]></text>
+				<text><![CDATA[5. Eu, por mim mesmo, meus herdeiros, representantes legais e parentes próximos, isento e desobrigo a organização da prova e seus colaboradores sob qualquer vínculo, autoridades, agentes ou empregados, outros participantes, entidades patrocinadoras, anunciantes, colaboradores, e, se aplicável, proprietários de locais usados para realizar a competição, de qualquer responsabilidade legal, com respeito a qualquer e todo dano, invalidez, morte, perda ou dano a pessoa ou propriedade; e]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="58" width="180" height="18" uuid="41be48f9-bd89-478a-96a1-e0c1e179b8ea">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="0" y="194" width="555" height="20" uuid="65072140-810d-4c2e-8550-0f679a612f6c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[7. Tenho conhecimento e aceito que aos organizadores cabe o direito de adiar, cancelar ou modificar esta competição. Nenhum reembolso será requerido por mim, por meus outorgados legais, herdeiros ou familiares; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="294" width="555" height="20" uuid="55e6b910-bffc-43c1-9cef-dcd741147666"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[11. A presente autorização é concedida em caráter gratuito, não oneroso, irretratável e irrevogável obrigando a mim, meus herdeiros e sucessores a qualquer título;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="184" width="555" height="10" uuid="662a8b46-9e4b-4780-a800-cf9c28b26f04"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[6. Eu atesto que estou apto para participar desta competição, sou maior de idade, responsável pelos meus atos; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="64" width="555" height="30" uuid="42f4ebce-9879-4dcc-b487-aa3dfef2e646"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[2. Como participante da prova, comprometo-me a respeitar a legislação vigente, seja ela municipal, estadual, ou federal, bem como o regulamento desta competição, assumindo toda e qualquer conseqüência de meus atos no período de duração da prova e naqueles que antecedem e a sucedem; e
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="34" width="555" height="10" uuid="30db3b43-698f-408e-86c8-0f3c83c85878"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="124" width="555" height="20" uuid="edc3ede7-54ca-4b09-9bda-f4d06cded515"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[4. Respeitarei à natureza, em todas as formas, e a terceiros, tanto física quanto moralmente, sejam eles participantes, organizadores, assistentes ou demais pessoas ou bens; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="214" width="555" height="20" uuid="182533fc-ff95-493c-9ee1-4d1e1f9ca113"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[8. O resgate, quando necessário, dar-se-á caso haja condições favoráveis e que permitam tal operação sem riscos a mim e a equipe de resgate; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="274" width="555" height="20" uuid="f0247d7c-22fe-417d-9076-3cd3b4d6ef48"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[10. A autorização prevista acima não tem limitação de tempo ou de número de vezes, podendo ocorrer no Brasil e/ou no exterior sem que me seja devida, a qualquer tempo e sob qualquer título, pagamento de valor antecipado ou posterior pelo uso de minha imagem e/ou voz; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="234" width="555" height="40" uuid="a6822d5b-6c6a-47be-8d18-8a291c3d3f43"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[9. Eu autorizo a organização desta competição e terceiros por eles autorizados, os patrocinadores e apoiadores desta competição, a utilizar livremente a minha imagem através de qualquer forma lícita, e/ou a minha voz para fins de exibição em veículos de comunicação, bem como para produção de material promocional em qualquer tipo de mídia como VHS, CD-ROM, DVD, Mini-DV, Internet, entre outras, inclusive imprensa, e/ou disseminá-la através da Internet, para promoção da Corrida de Aventura e seus organizadores citados acima; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="314" width="555" height="31" uuid="d6e9754e-3483-4665-a9c2-8bc7e217dabe"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Após ter lido este termo de Responsabilidade e acordo de implicação de riscos e tendo compreendido-o, entendo que estou desistindo de direitos substanciais através da assinatura do mesmo, a qual faz livre e voluntariamente, sem qualquer coerção, na presença de testemunhas instrumentárias.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="44" width="555" height="20" uuid="f30c6969-53e1-4609-92a5-0bc62fac0564"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[1. Os riscos, conhecidos ou não, de acidentes nas modalidades envolvidas nesta competição são significativos, reconheço e assumo total responsabilidade pela minha participação; e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="5" width="555" height="26" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Em caso de emergência avisar à:]]></text>
+				<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="58" width="375" height="18" uuid="b3b69892-d6c6-4bfe-9818-af7df055ca2a">
+			<staticText>
+				<reportElement x="0" y="94" width="555" height="30" uuid="4e61bbcf-ac72-4c55-8643-df967b30dca0"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[3. Declaro que a minha equipe está de posse de todos os itens e/ou equipamentos obrigatórios citados no regulamento da prova. A falta de qualquer dos itens durante a prova, é de total responsabilidade da equipe, isentando de quaisquer prejuízos e/ou responsabilidade, a organização, os apoiadores e demais envolvidos nesta competição, podendo haver penalização, ou a desclassificação da equipe; e]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="345" width="555" height="18" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{health_emergency_contact_phone} + " – " + $F{health_emergency_contact_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{race_city_name} + ", " + DATEFORMAT($F{race_date}, "dd 'de' MMMM 'de' yyyy")]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="1" width="59" height="18" uuid="5cb368c8-77a7-4ede-8c4f-15cb531692c3"/>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Atleta " + $V{COLUMN_COUNT} + ":"]]></textFieldExpression>
-			</textField>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<subreport>
+				<reportElement key="" x="0" y="0" width="555" height="20" uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
+				<subreportParameter name="REGISTRATION_ID">
+					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["src/main/resources/report/ficha_inscricao_assinaturas.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="300" y="10" width="264" height="10" uuid="e431871c-9e65-4405-9306-0772162ecd28"/>
+				<reportElement x="290" y="10" width="264" height="10" uuid="39229fc0-4bc5-45dc-a8e1-9c74a7e50ebf"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[http://soumaisaventura.com.br]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="10" width="279" height="10" uuid="6b809cf7-d8c8-42e0-8692-034e2ac40fef"/>
+				<reportElement x="0" y="10" width="279" height="10" uuid="5b7975e7-9d52-4e31-9f97-4204e54faa1c"/>
 				<textElement>
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
