@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -63,28 +64,6 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("race")
 public class RaceREST {
-
-	@GET
-	@Path("{id}/form")
-	@Produces("application/pdf")
-	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRaceDetails(id);
-
-		Context context = new InitialContext();
-		DataSource dataSource = (DataSource) context.lookup("java:jboss/datasources/PostgreSQLDS");
-		Connection conn = dataSource.getConnection();
-
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("RACE_ID", race.getId());
-
-		String reportSource = Reflections.getResourceAsURL("/report/ficha_inscricao.jasper").getPath();
-		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
-
-		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
-		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
-
-		return oututStream.toByteArray();
-	}
 
 	@GET
 	@Path("year/{year}")
@@ -152,6 +131,41 @@ public class RaceREST {
 		data.status = race.getRaceStatusType();
 
 		return data;
+	}
+
+	@GET
+	@LoggedIn
+	@Path("{id}/form")
+	@Produces("application/pdf")
+	public Response resgistrationForm(@PathParam("id") Integer id) throws Exception {
+		Race race = loadRaceDetails(id);
+
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		Context context = new InitialContext();
+		DataSource dataSource = (DataSource) context.lookup("java:jboss/datasources/PostgreSQLDS");
+		Connection conn = dataSource.getConnection();
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("RACE_ID", race.getId());
+
+		String reportSource = Reflections.getResourceAsURL("/report/ficha_inscricao.jasper").getPath();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
+
+		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(race.getDate());
+
+		// String filename = "Fichas-" + race.getName() + "-" + calendar.get(YEAR);
+		String filename = "fichas.pdf";
+		String contentDisposition = "attachment;filename=\"" + filename + "\"";
+		return Response.ok().entity(oututStream.toByteArray()).header("Content-Disposition", contentDisposition)
+				.build();
 	}
 
 	@GET

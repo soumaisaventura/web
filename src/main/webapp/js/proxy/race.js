@@ -19,6 +19,17 @@ var RaceProxy = {
 		});
 	},
 
+	formDownload : function(raceId) {
+		return $.ajax({
+			type : "GET",
+			async : false,
+			url : this.url + "/" + raceId + "/form",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	find : function(year) {
 		return $.ajax({
 			type : "GET",

@@ -3,6 +3,11 @@ $(function() {
 
 	RaceProxy.loadSummary(id).done(loadOk);
 	RaceRegistrationProxy.find(id).done(findOk);
+
+	$("#registration-forms").click(function() {
+		console.log("xxxxx");
+		RaceProxy.formDownload(id);
+	});
 });
 
 function loadOk(data) {
@@ -75,8 +80,6 @@ function fillMetadata(data, statusMetadata, categoryMetadata, cityMetadata) {
 			}
 		});
 	});
-
-	console.log(statusMetadata);
 }
 
 function createChartData(metadata) {

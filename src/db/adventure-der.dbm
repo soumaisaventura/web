@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0-beta2" last-position="922,445" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="925,471" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -233,6 +233,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="payment_token">
 		<type name="character varying" length="64"/>
+	</column>
+	<column name="status">
+		<type name="character varying" length="20"/>
 	</column>
 	<constraint name="race_pkey" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
@@ -723,6 +726,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="payment_type"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_status" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="status"/>
 		</idxelement>
 </index>
 
