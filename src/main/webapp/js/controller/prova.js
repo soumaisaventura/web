@@ -31,8 +31,8 @@ function loadOk(data) {
 		$("#city-section").show();
 	}
 
-	if (data.registration.periods && data.registration.periods.length > 0) {
-		$.each(data.registration.periods, function(index, value) {
+	if (data.registration.prices && data.registration.prices.length > 0) {
+		$.each(data.registration.prices, function(index, value) {
 			$("#registration-periods").append(
 					"<h4><span style='font-size: 0.8em'>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
 							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ":</span> " + numeral(value.price).format() + "<sup>*</sup></h4>")
