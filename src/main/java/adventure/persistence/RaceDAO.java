@@ -37,10 +37,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	       (select count(p) ");
-		jpql.append(" 	          from Period p ");
-		jpql.append(" 	         where p.race = r ");
-		jpql.append(" 	           and :date between p.beginning and p.end) ");
+		jpql.append(" 	       (select min(_p.beginning) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	       (select max(_p.end) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r) ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -50,7 +52,6 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append("        r.date ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("date", new Date(), DATE);
 		query.setParameter("id", id);
 
 		Race result;
@@ -90,10 +91,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	       (select count(p) ");
-		jpql.append(" 	          from Period p ");
-		jpql.append(" 	         where p.race = r ");
-		jpql.append(" 	           and :date between p.beginning and p.end) ");
+		jpql.append(" 	       (select min(_p.beginning) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	       (select max(_p.end) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r) ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -104,6 +107,40 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
 		query.setParameter("date", new Date(), DATE);
+
+		return query.getResultList();
+	}
+
+	public List<Race> findByYear(Integer year) throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Race( ");
+		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.paymentAccount, ");
+		jpql.append(" 	        r.paymentToken, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation, ");
+		jpql.append(" 	       (select min(_p.beginning) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	       (select max(_p.end) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r) ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Race r ");
+		jpql.append("   left join r.city c ");
+		jpql.append("   left join c.state s ");
+		jpql.append("  where year(r.date) = :year ");
+		jpql.append("  order by ");
+		jpql.append("        r.date ");
+
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
+		query.setParameter("year", year);
 
 		return query.getResultList();
 	}
@@ -122,7 +159,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	        count(r.id) ");
+		jpql.append(" 	       (select min(_p.beginning) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	       (select max(_p.end) ");
+		jpql.append(" 	          from Period _p ");
+		jpql.append(" 	         where _p.race = r) ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Period p ");
 		jpql.append("   join p.race r ");

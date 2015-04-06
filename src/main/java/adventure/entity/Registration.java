@@ -77,7 +77,7 @@ public class Registration implements Serializable {
 	@Enumerated(STRING)
 	@Column(name = "STATUS", length = ENUM_SIZE)
 	@Index(name = "IDX_REGISTRATION_STATUS")
-	private StatusType status;
+	private RegistrationStatusType status;
 
 	@NotNull
 	@Column(name = "STATUS_DATE")
@@ -101,7 +101,7 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
-	public Registration(Long registrationId, StatusType registrationStatus, String reistrationTeamName, Integer raceId,
+	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName, Integer raceId,
 			String raceName, Date raceDate, Integer cityId, String cityName, String stateAbbreviation) {
 		setId(registrationId);
 		setStatus(registrationStatus);
@@ -121,7 +121,7 @@ public class Registration implements Serializable {
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
 			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
-			StatusType registrationStatus, Integer raceId, String raceName, Date raceDate, PaymentType racePaymentType,
+			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate, PaymentType racePaymentType,
 			String racePaymentInfo, String racePaymentAccount, String racePaymentToken, Integer periodId,
 			BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId, String stateName,
 			String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
@@ -252,11 +252,11 @@ public class Registration implements Serializable {
 		this.submitter = submitter;
 	}
 
-	public StatusType getStatus() {
+	public RegistrationStatusType getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusType status) {
+	public void setStatus(RegistrationStatusType status) {
 		this.status = status;
 	}
 

@@ -1,8 +1,8 @@
 package adventure.persistence;
 
 import static adventure.entity.PaymentType.AUTO;
-import static adventure.entity.StatusType.CONFIRMED;
-import static adventure.entity.StatusType.PENDENT;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
 import static java.util.Calendar.YEAR;
 import static javax.persistence.TemporalType.DATE;
 

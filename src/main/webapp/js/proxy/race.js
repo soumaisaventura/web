@@ -9,41 +9,41 @@ var RaceProxy = {
 		});
 	},
 
-	loadSummary : function($race) {
+	loadSummary : function(raceId) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/summary",
+			url : this.url + "/" + raceId + "/summary",
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}
 		});
 	},
 
-	findNext : function() {
+	find : function(year) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/next"
+			url : this.url + "/year/" + year
 		});
 	},
 
-	findCourses : function($race) {
+	findCourses : function(raceId) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/courses"
+			url : this.url + "/" + raceId + "/courses"
 		});
 	},
 
-	getBanner : function($race) {
+	getBanner : function(raceId) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/banner/base64"
+			url : this.url + "/" + raceId + "/banner/base64"
 		});
 	},
-	
-	order : function($race, $users) {
+
+	order : function(raceId, $users) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $race + "/order?users=" + $users
+			url : this.url + "/" + raceId + "/order?users=" + $users
 		});
 	}
 };

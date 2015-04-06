@@ -69,6 +69,11 @@
 		<!--
 		<dependency>
 			<groupId>br.gov.frameworkdemoiselle</groupId>
+			<artifactId>demoiselle-jdbc</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.gov.frameworkdemoiselle</groupId>
 			<artifactId>demoiselle-jta</artifactId>
 			<scope>compile</scope>
 		</dependency>
@@ -178,6 +183,13 @@
 			<artifactId>google-http-client-jackson</artifactId>
 			<version>1.17.0-rc</version>
 			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Reports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.0.3</version>
 		</dependency>
                 
 		<!-- Tests -->

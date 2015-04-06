@@ -72,12 +72,14 @@ img.responsive, img.main-col-images {
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/race-next.js"></script>
+		<script src="#{request.contextPath}/js/controller/calendario.js"></script>
 	</ui:define>
 
 	<ui:define name="body">
 		<div class="page-header">
-			<h1>Calendário 2015</h1>
+			<h1>
+				Calendário <span id="ano">#{param.ano}</span>
+			</h1>
 		</div>
 		<div id="open-races" class="row"></div>
 

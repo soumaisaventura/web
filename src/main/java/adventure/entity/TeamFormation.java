@@ -52,7 +52,7 @@ public class TeamFormation implements Serializable {
 
 	public TeamFormation(Integer userId, String userEmail, String profileName, String profileMobile, Integer cityId,
 			String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, BigDecimal annualFee,
-			Long registrationId, StatusType registrationStatus, String registrationTeamName, Date registrationDate,
+			Long registrationId, RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
 			Integer raceId, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
 		setUser(new User());
 		getUser().setId(userId);

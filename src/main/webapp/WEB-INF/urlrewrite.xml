@@ -20,7 +20,7 @@
 		<from>^/teste$</from>
 		<to>/teste.jsf</to>
 	</rule>
-	
+
 	<rule>
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
@@ -107,15 +107,15 @@
 
 	<rule>
 		<from>^/race/next$</from>
-		<to>/race-next.jsf</to>
+		<to>/calendario.jsf?ano=2015</to>
 	</rule>
 	<rule>
 		<from>^/provas$</from>
-		<to>/race-next.jsf</to>
+		<to>/calendario.jsf?ano=2015</to>
 	</rule>
 	<rule>
 		<from>^/calendario/(\d+)$</from>
-		<to>/race-next.jsf</to>
+		<to>/calendario.jsf?ano=$1</to>
 	</rule>
 
 	<rule>

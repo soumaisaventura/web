@@ -1,7 +1,7 @@
 package adventure.rest;
 
-import static adventure.entity.StatusType.CONFIRMED;
-import static adventure.entity.StatusType.PENDENT;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
 import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
 import java.io.StringReader;

@@ -1,6 +1,6 @@
 package adventure.persistence;
 
-import static adventure.entity.StatusType.CANCELLED;
+import static adventure.entity.RegistrationStatusType.CANCELLED;
 
 import java.io.Serializable;
 import java.util.List;

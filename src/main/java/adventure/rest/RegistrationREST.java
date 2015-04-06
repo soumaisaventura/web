@@ -1,8 +1,8 @@
 package adventure.rest;
 
-import static adventure.entity.StatusType.CANCELLED;
-import static adventure.entity.StatusType.CONFIRMED;
-import static adventure.entity.StatusType.PENDENT;
+import static adventure.entity.RegistrationStatusType.CANCELLED;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
 import static java.util.Locale.US;
 
 import java.math.BigDecimal;
@@ -38,7 +38,7 @@ import adventure.entity.AnnualFeePayment;
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.entity.StatusType;
+import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
 import adventure.persistence.AnnualFeeDAO;
@@ -452,7 +452,7 @@ public class RegistrationREST {
 
 		public Date date;
 
-		public StatusType status;
+		public RegistrationStatusType status;
 
 		public PaymentData payment;
 

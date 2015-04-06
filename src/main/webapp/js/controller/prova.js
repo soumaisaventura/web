@@ -56,7 +56,7 @@ function loadOk(data) {
 
 	var user = App.getLoggedInUser();
 	var authorized = user ? user.admin : null;
-	if (data.organizers.length > 0) {
+	if (data.organizers && data.organizers.length > 0) {
 		$.each(data.organizers, function(index, value) {
 			$("#organizers").append(
 					"<h4>" + value.name + " <a style='font-size:0.8em; color:#EA8E13' href='mailto:" + value.email + "?Subject=Dúvida sobra a prova "
@@ -69,7 +69,7 @@ function loadOk(data) {
 		$("#organizers-section").show();
 	}
 
-	if (data.registration.open && !authorized) {
+	if (data.status == 'open' && !authorized) {
 		$("#bt-registration-section").show();
 	}
 

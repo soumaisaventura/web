@@ -33,6 +33,7 @@ import adventure.entity.City;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
+import adventure.entity.RaceStatusType;
 import adventure.entity.User;
 import adventure.persistence.AnnualFeeDAO;
 import adventure.persistence.AnnualFeePaymentDAO;
@@ -54,22 +55,21 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class RaceREST {
 
 	@GET
-	@Path("next")
-	@Cache("max-age=28800")
+	@Path("year/{year}")
+	// @Cache("max-age=28800")
 	@Produces("application/json")
-	public List<RaceData> next() throws Exception {
+	public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
 		List<RaceData> result = new ArrayList<RaceData>();
 
-		for (Race race : RaceDAO.getInstance().findNext()) {
+		for (Race race : RaceDAO.getInstance().findByYear(year)) {
 			RaceData data = new RaceData();
 			data.id = race.getId();
 			data.name = race.getName();
 			data.date = race.getDate();
-			data.registration = new RegistrationData();
-			data.registration.open = race.getOpen();
+			data.status = race.getRaceStatusType();
 			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 					+ race.getCity().getState().getAbbreviation() : null;
-			data.registration.periods = null;
+
 			data.courses = null;
 			result.add(data);
 		}
@@ -79,7 +79,7 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}")
-	@Cache("max-age=28800")
+	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData load(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
@@ -91,9 +91,12 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
+		data.status = race.getRaceStatusType();
 		data.registration = new RegistrationData();
-		data.registration.open = race.getOpen();
-		data.registration.periods.addAll(loadPeriod(race));
+		data.registration.prices.addAll(loadPeriod(race));
+		data.registration.period = new PeriodData();
+		data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
+		data.registration.period.end = race.getRegistrationPeriod().getEnd();
 		data.courses.addAll(loadCourse(race));
 		data.organizers.addAll(loadOrganizer(race));
 
@@ -102,7 +105,7 @@ public class RaceREST {
 
 	@GET
 	@Path("{id}/summary")
-	@Cache("max-age=28800")
+	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData loadSummary(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
@@ -114,8 +117,11 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
-		data.registration = new RegistrationData();
-		data.registration.open = race.getOpen();
+		data.status = race.getRaceStatusType();
+		// data.registration = new RegistrationData();
+		// data.registration.period = new PeriodData();
+		// data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
+		// data.registration.period.end = race.getRegistrationPeriod().getEnd();
 
 		return data;
 	}
@@ -419,13 +425,15 @@ public class RaceREST {
 		public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
 
 		public RegistrationData registration;
+
+		public RaceStatusType status;
 	}
 
 	public static class RegistrationData {
 
-		public boolean open;
+		public PeriodData period;
 
-		public List<PeriodData> periods = new ArrayList<PeriodData>();
+		public List<PeriodData> prices = new ArrayList<PeriodData>();
 	}
 
 	public static class PeriodData {

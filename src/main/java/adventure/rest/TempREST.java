@@ -2,7 +2,7 @@ package adventure.rest;
 
 import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
-import static adventure.entity.StatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
 
 import java.math.BigDecimal;
 import java.net.URI;

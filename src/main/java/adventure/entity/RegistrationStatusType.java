@@ -3,13 +3,13 @@ package adventure.entity;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
-public enum StatusType {
+public enum RegistrationStatusType {
 
 	PENDENT("pendent"), CONFIRMED("confirmed"), CANCELLED("cancelled");
 
 	private final String value;
 
-	StatusType(String value) {
+	RegistrationStatusType(String value) {
 		this.value = value;
 	}
 
@@ -19,10 +19,10 @@ public enum StatusType {
 	}
 
 	@JsonCreator
-	public static StatusType fromValue(String value) {
-		StatusType result = null;
+	public static RegistrationStatusType fromValue(String value) {
+		RegistrationStatusType result = null;
 
-		for (StatusType statusType : values()) {
+		for (RegistrationStatusType statusType : values()) {
 			if (statusType.toString().equalsIgnoreCase(value)) {
 				result = statusType;
 				break;

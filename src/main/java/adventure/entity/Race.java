@@ -1,5 +1,9 @@
 package adventure.entity;
 
+import static adventure.entity.RaceStatusType.CLOSED;
+import static adventure.entity.RaceStatusType.END;
+import static adventure.entity.RaceStatusType.OPEN;
+import static adventure.entity.RaceStatusType.SOON;
 import static adventure.util.Constants.EMAIL_SIZE;
 import static adventure.util.Constants.ENUM_SIZE;
 import static adventure.util.Constants.HASH_SIZE;
@@ -92,7 +96,10 @@ public class Race implements Serializable {
 	private String paymentToken;
 
 	@Transient
-	private Boolean open;
+	private Period registrationPeriod;
+
+	@Transient
+	private RaceStatusType status;
 
 	public Race() {
 	}
@@ -103,7 +110,7 @@ public class Race implements Serializable {
 
 	public Race(Integer id, String name, String description, Date date, String paymentAccount, String paymentToken,
 			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-			Long openPeriods) {
+			Date registrationBeginning, Date registrationEnd) {
 		setId(id);
 		setName(name);
 		setDescription(description);
@@ -117,7 +124,32 @@ public class Race implements Serializable {
 		getCity().getState().setId(stateId);
 		getCity().getState().setName(stateName);
 		getCity().getState().setAbbreviation(stateAbbreviation);
-		setOpen(openPeriods > 0);
+		setRegistrationPeriod(new Period());
+		getRegistrationPeriod().setBeginning(registrationBeginning);
+		getRegistrationPeriod().setEnd(registrationEnd);
+	}
+
+	public RaceStatusType getRaceStatusType() {
+		RaceStatusType result = null;
+
+		if (registrationPeriod != null && registrationPeriod.getBeginning() != null
+				&& registrationPeriod.getEnd() != null && this.date != null) {
+			Date now = new Date();
+
+			if (now.before(registrationPeriod.getBeginning())) {
+				result = SOON;
+			} else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())) {
+				result = OPEN;
+			} else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)) {
+				result = CLOSED;
+			} else if (now.after(this.date)) {
+				result = END;
+			} else {
+				throw new IllegalStateException("O status da prova " + this.name + " não pôde ser definido");
+			}
+		}
+
+		return result;
 	}
 
 	@Override
@@ -238,11 +270,11 @@ public class Race implements Serializable {
 		this.paymentToken = paymentToken;
 	}
 
-	public Boolean getOpen() {
-		return open;
+	public Period getRegistrationPeriod() {
+		return registrationPeriod;
 	}
 
-	public void setOpen(Boolean open) {
-		this.open = open;
+	public void setRegistrationPeriod(Period registrationPeriod) {
+		this.registrationPeriod = registrationPeriod;
 	}
 }

@@ -1,10 +1,12 @@
 --LPAD (row_number () OVER (ORDER BY _re.id)::text, 2, '0')
 
-SELECT re.id AS registration_id,
+
+SELECT * FROM
+(SELECT re.id AS registration_id,
 '#' ||LPAD (re.id::text, 4, '0') AS registration_number,
          re.date AS registration_date,
          re.team_number AS team_number,
-         re.team_name AS team_name,
+      re.team_name AS team_name,
          ca.name AS team_category_name,
          co.length AS team_course_length,
          ra.id AS race_id,
@@ -59,12 +61,49 @@ SELECT re.id AS registration_id,
          AND pr.city_id = prc.id
          AND prc.state_id = prs.id
          AND us.id = he.id
-ORDER BY re.id;
+UNION ALL
+SELECT NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       r.id AS race_id,
+       r.name AS race_name,
+       r.date AS race_date,
+       rc.name AS race_city_name,
+       rs.abbreviation AS race_state_name,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL,
+       NULL
+  FROM race r, city rc, state rs, (SELECT 1 UNION SELECT 2) _2
+ WHERE r.id = 1 AND r.city_id = rc.id AND rc.state_id = rs.id) f
+ ORDER BY f.registration_id;
+
+SELECT *
+  FROM (SELECT 1
+        UNION
+        SELECT 2) a,
+       (SELECT 3) b;
 
 
 SELECT pr.*
   FROM team_formation tf, profile pr
  WHERE tf.registration_id = 1 AND tf.user_id = pr.id;
+
 
 
 SELECT * FROM registration_forms;
