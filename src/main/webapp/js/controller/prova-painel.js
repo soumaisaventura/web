@@ -5,7 +5,6 @@ $(function() {
 	RaceRegistrationProxy.find(id).done(findOk);
 
 	$("#registration-forms").click(function() {
-		console.log("xxxxx");
 		RaceProxy.formDownload(id);
 	});
 });
@@ -15,7 +14,6 @@ function loadOk(data) {
 }
 
 function findOk(data) {
-	// var analytic
 	var statusMetadata = {
 		confirmed : {
 			label : "confirmadas",

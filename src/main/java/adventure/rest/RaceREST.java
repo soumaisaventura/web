@@ -24,7 +24,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -137,7 +136,7 @@ public class RaceREST {
 	@LoggedIn
 	@Path("{id}/form")
 	@Produces("application/pdf")
-	public Response resgistrationForm(@PathParam("id") Integer id) throws Exception {
+	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRaceDetails(id);
 
 		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
@@ -154,6 +153,7 @@ public class RaceREST {
 
 		String reportSource = Reflections.getResourceAsURL("/report/ficha_inscricao.jasper").getPath();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
+		conn.close();
 
 		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
@@ -162,10 +162,13 @@ public class RaceREST {
 		calendar.setTime(race.getDate());
 
 		// String filename = "Fichas-" + race.getName() + "-" + calendar.get(YEAR);
-		String filename = "fichas.pdf";
-		String contentDisposition = "attachment;filename=\"" + filename + "\"";
-		return Response.ok().entity(oututStream.toByteArray()).header("Content-Disposition", contentDisposition)
-				.build();
+		// String filename = "fichas.pdf";
+		// String contentDisposition = "attachment;filename=\"" + filename + "\"";
+		// return Response.ok().entity(oututStream.toByteArray()).header("Content-Disposition", contentDisposition)
+		// .build();
+
+		// return Base64.encodeBase64(oututStream.toByteArray());
+		return oututStream.toByteArray();
 	}
 
 	@GET

@@ -31,37 +31,6 @@
 	<ui:define name="body">
 		<input id="race-id" type="hidden" value="#{param.id}" />
 
-		<!--
-			<div class="row">
-				<div class="col-md-4">
-					<div class="row">
-						<div class="col-md-4">
-							<canvas id="status-chart" width="150" height="150"></canvas>
-						</div>
-						<div id="status-legend" class="col-md-8"></div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="row">
-						<div class="col-md-4">
-							<canvas id="category-chart" width="150" height="150"></canvas>
-						</div>
-						<div id="category-legend" class="col-md-8"></div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="row">
-						<div class="col-md-4">
-							<canvas id="city-chart" width="150" height="150"></canvas>
-						</div>
-						<div id="city-legend" class="col-md-8"></div>
-					</div>
-				</div>
-			</div>
-			-->
-
 		<div class="row">
 			<div class="col-md-6">
 				<div class="panel panel-default">
@@ -70,7 +39,7 @@
 						<div id="analytic-data" style="height: 300px; width: 100%;">
 							<div style="height: 250px;">Em construção...</div>
 							<div>
-								<button id="registration-forms" class="btn btn-primary btn-lg">Baixar fichas</button>
+								<button id="registration-forms" class="btn btn-primary btn-lg">Fichas de inscrição</button>
 								<a href="#{request.contextPath}/prova/#{param.id}/painel/inscricoes" class="btn btn-primary btn-lg pull-right">Gerenciar inscrições</a>
 							</div>
 						</div>
