@@ -31,6 +31,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -138,9 +139,11 @@ public class Race implements Serializable {
 
 			if (now.before(registrationPeriod.getBeginning())) {
 				result = SOON;
-			} else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())) {
+			} else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())
+					|| DateUtils.isSameDay(now, registrationPeriod.getEnd())) {
 				result = OPEN;
-			} else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)) {
+			} else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)
+					|| DateUtils.isSameDay(now, this.date)) {
 				result = CLOSED;
 			} else if (now.after(this.date)) {
 				result = END;
