@@ -6,7 +6,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import adventure.entity.Profile;
+import adventure.entity.User;
 import adventure.persistence.ProfileDAO;
+import adventure.persistence.UserDAO;
 import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -25,13 +27,27 @@ public class UserJobREST {
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 
 		for (Profile profile : profileDAO.findAll()) {
-			String capitalized = Misc.capitalize(profile.getName());
+			String adjusted = Misc.capitalize(profile.getName());
 
-			if (!profile.getName().equals(capitalized)) {
-				getLogger().info("Ajustando o nome [" + profile.getName() + "] para [" + capitalized + "]");
+			if (!profile.getName().equals(adjusted)) {
+				getLogger().info("Ajustando o nome [" + profile.getName() + "] para [" + adjusted + "]");
 
-				profile.setName(capitalized);
+				profile.setName(adjusted);
 				profileDAO.update(profile);
+			}
+		}
+
+		getLogger().info("Buscando por e-mails para ajustar");
+		UserDAO userDAO = UserDAO.getInstance();
+
+		for (User user : userDAO.findAll()) {
+			String adjusted = user.getEmail().trim().toLowerCase();
+
+			if (!user.getEmail().equals(adjusted)) {
+				getLogger().info("Ajustando o e-mail [" + user.getEmail() + "] para [" + adjusted + "]");
+
+				user.setEmail(adjusted);
+				userDAO.update(user);
 			}
 		}
 	}

@@ -41,7 +41,7 @@ public class SignUpREST {
 	public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
 		User user = new User();
 		user.setEmail(data.email);
-		user.setPassword(Passwords.hash(data.password, data.email));
+		user.setPassword(Passwords.hash(data.password.trim(), data.email.trim().toLowerCase()));
 		user.setCreation(new Date());
 		UserDAO.getInstance().insert(user);
 

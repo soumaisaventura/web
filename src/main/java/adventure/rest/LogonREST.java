@@ -27,25 +27,13 @@ public class LogonREST {
 	@Produces("application/json")
 	public User login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(data.username);
-		credentials.setPassword(data.password);
+		credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
+		credentials.setPassword(data.password != null ? data.password.trim() : null);
 
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		securityContext.login();
 
 		User user = User.getLoggedIn();
-		// if (user.getProfile().getPendencies() == 0) {
-		// user.getProfile().setPendencies(null);
-		// }
-		//
-		// if (user.getHealth().getPendencies() == 0) {
-		// user.setHealth(null);
-		// }
-		
-		// if (!user.getAdmin()) {
-		// user.setAdmin(null);
-		// }
-
 		return user;
 	}
 

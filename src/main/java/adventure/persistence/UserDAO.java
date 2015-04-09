@@ -27,7 +27,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 		user.setCreation(new Date());
 
 		if (user.getEmail() != null) {
-			user.setEmail(user.getEmail().trim());
+			user.setEmail(user.getEmail().trim().toLowerCase());
 		}
 
 		if (user.getAdmin() == null) {
@@ -35,6 +35,11 @@ public class UserDAO extends JPACrud<User, Integer> {
 		}
 
 		return super.insert(user);
+	}
+
+	@Override
+	public User update(User entity) {
+		return super.update(entity);
 	}
 
 	@Override

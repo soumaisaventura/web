@@ -35,7 +35,7 @@ public class PasswordREST {
 	@Consumes("application/json")
 	public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendResetPasswordMail(data.email, baseUri);
+		MailDAO.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
 	}
 
 	@POST
@@ -47,7 +47,7 @@ public class PasswordREST {
 	public User reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		UserDAO dao = UserDAO.getInstance();
-		User persisted = dao.load(data.email);
+		User persisted = dao.load(data.email.trim().toLowerCase());
 
 		if (persisted == null || !Passwords.hash(token, persisted.getEmail()).equals(persisted.getPasswordResetToken())) {
 			throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
@@ -55,7 +55,7 @@ public class PasswordREST {
 		} else {
 			persisted.setPasswordResetToken(null);
 			persisted.setPasswordResetRequest(null);
-			persisted.setPassword(Passwords.hash(data.newPassword, persisted.getEmail()));
+			persisted.setPassword(Passwords.hash(data.newPassword.trim(), persisted.getEmail()));
 
 			boolean wasActivated = false;
 			if (persisted.getActivation() == null) {
@@ -65,7 +65,7 @@ public class PasswordREST {
 			}
 
 			dao.update(persisted);
-			login(data.email, data.newPassword);
+			login(persisted.getEmail(), data.newPassword.trim());
 
 			if (wasActivated) {
 				URI baseUri = uriInfo.getBaseUri().resolve("..");

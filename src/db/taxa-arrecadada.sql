@@ -1,7 +1,7 @@
-  SELECT pr.name AS nome,
-         w.email,
-         prc."name" AS cidade,
-         prs.abbreviation AS estado
+  SELECT '#' || lpad (r.id::text, 4, '0') AS "Inscrição", pr.name AS nome
+    --   w.email,
+    --   prc."name" AS cidade,
+    --   prs.abbreviation AS estado
     FROM annual_fee_payment a,
          registration r,
          race ra,
@@ -13,7 +13,7 @@
          AND r.race_id = ra.id
          AND a.user_id = w.id
          AND w.id = pr.id
-         AND r.race_id = 1
+         AND r.race_id = 3
          AND pr.city_id = prc.id
          AND prc.state_id = prs.id
 --   AND w.id NOT IN (SELECT _tf.user_id
@@ -23,13 +23,13 @@
 --         AND _r.status = 'CONFIRMED')
 ORDER BY pr.name;
 
-  SELECT lpad (r.id::text, 3, '0') AS "Inscrição",
+  SELECT '#' || lpad (r.id::text, 3, '0') AS "Inscrição",
          r.team_name AS "Equipe",
          r.date AS "Data da confirmação",
          sum (tf.race_price) AS "Valor da inscrição",
          sum (tf.annual_fee) AS "Taxa anual",
          sum (tf.race_price) + sum (tf.annual_fee) AS "Total"
     FROM registration r, team_formation tf
-   WHERE r.race_id = 1 AND tf.registration_id = r.id AND r.status = 'CONFIRMED'
+   WHERE r.race_id = 3 AND tf.registration_id = r.id AND r.status = 'PENDENT'
 GROUP BY r.id
 ORDER BY r.id;

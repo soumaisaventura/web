@@ -53,17 +53,19 @@ public final class Misc {
 		return stringfy(result);
 	}
 
-	public static String capitalize(String string) throws Exception {
+	public static String capitalize(String string) {
 		String capitalized = null;
 
 		if (string != null) {
 			capitalized = "";
 
 			for (String part : string.toLowerCase().split(" ")) {
-				if (part.length() > 2) {
-					capitalized += Strings.firstToUpper(part);
-				} else {
+				if (!part.isEmpty() && part.charAt(0) == 'd' && part.length() <= 3) {
 					capitalized += part;
+					// } else if (part.length() > 2) {
+				} else {
+					capitalized += Strings.firstToUpper(part);
+					// capitalized += part;
 				}
 				capitalized += " ";
 			}
