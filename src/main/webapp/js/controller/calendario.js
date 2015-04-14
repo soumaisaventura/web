@@ -36,38 +36,111 @@ function findNextOk(data) {
 			.each(
 					data,
 					function(index, value) {
-
+						
 						var day = moment(value.date, "YYYY-MM-DD");
+					
+						var block = document.createElement("div");
+							block.className = "race col-md-4";
+							block.setAttribute("id","block-" + value.id);
+						
+						var panel = document.createElement("div");
+							panel.className = "panel panel-default";
+							panel.dataset.race = value.id;
 
-						var race = "";
-						race += "<div id='block-" + value.id + "' class='race col-md-4'>";
-						race += "<div class='panel panel-default' data-race='" + value.id + "'>";
-						race += "<div class='panel-heading' style='padding:0'>";
+						var heading = document.createElement("div");
+							heading.className = "panel-heading";
+							heading.style.padding = "0px";
+							
+						var body = document.createElement("div");
+							body.className = "panel-body";
+							body.style.paddingTop = "5px";
+						
+						var box = document.createElement("div");
+							box.className = "box";
+						
+						var corner = document.createElement("div");
+							corner.className = "corner";
+						
+						var span = document.createElement("span");
+						
+						var banner = document.createElement("img");
+							banner.setAttribute("id", "banner-" + value.id);
+							banner.setAttribute("alt", value.name);
+							banner.className = "responsive";
+							banner.dataset.src = App.getBaseUrl() + "/api/race/" + value.id + "/banner/{breakpoint-name}";
+							
+						
+						var body = document.createElement("div");
+							body.className = "panel-body";
+							body.style.paddingTop = "5px";
+							
+						var row = document.createElement("div");
+							row.className = "row";
+						
+						var col = document.createElement("div");
+							col.className = "col-md-12 text-right";
+							
+						var left = document.createElement("h5");
+							left.className = "pull-left";
+							left.style.marginTop = "10px";
+							left.style.marginBottom = "5px";
+						
+						var right = document.createElement("h5");
+							right.className = "pull-right";
+							right.style.marginTop = "10px";
+							right.style.marginBottom = "5px";
+						
+						var calendarIcon = document.createElement("span");
+							calendarIcon.className = "glyphicon glyphicon-calendar";
+							calendarIcon.style.fontSize = "0.8em";
+							
+						var mapIcon = document.createElement("span");
+							mapIcon.className = "glyphicon glyphicon-map-marker";
+							mapIcon.style.fontSize = "0.8em";
 
-						if (value.status == 'open') {
-							race += "<div class='box'><div class='corner'><span>inscrições abertas</span></div>";
-							race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
-									+ "/banner/{breakpoint-name}'/>";
-							race += "</div>";
-						} else {
-							race += "<img class='responsive' id='banner-" + value.id + "' data-src='" + App.getBaseUrl() + "/api/race/" + value.id
-									+ "/banner/{breakpoint-name}'/>";
+						var date = document.createTextNode(day.locale("pt-br").format("DD [de] MMMM"));
+						
+						var place = document.createTextNode((value.city ? value.city : "Local não definido"));
+						
+						var text = document.createTextNode("");
+						
+						switch(value.status){
+							case 'open'   : text = document.createTextNode("inscrições abertas");
+											corner.className += " open";
+											break;
+										
+							case 'closed' : text = document.createTextNode("inscrições encerradas");
+											corner.className += " closed";
+											break;
+											
+							case 'end'    : banner.className += " end";
+											break;
+							
+							default		  : text = document.createTextNode("");
+											break;
 						}
-
-						race += "</div>";
-						race += "<div class='panel-body' style='padding-top: 5px'>";
-						race += "<div class='row'>";
-						race += "<div class='col-md-12 text-right'>";
-						race += "<h5 class='pull-left' style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> "
-								+ day.locale("pt-br").format("DD [de] MMMM") + "</h5>";
-						race += "<h5 class='pull-right' style='margin-top: 10px; margin-bottom: 5px;'><span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> "
-								+ (value.city ? value.city : 'Local não definido') + "</h5>";
-						race += "</div>";
-						race += "</div>";
-						race += "</div>";
-						race += "</div>";
-						race += "</div>";
-						$('#open-races').append(race);
+						
+						span.appendChild(text);
+						corner.appendChild(span);
+						box.appendChild(corner);
+						box.appendChild(banner);
+						heading.appendChild(box);
+						
+						left.appendChild(calendarIcon);
+						left.appendChild(date);
+						right.appendChild(mapIcon);
+						right.appendChild(place);
+						col.appendChild(left);
+						col.appendChild(right);
+						row.appendChild(col);
+						body.appendChild(row);
+						
+						panel.appendChild(heading);
+						panel.appendChild(body);
+						
+						block.appendChild(panel);
+						
+						$('#open-races').append(block);
 					});
 }
 
