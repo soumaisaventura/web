@@ -13,7 +13,7 @@
          AND r.race_id = ra.id
          AND a.user_id = w.id
          AND w.id = pr.id
-         AND r.race_id = 3
+         AND r.race_id = 2
          AND pr.city_id = prc.id
          AND prc.state_id = prs.id
 --   AND w.id NOT IN (SELECT _tf.user_id
@@ -30,6 +30,18 @@ ORDER BY pr.name;
          sum (tf.annual_fee) AS "Taxa anual",
          sum (tf.race_price) + sum (tf.annual_fee) AS "Total"
     FROM registration r, team_formation tf
-   WHERE r.race_id = 3 AND tf.registration_id = r.id AND r.status = 'PENDENT'
+   WHERE r.race_id = 2 AND tf.registration_id = r.id AND r.status = 'CONFIRMED'
 GROUP BY r.id
 ORDER BY r.id;
+
+  SELECT ra."name" AS prova,
+         count (tf.user_id) AS inscritos,
+         count (a.user_id) AS taxas
+    FROM team_formation tf,
+         race ra,
+         registration re
+         LEFT JOIN annual_fee_payment a ON (re.id = a.registration_id)
+   WHERE     tf.registration_id = re.id
+         AND re.status = 'CONFIRMED'
+         AND re.race_id = ra.id
+GROUP BY ra.id;
