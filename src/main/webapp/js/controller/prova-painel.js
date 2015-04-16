@@ -4,13 +4,17 @@ $(function() {
 	RaceProxy.loadSummary(id).done(loadOk);
 	RaceRegistrationProxy.find(id).done(findOk);
 
-	// $("#registration-forms").click(function() {
-	// RaceProxy.formDownload(id);
-	// });
+	$("#registration-forms").click(function() {
+		RaceProxy.formDownload(id);
+	});
 });
 
 function loadOk(data) {
 	$(".race-name").text(data.name);
+
+	if (data.status === 'closed' || data.status === 'end') {
+		$("#registration-forms-div").show();
+	}
 }
 
 function findOk(data) {
