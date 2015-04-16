@@ -151,7 +151,7 @@ public class RaceREST {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("RACE_ID", race.getId());
 
-		String reportSource = Reflections.getResourceAsURL("/report/ficha_inscricao.jasper").getPath();
+		String reportSource = Reflections.getResourceAsURL("report/ficha_inscricao.jasper").getPath();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
 		conn.close();
 
