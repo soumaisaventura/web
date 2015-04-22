@@ -93,8 +93,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" select ");
 		jpql.append(" 	 new User( ");
 		jpql.append(" 	     o.id, ");
-		jpql.append(" 	     o.email, ");
-		jpql.append(" 	     p.name, ");
+		jpql.append(" 	     case when ro.alternateEmail is null then o.email else ro.alternateEmail end, ");
+		jpql.append(" 	     case when ro.alternateName is null then p.name else ro.alternateName end, ");
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.mobile ");
 		jpql.append(" 	     ) ");

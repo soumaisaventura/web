@@ -1,13 +1,18 @@
 package adventure.entity;
 
+import static adventure.util.Constants.EMAIL_SIZE;
+import static adventure.util.Constants.NAME_SIZE;
+
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -29,6 +34,14 @@ public class RaceOrganizer implements Serializable {
 	@JoinColumn(name = "ORGANIZER_ID")
 	@ForeignKey(name = "FK_RACE_ORGANIZER")
 	private User organizer;
+
+	@Size(max = NAME_SIZE)
+	@Column(name = "ALTERNATE_NAME")
+	private String alternateName;
+
+	@Size(max = EMAIL_SIZE)
+	@Column(name = "ALTERNATE_EMAIL")
+	private String alternateEmail;
 
 	public RaceOrganizer() {
 	}
@@ -90,5 +103,21 @@ public class RaceOrganizer implements Serializable {
 
 	public void setOrganizer(User organizer) {
 		this.organizer = organizer;
+	}
+
+	public String getAlternateName() {
+		return alternateName;
+	}
+
+	public void setAlternateName(String alternateName) {
+		this.alternateName = alternateName;
+	}
+
+	public String getAlternateEmail() {
+		return alternateEmail;
+	}
+
+	public void setAlternateEmail(String alternateEmail) {
+		this.alternateEmail = alternateEmail;
 	}
 }

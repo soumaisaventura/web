@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1293,334" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1586,527" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -267,10 +267,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="organizer_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="short_name">
+	<column name="alternate_name">
 		<type name="character varying" length="50"/>
 	</column>
-	<column name="email">
+	<column name="alternate_email">
 		<type name="character varying" length="255"/>
 	</column>
 	<constraint name="race_organizer_pkey" type="pk-constr" table="public.race_organizer">
