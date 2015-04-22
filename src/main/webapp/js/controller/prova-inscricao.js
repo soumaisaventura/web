@@ -194,7 +194,7 @@ function shareOnFacebook() {
 	url += "&description=Eu inscrevi a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia " + $("#race-date").text() + " em "
 			+ $("#race-city").text() + ".";
 	url += "&link=" + raceUrl;
-	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#id").val() + "/logo";
+	url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#id").val() + "/banner";
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
 	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
 

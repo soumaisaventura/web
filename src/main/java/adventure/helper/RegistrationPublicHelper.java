@@ -61,7 +61,7 @@
 //				+ Misc.stringfyTeamFormation(members) + ", se inscreveu na prova " + race.getName()
 //				+ " que acontecerá no dia " + formatter.format(race.getDate()).toLowerCase() + " em "
 //				+ race.getCity().getName() + "/" + race.getCity().getState().getAbbreviation() + ".";
-//		this.image = baseUrl + "/api/race/" + race.getId() + "/logo";
+//		this.image = baseUrl + "/api/race/" + race.getId() + "/banner";
 //		this.raceUrl = baseUrl + "/race/" + race.getId();
 //	}
 //

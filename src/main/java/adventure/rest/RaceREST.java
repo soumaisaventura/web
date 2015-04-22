@@ -240,31 +240,6 @@ public class RaceREST {
 		RaceDAO.getInstance().update(race);
 	}
 
-	@GET
-	@Path("{id}/logo")
-	@Cache("max-age=604800000")
-	@Produces("application/octet-stream")
-	public byte[] getLogo(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRace(id);
-		return race.getLogo();
-	}
-
-	@PUT
-	@LoggedIn
-	@Transactional
-	@Path("{id}/logo")
-	@Consumes("multipart/form-data")
-	public void setLogo(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
-		Race race = loadRace(id);
-		checkPermission(race);
-
-		InputPart file = input.getFormDataMap().get("file").get(0);
-		InputStream inputStream = file.getBody(InputStream.class, null);
-		race.setLogo(IOUtils.toByteArray(inputStream));
-
-		RaceDAO.getInstance().update(race);
-	}
-
 	@PATCH
 	@LoggedIn
 	@Path("{id}")

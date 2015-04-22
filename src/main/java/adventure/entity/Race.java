@@ -74,10 +74,6 @@ public class Race implements Serializable {
 	@Column(name = "BANNER")
 	private byte[] banner;
 
-	@Lob
-	@Column(name = "LOGO")
-	private byte[] logo;
-
 	@NotNull
 	@Enumerated(STRING)
 	@Column(name = "PAYMENT_TYPE", length = ENUM_SIZE)
@@ -231,14 +227,6 @@ public class Race implements Serializable {
 
 	public void setBanner(byte[] banner) {
 		this.banner = banner;
-	}
-
-	public byte[] getLogo() {
-		return logo;
-	}
-
-	public void setLogo(byte[] logo) {
-		this.logo = logo;
 	}
 
 	public PaymentType getPaymentType() {

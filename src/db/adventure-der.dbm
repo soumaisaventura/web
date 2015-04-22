@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="925,471" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1293,334" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -234,9 +234,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="payment_token">
 		<type name="character varying" length="64"/>
 	</column>
-	<column name="status">
-		<type name="character varying" length="20"/>
-	</column>
 	<constraint name="race_pkey" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -263,12 +260,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1364.34" y="457.178"/>
+	<position x="1343.6" y="452.734"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="organizer_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="short_name">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="email">
+		<type name="character varying" length="255"/>
 	</column>
 	<constraint name="race_organizer_pkey" type="pk-constr" table="public.race_organizer">
 		<columns names="organizer_id,race_id" ref-type="src-columns"/>
@@ -726,14 +729,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="payment_type"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_status" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="0">
-		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="status"/>
 		</idxelement>
 </index>
 

@@ -32,16 +32,19 @@ function findOk(data) {
 		} ]
 	});
 
+	var template = $('#template').html();
+
 	$.each(data, function(index, value) {
 		var day = moment(value.date, "YYYY-MM-DD");
 
 		value.date = day.locale("pt-br").format("DD [de] MMMM");
 		value.place = value.city ? value.city : "Local não definido";
+		value.corner = (value.status == "open" ? "inscrições abertas" : (value.status == "closed" ? "inscrições encerradas" : ""));
+
+		var rendered = Mustache.render(template, value);
+		$('#open-races').append(rendered);
 	});
 
-	var template = $('#template').html();
-	var rendered = Mustache.render(template, data);
-	$('#open-races').append(rendered);
 }
 
 function carregarBanner(id, data) {
