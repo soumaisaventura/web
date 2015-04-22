@@ -1,6 +1,12 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="meta-ogg">
+		<meta property="og:title" content="Inscreva-se! #{raceHelper.getTitle(request)}" />
+		<meta property="og:description" content="#{raceHelper.getDescription(request)}" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/race/#{param.id}/banner" />
+	</ui:define>
+
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
 		<link rel="stylesheet" href="#{request.contextPath}/css/footable.core.min.css" />
@@ -53,11 +59,8 @@
 				<div class="form-group col-md-offset-3 col-md-6">
 					<h2 id="race-name" class="race-name"></h2>
 					<h4 class="hidden-xs">
-						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span>
-						<span id="race-date"></span>
-						&#160;&#160;
-						<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span>
-						<span id="race-city"></span>
+						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span> <span id="race-date"></span> &#160;&#160; <span
+							class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span> <span id="race-city"></span>
 					</h4>
 					<a href="#{request.contextPath}/prova/#{param.id}">ver detalhes desta prova</a>
 				</div>
@@ -133,9 +136,7 @@
 						<input type="text" id="members" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
 						<span class="input-group-btn">
 							<button id="bt-add-athlete" class="btn btn-primary" type="button">
-								<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span>
-								Incluir
-								<span class="hidden-xs">na equipe</span>
+								<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir <span class="hidden-xs">na equipe</span>
 							</button>
 						</span>
 					</div>
@@ -145,8 +146,7 @@
 			<div class="row" style="padding-top: 20px; padding-bottom: 20px">
 				<div class="form-group col-md-offset-3 col-md-6">
 					<p class="text-justify">
-						**
-						<span id="annual-fee-description"></span>
+						** <span id="annual-fee-description"></span>
 					</p>
 					<p class="text-justify">* Campos de preenchimento obrigatório.</p>
 				</div>
@@ -156,8 +156,7 @@
 					<input id="facebook-appid" type="hidden" />
 					<input id="registration-id" type="hidden" />
 					<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-6">
-						<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span>
-						Inscrever equipe
+						<span class="glyphicon glyphicon-pencil" aria-hidden='true' style="font-size: 0.8em;"></span> Inscrever equipe
 					</button>
 				</div>
 			</div>

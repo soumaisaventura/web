@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
-<!-- 2015-04-06T13:16:16 -->
+<!-- 2015-04-16T14:20:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ficha_inscricao_atletas" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e00d0737-d98b-45a8-8973-6027f17a191f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<parameter name="REGISTRATION_ID" class="java.lang.Long" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new Long(1)]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[new Long(104)]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT
@@ -361,7 +361,7 @@ order by pr.name]]>
 				<textElement verticalAlignment="Top">
 					<font fontName="SansSerif"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{health_allergy}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{health_allergy} != null ? $F{health_allergy}.replaceAll("\\n", ", ") : null]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="377" y="1" width="42" height="18" uuid="fe6ffda7-7116-437c-af76-617d3bb29d34">

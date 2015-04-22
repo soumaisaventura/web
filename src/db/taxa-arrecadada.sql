@@ -25,14 +25,27 @@ ORDER BY pr.name;
 
   SELECT '#' || lpad (r.id::text, 3, '0') AS "Inscrição",
          r.team_name AS "Equipe",
+         ca."name" || ' ' || co.length || ' km' AS "Categoria",
          r.date AS "Data da confirmação",
          sum (tf.race_price) AS "Valor da inscrição",
          sum (tf.annual_fee) AS "Taxa anual",
          sum (tf.race_price) + sum (tf.annual_fee) AS "Total"
-    FROM registration r, team_formation tf
-   WHERE r.race_id = 2 AND tf.registration_id = r.id AND r.status = 'CONFIRMED'
-GROUP BY r.id
+    FROM registration r,
+         team_formation tf,
+         race_category rc,
+         category ca,
+         course co
+   WHERE     r.race_id = 3
+         AND tf.registration_id = r.id
+         AND r.status = 'CONFIRMED'
+         AND rc.race_id = r.race_id
+         AND rc.category_id = r.category_id
+         AND rc.course_id = r.course_id
+         AND rc.course_id = co.id
+         AND rc.category_id = ca.id
+GROUP BY r.id, ca.id, co.id
 ORDER BY r.id;
+
 
   SELECT ra."name" AS prova,
          count (tf.user_id) AS inscritos,

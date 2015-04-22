@@ -5,6 +5,7 @@ $(function() {
 	RaceRegistrationProxy.find(id).done(findOk);
 
 	$("#registration-forms").click(function() {
+		$(this).button('loading');
 		RaceProxy.formDownload(id);
 	});
 });

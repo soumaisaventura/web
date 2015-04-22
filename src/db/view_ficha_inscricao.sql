@@ -1,6 +1,44 @@
 --LPAD (row_number () OVER (ORDER BY _re.id)::text, 2, '0')
 
 
+SELECT re.id AS registration_id,
+'#' ||LPAD (re.id::text, 4, '0') AS registration_number,
+         re.date AS registration_date,
+         re.team_number AS team_number,
+      re.team_name AS team_name,
+         ca.name AS team_category_name,
+         co.length AS team_course_length,
+         ra.id AS race_id,
+         ra.name AS race_name,
+         ra.date AS race_date,
+         raci.name AS race_city_name,
+         rast.abbreviation AS race_state_name
+    FROM (  SELECT '#'  || LPAD (_re.id::text, 3, '0')
+                      AS team_number,
+                   _re.*
+              FROM registration _re
+             WHERE _re.race_id = 3 -- $P{RACE_ID}
+			 AND _re.status = 'CONFIRMED'
+          ORDER BY _re.id) re,
+         race_category rc,
+            race ra,
+            category ca,
+            course co,
+            city raci,
+           state rast
+   WHERE     re.race_id = rc.race_id
+         AND re.category_id = rc.category_id
+         AND re.course_id = rc.course_id
+        AND rc.race_id = ra.id
+        AND rc.category_id = ca.id
+        AND rc.course_id = co.id
+        AND ra.city_id = raci.id
+       AND raci.state_id = rast.id
+	   --UNION ALL
+	   ;
+	   
+	   
+	   
 SELECT * FROM
 (SELECT re.id AS registration_id,
 '#' ||LPAD (re.id::text, 4, '0') AS registration_number,

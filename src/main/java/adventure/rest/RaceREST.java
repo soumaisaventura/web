@@ -151,8 +151,15 @@ public class RaceREST {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("RACE_ID", race.getId());
 
-		String reportSource = Reflections.getResourceAsURL("report/ficha_inscricao.jasper").getPath();
-		JasperPrint jasperPrint = JasperFillManager.fillReport(reportSource, params, conn);
+		// HttpServletRequest x;
+		// x.getServletContext().getResourceAsStream(null)
+
+		// String reportSource = Reflections.getResourceAsURL("report/ficha_inscricao.jasper").getPath();
+		// String reportSource =
+		// Reflections.getResourceAsURL("/WEB-INF/classes/report/ficha_inscricao.jasper").getPath();
+		// InputStream inputStream = Reflections.getResourceAsStream("/WEB-INF/classes/report/ficha_inscricao.jasper");
+		InputStream inputStream = Reflections.getResourceAsStream("report/ficha_inscricao.jasper");
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, conn);
 		conn.close();
 
 		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();

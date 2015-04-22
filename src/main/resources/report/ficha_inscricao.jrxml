@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
-<!-- 2015-04-10T16:07:31 -->
+<!-- 2015-04-16T15:20:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -115,10 +115,10 @@
 					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["ficha_inscricao_atletas.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="369">
+		<band height="363">
 			<staticText>
 				<reportElement x="0" y="144" width="555" height="40" uuid="c1c6905f-7f00-43ea-b817-a985a82e9324"/>
 				<textElement textAlignment="Justified">
@@ -256,21 +256,21 @@
 					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["ficha_inscricao_assinaturas.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["report/ficha_inscricao_assinaturas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="20" splitType="Stretch">
+		<band height="15" splitType="Stretch">
 			<staticText>
-				<reportElement x="290" y="10" width="264" height="10" uuid="39229fc0-4bc5-45dc-a8e1-9c74a7e50ebf"/>
+				<reportElement x="290" y="5" width="264" height="10" uuid="39229fc0-4bc5-45dc-a8e1-9c74a7e50ebf"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[http://soumaisaventura.com.br]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="10" width="279" height="10" uuid="5b7975e7-9d52-4e31-9f97-4204e54faa1c"/>
+				<reportElement x="0" y="5" width="279" height="10" uuid="5b7975e7-9d52-4e31-9f97-4204e54faa1c"/>
 				<textElement>
 					<font fontName="SansSerif" size="8"/>
 				</textElement>

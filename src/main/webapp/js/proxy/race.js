@@ -23,7 +23,6 @@ var RaceProxy = {
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", this.url + "/" + raceId + "/form", true);
 		xhr.responseType = 'blob';
-		// xhr.onload = function() {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				var blob = new Blob([ this.response ], {
@@ -36,18 +35,6 @@ var RaceProxy = {
 		};
 		App.setHeader(xhr)
 		xhr.send();
-
-		// return $.ajax({
-		// type : "GET",
-		// url : this.url + "/" + raceId + "/form",
-		// beforeSend : function(request) {
-		// App.setHeader(request)
-		// },
-		// xhrFields : {
-		// responseType : "arraybuffer"
-		// },
-		// dataType : "binary",
-		// });
 	},
 
 	find : function(year) {
