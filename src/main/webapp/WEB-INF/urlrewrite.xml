@@ -154,10 +154,17 @@
 		<from>^/close$</from>
 		<to>/close.html</to>
 	</rule>
+	
+	<!-- V2 -->
+	<rule>
+		<from>^/v2/login$</from>
+		<to>/v2/login.jsf</to>
+	</rule>
 
 	<rule>
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
+	
 
 </urlrewrite>
