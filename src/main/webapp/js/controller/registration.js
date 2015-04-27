@@ -100,7 +100,7 @@ function loadOk(data) {
 			row = row.concat(organizer.phone);
 		}
 
-		if (user && organizer.email == user.email) {
+		if (user && organizer.id == user.id) {
 			authorized = true;
 		}
 

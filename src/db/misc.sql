@@ -11,7 +11,6 @@ SELECT *
 INSERT INTO race_organizer (race_id, organizer_id)
      VALUES (4, 302);
 
-
 SELECT *
   FROM profile pr
  WHERE lower (pr."name") LIKE '%marcel%';
