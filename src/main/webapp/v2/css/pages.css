@@ -571,7 +571,7 @@ html body.page-signin {
   color: #fff;
   display: block;
   font-weight: 300;
-  padding: 10px;
+  padding: 10px 0;
   text-align: center;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -582,9 +582,9 @@ html body.page-signin {
 .page-signin .signin-with-btn + .signin-with-btn {
   margin-top: 10px;
 }
-
-.page-signin .signin-with-btn:hover { }
-
+.page-signin .signin-with-btn:hover {
+  background: #444 !important;
+}
 .page-signin .not-a-member {
   color: #fff;
   display: block;

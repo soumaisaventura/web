@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view contentType="text/html" locale="pt_BR" />
+
+<h:head profile="http://www.w3.org/2005/10/profile">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no" />
+	<ui:insert name="meta" />
+	<ui:insert name="meta-ogg-static">
+	<meta property="og:site_name" content="#{applicationConfigHelper.appTitle}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:locale" content="pt_BR" />
+	<meta property="fb:app_id" content="#{applicationConfigHelper.OAuthFacebookId}" />
+	</ui:insert>
+	<ui:insert name="meta-ogg">
+	<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
+	<meta property="og:description" content="Cadastre-se no Sou+ Avententura, uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia. Se você é organizador, não perca tempo e cadastre a sua prova. É tudo gratuito!" />
+	<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/images/default-ogg-image.png" />
+	</ui:insert>
+
+	<title>#{applicationConfigHelper.appTitle}</title>
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/pixel-admin.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/widgets.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/rtl.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/themes.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/v2/css/app.css" rel="stylesheet" type="text/css" />
+</h:head>
+
+<h:body>
+	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
+	<ui:include src="menu.xhtml" />
+
+	<ui:insert name="breadcrumb" />
+	<ui:insert name="content" />
+
+	<script src="#{request.contextPath}/v2/js/lib/jquery-2.1.3.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/bootstrap.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/pixel-admin.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/app.js"></script>
+	<ui:insert name="lib" />
+
+	<script src="#{request.contextPath}/v2/js/proxy/user.js"></script>
+	<script src="#{request.contextPath}/v2/js/proxy/logout.js"></script>
+	<ui:insert name="proxy" />
+
+	<script src="#{request.contextPath}/v2/js/controller/menu.js"></script>
+	<ui:insert name="controller" />
+</h:body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '#{applicationConfigHelper.analyticsGoogleId}', 'auto');
+  ga('send', 'pageview');
+</script>
+</html>
+
+
