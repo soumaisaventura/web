@@ -155,12 +155,18 @@
 		<to>/close.html</to>
 	</rule>
 	
-	<!-- V2 -->
+	<!-- V2 Init -->
+	<rule>
+		<from>^/v2/home$</from>
+		<to>/v2/home.jsf</to>
+	</rule>
+	
 	<rule>
 		<from>^/v2/login$</from>
 		<to>/v2/login.jsf</to>
 	</rule>
-
+	<!-- V2 End -->
+	
 	<rule>
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>

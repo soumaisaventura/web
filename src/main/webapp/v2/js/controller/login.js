@@ -1,6 +1,17 @@
 var googleAppId;
 
 $(function() {
+
+	$("#form-login,#facebook-login,#google-login").hover(
+			function(){
+				$(this).css("opacity","1");
+			},
+			function(){
+				$(this).css("opacity",".7");
+			}
+	);
+	
+	/*
 	$("#username").focus();
 	$("#login-menu-item").addClass("active");
 
@@ -17,8 +28,9 @@ $(function() {
 	});
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	*/
 });
-
+/*
 function getOAuthAppIdsOk(data) {
 	setTimeout(loadFacebook, 0, data.facebook);
 	setTimeout(loadGoogle, 0, data.google);
@@ -224,3 +236,4 @@ function showModal() {
 function hideModal() {
 	$('#modal').modal('hide');
 }
+*/

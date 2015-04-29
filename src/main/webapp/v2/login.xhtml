@@ -1,7 +1,114 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
-				xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" 
-				template="/v2/template/light.xhtml">
-				
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/v2/template/template.xhtml">
 
+	<ui:param name="page" value="page-signin"/>
+
+	<ui:define name="lib">
+<!-- 		<script src="#{request.contextPath}/js/lib/bootbox.js"></script> -->
+<!-- 		<script src="#{request.contextPath}/js/lib/spin.min.js"></script> -->
+	</ui:define>
+
+	<ui:define name="proxy">
+<!-- 		<script src="#{request.contextPath}/js/proxy/logon.js"></script> -->
+	</ui:define>
+
+	<ui:define name="controller">
+		<script src="js/controller/login.js"></script>
+	</ui:define>
+
+	<ui:define name="scriplet">
+		<script type="text/javascript">
+		var init = [];
+
+		// Setup Sign In form validation
+		init.push(function () {
+			$("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
+			
+			// Validate username
+			$("#username").rules("add", {
+				required: true,
+				minlength: 3
+			});
+	
+			// Validate password
+			$("#password_id").rules("add", {
+				required: true,
+				minlength: 6
+			});
+		});
+	
+		// Setup Password Reset form validation
+		init.push(function () {
+			$("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
+			
+			// Validate email
+			$("#p_email_id").rules("add", {
+				required: true,
+				email: true
+			});
+		});
+	
+		window.PixelAdmin.start(init);
+	</script>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<!-- Container -->
+		<div class="signin-container">
+			<div class="signin-form">
+
+				<!-- Form -->
+				<form id="signin-form_id">
+					<div class="signin-text">
+						<span><h3>Identifique-se</h3></span>
+					</div>
+					<!-- / .signin-text -->
+
+					<div class="form-group w-icon">
+						<input id="username" type="text" class="form-control input-lg" placeholder="E-mail" maxlength="#{constants.emailSize}" />
+						<span class="fa fa-user signin-form-icon"></span>
+						<span id="username-message" hidden="true" class="label label-danger" />
+						
+					</div>
+					<!-- / Username -->
+
+					<div class="form-group w-icon">
+						<input id="password" type="password" class="form-control input-lg" placeholder="Senha" maxlength="#{constants.passwordSize}" />
+						<span class="fa fa-lock signin-form-icon"></span>
+						<span id="password-message" hidden="true" class="label label-danger" />
+					</div>
+					<!-- / Password -->
+
+					<div class="form-actions">
+						<input id="form-login" type="submit" value="ENTRAR" class="signin-btn bg-primary" style="opacity:.8" />
+						<a href="#{request.contextPath}/recupera-senha" class="forgot-password" id="forgot-password-link">Esqueceu sua senha?</a>
+					</div>
+					<!-- / .form-actions -->
+				</form>
+				<!-- / Form -->
+
+				<!-- "Sign In with" block -->
+				<div class="signin-with">
+					<div class="row">
+						<div class="col-md-6">
+							<!-- Facebook -->
+							<a id="facebook-login" href="#" class="signin-with-btn" style="background: rgb(51, 122, 183); opacity: .7;" disabled="disabled">Entrar com <span>Facebook</span></a>
+						</div>
+						<div class="col-md-6">
+							<!-- Google -->
+							<a id="google-login" href="#" class="signin-with-btn" style="background: rgb(217, 83, 79); opacity: .7;" disabled="disabled">Entrar com <span>Google</span></a>
+						</div>
+					</div>
+				</div>
+				<!-- / "Sign In with" block -->
+			</div>
+		</div>
+		<!-- / Container -->
+		
+		<div class="not-a-member">
+			Ainda não tem cadastro? <a href="pages-signup.html">Registre-se agora</a>
+		</div>
+	</ui:define>
 
 </ui:composition>

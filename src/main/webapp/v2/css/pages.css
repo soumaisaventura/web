@@ -380,7 +380,7 @@ body.page-invoice.page-invoice-print * {
   }
 }
 html body.page-signin {
-  background: #666 !important;
+  background: #52bdb4 !important; 
 }
 #page-signin-bg {
   height: 100%;
@@ -489,7 +489,7 @@ html body.page-signin {
   transition: all 0.3s;
 }
 .page-signin .form-actions .signin-btn:hover {
-  background: #444 !important;
+  /* lsb  background: #444 !important; */
 }
 .page-signin .form-actions a.forgot-password {
   border-bottom: 1px dashed #bbb;
@@ -582,8 +582,10 @@ html body.page-signin {
 .page-signin .signin-with-btn + .signin-with-btn {
   margin-top: 10px;
 }
+
 .page-signin .signin-with-btn:hover {
-  background: #444 !important;
+	/* lsb background: #444 !important; */
+	
 }
 .page-signin .not-a-member {
   color: #fff;
