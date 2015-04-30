@@ -5175,9 +5175,9 @@ body.no-main-menu #main-navbar .navbar-inner {
   color: #555555;
   border-color: #d5d5d5;
   border-bottom-color: #bcbcbc;
-  background: #eaeaea !important;
-  background-image: -webkit-linear-gradient(top, #efefef 0%, #e5e5e5 100%) !important;
-  background-image: linear-gradient(to bottom, #efefef 0%, #e5e5e5 100%) !important;
+  background: #eaeaea ;
+  background-image: -webkit-linear-gradient(top, #efefef 0%, #e5e5e5 100%) ;
+  background-image: linear-gradient(to bottom, #efefef 0%, #e5e5e5 100%) ;
   background-repeat: repeat-x;
 }
 .btn:active,
@@ -5187,9 +5187,9 @@ body.no-main-menu #main-navbar .navbar-inner {
 .open .btn.dropdown-toggle,
 .open .btn-default.dropdown-toggle {
   background: none;
-  background: #ebebeb !important;
+  background: #ebebeb ;
   border-color: #c6c6c6;
-  border-bottom-color: #c6c6c6 !important;
+  border-bottom-color: #c6c6c6 ;
   color: #555555;
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1) inset;
@@ -5206,7 +5206,7 @@ body.no-main-menu #main-navbar .navbar-inner {
 .btn-default.btn-flat.active,
 .open .btn.btn-flat.dropdown-toggle,
 .open .btn-default.btn-flat.dropdown-toggle {
-  background: #ececec !important;
+  background: #ececec ;
   color: #555555;
 }
 .btn.btn-outline:hover,
@@ -9516,6 +9516,7 @@ optgroup {
 .text-dark-gray a:active {
   color: #141415;
 }
+/*
 .btn-facebook {
   color: #ffffff;
 }
@@ -9599,6 +9600,7 @@ optgroup {
   border-left-color: #3d517d;
   border-right-color: #3d517d;
 }
+*/
 .stat-panel {
   background: #fff;
   border-radius: 2px;

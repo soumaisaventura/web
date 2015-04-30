@@ -512,7 +512,7 @@ html body.page-signin {
 }
 .page-signin .form-group.w-icon .signin-form-icon {
   border-right: 1px solid #d6d6d6;
-  bottom: 9px;
+  /*bottom: 9px;*/
   color: #d6d6d6;
   display: block;
   font-size: 14px;
@@ -591,6 +591,7 @@ html body.page-signin {
   color: #fff;
   display: block;
   font-size: 14px;
+  font-weight: bold;
   margin: -20px 0 0 0;
   padding: 20px 0;
   position: relative;
