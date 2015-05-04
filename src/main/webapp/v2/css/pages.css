@@ -443,7 +443,7 @@ html body.page-signin {
 .page-signin .password-reset-form {
   background: #fff;
   bottom: 0;
-  display: none;
+  /*display: none;*/
   left: 0;
   padding: 30px;
   position: absolute;

@@ -8,8 +8,8 @@
 	</ui:define>
 
 	<ui:define name="lib">
-<!-- 		<script src="#{request.contextPath}/js/lib/bootbox.js"></script> -->
-<!-- 		<script src="#{request.contextPath}/js/lib/spin.min.js"></script> -->
+		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
+		<script src="#{request.contextPath}/js/lib/spin.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -64,7 +64,7 @@
 
 					<div class="form-actions">
 						<button id="form-login" type="submit" class="btn btn-primary btn-rounded signin-btn">ENTRAR</button>
-						<a href="#{request.contextPath}/recupera-senha" class="forgot-password" id="forgot-password-link">Esqueceu sua senha?</a>
+						<a href="#{request.contextPath}/v2/recupera-senha" class="forgot-password" id="forgot-password-link">Esqueceu sua senha?</a>
 					</div>
 					
 					<div class="form-actions">
@@ -78,15 +78,15 @@
 				<!-- "Sign In with" block -->
 				<div class="signin-with">
 					<div class="row">
-						<div class="col-md-5 col-md-offset-1">
+						<div class="col-md-6">
 							<!-- Facebook -->
-							<button class="btn btn-block btn-social btn-facebook" disabled="disabled">
-            					<i class="fa fa-facebook"></i> Facebook
+							<button id="facebook-login" class="btn btn-block btn-social btn-facebook" disabled="disabled">
+            					<i class="fa fa-facebook"></i>Facebook
          					</button>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6 pull-right">
 							<!-- Google -->
-							<button class="btn btn-block btn-social btn-google" disabled="disabled">
+							<button id="google-login" class="btn btn-block btn-social btn-google" disabled="disabled">
             					<i class="fa fa-google-plus"></i> Google
           					</button>
 						</div>

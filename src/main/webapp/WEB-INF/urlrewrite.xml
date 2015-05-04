@@ -165,6 +165,11 @@
 		<from>^/v2/login$</from>
 		<to>/v2/login.jsf</to>
 	</rule>
+	
+	<rule>
+		<from>^/v2/recupera-senha$</from>
+		<to>/v2/password-reset.jsf</to>
+	</rule>
 	<!-- V2 End -->
 	
 	<rule>
