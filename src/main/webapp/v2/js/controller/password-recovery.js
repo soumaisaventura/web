@@ -3,6 +3,7 @@ $(function() {
 	
 	$("form").submit(function(event) {
 		event.preventDefault();
+		$("[id$='-message']").parent().removeClass("has-error");
 		$("[id$='-message']").hide();
 
 		var data = {
@@ -16,5 +17,5 @@ $(function() {
 // Password Reset process
 
 function resetOk(data) {
-	$("#global-message").addClass("alert-success").text("Acesse seu e-mail e siga as instruções para redefinir sua senha.").show();
+	swal("", "Acesse seu e-mail e siga as instruções para redefinir sua senha.", "success");
 }

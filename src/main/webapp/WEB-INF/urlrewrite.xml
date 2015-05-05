@@ -168,7 +168,7 @@
 	
 	<rule>
 		<from>^/v2/recupera-senha$</from>
-		<to>/v2/password-reset.jsf</to>
+		<to>/v2/password-recovery.jsf</to>
 	</rule>
 	<!-- V2 End -->
 	
