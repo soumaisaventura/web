@@ -380,7 +380,7 @@ body.page-invoice.page-invoice-print * {
   }
 }
 html body.page-signin {
-  background: #666 !important;
+  background: #52bdb4 !important; 
 }
 #page-signin-bg {
   height: 100%;
@@ -443,7 +443,7 @@ html body.page-signin {
 .page-signin .password-reset-form {
   background: #fff;
   bottom: 0;
-  display: none;
+  /*display: none;*/
   left: 0;
   padding: 30px;
   position: absolute;
@@ -489,7 +489,7 @@ html body.page-signin {
   transition: all 0.3s;
 }
 .page-signin .form-actions .signin-btn:hover {
-  background: #444 !important;
+  /* lsb  background: #444 !important; */
 }
 .page-signin .form-actions a.forgot-password {
   border-bottom: 1px dashed #bbb;
@@ -512,7 +512,7 @@ html body.page-signin {
 }
 .page-signin .form-group.w-icon .signin-form-icon {
   border-right: 1px solid #d6d6d6;
-  bottom: 9px;
+  /*bottom: 9px;*/
   color: #d6d6d6;
   display: block;
   font-size: 14px;
@@ -571,7 +571,7 @@ html body.page-signin {
   color: #fff;
   display: block;
   font-weight: 300;
-  padding: 10px;
+  padding: 10px 0;
   text-align: center;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -583,12 +583,15 @@ html body.page-signin {
   margin-top: 10px;
 }
 
-.page-signin .signin-with-btn:hover { }
-
+.page-signin .signin-with-btn:hover {
+	/* lsb background: #444 !important; */
+	
+}
 .page-signin .not-a-member {
   color: #fff;
   display: block;
   font-size: 14px;
+  font-weight: bold;
   margin: -20px 0 0 0;
   padding: 20px 0;
   position: relative;

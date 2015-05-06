@@ -101,6 +101,7 @@ function loadGoogleOk() {
 // Regular login process
 
 function loginOk(data, status, request) {
+	
 	App.setToken(request.getResponseHeader('Set-Token'));
 	App.setLoggedInUser(data);
 
@@ -146,7 +147,9 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			$("#global-message").html('Usuário ou senha inválidos.').show();
+			$("#username-message").parent().addClass("has-error");
+			$("#password-message").parent().addClass("has-error");
+			$("#password-message").text('Usuário ou senha inválidos.').show();
 			break;
 	}
 }
