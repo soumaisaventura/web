@@ -7,6 +7,7 @@ $(function() {
 	var id = $("#id").val();
 
 	$("#category").focus();
+
 	$('#members-list').footable({
 		breakpoints : {
 			phone : 450
@@ -142,11 +143,21 @@ function loadOk(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadCategoriesOk(data) {
-	$.each(data, function(index, value) {
-		var course = value;
-		$.each(course.categories, function(index, value) {
-			$("#category").append(new Option(this.name + " " + course.name, this.id + "#" + course.id));
+	$.each(data, function(index, course) {
+		$.each(course.categories, function(index, category) {});
+	});
+
+	var aux;
+	$.each(data, function(index, course) {
+		// var optgroup = "<optgroup label='" + course.name + "'>";
+		var optgroup;
+
+		$.each(course.categories, function(index, category) {
+			optgroup += "<option name='" + category.id + "#" + course.id + "'>" + course.name + " – " + category.name + "</option>";
 		});
+
+		// optgroup += "</optgroup>";
+		$("#category").append(optgroup);
 	});
 }
 

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="724,555" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="880,500" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -20,7 +20,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="704.444" y="764.888"/>
+	<position x="699.259" y="764.888"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -96,7 +96,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="length" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="annual_fee" not-null="true">
+	<column name="annual_fee" not-null="true" default-value="TRUE">
 		<type name="boolean"/>
 	</column>
 	<constraint name="pk_course" type="pk-constr" table="public.course">
@@ -206,7 +206,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1026.5" y="378.548"/>
+	<position x="1022.8" y="385.955"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -223,9 +223,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 	</column>
 	<column name="banner">
-		<type name="oid"/>
-	</column>
-	<column name="logo">
 		<type name="oid"/>
 	</column>
 	<column name="payment_type" not-null="true">
@@ -273,7 +270,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="organizer_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="alternate_name">
+	<column name="alternate_name" not-null="true">
 		<type name="character varying" length="50"/>
 	</column>
 	<column name="alternate_email">
@@ -675,7 +672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="year" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="fee">
+	<column name="fee" not-null="true">
 		<type name="numeric" length="5" precision="2"/>
 	</column>
 	<constraint name="pk_annual_fee" type="pk-constr" table="public.annual_fee">

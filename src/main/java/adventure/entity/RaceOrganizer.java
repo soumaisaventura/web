@@ -12,6 +12,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
@@ -35,6 +36,7 @@ public class RaceOrganizer implements Serializable {
 	@ForeignKey(name = "FK_RACE_ORGANIZER")
 	private User organizer;
 
+	@NotNull
 	@Size(max = NAME_SIZE)
 	@Column(name = "ALTERNATE_NAME")
 	private String alternateName;

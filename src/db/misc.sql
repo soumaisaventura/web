@@ -1,15 +1,22 @@
+SELECT * FROM race;
+
 SELECT *
   FROM profile pr
- WHERE lower (pr."name") LIKE '%santana%';
+ WHERE lower (pr."name") LIKE '%diana%';
+
+--426
 
 --8
+
+SELECT *
+  FROM category ca;
 
 SELECT *
   FROM race_organizer r
  WHERE r.race_id = 6;
 
 INSERT INTO race_organizer (race_id, organizer_id)
-     VALUES (4, 302);
+     VALUES (6, 426);
 
 SELECT *
   FROM profile pr
