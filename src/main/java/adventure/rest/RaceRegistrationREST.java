@@ -153,7 +153,7 @@ public class RaceRegistrationREST {
 
 			data.course = new CourseData();
 			data.course.id = registration.getRaceCategory().getCourse().getId();
-			data.course.length = registration.getRaceCategory().getCourse().getLength();
+			data.course.name = registration.getRaceCategory().getCourse().getName();
 
 			data.teamFormation = new ArrayList<UserData>();
 			for (TeamFormation teamFormation : registration.getTeamFormations()) {

@@ -28,7 +28,7 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 		jpql.append(" select c ");
 		jpql.append("   from Course c ");
 		jpql.append("  where c.race = :race ");
-		jpql.append("  where c.length = :length ");
+		jpql.append("  where c.name = :length ");
 
 		TypedQuery<Course> query = getEntityManager().createQuery(jpql.toString(), Course.class);
 		query.setParameter("race", race);
@@ -54,7 +54,7 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 		jpql.append("        t.minMaleMembers, ");
 		jpql.append("        t.minFemaleMembers, ");
 		jpql.append("        c.id, ");
-		jpql.append("        c.length, ");
+		jpql.append("        c.name, ");
 		jpql.append("        r.id) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
@@ -62,7 +62,7 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 		jpql.append("   join rc.course c ");
 		jpql.append("  where r = :race ");
 		jpql.append("  order by ");
-		jpql.append("        c.length desc, ");
+		jpql.append("        c.name desc, ");
 		jpql.append("        c.id, ");
 		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
@@ -79,7 +79,7 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 			if (!row.course.getId().equals(previousCourseId)) {
 				course = new Course();
 				course.setId(row.course.getId());
-				course.setLength(row.course.getLength());
+				course.setName(row.course.getName());
 				course.setCategories(new ArrayList<Category>());
 			}
 
@@ -113,9 +113,9 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 
 		public LoadWithCategories(Integer categoryId, String categoryName, String categoryDescription,
 				Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers,
-				Integer courseId, Integer courseLength, Integer raceId) throws Exception {
+				Integer courseId, String courseName, Integer raceId) throws Exception {
 			course.setId(courseId);
-			course.setLength(courseLength);
+			course.setName(courseName);
 
 			category.setId(categoryId);
 			category.setName(categoryName);

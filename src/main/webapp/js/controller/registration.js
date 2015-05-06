@@ -39,7 +39,7 @@ function loadOk(data) {
 	$("#race-city").text(data.race.city.name + "/" + data.race.city.state);
 	$("#race-section").show();
 
-	$("#race-category").text(data.category.name + " " + data.course.length + " km");
+	$("#race-category").text(data.category.name + " " + data.course.name);
 	$.each(data.teamFormation, function(i, member) {
 		var row = "";
 		row = row.concat("<tr>");

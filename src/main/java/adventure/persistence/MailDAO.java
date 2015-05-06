@@ -60,6 +60,7 @@ public class MailDAO implements Serializable {
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
+		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
@@ -70,6 +71,7 @@ public class MailDAO implements Serializable {
 
 	public void sendWelcome(User user, URI baseUri) throws Exception {
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
+		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
@@ -97,6 +99,7 @@ public class MailDAO implements Serializable {
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-creation.html"));
+		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
@@ -120,6 +123,7 @@ public class MailDAO implements Serializable {
 		}
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-recovery.html"));
+		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
@@ -134,6 +138,7 @@ public class MailDAO implements Serializable {
 		Race race = registration.getRaceCategory().getRace();
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-creation.html"));
+		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
@@ -146,7 +151,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
+		content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
 		String replacement = "";
@@ -173,6 +178,7 @@ public class MailDAO implements Serializable {
 
 		String content = Strings.parse(Reflections
 				.getResourceAsStream("mail-templates/registration-period-changing.html"));
+		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{raceName}", escapeHtml(race.getName()));
@@ -199,6 +205,7 @@ public class MailDAO implements Serializable {
 		Race race = registration.getRaceCategory().getRace();
 
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-cancelled.html"));
+		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{raceName}", escapeHtml(race.getName()));
@@ -238,6 +245,7 @@ public class MailDAO implements Serializable {
 
 		String content = Strings
 				.parse(Reflections.getResourceAsStream("mail-templates/registration-confirmation.html"));
+		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
@@ -249,7 +257,7 @@ public class MailDAO implements Serializable {
 				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		content = content.replace("{courseLength}", registration.getRaceCategory().getCourse().getLength().toString());
+		content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
 		String subject = "Confirmação da inscrição";
@@ -263,6 +271,10 @@ public class MailDAO implements Serializable {
 		// if (!members.contains(creator)) {
 		// send(subject, content, "text/html", creator.getEmail());
 		// }
+	}
+
+	private String clearContent(String content) {
+		return content.replaceAll("<div id=\"campaign\">.+</div>", "");
 	}
 
 	private void send(final String subject, final String content, final String type, final String to) {

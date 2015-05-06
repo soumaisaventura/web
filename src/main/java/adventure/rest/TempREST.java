@@ -184,7 +184,7 @@ public class TempREST {
 		newPeriod(np, "21/02/2015", "10/03/2015", 90.00);
 		newPeriod(np, "11/03/2015", "20/03/2015", 100.00);
 
-		Course np45km = newCourse(np, 45);
+		Course np45km = newCourse(np, "45 Km");
 		// Course np100km = newCourse(np, 100);
 		newRaceCategory(np, np45km, duplaMasc);
 		newRaceCategory(np, np45km, duplaFem);
@@ -283,9 +283,9 @@ public class TempREST {
 		return period;
 	}
 
-	private Course newCourse(Race race, Integer length) {
+	private Course newCourse(Race race, String name) {
 		Course course = new Course(race);
-		course.setLength(length);
+		course.setName(name);
 		getEntityManager().persist(course);
 		return course;
 	}

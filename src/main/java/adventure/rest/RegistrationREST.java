@@ -226,7 +226,7 @@ public class RegistrationREST {
 
 		data.course = new CourseData();
 		data.course.id = registration.getRaceCategory().getCourse().getId();
-		data.course.length = registration.getRaceCategory().getCourse().getLength();
+		data.course.name = registration.getRaceCategory().getCourse().getName();
 		data.category = new CategoryData();
 		data.category.id = registration.getRaceCategory().getCategory().getId();
 		data.category.name = registration.getRaceCategory().getCategory().getName();
@@ -487,7 +487,7 @@ public class RegistrationREST {
 
 		public Integer id;
 
-		public Integer length;
+		public String name;
 	}
 
 	public static class CategoryData {
