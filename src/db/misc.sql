@@ -1,3 +1,15 @@
+SELECT count (*)
+  FROM user_account u
+ WHERE u.activation IS NOT NULL;
+
+SELECT count (*)
+  FROM profile pr
+ WHERE pr.pendencies = 0;
+
+SELECT count (*)
+  FROM annual_fee_payment a
+ WHERE a.year = 2015;
+
 SELECT * FROM race;
 
 SELECT *

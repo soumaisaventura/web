@@ -149,15 +149,9 @@ function loadCategoriesOk(data) {
 
 	var aux;
 	$.each(data, function(index, course) {
-		// var optgroup = "<optgroup label='" + course.name + "'>";
-		var optgroup;
-
 		$.each(course.categories, function(index, category) {
-			optgroup += "<option name='" + category.id + "#" + course.id + "'>" + course.name + " – " + category.name + "</option>";
+			$("#category").append(new Option(this.name + " " + course.name, this.id + "#" + course.id));
 		});
-
-		// optgroup += "</optgroup>";
-		$("#category").append(optgroup);
 	});
 }
 
