@@ -101,8 +101,8 @@ public class Registration implements Serializable {
 	public Registration() {
 	}
 
-	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName, Integer raceId,
-			String raceName, Date raceDate, Integer cityId, String cityName, String stateAbbreviation) {
+	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
+			Integer raceId, String raceName, Date raceDate, Integer cityId, String cityName, String stateAbbreviation) {
 		setId(registrationId);
 		setStatus(registrationStatus);
 		setTeamName(reistrationTeamName);
@@ -121,10 +121,11 @@ public class Registration implements Serializable {
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
 			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
-			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate, PaymentType racePaymentType,
-			String racePaymentInfo, String racePaymentAccount, String racePaymentToken, Integer periodId,
-			BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId, Integer courseLength) {
+			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
+			PaymentType racePaymentType, String racePaymentInfo, String racePaymentAccount, String racePaymentToken,
+			Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
+			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
+			String courseName) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -163,7 +164,7 @@ public class Registration implements Serializable {
 
 		getRaceCategory().setCourse(new Course());
 		getRaceCategory().getCourse().setId(courseId);
-		getRaceCategory().getCourse().setLength(courseLength);
+		getRaceCategory().getCourse().setName(courseName);
 
 		getRaceCategory().setCategory(new Category());
 		getRaceCategory().getCategory().setId(categoryId);

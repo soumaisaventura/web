@@ -38,8 +38,8 @@ public class Course implements Serializable {
 	private Race race;
 
 	@NotNull
-	@Column(name = "LENGTH")
-	private Integer length;
+	@Column(name = "NAME")
+	private String name;
 
 	@Transient
 	private List<Category> categories;
@@ -97,12 +97,12 @@ public class Course implements Serializable {
 		this.race = race;
 	}
 
-	public Integer getLength() {
-		return length;
+	public String getName() {
+		return name;
 	}
 
-	public void setLength(Integer length) {
-		this.length = length;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Category> getCategories() {

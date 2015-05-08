@@ -77,6 +77,11 @@ public class Profile implements Serializable {
 	private GenderType gender;
 
 	@PendencyCount
+	@Enumerated(STRING)
+	@Column(name = "TSHIRT", length = ENUM_SIZE)
+	private TshirtType tshirt;
+
+	@PendencyCount
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "CITY_ID")
 	@ForeignKey(name = "FK_USER_CITY")
@@ -90,15 +95,16 @@ public class Profile implements Serializable {
 	public Profile() {
 	}
 
-	public Profile(String name, String rg, String cpf, Date birthday, String mobile, GenderType gender, Integer pendencies,
-			Integer userId, String userEmail, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation) {
+	public Profile(String name, String rg, String cpf, Date birthday, String mobile, GenderType gender,
+			TshirtType tshirt, Integer pendencies, Integer userId, String userEmail, Integer cityId, String cityName,
+			Integer stateId, String stateName, String stateAbbreviation) {
 		setName(name);
 		setRg(rg);
 		setCpf(cpf);
 		setBirthday(birthday);
 		setMobile(mobile);
 		setGender(gender);
+		setTshirt(tshirt);
 		setPendencies(pendencies);
 		setUser(new User());
 		getUser().setId(userId);
@@ -200,6 +206,14 @@ public class Profile implements Serializable {
 
 	public void setGender(GenderType gender) {
 		this.gender = gender;
+	}
+
+	public TshirtType getTshirt() {
+		return tshirt;
+	}
+
+	public void setTshirt(TshirtType tshirt) {
+		this.tshirt = tshirt;
 	}
 
 	public City getCity() {

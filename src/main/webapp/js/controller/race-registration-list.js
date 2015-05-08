@@ -112,7 +112,7 @@ function findOk(data, status, request) {
 				tr = tr.concat("</td>");
 				tr = tr.concat("<td style='vertical-align: top'>");
 				tr = tr.concat("<h4 style='margin: 5px'>" + registration.teamName + "</h4>");
-				tr = tr.concat("<h5 style='margin: 5px'>" + registration.category.name + ' ' + registration.course.length + "</h5>");
+				tr = tr.concat("<h5 style='margin: 5px'>" + registration.category.name + ' ' + registration.course.name + "</h5>");
 				tr = tr.concat("<h6 style='margin: 5px'>");
 
 				registration.teamFormation.forEach(function(member, i) {

@@ -26,7 +26,7 @@ public class RaceCategoryDAO implements Serializable {
 	public RaceCategory loadForRegistration(Integer raceId, Integer courseId, Integer categoryId) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.length, r.id) ");
+		jpql.append("    new RaceCategory(t.id, t.name, t.description, t.teamSize, t.minMaleMembers, t.minFemaleMembers, c.id, c.name, r.id) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
@@ -35,7 +35,7 @@ public class RaceCategoryDAO implements Serializable {
 		jpql.append("    and c.id = :courseId ");
 		jpql.append("    and t.id = :categoryId ");
 		jpql.append("  order by ");
-		jpql.append("        c.length desc, ");
+		jpql.append("        c.name desc, ");
 		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
 

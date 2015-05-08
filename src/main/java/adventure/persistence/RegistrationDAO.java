@@ -87,7 +87,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
 		jpql.append("        co.id, ");
-		jpql.append("        co.length ");
+		jpql.append("        co.name ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.submitter su ");
@@ -144,7 +144,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
 		jpql.append("        co.id, ");
-		jpql.append("        co.length ");
+		jpql.append("        co.name ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.submitter su ");
@@ -197,7 +197,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     ca.id, ");
 		jpql.append(" 	     ca.name, ");
 		jpql.append(" 	     co.id, ");
-		jpql.append(" 	     co.length ");
+		jpql.append(" 	     co.name ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from TeamFormation tf ");
 		jpql.append("   join tf.user u ");

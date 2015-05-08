@@ -295,7 +295,7 @@ public class RaceREST {
 		for (Course course : CourseDAO.getInstance().findWithCategories(race)) {
 			CourseData courseData = new CourseData();
 			courseData.id = course.getId();
-			courseData.length = course.getLength();
+			courseData.name = course.getName();
 
 			for (Category category : course.getCategories()) {
 				CategoryData categoryData = new CategoryData();
@@ -476,7 +476,7 @@ public class RaceREST {
 
 		public Integer id;
 
-		public Integer length;
+		public String name;
 
 		public List<CategoryData> categories = new ArrayList<CategoryData>();
 	}

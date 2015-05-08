@@ -43,7 +43,7 @@ function loadOk(data) {
 	if (data.courses && data.courses.length > 0) {
 		var category = "";
 		$.each(data.courses, function(index, value) {
-			category += "<h4>" + value.length + " km</h4>";
+			category += "<h4>" + value.name + "</h4>";
 			category += "<ul>";
 			$.each(value.categories, function(index, value) {
 				category += "<li>" + value.name + " <span title='" + value.description + "'><span></li>";
