@@ -296,6 +296,7 @@ public class RaceREST {
 			CourseData courseData = new CourseData();
 			courseData.id = course.getId();
 			courseData.name = course.getName();
+			courseData.annualFee = course.getAnnualFee();
 
 			for (Category category : course.getCategories()) {
 				CategoryData categoryData = new CategoryData();
@@ -477,6 +478,8 @@ public class RaceREST {
 		public Integer id;
 
 		public String name;
+
+		public Boolean annualFee;
 
 		public List<CategoryData> categories = new ArrayList<CategoryData>();
 	}

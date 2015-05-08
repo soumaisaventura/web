@@ -6,7 +6,7 @@ var App = {
 
 	savedLocationKey : "Saved Location",
 
-	annualFeeDescription : "A taxa anual da federação será cobrada na primeira prova do Campeonato Baiano que o atleta se inscrever no ano corrente.",
+	annualFeeDescription : "A taxa anual da federação será cobrada na primeira prova do circuito baiano de Corrida de Aventura que o atleta se inscrever no ano corrente.",
 
 	restoreSavedLocation : function() {
 		var url = sessionStorage.getItem(this.savedLocationKey);
