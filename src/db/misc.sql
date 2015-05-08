@@ -1,3 +1,8 @@
+SELECT sum (CASE WHEN pr.pendencies = 0 THEN 1 ELSE 0 END) AS ok,
+       sum (CASE WHEN pr.pendencies = 1 THEN 1 ELSE 0 END) AS camisa,
+       sum (CASE WHEN pr.pendencies > 1 THEN 1 ELSE 0 END) AS outras
+  FROM profile pr;
+
 SELECT count (*)
   FROM user_account u
  WHERE u.activation IS NOT NULL;
@@ -14,7 +19,13 @@ SELECT * FROM race;
 
 SELECT *
   FROM profile pr
- WHERE lower (pr."name") LIKE '%diana%';
+ WHERE lower (pr."name") LIKE '%paulo%';
+
+SELECT *
+  FROM user_account
+ WHERE id = 128;
+
+
 
 --426
 

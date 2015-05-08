@@ -150,7 +150,7 @@ function loadCategoriesOk(data) {
 	var aux;
 	$.each(data, function(index, course) {
 		$.each(course.categories, function(index, category) {
-			$("#category").append(new Option(this.name + " " + course.name, this.id + "#" + course.id));
+			$("#category").append(new Option(course.name + " – " + this.name, this.id + "#" + course.id));
 		});
 	});
 }
