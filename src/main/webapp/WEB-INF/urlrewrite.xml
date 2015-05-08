@@ -25,12 +25,7 @@
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
 	</rule>
-	<!--
-	<outbound-rule>
-		<from>^/home.jsf$</from>
-		<to>/home</to>
-	</outbound-rule>
-	-->
+	<!-- <outbound-rule> <from>^/home.jsf$</from> <to>/home</to> </outbound-rule> -->
 
 	<rule>
 		<from>^/login$</from>
@@ -89,12 +84,8 @@
 		<to>/registration.jsf</to>
 	</rule>
 
-	<!--
-	<rule>
-		<from>^/registration/(\d+)/public$</from>
-		<to>/registration-public.jsf?registration=$1</to>
-	</rule>
-	-->
+	<!-- <rule> <from>^/registration/(\d+)/public$</from> <to>/registration-public.jsf?registration=$1</to> 
+		</rule> -->
 
 	<rule>
 		<from>^/registration/(\d+)$</from>
@@ -154,28 +145,33 @@
 		<from>^/close$</from>
 		<to>/close.html</to>
 	</rule>
-	
+
 	<!-- V2 Init -->
 	<rule>
 		<from>^/v2/home$</from>
 		<to>/v2/home.jsf</to>
 	</rule>
-	
+
 	<rule>
 		<from>^/v2/login$</from>
 		<to>/v2/login.jsf</to>
 	</rule>
-	
+
 	<rule>
 		<from>^/v2/recupera-senha$</from>
-		<to>/v2/password-recovery.jsf</to>
+		<to>/v2/senha-recuperacao.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/v2/registre-se$</from>
+		<to>/v2/registro.jsf</to>
 	</rule>
 	<!-- V2 End -->
-	
+
 	<rule>
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
-	
+
 
 </urlrewrite>

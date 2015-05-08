@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:adventure="http://java.sun.com/jsf/composite/adventure" template="/v2/template/template.xhtml">	
+
+	<ui:param name="page" value="page-signin" />
+	
+	<ui:define name="proxy">
+		<script src="js/proxy/signup.js"></script>
+	</ui:define>
+
+	<ui:define name="controller">
+		<script src="js/controller/signup.js"></script>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<!-- Container -->
+		<div class="signin-container">
+
+			<div class="signin-form">
+
+				<!-- Form -->
+				<form id="signin-form_id">
+					<div class="signin-text">
+						<span><h3>Registre-se</h3></span>
+					</div>
+					<!-- / .signin-text -->
+
+					<div class="form-group">
+						<input id="name" type="text" class="form-control input-lg" placeholder="Nome" maxlength="#{constants.nameSize}" />
+						<div id="name-message" for="name" class="help-block"></div>
+					</div>
+
+					<div class="form-group w-icon">
+						<input id="email" type="text" class="form-control input-lg" placeholder="E-mail" maxlength="#{constants.emailSize}" />
+						<div id="email-message" for="email" class="help-block"></div>
+					</div>
+					
+					<div class="form-group w-icon">
+						<input id="password" type="password" class="form-control input-lg" placeholder="Senha" maxlength="#{constants.passwordSize}" />
+						<div id="password-message" for="password" class="help-block"></div>
+					</div>
+					
+					<div class="form-group w-icon">
+						<select id="gender" class="form-control input-lg">
+							<option disabled="disabled" selected="selected">Sexo</option>
+							<option value="M">Masculino</option>
+							<option value="F">Feminino</option>
+						</select>
+						<div id="gender-message" for="gender" class="help-block"></div>
+					</div>
+
+					<div class="form-group w-icon">
+						<adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year" classLg="input-lg" />
+						<div id="birthday-message" for="birthday" class="help-block"></div>
+					</div>
+					
+					<div class="form-actions">
+						<button id="form-login" type="submit" class="btn btn-primary btn-rounded signin-btn">ENTRAR</button>
+					</div>
+					<!-- / .form-actions -->
+				</form>
+				<!-- / Form -->
+			</div>
+		</div>
+		<!-- / Container -->
+
+		<!-- 
+	<ui:define name="body">
+		<div class="col-md-6 col-md-offset-4">
+			<div class="row" style="padding-bottom: 20px">
+				<h1>Registre-se</h1>
+				<h4>Crie sua conta para se inscrever nas provas</h4>
+			</div>
+		</div>
+		<div class="col-md-4 col-md-offset-4">
+			<form role="form">
+				<div class="row">
+					<div class="form-group">
+						<label for="name">Nome</label>
+						<input id="name" type="text" class="form-control" maxlength="#{constants.nameSize}" />
+						<span id="name-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="email">E-mail</label>
+						<input id="email" type="email" class="form-control" maxlength="#{constants.emailSize}" />
+						<span id="email-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="password">Senha</label>
+						<input id="password" type="password" class="form-control" maxlength="#{constants.passwordSize}" />
+						<span id="password-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="gender">Sexo</label>
+						<select id="gender" class="form-control">
+							<option value="" selected="selected"></option>
+							<option value="M">Masculino</option>
+							<option value="F">Feminino</option>
+						</select>
+						<span id="gender-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<label for="birthday">Data de nascimento</label>
+						<adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year" />
+						<span id="birthday-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group">
+						<input id="global" type="hidden" />
+						<button type="submit" class="btn btn-lg btn-success">
+							<span class="glyphicon glyphicon-check" aria-hidden='true' style="font-size: 0.8em;"></span>
+							Registrar
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div id="global-message" hidden="true" class="alert alert-danger" />
+				</div>
+			</form>
+		</div>
+ -->
+	</ui:define>
+</ui:composition>

@@ -1,15 +1,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/v2/template/template.xhtml">
 
-	<ui:param name="page" value="page-signin"/>
+	<ui:param name="page" value="page-signin" />
 
 	<ui:define name="css">
-	<link href="css/bootstrap-social.css" rel="stylesheet" type="text/css"/>
+		<link href="css/bootstrap-social.css" rel="stylesheet" type="text/css" />
 	</ui:define>
 
 	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
-		<script src="#{request.contextPath}/js/lib/spin.min.js"></script>
+		<script src="js/lib/bootbox.js"></script>
+		<script src="js/lib/spin.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -24,21 +24,21 @@
 
 		<!-- Container -->
 		<div class="signin-container">
-		
+
 			<!-- Left side -->
 			<div class="signin-info">
-				<div class="slogan">
-					Simple. Flexible. Powerful.
-				</div> <!-- / .slogan -->
+				<div class="slogan">Simple. Flexible. Powerful.</div>
+				<!-- / .slogan -->
 				<ul>
 					<li><i class="fa fa-sitemap signin-icon"></i> Flexible modular structure</li>
 					<li><i class="fa fa-file-text-o signin-icon"></i> LESS &amp; SCSS source files</li>
 					<li><i class="fa fa-outdent signin-icon"></i> RTL direction support</li>
 					<li><i class="fa fa-heart signin-icon"></i> Crafted with love</li>
-				</ul> <!-- / Info list -->
+				</ul>
+				<!-- / Info list -->
 			</div>
 			<!-- / Left side -->
-		
+
 			<div class="signin-form">
 
 				<!-- Form -->
@@ -58,7 +58,7 @@
 					<div class="form-group w-icon">
 						<input id="password" type="password" class="form-control input-lg" placeholder="Senha" maxlength="#{constants.passwordSize}" />
 						<span class="fa fa-lock signin-form-icon"></span>
-						<div id="password-message" for="username" class="help-block"></div>
+						<div id="password-message" for="password" class="help-block"></div>
 					</div>
 					<!-- / Password -->
 
@@ -69,21 +69,21 @@
 					<!-- / .form-actions -->
 				</form>
 				<!-- / Form -->
-					
+
 				<!-- "Sign In with" block -->
 				<div class="signin-with">
 					<div class="row">
 						<div class="col-md-6">
 							<!-- Facebook -->
 							<button id="facebook-login" class="btn btn-block btn-social btn-facebook" disabled="disabled">
-            					<i class="fa fa-facebook"></i>Facebook
-         					</button>
+								<i class="fa fa-facebook"></i>Facebook
+							</button>
 						</div>
 						<div class="col-md-6 pull-right">
 							<!-- Google -->
 							<button id="google-login" class="btn btn-block btn-social btn-google" disabled="disabled">
-            					<i class="fa fa-google-plus"></i> Google
-          					</button>
+								<i class="fa fa-google-plus"></i> Google
+							</button>
 						</div>
 					</div>
 				</div>
@@ -91,7 +91,7 @@
 			</div>
 		</div>
 		<!-- / Container -->
-		
+
 		<div class="not-a-member">
 			Ainda não tem cadastro? <a href="pages-signup.html">Registre-se agora</a>
 		</div>
