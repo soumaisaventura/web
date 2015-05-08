@@ -22,6 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.GenderType;
 import adventure.entity.Profile;
+import adventure.entity.TshirtType;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
@@ -48,6 +49,7 @@ public class UserProfileREST {
 		data.birthday = profile.getBirthday();
 		data.mobile = profile.getMobile();
 		data.gender = profile.getGender();
+		data.tshirt = profile.getTshirt();
 		data.pendencies = profile.getPendencies();
 		data.city = new CityData();
 		data.city.id = profile.getCity().getId();
@@ -70,6 +72,7 @@ public class UserProfileREST {
 		persisted.setBirthday(data.birthday);
 		persisted.setMobile(data.mobile);
 		persisted.setGender(data.gender);
+		persisted.setTshirt(data.tshirt);
 		persisted.setCity(CityDAO.getInstance().load(data.city.id));
 
 		ProfileDAO.getInstance().update(persisted);
@@ -98,6 +101,9 @@ public class UserProfileREST {
 		@NotEmpty
 		@Length(max = TELEPHONE_SIZE)
 		public String mobile;
+
+		@NotNull
+		public TshirtType tshirt;
 
 		@NotNull
 		public GenderType gender;

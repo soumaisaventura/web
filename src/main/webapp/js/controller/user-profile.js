@@ -88,6 +88,7 @@ $(function() {
 				"id" : $("#city\\.id").val()
 			},
 			'gender' : $("#gender").val(),
+			'tshirt' : $("#tshirt").val(),
 			'mobile' : $("#mobile").val()
 		};
 		UserProfileProxy.update(data).done(updateOk);
@@ -116,6 +117,13 @@ function loadOk(data) {
 	}
 
 	$("#gender").val(data.gender);
+
+	console.log(data.tshirt);
+	
+	if (data.tshirt) {
+		$("#tshirt").val(data.tshirt);
+	}
+
 	$("#city\\.id").val(data.city.id);
 
 	if (data.city.name) {

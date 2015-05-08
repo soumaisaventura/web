@@ -74,6 +74,20 @@
 				</div>
 				<div class="row">
 					<div class="form-group">
+						<label for="tshirt">Tamanho da camisa *</label>
+						<select id="tshirt" class="form-control">
+							<option disabled="disabled" selected="selected">Escolha o tamanho</option>
+							<option value="PP">PP</option>
+							<option value="P">P</option>
+							<option value="M">M</option>
+							<option value="G">G</option>
+							<option value="GG">GG</option>
+						</select>
+						<span id="tshirt-message" hidden="true" class="label label-danger"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
 						<label for="city">Cidade de residência *</label>
 						<input id="city.id" type="hidden" />
 						<input id="city" type="text" class="form-control" placeholder="Cidade de residência" maxlength="#{constants.nameSize}" />
@@ -102,8 +116,7 @@
 				<div class="row" style="margin-bottom: 15px">
 					<div class="form-group">
 						<button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span>
-							Salvar
+							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span> Salvar
 						</button>
 					</div>
 				</div>
