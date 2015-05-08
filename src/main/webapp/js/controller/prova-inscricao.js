@@ -8,6 +8,22 @@ $(function() {
 
 	$("#category").focus();
 
+	/*
+	 *  TODO: Ajustar o total individual
+	 *  	  Ajustar o total geral
+	 *  	  Voltar os valores quando a corrida cobrar annualFee
+	$("#category").on("change",function(){
+		var annualFee = $(this).find('option:selected').data("annualfee");
+		if(!annualFee){
+			var item = $('[id^="member-"]').filter('[data-annualfee!="0"]');
+			item.children(":nth-child(4)").html("R$ 0");
+			updateTotal();
+		} else {
+			console.log('c');
+		}
+	});
+	 */		
+
 	$('#members-list').footable({
 		breakpoints : {
 			phone : 450
@@ -143,14 +159,12 @@ function loadOk(data) {
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
 function loadCategoriesOk(data) {
-	$.each(data, function(index, course) {
-		$.each(course.categories, function(index, category) {});
-	});
-
-	var aux;
+	var option;
 	$.each(data, function(index, course) {
 		$.each(course.categories, function(index, category) {
-			$("#category").append(new Option(course.name + " – " + this.name, this.id + "#" + course.id));
+			option = new Option(course.name + " – " + this.name, this.id + "#" + course.id);
+			$(option).data("annualfee",course.annualFee);
+			$("#category").append(option);
 		});
 	});
 }
@@ -235,7 +249,7 @@ function addRowOnMemberList(athlete, exclude) {
 	// athlete.name = athlete.name.substr(0, 27).concat("...");
 	// }
 	var row = "";
-	row = row.concat("<tr id='member-" + athlete.id + "'>");
+	row = row.concat("<tr id='member-" + athlete.id + "' data-annualfee='" + athlete.annualFee + "'>");
 	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
