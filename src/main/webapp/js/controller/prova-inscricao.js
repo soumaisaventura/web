@@ -9,21 +9,20 @@ $(function() {
 	$("#category").focus();
 
 	/*
-	 * Ajusta o total individual
-	 * Ajusta o total geral
-	 * Voltar os valores originais quando a corrida cobrar annualfee
-	 */		
-	$("#category").on("change",function(){
+	 * Ajusta o total individual Ajusta o total geral Voltar os valores
+	 * originais quando a corrida cobrar annualfee
+	 */
+	$("#category").on("change", function() {
 		// Verifica se o percurso vai cobrar annualfee
 		var annualfee = $(this).find('option:selected').data("annualfee");
 		var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
-			$.each(membersWithAnnualFee, function(i, member){
-				if(!annualfee){
-					resetMemberFee(member);
-				} else {
-					recoveryMemberFee(member);
-				}		
-			});			
+		$.each(membersWithAnnualFee, function(i, member) {
+			if (!annualfee) {
+				resetMemberFee(member);
+			} else {
+				recoveryMemberFee(member);
+			}
+		});
 		updateTotal();
 	});
 
@@ -95,19 +94,19 @@ $(function() {
 			RaceProxy.order(id, membersId.val()).done(function(order) {
 				memberIds.push(order.rows[0].id);
 				addRowOnMemberList(order.rows[0], false);
-				
+
 				/** Refatorar Ini */
 				var annualfee = $("#category").find('option:selected').data("annualfee");
 				var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
-				$.each(membersWithAnnualFee, function(i, member){
-					if(!annualfee){
+				$.each(membersWithAnnualFee, function(i, member) {
+					if (!annualfee) {
 						resetMemberFee(member);
 					} else {
 						recoveryMemberFee(member);
-					}		
-				});			
+					}
+				});
 				/** Refatorar Fim */
-				
+
 				updateTotal();
 			});
 
@@ -142,22 +141,12 @@ $(function() {
 		$("[id$='-message']").hide();
 
 		var category = $("#category");
-		var members = [];
-		
-		$.each($('[id^="member-"]'), function(i, member){
-			members.push({
-				"id" : $(member).attr("id").split("-")[1],
-				"raceprice" : $(member).data("raceprice"),
-				"annualfee" : $(member).data("annualfee")
-			});
-		});
-		
+
 		var data = {
 			'teamName' : $("#teamName").val(),
 			'category' : category.val() ? category.val().split("#")[0] : "",
 			'course' : category.val() ? category.val().split("#")[1] : "",
-			//'members' : memberIds
-			'members' : members
+			'members' : memberIds
 		};
 		RaceRegistrationProxy.submitRegistration(id, data).done(registrationOk);
 	});
@@ -187,7 +176,7 @@ function loadCategoriesOk(data) {
 	$.each(data, function(index, course) {
 		$.each(course.categories, function(index, category) {
 			option = new Option(course.name + " – " + this.name, this.id + "#" + course.id);
-			$(option).data("annualfee",course.annualFee);
+			$(option).data("annualfee", course.annualFee);
 			$("#category").append(option);
 		});
 	});
@@ -273,7 +262,8 @@ function addRowOnMemberList(athlete, exclude) {
 	// athlete.name = athlete.name.substr(0, 27).concat("...");
 	// }
 	var row = "";
-	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.racePrice + "' data-original-annualfee='" + athlete.annualFee + "' data-annualfee='" + athlete.annualFee + "'>");
+	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.racePrice + "' data-original-annualfee='" + athlete.annualFee
+			+ "' data-annualfee='" + athlete.annualFee + "'>");
 	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
@@ -296,24 +286,32 @@ function updateTotal() {
 	$("#total").text(numeral(total).format());
 }
 
-function resetMemberFee(member){
+function resetMemberFee(member) {
 	var $member = $(member);
 	var annualfee = 0;
 	var ammount = $member.data("raceprice");
 	$member.data("annualfee", annualfee);
 	$member.data("ammount", ammount);
 	$member.children(":nth-child(4)").html("R$ " + annualfee);
-	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o melhor o local para colocar o ammount
+	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o
+																// melhor o
+																// local para
+																// colocar o
+																// ammount
 	$member.children(":nth-child(5)").html("R$ " + ammount);
 }
 
-function recoveryMemberFee(member){
+function recoveryMemberFee(member) {
 	var $member = $(member);
 	var annualfee = $member.data("original-annualfee");
 	var raceprice = $member.data("raceprice");
 	var ammount = annualfee + raceprice;
 	$member.data("ammount", ammount);
 	$member.children(":nth-child(4)").html("R$ " + annualfee);
-	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o melhor o local para colocar o ammount
+	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o
+																// melhor o
+																// local para
+																// colocar o
+																// ammount
 	$member.children(":nth-child(5)").html("R$ " + ammount);
 }
