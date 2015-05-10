@@ -47,7 +47,7 @@ public class RaceCategory implements Serializable {
 
 	public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
 			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer courseId, String courseName,
-			Integer raceId) {
+			Boolean courseAnnualFee, Integer raceId) {
 		setCategory(new Category());
 		getCategory().setId(categoryId);
 		getCategory().setName(categoryName);
@@ -60,6 +60,7 @@ public class RaceCategory implements Serializable {
 		setCourse(new Course());
 		getCourse().setId(courseId);
 		getCourse().setName(courseName);
+		getCourse().setAnnualFee(courseAnnualFee);
 
 		setRace(new Race());
 		getRace().setId(raceId);

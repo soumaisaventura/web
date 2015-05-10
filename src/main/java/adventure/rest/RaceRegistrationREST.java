@@ -108,12 +108,11 @@ public class RaceRegistrationREST {
 			teamFormation.setRegistration(registration);
 			teamFormation.setUser(atachedMember);
 
-			// TODO Verificar isso com um campo n atabela race.
-			if (raceCategory.getRace().getId().equals(2)) {
-				teamFormation.setAnnualFee(BigDecimal.valueOf(0));
-			} else {
+			if (raceCategory.getCourse().getAnnualFee()) {
 				AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(member, year);
 				teamFormation.setAnnualFee(annualFeePayment != null ? BigDecimal.valueOf(0) : annualFee.getFee());
+			} else {
+				teamFormation.setAnnualFee(BigDecimal.valueOf(0));
 			}
 
 			teamFormation.setRacePrice(period.getPrice());

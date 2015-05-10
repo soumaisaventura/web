@@ -374,12 +374,8 @@ public class RaceREST {
 					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice().floatValue();
 
-					if (race.getId().equals(2)) {
-						row.annualFee = 0;
-					} else {
-						AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
-						row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
-					}
+					AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
+					row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
 
 					row.amount = row.racePrice + row.annualFee;
 

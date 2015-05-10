@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1430,299" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1473,302" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -20,7 +20,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="699.259" y="764.888"/>
+	<position x="702.963" y="763.407"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -83,7 +83,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="727.424" y="432.814"/>
+	<position x="722.239" y="432.814"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -170,7 +170,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1681.26" y="379.317"/>
+	<position x="1682" y="377.836"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
