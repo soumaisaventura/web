@@ -98,6 +98,7 @@ public class RaceREST {
 		data.id = race.getId();
 		data.name = race.getName();
 		data.date = race.getDate();
+		data.site = race.getSite();
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
@@ -124,6 +125,7 @@ public class RaceREST {
 		data.id = race.getId();
 		data.name = race.getName();
 		data.date = race.getDate();
+		data.site = race.getSite();
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
@@ -443,6 +445,8 @@ public class RaceREST {
 		public String city;
 
 		public Date date;
+
+		public String site;
 
 		public List<CourseData> courses = new ArrayList<CourseData>();
 

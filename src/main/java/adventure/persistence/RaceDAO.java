@@ -30,6 +30,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.site, ");
 		jpql.append(" 	        r.paymentAccount, ");
 		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
@@ -84,6 +85,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.site, ");
 		jpql.append(" 	        r.paymentAccount, ");
 		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
@@ -118,6 +120,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.site, ");
 		jpql.append(" 	        r.paymentAccount, ");
 		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
@@ -152,6 +155,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        r.date, ");
+		jpql.append(" 	        r.site, ");
 		jpql.append(" 	        r.paymentAccount, ");
 		jpql.append(" 	        r.paymentToken, ");
 		jpql.append(" 	        c.id, ");
