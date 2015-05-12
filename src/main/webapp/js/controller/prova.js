@@ -26,6 +26,12 @@ function loadOk(data) {
 		$("#description").hide();
 	}
 
+	if (data.site) {
+		$("#site").prepend(data.site);
+		$("#site").parent().attr("href", data.site);
+		$("#site-section").show();
+	}
+
 	if (data.city) {
 		$("#city").prepend(data.city);
 		$("#city-section").show();

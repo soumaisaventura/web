@@ -4,8 +4,13 @@
     "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
-	<!-- <rule> <from>(.+)\.html</from> <set type="status">404</set> <to>null</to> 
-		</rule> -->
+	<!--
+	<rule>
+		<from>(.+)\.html</from>
+		<set type="status">404</set>
+		<to>null</to>
+	</rule>
+	-->
 
 	<rule>
 		<from>^/$</from>
@@ -25,7 +30,12 @@
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
 	</rule>
-	<!-- <outbound-rule> <from>^/home.jsf$</from> <to>/home</to> </outbound-rule> -->
+	<!--
+	<outbound-rule>
+		<from>^/home.jsf$</from>
+		<to>/home</to>
+	</outbound-rule>
+	-->
 
 	<rule>
 		<from>^/login$</from>
@@ -33,20 +43,24 @@
 	</rule>
 
 	<rule>
-		<from>^/signup$</from>
+		<from>^/registro$</from>
 		<to>/signup.jsf</to>
 	</rule>
 	<rule>
 		<from>^/registre-se$</from>
-		<to>/signup.jsf</to>
+		<to type="permanent-redirect">/registro</to>
+	</rule>
+	<rule>
+		<from>^/signup$</from>
+		<to type="permanent-redirect">/registro</to>
 	</rule>
 
 	<rule>
-		<from>^/password/recovery$</from>
+		<from>^/recupera-senha$</from>
 		<to>/password-recovery.jsf</to>
 	</rule>
 	<rule>
-		<from>^/recupera-senha$</from>
+		<from>^/password/recovery$</from>
 		<to>/password-recovery.jsf</to>
 	</rule>
 
@@ -61,22 +75,34 @@
 	</rule>
 
 	<rule>
-		<from>^/user/profile$</from>
+		<from>^/atleta/pessoal$</from>
 		<to>/user-profile.jsf</to>
 	</rule>
-
 	<rule>
-		<from>^/user/health$</from>
-		<to>/user-health.jsf</to>
+		<from>^/user/profile$</from>
+		<to type="permanent-redirect">/atleta/pessoal</to>
 	</rule>
 
 	<rule>
-		<from>^/registration/list$</from>
+		<from>^/atleta/saude$</from>
+		<to>/user-health.jsf</to>
+	</rule>
+	<rule>
+		<from>^/user/health$</from>
+		<to type="permanent-redirect">/atleta/saude</to>
+	</rule>
+
+	<rule>
+		<from>^/atleta/inscricoes$</from>
 		<to>/registration-list.jsf</to>
 	</rule>
 	<rule>
 		<from>^/minhas-inscricoes$</from>
-		<to>/registration-list.jsf</to>
+		<to type="permanent-redirect">/atleta/inscricoes</to>
+	</rule>
+	<rule>
+		<from>^/registration/list$</from>
+		<to type="permanent-redirect">/atleta/inscricoes</to>
 	</rule>
 
 	<rule>
@@ -84,29 +110,33 @@
 		<to>/registration.jsf</to>
 	</rule>
 
-	<!-- <rule> <from>^/registration/(\d+)/public$</from> <to>/registration-public.jsf?registration=$1</to> 
-		</rule> -->
-
+	<!--
 	<rule>
-		<from>^/registration/(\d+)$</from>
-		<to>/registration.jsf?registration=$1</to>
+		<from>^/registration/(\d+)/public$</from>
+		<to>/registration-public.jsf?registration=$1</to>
 	</rule>
+	-->
+
 	<rule>
 		<from>^/inscricao/(\d+)$</from>
 		<to>/registration.jsf?registration=$1</to>
 	</rule>
+	<rule>
+		<from>^/registration/(\d+)$</from>
+		<to type="permanent-redirect">/inscricao/$1</to>
+	</rule>
 
-	<rule>
-		<from>^/race/next$</from>
-		<to>/calendario.jsf?ano=2015</to>
-	</rule>
-	<rule>
-		<from>^/provas$</from>
-		<to>/calendario.jsf?ano=2015</to>
-	</rule>
 	<rule>
 		<from>^/calendario/(\d+)$</from>
 		<to>/calendario.jsf?ano=$1</to>
+	</rule>
+	<rule>
+		<from>^/race/next$</from>
+		<to type="permanent-redirect">/calendario/2015</to>
+	</rule>
+	<rule>
+		<from>^/provas$</from>
+		<to type="permanent-redirect">/calendario/2015</to>
 	</rule>
 
 	<rule>
@@ -115,30 +145,30 @@
 	</rule>
 
 	<rule>
-		<from>^/race/(\d+)/registration/list$</from>
-		<to>/race-registration-list.jsf?race=$1</to>
-	</rule>
-	<rule>
 		<from>^/prova/(\d+)/painel/inscricoes$</from>
 		<to>/race-registration-list.jsf?race=$1</to>
 	</rule>
-
 	<rule>
-		<from>^/race/(\d+)/registration$</from>
-		<to>/prova-inscricao.jsf?id=$1</to>
+		<from>^/race/(\d+)/registration/list$</from>
+		<to type="permanent-redirect">/prova/$1/painel/inscricoes</to>
 	</rule>
+
 	<rule>
 		<from>^/prova/(\d+)/inscricao$</from>
 		<to>/prova-inscricao.jsf?id=$1</to>
 	</rule>
-
 	<rule>
-		<from>^/race/(\d+)$</from>
-		<to>/prova.jsf?id=$1</to>
+		<from>^/race/(\d+)/registration$</from>
+		<to type="permanent-redirect">/prova/$1/inscricao</to>
 	</rule>
+
 	<rule>
 		<from>^/prova/(\d+)$</from>
 		<to>/prova.jsf?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/race/(\d+)$</from>
+		<to type="permanent-redirect">/prova/$1</to>
 	</rule>
 
 	<rule>
@@ -172,6 +202,5 @@
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
-
 
 </urlrewrite>

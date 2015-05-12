@@ -53,7 +53,7 @@ public class Constants {
 		return TELEPHONE_SIZE;
 	}
 
-	public static final int TEXT_SIZE = 500;
+	public static final int TEXT_SIZE = 700;
 
 	public int getTextSize() {
 		return TEXT_SIZE;
@@ -70,9 +70,9 @@ public class Constants {
 	public int getEnumSize() {
 		return ENUM_SIZE;
 	}
-	
+
 	public static final int SMALL_DESCRIPTION_SIZE = 100;
-	
+
 	public int getSmalDescriptionSize() {
 		return SMALL_DESCRIPTION_SIZE;
 	}

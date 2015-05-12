@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1430,299" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="791,610" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -20,7 +20,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="699.259" y="764.888"/>
+	<position x="647.407" y="768.592"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -47,7 +47,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1477.3" y="230.037"/>
+	<position x="1358.04" y="212.259"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -65,7 +65,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="785.324" y="234.065"/>
+	<position x="732.731" y="208.139"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -83,7 +83,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="727.424" y="432.814"/>
+	<position x="672.609" y="484.666"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -107,7 +107,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1634.65" y="889.375"/>
+	<position x="1609.46" y="887.894"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -140,7 +140,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1040.82" y="647.585"/>
+	<position x="1036.38" y="650.548"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -170,7 +170,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1681.26" y="379.317"/>
+	<position x="1657.56" y="373.392"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -209,7 +209,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1022.8" y="385.955"/>
+	<position x="1018.36" y="384.474"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -227,6 +227,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="banner">
 		<type name="oid"/>
+	</column>
+	<column name="site">
+		<type name="character varying" length="255"/>
 	</column>
 	<column name="payment_type" not-null="true">
 		<type name="character varying" length="20"/>
@@ -248,7 +251,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="751.233" y="588.696"/>
+	<position x="840.863" y="657.585"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -287,7 +290,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="registration">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1018.25" y="839.882"/>
+	<position x="1013.06" y="840.623"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -341,7 +344,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1129.96" y="220.808"/>
+	<position x="1038.11" y="197.845"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -362,7 +365,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="team_formation">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1389.25" y="909.76"/>
+	<position x="1367.03" y="911.982"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -383,7 +386,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user_account">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1652.34" y="620.044"/>
+	<position x="1627.9" y="620.044"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -738,6 +741,35 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
+<table name="related">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="684.444" y="338.519"/>
+	<column name="id" not-null="true">
+		<type name="numeric"/>
+	</column>
+	<column name="title" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="url" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="race_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_related" type="pk-constr" table="public.related">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_related_race" table="public.related"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">
 	<columns names="state_id" ref-type="src-columns"/>
@@ -870,6 +902,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_ralated_race" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race" table="public.related">
+	<columns names="race_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_city_state" type="relfk"
 	 custom-color="#4fdcf1"
 	 src-table="public.city"
@@ -922,7 +960,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#f5e80c"
 	 src-table="public.race_category"
 	 dst-table="public.race"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="11.1118" y="7.25239"/>
+	</label>
+</relationship>
 
 <relationship name="rel_race_category_course" type="relfk"
 	 custom-color="#72bd34"
@@ -994,6 +1036,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_registration_period" type="relfk"
 	 src-table="public.registration"
 	 dst-table="public.period"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_related_race" type="relfk"
+	 src-table="public.related"
+	 dst-table="public.race"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

@@ -70,6 +70,9 @@ public class Race implements Serializable {
 	@Index(name = "IDX_RACE_CITY")
 	private City city;
 
+	@Size(max = EMAIL_SIZE)
+	private String site;
+
 	@Lob
 	@Column(name = "BANNER")
 	private byte[] banner;
@@ -105,13 +108,14 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
-	public Race(Integer id, String name, String description, Date date, String paymentAccount, String paymentToken,
-			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-			Date registrationBeginning, Date registrationEnd) {
+	public Race(Integer id, String name, String description, Date date, String site, String paymentAccount,
+			String paymentToken, Integer cityId, String cityName, Integer stateId, String stateName,
+			String stateAbbreviation, Date registrationBeginning, Date registrationEnd) {
 		setId(id);
 		setName(name);
 		setDescription(description);
 		setDate(date);
+		setSite(site);
 		setPaymentAccount(paymentAccount);
 		setPaymentToken(paymentToken);
 		setCity(new City());
@@ -219,6 +223,14 @@ public class Race implements Serializable {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public String getSite() {
+		return site;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
 	}
 
 	public byte[] getBanner() {
