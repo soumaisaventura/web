@@ -124,7 +124,7 @@ var App = {
 				$(this).focus();
 
 			} else {
-				message.parent().removeClass("has-error");
+				message.parents("div.has-error").removeClass("has-error");
 				message.hide();
 			}
 		});

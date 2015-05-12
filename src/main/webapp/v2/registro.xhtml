@@ -1,10 +1,15 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" 
-	xmlns:adventure="http://java.sun.com/jsf/composite/adventure" template="/v2/template/template.xhtml">	
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:adventure="http://java.sun.com/jsf/composite/adventure" template="/v2/template/template.xhtml">
 
 	<ui:param name="page" value="page-signin" />
-	
+
+	<ui:define name="css">
+		<link href="css/bootstrap-social.css" rel="stylesheet" type="text/css" />
+		<link href="css/sweet-alert.css" rel="stylesheet" type="text/css" />
+	</ui:define>
+
 	<ui:define name="proxy">
+		<script src="js/proxy/logon.js"></script>
 		<script src="js/proxy/signup.js"></script>
 	</ui:define>
 
@@ -12,10 +17,28 @@
 		<script src="js/controller/signup.js"></script>
 	</ui:define>
 
+	<ui:define name="lib">
+		<script src="js/lib/sweet-alert.js"></script>
+	</ui:define>
+
 	<ui:define name="content">
 
 		<!-- Container -->
 		<div class="signin-container">
+
+			<!-- Left side -->
+			<div class="signin-info">
+				<div class="slogan">Simple. Flexible. Powerful.</div>
+				<!-- / .slogan -->
+				<ul>
+					<li><i class="fa fa-sitemap signin-icon"></i> Flexible modular structure</li>
+					<li><i class="fa fa-file-text-o signin-icon"></i> LESS &amp; SCSS source files</li>
+					<li><i class="fa fa-outdent signin-icon"></i> RTL direction support</li>
+					<li><i class="fa fa-heart signin-icon"></i> Crafted with love</li>
+				</ul>
+				<!-- / Info list -->
+			</div>
+			<!-- / Left side -->
 
 			<div class="signin-form">
 
@@ -27,40 +50,64 @@
 					<!-- / .signin-text -->
 
 					<div class="form-group">
-						<input id="name" type="text" class="form-control input-lg" placeholder="Nome" maxlength="#{constants.nameSize}" />
+						<label class="control-label" for="name">Nome</label>
+						<input id="name" type="text" class="form-control input-lg" maxlength="#{constants.nameSize}" />
 						<div id="name-message" for="name" class="help-block"></div>
 					</div>
 
-					<div class="form-group w-icon">
-						<input id="email" type="text" class="form-control input-lg" placeholder="E-mail" maxlength="#{constants.emailSize}" />
+					<div class="form-group">
+						<label class="control-label" for="email">E-mail</label>
+						<input id="email" type="text" class="form-control input-lg" maxlength="#{constants.emailSize}" />
 						<div id="email-message" for="email" class="help-block"></div>
 					</div>
-					
-					<div class="form-group w-icon">
-						<input id="password" type="password" class="form-control input-lg" placeholder="Senha" maxlength="#{constants.passwordSize}" />
+
+					<div class="form-group">
+						<label class="control-label" for="password">Senha</label>
+						<input id="password" type="password" class="form-control input-lg" maxlength="#{constants.passwordSize}" />
 						<div id="password-message" for="password" class="help-block"></div>
 					</div>
-					
-					<div class="form-group w-icon">
+
+					<div class="form-group">
+						<label class="control-label" for="gender">Sexo</label>
 						<select id="gender" class="form-control input-lg">
-							<option disabled="disabled" selected="selected">Sexo</option>
+							<option disabled="disabled" selected="selected"></option>
 							<option value="M">Masculino</option>
 							<option value="F">Feminino</option>
 						</select>
 						<div id="gender-message" for="gender" class="help-block"></div>
 					</div>
 
-					<div class="form-group w-icon">
+					<div class="form-group">
+						<label class="control-label" for="birthday">Data de Nascimento</label>
 						<adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year" classLg="input-lg" />
 						<div id="birthday-message" for="birthday" class="help-block"></div>
 					</div>
-					
+						
+
 					<div class="form-actions">
-						<button id="form-login" type="submit" class="btn btn-primary btn-rounded signin-btn">ENTRAR</button>
+						<button id="form-login" type="submit" class="btn btn-primary btn-rounded signin-btn">REGISTRAR</button>
 					</div>
 					<!-- / .form-actions -->
 				</form>
 				<!-- / Form -->
+				<!-- "Sign In with" block -->
+				<div class="signin-with">
+					<div class="row">
+						<div class="col-md-6">
+							<!-- Facebook -->
+							<button id="facebook-login" class="btn btn-lg btn-block btn-social btn-facebook" disabled="disabled">
+								<i class="fa fa-facebook"></i>Facebook
+							</button>
+						</div>
+						<div class="col-md-6 pull-right">
+							<!-- Google -->
+							<button id="google-login" class="btn btn-lg btn-block btn-social btn-google" disabled="disabled">
+								<i class="fa fa-google-plus"></i> Google
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- / "Sign In with" block -->
 			</div>
 		</div>
 		<!-- / Container -->
