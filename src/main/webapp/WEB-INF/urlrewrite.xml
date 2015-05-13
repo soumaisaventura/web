@@ -196,6 +196,19 @@
 		<from>^/v2/registre-se$</from>
 		<to>/v2/registro.jsf</to>
 	</rule>
+	
+		<rule>
+		<from>^/v2/calendario/(\d+)$</from>
+		<to>/v2/calendario.jsf?ano=$1</to>
+	</rule>
+	<rule>
+		<from>^/v2/race/next$</from>
+		<to type="permanent-redirect">/v2/calendario/2015</to>
+	</rule>
+	<rule>
+		<from>^/v2/provas$</from>
+		<to type="permanent-redirect">/v2/calendario/2015</to>
+	</rule>
 	<!-- V2 End -->
 
 	<rule>
