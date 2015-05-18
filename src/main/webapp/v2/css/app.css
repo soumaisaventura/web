@@ -6,3 +6,7 @@
     table-layout: fixed;
   }
 }
+
+body {
+	padding-top: 70px;
+}
