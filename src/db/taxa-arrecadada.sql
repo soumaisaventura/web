@@ -57,7 +57,71 @@ ORDER BY r.id;
 SELECT * FROM annual_fee;
 
 
+
+SELECT max (_pr."name") AS name
+  FROM team_formation _tf, profile _pr
+ WHERE _tf.user_id = _pr.id AND _tf.registration_id = r.id;
+
+
+
+SELECT *
+  FROM (SELECT row_number () OVER (ORDER BY _pr."name") AS pos, _pr."name"
+          FROM team_formation _tf, profile _pr
+         WHERE _tf.user_id = _pr.id AND _tf.registration_id = 135) AS a1
+ WHERE a1.pos = 2;
+
+
+  SELECT r.id,
+         r.team_name,
+         (SELECT x.name
+            FROM (SELECT row_number () OVER (ORDER BY _pr."name") AS pos,
+                         _pr."name"
+                    FROM team_formation _tf, profile _pr
+                   WHERE _tf.user_id = _pr.id AND _tf.registration_id = r.id)
+                 AS x
+           WHERE x.pos = 1)
+            AS atleta1,
+         (SELECT x.name
+            FROM (SELECT row_number () OVER (ORDER BY _pr."name") AS pos,
+                         _pr."name"
+                    FROM team_formation _tf, profile _pr
+                   WHERE _tf.user_id = _pr.id AND _tf.registration_id = r.id)
+                 AS x
+           WHERE x.pos = 2)
+            AS atleta2,
+         (SELECT x.name
+            FROM (SELECT row_number () OVER (ORDER BY _pr."name") AS pos,
+                         _pr."name"
+                    FROM team_formation _tf, profile _pr
+                   WHERE _tf.user_id = _pr.id AND _tf.registration_id = r.id)
+                 AS x
+           WHERE x.pos = 3)
+            AS atleta3,
+         (SELECT x.name
+            FROM (SELECT row_number () OVER (ORDER BY _pr."name") AS pos,
+                         _pr."name"
+                    FROM team_formation _tf, profile _pr
+                   WHERE _tf.user_id = _pr.id AND _tf.registration_id = r.id)
+                 AS x
+           WHERE x.pos = 4)
+            AS atleta4
+    FROM registration r
+   WHERE r.race_id = 3 AND r.category_id = 1
+ORDER BY r.team_name;
+
+SELECT *
+  FROM category ca;
+
+
+
+SELECT _pr."name"
+  FROM team_formation _tf, profile _pr
+ WHERE _tf.user_id = _pr.id AND _tf.registration_id = 1;
+
+
+
 -- Na NP3 tem q colocar 1 taxa a mais
+
   SELECT ra."name" AS prova,
          count (tf.user_id) AS "Inscritos",
          count (a.user_id) AS "Quantidade de taxas",

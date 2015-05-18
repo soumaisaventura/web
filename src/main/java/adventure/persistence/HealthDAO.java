@@ -20,6 +20,11 @@ public class HealthDAO extends JPACrud<Health, User> {
 	}
 
 	@Override
+	public void delete(User id) {
+		getEntityManager().remove(load(id));
+	}
+
+	@Override
 	public Health insert(Health health) {
 		health.setPendencies(PendencyCounter.count(health));
 		return super.insert(health);

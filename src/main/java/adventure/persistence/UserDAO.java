@@ -66,7 +66,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p ");
 		jpql.append("   join p.user u, ");
-		jpql.append("        Health h");
+		jpql.append("        Health h ");
 		jpql.append("  where u = h.user ");
 		jpql.append("    and u.activation is not null ");
 		jpql.append("    and lower(p.name) like :filter ");
@@ -85,6 +85,95 @@ public class UserDAO extends JPACrud<User, Integer> {
 		query.setParameter("excludeIds", excludeIds);
 		query.setParameter("filter", Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase() + "%");
 
+		return query.getResultList();
+	}
+
+	public List<User> findByName(String name) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	 new User( ");
+		jpql.append(" 	     u.id, ");
+		jpql.append(" 	     u.email, ");
+		jpql.append(" 	     p.name, ");
+		jpql.append(" 	     p.gender, ");
+		jpql.append(" 	     p.pendencies, ");
+		jpql.append(" 	     h.pendencies, ");
+		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Profile p ");
+		jpql.append("   join p.user u, ");
+		jpql.append("        Health h ");
+		jpql.append("  where u = h.user ");
+		jpql.append("    and lower(p.name) like :name ");
+
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		query.setParameter("name", name.toLowerCase());
+
+		return query.getResultList();
+	}
+
+	public List<User> findDuplicatesByName() {
+		// SELECT DISTINCT a.*
+		// -- SELECT count (a.id)
+		// FROM user_account a,
+		// profile p,
+		// health h,
+		// profile p2
+		// WHERE a.id = p.id
+		// AND a.id = h.id
+		// -- AND p.pendencies + h.pendencies > 0
+		// AND p.name = p2.name
+		// AND p.id <> p2.id
+		// AND NOT EXISTS
+		// (SELECT *
+		// FROM team_formation _t
+		// WHERE _t.user_id = a.id)
+		// AND NOT EXISTS
+		// (SELECT *
+		// FROM annual_fee_payment _a
+		// WHERE _a.user_id = a.id)
+		// AND NOT EXISTS
+		// (SELECT *
+		// FROM race_organizer _r
+		// WHERE _r.organizer_id = a.id)
+		// ORDER BY a.id;
+
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select distinct ");
+		jpql.append(" 	 new User( ");
+		jpql.append(" 	     u.id, ");
+		jpql.append(" 	     u.email, ");
+		jpql.append(" 	     p.name, ");
+		jpql.append(" 	     p.pendencies + h.pendencies, ");
+		jpql.append(" 	     u.creation, ");
+		jpql.append(" 	     case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Profile p ");
+		jpql.append("   join p.user u, ");
+		jpql.append("        Health h, ");
+		jpql.append("        Profile p2 ");
+		jpql.append("  where u = h.user ");
+		jpql.append("    and p.name = p2.name ");
+		jpql.append("    and p.id <> p2.id ");
+		jpql.append("    and p.pendencies + h.pendencies > 0");
+		jpql.append("    and not exists ");
+		jpql.append("        (select _tf.user.id ");
+		jpql.append("           from TeamFormation _tf ");
+		jpql.append("          where _tf.user = u) ");
+		jpql.append("    and not exists ");
+		jpql.append("        (select _a.user.id ");
+		jpql.append("           from AnnualFeePayment _a ");
+		jpql.append("          where _a.user = u) ");
+		jpql.append("    and not exists ");
+		jpql.append("        (select _r.organizer.id ");
+		jpql.append("           from RaceOrganizer _r ");
+		jpql.append("          where _r.organizer = u) ");
+		jpql.append("  order by p.name, ");
+		jpql.append("        (p.pendencies + h.pendencies) desc, ");
+		jpql.append("        case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end, ");
+		jpql.append("        u.creation ");
+
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
 		return query.getResultList();
 	}
 

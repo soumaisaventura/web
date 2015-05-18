@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="791,610" last-zoom="1.35"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1525,465" last-zoom="1.35"
 	 default-schema="public" default-owner="postgres">
 <role name="adminendyfwd"
       superuser="true">
@@ -201,7 +201,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="pendencies" not-null="true">
 		<type name="integer"/>
 	</column>
-	<constraint name="profile_pkey" type="pk-constr" table="public.profile">
+	<constraint name="pk_profile" type="pk-constr" table="public.profile">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>

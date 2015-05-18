@@ -14,13 +14,9 @@
 
 	<rule>
 		<from>^/$</from>
-		<to type="permanent-redirect">/home</to>
+		<to type="permanent-redirect">%{context-path}/home</to>
 	</rule>
 
-	<rule>
-		<from>^/home$</from>
-		<to>/home.jsf</to>
-	</rule>
 	<rule>
 		<from>^/teste$</from>
 		<to>/teste.jsf</to>
@@ -30,12 +26,10 @@
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
 	</rule>
-	<!--
-	<outbound-rule>
-		<from>^/home.jsf$</from>
-		<to>/home</to>
-	</outbound-rule>
-	-->
+	<rule>
+		<from>^/home$</from>
+		<to>/home.jsf</to>
+	</rule>
 
 	<rule>
 		<from>^/login$</from>
@@ -48,30 +42,42 @@
 	</rule>
 	<rule>
 		<from>^/registre-se$</from>
-		<to type="permanent-redirect">/registro</to>
+		<to type="permanent-redirect">%{context-path}/registro</to>
 	</rule>
 	<rule>
 		<from>^/signup$</from>
-		<to type="permanent-redirect">/registro</to>
+		<to type="permanent-redirect">%{context-path}/registro</to>
 	</rule>
 
 	<rule>
-		<from>^/recupera-senha$</from>
+		<from>^/senha/recuperacao$</from>
 		<to>/password-recovery.jsf</to>
+	</rule>
+	<rule>
+		<from>^/recupera-senha$</from>
+		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
 	</rule>
 	<rule>
 		<from>^/password/recovery$</from>
-		<to>/password-recovery.jsf</to>
+		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
 	</rule>
 
 	<rule>
-		<from>^/password/reset$</from>
+		<from>^/senha/redefinicao$</from>
 		<to>/password-reset.jsf</to>
 	</rule>
+	<rule>
+		<from>^/password/reset$</from>
+		<to type="permanent-redirect" qsappend="true">%{context-path}/senha/redefinicao?</to>
+	</rule>
 
 	<rule>
-		<from>^/user/activation$</from>
+		<from>^/atleta/ativacao$</from>
 		<to>/user-activation.jsf</to>
+	</rule>
+	<rule>
+		<from>^/user/activation$</from>
+		<to type="permanent-redirect">%{context-path}/atleta/ativacao</to>
 	</rule>
 
 	<rule>
@@ -80,7 +86,7 @@
 	</rule>
 	<rule>
 		<from>^/user/profile$</from>
-		<to type="permanent-redirect">/atleta/pessoal</to>
+		<to type="permanent-redirect">%{context-path}/atleta/pessoal</to>
 	</rule>
 
 	<rule>
@@ -89,7 +95,7 @@
 	</rule>
 	<rule>
 		<from>^/user/health$</from>
-		<to type="permanent-redirect">/atleta/saude</to>
+		<to type="permanent-redirect">%{context-path}/atleta/saude</to>
 	</rule>
 
 	<rule>
@@ -98,11 +104,11 @@
 	</rule>
 	<rule>
 		<from>^/minhas-inscricoes$</from>
-		<to type="permanent-redirect">/atleta/inscricoes</to>
+		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
 	</rule>
 	<rule>
 		<from>^/registration/list$</from>
-		<to type="permanent-redirect">/atleta/inscricoes</to>
+		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
 	</rule>
 
 	<rule>
@@ -123,7 +129,7 @@
 	</rule>
 	<rule>
 		<from>^/registration/(\d+)$</from>
-		<to type="permanent-redirect">/inscricao/$1</to>
+		<to type="permanent-redirect">%{context-path}/inscricao/$1</to>
 	</rule>
 
 	<rule>
@@ -132,11 +138,11 @@
 	</rule>
 	<rule>
 		<from>^/race/next$</from>
-		<to type="permanent-redirect">/calendario/2015</to>
+		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
 	</rule>
 	<rule>
 		<from>^/provas$</from>
-		<to type="permanent-redirect">/calendario/2015</to>
+		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
 	</rule>
 
 	<rule>
@@ -150,7 +156,7 @@
 	</rule>
 	<rule>
 		<from>^/race/(\d+)/registration/list$</from>
-		<to type="permanent-redirect">/prova/$1/painel/inscricoes</to>
+		<to type="permanent-redirect">%{context-path}/prova/$1/painel/inscricoes</to>
 	</rule>
 
 	<rule>
@@ -159,7 +165,7 @@
 	</rule>
 	<rule>
 		<from>^/race/(\d+)/registration$</from>
-		<to type="permanent-redirect">/prova/$1/inscricao</to>
+		<to type="permanent-redirect">%{context-path}/prova/$1/inscricao</to>
 	</rule>
 
 	<rule>
@@ -168,7 +174,7 @@
 	</rule>
 	<rule>
 		<from>^/race/(\d+)$</from>
-		<to type="permanent-redirect">/prova/$1</to>
+		<to type="permanent-redirect">%{context-path}/prova/$1</to>
 	</rule>
 
 	<rule>
@@ -177,6 +183,11 @@
 	</rule>
 
 	<!-- V2 Init -->
+	<rule>
+		<from>^/v2$</from>
+		<to type="permanent-redirect">%{context-path}/v2/home</to>
+	</rule>
+
 	<rule>
 		<from>^/v2/home$</from>
 		<to>/v2/home.jsf</to>

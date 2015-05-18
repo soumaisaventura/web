@@ -132,6 +132,17 @@ public class MailDAO implements Serializable {
 		send("Recuperação de senha", content, "text/html", email);
 	}
 
+	public void sendAccountRemoval(User user, String dupEmail) throws Exception {
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/account-removal.html"));
+		content = clearContent(content);
+		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
+		content = content.replace("{email}", dupEmail);
+		content = content.replace("{originalEmail}", user.getEmail());
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		send("Remoção de conta", content, "text/html", dupEmail);
+	}
+
 	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());

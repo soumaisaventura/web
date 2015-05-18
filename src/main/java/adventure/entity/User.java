@@ -105,6 +105,14 @@ public class User implements Principal, Serializable {
 		getProfile().setMobile(profileMobile);
 	}
 
+	public User(Integer id, String email, String profileName, Integer pendencies, Date creation, Date activation) {
+		setId(id);
+		setEmail(email);
+
+		setProfile(new Profile());
+		getProfile().setName(profileName);
+	}
+
 	public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,
 			Integer healthPendencies, Boolean admin) {
 		setId(id);

@@ -21,6 +21,11 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 	}
 
 	@Override
+	public void delete(User id) {
+		getEntityManager().remove(load(id));
+	}
+
+	@Override
 	public Profile insert(Profile profile) {
 		if (profile.getName() != null) {
 			profile.setName(Misc.capitalize(profile.getName()));
