@@ -77,7 +77,7 @@
 	</rule>
 	<rule>
 		<from>^/user/activation$</from>
-		<to type="permanent-redirect">%{context-path}/atleta/ativacao</to>
+		<to type="permanent-redirect" qsappend="true">%{context-path}/atleta/ativacao?</to>
 	</rule>
 
 	<rule>
@@ -207,8 +207,8 @@
 		<from>^/v2/registre-se$</from>
 		<to>/v2/registro.jsf</to>
 	</rule>
-	
-		<rule>
+
+	<rule>
 		<from>^/v2/calendario/(\d+)$</from>
 		<to>/v2/calendario.jsf?ano=$1</to>
 	</rule>
