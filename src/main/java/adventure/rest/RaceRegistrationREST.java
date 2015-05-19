@@ -70,26 +70,27 @@ public class RaceRegistrationREST {
 			throws Exception {
 		loadRace(id);
 		Date date = new Date();
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
 
+		User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
 		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
 		List<User> members = loadMembers(data.members);
 		Period period = loadPeriod(raceCategory.getRace(), date);
-		validate(raceCategory, members);
+		validate(raceCategory, members, submitter, data.teamName, baseUri);
 
-		Registration result = submit(data, raceCategory, members, date, period);
+		Registration result = submit(data, raceCategory, members, date, period, submitter);
 
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailDAO.getInstance().sendRegistrationCreation(result, baseUri);
 		return result.getFormattedId();
 	}
 
 	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
-			Period period) {
+			Period period, User submitter) {
 		Registration result = null;
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
 		registration.setRaceCategory(raceCategory);
-		registration.setSubmitter(UserDAO.getInstance().load(User.getLoggedIn().getEmail()));
+		registration.setSubmitter(submitter);
 		registration.setStatus(PENDENT);
 		registration.setStatusDate(date);
 		registration.setDate(date);
@@ -244,7 +245,7 @@ public class RaceRegistrationREST {
 			if (user == null) {
 				exception.addViolation("members", "Usuário " + id + " inválido.");
 			} else if (result.contains(user)) {
-				exception.addViolation("members", "Usuário " + id + "duplicado.");
+				exception.addViolation("members", "Usuário " + id + " duplicado.");
 			} else {
 				result.add(user);
 			}
@@ -267,7 +268,8 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private void validate(RaceCategory raceCategory, List<User> members) throws Exception {
+	private void validate(RaceCategory raceCategory, List<User> members, User submitter, String teamName, URI baseUri)
+			throws Exception {
 		int total = members.size();
 		UnprocessableEntityException exception = new UnprocessableEntityException();
 		Category category = raceCategory.getCategory();
@@ -299,6 +301,7 @@ public class RaceRegistrationREST {
 
 			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
 				exception.addViolation("members", parse(member) + " possui pendências cadastrais.");
+				MailDAO.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
 			}
 		}
 

@@ -5,7 +5,7 @@ SELECT sum (CASE WHEN pr.pendencies = 0 THEN 1 ELSE 0 END) AS ok,
 
 SELECT count (*)
   FROM profile pr
- WHERE pr.pendencies = 1 AND pr.tshirt IS NOT NULL;
+ WHERE pr.pendencies = 1 AND pr.tshirt IS NULL;
 
 SELECT count (*)
   FROM user_account u
@@ -25,7 +25,6 @@ SELECT * FROM race;
 SELECT *
   FROM profile pr
  WHERE pr.pendencies = 1 AND tshirt IS NOT NULL;
-
 
   SELECT *
     FROM profile pr
@@ -180,7 +179,7 @@ SELECT *
 
 SELECT *
   FROM profile pr
- WHERE lower (pr."name") LIKE '%eldi%';
+ WHERE lower (pr."name") LIKE '%vinicius eduardo%';
 
 SELECT c.*
   FROM city c, state s
@@ -199,7 +198,7 @@ SELECT *
 
 SELECT *
   FROM user_account w
- WHERE w.id = 401;
+ WHERE w.id = 471;
 
 SELECT *
   FROM city c

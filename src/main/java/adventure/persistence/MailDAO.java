@@ -19,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import adventure.entity.Race;
+import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
@@ -179,6 +180,29 @@ public class MailDAO implements Serializable {
 		for (TeamFormation member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
+	}
+
+	public void sendRegistrationFailed(User member, User submitter, RaceCategory raceCategory, String teamName,
+			URI baseUri) throws Exception {
+		Race race = raceCategory.getRace();
+		String pendency = (member.getProfile().getPendencies() > 0 ? "pessoal" : "saude");
+
+		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-failed.html"));
+		content = clearContent(content);
+		content = content.replace("{appName}", "Sou+ Aventura");
+		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+		content = content.replace("{name}", escapeHtml(member.getProfile().getName()));
+		content = content.replace("{registrationSubmitter}", escapeHtml(submitter.getProfile().getName()));
+		content = content.replace("{registrationTeamName}", escapeHtml(teamName));
+		content = content.replace("{raceName}", escapeHtml(race.getName()));
+		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("atleta/" + pendency + "$2"));
+
+		String subject = "Tentativa de inscrição";
+		subject += " – " + race.getName();
+
+		send(subject, content, "text/html", member.getEmail());
 	}
 
 	public void sendRegistrationPeriodChanging(Registration registration, Date newPeriodBegining, Date newPeriodEnd,

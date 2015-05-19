@@ -1,6 +1,7 @@
 package adventure.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class RaceCategory implements Serializable {
 
 	public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
 			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer courseId, String courseName,
-			Boolean courseAnnualFee, Integer raceId) {
+			Boolean courseAnnualFee, Integer raceId, String raceName, Date raceDate) {
 		setCategory(new Category());
 		getCategory().setId(categoryId);
 		getCategory().setName(categoryName);
@@ -64,6 +65,8 @@ public class RaceCategory implements Serializable {
 
 		setRace(new Race());
 		getRace().setId(raceId);
+		getRace().setName(raceName);
+		getRace().setDate(raceDate);
 	}
 
 	@Override

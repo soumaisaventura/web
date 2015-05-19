@@ -113,31 +113,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public List<User> findDuplicatesByName() {
-		// SELECT DISTINCT a.*
-		// -- SELECT count (a.id)
-		// FROM user_account a,
-		// profile p,
-		// health h,
-		// profile p2
-		// WHERE a.id = p.id
-		// AND a.id = h.id
-		// -- AND p.pendencies + h.pendencies > 0
-		// AND p.name = p2.name
-		// AND p.id <> p2.id
-		// AND NOT EXISTS
-		// (SELECT *
-		// FROM team_formation _t
-		// WHERE _t.user_id = a.id)
-		// AND NOT EXISTS
-		// (SELECT *
-		// FROM annual_fee_payment _a
-		// WHERE _a.user_id = a.id)
-		// AND NOT EXISTS
-		// (SELECT *
-		// FROM race_organizer _r
-		// WHERE _r.organizer_id = a.id)
-		// ORDER BY a.id;
-
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select distinct ");
 		jpql.append(" 	 new User( ");

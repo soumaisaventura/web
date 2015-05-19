@@ -36,7 +36,9 @@ public class RaceCategoryDAO implements Serializable {
 		jpql.append("        c.id, ");
 		jpql.append("        c.name, ");
 		jpql.append("        c.annualFee, ");
-		jpql.append("        r.id ");
+		jpql.append("        r.id, ");
+		jpql.append("        r.name, ");
+		jpql.append("        r.date ");
 		jpql.append("        ) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
