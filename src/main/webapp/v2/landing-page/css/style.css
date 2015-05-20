@@ -1,0 +1,184 @@
+/* ======= Base ======= */
+body {
+	font-family: 'Lato', arial, sans-serif;
+	color: #444444;
+}
+
+a {
+	color: #56bc94;
+	-webkit-transition: all 0.4s ease-in-out;
+	-moz-transition: all 0.4s ease-in-out;
+	-ms-transition: all 0.4s ease-in-out;
+	-o-transition: all 0.4s ease-in-out;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #3fa07a;
+}
+
+a:focus {
+	text-decoration: none;
+	color: #3fa07a;
+}
+
+.offset-header {
+	padding-top: 90px;
+}
+
+/* ======= Header ======= */
+.header {
+	padding: 15px 0;
+	background: #fff;
+	z-index: 9999;
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.header h1.logo {
+	margin-top: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 28px;
+	max-height: 50px;
+}
+
+.header h1.logo a {
+	color: #444444;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+}
+
+.header h1.logo a img {
+	margin-right: 5px;
+	max-height: 50px;
+}
+
+.header h1.logo .logo-title {
+	vertical-align: middle;
+}
+
+.header .main-nav button {
+	background: #225742;
+	color: #fff !important;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-o-border-radius: 4px;
+	border-radius: 4px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+.header .main-nav button:focus {
+	outline: none;
+}
+
+.header .main-nav button .icon-bar {
+	background-color: #fff;
+}
+
+.header .main-nav .nav .nav-item {
+	font-weight: normal;
+	text-transform: uppercase;
+	margin-right: 5px;
+}
+
+.header .main-nav .nav .nav-item.active a {
+	color: #56bc94;
+	background: none;
+}
+
+.header .main-nav .nav .nav-item a {
+	color: #444444;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+	font-size: 14px;
+	padding: 15px 10px;
+}
+
+.header .main-nav .nav .nav-item a:hover {
+	color: #56bc94;
+	background: none;
+}
+
+.header .main-nav .nav .nav-item a:focus {
+	outline: none;
+	background: none;
+}
+
+.header .main-nav .nav .nav-item a:active {
+	outline: none;
+	background: none;
+}
+
+.header .main-nav .nav .nav-item.active {
+	color: #56bc94;
+}
+
+.header .main-nav .nav .nav-item.last {
+	margin-right: 0;
+}
+
+/* ======= Promo Section ======= */
+.promo {
+	background-color: #56bc94;
+	color: #fff;
+}
+
+.promo .overview {
+	margin-top: 60px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.promo .overview h2 {
+	font-size: 30px;
+	margin-bottom: 35px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.promo .overview .summary {
+	margin-bottom: 60px;
+	margin-left: 70px;
+}
+
+.promo .overview .summary li {
+	margin-bottom: 15px;
+	list-style: none;
+	font-size: 20px;
+	font-weight: 300;
+	padding-left: 30px;
+	background: url('../images/bullet.png') no-repeat left center;
+}
+
+/* ======= Footer ======= */
+.footer {
+	background: #444444;
+	color: #fff;
+	padding: 15px 0;
+}
+
+.footer .copyright {
+	color: #b3b3b3;
+	margin-right: 15px;
+}
+
+.footer .links {
+	margin-bottom: 0;
+}
+
+.footer .links a {
+	color: #808080;
+}
+
+.footer .links a:hover {
+	color: #56bc94;
+}
