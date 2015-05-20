@@ -28,7 +28,7 @@ SELECT *
 
   SELECT *
     FROM profile pr
-   WHERE lower (pr."name") LIKE '%fernando severino alves%'
+   WHERE lower (pr."name") LIKE '%jeanderson%'
 ORDER BY id;
 
 SELECT *
@@ -48,19 +48,9 @@ GROUP BY p.name
 ORDER BY count (p.*) DESC, p.name;
 
 
-UPDATE user_account
-   SET deleted = now ()
- WHERE id IN (311,
-              312,
-              313,
-              314,
-              317,
-              318);
-
-
 SELECT *
   FROM team_formation tf
- WHERE tf.user_id IN (131, 258);
+ WHERE tf.user_id IN (369, 373);
 
 --SELECT count (*)
 
@@ -125,11 +115,15 @@ SELECT *
   FROM profile pr
  WHERE lower (pr."name") LIKE '%cleverson%';
 
+SELECT count (*) FROM user_account;
+
 SELECT *
   FROM user_account
- WHERE id IN (316, 315);
+ WHERE id IN (369, 373);
 
-
+DELETE FROM user_account
+      WHERE id NOT IN (SELECT _x.id
+                         FROM health _x);
 
 --426
 

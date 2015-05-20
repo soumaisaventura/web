@@ -226,5 +226,12 @@
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
+		
+	<!--
+	<rule>
+		<from>^/(.+^/)/$</from>
+		<to type="permanent-redirect">%{context-path}/$1/</to>
+	</rule>
+	-->
 
 </urlrewrite>
