@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <f:view contentType="text/html" locale="pt_BR" />
 
@@ -18,22 +18,22 @@
 	<ui:insert name="meta-ogg">
 		<meta property="og:title" content="#{applicationConfigHelper.appTitle}" />
 		<meta property="og:description"
-			content="Cadastre-se no Sou+ Avententura, uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia. Se você é organizador, não perca tempo e cadastre a sua prova. É tudo gratuito!" />
+			content="Cadastre-se no Sou+ Aventura, uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia. Se você é organizador, não perca tempo e cadastre a sua prova. É tudo gratuito!" />
 		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/images/default-ogg-image.png" />
 	</ui:insert>
 
 	<title>#{applicationConfigHelper.appTitle}</title>
 
-	<link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
-	<link href="css/pixel-admin.css" rel="stylesheet" type="text/css"/>
-	<link href="css/pages.css" rel="stylesheet" type="text/css"/>
-	<link href="css/rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="css/themes.css" rel="stylesheet" type="text/css"/>
-	<link href="css/app.css" rel="stylesheet" type="text/css"/>
+	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="css/pixel-admin.css" rel="stylesheet" type="text/css" />
+	<link href="css/pages.css" rel="stylesheet" type="text/css" />
+	<link href="css/rtl.css" rel="stylesheet" type="text/css" />
+	<link href="css/themes.css" rel="stylesheet" type="text/css" />
+	<link href="css/app.css" rel="stylesheet" type="text/css" />
 	<ui:insert name="css" />
 </h:head>
 
-<ui:param name="theme" value="theme-clean"/>
+<ui:param name="theme" value="theme-clean" />
 
 
 <h:body class="#{theme} #{page}">
@@ -44,13 +44,13 @@
 		<ui:insert name="breadcrumb" />
 		<ui:insert name="content" />
 	</div>
-	
+
 	<script src="js/lib/jquery-1.11.2.min.js"></script>
 	<script src="js/lib/bootstrap.min.js"></script>
 	<script src="js/lib/pixel-admin.min.js"></script>
 	<script src="js/lib/app.js"></script>
 	<ui:insert name="lib" />
-	
+
 	<ui:insert name="proxy" />
 	<ui:insert name="controller" />
 	<ui:insert name="scriptlet" />
