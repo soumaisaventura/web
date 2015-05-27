@@ -192,8 +192,11 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{name}", escapeHtml(member.getProfile().getName()));
-		content = content.replace("{registrationSubmitter}", escapeHtml(submitter.getProfile().getName()));
+		content = content.replace("{registrationSubmitter}",
+				escapeHtml(member.getId().equals(submitter.getId()) ? "você" : member.getProfile().getName()));
 		content = content.replace("{registrationTeamName}", escapeHtml(teamName));
+		content = content.replace("{what}", member.getId().equals(submitter.getId()) ? "se inscrever"
+				: "inscrever você");
 		content = content.replace("{raceName}", escapeHtml(race.getName()));
 		content = content.replace("{raceDate}", Dates.parse(race.getDate()));
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
