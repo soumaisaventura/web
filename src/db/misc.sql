@@ -21,15 +21,18 @@ SELECT count (*)
 
 SELECT * FROM race;
 
-
 SELECT *
   FROM profile pr
  WHERE pr.pendencies = 1 AND tshirt IS NOT NULL;
 
   SELECT *
     FROM profile pr
-   WHERE lower (pr."name") LIKE '%jeanderson%'
+   WHERE lower (pr."name") LIKE '%cleverson%'
 ORDER BY id;
+
+UPDATE profile
+   SET pendencies = 1
+ WHERE id = 2;
 
 SELECT *
   FROM user_account
@@ -39,7 +42,6 @@ SELECT *
   FROM profile
  WHERE id IN (29);
 
-
   SELECT p.name, count (p.*)
     FROM profile p, user_account u
    WHERE p.id = u.id AND u.deleted IS NULL
@@ -47,10 +49,28 @@ GROUP BY p.name
   HAVING count (p.*) > 1
 ORDER BY count (p.*) DESC, p.name;
 
+SELECT *
+  FROM user_account u
+ WHERE u.deleted IS NULL;
+
+DELETE FROM user_account
+      WHERE deleted IS NOT NULL;
 
 SELECT *
   FROM team_formation tf
- WHERE tf.user_id IN (369, 373);
+ WHERE tf.registration_id = 191;
+
+-- 56
+
+-- 484
+-- 61
+
+UPDATE team_formation
+   SET user_id = 61
+ WHERE registration_id = 191 AND user_id = 484;
+
+
+
 
 --SELECT count (*)
 
@@ -106,20 +126,52 @@ SELECT *
 
 SELECT to_date ('1900-01-01', 'YYYY-MM-DD');
 
-
 --ORDER BY a.id;
-
-
 
 SELECT *
   FROM profile pr
- WHERE lower (pr."name") LIKE '%cleverson%';
+ WHERE lower (pr."name") LIKE '%jacicarmen%';
 
 SELECT count (*) FROM user_account;
 
 SELECT *
+  FROM user_account a
+ WHERE a.email = 'jacicarmensousa@hotmail.com';
+
+UPDATE user_account
+   SET email = 'jacicarmemsousa@hotmail.com'
+ WHERE email = 'jacicarmensousa@hotmail.com';
+
+
+UPDATE user_account
+   SET deleted = now ()
+ WHERE email = 'jacicarmensousa@hotmail.com';
+
+
+
+  SELECT *
+    FROM profile pr
+   WHERE pr.id = 515
+ORDER BY id;
+
+SELECT *
+  FROM category ca;
+
+UPDATE registration
+   SET category_id = 12
+ WHERE race_id = 6 AND course_id = 9 AND category_id = 4;
+
+SELECT *
+  FROM registration rc
+ WHERE rc.race_id = 6 AND rc.course_id = 9 AND rc.category_id = 4;
+
+SELECT *
+  FROM race_category rc
+ WHERE rc.race_id = 6 AND rc.course_id = 9 AND rc.category_id = 4;
+
+SELECT *
   FROM user_account
- WHERE id IN (369, 373);
+ WHERE id IN (505, 516);
 
 DELETE FROM user_account
       WHERE id NOT IN (SELECT _x.id
@@ -153,7 +205,6 @@ SELECT *
   FROM profile pr
  WHERE lower (pr."name") LIKE '%eviss%';
 
-
 SELECT *
   FROM team_formation tf
  WHERE tf.registration_id = 143;
@@ -165,7 +216,6 @@ UPDATE team_formation tf
 SELECT *
   FROM registration r
  WHERE r.id = 151;
-
 
 SELECT *
   FROM profile pr
@@ -180,7 +230,6 @@ SELECT c.*
  WHERE     c.state_id = s.id
        AND s.abbreviation = 'BA'
        AND lower (c."name") LIKE '%vale%';
-
 
 SELECT *
   FROM profile pr
@@ -200,7 +249,6 @@ SELECT *
 
 SELECT max (c.id)
   FROM city c;
-
 
 SELECT *
   FROM state prs;

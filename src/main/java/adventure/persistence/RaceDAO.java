@@ -65,8 +65,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 	}
 
 	public Race loadJustId(Integer id) throws Exception {
-		String jpql = "select new Race(r.id) from Race r where r.id = :id ";
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Race(r.id) ");
+		jpql.append("   from Race r ");
+		jpql.append("  where r.id = :id ");
+
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
 		query.setParameter("id", id);
 
 		Race result;
