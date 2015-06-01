@@ -47,7 +47,13 @@ public class RaceAnalyticsREST {
 	public List<RaceAnalytic> getStatus(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRace(id);
 		checkPermission(race);
-		return RaceAnalyticDAO.getInstance().getRegistrationByStatus(race);
+
+		List<RaceAnalytic> result = RaceAnalyticDAO.getInstance().getRegistrationByStatus(race);
+		for (RaceAnalytic analytic : result) {
+			analytic.setLabel(analytic.getLabel().toLowerCase());
+		}
+
+		return result;
 	}
 
 	@GET
