@@ -66,7 +66,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("user/activation?token=" + token).toString() + "$2");
+				"$1" + baseUri.resolve("atleta/ativacao?token=" + token).toString() + "$2");
 		send("Confirmação de e-mail", content, "text/html", email);
 	}
 
@@ -78,7 +78,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + baseUri.toString() + "$2");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\")", "$1"
-				+ baseUri.resolve("user/profile").toString() + "$2");
+				+ baseUri.resolve("atleta/pessoal").toString() + "$2");
 		content = content.replace("url1.url1",
 				baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
 						: baseUri.toString());
@@ -105,7 +105,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("password/reset?token=" + token).toString() + "$2");
+				"$1" + baseUri.resolve("senha/redefinicao?token=" + token).toString() + "$2");
 		send("Criação de senha", content, "text/html", email);
 	}
 
@@ -129,7 +129,7 @@ public class MailDAO implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-				"$1" + baseUri.resolve("password/reset?token=" + token).toString() + "$2");
+				"$1" + baseUri.resolve("senha/redefinicao?token=" + token).toString() + "$2");
 		send("Recuperação de senha", content, "text/html", email);
 	}
 
