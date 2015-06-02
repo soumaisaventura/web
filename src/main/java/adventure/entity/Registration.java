@@ -125,7 +125,7 @@ public class Registration implements Serializable {
 			PaymentType racePaymentType, String racePaymentInfo, String racePaymentAccount, String racePaymentToken,
 			Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
 			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
-			String courseName) {
+			String courseName, Date registrationPeriodBeginning, Date registrationPeriodEnd) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -157,6 +157,10 @@ public class Registration implements Serializable {
 		getRaceCategory().getRace().getCity().getState().setId(stateId);
 		getRaceCategory().getRace().getCity().getState().setName(stateName);
 		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+
+		getRaceCategory().getRace().setRegistrationPeriod(new Period());
+		getRaceCategory().getRace().getRegistrationPeriod().setBeginning(registrationPeriodBeginning);
+		getRaceCategory().getRace().getRegistrationPeriod().setEnd(registrationPeriodEnd);
 
 		setPeriod(new Period());
 		getPeriod().setId(periodId);

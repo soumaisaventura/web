@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import static adventure.entity.RaceStatusType.OPEN;
 import static adventure.entity.RegistrationStatusType.CANCELLED;
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
@@ -37,6 +38,7 @@ import adventure.entity.AnnualFee;
 import adventure.entity.AnnualFeePayment;
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
+import adventure.entity.RaceStatusType;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
@@ -214,6 +216,7 @@ public class RegistrationREST {
 		data.race.city.id = race.getCity().getId();
 		data.race.city.name = race.getCity().getName();
 		data.race.city.state = race.getCity().getState().getAbbreviation();
+		data.race.status = race.getStatus();
 
 		for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
 			UserData organizer = new UserData();
@@ -261,16 +264,10 @@ public class RegistrationREST {
 		return Response.status(status).location(location).entity(code).build();
 	}
 
-	// @PUT
-	// @LoggedIn
-	// @Transactional
-	// @Path("{id}/team/name")
-	// public void update(@PathParam("id") Long id, String name) {
-	// }
-
 	@PUT
 	@LoggedIn
 	@Transactional
+	@Produces("application/json")
 	@Path("{id}/member/{memberId}/price")
 	public void updateRacePrice(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal price)
 			throws Exception {
@@ -310,6 +307,7 @@ public class RegistrationREST {
 	@PUT
 	@LoggedIn
 	@Transactional
+	@Produces("application/json")
 	@Path("{id}/member/{memberId}/fee")
 	public void updateAnnualFee(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal fee)
 			throws Exception {
@@ -351,6 +349,36 @@ public class RegistrationREST {
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
 		persisted.setPaymentCode(null);
+		registrationDAO.update(persisted);
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@Path("{id}/team/name")
+	@Produces("application/json")
+	public void updateTeamName(@PathParam("id") Long id, String teamName) throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+		Race race = registration.getRaceCategory().getRace();
+		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		List<User> team = UserDAO.getInstance().findTeamFormation(registration);
+		User loggedInUser = User.getLoggedIn();
+
+		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser) && !team.contains(loggedInUser)) {
+			throw new ForbiddenException();
+		}
+
+		if (race.getStatus() != OPEN) {
+			throw new UnprocessableEntityException().addViolation("period", "fora do período permitido");
+		}
+
+		if (Strings.isEmpty(teamName)) {
+			throw new UnprocessableEntityException().addViolation("name", "campo obrigatório");
+		}
+
+		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+		Registration persisted = registrationDAO.load(id);
+		persisted.setTeamName(teamName);
 		registrationDAO.update(persisted);
 	}
 
@@ -481,6 +509,8 @@ public class RegistrationREST {
 		public CityData city;
 
 		public List<UserData> organizers = new ArrayList<UserData>();
+
+		public RaceStatusType status;
 	}
 
 	public static class CourseData {

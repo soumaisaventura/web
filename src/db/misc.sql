@@ -27,7 +27,7 @@ SELECT *
 
   SELECT *
     FROM profile pr
-   WHERE lower (pr."name") LIKE '%cleverson%'
+   WHERE lower (pr."name") LIKE '%cabral%'
 ORDER BY id;
 
 UPDATE profile
@@ -36,7 +36,14 @@ UPDATE profile
 
 SELECT *
   FROM user_account
- WHERE id IN (29);
+ WHERE id IN (271);
+
+SELECT count (*)
+  FROM user_account ua
+ WHERE ua.activation IS NOT NULL;
+
+SELECT count(distinct t.user_id)
+  FROM team_formation t;
 
 SELECT *
   FROM profile
@@ -136,7 +143,7 @@ SELECT count (*) FROM user_account;
 
 SELECT *
   FROM user_account a
- WHERE a.email = 'jacicarmensousa@hotmail.com';
+ WHERE a.email = 'tataizinhabela@hotmail.com';
 
 UPDATE user_account
    SET email = 'jacicarmemsousa@hotmail.com'

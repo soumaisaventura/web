@@ -30,8 +30,21 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	public Registration insert(Registration registration) {
+		if (registration.getTeamName() != null) {
+			registration.setTeamName(registration.getTeamName().trim());
+		}
+
+		return super.insert(registration);
+	}
+
+	@Override
 	@Transactional
 	public Registration update(Registration registration) {
+		if (registration.getTeamName() != null) {
+			registration.setTeamName(registration.getTeamName().trim());
+		}
+
 		if (registration.getStatus() == CONFIRMED) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(registration.getDate());
@@ -87,7 +100,13 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
 		jpql.append("        co.id, ");
-		jpql.append("        co.name ");
+		jpql.append("        co.name, ");
+		jpql.append(" 	     (select min(_p.beginning) ");
+		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	       where _p.race = ra), ");
+		jpql.append(" 	     (select max(_p.end) ");
+		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	       where _p.race = ra) ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.submitter su ");
@@ -144,7 +163,9 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
 		jpql.append("        co.id, ");
-		jpql.append("        co.name ");
+		jpql.append("        co.name, ");
+		jpql.append("        null, ");
+		jpql.append("        null ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.submitter su ");
@@ -181,12 +202,10 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     p.name, ");
 		jpql.append(" 	     p.mobile, ");
-
 		jpql.append(" 	     ci.id, ");
 		jpql.append(" 	     ci.name, ");
 		jpql.append(" 	     st.id, ");
 		jpql.append(" 	     st.abbreviation, ");
-
 		jpql.append(" 	     tf.racePrice, ");
 		jpql.append(" 	     tf.annualFee, ");
 		jpql.append(" 	     re.id, ");

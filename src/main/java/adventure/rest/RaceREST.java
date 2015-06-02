@@ -76,7 +76,7 @@ public class RaceREST {
 			data.id = race.getId();
 			data.name = race.getName();
 			data.date = race.getDate();
-			data.status = race.getRaceStatusType();
+			data.status = race.getStatus();
 			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 					+ race.getCity().getState().getAbbreviation() : null;
 
@@ -102,7 +102,7 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
-		data.status = race.getRaceStatusType();
+		data.status = race.getStatus();
 		data.registration = new RegistrationData();
 		data.registration.prices.addAll(loadPeriod(race));
 		data.registration.period = new PeriodData();
@@ -129,7 +129,7 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
-		data.status = race.getRaceStatusType();
+		data.status = race.getStatus();
 
 		return data;
 	}

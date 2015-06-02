@@ -111,11 +111,6 @@
 		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
 	</rule>
 
-	<rule>
-		<from>^/registration$</from>
-		<to>/registration.jsf</to>
-	</rule>
-
 	<!--
 	<rule>
 		<from>^/registration/(\d+)/public$</from>
@@ -125,7 +120,7 @@
 
 	<rule>
 		<from>^/inscricao/(\d+)$</from>
-		<to>/registration.jsf?registration=$1</to>
+		<to>/inscricao.jsf?id=$1</to>
 	</rule>
 	<rule>
 		<from>^/registration/(\d+)$</from>

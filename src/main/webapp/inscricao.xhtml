@@ -20,7 +20,7 @@
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/registration.js"></script>
+		<script src="#{request.contextPath}/js/controller/inscricao.js"></script>
 	</ui:define>
 
 	<!--
@@ -46,7 +46,7 @@
 	-->
 
 	<ui:define name="body">
-		<input id="registration" type="hidden" value="#{param.registration}" />
+		<input id="registration" type="hidden" value="#{param.id}" />
 
 		<div class="col-md-6 col-md-offset-3">
 			<div id="summary-section" hidden="true" class="row" style="vertical-align: middle;">
@@ -56,7 +56,10 @@
 					</h2>
 					<h5 style="margin-bottom: 0px;">
 						Equipe
+						<!--
 						<spam id="team-name"></spam>
+						-->
+						<a href="#" id="team-name"></a>
 					</h5>
 				</div>
 				<div class="col-md-3 text-center" style="padding: 0px;">

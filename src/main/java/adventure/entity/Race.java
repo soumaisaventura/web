@@ -98,9 +98,6 @@ public class Race implements Serializable {
 	@Transient
 	private Period registrationPeriod;
 
-	@Transient
-	private RaceStatusType status;
-
 	public Race() {
 	}
 
@@ -130,7 +127,7 @@ public class Race implements Serializable {
 		getRegistrationPeriod().setEnd(registrationEnd);
 	}
 
-	public RaceStatusType getRaceStatusType() {
+	public RaceStatusType getStatus() {
 		RaceStatusType result = null;
 
 		if (registrationPeriod != null && registrationPeriod.getBeginning() != null

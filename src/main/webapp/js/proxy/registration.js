@@ -63,6 +63,18 @@ var RegistrationProxy = {
 		});
 	},
 
+	updateTeamName : function(id, name) {
+		return $.ajax({
+			type : "PUT",
+			url : this.url + "/" + id + "/team/name",
+			data : name,
+			contentType : "application/json",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	confirm : function(id) {
 		return $.ajax({
 			type : "POST",

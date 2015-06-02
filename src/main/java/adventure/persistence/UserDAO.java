@@ -7,6 +7,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
+import adventure.entity.Registration;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -40,16 +41,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 	@Override
 	public User update(User entity) {
 		return super.update(entity);
-	}
-
-	@Override
-	public void delete(Integer id) {
-		User user = load(id);
-
-		if (user != null) {
-			user.setDeleted(new Date());
-			update(user);
-		}
 	}
 
 	public List<User> search(String filter, List<Integer> excludeIds) {
@@ -172,6 +163,30 @@ public class UserDAO extends JPACrud<User, Integer> {
 
 		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
 		query.setParameter("race", race);
+
+		return query.getResultList();
+	}
+
+	public List<User> findTeamFormation(Registration registration) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append(" 	 new User( ");
+		jpql.append(" 	     us.id, ");
+		jpql.append(" 	     us.email, ");
+		jpql.append(" 	     p.name, ");
+		jpql.append(" 	     p.gender, ");
+		jpql.append(" 	     p.mobile ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from TeamFormation tf ");
+		jpql.append("   join tf.user us, ");
+		jpql.append("        Profile p ");
+		jpql.append("  where us = p.user ");
+		jpql.append("    and tf.registration = :registration ");
+		jpql.append("  order by ");
+		jpql.append("        p.name ");
+
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		query.setParameter("registration", registration);
 
 		return query.getResultList();
 	}
