@@ -135,6 +135,37 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 	public List<Registration> findForUpdatePeriod() {
 		StringBuffer jpql = new StringBuffer();
+
+		// Long registrationId,
+		// Date registrationDate,
+		// String teamName,
+		// String paymentCode,
+		// String paymentTransaction,
+		// Integer submitterId,
+		// String submitterEmail,
+		// String submitterName,
+		// RegistrationStatusType registrationStatus,
+		// Integer raceId,
+		// String raceName,
+		// Date raceDate,
+		// PaymentType racePaymentType,
+		// String racePaymentInfo,
+		// String racePaymentAccount,
+		// String racePaymentToken,
+		// Integer periodId,
+		// BigDecimal periodPrice,
+		// Integer cityId,
+		// String cityName,
+		// Integer stateId,
+		// String stateName,
+		// String stateAbbreviation,
+		// Integer categoryId,
+		// String categoryName,
+		// Integer courseId,
+		// String courseName,
+		// Date registrationPeriodBeginning,
+		// Date registrationPeriodEnd
+
 		jpql.append(" select ");
 		jpql.append("    new Registration( ");
 		jpql.append("        re.id, ");
@@ -164,8 +195,12 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ca.name, ");
 		jpql.append("        co.id, ");
 		jpql.append("        co.name, ");
-		jpql.append("        null, ");
-		jpql.append("        null ");
+		jpql.append(" 	     (select min(_p.beginning) ");
+		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	       where _p.race = ra), ");
+		jpql.append(" 	     (select max(_p.end) ");
+		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	       where _p.race = ra) ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.submitter su ");

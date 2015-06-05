@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,14 +23,13 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import adventure.entity.Profile;
 import adventure.entity.Race;
@@ -82,7 +82,7 @@ public class RaceRegistrationDownloadREST {
 	@GET
 	@LoggedIn
 	@Path("export")
-	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@Produces("application/vnd.ms-excel")
 	public byte[] exportXLSX(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRaceDetails(id);
 
@@ -91,18 +91,18 @@ public class RaceRegistrationDownloadREST {
 			throw new ForbiddenException();
 		}
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
+		Workbook workbook = new HSSFWorkbook();
 
-		XSSFCellStyle currencyStyle = (XSSFCellStyle) workbook.createCellStyle();
+		CellStyle currencyStyle = workbook.createCellStyle();
 		currencyStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
-		XSSFCellStyle titleStyle = (XSSFCellStyle) workbook.createCellStyle();
+		CellStyle titleStyle = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setBoldweight(BOLDWEIGHT_BOLD);
 		titleStyle.setFont(font);
 
-		XSSFSheet sheetAtletas = workbook.createSheet("Atletas");
-		XSSFSheet sheetEquipes = workbook.createSheet("Equipes");
+		Sheet sheetAtletas = workbook.createSheet("Atletas");
+		Sheet sheetEquipes = workbook.createSheet("Equipes");
 
 		Row rAtletas, rEquipes;
 		int rAtletasIdx = 0, cAtletasIdx = 0;
@@ -131,7 +131,10 @@ public class RaceRegistrationDownloadREST {
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Equipe");
 		int biggestTeam = 0;
 
-		for (Registration registration : RegistrationDAO.getInstance().findToOrganizer(race)) {
+		List<Registration> registrations = RegistrationDAO.getInstance().findToOrganizer(race);
+		Collections.reverse(registrations);
+
+		for (Registration registration : registrations) {
 			rEquipes = sheetEquipes.createRow(rEquipesIdx++);
 
 			cEquipesIdx = 0;
@@ -157,7 +160,8 @@ public class RaceRegistrationDownloadREST {
 
 				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getName());
 				rAtletas.createCell(cAtletasIdx++).setCellValue(user.getEmail());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getTshirt().name());
+				rAtletas.createCell(cAtletasIdx++).setCellValue(
+						profile.getTshirt() == null ? "" : profile.getTshirt().name());
 				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getMobile());
 				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getCity().getState().getAbbreviation());
 				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getCity().getName());
