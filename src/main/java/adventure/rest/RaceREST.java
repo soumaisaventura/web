@@ -135,52 +135,6 @@ public class RaceREST {
 	}
 
 	@GET
-	@LoggedIn
-	@Path("{id}/form")
-	@Produces("application/pdf")
-	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRaceDetails(id);
-
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-
-		Context context = new InitialContext();
-		DataSource dataSource = (DataSource) context.lookup("java:jboss/datasources/PostgreSQLDS");
-		Connection conn = dataSource.getConnection();
-
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("RACE_ID", race.getId());
-
-		// HttpServletRequest x;
-		// x.getServletContext().getResourceAsStream(null)
-
-		// String reportSource = Reflections.getResourceAsURL("report/ficha_inscricao.jasper").getPath();
-		// String reportSource =
-		// Reflections.getResourceAsURL("/WEB-INF/classes/report/ficha_inscricao.jasper").getPath();
-		// InputStream inputStream = Reflections.getResourceAsStream("/WEB-INF/classes/report/ficha_inscricao.jasper");
-		InputStream inputStream = Reflections.getResourceAsStream("report/ficha_inscricao.jasper");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, conn);
-		conn.close();
-
-		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
-		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(race.getDate());
-
-		// String filename = "Fichas-" + race.getName() + "-" + calendar.get(YEAR);
-		// String filename = "fichas.pdf";
-		// String contentDisposition = "attachment;filename=\"" + filename + "\"";
-		// return Response.ok().entity(oututStream.toByteArray()).header("Content-Disposition", contentDisposition)
-		// .build();
-
-		// return Base64.encodeBase64(oututStream.toByteArray());
-		return oututStream.toByteArray();
-	}
-
-	@GET
 	@Cache("max-age=604800000")
 	@Path("{id}/banner/base64")
 	@Produces("image/png")

@@ -27,7 +27,7 @@ SELECT *
 
   SELECT *
     FROM profile pr
-   WHERE lower (pr."name") LIKE '%cabral%'
+   WHERE lower (pr."name") LIKE '%anne%'
 ORDER BY id;
 
 UPDATE profile
@@ -36,13 +36,17 @@ UPDATE profile
 
 SELECT *
   FROM user_account
- WHERE id IN (271);
+ WHERE id IN (665);
 
 SELECT count (*)
   FROM user_account ua
  WHERE ua.activation IS NOT NULL;
 
-SELECT count(distinct t.user_id)
+SELECT *
+  FROM team_formation t
+ WHERE user_id IN (665);
+
+SELECT count(DISTINCT t.user_id)
   FROM team_formation t;
 
 SELECT *
@@ -65,7 +69,18 @@ DELETE FROM user_account
 
 SELECT *
   FROM team_formation tf
- WHERE tf.registration_id = 191;
+ WHERE tf.registration_id = 248;
+
+
+UPDATE team_formation
+   SET user_id = 616
+ WHERE user_id = 401 AND registration_id = 248;
+
+
+-- 401 marcel
+-- 616
+
+
 
 -- 56
 
@@ -204,7 +219,7 @@ SELECT *
 
 SELECT *
   FROM health h
- WHERE h.id = 401;
+ WHERE h.id = 616;
 
 -- 401
 

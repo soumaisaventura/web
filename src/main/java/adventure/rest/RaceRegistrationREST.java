@@ -179,42 +179,6 @@ public class RaceRegistrationREST {
 		return result.isEmpty() ? null : result;
 	}
 
-	@GET
-	@LoggedIn
-	@Path("forms")
-	@Transactional
-	@Produces("application/json")
-	public void registrationForms(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRace(id);
-
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-
-		// Connection connection = Beans.getReference(Connection.class);
-		// Report rpt; // = new Report(parameterMap, connection);
-
-		// Statement statement = null;
-		// try {
-		// connection = Database.getConnection();
-		// statement = connection.createStatement();
-		// HashMap parameterMap = new HashMap();
-		// parameterMap.put("rtitle", "Report Title Here");//sending the report title as a parameter.
-		// rpt.setReportName("productlist"); //productlist is the name of my jasper file.
-		// rpt.callReport();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// } finally {
-		// try {
-		// statement.close();
-		// connection.close();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-	}
-
 	private Race loadRace(Integer id) throws Exception {
 		Race result = RaceDAO.getInstance().loadForDetail(id);
 

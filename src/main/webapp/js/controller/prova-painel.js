@@ -2,12 +2,24 @@ $(function() {
 	var id = $("#race-id").val();
 
 	$("#registration-forms").click(function() {
-		$(this).button('loading');
-		RaceProxy.formDownload(id);
+		var $this = $(this);
+		$this.button('loading');
+
+		RaceRegistrationProxy.formDownload(id, function() {
+			$this.button('reset');
+		});
+	});
+
+	$("#registration-export").click(function() {
+		var $this = $(this);
+
+		$this.button('loading');
+		RaceRegistrationProxy.exportDownload(id, function() {
+			$this.button('reset');
+		});
 	});
 
 	RaceProxy.loadSummary(id).done(loadOk);
-	// RaceRegistrationProxy.find(id).done(findOk);
 
 	RaceAnalyticsProxy.getByCategories(id).done(getByCategoriesOk);
 	RaceAnalyticsProxy.getByCourses(id).done(getByCoursesOk);
