@@ -23,13 +23,15 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import adventure.entity.Profile;
 import adventure.entity.Race;
@@ -82,7 +84,7 @@ public class RaceRegistrationDownloadREST {
 	@GET
 	@LoggedIn
 	@Path("export")
-	@Produces("application/vnd.ms-excel")
+	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	public byte[] exportXLSX(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRaceDetails(id);
 
@@ -91,15 +93,15 @@ public class RaceRegistrationDownloadREST {
 			throw new ForbiddenException();
 		}
 
-		Workbook workbook = new HSSFWorkbook();
+		Workbook workbook = new XSSFWorkbook();
 
-		CellStyle currencyStyle = workbook.createCellStyle();
-		currencyStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
+		// CellStyle currencyStyle = workbook.createCellStyle();
+		// currencyStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 
 		CellStyle titleStyle = workbook.createCellStyle();
-		Font font = workbook.createFont();
-		font.setBoldweight(BOLDWEIGHT_BOLD);
-		titleStyle.setFont(font);
+		Font titleFont = workbook.createFont();
+		titleFont.setBoldweight(BOLDWEIGHT_BOLD);
+		titleStyle.setFont(titleFont);
 
 		Sheet sheetAtletas = workbook.createSheet("Atletas");
 		Sheet sheetEquipes = workbook.createSheet("Equipes");
@@ -135,42 +137,68 @@ public class RaceRegistrationDownloadREST {
 		Collections.reverse(registrations);
 
 		for (Registration registration : registrations) {
+			CellStyle style = workbook.createCellStyle();
+			IndexedColors color;
+			switch (registration.getStatus()) {
+				case CANCELLED:
+					color = IndexedColors.RED;
+					break;
+
+				case PENDENT:
+					color = IndexedColors.DARK_YELLOW;
+					break;
+
+				default:
+					color = IndexedColors.BLACK;
+					break;
+			}
+
+			// style.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+			// style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+			Font font = workbook.createFont();
+			font.setColor(color.getIndex());
+			style.setFont(font);
+
 			rEquipes = sheetEquipes.createRow(rEquipesIdx++);
 
 			cEquipesIdx = 0;
-			rEquipes.createCell(cEquipesIdx++).setCellValue(registration.getFormattedId());
-			rEquipes.createCell(cEquipesIdx++).setCellValue(registration.getStatus().description());
-			rEquipes.createCell(cEquipesIdx++).setCellValue(registration.getRaceCategory().getCourse().getName());
-			rEquipes.createCell(cEquipesIdx++).setCellValue(registration.getRaceCategory().getCategory().getName());
-			rEquipes.createCell(cEquipesIdx++).setCellValue(registration.getTeamName());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getFormattedId());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getStatus().description());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
+					registration.getRaceCategory().getCourse().getName());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
+					registration.getRaceCategory().getCategory().getName());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getTeamName());
 
 			for (TeamFormation teamFormation : registration.getTeamFormations()) {
 				User user = teamFormation.getUser();
 				Profile profile = user.getProfile();
 
-				rEquipes.createCell(cEquipesIdx++).setCellValue(profile.getName());
+				createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(profile.getName());
 				rAtletas = sheetAtletas.createRow(rAtletasIdx++);
 
 				cAtletasIdx = 0;
-				rAtletas.createCell(cAtletasIdx++).setCellValue(registration.getFormattedId());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(registration.getStatus().description());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(registration.getRaceCategory().getCourse().getName());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(registration.getRaceCategory().getCategory().getName());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(registration.getTeamName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getFormattedId());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getStatus().description());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+						registration.getRaceCategory().getCourse().getName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+						registration.getRaceCategory().getCategory().getName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getTeamName());
 
-				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getName());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(user.getEmail());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(user.getEmail());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						profile.getTshirt() == null ? "" : profile.getTshirt().name());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getMobile());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getCity().getState().getAbbreviation());
-				rAtletas.createCell(cAtletasIdx++).setCellValue(profile.getCity().getName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getMobile());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+						profile.getCity().getState().getAbbreviation());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getCity().getName());
 
-				createStyleCell(rAtletas, cAtletasIdx++, currencyStyle).setCellValue(
-						teamFormation.getRacePrice().floatValue());
-
-				createStyleCell(rAtletas, cAtletasIdx++, currencyStyle).setCellValue(
-						teamFormation.getAnnualFee().floatValue());
+				style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getRacePrice().floatValue());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getAnnualFee().floatValue());
 			}
 
 			biggestTeam = registration.getTeamFormations().size() > biggestTeam ? registration.getTeamFormations()
@@ -184,6 +212,14 @@ public class RaceRegistrationDownloadREST {
 
 		autoSizeColumns(sheetAtletas);
 		autoSizeColumns(sheetEquipes);
+
+		sheetAtletas.setAutoFilter(CellRangeAddress.valueOf("A1:M1"));
+		sheetAtletas.createFreezePane(0, 1);
+		// sheetAtletas.createSplitPane(2000, 2000, 0, 0, Sheet.PANE_LOWER_LEFT);
+
+		sheetEquipes.setAutoFilter(CellRangeAddress.valueOf("A1:E1"));
+		sheetEquipes.createFreezePane(0, 1);
+		// sheetAtletas.createSplitPane(2000, 2000, 0, 0, Sheet.PANE_LOWER_LEFT);
 
 		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
 		workbook.write(oututStream);
