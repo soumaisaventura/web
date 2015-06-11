@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-11T09:41:26 -->
+<!-- 2015-06-11T13:31:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -118,7 +118,8 @@ ORDER BY re.id;]]>
 				<subreportExpression><![CDATA["report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="62">
+		<band height="71" splitType="Immediate">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<staticText>
 				<reportElement x="0" y="5" width="555" height="26" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
 				<textElement textAlignment="Center">
@@ -127,9 +128,8 @@ ORDER BY re.id;]]>
 				<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" x="0" y="44" width="555" height="18" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
+				<reportElement positionType="Float" x="0" y="54" width="555" height="16" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
 					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
 					<topPen lineWidth="0.0"/>
@@ -137,10 +137,10 @@ ORDER BY re.id;]]>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["\n\n" + $F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="34" width="555" height="10" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
@@ -164,10 +164,10 @@ ORDER BY re.id;]]>
 "Após ter lido este termo de Responsabilidade e acordo de implicação de riscos e tendo compreendido-o, entendo que estou desistindo de direitos substanciais através da assinatura do mesmo, a qual faz livre e voluntariamente, sem qualquer coerção, na presença de testemunhas instrumentárias."]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="20">
+		<band height="20" splitType="Prevent">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-			<subreport>
-				<reportElement key="" x="0" y="0" width="555" height="20" uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
+			<subreport overflowType="Stretch">
+				<reportElement key="" positionType="Float" x="0" y="0" width="555" height="20" uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
 				<subreportParameter name="REGISTRATION_ID">
 					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
 				</subreportParameter>
