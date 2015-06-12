@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-11T13:31:18 -->
+<!-- 2015-06-12T09:44:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -121,14 +121,14 @@ ORDER BY re.id;]]>
 		<band height="71" splitType="Immediate">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<staticText>
-				<reportElement x="0" y="5" width="555" height="26" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
+				<reportElement x="0" y="5" width="555" height="32" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" isBold="false"/>
 				</textElement>
 				<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" x="0" y="54" width="555" height="16" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="0" y="49" width="555" height="22" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
 					<property name="local_mesure_unitheight" value="pixel"/>
 				</reportElement>
 				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
@@ -143,7 +143,7 @@ ORDER BY re.id;]]>
 				<textFieldExpression><![CDATA[$F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="34" width="555" height="10" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
+				<reportElement x="0" y="37" width="555" height="12" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Justified">
