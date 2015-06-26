@@ -7,8 +7,8 @@ SELECT *
  WHERE id = 789;
 
 SELECT *
-  FROM profile p
- WHERE lower (p.name) LIKE '%claudionor%';
+  FROM profile p, city c
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%hugo%';
 
 SELECT *
   FROM profile p
@@ -20,12 +20,26 @@ SELECT *
 
 SELECT *
   FROM team_formation tf, profile p
- WHERE tf.user_id = p.id AND tf.registration_id = 166;
+ WHERE tf.user_id = p.id AND tf.registration_id = 302;
+
+SELECT *
+  FROM team_formation tf,
+       profile p,
+       registration re,
+       race ra
+ WHERE     tf.user_id = p.id
+       AND tf.registration_id = re.id
+       AND re.race_id = ra.id
+       AND tf.user_id = 359;
 
 UPDATE team_formation
-   SET user_id = 789
- WHERE registration_id = 166 AND user_id = 38;
+   SET user_id = 359
+ WHERE registration_id = 260 AND user_id = 315;
 
+UPDATE registration
+   --   SET category_id = 359
+   SET course_id = 9
+ WHERE id = 274;
 
 DELETE FROM profile p
       WHERE p.id = 581;
