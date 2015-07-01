@@ -112,37 +112,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 	public List<Registration> findForUpdatePeriod() {
 		StringBuffer jpql = new StringBuffer();
-
-		// Long registrationId,
-		// Date registrationDate,
-		// String teamName,
-		// String paymentCode,
-		// String paymentTransaction,
-		// Integer submitterId,
-		// String submitterEmail,
-		// String submitterName,
-		// RegistrationStatusType registrationStatus,
-		// Integer raceId,
-		// String raceName,
-		// Date raceDate,
-		// PaymentType racePaymentType,
-		// String racePaymentInfo,
-		// String racePaymentAccount,
-		// String racePaymentToken,
-		// Integer periodId,
-		// BigDecimal periodPrice,
-		// Integer cityId,
-		// String cityName,
-		// Integer stateId,
-		// String stateName,
-		// String stateAbbreviation,
-		// Integer categoryId,
-		// String categoryName,
-		// Integer courseId,
-		// String courseName,
-		// Date registrationPeriodBeginning,
-		// Date registrationPeriodEnd
-
 		jpql.append(" select ");
 		jpql.append("    new Registration( ");
 		jpql.append("        re.id, ");
@@ -215,6 +184,11 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     p.name, ");
 		jpql.append(" 	     p.mobile, ");
 		jpql.append(" 	     p.tshirt, ");
+
+		jpql.append(" 	     p.birthday, ");
+		jpql.append(" 	     p.rg, ");
+		jpql.append(" 	     p.cpf, ");
+
 		jpql.append(" 	     ci.id, ");
 		jpql.append(" 	     ci.name, ");
 		jpql.append(" 	     st.id, ");

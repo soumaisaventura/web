@@ -25,6 +25,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -41,6 +42,7 @@ import adventure.entity.User;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
+import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -94,6 +96,7 @@ public class RaceRegistrationDownloadREST {
 		}
 
 		Workbook workbook = new XSSFWorkbook();
+		CreationHelper createHelper = workbook.getCreationHelper();
 
 		// CellStyle currencyStyle = workbook.createCellStyle();
 		// currencyStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
@@ -120,10 +123,12 @@ public class RaceRegistrationDownloadREST {
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("E-mail");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Camisa");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Telefone");
+		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Nascimento");
+		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("RG");
+		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("CPF");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Estado");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Cidade");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Inscrição (R$)");
-		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Anuidade (R$)");
 
 		rEquipes = sheetEquipes.createRow(rEquipesIdx++);
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Inscrição");
@@ -186,18 +191,25 @@ public class RaceRegistrationDownloadREST {
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						registration.getRaceCategory().getCategory().getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getTeamName());
-
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(user.getEmail());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						profile.getTshirt() == null ? "" : profile.getTshirt().name());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getMobile());
+
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(Dates.parse(profile.getBirthday()));
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getRg());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getCpf());
+
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						profile.getCity().getState().getAbbreviation());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getCity().getName());
 
+				short dataFormat;
+				dataFormat = style.getDataFormat();
 				style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getRacePrice().floatValue());
+				style.setDataFormat(dataFormat);
 			}
 
 			biggestTeam = registration.getTeamFormations().size() > biggestTeam ? registration.getTeamFormations()

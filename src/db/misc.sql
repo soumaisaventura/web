@@ -1,9 +1,8 @@
-
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%aris%';
- 
- SELECT *
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%walter%';
+
+SELECT *
   FROM user_account ua
  WHERE ua.email = 'monelopes17@gmail.com';
 
@@ -38,8 +37,8 @@ SELECT *
        AND tf.user_id = 359;
 
 UPDATE team_formation
-   SET user_id = 62
- WHERE registration_id = 197 AND user_id = 308;
+   SET user_id = 212
+ WHERE registration_id = 240 AND user_id = 11;
 
 UPDATE registration
    --SET category_id = 2
