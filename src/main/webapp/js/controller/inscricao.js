@@ -1,7 +1,7 @@
 $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
-	numeral.defaultFormat('0');
+	numeral.defaultFormat('0.00');
 
 	/**
 	 * Carrega dados da inscrição
@@ -58,15 +58,8 @@ function loadOk(data) {
 		row = row.concat(value.phone);
 		row = row.concat("</td>");
 		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='editable currency'>"
+		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
 				+ numeral(value.bill.racePrice).format() + "</a>");
-		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"annualFee\"}' class='editable currency'>"
-				+ numeral(value.bill.annualFee).format() + "</a>");
-		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<em class='partial' data-pk='" + value.id + "'>" + numeral(value.bill.amount).format() + "</em>");
 		row = row.concat("</td>");
 		row = row.concat("</tr>");
 		$("#team-formation > tbody:last").append(row);
@@ -77,7 +70,6 @@ function loadOk(data) {
 	});
 
 	updateTotal();
-	$("#annual-fee-description").text(App.annualFeeDescription);
 	$("#team-section").show();
 
 	if (data.status == 'pendent') {
@@ -152,8 +144,6 @@ function loadEditableCurrency(registrationId, enabled) {
 
 			if (params.property === 'racePrice') {
 				RegistrationProxy.updateRacePrice(registrationId, params.pk, value).done(updateValuesOk).fail(updateValuesFailed);
-			} else if (params.property === 'annualFee') {
-				RegistrationProxy.updateAnnualFee(registrationId, params.pk, value).done(updateValuesOk).fail(updateValuesFailed);
 			}
 
 			return d.promise();

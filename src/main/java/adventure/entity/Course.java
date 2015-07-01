@@ -41,10 +41,6 @@ public class Course implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 
-	@NotNull
-	@Column(name = "ANNUAL_FEE")
-	private Boolean annualFee;
-
 	@Transient
 	private List<Category> categories;
 
@@ -107,14 +103,6 @@ public class Course implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Boolean getAnnualFee() {
-		return annualFee;
-	}
-
-	public void setAnnualFee(Boolean annualFee) {
-		this.annualFee = annualFee;
 	}
 
 	public List<Category> getCategories() {

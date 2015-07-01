@@ -49,8 +49,7 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append(" 	     pr.name, ");
 		jpql.append(" 	     pr.gender, ");
 		jpql.append(" 	     pr.mobile, ");
-		jpql.append(" 	     tf.racePrice, ");
-		jpql.append(" 	     tf.annualFee ");
+		jpql.append(" 	     tf.racePrice ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from TeamFormation tf ");
 		jpql.append("   join tf.user u ");

@@ -1,13 +1,10 @@
 package adventure.rest;
 
-import static java.util.Calendar.YEAR;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +23,6 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.Category;
 import adventure.entity.City;
 import adventure.entity.Course;
@@ -35,8 +30,6 @@ import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.RaceStatusType;
 import adventure.entity.User;
-import adventure.persistence.AnnualFeeDAO;
-import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.CityDAO;
 import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
@@ -242,7 +235,6 @@ public class RaceREST {
 			CourseData courseData = new CourseData();
 			courseData.id = course.getId();
 			courseData.name = course.getName();
-			courseData.annualFee = course.getAnnualFee();
 
 			for (Category category : course.getCategories()) {
 				CategoryData categoryData = new CategoryData();
@@ -294,46 +286,36 @@ public class RaceREST {
 	@GET
 	@Path("{id}/order")
 	@Produces("application/json")
-	public OrderData getOrder(@PathParam("id") Integer id, @QueryParam("users") List<Integer> users) throws Exception {
+	public List<OrderRowData> getOrder(@PathParam("id") Integer id, @QueryParam("users") List<Integer> users)
+			throws Exception {
 		Race race = loadJustRaceId(id);
 
 		Period period = PeriodDAO.getInstance().loadCurrent(race);
-		OrderData data = new OrderData();
+		List<OrderRowData> result = new ArrayList<RaceREST.OrderRowData>();
 
 		if (users.isEmpty()) {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
 		} else {
-			Calendar calendar = Calendar.getInstance();
-			Integer year = calendar.get(YEAR);
-			AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-
 			for (Integer userId : users) {
 				User user = UserDAO.getInstance().loadBasics(userId);
 
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
-
 					OrderRowData row = new OrderRowData();
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice().floatValue();
 
-					AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(user, year);
-					row.annualFee = annualFeePayment != null ? 0 : annualFee.getFee().floatValue();
-
-					row.amount = row.racePrice + row.annualFee;
-
-					data.rows.add(row);
-					data.total += row.amount;
+					result.add(row);
 				}
 			}
 		}
 
 		period.setRace(null);
 
-		return data;
+		return result;
 	}
 
 	private Race loadRace(Integer id) throws Exception {
@@ -423,8 +405,6 @@ public class RaceREST {
 
 		public String name;
 
-		public Boolean annualFee;
-
 		public List<CategoryData> categories = new ArrayList<CategoryData>();
 	}
 
@@ -448,13 +428,6 @@ public class RaceREST {
 		public String email;
 	}
 
-	public static class OrderData {
-
-		public List<OrderRowData> rows = new ArrayList<OrderRowData>();
-
-		public float total;
-	}
-
 	public static class OrderRowData {
 
 		public Integer id;
@@ -462,9 +435,5 @@ public class RaceREST {
 		public String name;
 
 		public float racePrice;
-
-		public float annualFee;
-
-		public float amount;
 	}
 }

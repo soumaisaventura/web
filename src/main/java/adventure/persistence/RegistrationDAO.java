@@ -1,21 +1,16 @@
 package adventure.persistence;
 
 import static adventure.entity.PaymentType.AUTO;
-import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
-import static java.util.Calendar.YEAR;
 import static javax.persistence.TemporalType.DATE;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
@@ -43,24 +38,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	public Registration update(Registration registration) {
 		if (registration.getTeamName() != null) {
 			registration.setTeamName(registration.getTeamName().trim());
-		}
-
-		if (registration.getStatus() == CONFIRMED) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(registration.getDate());
-			Integer year = calendar.get(YEAR);
-			AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-
-			for (TeamFormation teamFormation : TeamFormationDAO.getInstance().find(registration)) {
-				if (teamFormation.getAnnualFee().equals(annualFee.getFee())) {
-					AnnualFeePayment annualFeePayment = new AnnualFeePayment();
-					annualFeePayment.setRegistration(registration);
-					annualFeePayment.setUser(UserDAO.getInstance().load(teamFormation.getUser().getId()));
-					annualFeePayment.setAnnualFee(annualFee);
-
-					AnnualFeePaymentDAO.getInstance().insert(annualFeePayment);
-				}
-			}
 		}
 
 		return super.update(registration);
@@ -243,7 +220,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     st.id, ");
 		jpql.append(" 	     st.abbreviation, ");
 		jpql.append(" 	     tf.racePrice, ");
-		jpql.append(" 	     tf.annualFee, ");
 		jpql.append(" 	     re.id, ");
 		jpql.append(" 	     re.status, ");
 		jpql.append(" 	     re.teamName, ");

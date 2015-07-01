@@ -34,8 +34,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
 import adventure.entity.RaceStatusType;
@@ -43,8 +41,6 @@ import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.AnnualFeeDAO;
-import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
@@ -142,8 +138,6 @@ public class RegistrationREST {
 					throw new ForbiddenException()
 							.addViolation("Somente os administradores podem cancelar uma inscrição já confirmada.");
 				}
-
-				AnnualFeePaymentDAO.getInstance().delete(registration);
 				break;
 
 			default:
@@ -203,8 +197,6 @@ public class RegistrationREST {
 
 			member.bill = new BillData();
 			member.bill.racePrice = teamFormation.getRacePrice().floatValue();
-			member.bill.annualFee = teamFormation.getAnnualFee().floatValue();
-			member.bill.amount = member.bill.racePrice + member.bill.annualFee;
 			data.teamFormation.add(member);
 		}
 
@@ -307,54 +299,6 @@ public class RegistrationREST {
 	@PUT
 	@LoggedIn
 	@Transactional
-	@Produces("application/json")
-	@Path("{id}/member/{memberId}/fee")
-	public void updateAnnualFee(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal fee)
-			throws Exception {
-		Registration registration = loadRegistrationForDetails(id);
-		Race race = registration.getRaceCategory().getRace();
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		User member = loadMember(memberId);
-		User loggedInUser = User.getLoggedIn();
-
-		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
-			throw new ForbiddenException();
-		}
-
-		TeamFormation teamFormation = TeamFormationDAO.getInstance().load(registration, member);
-		if (teamFormation == null) {
-			throw new UnprocessableEntityException().addViolation("member", member.getProfile().getName()
-					+ " não faz parte da equipe " + registration.getTeamName());
-		}
-
-		if (registration.getPaymentTransaction() != null) {
-			throw new UnprocessableEntityException().addViolation("transaction", "O pagamento já está em andamento");
-		}
-
-		AnnualFee annualFee = AnnualFeeDAO.getInstance().loadCurrent();
-		if (fee.doubleValue() < 0) {
-			throw new UnprocessableEntityException().addViolation("fee", "Valor inválido");
-		} else if (fee.doubleValue() != annualFee.getFee().doubleValue() && fee.doubleValue() != 0) {
-			throw new UnprocessableEntityException().addViolation("fee", "Não é possível fazer insenção parcial");
-		}
-
-		AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().loadCurrent(member);
-		if (annualFeePayment != null && fee.doubleValue() > 0) {
-			throw new UnprocessableEntityException().addViolation("fee", "Esta taxa já foi paga");
-		}
-
-		teamFormation.setAnnualFee(fee);
-		TeamFormationDAO.getInstance().update(teamFormation);
-
-		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
-		Registration persisted = registrationDAO.load(id);
-		persisted.setPaymentCode(null);
-		registrationDAO.update(persisted);
-	}
-
-	@PUT
-	@LoggedIn
-	@Transactional
 	@Path("{id}/team/name")
 	@Produces("application/json")
 	public void updateTeamName(@PathParam("id") Long id, String teamName) throws Exception {
@@ -404,15 +348,6 @@ public class RegistrationREST {
 				payload.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
 						+ teamFormation.getUser().getName()));
 				payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getRacePrice())));
-				payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
-			}
-
-			if (teamFormation.getAnnualFee().doubleValue() > 0) {
-				i++;
-				payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
-				payload.add(new BasicNameValuePair("itemDescription" + i, "Anuidade de "
-						+ teamFormation.getUser().getName()));
-				payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAnnualFee())));
 				payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
 			}
 		}
@@ -547,10 +482,6 @@ public class RegistrationREST {
 	public static class BillData {
 
 		public float racePrice;
-
-		public float annualFee;
-
-		public float amount;
 	}
 
 	public static class PaymentData {

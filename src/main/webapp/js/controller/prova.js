@@ -41,7 +41,7 @@ function loadOk(data) {
 		$.each(data.registration.prices, function(index, value) {
 			$("#registration-periods").append(
 					"<h4><span style='font-size: 0.8em'>" + moment(value.beginning, "YYYY-MM-DD").format('DD/MM') + " à "
-							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ":</span> " + numeral(value.price).format() + "<sup>*</sup></h4>")
+							+ moment(value.end, "YYYY-MM-DD").format('DD/MM') + ":</span> " + numeral(value.price).format() + "</h4>")
 		});
 		$("#registration-periods-section").show();
 	}

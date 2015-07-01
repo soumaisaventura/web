@@ -127,10 +127,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("           from TeamFormation _tf ");
 		jpql.append("          where _tf.user = u) ");
 		jpql.append("    and not exists ");
-		jpql.append("        (select _a.user.id ");
-		jpql.append("           from AnnualFeePayment _a ");
-		jpql.append("          where _a.user = u) ");
-		jpql.append("    and not exists ");
 		jpql.append("        (select _r.organizer.id ");
 		jpql.append("           from RaceOrganizer _r ");
 		jpql.append("          where _r.organizer = u) ");
@@ -200,6 +196,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("        u.password, ");
 		jpql.append("        u.activation, ");
 		jpql.append("        u.activationToken, ");
+		jpql.append("        u.passwordResetRequest, ");
+		jpql.append("        u.passwordResetToken, ");
 		jpql.append("        p.name, ");
 		jpql.append("        p.gender, ");
 		jpql.append(" 	     p.pendencies, ");

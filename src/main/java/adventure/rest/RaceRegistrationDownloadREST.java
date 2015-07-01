@@ -198,7 +198,6 @@ public class RaceRegistrationDownloadREST {
 
 				style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getRacePrice().floatValue());
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getAnnualFee().floatValue());
 			}
 
 			biggestTeam = registration.getTeamFormations().size() > biggestTeam ? registration.getTeamFormations()

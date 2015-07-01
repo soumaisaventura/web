@@ -19,8 +19,6 @@
 		<class>adventure.entity.Country</class>
 		<class>adventure.entity.State</class>
 		<class>adventure.entity.City</class>
-		<class>adventure.entity.AnnualFee</class>
-		<class>adventure.entity.AnnualFeePayment</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

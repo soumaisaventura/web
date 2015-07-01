@@ -55,7 +55,6 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 		jpql.append("        t.minFemaleMembers, ");
 		jpql.append("        c.id, ");
 		jpql.append("        c.name, ");
-		jpql.append("        c.annualFee, ");
 		jpql.append("        r.id) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
@@ -80,7 +79,6 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 				course = new Course();
 				course.setId(row.course.getId());
 				course.setName(row.course.getName());
-				course.setAnnualFee(row.course.getAnnualFee());
 				course.setCategories(new ArrayList<Category>());
 			}
 
@@ -114,10 +112,9 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 
 		public LoadWithCategories(Integer categoryId, String categoryName, String categoryDescription,
 				Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers,
-				Integer courseId, String courseName, Boolean courseAnnualFee, Integer raceId) throws Exception {
+				Integer courseId, String courseName, Integer raceId) throws Exception {
 			course.setId(courseId);
 			course.setName(courseName);
-			course.setAnnualFee(courseAnnualFee);
 
 			category.setId(categoryId);
 			category.setName(categoryName);

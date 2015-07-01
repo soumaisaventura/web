@@ -38,10 +38,6 @@ public class TeamFormation implements Serializable {
 	@Column(name = "RACE_PRICE", precision = 7, scale = 2)
 	private BigDecimal racePrice;
 
-	@NotNull
-	@Column(name = "ANNUAL_FEE", precision = 5, scale = 2)
-	private BigDecimal annualFee;
-
 	public TeamFormation() {
 	}
 
@@ -52,7 +48,7 @@ public class TeamFormation implements Serializable {
 
 	public TeamFormation(Integer userId, String userEmail, String profileName, String profileMobile,
 			TshirtType profileTshirt, Integer cityId, String cityName, Integer stateId, String stateAbbreviation,
-			BigDecimal racePrice, BigDecimal annualFee, Long registrationId, RegistrationStatusType registrationStatus,
+			BigDecimal racePrice, Long registrationId, RegistrationStatusType registrationStatus,
 			String registrationTeamName, Date registrationDate, Integer raceId, Integer categoryId,
 			String categoryName, Integer courseId, String courseName) {
 		setUser(new User());
@@ -72,7 +68,6 @@ public class TeamFormation implements Serializable {
 		getUser().getProfile().getCity().getState().setAbbreviation(stateAbbreviation);
 
 		setRacePrice(racePrice);
-		setAnnualFee(annualFee);
 
 		setRegistration(new Registration());
 		getRegistration().setId(registrationId);
@@ -92,7 +87,7 @@ public class TeamFormation implements Serializable {
 	}
 
 	public TeamFormation(Long registrationId, Integer userId, String userEmail, String profileName,
-			GenderType profileGender, String profileMobile, BigDecimal racePrice, BigDecimal annualFee) {
+			GenderType profileGender, String profileMobile, BigDecimal racePrice) {
 		setRegistration(new Registration());
 		getRegistration().setId(registrationId);
 
@@ -106,7 +101,6 @@ public class TeamFormation implements Serializable {
 		getUser().getProfile().setMobile(profileMobile);
 
 		setRacePrice(racePrice);
-		setAnnualFee(annualFee);
 	}
 
 	public TeamFormation(Integer userId, Long registrationId, String registrationTeamName) {
@@ -178,13 +172,5 @@ public class TeamFormation implements Serializable {
 
 	public void setRacePrice(BigDecimal racePrice) {
 		this.racePrice = racePrice;
-	}
-
-	public BigDecimal getAnnualFee() {
-		return annualFee;
-	}
-
-	public void setAnnualFee(BigDecimal annualFee) {
-		this.annualFee = annualFee;
 	}
 }

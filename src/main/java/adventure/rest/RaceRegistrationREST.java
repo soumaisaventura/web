@@ -4,12 +4,9 @@ import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
 import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.util.Constants.NAME_SIZE;
-import static java.util.Calendar.YEAR;
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +23,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import adventure.entity.AnnualFee;
-import adventure.entity.AnnualFeePayment;
 import adventure.entity.Category;
 import adventure.entity.GenderType;
 import adventure.entity.Period;
@@ -36,8 +31,6 @@ import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.AnnualFeeDAO;
-import adventure.persistence.AnnualFeePaymentDAO;
 import adventure.persistence.MailDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceCategoryDAO;
@@ -97,25 +90,12 @@ public class RaceRegistrationREST {
 		registration.setPeriod(period);
 		result = RegistrationDAO.getInstance().insert(registration);
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		Integer year = calendar.get(YEAR);
-		AnnualFee annualFee = AnnualFeeDAO.getInstance().load(year);
-
 		result.setTeamFormations(new ArrayList<TeamFormation>());
 		for (User member : members) {
 			User atachedMember = UserDAO.getInstance().load(member.getId());
 			TeamFormation teamFormation = new TeamFormation();
 			teamFormation.setRegistration(registration);
 			teamFormation.setUser(atachedMember);
-
-			if (raceCategory.getCourse().getAnnualFee()) {
-				AnnualFeePayment annualFeePayment = AnnualFeePaymentDAO.getInstance().load(member, year);
-				teamFormation.setAnnualFee(annualFeePayment != null ? BigDecimal.valueOf(0) : annualFee.getFee());
-			} else {
-				teamFormation.setAnnualFee(BigDecimal.valueOf(0));
-			}
-
 			teamFormation.setRacePrice(period.getPrice());
 
 			TeamFormationDAO.getInstance().insert(teamFormation);
@@ -167,8 +147,6 @@ public class RaceRegistrationREST {
 
 				userData.bill = new BillData();
 				userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
-				userData.bill.annualFee = teamFormation.getAnnualFee().floatValue();
-				userData.bill.amount = userData.bill.racePrice + userData.bill.annualFee;
 
 				data.teamFormation.add(userData);
 			}

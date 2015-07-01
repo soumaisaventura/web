@@ -51,18 +51,6 @@ var RegistrationProxy = {
 		});
 	},
 
-	updateAnnualFee : function(id, member, fee) {
-		return $.ajax({
-			type : "PUT",
-			url : this.url + "/" + id + "/member/" + member + "/fee",
-			data : fee,
-			contentType : "application/json",
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
-
 	updateTeamName : function(id, name) {
 		return $.ajax({
 			type : "PUT",

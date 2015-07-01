@@ -128,14 +128,16 @@ public class User implements Principal, Serializable {
 		getHealth().setPendencies(healthPendencies);
 	}
 
-	public User(Integer id, String email, String password, Date activation, String activationToken, String profileName,
-			GenderType profileGender, Integer profilePendencies, Integer healthPendencies, Boolean admin)
-			throws Exception {
+	public User(Integer id, String email, String password, Date activation, String activationToken,
+			Date passwordResetRequest, String passwordResetToken, String profileName, GenderType profileGender,
+			Integer profilePendencies, Integer healthPendencies, Boolean admin) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
 		setActivation(activation);
 		setActivationToken(activationToken);
+		setPasswordResetRequest(passwordResetRequest);
+		setPasswordResetToken(passwordResetToken);
 		setAdmin(admin);
 
 		setProfile(new Profile());

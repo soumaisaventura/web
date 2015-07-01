@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-12T09:44:41 -->
+<!-- 2015-06-12T12:59:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -118,17 +118,17 @@ ORDER BY re.id;]]>
 				<subreportExpression><![CDATA["report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="71" splitType="Immediate">
+		<band height="71">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<staticText>
-				<reportElement x="0" y="5" width="555" height="32" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
+				<reportElement x="0" y="0" width="555" height="25" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" isBold="false"/>
 				</textElement>
 				<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" x="0" y="49" width="555" height="22" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
+				<reportElement positionType="Float" x="0" y="48" width="555" height="23" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
 					<property name="local_mesure_unitheight" value="pixel"/>
 				</reportElement>
 				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
@@ -143,13 +143,13 @@ ORDER BY re.id;]]>
 				<textFieldExpression><![CDATA[$F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="37" width="555" height="12" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
+				<reportElement x="0" y="25" width="555" height="20" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Justified">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:\n\n" + 
+				<textFieldExpression><![CDATA["Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:\n" + 
 "1. Os riscos, conhecidos ou não, de acidentes nas modalidades envolvidas nesta competição são significativos, reconheço e assumo total responsabilidade pela minha participação; e\n" +
 "2. Como participante da prova, comprometo-me a respeitar a legislação vigente, seja ela municipal, estadual, ou federal, bem como o regulamento desta competição, assumindo toda e qualquer conseqüência de meus atos no período de duração da prova e naqueles que antecedem e a sucedem; e\n" +
 "3. Declaro que a minha equipe está de posse de todos os itens e/ou equipamentos obrigatórios citados no regulamento da prova. A falta de qualquer dos itens durante a prova, é de total responsabilidade da equipe, isentando de quaisquer prejuízos e/ou responsabilidade, a organização, os apoiadores e demais envolvidos nesta competição, podendo haver penalização, ou a desclassificação da equipe; e\n" +
@@ -160,11 +160,11 @@ ORDER BY re.id;]]>
 "8. O resgate, quando necessário, dar-se-á caso haja condições favoráveis e que permitam tal operação sem riscos a mim e a equipe de resgate; e\n" +
 "9. Eu autorizo a organização desta competição e terceiros por eles autorizados, os patrocinadores e apoiadores desta competição, a utilizar livremente a minha imagem através de qualquer forma lícita, e/ou a minha voz para fins de exibição em veículos de comunicação, bem como para produção de material promocional em qualquer tipo de mídia como VHS, CD-ROM, DVD, Mini-DV, Internet, entre outras, inclusive imprensa, e/ou disseminá-la através da Internet, para promoção da Corrida de Aventura e seus organizadores citados acima; e\n" +
 "10. A autorização prevista acima não tem limitação de tempo ou de número de vezes, podendo ocorrer no Brasil e/ou no exterior sem que me seja devida, a qualquer tempo e sob qualquer título, pagamento de valor antecipado ou posterior pelo uso de minha imagem e/ou voz; e\n" +
-"11. A presente autorização é concedida em caráter gratuito, não oneroso, irretratável e irrevogável obrigando a mim, meus herdeiros e sucessores a qualquer título;\n\n" +
+"11. A presente autorização é concedida em caráter gratuito, não oneroso, irretratável e irrevogável obrigando a mim, meus herdeiros e sucessores a qualquer título;\n" +
 "Após ter lido este termo de Responsabilidade e acordo de implicação de riscos e tendo compreendido-o, entendo que estou desistindo de direitos substanciais através da assinatura do mesmo, a qual faz livre e voluntariamente, sem qualquer coerção, na presença de testemunhas instrumentárias."]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="20" splitType="Prevent">
+		<band height="20">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 			<subreport overflowType="Stretch">
 				<reportElement key="" positionType="Float" x="0" y="0" width="555" height="20" uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
