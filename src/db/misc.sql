@@ -1,6 +1,10 @@
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%walter%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%pedro%';
+
+SELECT *
+  FROM city c, state s
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%socorro%';
 
 SELECT *
   FROM user_account ua
@@ -9,10 +13,6 @@ SELECT *
 SELECT *
   FROM user_account ua
  WHERE id = 789;
-
-SELECT *
-  FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%guerra%';
 
 SELECT *
   FROM profile p
@@ -37,8 +37,8 @@ SELECT *
        AND tf.user_id = 359;
 
 UPDATE team_formation
-   SET user_id = 212
- WHERE registration_id = 240 AND user_id = 11;
+   SET user_id = 959
+ WHERE registration_id = 309 AND user_id = 745;
 
 UPDATE registration
    --SET category_id = 2

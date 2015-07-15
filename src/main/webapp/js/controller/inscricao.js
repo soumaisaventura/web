@@ -153,7 +153,7 @@ function loadEditableCurrency(registrationId, enabled) {
 	$('.editable').on('shown', function() {
 		var input = $(this).data('editable').input.$input;
 
-		input.mask('##0', {
+		input.mask('##0,00', {
 			selectOnFocus : true,
 			placeholder : "0",
 			reverse : true

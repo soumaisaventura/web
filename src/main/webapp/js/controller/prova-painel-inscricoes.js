@@ -116,7 +116,7 @@ function findOk(data, status, request) {
 				tr = tr.concat("<h6 style='margin: 5px'>");
 
 				registration.teamFormation.forEach(function(member, i) {
-					amount += member.bill.amount;
+					amount += member.bill.racePrice;
 					if (i === 0) {
 						tr = tr.concat(member.name);
 					} else {
