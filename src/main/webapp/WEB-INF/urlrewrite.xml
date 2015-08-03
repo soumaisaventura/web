@@ -184,7 +184,7 @@
 <!-- 	</rule> -->
 
 	<rule>
-		<from>^/v2$</from>
+		<from>^/v2/$</from>
 		<to>/v2/index.jsf</to>
 	</rule>
 

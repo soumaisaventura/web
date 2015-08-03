@@ -1,16 +1,82 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/v2/template/main.xhtml">
 
 	<ui:define name="lib">
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script src="#{request.contextPath}/js/proxy/logon.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
+		<script src="#{request.contextPath}/js/controller/login.js"></script>
 	</ui:define>
 	
-
+	<ui:define name="css">
+		<style>
+			.corner {
+				overflow: hidden;
+				position: absolute;
+				right: -3.5em;
+				top: 2.5em;
+				-moz-transform: rotate(45deg);
+				-webkit-transform: rotate(45deg);
+				transform: rotate(45deg);
+				z-index: 10;
+			}
+			
+			.corner span {
+				color: #fff;
+				display: block;
+				font-size: .9em;
+				font-weight: bold;
+				padding: 0.5em 3em;
+				text-align: center;
+				text-decoration: none;
+				text-shadow: 1px 1px 1px #000;
+				z-index: 10;
+			}
+			
+			.open {
+				background-color: #055C27;
+			}
+			
+			.closed {
+				background-color: #950F09;
+			}
+			
+			.end {
+				opacity: 0.4;
+				filter: alpha(opacity = 40);
+			}
+			.login-or {
+				position: relative;
+				font-size: 18px;
+				color: #aaa;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			
+			.span-or {
+				display: block;
+				position: absolute;
+				left: 50%;
+				top: -2px;
+				margin-left: -25px;
+				background-color: #fff;
+				width: 50px;
+				text-align: center;
+			}
+			
+			.hr-or {
+				background-color: #cdcdcd;
+				margin-top: 0px !important;
+				margin-bottom: 0px !important;
+			}
+		</style>
+	</ui:define>
 
 	<ui:define name="body">
 		<!-- Begin Boxed or Fullwidth Layout -->
@@ -24,22 +90,13 @@
 					<div class="top-bar">
 						<div class="container container-header">
 							<div class="row top-bar-row">
-								<!-- Address and Phone -->
-								<div class="col-sm-7 hidden-xs contact-info">
-									<span class="ion-android-system-home home-icon"></span>Bright Passage, Fond du Lac, 63138 USA<span class="ion-ios7-telephone phone-icon"></span>1702983921
-								</div>
 								<!-- Social Buttons -->
-								<div class="col-sm-5 text-right topmenu-holder">
+								<div class="col-sm-12 text-right topmenu-holder">
 					                <ul class="topbar-list list-inline">
+						                <li><a data-toggle="modal" data-target="#login">Calendário 2015</a></li>
 						                <li><a data-toggle="modal" data-target="#login">Login</a></li>
 						                <li><a href="pages-forms-register-login.html">Register</a></li>
 						                <li>						
-								            <a class="btn btn-social-icon btn-rw btn-primary btn-xs">
-												<i class="fa fa-twitter"></i>
-											</a>
-											<a class="btn btn-social-icon btn-rw btn-primary btn-xs">
-												<i class="fa fa-instagram"></i>
-											</a>
 											<a class="btn btn-social-icon btn-rw btn-primary btn-xs">
 												<i class="fa fa-facebook"></i>
 											</a>
@@ -57,269 +114,50 @@
 					        <div class="modal-content">
 					            <div class="modal-header">
 					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-					                <h4 class="modal-title" id="loginLabel">Login</h4>
+					                <h4 class="modal-title" id="loginLabel">Identifique-se</h4>
 					            </div>
-					            <div class="modal-body">
-						            <form role="form">
+					            <form role="form">
+						            <div class="modal-body">
+						            	<div class="form-group">
+						            		<div class="row">
+						            			<div class="col-xs-6">
+													<a id="facebook-login" class="btn btn-block btn-facebook" disabled="disabled">Facebook</a>
+						            			</div>
+						            			<div class="col-xs-6">
+													<a id="google-login" class="btn btn-block btn-google-plus" disabled="disabled">Google</a>
+						            			</div>						            			
+						            		</div>
+						            	</div>
+						            	<div class="login-or" style="padding-bottom: 20px">
+											<hr class="hr-or"/>
+											<span class="span-or">ou</span>
+										</div>
 							            <div class="form-group">
-							                <label for="exampleInputEmail1">Email address</label>
-							                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+							                <label for="exampleInputEmail1">E-mail</label>
+							                <input type="email" class="form-control" id="username" placeholder="E-mail" maxlength="#{constants.emailSize}"/>
+											<span id="username-message" hidden="true" class="label label-danger" />
 							            </div>
 							            <div class="form-group">
-							                <label for="exampleInputPassword1">Password</label>
-							                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+							                <label for="exampleInputPassword1">Senha (<a href="#">Esqueceu sua senha?</a>)</label>
+							                <input type="password" class="form-control" id="password" placeholder="Senha" maxlength="#{constants.passwordSize}"/>
+											<span id="password-message" hidden="true" class="label label-danger" />
 							            </div>
-							            <div class="checkbox">
-							                <label>
-							                    <input type="checkbox"> Do you flex?
-							                </label>
-							            </div>
-							        </form><!-- /form -->
-					            </div>
-					            <div class="modal-footer">
-					                <button type="button" class="btn btn-rw btn-primary">Login</button>
-					            </div>
+							            <div class="form-group">
+							            	<div class="row">
+							            		<div class="col-md-12">
+								            		<div id="global-message" hidden="true" class="alert alert-danger text-center" />
+							            		</div>
+							            	</div>
+										</div>
+						            </div>
+						            <div class="modal-footer">
+						         		<button type="submit" class="btn btn-rw btn-primary">Entrar</button>
+						            </div>
+								</form>
 					        </div><!-- /modal content -->
 					    </div><!-- /modal dialog -->
 					</div><!-- /modal holder -->
 					<!-- End Login -->
-	
-			     	<!-- Begin Navigation -->
-					<div class="navbar">
-						<div class="container container-header">
-							<div class="navbar-header">
-								<!-- Brand -->
-								<a href="index.html" class="navbar-brand">
-									<div class="css-logo"></div> <img src="images/logo.png" class="raleway-logo" alt="Raleway Responsive Parallax Bootstrap 3 Template">
-								</a>
-								<!-- Mobile Navigation -->
-								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
-						            <span class="sr-only">Toggle navigation</span>
-						            <span class="icon-bar"></span>
-						            <span class="icon-bar"></span>
-						            <span class="icon-bar"></span>
-								</button>
-							</div><!-- /navbar header -->   
-	
-							<!-- Main Navigation -->
-							<nav class="navbar-collapse collapse navHeaderCollapse" role="navigation">
-								<ul class="nav navbar-nav navbar-right">
-									<li class="dropdown active">
-							        	<a href="index.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true">Home<span class="fa fa-angle-down dropdown-arrow"></span></a>
-							        	<ul class="dropdown-menu">
-							          		<li><a href="index.html">Option 1: Home</a></li>
-							          		<li><a href="index-home.html">Option 2: aHome</a></li>
-							          		<li><a href="index-home-b.html">Option 3: bHome</a></li>
-							          		<li><a href="index-carousel-subnav.html">Option 4: Carousel Subnav</a></li>
-							          		<li><a href="dark-navigation-example.html">Dark Navigation</a></li>
-							          		<li class="dropdown-submenu">
-									    		<a class="trigger">Footer Options</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-footer-options.html">Dark</a></li>
-										    		<li><a tabindex="-1" href="features-footer-options-2.html">Light</a></li>
-										    	</ul>
-											</li>
-							        	</ul>
-							        </li>
-									<li class="dropdown">
-							        	<a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown" data-delay="300" data-close-others="true">Pages<span class="fa fa-angle-down dropdown-arrow"></span></a>
-							        	<ul class="dropdown-menu">
-							        		<li class="dropdown-submenu">
-									    		<a class="trigger">About us &amp; Team</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-about-us-1.html">About us 1</a></li>
-										    		<li><a tabindex="-1" href="pages-about-us-2.html">About us 2</a></li>
-										    		<li><a tabindex="-1" href="pages-about-us-team.html">About us &amp; Team</a></li>
-										    		<li><a tabindex="-1" href="pages-team-1.html">The Team 1</a></li>
-										    		<li><a tabindex="-1" href="pages-team-2.html">The Team 2</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Services</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-services-1.html">Option 1</a></li>
-										    		<li><a tabindex="-1" href="pages-services-2.html">Option 2</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">About Me</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-user-profile-1.html">User Profile 1</a></li>
-										    		<li><a tabindex="-1" href="pages-user-profile-2.html">User Profile 2</a></li>
-										    	</ul>
-											</li>
-											<li><a href="pages-pricing.html">Pricing</a></li>
-								            <li><a href="pages-timeline.html">Timeline</a></li>
-								            <li><a href="pages-freebies.html">Freebies</a></li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">Forms</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-forms-register-login.html">Register &amp; Login</a></li>
-										    		<li><a tabindex="-1" href="pages-contact-1.html">Contact 1</a></li>
-										    		<li><a tabindex="-1" href="pages-contact-2.html">Contact 2</a></li>
-										    	</ul>
-											</li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">404</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-404-default.html">Default</a></li>
-										    		<li><a tabindex="-1" href="pages-404-default-image.html">Image</a></li>
-										    		<li><a tabindex="-1" href="pages-404-fullscreen.html">Fullscreen</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Basic Pages</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="pages-sidebar-right.html">Sidebar Right</a></li>
-										    		<li><a tabindex="-1" href="pages-sidebar-left.html">Sidebar Left</a></li>
-										    		<li><a tabindex="-1" href="pages-menu-right.html">Menu Right</a></li>
-										    		<li><a tabindex="-1" href="pages-menu-left.html">Menu Left</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="pages-faq.html">FAQ</a></li>
-							        	</ul>
-							        </li>
-									<li class="dropdown">
-							        	<a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown" data-delay="300" data-close-others="true">Features<span class="fa fa-angle-down dropdown-arrow"></span></a>
-							        	<ul class="dropdown-menu">
-								            <li><a href="features-parallax.html">Parallax</a></li>
-								            <li><a href="features-animations.html">Animations</a></li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">Icons</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-icons-fontawesome.html">FontAwesome</a></li>
-										    		<li><a tabindex="-1" href="features-icons-ionicons.html">Ionicons</a></li>
-										    		<li><a tabindex="-1" href="features-icons-glyphicons.html">Glyphicons</a></li>
-										    		<li><a tabindex="-1" href="features-icons-raleway.html">Raleway</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Buttons</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-buttons-basic.html">Basic</a></li>
-										    		<li><a tabindex="-1" href="features-buttons-social.html">Social</a></li>
-										    		<li><a tabindex="-1" href="features-buttons-library.html">Library</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="features-columns.html">Columns</a></li>
-								            <li><a href="features-typography.html">Typography</a></li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">Components</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-alerts.html">Alerts</a></li>
-										    		<li><a tabindex="-1" href="features-tabs-accordions.html">Tabs &amp; Accordions</a></li>
-										    		<li><a tabindex="-1" href="features-lists.html">Lists</a></li>
-										    		<li><a tabindex="-1" href="features-thumbnails.html">Thumbnails</a></li>
-										    		<li><a tabindex="-1" href="features-tables.html">Tables</a></li>
-										    		<li><a tabindex="-1" href="features-dividers.html">Dividers</a></li>
-										    		<li><a tabindex="-1" href="features-headings.html">Headings</a></li>
-										    		<li><a tabindex="-1" href="features-progress-bars.html">Progress Bars</a></li>
-										    		<li><a tabindex="-1" href="features-modals.html">Modals</a></li>
-										    		<li><a tabindex="-1" href="features-tooltips-popovers.html">Tooltips &amp; Popovers</a></li>
-										    		<li><a tabindex="-1" href="features-labels-badges.html">Labels &amp; Badges</a></li>
-										    		<li><a tabindex="-1" href="features-forms.html">Forms</a></li>
-										    		<li><a tabindex="-1" href="features-panels.html">Panels</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="features-sliders.html">Sliders</a></li>
-								            <li><a href="features-pricing-tables.html">Pricing Tables</a></li>
-								            <li><a href="features-calltoactions.html">Call to Action</a></li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">Content Boxes</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-content-boxes-icon-big.html">Icon Big</a></li>
-										    		<li><a tabindex="-1" href="features-content-boxes-icon-small.html">Icon Small</a></li>
-										    		<li><a tabindex="-1" href="features-content-boxes-icon-left.html">Icon Left Aligned</a></li>
-										    		<li><a tabindex="-1" href="features-content-boxes.html">Boxes</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Header Options</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-header-1.html">Default</a></li>
-										    		<li><a tabindex="-1" href="features-header-2.html">Option 2</a></li>
-										    		<li><a tabindex="-1" href="features-header-3.html">Option 3</a></li>
-										    		<li><a tabindex="-1" href="features-header-parallax.html">Parallax</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Team Member Options</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-team-members-1.html">Option 1</a></li>
-										    		<li><a tabindex="-1" href="features-team-members-2.html">Option 2</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="features-recent-projects.html">Recent Projects</a></li>
-								            <li class="dropdown-submenu">
-									    		<a class="trigger">Footer Options</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="features-footer-options.html">Dark</a></li>
-										    		<li><a tabindex="-1" href="features-footer-options-2.html">Light</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="features-image-video-zoom.html">Image &amp; Video Zoom</a></li>
-							        	</ul>
-							        </li>
-									<li class="dropdown">
-							        	<a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown" data-delay="300" data-close-others="true">Portfolio<span class="fa fa-angle-down dropdown-arrow"></span></a>
-							        	<ul class="dropdown-menu">
-							        		<li class="dropdown-submenu">
-									    		<a class="trigger">Boxed</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="portfolio-fixed-3-columns.html">3 Columns</a></li>
-										    		<li><a tabindex="-1" href="portfolio-fixed-4-columns.html">4 Columns</a></li>
-										    		<li><a tabindex="-1" href="portfolio-fluid-boxed.html">Fluid</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Circle</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="portfolio-fixed-3-columns-circle.html">3 Columns</a></li>
-										    		<li><a tabindex="-1" href="portfolio-fixed-4-columns-circle.html">4 Columns</a></li>
-										    		<li><a tabindex="-1" href="portfolio-fluid-circle.html">Fluid</a></li>
-										    	</ul>
-											</li>
-											<li class="dropdown-submenu">
-									    		<a class="trigger">Borderless</a>
-										    	<ul class="dropdown-menu">
-										    		<li><a tabindex="-1" href="portfolio-borderless-example.html">Borderless Example</a></li>
-										    		<li><a tabindex="-1" href="portfolio-fluid-borderless.html">Fluid</a></li>
-										    	</ul>
-											</li>
-								            <li><a href="portfolio-single-project.html">Single Project</a></li>
-							        	</ul>
-							        </li>
-									<li class="dropdown">
-							        	<a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown" data-delay="300" data-close-others="true">Blog<span class="fa fa-angle-down dropdown-arrow"></span></a>
-							        	<ul class="dropdown-menu">
-							            	<li><a href="blog-posts-1.html">Posts 1 Column</a></li>
-							            	<li><a href="blog-single-post.html">Single Post</a></li>
-							        	</ul>
-							        </li>
-									<li><a href="pages-contact-2.html">Contact</a></li>
-									<li class="dropdown">
-				                    	<a href="#" class="dropdown-toggle dropdown-form-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
-				                        <ul class="dropdown-menu dropdown-menu-user">
-				                            <li id="dropdownForm">
-				                            	<div class="dropdown-form">
-				                                	<form class="form-default form-inline p15">
-				                                        <div class="input-group">
-				                                            <input type="text" class="form-control search-input" placeholder="Search...">
-				                                            <span class="input-group-btn">
-				                                                <button class="btn btn-rw btn-primary search-btn" type="button">Go!</button>
-				                                            </span>
-				                                        </div><!-- /input group -->  
-				                                    </form><!-- /searh form -->  
-				                                </div><!-- /dropdown form -->  
-				                            </li><!-- /dropdownForm list item -->  
-				                        </ul><!-- /search dropdown -->
-				                	</li><!-- /search navbar list item -->  
-								</ul><!-- /navbar right -->  
-							</nav><!-- /nav -->  
-	
-						</div><!-- /container header -->   
-					</div><!-- /navbar -->   
-					<!-- End Navigation -->
 	
 				</header><!-- /header -->
 				<!-- End Header -->
@@ -331,7 +169,6 @@
 						<ol class="carousel-indicators">
 							<li data-target="#carouselHome" data-slide-to="0" class="active"></li>
 							<li data-target="#carouselHome" data-slide-to="1"></li>
-							<li data-target="#carouselHome" data-slide-to="2"></li>
 						</ol>
 	
 						<!-- Begin Wrapper for slides -->
@@ -346,13 +183,13 @@
 											<!-- Content -->
 											<div class="fadeInRight-animated" data-animation="fadeInRight">
 												<div class="carousel-description col-sm-5">
-													<h3 class="heavy text-white"><span class="carousel-title-bgclear">Clean Code + Design</span></h3><h3 class="heavy text-white"><span class="carousel-title-bgclear">HTML5 and CSS3</span></h3><h3 class="heavy text-white"><span class="carousel-title-bgclear">70+ Pages Total</span></h3>
-													<p>With over 90% of Bootstraps components restyled, over 35 pages of shortcode features, and over 30 pages for you to use, this is the <b>ultimate</b> parallax, responsive Bootstrap 3 template.</p>
+													<h3 class="heavy text-white"><span class="carousel-title-bgclear">Sou + Aventura</span></h3>
+													<p>Plataforma inteligente para inscrições e gestão de participantes que está revolucionando a maneira de se produzir corrida de aventura.</p>
 												</div>
 											</div>
 											<div class="fadeInLeft-animated" data-animation="fadeInLeft">
 												<div class="col-sm-6 col-sm-offset-1">
-													<img src="images/showcase-full.png" class="img-responsive carousel-image" alt="Responsive Showcase">
+													<img src="images/showcase2.png" class="img-responsive carousel-image" alt="Responsive Showcase"/>
 												</div>
 											</div>
 										</div><!-- /content container -->
@@ -370,19 +207,14 @@
 											<!-- Img -->
 											<div class="fadeInLeft-animated" data-animation="fadeInLeft">
 												<div class="col-sm-6 hidden-xs">
-													<img src="images/showcase2.png" class="img-responsive carousel-image" alt="Responsive Showcase">
+													<img src="images/showcase-full.png" class="img-responsive carousel-image" alt="Responsive Showcase"/>
 												</div>
 											</div>
 											<!-- Content -->
 											<div class="fadeInRight-animated" data-animation="fadeInRight">
 												<div class="carousel-description mt10 col-sm-5 col-sm-offset-1">
-													<h4 class="heavy text-white"><span class="carousel-title-bg">Many Javascript Plugins</span></h4>
-													<h4 class="heavy text-white"><span class="carousel-title-bg">Responsive Video Content</span></h4>
-													<h4 class="heavy text-white"><span class="carousel-title-bg">Shortcodes Pages + Docs</span></h4>
-													<p>Flexible for any project. And hey, we made sure you have all the features you need for any website. Also shortcodes on every features page, just copy & paste where you need.</p>
-													<a href="features.html" class="btn btn-rw btn-primary">
-														Features &nbsp;&nbsp;<span class="ion-ios7-arrow-right"></span>
-													</a>
+													<h4 class="heavy text-white"><span class="carousel-title-bg">Sou+Aventura</span></h4>
+													<p>Controle sua corrida de qualquer lugar.</p>
 												</div>
 											</div>
 										</div><!-- /content container -->
@@ -390,27 +222,6 @@
 								</div><!-- /bg div -->
 							</div><!-- /item -->
 							<!-- End Item 2 -->
-	
-							<!-- Begin Item 3 -->
-							<div class="item">
-								<!-- Item BG -->
-								<div style="background-image:url('images/backgrounds/bg5.jpg');" data-0="background-position:0px 0px;" data-500="background-position:0px -250px;">
-									<div class="container">
-										<div class="row carousel-content center-vertically-right">
-											<div class="fadeInUpBig-animated" data-animation="fadeInUpBig">
-												<div class="carousel-description col-sm-8 col-sm-offset-2 text-center">
-													<!-- Content -->
-													<span class="fa fa-heartbeat fa-4x text-white"></span>
-													<h2 class="heavy text-white"><span class="carousel-title-bgclear">Clean Code + Design</span></h2>
-													Raleway comes packed with over 30 pages and 50 components. All restyled to refresh your visitors. We have pricing tables, 404 pages, coming soon pages, about pages, and many more.<br>
-												</div>
-											</div>
-										</div><!-- /content container -->
-									</div><!-- /container -->
-								</div><!-- /bg div -->
-							</div><!-- /item -->
-							<!-- End Item 3 -->
-	
 						</div><!-- /carousel inner -->
 						<!-- End Wrapper for slides -->
 	
@@ -452,6 +263,94 @@
 					</div><!-- /container -->
 				</div><!-- /cta -->
 				<!-- End 3 Services -->
+				
+				<!-- Begin Recent Work + Clients -->
+				<section class="pt40 mb40 border-top">
+					<div class="container">		
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="heading mb30">
+									<h4><span class="ion-android-social-user mr15"></span>Próximas Corridas</h4>
+					                <div class="owl-controls">
+					                    <div id="customNav" class="owl-nav"></div>
+					                </div>
+								</div>
+								<div id="owl-carousel-thumb" class="owl-carousel">
+									<div class="thumbnail">
+						                <div class="caption v-wrap">
+						                	<div class="thumbnail-caption-holder v-box">
+							                    <h4 class="text-white">Laskpé</h4>
+							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> Detalhes</a>
+						                    </div>
+						                </div>
+						                <img src="http://www.soumaisaventura.com.br/api/race/7/banner/249" alt="Laskpé"/>
+										<div class="corner open">
+											<span>inscrições abertas</span>
+										</div>
+						                <div class="panel-body" style="padding-top: 5px;">
+											<div class="row">
+												<div class="col-md-12 text-right">
+													<h5 class="pull-left" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-calendar" style="font-size: 0.7em;"></span> 15 de agosto
+													</h5>
+													<h5 class="pull-right" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-map-marker" style="font-size: 0.7em;"></span> Juazeiro/BA
+													</h5>
+												</div>
+											</div>
+										</div>
+						            </div>
+									<div class="thumbnail">
+						                <div class="caption">
+						                	<div class="thumbnail-caption-holder">
+							                    <h4 class="text-white">Cangaço</h4>
+							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> Detalhes</a>
+						                    </div>
+						                </div>
+										<div class="corner open">
+											<span>inscrições abertas</span>
+										</div>
+						                <img src="http://www.soumaisaventura.com.br/api/race/8/banner/249" alt="Cangaço"/>
+						                <div class="panel-body" style="padding-top: 5px;">
+											<div class="row">
+												<div class="col-md-12 text-right">
+													<h5 class="pull-left" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-calendar" style="font-size: 0.7em;"></span> 30 de agosto
+													</h5>
+													<h5 class="pull-right" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-map-marker" style="font-size: 0.7em;"></span> Tanquinho/BA
+													</h5>
+												</div>
+											</div>
+										</div>
+						            </div>
+									<div class="thumbnail">
+						                <div class="caption">
+						                	<div class="thumbnail-caption-holder">
+							                    <h4 class="text-white">Desafio dos Sertões</h4>
+							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> Detalhes</a>
+						                    </div>
+						                </div>
+						                <img src="http://www.soumaisaventura.com.br/api/race/9/banner/249" alt="Desafio dos Sertões"/>
+						                <div class="panel-body" style="padding-top: 5px;">
+											<div class="row">
+												<div class="col-md-12 text-right">
+													<h5 class="pull-left" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-calendar" style="font-size: 0.7em;"></span> 10 de outubro
+													</h5>
+													<h5 class="pull-right" style="margin-top: 10px; margin-bottom: 5px;">
+														<span class="glyphicon glyphicon-map-marker" style="font-size: 0.7em;"></span> A definir
+													</h5>
+												</div>
+											</div>
+										</div>
+						            </div>
+								</div>
+							</div>
+						</div>
+					</div><!-- /container -->
+				</section><!-- /section -->
+				<!-- End Recent Work + Clients -->
 	
 				<!-- Begin Accordion + IMG  -->
 				<div class="mt40 mb40">
@@ -531,7 +430,7 @@
 	
 							<!-- Begin Image -->
 							<div class="col-sm-6" data-sr="enter bottom" >
-								<img src="images/showcase.png" class="img-responsive showcase-image" alt="Responsive Showcase 2">
+								<img src="images/showcase.png" class="img-responsive showcase-image" alt="Responsive Showcase 2"/>
 							</div><!-- /column -->
 	
 						</div><!-- /row -->
@@ -603,154 +502,30 @@
 				</div><!-- /content -->
 				<!-- End Carousel + Intro -->
 	
-				<!-- Begin Recent Work + Clients -->
-				<section class="pt40 mb40 border-top">
-					<div class="container">		
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="heading mb30">
-									<h4><span class="ion-android-social-user mr15"></span>Recent Work</h4>
-					                <div class="owl-controls">
-					                    <div id="customNav" class="owl-nav"></div>
-					                </div>
-								</div>
-								<div id="owl-carousel-thumb" class="owl-carousel">
-									<div class="thumbnail">
-						                <div class="caption v-wrap">
-						                	<div class="thumbnail-caption-holder v-box">
-							                    <h4 class="text-white">The Latia Project</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock1.jpg" alt="...">
-						            </div>
-									<div class="thumbnail">
-						                <div class="caption">
-						                	<div class="thumbnail-caption-holder">
-							                    <h4 class="text-white">Goose UI</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock2.jpg" alt="...">
-						            </div>
-									<div class="thumbnail">
-						                <div class="caption">
-						                	<div class="thumbnail-caption-holder">
-							                    <h4 class="text-white">Schroder's List</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock3.jpg" alt="...">
-						            </div>
-									<div class="thumbnail">
-						                <div class="caption">
-						                	<div class="thumbnail-caption-holder">
-							                    <h4 class="text-white">NO Pelicans</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock4.jpg" alt="...">
-						            </div>
-									<div class="thumbnail">
-						                <div class="caption">
-						                	<div class="thumbnail-caption-holder">
-							                    <h4 class="text-white">Fanbango</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock5.jpg" alt="...">
-						            </div>
-									<div class="thumbnail">
-						                <div class="caption">
-						                	<div class="thumbnail-caption-holder">
-							                    <h4 class="text-white">The Latia Project</h4>
-							                    <a href="#" class="btn btn-rw btn-clear"><span class="ion-android-search"></span> View</a>
-						                    </div>
-						                </div>
-						                <img src="images/backgrounds/stock6.jpg" alt="...">
-						            </div>
-								</div>
-							</div>
-						</div>
-	
-						<div class="row">
-							<!-- Client 1 -->
-							<div class="col-sm-2 col-xs-4 mb30-xs" data-sr="enter left" >
-								<a href="#"><img src="images/logos/boomerang.png" class="img-responsive clients-img" alt="Client 1"></a>
-							</div>
-	
-							<!-- Client 2 -->
-							<div class="col-sm-2 col-xs-4 mb30-xs" data-sr="enter left">
-								<a href="#"><img src="images/logos/backlight.png" class="img-responsive clients-img" alt="Client 2"></a>
-							</div>
-	
-							<!-- Client 3 -->
-							<div class="col-sm-2 col-xs-4 mb30-xs" data-sr="enter left">
-								<a href="#"><img src="images/logos/equi.png" class="img-responsive clients-img" alt="Client 3"></a>
-							</div>
-	
-							<!-- Client 4 -->
-							<div class="col-sm-2 col-xs-4" data-sr="enter left">
-								<a href="#"><img src="images/logos/ome.png" class="img-responsive clients-img" alt="Client 4"></a>
-							</div>
-	
-							<!-- Client 5 -->
-							<div class="col-sm-2 col-xs-4" data-sr="enter left">
-								<a href="#"><img src="images/logos/euro.png" class="img-responsive clients-img" alt="Client 5"></a>
-							</div>
-	
-							<!-- Client 6 -->
-							<div class="col-sm-2 col-xs-4" data-sr="enter left">
-								<a href="#"><img src="images/logos/micro.png" class="img-responsive clients-img" alt="Client 6"></a>
-							</div>
-						</div><!-- /row -->
-	
-					</div><!-- /container -->
-				</section><!-- /section -->
-				<!-- End Recent Work + Clients -->
-	
 				<!-- Begin Footer -->
 				<footer class="footer">
 					<div class="container">
 						<div class="row">
 							<!-- About -->
 							<div class="col-sm-3">
-								<div class="heading-footer"><h4>About</h4></div>
-								<p>Raleway Bootstrap 3 Template is what you need for your next project or client.</p>
+								<div class="heading-footer"><h4>Sobre</h4></div>
+								<p>Sou+Aventura é o que você precisa para sua próxima corrida!</p>
 								<a href="features.html" class="btn btn-primary btn-rw mt10">
-									Buy now
+									Criar corrida
 								</a>
 							</div>
 							
 							<!-- Social -->
 							<div class="col-sm-3 mg25-xs">
-								<div class="heading-footer"><h4>Social Networks</h4></div>
-								<a class="btn btn-social-icon btn-twitter btn-lg">
-									<i class="fa fa-twitter"></i>
+								<div class="heading-footer"><h4>Redes Sociais</h4></div>
+								<a class="btn btn-social-icon btn-facebook btn-lg">
+									<i class="fa fa-facebook"></i>
 								</a>
 								<a class="btn btn-social-icon btn-instagram btn-lg">
 									<i class="fa fa-instagram"></i>
 								</a>
-								<a class="btn btn-social-icon btn-facebook btn-lg">
-									<i class="fa fa-facebook"></i>
-								</a>
 								<a class="btn btn-social-icon btn-vimeo btn-lg">
 									<i class="fa fa-vimeo-square"></i>
-								</a>
-								<a class="btn btn-social-icon btn-linkedin btn-lg">
-									<i class="fa fa-linkedin"></i>
-								</a>
-								<a class="btn btn-social-icon btn-google-plus btn-lg">
-									<i class="fa fa-google-plus"></i>
-								</a>
-								<a class="btn btn-social-icon btn-adn btn-lg">
-									<i class="fa fa-adn"></i>
-								</a>
-								<a class="btn btn-social-icon btn-bitbucket btn-lg">
-									<i class="fa fa-bitbucket"></i>
-								</a>
-								<a class="btn btn-social-icon btn-tumblr btn-lg">
-									<i class="fa fa-tumblr"></i>
 								</a>
 								<a class="btn btn-social-icon btn-flickr btn-lg">
 									<i class="fa fa-flickr"></i>
@@ -759,38 +534,17 @@
 	
 							<!-- Contact -->
 							<div class="col-sm-3 mg25-xs">
-								<div class="heading-footer"><h4>Contact us</h4></div>
-								<p><span class="ion-home footer-info-icons"></span><small class="address">228 Park Ave S New York, NY 10003</small></p>
-								<p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:info@raleway.com">info@raleway.com</a></small></p>
-								<p><span class="ion-ios7-telephone footer-info-icons"></span><small class="address">+11192386513</small></p>
+								<div class="heading-footer"><h4>Contate-nos</h4></div>
+								<p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:contato@soumaisaventura.com.br">contato@soumaisaventura.com.br</a></small></p>
 							</div>
 	
-							<!-- Recent Work -->
-							<div class="col-sm-3 hidden-xs">
-								<div class="heading-footer"><h4>Recent Work</h4></div>
-								<div class="col-xs-4 recent-work-padding">
-									<a href="images/projects/web2.jpg" class="thumbnail image-zoom-link">
-								      <img src="images/projects/thumbs/web2.jpg" alt="..." class="thumbnail img-responsive">
-								    </a>
-								</div>
-								<div class="col-xs-4 recent-work-padding">
-									<a href="images/projects/web3.jpg" class="thumbnail image-zoom-link">
-								      <img src="images/projects/thumbs/web3.jpg" alt="..." class="thumbnail img-responsive">
-								    </a>
-								</div>
-								<div class="col-xs-4 recent-work-padding">
-									<a href="images/projects/illustration1.jpg" class="thumbnail image-zoom-link">
-								      <img src="images/projects/thumbs/illustration1.jpg" alt="..." class="thumbnail img-responsive">
-								    </a>
-								</div>
-							</div>
 						</div><!-- /row -->
 	
 						<!-- Copyright -->
 						<div class="row">
-							<hr class="dark-hr">
+							<hr class="dark-hr"/>
 							<div class="col-sm-11 col-xs-10">
-								<p class="copyright">© 2013 Raleway. All rights reserved. Theme by <b>Denis Samardjiev</b>.</p>
+								<p class="copyright">© 2015 Sou+Aventura. Todos os direitos reservados.</p>
 							</div>
 							<div class="col-sm-1 col-xs-2 text-right">
 								<a href="#" class="scroll-top"><div class="footer-scrolltop-holder"><span class="ion-ios7-arrow-up footer-scrolltop"></span></div></a>

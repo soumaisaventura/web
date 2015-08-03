@@ -24,26 +24,23 @@
 	</ui:insert>
 
 	<title>#{applicationConfigHelper.appTitle}</title>
-
-	<ui:insert name="css" />
-	<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/css/app.css" />
 	
 	<!-- Stylesheets -->
-	<link href="#{request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-	<link href="#{request.contextPath}/css/style.css" rel="stylesheet" title="main-css">
-	<link href="#{request.contextPath}/css/bootstrap-social.css" rel="stylesheet">
-	<link href="#{request.contextPath}/css/animate.min.css" rel="stylesheet">
-	<link href="#{request.contextPath}/css/owl.carousel.css" rel="stylesheet" >
-	<link href="#{request.contextPath}/css/buttons.css" rel="stylesheet">
+	<link href="#{request.contextPath}/v2/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="#{request.contextPath}/v2/css/style.css" rel="stylesheet" title="main-css"/>
+	<link href="#{request.contextPath}/v2/css/bootstrap-social.css" rel="stylesheet"/>
+	<link href="#{request.contextPath}/v2/css/animate.min.css" rel="stylesheet"/>
+	<link href="#{request.contextPath}/v2/css/owl.carousel.css" rel="stylesheet"/>
+	<link href="#{request.contextPath}/v2/css/buttons.css" rel="stylesheet"/>
 
 	<!-- Icon Fonts -->
-	<link href='#{request.contextPath}/css/ionicons.min.css' rel='stylesheet' type='text/css'>
-	<link href='#{request.contextPath}/css/font-awesome.css' rel='stylesheet' type='text/css'>
+	<link href='#{request.contextPath}/v2/css/ionicons.min.css' rel='stylesheet' type='text/css'/>
+	<link href='#{request.contextPath}/v2/css/font-awesome.css' rel='stylesheet' type='text/css'/>
 
 	<!-- Magnific Popup -->
-	<link href='#{request.contextPath}/css/magnific-popup.css' rel='stylesheet' type='text/css'>
+	<link href='#{request.contextPath}/v2/css/magnific-popup.css' rel='stylesheet' type='text/css'/>
 	
+	<ui:insert name="css" />
 	<ui:insert name="scriptlet" />
 	
 </h:head>
@@ -52,20 +49,34 @@
 	
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
 	
-	<div class="container">
-		<ui:insert name="body" />
-	</div>
-
-	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
-	<script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+	<ui:insert name="body" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/hover-dropdown.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.easing.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.mixitup.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/scrollReveal.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.magnific-popup.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.snippet.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.fitvids.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/style-switcher.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/activate-snippet.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/skrollr.min.js"></script>
+    <script>
+		var config = {
+		easing: 'hustle',
+		mobile:  true,
+		delay:  'onload'
+		}
+		window.sr = new scrollReveal( config );
+    </script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/main.js"></script>
 	<script src="#{request.contextPath}/js/lib/app.js"></script>
 	<ui:insert name="lib" />
 
-	<script src="#{request.contextPath}/js/proxy/user.js"></script>
-	<script src="#{request.contextPath}/js/proxy/logout.js"></script>
 	<ui:insert name="proxy" />
 
-	<script src="#{request.contextPath}/js/controller/menu.js"></script>
 	<ui:insert name="controller" />
 	
 </h:body>
@@ -81,5 +92,3 @@
 </script>
 
 </html>
-
-
