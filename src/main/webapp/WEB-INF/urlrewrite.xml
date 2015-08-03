@@ -178,43 +178,43 @@
 	</rule>
 
 	<!-- V2 Init -->
+<!-- 	<rule> -->
+<!-- 		<from>^/v2$</from> -->
+<!-- 		<to type="permanent-redirect">%{context-path}/v2/home</to> -->
+<!-- 	</rule> -->
+
 	<rule>
 		<from>^/v2$</from>
-		<to type="permanent-redirect">%{context-path}/v2/home</to>
+		<to>/v2/index.jsf</to>
 	</rule>
 
-	<rule>
-		<from>^/v2/home$</from>
-		<to>/v2/home.jsf</to>
-	</rule>
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/login$</from> -->
+<!-- 		<to>/v2/login.jsf</to> -->
+<!-- 	</rule> -->
 
-	<rule>
-		<from>^/v2/login$</from>
-		<to>/v2/login.jsf</to>
-	</rule>
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/recupera-senha$</from> -->
+<!-- 		<to>/v2/senha-recuperacao.jsf</to> -->
+<!-- 	</rule> -->
 
-	<rule>
-		<from>^/v2/recupera-senha$</from>
-		<to>/v2/senha-recuperacao.jsf</to>
-	</rule>
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/registre-se$</from> -->
+<!-- 		<to>/v2/registro.jsf</to> -->
+<!-- 	</rule> -->
 
-	<rule>
-		<from>^/v2/registre-se$</from>
-		<to>/v2/registro.jsf</to>
-	</rule>
-
-	<rule>
-		<from>^/v2/calendario/(\d+)$</from>
-		<to>/v2/calendario.jsf?ano=$1</to>
-	</rule>
-	<rule>
-		<from>^/v2/race/next$</from>
-		<to type="permanent-redirect">/v2/calendario/2015</to>
-	</rule>
-	<rule>
-		<from>^/v2/provas$</from>
-		<to type="permanent-redirect">/v2/calendario/2015</to>
-	</rule>
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/calendario/(\d+)$</from> -->
+<!-- 		<to>/v2/calendario.jsf?ano=$1</to> -->
+<!-- 	</rule> -->
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/race/next$</from> -->
+<!-- 		<to type="permanent-redirect">/v2/calendario/2015</to> -->
+<!-- 	</rule> -->
+<!-- 	<rule> -->
+<!-- 		<from>^/v2/provas$</from> -->
+<!-- 		<to type="permanent-redirect">/v2/calendario/2015</to> -->
+<!-- 	</rule> -->
 	<!-- V2 End -->
 
 	<rule>
