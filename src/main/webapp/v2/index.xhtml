@@ -1,7 +1,30 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/v2/template/main.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="template/main.xhtml">
 
 	<ui:define name="lib">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/hover-dropdown.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.mixitup.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/scrollReveal.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/owl.carousel.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.magnific-popup.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.snippet.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.fitvids.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/style-switcher.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/activate-snippet.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/skrollr.min.js"></script>
+	    <script>
+			var config = {
+			easing: 'hustle',
+			mobile:  true,
+			delay:  'onload'
+			}
+			window.sr = new scrollReveal( config );
+	    </script>
+		<script type="text/javascript" src="#{request.contextPath}/v2/js/main.js"></script>
+		<script src="#{request.contextPath}/js/lib/app.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -83,84 +106,7 @@
 		<div id="bg-boxed">
 		    <div class="boxed">
 	
-				<!-- Begin Header -->
-				<header>
-	
-					<!-- Begin Top Bar -->
-					<div class="top-bar">
-						<div class="container container-header">
-							<div class="row top-bar-row">
-								<!-- Social Buttons -->
-								<div class="col-sm-12 text-right topmenu-holder">
-					                <ul class="topbar-list list-inline">
-						                <li><a data-toggle="modal" data-target="#login">Calendário 2015</a></li>
-						                <li><a data-toggle="modal" data-target="#login">Login</a></li>
-						                <li><a href="pages-forms-register-login.html">Register</a></li>
-						                <li>						
-											<a class="btn btn-social-icon btn-rw btn-primary btn-xs">
-												<i class="fa fa-facebook"></i>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div><!--/row --> 
-						</div><!--/container header -->   
-					</div><!--/top bar -->   
-					<!-- End Top Bar -->
-	
-					<!-- Login -->
-					<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
-					    <div class="modal-dialog modal-sm">
-					        <div class="modal-content">
-					            <div class="modal-header">
-					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-					                <h4 class="modal-title" id="loginLabel">Identifique-se</h4>
-					            </div>
-					            <form role="form">
-						            <div class="modal-body">
-						            	<div class="form-group">
-						            		<div class="row">
-						            			<div class="col-xs-6">
-													<a id="facebook-login" class="btn btn-block btn-facebook" disabled="disabled">Facebook</a>
-						            			</div>
-						            			<div class="col-xs-6">
-													<a id="google-login" class="btn btn-block btn-google-plus" disabled="disabled">Google</a>
-						            			</div>						            			
-						            		</div>
-						            	</div>
-						            	<div class="login-or" style="padding-bottom: 20px">
-											<hr class="hr-or"/>
-											<span class="span-or">ou</span>
-										</div>
-							            <div class="form-group">
-							                <label for="exampleInputEmail1">E-mail</label>
-							                <input type="email" class="form-control" id="username" placeholder="E-mail" maxlength="#{constants.emailSize}"/>
-											<span id="username-message" hidden="true" class="label label-danger" />
-							            </div>
-							            <div class="form-group">
-							                <label for="exampleInputPassword1">Senha (<a href="#">Esqueceu sua senha?</a>)</label>
-							                <input type="password" class="form-control" id="password" placeholder="Senha" maxlength="#{constants.passwordSize}"/>
-											<span id="password-message" hidden="true" class="label label-danger" />
-							            </div>
-							            <div class="form-group">
-							            	<div class="row">
-							            		<div class="col-md-12">
-								            		<div id="global-message" hidden="true" class="alert alert-danger text-center" />
-							            		</div>
-							            	</div>
-										</div>
-						            </div>
-						            <div class="modal-footer">
-						         		<button type="submit" class="btn btn-rw btn-primary">Entrar</button>
-						            </div>
-								</form>
-					        </div><!-- /modal content -->
-					    </div><!-- /modal dialog -->
-					</div><!-- /modal holder -->
-					<!-- End Login -->
-	
-				</header><!-- /header -->
-				<!-- End Header -->
+				
 	
 				<!-- Begin Carousel -->
 				<div class="carousel">

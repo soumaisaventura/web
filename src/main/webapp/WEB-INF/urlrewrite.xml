@@ -178,14 +178,14 @@
 	</rule>
 
 	<!-- V2 Init -->
-<!-- 	<rule> -->
-<!-- 		<from>^/v2$</from> -->
-<!-- 		<to type="permanent-redirect">%{context-path}/v2/home</to> -->
-<!-- 	</rule> -->
-
 	<rule>
 		<from>^/v2/$</from>
-		<to>/v2/index.jsf</to>
+		<to type="permanent-redirect">%{context-path}/v2/index.jsf</to>
+	</rule>
+
+	<rule>
+		<from>^/v2/registro$</from>
+		<to>/v2/registro.jsf</to>
 	</rule>
 
 <!-- 	<rule> -->

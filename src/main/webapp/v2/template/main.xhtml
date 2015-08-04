@@ -48,31 +48,10 @@
 <h:body>
 	
 	<input id="contextPath" type="hidden" value="#{request.contextPath}" />
+	<ui:include src="menu.xhtml" />
 	
 	<ui:insert name="body" />
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/hover-dropdown.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.easing.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.mixitup.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/scrollReveal.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/owl.carousel.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.magnific-popup.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.snippet.min.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.fitvids.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/style-switcher.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/activate-snippet.js"></script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/skrollr.min.js"></script>
-    <script>
-		var config = {
-		easing: 'hustle',
-		mobile:  true,
-		delay:  'onload'
-		}
-		window.sr = new scrollReveal( config );
-    </script>
-	<script type="text/javascript" src="#{request.contextPath}/v2/js/main.js"></script>
-	<script src="#{request.contextPath}/js/lib/app.js"></script>
+	
 	<ui:insert name="lib" />
 
 	<ui:insert name="proxy" />
