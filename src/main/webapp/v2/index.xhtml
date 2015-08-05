@@ -2,111 +2,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="template/main.xhtml">
 
 	<ui:define name="lib">
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/hover-dropdown.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.mixitup.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/scrollReveal.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/owl.carousel.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.magnific-popup.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.snippet.min.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/jquery.fitvids.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/style-switcher.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/activate-snippet.js"></script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/skrollr.min.js"></script>
-	    <script>
-			var config = {
-			easing: 'hustle',
-			mobile:  true,
-			delay:  'onload'
-			}
-			window.sr = new scrollReveal( config );
-	    </script>
-		<script type="text/javascript" src="#{request.contextPath}/v2/js/main.js"></script>
-		<script src="#{request.contextPath}/js/lib/app.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/logon.js"></script>
+		<script src="#{request.contextPath}/v2/js/proxy/logon.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/login.js"></script>
+		<script src="#{request.contextPath}/v2/js/controller/login.js"></script>
 	</ui:define>
 	
 	<ui:define name="css">
-		<style>
-			.corner {
-				overflow: hidden;
-				position: absolute;
-				right: -3.5em;
-				top: 2.5em;
-				-moz-transform: rotate(45deg);
-				-webkit-transform: rotate(45deg);
-				transform: rotate(45deg);
-				z-index: 10;
-			}
-			
-			.corner span {
-				color: #fff;
-				display: block;
-				font-size: .9em;
-				font-weight: bold;
-				padding: 0.5em 3em;
-				text-align: center;
-				text-decoration: none;
-				text-shadow: 1px 1px 1px #000;
-				z-index: 10;
-			}
-			
-			.open {
-				background-color: #055C27;
-			}
-			
-			.closed {
-				background-color: #950F09;
-			}
-			
-			.end {
-				opacity: 0.4;
-				filter: alpha(opacity = 40);
-			}
-			.login-or {
-				position: relative;
-				font-size: 18px;
-				color: #aaa;
-				margin-top: 10px;
-				margin-bottom: 10px;
-				padding-top: 10px;
-				padding-bottom: 10px;
-			}
-			
-			.span-or {
-				display: block;
-				position: absolute;
-				left: 50%;
-				top: -2px;
-				margin-left: -25px;
-				background-color: #fff;
-				width: 50px;
-				text-align: center;
-			}
-			
-			.hr-or {
-				background-color: #cdcdcd;
-				margin-top: 0px !important;
-				margin-bottom: 0px !important;
-			}
-		</style>
+		<link href="css/app.css" rel="stylesheet"></link>
 	</ui:define>
 
 	<ui:define name="body">
 		<!-- Begin Boxed or Fullwidth Layout -->
 		<div id="bg-boxed">
 		    <div class="boxed">
-	
-				
 	
 				<!-- Begin Carousel -->
 				<div class="carousel">

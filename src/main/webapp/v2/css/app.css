@@ -1,0 +1,62 @@
+.corner {
+	overflow: hidden;
+	position: absolute;
+	right: -3.5em;
+	top: 2.5em;
+	-moz-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	z-index: 10;
+}
+
+.corner span {
+	color: #fff;
+	display: block;
+	font-size: .9em;
+	font-weight: bold;
+	padding: 0.5em 3em;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #000;
+	z-index: 10;
+}
+
+.open {
+	background-color: #055C27;
+}
+
+.closed {
+	background-color: #950F09;
+}
+
+.end {
+	opacity: 0.4;
+	filter: alpha(opacity = 40);
+}
+
+.login-or {
+	position: relative;
+	font-size: 18px;
+	color: #aaa;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.span-or {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -2px;
+	margin-left: -25px;
+	background-color: #fff;
+	width: 50px;
+	text-align: center;
+}
+
+.hr-or {
+	background-color: #cdcdcd;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}

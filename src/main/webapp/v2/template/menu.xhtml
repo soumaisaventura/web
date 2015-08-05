@@ -4,28 +4,6 @@
 	<!-- Begin Header -->
 	<header>
 
-		<!-- Begin Top Bar -->
-		<div class="top-bar">
-			<div class="container container-header">
-				<div class="row top-bar-row">
-					<!-- Social Buttons -->
-					<div class="col-sm-12 text-right topmenu-holder">
-						<ul class="topbar-list list-inline">
-							<li><a data-toggle="modal" data-target="#login">Calendário 2015</a></li>
-							<li><a data-toggle="modal" data-target="#login">Login</a></li>
-							<li><a href="registro">Registre-se</a></li>
-							<li><a class="btn btn-social-icon btn-rw btn-primary btn-xs"> <i class="fa fa-facebook"></i>
-							</a></li>
-						</ul>
-					</div>
-				</div>
-				<!--/row -->
-			</div>
-			<!--/container header -->
-		</div>
-		<!--/top bar -->
-		<!-- End Top Bar -->
-
 		<!-- Login -->
 		<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
@@ -54,7 +32,7 @@
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">E-mail</label>
-								<input type="email" class="form-control" id="username" placeholder="E-mail" maxlength="#{constants.emailSize}" />
+								<input type="email" class="form-control" id="username" placeholder="E-mail" maxlength="#{constants.emailSize}" autofocus="autofocus" />
 								<span id="username-message" hidden="true" class="label label-danger" />
 							</div>
 							<div class="form-group">
@@ -65,7 +43,7 @@
 							<div class="form-group">
 								<div class="row">
 									<div class="col-md-12">
-										<div id="global-message" hidden="true" class="alert alert-danger text-center" />
+										<div id="global-message1" hidden="true" class="alert alert-danger text-center" />
 									</div>
 								</div>
 							</div>
@@ -83,6 +61,65 @@
 		<!-- /modal holder -->
 		<!-- End Login -->
 
+		<!-- Begin Navigation -->
+		<div class="navbar">
+		  <div class="container container-header">
+		    <div class="navbar-header">
+		      <!-- Brand -->
+		      <a href="index.html" class="navbar-brand">
+		        <div class="css-logo"></div> Sou+Aventura
+		      </a>
+		      <!-- Mobile Navigation -->
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		      </button>
+		    </div><!-- /navbar header -->   
+		
+		    <!-- Main Navigation -->
+		    <nav class="navbar-collapse collapse navHeaderCollapse" role="navigation">
+		      <ul class="nav navbar-nav navbar-right">
+		      	<li id="user-profile-menu-item">
+					<a href="#{request.contextPath}/user/profile" class="loggedin-menu" style="display: none">
+						Dados pessoais
+						<span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
+					</a>
+				</li>
+				<li id="user-health-menu-item">
+					<a href="#{request.contextPath}/user/health" class="loggedin-menu" style="display: none">
+						Dados de saúde
+						<span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
+					</a>
+				</li>
+				<li id="registration-list-menu-item">
+					<a href="#{request.contextPath}/minhas-inscricoes" class="loggedin-menu" style="display: none">Minhas inscrições</a>
+				</li>
+		      	<li>
+		      		<a href="#">Calendário 2015</a>
+		      	</li>
+				<li class="hidden-xs">
+			      	<input id="loggedin-user-email" type="hidden" />
+					<a class="loggedin-menu" id="currentUser" style="display: none;"></a>
+				</li>
+				<li>
+					<a href="#" id="bt-logout" class="loggedin-menu" style="display: none">Sair</a>
+				</li>
+				<li>
+					<a data-toggle="modal" data-target="#login" class="loggedout-menu">Login</a>
+				</li>
+				<li>
+					<a href="registro" class="loggedout-menu">Registre-se</a>
+				</li>
+		      </ul><!-- /navbar right -->  
+		    </nav><!-- /nav -->  
+		
+		  </div><!-- /container header -->   
+		</div><!-- /navbar -->   
+		<!-- End Navigation -->
+
+		<ui:insert name="breadcrumb" />
 	</header>
 	<!-- /header -->
 	<!-- End Header -->
@@ -100,9 +137,7 @@
 <!-- 				<a class="navbar-brand" href="#{request.contextPath}/inicio"> -->
 <!-- 					<span class="acronym" title="Sou+ Aventura"> -->
 <!-- 						Sou+ Aventura -->
-<!-- 						
 <!--  						<img src="#{request.contextPath}/images/logo.png" /> -->
-<!-- 						--> -->
 <!-- 					</span> -->
 <!-- 				</a> -->
 <!-- 			</div> -->

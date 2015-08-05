@@ -52,11 +52,40 @@
 	
 	<ui:insert name="body" />
 	
+	<!-- LIB -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/hover-dropdown.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/jquery.easing.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/jquery.mixitup.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/scrollReveal.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/jquery.magnific-popup.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/jquery.snippet.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/jquery.fitvids.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/style-switcher.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/activate-snippet.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/skrollr.min.js"></script>
+	<script>
+			var config = {
+			easing: 'hustle',
+			mobile:  true,
+			delay:  'onload'
+			}
+			window.sr = new scrollReveal( config );
+	    </script>
+	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/main.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/app.js"></script>
 	<ui:insert name="lib" />
 
+	<!-- PROXY -->
+	<script src="#{request.contextPath}/v2/js/proxy/user.js"></script>
+	<script src="#{request.contextPath}/v2/js/proxy/logout.js"></script>
 	<ui:insert name="proxy" />
 
-	<ui:insert name="controller" />
+	<!-- CONTROLLER-->
+	<script src="#{request.contextPath}/v2/js/controller/menu.js"></script>
+	<ui:insert name="controller"/>
 	
 </h:body>
 
