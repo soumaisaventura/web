@@ -100,6 +100,8 @@ function loginOk(data, status, request) {
 
 	} else {
 		$('#login').modal('hide');
+		// O método loadMenu está no controller menu.js
+		loadMenu(App.getLoggedInUser());
 	}
 }
 
@@ -110,7 +112,7 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			$("#global-message").html('Usuário ou senha inválidos.').show();
+			$("#login-message").html(request.responseText).show();
 			break;
 	}
 }

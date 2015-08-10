@@ -77,6 +77,7 @@ var App = {
 	},
 
 	handle401 : function(request) {
+		console.log('xx');
 		this.clearAuthentication();
 		this.saveLocation(location.href);
 		location.href = App.getContextPath() + "/login";
