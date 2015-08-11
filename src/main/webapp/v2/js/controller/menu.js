@@ -30,5 +30,6 @@ function logoutOk() {
 	App.clearAuthentication();
 	App.clearSavedLocation();
 
-	location.href = App.getContextPath() + "/home";
+	//location.href = App.getContextPath() + "/home";
+	location.href = App.getContextPath() + "/v2";
 }

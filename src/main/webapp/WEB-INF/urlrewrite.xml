@@ -179,8 +179,9 @@
 
 	<!-- V2 Init -->
 	<rule>
-		<from>^/v2/$</from>
-		<to type="permanent-redirect">%{context-path}/v2/index.jsf</to>
+		<from>^/v2$</from>
+<!-- 		<to type="permanent-redirect">%{context-path}/v2/index.jsf</to> -->
+		<to>/v2/index.jsf</to>
 	</rule>
 
 	<rule>
