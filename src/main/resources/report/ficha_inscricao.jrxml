@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-12T12:59:41 -->
+<!-- 2015-08-11T09:26:31 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -12,7 +12,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OpenShift"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
 	<parameter name="RACE_ID" class="java.lang.Integer" isForPrompting="false">
 		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
 	</parameter>
@@ -23,7 +23,7 @@
          re.team_number AS team_number,
          re.team_name AS team_name,
          ca.name AS team_category_name,
-         co.length AS team_course_length,
+         co.name AS team_course_name,
          ra.id AS race_id,
          ra.name AS race_name,
          ra.date AS race_date,
@@ -55,7 +55,7 @@ ORDER BY re.id;]]>
 	<field name="team_number" class="java.lang.String"/>
 	<field name="team_name" class="java.lang.String"/>
 	<field name="team_category_name" class="java.lang.String"/>
-	<field name="team_course_length" class="java.lang.Integer"/>
+	<field name="team_course_name" class="java.lang.String"/>
 	<field name="race_id" class="java.lang.Integer"/>
 	<field name="race_name" class="java.lang.String"/>
 	<field name="race_date" class="java.sql.Date"/>
@@ -105,7 +105,7 @@ ORDER BY re.id;]]>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{team_name} + " – " +$F{team_category_name} + " " + $F{team_course_length} + " km"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{team_name} + " – " +$F{team_category_name} + " " + $F{team_course_name}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="17">
