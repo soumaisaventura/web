@@ -6,9 +6,9 @@ public class RaceOrganizerPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	Race race;
+	Integer race;
 
-	User organizer;
+	Integer organizer;
 
 	@Override
 	public int hashCode() {

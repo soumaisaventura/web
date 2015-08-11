@@ -6,11 +6,11 @@ public class RaceCategoryPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	Race race;
+	Integer race;
 
-	Course course;
+	Integer course;
 
-	Category category;
+	Integer category;
 
 	@Override
 	public int hashCode() {

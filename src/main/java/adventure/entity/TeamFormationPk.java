@@ -6,9 +6,9 @@ public class TeamFormationPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	Registration registration;
+	Long registration;
 
-	User user;
+	Integer user;
 
 	@Override
 	public int hashCode() {
