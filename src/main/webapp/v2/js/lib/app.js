@@ -83,7 +83,11 @@ var App = {
 		location.href = App.getContextPath() + "/login";
 	},
 
-	handle422 : function(request) {
+	handle422 : function(request, flag) {
+		
+		// Torna flag false caso ela não exista
+		flag = typeof flag !== 'undefined' ? flag : false;
+		
 		var elements = $("form input, form select, form textarea").get().reverse();
 
 		$(elements).each(function() {

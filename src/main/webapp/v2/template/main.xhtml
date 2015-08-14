@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <f:view contentType="text/html" locale="pt_BR" />
 
@@ -67,24 +67,26 @@
 	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/activate-snippet.js"></script>
 	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/skrollr.min.js"></script>
 	<script>
-			var config = {
-			easing: 'hustle',
-			mobile:  true,
-			delay:  'onload'
-			}
-			window.sr = new scrollReveal( config );
-	    </script>
+		var config = {
+		easing: 'hustle',
+		mobile:  true,
+		delay:  'onload'
+		}
+		window.sr = new scrollReveal( config );
+	</script>
 	<script type="text/javascript" src="#{request.contextPath}/v2/js/lib/main.js"></script>
 	<script src="#{request.contextPath}/v2/js/lib/app.js"></script>
 	<ui:insert name="lib" />
 
 	<!-- PROXY -->
 	<script src="#{request.contextPath}/v2/js/proxy/user.js"></script>
+	<script src="#{request.contextPath}/v2/js/proxy/logon.js"></script>
 	<script src="#{request.contextPath}/v2/js/proxy/logout.js"></script>
 	<ui:insert name="proxy" />
 
 	<!-- CONTROLLER-->
 	<script src="#{request.contextPath}/v2/js/controller/menu.js"></script>
+	<script src="#{request.contextPath}/v2/js/controller/login.js"></script>
 	<ui:insert name="controller"/>
 	
 </h:body>

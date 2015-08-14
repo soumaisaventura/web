@@ -4,7 +4,8 @@ $(function() {
 
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"))
 
-	$("form").submit(function(event) {
+	$("#form-signup").submit(function(event) {
+		console.log('form-sigup');	
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
@@ -12,10 +13,10 @@ $(function() {
 		if ($("#birthday-year").val() && $("#birthday-month").val() && $("#birthday").val()) {
 			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
 		}
-		console.log($("#password").val());
+		
 		var data = {
 			'name' : $("#name").val(),
-			'password' : $("#secretkey").val(),
+			'password' : $("#password").val(),
 			'email' : $("#email").val(),
 			'birthday' : birthday,
 			'gender' : $("#gender").val()
