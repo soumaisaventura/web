@@ -198,8 +198,63 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.0.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jfreechart</artifactId>
+					<groupId>jfree</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-queryparser</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-core</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>olap4j</artifactId>
+					<groupId>org.olap4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-annotations</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>castor-xml</artifactId>
+					<groupId>org.codehaus.castor</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>ecj</artifactId>
+					<groupId>org.eclipse.jdt.core.compiler</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jcommon</artifactId>
+					<groupId>jfree</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-                
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>6.0.0</version>
+		</dependency>
+
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
@@ -235,4 +290,8 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
+
+	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+	</properties>
 </project>

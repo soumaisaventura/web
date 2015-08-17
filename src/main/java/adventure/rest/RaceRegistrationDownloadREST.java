@@ -25,7 +25,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -96,7 +95,7 @@ public class RaceRegistrationDownloadREST {
 		}
 
 		Workbook workbook = new XSSFWorkbook();
-		CreationHelper createHelper = workbook.getCreationHelper();
+		// CreationHelper createHelper = workbook.getCreationHelper();
 
 		// CellStyle currencyStyle = workbook.createCellStyle();
 		// currencyStyle.setDataFormat(workbook.createDataFormat().getFormat("0.00"));

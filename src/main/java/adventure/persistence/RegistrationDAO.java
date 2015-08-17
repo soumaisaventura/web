@@ -12,6 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
+import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
@@ -30,6 +31,11 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 			registration.setTeamName(registration.getTeamName().trim());
 		}
 
+		RaceCategory raceCategory = registration.getRaceCategory();
+		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
+		raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
+		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
+
 		return super.insert(registration);
 	}
 
@@ -39,6 +45,11 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		if (registration.getTeamName() != null) {
 			registration.setTeamName(registration.getTeamName().trim());
 		}
+
+		RaceCategory raceCategory = registration.getRaceCategory();
+		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
+		raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
+		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
 
 		return super.update(registration);
 	}

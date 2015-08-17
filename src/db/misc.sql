@@ -1,6 +1,6 @@
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%pedro%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%angeloni%';
 
 SELECT *
   FROM city c, state s
@@ -8,15 +8,15 @@ SELECT *
 
 SELECT *
   FROM user_account ua
- WHERE ua.email = 'monelopes17@gmail.com';
+ WHERE ua.email like '%ss3%';
 
 SELECT *
   FROM user_account ua
- WHERE id = 789;
+ WHERE id = 1201;
 
 SELECT *
   FROM profile p
- WHERE p.id = 789;
+ WHERE p.id in (140, 1201);
 
 SELECT *
   FROM health h
