@@ -83,13 +83,14 @@ var App = {
 		location.href = App.getContextPath() + "/login";
 	},
 
-	handle422 : function(request, flag) {
+	handle422 : function(request, mapper) {
 		
-		// Torna flag false caso ela não exista
-		flag = typeof flag !== 'undefined' ? flag : false;
+		var mapperExist = typeof mapper !== 'undefined' ? true : false;
 		
 		var elements = $("form input, form select, form textarea").get().reverse();
 
+		console.log(elements);
+		
 		$(elements).each(function() {
 			var id = $(this).attr('id');
 			var messages = [];
@@ -97,16 +98,23 @@ var App = {
 			$.each(request.responseJSON, function(index, value) {
 				var aux = value.property ? value.property : "global";
 
-				if (id == aux) {
+				if(mapperExist){
+					$.each(mapper, function(index, map){
+						aux = aux === map.service ? map.screen : aux;
+						return false;
+					});
+				}
+
+				if (id === aux) {
 					messages.push(value.message);
-					return;
+					return false;
 				}
 			});
 
 			if (!id) {
-				return;
+				return false;
 			}
-
+			
 			var message = $("#" + id.replace(".", "\\.") + "-message");
 
 			if (messages.length > 1) {

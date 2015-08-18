@@ -6,16 +6,15 @@ $(function() {
 	});
 	
 	$("#form-login").submit(function(event) {
-		console.log('form-login');
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
 		var data = {
 			'username' : $("#username").val().trim(),
-			'password' : $("#password").val()
+			'password' : $("#secretkey").val()
 		};
-		//TODO: trocar o flag true por um map
-		LogonProxy.login(data).done(loginOk).fail(function(request){ loginFailed(request, true); });
+
+		LogonProxy.login(data).done(loginOk).fail(function(request){ loginFailed(request, [{service : "password", screen : "secretkey"}]); });
 	});
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
@@ -106,10 +105,10 @@ function loginOk(data, status, request) {
 	}
 }
 
-function loginFailed(request, flag) {
+function loginFailed(request, mapper) {
 	switch (request.status) {
 		case 422:
-			App.handle422(request, flag);
+			App.handle422(request, mapper);
 			break;
 
 		case 401:
