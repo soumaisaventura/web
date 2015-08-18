@@ -1,6 +1,6 @@
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%angeloni%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%vitor%';
 
 SELECT *
   FROM city c, state s
@@ -8,15 +8,15 @@ SELECT *
 
 SELECT *
   FROM user_account ua
- WHERE ua.email like '%ss3%';
+ WHERE ua.email LIKE '%ss3%';
 
 SELECT *
   FROM user_account ua
- WHERE id = 1201;
+ WHERE id  IN (50);
 
 SELECT *
   FROM profile p
- WHERE p.id in (140, 1201);
+ WHERE p.id IN (116, 284);
 
 SELECT *
   FROM health h
@@ -39,6 +39,12 @@ SELECT *
 UPDATE team_formation
    SET user_id = 959
  WHERE registration_id = 309 AND user_id = 745;
+
+SELECT *
+  FROM team_formation tf, registration r, race a
+ WHERE     tf.registration_id = r.id
+       AND r.race_id = a.id
+       AND user_id IN (116, 284);
 
 UPDATE registration
    --SET category_id = 2
