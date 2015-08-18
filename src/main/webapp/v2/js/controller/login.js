@@ -102,6 +102,7 @@ function loginOk(data, status, request) {
 		$('#login').modal('hide');
 		// O método loadMenu está no controller menu.js
 		loadMenu(App.getLoggedInUser());
+		location.href = 'index.jsf';
 	}
 }
 

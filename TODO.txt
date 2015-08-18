@@ -1,1 +1,2 @@
 1. Arrumar o serviço que retorna os OAuth Ids para não trazer mais o do google.
+2. Bloquear a entrada na página de registro de usuário estiver logado. 
