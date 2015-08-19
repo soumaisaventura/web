@@ -163,7 +163,7 @@ var App = {
 	translateStatus : function(status) {
 		switch (status) {
 			case "pendent":
-				return '<span class="registration label label-warning">Aguardando pagamento</span>';
+				return '<span class="registration label label-warning">Pendente</span>';
 
 			case "confirmed":
 				return '<span class="registration label label-success">Confirmada</span>';
