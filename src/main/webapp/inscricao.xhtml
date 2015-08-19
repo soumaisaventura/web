@@ -23,9 +23,8 @@
 		<script src="#{request.contextPath}/js/controller/inscricao.js"></script>
 	</ui:define>
 
-	<!--
 	<ui:define name="breadcrumb">
-		<ol class="breadcrumb">
+		<ol class="breadcrumb organizer" hidden="true">
 			<li>
 				<a href="#{request.contextPath}/inicio">Início</a>
 			</li>
@@ -33,17 +32,28 @@
 				<a href="#{request.contextPath}/provas">Provas</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/prova/#{param.race}">
+				<a id="race-link">
 					<span class="race-name"></span>
 				</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/prova/#{param.race}/inscricao">Inscrição</a>
+				<a id="dashboard-link">Painel</a>
 			</li>
-			<li class="active">##{param.registration}</li>
+			<li>
+				<a id="registration-link">Inscrições</a>
+			</li>
+			<li class="active">##{param.id}</li>
+		</ol>
+		<ol class="breadcrumb athlete" hidden="true">
+			<li>
+				<a href="#{request.contextPath}/inicio">Início</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/atleta/inscricoes">Minhas inscrições</a>
+			</li>
+			<li class="active">##{param.id}</li>
 		</ol>
 	</ui:define>
-	-->
 
 	<ui:define name="body">
 		<input id="registration" type="hidden" value="#{param.id}" />

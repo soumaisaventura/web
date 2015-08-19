@@ -82,7 +82,7 @@
 
 	<rule>
 		<from>^/atleta/pessoal$</from>
-		<to>/user-profile.jsf</to>
+		<to>/atleta-pessoal.jsf</to>
 	</rule>
 	<rule>
 		<from>^/user/profile$</from>
@@ -91,7 +91,7 @@
 
 	<rule>
 		<from>^/atleta/saude$</from>
-		<to>/user-health.jsf</to>
+		<to>/atleta-saude.jsf</to>
 	</rule>
 	<rule>
 		<from>^/user/health$</from>
@@ -100,7 +100,7 @@
 
 	<rule>
 		<from>^/atleta/inscricoes$</from>
-		<to>/registration-list.jsf</to>
+		<to>/atleta-inscricoes.jsf</to>
 	</rule>
 	<rule>
 		<from>^/minhas-inscricoes$</from>
@@ -179,13 +179,12 @@
 
 	<!-- V2 Init -->
 	<rule>
-		<from>^/v2$</from>
-<!-- 		<to type="permanent-redirect">%{context-path}/v2/index.jsf</to> -->
+		<from>^/_v2$</from>
 		<to>/v2/index.jsf</to>
 	</rule>
 
 	<rule>
-		<from>^/v2/registro$</from>
+		<from>^/_v2/registro$</from>
 		<to>/v2/registro.jsf</to>
 	</rule>
 

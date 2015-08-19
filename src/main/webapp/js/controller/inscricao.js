@@ -24,10 +24,33 @@ function sendPaymentFailed(request) {
 	}
 }
 
-/**
- * Carrega dados da inscrição
- */
+function updateBreadcrumb(data) {
+	var user = App.getLoggedInUser();
+
+	var organizer = false;
+	$.each(data.race.organizers, function(i, value) {
+		if (user.id === value.id) {
+			organizer = true;
+			return;
+		}
+	});
+
+	if (organizer || user.admin) {
+		$(".breadcrumb.organizer").show();
+
+		$("#race-link").attr("href", App.getContextPath() + "/prova/" + data.race.id);
+		$("#dashboard-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel");
+		$("#registration-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel/inscricoes");
+
+	} else {
+		$("#registration-list-menu-item").addClass("active");
+		$(".breadcrumb.athlete").show();
+	}
+}
+
 function loadOk(data) {
+	updateBreadcrumb(data);
+
 	$("#registration-id").text(data.number);
 	$("#team-name").text(data.teamName);
 	$("#race-status").html(App.translateStatus(data.status));
