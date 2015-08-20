@@ -159,6 +159,12 @@ var App = {
 			year.append(new Option(i, i));
 		}
 	},
+	
+	loadStateCombos : function(data, comboState) {
+		$.each(data, function(index, state){
+			comboState.append(new Option(state.abbreviation, state.id));
+		});
+	},
 
 	translateStatus : function(status) {
 		switch (status) {

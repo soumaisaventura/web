@@ -2,13 +2,20 @@ var LocationProxy = {
 
 	url : App.getContextPath() + "/api/location",
 
-	searchCity : function($filter) {
+	loadCities : function($filter) {
 		return $.ajax({
 			url : this.url + "/city",
 			dataType : "json",
 			data : {
-				q : $filter
+				stateId : $filter
 			}
+		});
+	},
+
+	loadStates : function(){
+		return $.ajax({
+			url : this.url + "/uf",
+			dataType : "json"
 		});
 	}
 };
