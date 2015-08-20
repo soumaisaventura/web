@@ -13,6 +13,12 @@ $(function() {
 	 * originais quando a corrida cobrar annualfee
 	 */
 	$("#category").on("change", function() {
+		var teamsize = $(this).find('option:selected').data("teamsize");
+		if (teamsize === 1){
+			$("#pesquisa-atleta").hide();
+		} else {
+			$("#pesquisa-atleta").show();
+		}
 		// Verifica se o percurso vai cobrar annualfee
 		var annualfee = $(this).find('option:selected').data("annualfee");
 		var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
@@ -177,6 +183,7 @@ function loadCategoriesOk(data) {
 		$.each(course.categories, function(index, category) {
 			option = new Option(course.name + " – " + this.name, this.id + "#" + course.id);
 			$(option).data("annualfee", course.annualFee);
+			$(option).data("teamsize", category.teamSize);
 			$("#category").append(option);
 		});
 	});
