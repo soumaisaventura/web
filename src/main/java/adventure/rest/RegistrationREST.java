@@ -394,7 +394,6 @@ public class RegistrationREST {
 		}
 
 		return result;
-
 	}
 
 	private User loadMember(Integer id) throws Exception {

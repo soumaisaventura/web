@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,11 +36,21 @@ public class State {
 	@Index(name = "IDX_STATE_ABBREVIATION")
 	private String abbreviation;
 
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "COUNTRY_ID")
 	@ForeignKey(name = "FK_STATE_COUNTRY")
 	@Index(name = "IDX_STATE_COUNTRY")
 	private Country country;
+
+	public State() {
+	}
+
+	public State(Integer id, String name, String abbreviation) {
+		setId(id);
+		setName(name);
+		setAbbreviation(abbreviation);
+	}
 
 	@Override
 	public int hashCode() {

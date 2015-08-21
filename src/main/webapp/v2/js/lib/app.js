@@ -162,7 +162,18 @@ var App = {
 	
 	loadStateCombos : function(data, comboState) {
 		$.each(data, function(index, state){
-			comboState.append(new Option(state.abbreviation, state.id));
+			comboState.append(new Option(state.abbreviation, state.abbreviation));
+		});
+	},
+	
+	loadCityCombos : function(data, comboCity) {
+		comboCity.empty();
+		var option = new Option("Cidade");
+			option.disabled = true;
+			option.selected = true;
+		comboCity.append(option);	
+		$.each(data, function(index, city){
+			comboCity.append(new Option(city.name, city.id));
 		});
 	},
 

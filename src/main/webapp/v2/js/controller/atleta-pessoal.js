@@ -1,5 +1,13 @@
 $(function() {
+
+	/**
+	 * Coloca o foco no campo com id = name
+	 * */
 	$("#name").focus();
+	
+	/**
+	 * Adiciona a classe css ao item com o id = user-profile-menu-item
+	 */
 	$("#user-profile-menu-item").addClass("active");
 
 	/**
@@ -8,74 +16,20 @@ $(function() {
 	App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
 	/**
-	 * Inicializa combo de estado
+	 * Carrega o combo de estado e os campos de dados pessoais
 	 */
-	LocationProxy.loadStates().done(loadStatesOk);
+	$.when(LocationProxy.loadStates(), UserProfileProxy.load()).done(function(states, user){
+		App.loadStateCombos(states[0], $("#uf"));
+		loadOk(user[0]);
+	});
 	
 	/**
-	 * Carrega combo de cidade conforme estado escolhido
+	 * Carrega combo de cidade ao selecionar um estado
 	 */
 	$("#uf").on("change", function(){
-		LocationProxy.loadCities($(this).val()).done(loadCitiesOk);
+		LocationProxy.searchCity($(this).val()).done(searchCityOk);
 	});
 	
-	
-	/**
-	 * Habilita o autocomplete no campo Cidade de residência
-	 */
-
-	// $("#city-select").select2({
-	// ajax : {
-	// url : App.getContextPath() + "/api/location/city",
-	// dataType : 'json',
-	// delay : 250,
-	// data : function(params) {
-	// return {
-	// q : params.term, // search term
-	// page : params.page
-	// };
-	// },
-	// processResults : function(data, page) {
-	// return {
-	// results : data
-	// };
-	// },
-	// cache : true
-	// },
-	// escapeMarkup : function(markup) {
-	// return markup;
-	// },
-	// minimumInputLength : 3,
-	// templateResult : function(item) {
-	// return item.name + "/" + item.state;
-	// },
-	// templateSelection : function(item) {
-	// return item.name + "/" + item.state;
-	// }
-	// });
-	$("#city").autocomplete({
-		source : function(request, response) {
-			LocationProxy.searchCity(request.term).done(function(data) {
-				response(convertToLabelValueStructure(data));
-			});
-		},
-		minLength : 3,
-		select : function(event, ui) {
-			$("#city").val(ui.item.label);
-			$("#city\\.id").val(ui.item.value);
-			return false;
-		},
-		change : function(event, ui) {
-			$("#city\\.id").val(ui.item ? ui.item.value : null);
-			return false;
-		},
-		focus : function(event, ui) {
-			$("#city\\.id").val(ui.item.value);
-			$("#city").val(ui.item.label);
-			return false;
-		}
-	});
-
 	/**
 	 * Cadastro dos dados pessoais
 	 */
@@ -84,9 +38,6 @@ $(function() {
 		$("[id$='-message']").hide();
 
 		var birthday = "";
-
-		console.log(isNaN($("#birthday-year").val()));
-		console.log($("#birthday-year").val());
 
 		if ($("#birthday-year").val() && $("#birthday-month").val() && $("#birthday").val()) {
 			birthday = $("#birthday-year").val() + "-" + $("#birthday-month").val() + "-" + $("#birthday").val();
@@ -98,29 +49,23 @@ $(function() {
 			'rg' : $("#rg").val(),
 			'cpf' : $("#cpf").val(),
 			'city' : {
-				"id" : $("#city\\.id").val()
+				"id" : $("#city").val()
 			},
 			'gender' : $("#gender").val(),
 			'tshirt' : $("#tshirt").val(),
 			'mobile' : $("#mobile").val()
 		};
+
 		UserProfileProxy.update(data).done(updateOk);
 	});
 
-	/**
-	 * Carrega os dados pessoais
-	 */
-	UserProfileProxy.load().done(loadOk);
+
 });
 
 /* ---------------- Funções de Callback ---------------- */
 
-function loadStatesOk(data){
-	App.loadStateCombos(data, $("#uf"));
-}
-
-function loadCitiesOk(data){
-	console.log(data);
+function searchCityOk(data){
+	App.loadCityCombos(data, $("#city"));
 }
 
 /**
@@ -143,11 +88,13 @@ function loadOk(data) {
 		$("#tshirt").val(data.tshirt);
 	}
 
-	$("#city\\.id").val(data.city.id);
-
-	if (data.city.name) {
-		$("#city").val(data.city.name + "/" + data.city.state);
-	}
+	$("#uf").val(data.city.state);
+	
+	$.when(LocationProxy.searchCity(data.city.state).done(searchCityOk)).then(
+			function(){
+				$("#city").val(data.city.id);
+			}
+	);
 
 	$("#mobile").val(data.mobile);
 	$("#form-section").show();
@@ -204,21 +151,4 @@ function updateOk(data) {
 	}
 
 	bootbox.dialog(content);
-}
-
-/* ---------------- Funções Utilitárias ---------------- */
-
-/**
- * Função utilitária que converte o objeto retornado no suggest para o formato
- * do jqueryUi.
- */
-function convertToLabelValueStructure(data) {
-	var newData = [];
-	$.each(data, function() {
-		newData.push({
-			"label" : this.name + "/" + this.state,
-			"value" : this.id
-		});
-	});
-	return newData;
 }
