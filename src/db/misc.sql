@@ -4,11 +4,11 @@ SELECT *
 
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%socorro%';
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
 
 SELECT *
   FROM user_account ua
- WHERE ua.email LIKE '%ss3%';
+ WHERE ua.email LIKE '%manoelabb@gmail.com%';
 
 SELECT *
   FROM user_account ua
@@ -67,10 +67,11 @@ UPDATE registration
 GROUP BY pc.name, ps.name
 ORDER BY count (*) DESC;
 
-
-  SELECT count (*) AS inscritos, rc.name AS cidade, rs.name AS estado
+  SELECT rc.name || ', ' || rs.name || ', Brazil' AS "Cidade da prova",
+         count (*) AS "Inscrições"
     FROM registration r,
          race a,
+         course c,
          team_formation t,
          city rc,
          state rs,
@@ -82,8 +83,37 @@ ORDER BY count (*) DESC;
          AND t.user_id = p.id
          AND r.status = 'CONFIRMED'
          AND a.city_id = rc.id
+         AND r.course_id = c.id
+         AND c.adventure_racing = TRUE
          AND rc.state_id = rs.id
          AND p.city_id = pc.id
          AND pc.state_id = ps.id
+         AND rs.abbreviation = 'BA'
 GROUP BY rc.name, rs.name
+ORDER BY count (*) DESC;
+
+  SELECT pc.name || ', ' || ps.name || ', Brazil'
+            AS "Cidade de residência do atleta",
+         count (*) AS "Inscrições"
+    FROM registration r,
+         race a,
+         course c,
+         team_formation t,
+         city rc,
+         state rs,
+         city pc,
+         state ps,
+         profile p
+   WHERE     r.race_id = a.id
+         AND t.registration_id = r.id
+         AND t.user_id = p.id
+         AND r.status = 'CONFIRMED'
+         AND a.city_id = rc.id
+         AND r.course_id = c.id
+         AND c.adventure_racing = TRUE
+         AND rc.state_id = rs.id
+         AND p.city_id = pc.id
+         AND pc.state_id = ps.id
+         AND rs.abbreviation = 'BA'
+GROUP BY pc.name, ps.name
 ORDER BY count (*) DESC;
