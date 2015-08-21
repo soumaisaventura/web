@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="template/main.xhtml">
+
+<ui:define name="lib">
+	<script src="#{request.contextPath}/v2/js/lib/moment.min.js"></script>
+</ui:define>
+
+<ui:define name="proxy">
+	<script src="#{request.contextPath}/v2/js/proxy/registration.js"></script>
+</ui:define>
+
+<ui:define name="controller">
+	<script src="#{request.contextPath}/v2/js/controller/atleta-inscricoes.js"></script>
+</ui:define>
+
+<ui:define name="breadcrumb">
+	<!-- Begin Page Header -->
+	<div class="header">
+		<div class="container">
+			<div class="row">
+				<!-- Page Title -->
+				<div class="col-sm-6 col-xs-12">
+					<h1>Minhas inscrições</h1>
+				</div>
+
+				<!-- Breadcrumbs -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb">
+						<li><span class="ion-home breadcrumb-home"></span><a href="index.html">Home</a></li>
+						<li>Minhas inscrições</li>
+					</ol>
+				</div>
+				<!-- /column -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /page header -->
+</ui:define>
+	
+<ui:define name="body">
+
+	<div class="content-40mg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="heading mb20">
+						<h4>Acompanhe o andamento das suas inscrições</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- 		<div class="col-md-6 col-md-offset-3"> -->
+<!-- 			<div class="row" style="padding-bottom: 20px"> -->
+<!-- 				<h1>Minhas Inscrições</h1> -->
+<!-- 				<h4>Acompanhe o andamento das suas inscrições</h4> -->
+<!-- 			</div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<table> -->
+<!-- 					<table id="resultTable" class="table table-bordered"> -->
+<!-- 						<tbody></tbody> -->
+<!-- 					</table> -->
+<!-- 				</table> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+	</ui:define>
+
+</ui:composition>
