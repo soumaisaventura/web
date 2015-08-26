@@ -14,6 +14,35 @@
 	<script src="#{request.contextPath}/v2/js/controller/atleta-inscricoes.js"></script>
 </ui:define>
 
+<ui:define name="css">
+	<link href='#{request.contextPath}/v2/css/app.css' rel='stylesheet' type='text/css'/>
+</ui:define>
+
+<ui:define name="scriptlet">
+	<script id="template" type="text/template">
+		<div class="col-md-4 col-xs-12">
+			<div class="offer offer-radius offer-{{status}}">
+				<div class="shape">
+					<div class="shape-text">
+						{{statusTranslate}}								
+					</div>
+				</div>
+				<div class="offer-content">
+					<h3 class="lead">
+						<a href="/web/inscricao/{{number}}">\#{{number}}</a><br/>
+						{{race.name}}
+					</h3>
+					<p>
+						<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span> {{race.date}}<br/>
+						<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span> {{race.city.name}} / {{race.city.state}}<br/>
+						<i class="fa fa-users" style="font-size: 0.8em"></i> {{teamName}}
+					</p>
+				</div>
+			</div>
+		</div>
+	</script>
+</ui:define>
+
 <ui:define name="breadcrumb">
 	<!-- Begin Page Header -->
 	<div class="header">
@@ -51,32 +80,8 @@
 				</div>
 			</div>
 			
-			<ul id="minhas-inscricoes" class="timeline no-margin">
-			</ul>
-			
-			<script id="template" type="text/template">
-				<li class="{{cssClass}}">
-					<div class="timeline-badge {{status}}"></div>
-					<div class="timeline-panel">
-						<div class="heading">
-							<h3><a href="/web/inscricao/{{number}}">\#{{number}}</a></h3>
-						</div>
-						<div class="timeline-body">
-							<div class="row">
-								<div class="col-lg-6 col-sm-12">
-									<img id="banner-{{race.id}}" alt="{{race.name}}" src="/web/api/race/{{race.id}}/banner/200"/>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<span class="label label-{{status}}">{{statusTranslate}}</span><br/>
-									<span class="glyphicon glyphicon-calendar" style="font-size: 0.8em"></span> {{race.date}}<br/>
-									<span class="glyphicon glyphicon-map-marker" style="font-size: 0.8em"></span> {{race.city.name}} / {{race.city.state}}<br/>
-									<i class="fa fa-users" style="font-size: 0.8em"></i> {{teamName}}
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>			
-			</script>
+			<div id="minhas-inscricoes" class="row">
+			</div>
 		</div>
 	</div>
 </ui:define>

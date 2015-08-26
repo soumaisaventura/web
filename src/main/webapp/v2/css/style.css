@@ -1537,7 +1537,20 @@ label { font-weight:600; }
 	background-color:#ff7454;
 	border-left:6px solid #EAEAEA;
 }
-.cta p, .cta-dark p, .cta-primary p{
+
+.cta-success {
+	background-color:#2ecc71;
+}
+
+.cta-danger {
+	background-color:#FF3B30;
+}
+
+.cta-warning {
+	background-color:#f0ad4e;
+}
+
+.cta p, .cta-dark p, .cta-primary p, .cta-success p, .cta-danger p, .cta-warning p{
 	margin:0;
 	padding:0;
 	font-size:16px;
