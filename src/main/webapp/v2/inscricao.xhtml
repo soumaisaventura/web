@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="template/main.xhtml">
+
+<ui:define name="css">
+	<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap-editable.css" />
+</ui:define>
+
+<ui:define name="lib">
+	<script src="#{request.contextPath}/v2/js/lib/moment.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/languages.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/numeral.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/pt-br.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/bootbox.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/bootstrap-editable.min.js"></script>
+	<script src="#{request.contextPath}/v2/js/lib/jquery.mask.min.js"></script>
+</ui:define>
+
+<ui:define name="proxy">
+	<script src="#{request.contextPath}/v2/js/proxy/registration.js"></script>
+</ui:define>
+
+<ui:define name="controller">
+	<script src="#{request.contextPath}/v2/js/controller/inscricao.js"></script>
+</ui:define>
+
+<ui:define name="breadcrumb">
+	<!-- Begin Page Header -->
+	<div class="header">
+		<div class="container">
+			<div class="row">
+				<!-- Page Title -->
+				<div class="col-sm-6 col-xs-12">
+					<h1>Inscrição #<span id="registration-id"></span></h1>
+				</div>
+
+				<!-- Breadcrumbs -->
+				<div class="col-sm-6">
+				<ol class="breadcrumb organizer" hidden="true">
+					<li>
+						<a href="#{request.contextPath}/calendario/2015">Calendário 2015</a>
+					</li>
+					<li>
+						<a id="race-link">
+							<span class="race-name"></span>
+						</a>
+					</li>
+					<li>
+						<a id="dashboard-link">Painel</a>
+					</li>
+					<li>
+						<a id="registration-link">Inscrições</a>
+					</li>
+					<li class="active">##{param.id}</li>
+				</ol>
+				<ol class="breadcrumb athlete" hidden="true">
+					<li>
+						<a href="#{request.contextPath}/atleta/inscricoes">Minhas inscrições</a>
+					</li>
+					<li class="active">##{param.id}</li>
+				</ol>
+				</div>
+				<!-- /column -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /page header -->
+</ui:define>
+	
+<ui:define name="body">
+	<input id="registration" type="hidden" value="#{param.id}" />
+	<div class="content-40mg">
+		<div class="container">
+			<!-- div class="row">
+				<div class="col-sm-12">
+					<div class="heading mb20">
+						<h4>
+							<span class="race-name"></span>
+						</h4>
+					</div>
+				</div>
+			</div-->
+			<div class="row">
+			
+			
+				<div class="col-md-4">
+			
+					<div class="panel panel-default">
+					  	<div class="panel-heading">
+					  		<img src="http://www.soumaisaventura.com.br/api/race/7/banner/340"/>
+					  	</div>
+						<div class="panel-body">
+							<ul class="list-unstyled">
+								<li><i class="fa fa-users bordered-icon-static-xs mb15" aria-hidden="true" title="Equipe" style=""></i> <a href="#" id="team-name"></a>&#160;&#160;</li>
+								<li><span class="glyphicon glyphicon-th-large bordered-icon-static-xs mb15" aria-hidden="true" title='Categoria'></span> <span id="race-category"></span> &#160;&#160;</li>
+								<li><span class="glyphicon glyphicon-calendar bordered-icon-static-xs mb15" aria-hidden='true' title='Data'></span> <span id="race-date"></span>&#160;&#160;</li>
+								<li><span class="glyphicon glyphicon-map-marker bordered-icon-static-xs mb15" aria-hidden='true' title='Local'></span> <span id="race-city"></span>&#160;&#160;</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-8">
+					<table id="team-formation" class="table" style="margin-bottom: 0px; border-top: 0px;">
+						<tfoot>
+							<tr>
+								<th class="text-right" style="font-size: 0.9em;"><em>total a pagar</em></th>
+								<th class="text-right;" nowrap="nowrap"><em> <span id="payment-ammount"></span></em></th>
+							</tr>
+						</tfoot>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:define>
+
+</ui:composition>
