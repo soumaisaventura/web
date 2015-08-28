@@ -82,10 +82,7 @@
 				</div>
 			</div-->
 			<div class="row">
-			
-			
 				<div class="col-md-4">
-			
 					<div class="panel panel-default">
 					  	<div class="panel-heading">
 					  		<img src="http://www.soumaisaventura.com.br/api/race/7/banner/340"/>
@@ -98,20 +95,62 @@
 								<li><span class="glyphicon glyphicon-map-marker bordered-icon-static-xs mb15" aria-hidden='true' title='Local'></span> <span id="race-city"></span>&#160;&#160;</li>
 							</ul>
 						</div>
+						<div class="panel-footer">
+							<div id="organizers-section" hidden="true">
+								<h3>Organizadores</h3>
+									<p style="padding-bottom: 20px;">Em caso de dúvidas, entre em contato diretamente com os organizadores:</p>
+									<div id="race-organizers" class="row" style="padding-top: 20px; padding-bottom: 15px;"></div>
+							</div>
+						</div>
 					</div>
 				</div>
-				
 				<div class="col-md-8">
-					<table id="team-formation" class="table" style="margin-bottom: 0px; border-top: 0px;">
+					<table id="team-formation" class="table" style="border-top: 0px;">
 						<tfoot>
 							<tr>
-								<th class="text-right" style="font-size: 0.9em;"><em>total a pagar</em></th>
-								<th class="text-right;" nowrap="nowrap"><em> <span id="payment-ammount"></span></em></th>
+								<th class="text-right"><em>total a pagar</em></th>
+								<th class="text-right" nowrap="nowrap"><em><span id="payment-ammount"></span></em></th>
 							</tr>
 						</tfoot>
 						<tbody>
 						</tbody>
 					</table>
+					
+					<div id="payment-section" hidden="true" class="alert alert-success" role="alert">
+						<h3 class="text-success" style="margin-top: 0px;">
+							<strong>Pagamento</strong>
+						</h3>
+
+						<p class="text-success payment-type payment-type-manual" style="padding-bottom: 20px;">
+							<br />
+							<span id="registration-payment-info"></span>
+						</p>
+
+						<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">O pagamento deve ser feito via PagSeguro, que oferece
+							diversas opções, tais como: parcelamento em cartões de crédito, boleto bancário, débito online e depósito em conta.</p>
+		
+						<p class="text-success payment-type payment-type-auto" style="padding-bottom: 20px;">Após efetivar o pagamento, o status da sua inscrição
+							demorará até 1h para ser atualizado automaticamente.</p>
+
+						<div class="pull-right payment-type payment-type-auto">
+							<button id="payment" type="button" class="btn btn-lg btn-success pull-right" hidden="true">
+								<span class="glyphicon glyphicon-credit-card" aria-hidden="true" style="font-size: 0.8em;"></span> Pagar com PagSeguro
+							</button>
+							<div id="payment-alert" style="color: red;" hidden="true">Processo de pagamento em andamento</div>
+						</div>
+					</div>
+
+					<div id="footer-section" hidden="true" class="row text-right" style="padding-top: 30px; padding-bottom: 20px;">
+						<h5>
+							Inscrição efetuada por
+							<br />
+							<strong>
+								<span id="registration-submitter"></span>
+							</strong>
+							<br />
+							no dia <span id="registration-date"></span>
+						</h5>
+					</div>
 				</div>
 			</div>
 		</div>
