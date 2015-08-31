@@ -50,7 +50,8 @@ function updateBreadcrumb(data) {
 
 function loadOk(data) {
 	updateBreadcrumb(data);
-
+	var template = $('#template').html();
+	
 	$("#registration-id").text(data.number);
 	$("#team-name").text(data.teamName);
 	$("#race-status").html(App.translateStatus(data.status));
@@ -68,24 +69,27 @@ function loadOk(data) {
 	var member = false;
 
 	$.each(data.teamFormation, function(i, value) {
-		var row = "";
-		row = row.concat("<tr>");
-		row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
-		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat("<span style='font-size: 1.0em'>" + value.name + "</span>");
-		row = row.concat("<br/>");
-		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(value.email);
-		row = row.concat("<br/>");
-		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(value.phone);
-		row = row.concat("</td>");
-		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
-				+ numeral(value.bill.racePrice).format() + "</a>");
-		row = row.concat("</td>");
-		row = row.concat("</tr>");
-		$("#team-formation > tbody:last").append(row);
+		value.racePrice = numeral(value.bill.racePrice).format();
+		$('#atletas').append(Mustache.render(template, value));
+
+//		var row = "";
+//		row = row.concat("<tr>");
+//		row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
+//		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+//		row = row.concat("<span style='font-size: 1.0em'>" + value.name + "</span>");
+//		row = row.concat("<br/>");
+//		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+//		row = row.concat(value.email);
+//		row = row.concat("<br/>");
+//		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+//		row = row.concat(value.phone);
+//		row = row.concat("</td>");
+//		row = row.concat("<td class='text-right' style='vertical-align:middle;'>R$ ");
+//		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
+//				+ numeral(value.bill.racePrice).format() + "</a>");
+//		row = row.concat("</td>");
+//		row = row.concat("</tr>");
+//		$("#team-formation > tbody:last").append(row);
 
 		if (user && value.id == user.id) {
 			member = true;
