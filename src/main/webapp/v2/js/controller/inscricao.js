@@ -55,13 +55,12 @@ function loadOk(data) {
 	$("#registration-id").text(data.number);
 	$("#team-name").text(data.teamName);
 	$("#race-status").html(App.translateStatus(data.status));
-	$("#race-status").data('status', data.status);
-	$("#summary-section").show();
+	//$("#summary-section").show();
 
-	$(".race-name").text(data.race.name);
+	$("#race-name").text(data.race.name);
 	$("#race-date").text(moment(data.race.date).format('LL'));
 	$("#race-city").text(data.race.city.name + "/" + data.race.city.state);
-	$("#race-section").show();
+	//$("#race-section").show();
 
 	$("#race-category").text(data.category.name + " " + data.course.name);
 
@@ -71,26 +70,6 @@ function loadOk(data) {
 	$.each(data.teamFormation, function(i, value) {
 		value.racePrice = numeral(value.bill.racePrice).format();
 		$('#atletas').append(Mustache.render(template, value));
-
-//		var row = "";
-//		row = row.concat("<tr>");
-//		row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
-//		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-//		row = row.concat("<span style='font-size: 1.0em'>" + value.name + "</span>");
-//		row = row.concat("<br/>");
-//		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-//		row = row.concat(value.email);
-//		row = row.concat("<br/>");
-//		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-//		row = row.concat(value.phone);
-//		row = row.concat("</td>");
-//		row = row.concat("<td class='text-right' style='vertical-align:middle;'>R$ ");
-//		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
-//				+ numeral(value.bill.racePrice).format() + "</a>");
-//		row = row.concat("</td>");
-//		row = row.concat("</tr>");
-//		$("#team-formation > tbody:last").append(row);
-
 		if (user && value.id == user.id) {
 			member = true;
 		}
@@ -111,32 +90,16 @@ function loadOk(data) {
 
 	var authorized = user ? user.admin : null;
 	$.each(data.race.organizers, function(i, organizer) {
-		var row = "";
-		row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
-		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(organizer.name);
-		row = row.concat("<br/>");
-		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(organizer.email);
-
-		if (organizer.phone) {
-			row = row.concat("<br/>");
-			row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-			row = row.concat(organizer.phone);
-		}
-
+		$('#race-organizers').append(Mustache.render(template, organizer));
 		if (user && organizer.id == user.id) {
 			authorized = true;
 		}
-
-		row = row.concat("</div>");
-		$("#race-organizers").append(row);
 	});
 	$("#organizers-section").show();
 
 	$("#registration-submitter").text(data.submitter.name);
 	$("#registration-date").text(moment(data.date).format('L'));
-	$("#footer-section").show();
+	//$("#footer-section").show();
 
 	loadEditableCurrency(data.id, authorized && data.status == 'pendent');
 	loadEditableTeamName(data.id, data.race.status == 'open' && (authorized || member));
