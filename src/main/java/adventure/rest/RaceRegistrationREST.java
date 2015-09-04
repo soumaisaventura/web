@@ -203,6 +203,11 @@ public class RaceRegistrationREST {
 	private Period loadPeriod(Race race, Date date) throws Exception {
 		Period result = PeriodDAO.getInstance().load(race, date);
 
+		if (result == null && User.getLoggedIn().getAdmin()) {
+			List<Period> periods = PeriodDAO.getInstance().find(race);
+			result = periods != null && !periods.isEmpty() ? periods.get(periods.size() - 1) : null;
+		}
+
 		if (result == null) {
 			throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
 		}
