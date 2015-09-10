@@ -1,8 +1,4 @@
 SELECT *
-  FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%vitor%';
-
-SELECT *
   FROM city c, state s
  WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
 
@@ -22,9 +18,7 @@ SELECT *
   FROM health h
  WHERE h.id = 581;
 
-SELECT *
-  FROM team_formation tf, profile p
- WHERE tf.user_id = p.id AND tf.registration_id = 302;
+
 
 SELECT *
   FROM team_formation tf,
@@ -36,10 +30,17 @@ SELECT *
        AND re.race_id = ra.id
        AND tf.user_id = 359;
 
-UPDATE team_formation
-   SET user_id = 959
- WHERE registration_id = 309 AND user_id = 745;
+SELECT *
+  FROM team_formation tf, profile p
+ WHERE tf.user_id = p.id AND tf.registration_id = 543;
 
+SELECT *
+  FROM profile p, city c
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%zadson%';
+
+UPDATE team_formation
+   SET user_id = 302
+ WHERE registration_id = 543 AND user_id = 309;
 
 UPDATE registration
    --SET category_id = 2
