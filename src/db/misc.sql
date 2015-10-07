@@ -19,7 +19,6 @@ SELECT *
  WHERE h.id = 581;
 
 
-
 SELECT *
   FROM team_formation tf,
        profile p,
@@ -89,7 +88,12 @@ ORDER BY count (*) DESC;
          AND rc.state_id = rs.id
          AND p.city_id = pc.id
          AND pc.state_id = ps.id
-         AND rs.abbreviation = 'BA'
+         AND rs.abbreviation IN ('BA', 'PE')
+         AND r.race_id IN (1,
+                           3,
+                           6,
+                           7,
+                           9)
 GROUP BY rc.name, rs.name
 ORDER BY count (*) DESC;
 
@@ -115,6 +119,34 @@ ORDER BY count (*) DESC;
          AND rc.state_id = rs.id
          AND p.city_id = pc.id
          AND pc.state_id = ps.id
-         AND rs.abbreviation = 'BA'
+         AND rs.abbreviation IN ('BA', 'PE')
 GROUP BY pc.name, ps.name
 ORDER BY count (*) DESC;
+
+SELECT count (*)
+  FROM (SELECT DISTINCT p.*
+          FROM registration r,
+               race a,
+               course c,
+               team_formation t,
+               city rc,
+               state rs,
+               city pc,
+               state ps,
+               profile p
+         WHERE     r.race_id = a.id
+               AND t.registration_id = r.id
+               AND t.user_id = p.id
+               AND r.status = 'CONFIRMED'
+               AND a.city_id = rc.id
+               AND r.course_id = c.id
+               AND c.adventure_racing = TRUE
+               AND rc.state_id = rs.id
+               AND p.city_id = pc.id
+               AND pc.state_id = ps.id
+               AND r.race_id IN (1,
+                                 3,
+                                 6,
+                                 7,
+                                 9)
+               AND rs.abbreviation IN ('BA', 'PE')) x;
