@@ -97,6 +97,19 @@ ORDER BY count (*) DESC;
 GROUP BY rc.name, rs.name
 ORDER BY count (*) DESC;
 
+  SELECT row_number () OVER (ORDER BY p."name") AS "#",
+         p."name" AS "Federado",
+         c."name" || '/' || s.abbreviation AS "Cidade"
+    FROM annual_fee_payment afp,
+         profile p,
+         city c,
+         state s
+   WHERE     afp.year = 2015
+         AND afp.user_id = p.id
+         AND p.city_id = c.id
+         AND c.state_id = s.id
+ORDER BY p."name" ASC;
+
   SELECT pc.name || ', ' || ps.name || ', Brazil'
             AS "Cidade de residência do atleta",
          count (*) AS "Inscrições"
@@ -150,3 +163,79 @@ SELECT count (*)
                                  7,
                                  9)
                AND rs.abbreviation IN ('BA', 'PE')) x;
+
+  SELECT DISTINCT
+         e.email, e.name, e.city || ', ' || e.state || ', Brazil' AS location
+    FROM (SELECT ro.alternate_email AS email,
+                 p.name,
+                 c."name" AS city,
+                 s.abbreviation AS state
+            FROM race_organizer ro,
+                 profile p,
+                 race r,
+                 city c,
+                 state s
+           WHERE     ro.race_id = r.id
+                 AND ro.organizer_id = p.id
+                 AND r.city_id = c.id
+                 AND c.state_id = s.id
+                 AND s.abbreviation IN ('BA', 'PE')
+                 AND ro.alternate_email IS NOT NULL
+          UNION
+          SELECT u.email,
+                 p.name,
+                 c."name",
+                 s.abbreviation AS state
+            FROM race_organizer ro,
+                 user_account u,
+                 profile p,
+                 race r,
+                 city c,
+                 state s
+           WHERE     ro.organizer_id = u.id
+                 AND u.id = p.id
+                 AND ro.race_id = r.id
+                 AND r.city_id = c.id
+                 AND c.state_id = s.id
+                 AND s.abbreviation IN ('BA', 'PE')) e
+ORDER BY e.email ASC;
+
+  SELECT p."name",
+         u.email,
+         p.gender,
+         p.birthday
+    FROM profile p, user_account u
+   WHERE p.id = u.id AND u.activation IS NOT NULL
+ORDER BY p."name";
+
+  SELECT p."name" AS nome,
+         u.email,
+         c."name" AS cidade,
+         s."name" AS estado,
+         (SELECT count (*)
+            FROM annual_fee_payment _a
+           WHERE _a.user_id = u.id AND _a.year = EXTRACT (YEAR FROM now ())) >
+            0
+            AS federado,
+         (SELECT count (*)
+            FROM race_organizer _ro
+           WHERE _ro.organizer_id = u.id) > 0
+            AS organizador,
+         (SELECT count (*)
+            FROM team_formation _t,
+                 registration _re,
+                 race _ra,
+                 course _co
+           WHERE     _t.registration_id = _re.id
+                 AND _re.race_id = _ra.id
+                 AND _re.course_id = _co.id
+                 AND _t.user_id = u.id
+                 AND _co.adventure_racing = TRUE
+                 AND _re.status = 'CONFIRMED') > 0
+            AS aventureiro
+    FROM user_account u,
+         profile p,
+         city c,
+         state s
+   WHERE u.id = p.id AND p.city_id = c.id AND c.state_id = s.id
+ORDER BY p."name";
