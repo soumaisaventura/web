@@ -20,25 +20,25 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name = "COURSE")
+@Table(name = "course")
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_COURSE")
-	@SequenceGenerator(name = "SEQ_COURSE", sequenceName = "SEQ_COURSE", allocationSize = 1)
+	@Column(name = "id")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_course")
+	@SequenceGenerator(name = "seq_course", sequenceName = "seq_course", allocationSize = 1)
 	private Integer id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "RACE_ID")
-	@ForeignKey(name = "FK_COURSE_RACE")
-	@Index(name = "IDX_COURSE_RACE")
+	@JoinColumn(name = "race_id")
+	@ForeignKey(name = "fk_course_race")
+	@Index(name = "idx_course_race")
 	private Race race;
 
 	@NotNull
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String name;
 
 	@Transient

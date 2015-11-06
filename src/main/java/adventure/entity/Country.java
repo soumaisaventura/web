@@ -13,23 +13,23 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "COUNTRY")
+@Table(name = "country")
 public class Country {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "id")
 	private Integer id;
 
 	@NotEmpty
 	@Size(max = NAME_SIZE)
-	@Column(name = "NAME")
-	@Index(name = "IDX_COUNTRY_NAME")
+	@Column(name = "name")
+	@Index(name = "idx_country_name")
 	private String name;
 
 	@NotEmpty
 	@Size(max = ABBREVIATION_SIZE)
-	@Column(name = "ABBREVIATION")
-	@Index(name = "IDX_COUNTRY_ABBREVIATION")
+	@Column(name = "abbreviation")
+	@Index(name = "idx_country_abbreviation")
 	private String abbreviation;
 
 	@Override

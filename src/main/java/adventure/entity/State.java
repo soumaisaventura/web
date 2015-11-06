@@ -17,30 +17,30 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "STATE")
+@Table(name = "state")
 public class State {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "id")
 	private Integer id;
 
 	@NotEmpty
 	@Size(max = NAME_SIZE)
-	@Column(name = "NAME")
-	@Index(name = "IDX_STATE_NAME")
+	@Column(name = "name")
+	@Index(name = "idx_state_name")
 	private String name;
 
 	@NotEmpty
 	@Size(max = ABBREVIATION_SIZE)
-	@Column(name = "ABBREVIATION")
-	@Index(name = "IDX_STATE_ABBREVIATION")
+	@Column(name = "abbreviation")
+	@Index(name = "idx_state_abbreviation")
 	private String abbreviation;
 
 	@JsonIgnore
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "COUNTRY_ID")
-	@ForeignKey(name = "FK_STATE_COUNTRY")
-	@Index(name = "IDX_STATE_COUNTRY")
+	@JoinColumn(name = "country_id")
+	@ForeignKey(name = "fk_state_country")
+	@Index(name = "idx_state_country")
 	private Country country;
 
 	public State() {

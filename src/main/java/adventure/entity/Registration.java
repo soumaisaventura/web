@@ -31,68 +31,68 @@ import org.hibernate.annotations.Index;
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Entity
-@Table(name = "REGISTRATION", uniqueConstraints = {
-		@UniqueConstraint(name = "UK_REGISTRATION_PAYMENT_CODE", columnNames = { "PAYMENT_CODE" }),
-		@UniqueConstraint(name = "UK_REGISTRATION_PAYMENT_TRANSACTION", columnNames = { "PAYMENT_TRANSACTION" }) })
+@Table(name = "registration", uniqueConstraints = {
+		@UniqueConstraint(name = "uk_registration_payment_code", columnNames = { "payment_code" }),
+		@UniqueConstraint(name = "uk_registration_payment_transaction", columnNames = { "payment_transaction" }) })
 public class Registration implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_REGISTRATION")
-	@SequenceGenerator(name = "SEQ_REGISTRATION", sequenceName = "SEQ_REGISTRATION", allocationSize = 1)
+	@Column(name = "id")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_registration")
+	@SequenceGenerator(name = "seq_registration", sequenceName = "seq_registration", allocationSize = 1)
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@ForeignKey(name = "FK_REGISTRATION_RACE_CATEGORY")
-	@JoinColumns({ @JoinColumn(name = "RACE_ID", referencedColumnName = "RACE_ID"),
-			@JoinColumn(name = "COURSE_ID", referencedColumnName = "COURSE_ID"),
-			@JoinColumn(name = "CATEGORY_ID", referencedColumnName = "CATEGORY_ID") })
+	@ForeignKey(name = "fk_registration_race_category")
+	@JoinColumns({ @JoinColumn(name = "race_id", referencedColumnName = "race_id"),
+			@JoinColumn(name = "course_id", referencedColumnName = "course_id"),
+			@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
 	private RaceCategory raceCategory;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "PERIOD_ID")
-	@ForeignKey(name = "FK_REGISTRATION_PERIOD")
-	@Index(name = "IDX_REGISTRATION_PERIOD")
+	@JoinColumn(name = "period_id")
+	@ForeignKey(name = "fk_registration_period")
+	@Index(name = "idx_registration_period")
 	private Period period;
 
 	@NotNull
 	@Size(max = NAME_SIZE)
-	@Column(name = "TEAM_NAME")
+	@Column(name = "team_name")
 	private String teamName;
 
 	@NotNull
-	@Column(name = "DATE")
-	@Index(name = "IDX_REGISTRATION_DATE")
+	@Column(name = "date")
+	@Index(name = "idx_registration_date")
 	private Date date;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "SUBMITTER_ID")
-	@ForeignKey(name = "FK_REGISTRATION_SUBMITTER")
-	@Index(name = "IDX_REGISTRATION_SUBMITTER")
+	@JoinColumn(name = "submitter_id")
+	@ForeignKey(name = "fk_registration_submitter")
+	@Index(name = "idx_registration_submitter")
 	private User submitter;
 
 	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "STATUS", length = ENUM_SIZE)
-	@Index(name = "IDX_REGISTRATION_STATUS")
+	@Column(name = "status", length = ENUM_SIZE)
+	@Index(name = "idx_registration_status")
 	private RegistrationStatusType status;
 
 	@NotNull
-	@Column(name = "STATUS_DATE")
+	@Column(name = "status_date")
 	private Date statusDate;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "APPROVER_ID")
-	@ForeignKey(name = "FK_REGISTRATION_APPROVER")
-	@Index(name = "IDX_REGISTRATION_APPROVER")
+	@JoinColumn(name = "approver_id")
+	@ForeignKey(name = "fk_registration_approver")
+	@Index(name = "idx_registration_approver")
 	private User approver;
 
-	@Column(name = "PAYMENT_CODE")
+	@Column(name = "payment_code")
 	private String paymentCode;
 
-	@Column(name = "PAYMENT_TRANSACTION")
+	@Column(name = "payment_transaction")
 	private String paymentTransaction;
 
 	@Transient

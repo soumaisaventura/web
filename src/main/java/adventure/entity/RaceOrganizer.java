@@ -19,30 +19,30 @@ import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @IdClass(RaceOrganizerPk.class)
-@Table(name = "RACE_ORGANIZER")
+@Table(name = "race_organizer")
 public class RaceOrganizer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "RACE_ID")
-	@ForeignKey(name = "FK_RACE_ORGANIZER_RACE")
+	@JoinColumn(name = "race_id")
+	@ForeignKey(name = "fk_race_organizer_race")
 	private Race race;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "ORGANIZER_ID")
-	@ForeignKey(name = "FK_RACE_ORGANIZER")
+	@JoinColumn(name = "organizer_id")
+	@ForeignKey(name = "fk_race_organizer")
 	private User organizer;
 
 	@NotNull
 	@Size(max = NAME_SIZE)
-	@Column(name = "ALTERNATE_NAME")
+	@Column(name = "alternate_name")
 	private String alternateName;
 
 	@Size(max = EMAIL_SIZE)
-	@Column(name = "ALTERNATE_EMAIL")
+	@Column(name = "alternate_email")
 	private String alternateEmail;
 
 	public RaceOrganizer() {

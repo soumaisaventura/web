@@ -23,46 +23,51 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name = "PERIOD", uniqueConstraints = {
-		@UniqueConstraint(name = "UK_PERIOD_BEGINNING", columnNames = { "RACE_ID", "BEGINNING" }),
-		@UniqueConstraint(name = "UK_PERIOD_ENDING", columnNames = { "RACE_ID", "ENDING" }) })
+@Table(name = "period", uniqueConstraints = {
+		@UniqueConstraint(name = "uk_period_beginning", columnNames = { "race_id", "beginning" }),
+		@UniqueConstraint(name = "uk_period_ending", columnNames = { "race_id", "ending" }) })
 public class Period implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_PERIOD")
-	@SequenceGenerator(name = "SEQ_PERIOD", sequenceName = "SEQ_PERIOD", allocationSize = 1)
+	@Column(name = "id")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_period")
+	@SequenceGenerator(name = "seq_period", sequenceName = "seq_period", allocationSize = 1)
 	private Integer id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "RACE_ID")
-	@ForeignKey(name = "FK_PERIOD_RACE")
-	@Index(name = "IDX_PERIOD_RACE")
+	@JoinColumn(name = "race_id")
+	@ForeignKey(name = "fk_period_race")
+	@Index(name = "idx_period_race")
 	private Race race;
 
 	@NotNull
 	@Temporal(DATE)
-	@Column(name = "BEGINNING")
-	@Index(name = "IDX_PERIOD_BEGINNING")
+	@Column(name = "beginning")
+	@Index(name = "idx_period_beginning")
 	private Date beginning;
 
 	@NotNull
 	@Temporal(DATE)
-	@Column(name = "ENDING")
-	@Index(name = "IDX_PERIOD_ENDING")
+	@Column(name = "ending")
+	@Index(name = "idx_period_ending")
 	private Date end;
 
 	@NotNull
-	@Column(name = "PRICE", precision = 7, scale = 2)
+	@Column(name = "price", precision = 7, scale = 2)
 	private BigDecimal price;
+
+	public Period() {
+	}
 
 	public Period(Race race) {
 		this.race = race;
 	}
 
-	public Period() {
+	public Period(Date beginning, Date end) {
+		setBeginning(beginning);
+		setEnd(end);
 	}
 
 	@Override

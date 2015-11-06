@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="meta-ogg">
+		<meta property="og:title" content="#{eventHelper.getTitle(request)}" />
+		<meta property="og:description" content="#{eventHelper.getDescription(request)}" />
+		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.slug}/banner" />
+	</ui:define>
+
+	<ui:define name="lib">
+		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+	</ui:define>
+
+	<ui:define name="proxy">
+		<script src="#{request.contextPath}/js/proxy/race.js"></script>
+	</ui:define>
+
+	<ui:define name="controller">
+		<script src="#{request.contextPath}/js/controller/prova.js"></script>
+	</ui:define>
+
+	<ui:define name="body">
+		Slug: #{param.slug}
+	</ui:define>
+
+</ui:composition>

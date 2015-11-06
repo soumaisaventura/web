@@ -8,6 +8,7 @@
 		<class>adventure.entity.User</class>
 		<class>adventure.entity.Profile</class>
 		<class>adventure.entity.Health</class>
+		<class>adventure.entity.Event</class>
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.Period</class>
 		<class>adventure.entity.Category</class>

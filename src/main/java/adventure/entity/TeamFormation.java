@@ -14,28 +14,31 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 @Entity
 @IdClass(TeamFormationPk.class)
-@Table(name = "TEAM_FORMATION")
+@Table(name = "user_registration")
 public class TeamFormation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "REGISTRATION_ID")
-	@ForeignKey(name = "FK_TEAM_FORMATION_REGISTRATION")
+	@JoinColumn(name = "registration_id")
+	@Index(name = "idx_user_registration_registration")
+	@ForeignKey(name = "fk_user_registration_registration")
 	private Registration registration;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "USER_ID")
-	@ForeignKey(name = "FK_TEAM_FORMATION_USER")
+	@JoinColumn(name = "user_id")
+	@Index(name = "idx_user_registration_user")
+	@ForeignKey(name = "fk_user_registration_user")
 	private User user;
 
 	@NotNull
-	@Column(name = "RACE_PRICE", precision = 7, scale = 2)
+	@Column(name = "race_price", precision = 7, scale = 2)
 	private BigDecimal racePrice;
 
 	public TeamFormation() {

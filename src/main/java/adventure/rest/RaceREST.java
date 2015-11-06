@@ -47,6 +47,8 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 @Path("race")
 public class RaceREST {
 
+	// OLD
+
 	@GET
 	@Path("year/{year}")
 	@Cache("max-age=28800")

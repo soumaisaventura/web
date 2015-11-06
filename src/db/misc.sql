@@ -20,7 +20,7 @@ SELECT *
 
 
 SELECT *
-  FROM team_formation tf,
+  FROM user_registration tf,
        profile p,
        registration re,
        race ra
@@ -30,14 +30,14 @@ SELECT *
        AND tf.user_id = 359;
 
 SELECT *
-  FROM team_formation tf, profile p
+  FROM user_registration tf, profile p
  WHERE tf.user_id = p.id AND tf.registration_id = 543;
 
 SELECT *
   FROM profile p, city c
  WHERE p.city_id = c.id AND lower (p.name) LIKE '%zadson%';
 
-UPDATE team_formation
+UPDATE user_registration
    SET user_id = 302
  WHERE registration_id = 543 AND user_id = 309;
 
@@ -50,7 +50,7 @@ UPDATE registration
          pc.name || ', ' || ps.name || ', Brazil' AS cidade
     FROM registration r,
          race a,
-         team_formation t,
+         user_registration t,
          city rc,
          state rs,
          city pc,
@@ -72,7 +72,7 @@ ORDER BY count (*) DESC;
     FROM registration r,
          race a,
          course c,
-         team_formation t,
+         user_registration t,
          city rc,
          state rs,
          city pc,
@@ -100,11 +100,11 @@ ORDER BY count (*) DESC;
   SELECT row_number () OVER (ORDER BY p."name") AS "#",
          p."name" AS "Federado",
          c."name" || '/' || s.abbreviation AS "Cidade"
-    FROM annual_fee_payment afp,
+    FROM fee_payment afp,
          profile p,
          city c,
          state s
-   WHERE     afp.year = 2015
+   WHERE     afp.fee_id = 1
          AND afp.user_id = p.id
          AND p.city_id = c.id
          AND c.state_id = s.id
@@ -116,7 +116,7 @@ ORDER BY p."name" ASC;
     FROM registration r,
          race a,
          course c,
-         team_formation t,
+         user_registration t,
          city rc,
          state rs,
          city pc,
@@ -141,7 +141,7 @@ SELECT count (*)
           FROM registration r,
                race a,
                course c,
-               team_formation t,
+               user_registration t,
                city rc,
                state rs,
                city pc,
@@ -213,16 +213,15 @@ ORDER BY p."name";
          c."name" AS cidade,
          s."name" AS estado,
          (SELECT count (*)
-            FROM annual_fee_payment _a
-           WHERE _a.user_id = u.id AND _a.year = EXTRACT (YEAR FROM now ())) >
-            0
+            FROM fee_payment _a
+           WHERE _a.user_id = u.id AND _a.fee_id = 1) > 0
             AS federado,
          (SELECT count (*)
             FROM race_organizer _ro
            WHERE _ro.organizer_id = u.id) > 0
             AS organizador,
          (SELECT count (*)
-            FROM team_formation _t,
+            FROM user_registration _t,
                  registration _re,
                  race _ra,
                  course _co
