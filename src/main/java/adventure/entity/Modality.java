@@ -11,12 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "sport")
-public class Sport implements Serializable {
+@Table(name = "modality")
+public class Modality implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,15 +26,19 @@ public class Sport implements Serializable {
 	@NotEmpty
 	@Size(max = NAME_SIZE)
 	@Column(name = "name")
-	@Index(name = "idx_sport_name")
 	private String name;
 
 	@Size(max = ACRONYM_SIZE)
 	@Column(name = "acronym")
-	@Index(name = "idx_sport_acronym")
 	private String acronym;
 
-	public Sport() {
+	public Modality() {
+	}
+
+	public Modality(Integer id, String name, String acronym) {
+		setId(id);
+		setName(name);
+		setAcronym(acronym);
 	}
 
 	@Override
@@ -54,10 +57,10 @@ public class Sport implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Sport)) {
+		if (!(obj instanceof Modality)) {
 			return false;
 		}
-		Sport other = (Sport) obj;
+		Modality other = (Modality) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;

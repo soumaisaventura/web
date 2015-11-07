@@ -8,13 +8,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import adventure.entity.Event;
+import adventure.entity.Modality;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.persistence.EventDAO;
+import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
+import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
 import adventure.rest.data.SportData;
@@ -65,6 +68,14 @@ public class EventREST {
 				periodData.end = period.getEnd();
 				periodData.price = period.getPrice();
 				raceData.prices.add(periodData);
+			}
+
+			raceData.modalities = new ArrayList<ModalityData>();
+			for (Modality modality : ModalityDAO.getInstance().findForEvent(race)) {
+				ModalityData modalityData = new ModalityData();
+				modalityData.id = modality.getAcronym();
+				modalityData.name = modality.getName();
+				raceData.modalities.add(modalityData);
 			}
 
 			data.races.add(raceData);

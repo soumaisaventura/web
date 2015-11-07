@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="750,407" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="755,0" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -45,14 +45,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<style id="table-schema-name" colors="#000000"/>
 	<style id="table-title" colors="#255fdd,#255fdd,#102960"/>
 </tag>
+<tag name="Sport">
+	<style id="table-body" colors="#fcfcfc,#fcfcfc,#808080"/>
+	<style id="table-ext-body" colors="#fcfcfc,#fcfcfc,#808080"/>
+	<style id="table-name" colors="#ffffff"/>
+	<style id="table-schema-name" colors="#000000"/>
+	<style id="table-title" colors="#4bf3dc,#4bf3dc,#2f9789"/>
+</tag>
 <schema name="public" protected="true" fill-color="#ffffff" sql-disabled="true">
 </schema>
 
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<tag name="Event"/>
-	<position x="1394" y="1204.54"/>
+	<tag name="Sport"/>
+	<position x="1342" y="1528.54"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -105,7 +112,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Location"/>
-	<position x="569" y="954"/>
+	<position x="573" y="954"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -123,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="555" y="1078"/>
+	<position x="545" y="1065"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -151,7 +158,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1745.69" y="37.3333"/>
+	<position x="1704.69" y="66.3333"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -185,7 +192,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1720.41" y="843.667"/>
+	<position x="1724.41" y="857.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -216,7 +223,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1757.79" y="180.667"/>
+	<position x="1737.79" y="219.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -256,7 +263,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="877" y="722"/>
+	<position x="883" y="872"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -317,7 +324,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1448.08" y="955.692"/>
+	<position x="1457.08" y="996.692"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -358,7 +365,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2124" y="858"/>
+	<position x="2123" y="861"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -796,8 +803,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sport">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<tag name="Event"/>
-	<position x="1280.67" y="1048"/>
+	<tag name="Sport"/>
+	<position x="921.67" y="1422"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -865,7 +872,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="855.667" y="606.333"/>
+	<position x="1077.67" y="724.333"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -905,7 +912,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1400.33" y="707"/>
+	<position x="1400.33" y="710"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1019,7 +1026,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="940" y="219.333"/>
+	<position x="951" y="219.333"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1091,8 +1098,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="modality">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<tag name="Event"/>
-	<position x="1166" y="1349"/>
+	<tag name="Sport"/>
+	<position x="1256" y="1247"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1120,7 +1127,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="926" y="1359"/>
+	<position x="1270" y="1082"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1271,8 +1278,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sport_modality">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<tag name="Event"/>
-	<position x="1177" y="1205"/>
+	<tag name="Sport"/>
+	<position x="1271" y="1425"/>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1567,7 +1574,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </relationship>
 
 <relationship name="rel_race_category_category" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.race_category"
 	 dst-table="public.category"
 	 src-required="false" dst-required="false"/>
@@ -1633,7 +1640,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_team_category" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.team"
 	 dst-table="public.category"
 	 src-required="false" dst-required="false">
@@ -1655,7 +1662,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_registration_team" type="relfk"
-	 custom-color="#255fdd"
+	 custom-color="#102960"
 	 src-table="public.registration"
 	 dst-table="public.team"
 	 src-required="false" dst-required="false">
@@ -1665,7 +1672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </relationship>
 
 <relationship name="rel_category_sport" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.category"
 	 dst-table="public.sport"
 	 src-required="false" dst-required="false">
@@ -1695,7 +1702,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </relationship>
 
 <relationship name="rel_race_sport" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.race"
 	 dst-table="public.sport"
 	 src-required="false" dst-required="false">
@@ -1753,19 +1760,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_modality_modality" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.race_modality"
 	 dst-table="public.modality"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_sport_modality_sport" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.sport_modality"
 	 dst-table="public.sport"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_sport_modality_modality" type="relfk"
-	 custom-color="#965500"
+	 custom-color="#2f9789"
 	 src-table="public.sport_modality"
 	 dst-table="public.modality"
 	 src-required="false" dst-required="false"/>
