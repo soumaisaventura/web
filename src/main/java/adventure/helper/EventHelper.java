@@ -21,7 +21,7 @@ public class EventHelper {
 		if (!initialized) {
 			initialized = true;
 
-			String param = request.getParameter("slug");
+			String param = request.getParameter("evento_id");
 			Event event = EventDAO.getInstance().loadForMeta(param);
 
 			if (event != null) {

@@ -20,11 +20,11 @@
 	<!-- Novo -->
 	<rule>
 		<from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
-		<to>/evento-prova-inscricao.jsf?evento_slug=$1&amp;prova_slug=$2</to>
+		<to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
 	</rule>
 	<rule>
 		<from>^/evento/([\w\d_\-/]+)$</from>
-		<to>/evento.jsf?slug=$1</to>
+		<to>/evento.jsf?evento_id=$1</to>
 	</rule>
 
 	<!-- Antigo -->
