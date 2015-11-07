@@ -12,6 +12,8 @@ public class RaceData {
 
 	public SportData sport;
 
+	public List<ChampionshipData> championships;
+
 	public PeriodData period;
 
 	public CityData city;

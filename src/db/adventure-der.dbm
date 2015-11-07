@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="755,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="620,106" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -845,18 +845,24 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1173" y="609.667"/>
+	<position x="1170" y="608.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
 	</column>
+	<column name="slug" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
 	<constraint name="pk_championship" type="pk-constr" table="public.championship">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_championship_name" type="uq-constr" table="public.championship">
 		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_championship_slug" type="uq-constr" table="public.championship">
+		<columns names="slug" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -872,7 +878,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1077.67" y="724.333"/>
+	<position x="1066.67" y="740.333"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -972,7 +978,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1164" y="223.667"/>
+	<position x="1167" y="223.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1026,7 +1032,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="951" y="219.333"/>
+	<position x="948" y="220.333"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>

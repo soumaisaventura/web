@@ -7,14 +7,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Modality;
 import adventure.entity.Period;
 import adventure.entity.Race;
+import adventure.persistence.ChampionshipDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
+import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
 import adventure.rest.data.ModalityData;
@@ -60,6 +63,14 @@ public class EventREST {
 			raceData.city.state = new StateData();
 			raceData.city.state.id = race.getCity().getState().getAbbreviation();
 			raceData.city.state.name = race.getCity().getState().getName();
+
+			raceData.championships = new ArrayList<ChampionshipData>();
+			for (Championship championship : ChampionshipDAO.getInstance().findForEvent(race)) {
+				ChampionshipData championshipData = new ChampionshipData();
+				championshipData.id = championship.getSlug();
+				championshipData.name = championship.getName();
+				raceData.championships.add(championshipData);
+			}
 
 			raceData.prices = new ArrayList<PeriodData>();
 			for (Period period : PeriodDAO.getInstance().findForEvent(race)) {

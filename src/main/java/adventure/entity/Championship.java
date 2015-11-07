@@ -6,31 +6,24 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-//@Table(name = "modality")
-public class Modality implements Serializable {
+public class Championship implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @Column(name = "id")
 	private Integer id;
 
-	// @NotEmpty
-	// @Size(max = NAME_SIZE)
-	// @Column(name = "name")
 	private String name;
 
-	// @Size(max = ACRONYM_SIZE)
-	// @Column(name = "acronym")
-	private String acronym;
+	private String slug;
 
-	public Modality() {
+	public Championship() {
 	}
 
-	public Modality(Integer id, String name, String acronym) {
+	public Championship(Integer id, String name, String slug) {
 		setId(id);
 		setName(name);
-		setAcronym(acronym);
+		setSlug(slug);
 	}
 
 	@Override
@@ -49,10 +42,10 @@ public class Modality implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Modality)) {
+		if (!(obj instanceof Championship)) {
 			return false;
 		}
-		Modality other = (Modality) obj;
+		Championship other = (Championship) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -79,11 +72,11 @@ public class Modality implements Serializable {
 		this.name = name;
 	}
 
-	public String getAcronym() {
-		return acronym;
+	public String getSlug() {
+		return slug;
 	}
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
+	public void setSlug(String slug) {
+		this.slug = slug;
 	}
 }

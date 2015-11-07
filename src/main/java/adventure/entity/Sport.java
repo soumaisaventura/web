@@ -1,38 +1,29 @@
 package adventure.entity;
 
-import static adventure.util.Constants.ACRONYM_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "sport")
+// @Table(name = "sport")
 public class Sport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id")
+	// @Column(name = "id")
 	private Integer id;
 
-	@NotEmpty
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_sport_name")
+	// @NotEmpty
+	// @Size(max = NAME_SIZE)
+	// @Column(name = "name")
+	// @Index(name = "idx_sport_name")
 	private String name;
 
-	@Size(max = ACRONYM_SIZE)
-	@Column(name = "acronym")
-	@Index(name = "idx_sport_acronym")
+	// @Size(max = ACRONYM_SIZE)
+	// @Column(name = "acronym")
+	// @Index(name = "idx_sport_acronym")
 	private String acronym;
 
 	public Sport() {

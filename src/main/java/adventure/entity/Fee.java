@@ -1,36 +1,33 @@
 package adventure.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-//@Table(name = "modality")
-public class Modality implements Serializable {
+public class Fee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @Column(name = "id")
+	// @Column
 	private Integer id;
 
-	// @NotEmpty
-	// @Size(max = NAME_SIZE)
-	// @Column(name = "name")
+	// @Column
 	private String name;
 
-	// @Size(max = ACRONYM_SIZE)
-	// @Column(name = "acronym")
-	private String acronym;
+	// @Column
+	private BigDecimal value;
 
-	public Modality() {
+	public Fee() {
 	}
 
-	public Modality(Integer id, String name, String acronym) {
+	public Fee(Integer id, String name, BigDecimal value) {
 		setId(id);
 		setName(name);
-		setAcronym(acronym);
+		setValue(value);
 	}
 
 	@Override
@@ -49,10 +46,10 @@ public class Modality implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Modality)) {
+		if (!(obj instanceof Fee)) {
 			return false;
 		}
-		Modality other = (Modality) obj;
+		Fee other = (Fee) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -79,11 +76,11 @@ public class Modality implements Serializable {
 		this.name = name;
 	}
 
-	public String getAcronym() {
-		return acronym;
+	public BigDecimal getValue() {
+		return value;
 	}
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
+	public void setValue(BigDecimal value) {
+		this.value = value;
 	}
 }
