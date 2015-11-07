@@ -1,9 +1,8 @@
 package adventure.rest.data;
 
-public class StateData {
+public class SportData {
 
 	public String id;
 
 	public String name;
-
 }

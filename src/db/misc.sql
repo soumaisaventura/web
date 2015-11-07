@@ -18,7 +18,6 @@ SELECT *
   FROM health h
  WHERE h.id = 581;
 
-
 SELECT *
   FROM user_registration tf,
        profile p,

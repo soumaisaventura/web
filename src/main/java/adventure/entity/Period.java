@@ -61,6 +61,14 @@ public class Period implements Serializable {
 	public Period() {
 	}
 
+	public Period(Date beginning, Date end, BigDecimal price) {
+		setBeginning(beginning);
+		setEnd(end);
+		setPrice(price);
+	}
+
+	// TODO: OLD
+
 	public Period(Race race) {
 		this.race = race;
 	}

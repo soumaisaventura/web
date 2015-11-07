@@ -28,6 +28,27 @@ public class PeriodDAO implements Serializable {
 		return Beans.getReference(PeriodDAO.class);
 	}
 
+	public List<Period> findForEvent(Race race) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new Period ( ");
+		jpql.append("        p.beginning, ");
+		jpql.append("        p.end, ");
+		jpql.append("        p.price ");
+		jpql.append("        ) ");
+		jpql.append("   from Period p ");
+		jpql.append("  where p.race = :race ");
+		jpql.append("  order by ");
+		jpql.append("        p.beginning ");
+
+		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
+		query.setParameter("race", race);
+
+		return query.getResultList();
+	}
+
+	// TODO: OLD
+
 	public Period loadCurrent(Race race) throws Exception {
 		return load(race, new Date());
 	}

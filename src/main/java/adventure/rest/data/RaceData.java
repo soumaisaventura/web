@@ -1,18 +1,20 @@
 package adventure.rest.data;
 
-import java.util.Date;
+import java.util.List;
 
 public class RaceData {
 
-	public Integer id;
+	public String id;
 
 	public String name;
 
 	public String description;
 
-	public Date beginning;
+	public SportData sport;
 
-	public Date end;
+	public PeriodData period;
 
 	public CityData city;
+
+	public List<PeriodData> prices;
 }

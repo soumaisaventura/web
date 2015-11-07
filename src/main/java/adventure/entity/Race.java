@@ -8,6 +8,7 @@ import static adventure.util.Constants.EMAIL_SIZE;
 import static adventure.util.Constants.ENUM_SIZE;
 import static adventure.util.Constants.HASH_SIZE;
 import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.SLUG_SIZE;
 import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -54,6 +55,11 @@ public class Race implements Serializable {
 	@Index(name = "idx_race_event")
 	private Event event;
 
+	@Size(max = SLUG_SIZE)
+	@Column(name = "slug")
+	@Index(name = "idx_race_slug")
+	private String slug;
+
 	@NotEmpty
 	@Size(max = NAME_SIZE)
 	@Column(name = "name")
@@ -65,10 +71,11 @@ public class Race implements Serializable {
 	@Index(name = "idx_race_description")
 	private String description;
 
-	@Size(max = TEXT_SIZE)
-	@Column(name = "slug")
-	@Index(name = "idx_race_slug")
-	private String slug;
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "sport_id")
+	@ForeignKey(name = "fk_race_sport")
+	@Index(name = "idx_race_sport")
+	private Sport sport;
 
 	@NotNull
 	@Temporal(DATE)
@@ -129,11 +136,17 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
-	public Race(Integer id, String name, String description, Date beginning, Date end, Integer cityId, String cityName,
-			Integer stateId, String stateName, String stateAbbreviation) {
+	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
+			String sportAcronym, Date beginning, Date end, Integer cityId, String cityName, Integer stateId,
+			String stateName, String stateAbbreviation) {
 		setId(id);
+		setSlug(slug);
 		setName(name);
 		setDescription(description);
+		setSport(new Sport());
+		getSport().setId(sportId);
+		getSport().setName(sportName);
+		getSport().setAcronym(sportAcronym);
 		setBeginning(beginning);
 		setEnd(end);
 		setCity(new City());
@@ -240,6 +253,14 @@ public class Race implements Serializable {
 		this.event = event;
 	}
 
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -254,6 +275,14 @@ public class Race implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Sport getSport() {
+		return sport;
+	}
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
 	}
 
 	public Date getDate() {

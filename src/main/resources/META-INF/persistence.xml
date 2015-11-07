@@ -10,6 +10,7 @@
 		<class>adventure.entity.Health</class>
 		<class>adventure.entity.Event</class>
 		<class>adventure.entity.Race</class>
+		<class>adventure.entity.Sport</class>
 		<class>adventure.entity.Period</class>
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Course</class>

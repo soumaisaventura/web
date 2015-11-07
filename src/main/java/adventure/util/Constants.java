@@ -17,6 +17,12 @@ public class Constants {
 		return ABBREVIATION_SIZE;
 	}
 
+	public static final int ACRONYM_SIZE = 3;
+
+	public int getAcronymSize() {
+		return ACRONYM_SIZE;
+	}
+
 	public static final int SLUG_SIZE = 255;
 
 	public int getSlugSize() {

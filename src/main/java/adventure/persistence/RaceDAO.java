@@ -28,8 +28,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.slug, ");
 		jpql.append(" 	        r.name, ");
 		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        o.id, ");
+		jpql.append(" 	        o.name, ");
+		jpql.append(" 	        o.acronym, ");
 		jpql.append(" 	        r.beginning, ");
 		jpql.append(" 	        r.end, ");
 		jpql.append(" 	        c.id, ");
@@ -39,6 +43,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        s.abbreviation ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
+		jpql.append("        join r.sport o ");
 		jpql.append("   left join r.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where r.event = :event ");
