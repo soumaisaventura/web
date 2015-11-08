@@ -237,3 +237,11 @@ ORDER BY p."name";
          state s
    WHERE u.id = p.id AND p.city_id = c.id AND c.state_id = s.id
 ORDER BY p."name";
+
+
+
+update fee set optional = true;
+
+update championship_fee set once = true;
+
+

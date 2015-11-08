@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="620,106" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="900,88" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -804,7 +804,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="921.67" y="1422"/>
+	<position x="915.67" y="1410"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -978,7 +978,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1167" y="223.667"/>
+	<position x="1168" y="205.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -991,6 +991,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="percentage" not-null="true">
 		<type name="boolean"/>
 	</column>
+	<column name="optional" not-null="true">
+		<type name="boolean"/>
+	</column>
 	<constraint name="pk_fee" type="pk-constr" table="public.fee">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -1000,12 +1003,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1163.67" y="357.667"/>
+	<position x="1161.67" y="366.667"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="fee_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="once" not-null="true">
+		<type name="boolean"/>
 	</column>
 	<constraint name="pk_championship_fee" type="pk-constr" table="public.championship_fee">
 		<columns names="championship_id,fee_id" ref-type="src-columns"/>
@@ -1032,7 +1038,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="948" y="220.333"/>
+	<position x="949" y="216.333"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1064,7 +1070,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1447.67" y="214.333"/>
+	<position x="1450.67" y="212.333"/>
 	<column name="fee_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1310,6 +1316,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="modality_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_fee_percentage" table="public.fee"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="percentage"/>
 		</idxelement>
 </index>
 

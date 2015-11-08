@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Fee implements Serializable {
@@ -12,22 +13,33 @@ public class Fee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @Column
 	private Integer id;
 
-	// @Column
 	private String name;
 
-	// @Column
 	private BigDecimal value;
+
+	private Boolean percentage;
+
+	private Boolean optional;
+
+	@Transient
+	private Boolean once;
 
 	public Fee() {
 	}
 
-	public Fee(Integer id, String name, BigDecimal value) {
+	public Fee(Integer id, String name, BigDecimal value, Boolean percentage, Boolean optional) {
 		setId(id);
 		setName(name);
 		setValue(value);
+		setPercentage(percentage);
+		setOptional(optional);
+	}
+
+	public Fee(Integer id, String name, BigDecimal value, Boolean percentage, Boolean optional, Boolean once) {
+		this(id, name, value, percentage, optional);
+		setOnce(once);
 	}
 
 	@Override
@@ -82,5 +94,29 @@ public class Fee implements Serializable {
 
 	public void setValue(BigDecimal value) {
 		this.value = value;
+	}
+
+	public Boolean getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(Boolean percentage) {
+		this.percentage = percentage;
+	}
+
+	public Boolean getOptional() {
+		return optional;
+	}
+
+	public void setOptional(Boolean optional) {
+		this.optional = optional;
+	}
+
+	public Boolean getOnce() {
+		return once;
+	}
+
+	public void setOnce(Boolean once) {
+		this.once = once;
 	}
 }

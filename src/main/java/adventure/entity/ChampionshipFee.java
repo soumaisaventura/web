@@ -26,6 +26,8 @@ public class ChampionshipFee implements Serializable {
 	@JoinColumn(name = "fee_id")
 	private Fee fee;
 
+	private Boolean once;
+
 	public ChampionshipFee() {
 	}
 
@@ -81,5 +83,13 @@ public class ChampionshipFee implements Serializable {
 
 	public void setFee(Fee fee) {
 		this.fee = fee;
+	}
+
+	public Boolean getOnce() {
+		return once;
+	}
+
+	public void setOnce(Boolean once) {
+		this.once = once;
 	}
 }
