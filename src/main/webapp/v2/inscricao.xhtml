@@ -42,7 +42,7 @@
 						</li>
 						<li>
 							<a id="race-link">
-								<span class="race-name"></span>
+								<span id="race-name"></span>
 							</a>
 						</li>
 						<li>
@@ -74,8 +74,8 @@
 		<div class="col-md-6" style="padding-bottom: 10px">
 			<span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 0.8em"></span> <span style="font-size: 1.0em">{{name}}</span><br/>
 			<span class="glyphicon glyphicon-envelope" aria-hidden="true" style="font-size: 0.8em"></span> {{email}}<br/>
-			<span class="glyphicon glyphicon-phone" aria-hidden="true" style="font-size: 0.8em"></span> {{phone}}<br/>
-			<strong>R$ <a href="#" data-pk="{{id}}" data-params="{property: 'racePrice'}" class="partial editable currency editable-click">{{racePrice}}</a></strong>
+			{{#phone}}<span class="glyphicon glyphicon-phone" aria-hidden="true" style="font-size: 0.8em"></span> {{phone}}<br/>{{/phone}}
+			{{#racePrice}}<strong>R$ <a href="#" data-pk="{{id}}" data-params="{property: 'racePrice'}" class="partial editable currency editable-click">{{racePrice}}</a></strong>{{/racePrice}}
 		</div>
 	</script>
 </ui:define>	
