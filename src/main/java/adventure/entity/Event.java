@@ -1,29 +1,16 @@
 package adventure.entity;
 
-import static adventure.util.Constants.EMAIL_SIZE;
-import static adventure.util.Constants.ENUM_SIZE;
-import static adventure.util.Constants.HASH_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.SLUG_SIZE;
-import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "event")
@@ -32,51 +19,42 @@ public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = SEQUENCE, generator = "seq_event")
-	@SequenceGenerator(name = "seq_event", sequenceName = "seq_event", allocationSize = 1)
 	private Integer id;
 
-	@NotEmpty
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_event_name")
 	private String name;
 
-	@Size(max = TEXT_SIZE)
-	@Column(name = "description")
-	@Index(name = "idx_event_description")
 	private String description;
 
 	@Column(name = "slug")
-	@Size(max = SLUG_SIZE)
-	@Index(name = "idx_event_slug")
 	private String slug;
 
 	@Lob
-	@Column(name = "banner")
 	private byte[] banner;
 
-	@Size(max = EMAIL_SIZE)
 	private String site;
 
 	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "payment_type", length = ENUM_SIZE)
-	@Index(name = "idx_race_payment_type")
+	@Column(name = "payment_type")
 	private PaymentType paymentType;
 
-	@Size(max = TEXT_SIZE)
 	@Column(name = "payment_info")
 	private String paymentInfo;
 
-	@Size(max = EMAIL_SIZE)
 	@Column(name = "payment_account")
 	private String paymentAccount;
 
-	@Size(max = HASH_SIZE)
 	@Column(name = "payment_token")
 	private String paymentToken;
+
+	@Column(name = "text_color")
+	private String textColor;
+
+	@Column(name = "background_color")
+	private String backgroundColor;
+
+	@Column(name = "button_color")
+	private String buttonColor;
 
 	public Event() {
 	}
@@ -91,15 +69,16 @@ public class Event implements Serializable {
 		setDescription(description);
 	}
 
-	public Event(Integer id, String name, String description, String slug, String site, String paymentAccount,
-			String paymentToken) {
+	public Event(Integer id, String name, String description, String slug, String site, String textColor,
+			String backgroundColor, String buttonColor) {
 		setId(id);
 		setName(name);
 		setDescription(description);
 		setSlug(slug);
 		setSite(site);
-		setPaymentAccount(paymentAccount);
-		setPaymentToken(paymentToken);
+		setTextColor(textColor);
+		setBackgroundColor(backgroundColor);
+		setButtonColor(buttonColor);
 	}
 
 	@Override
@@ -210,5 +189,29 @@ public class Event implements Serializable {
 
 	public void setPaymentToken(String paymentToken) {
 		this.paymentToken = paymentToken;
+	}
+
+	public String getTextColor() {
+		return textColor;
+	}
+
+	public void setTextColor(String textColor) {
+		this.textColor = textColor;
+	}
+
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public String getButtonColor() {
+		return buttonColor;
+	}
+
+	public void setButtonColor(String buttonColor) {
+		this.buttonColor = buttonColor;
 	}
 }

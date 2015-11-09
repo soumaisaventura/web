@@ -15,6 +15,7 @@ import adventure.entity.Fee;
 import adventure.entity.Modality;
 import adventure.entity.Period;
 import adventure.entity.Race;
+import adventure.entity.User;
 import adventure.persistence.ChampionshipDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.FeeDAO;
@@ -24,11 +25,13 @@ import adventure.persistence.RaceDAO;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
+import adventure.rest.data.LayoutData;
 import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
 import adventure.rest.data.SportData;
 import adventure.rest.data.StateData;
+import adventure.rest.data.UserData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 
 @Path("event")
@@ -47,6 +50,11 @@ public class EventREST {
 		data.name = event.getName();
 		data.description = event.getDescription();
 		data.site = event.getSite();
+
+		data.layout = new LayoutData();
+		data.layout.textColor = event.getTextColor();
+		data.layout.backgroundColor = event.getBackgroundColor();
+		data.layout.buttonColor = event.getButtonColor();
 
 		data.races = new ArrayList<RaceData>();
 		for (Race race : RaceDAO.getInstance().findForEvent(event)) {
@@ -99,6 +107,16 @@ public class EventREST {
 			}
 
 			data.races.add(raceData);
+		}
+
+		data.organizers = new ArrayList<UserData>();
+		for (User organizer : EventDAO.getInstance().findOrganizers(event)) {
+			UserData organizerData = new UserData();
+			organizerData.id = organizer.getId();
+			organizerData.name = organizer.getProfile().getName();
+			organizerData.email = organizer.getEmail();
+			organizerData.mobile = organizer.getProfile().getMobile();
+			data.organizers.add(organizerData);
 		}
 
 		return data;

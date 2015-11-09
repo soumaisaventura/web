@@ -13,4 +13,8 @@ public class EventData {
 	public String site;
 
 	public List<RaceData> races;
+
+	public List<UserData> organizers;
+
+	public LayoutData layout;
 }

@@ -9,6 +9,7 @@
 		<class>adventure.entity.Profile</class>
 		<class>adventure.entity.Health</class>
 		<class>adventure.entity.Event</class>
+		<class>adventure.entity.EventOrganizer</class>
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>

@@ -238,10 +238,14 @@ ORDER BY p."name";
    WHERE u.id = p.id AND p.city_id = c.id AND c.state_id = s.id
 ORDER BY p."name";
 
+INSERT INTO event_organizer
+   SELECT * FROM race_organizer;
 
+UPDATE event
+   SET text_color = '#ffffff';
 
-update fee set optional = true;
+UPDATE event
+   SET background_color = '#000000';
 
-update championship_fee set once = true;
-
-
+UPDATE event
+   SET button_color = 'green';

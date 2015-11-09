@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="900,88" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="665,689" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -324,7 +324,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1457.08" y="996.692"/>
+	<position x="1482.08" y="1085.69"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -343,7 +343,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1419.85" y="610"/>
+	<position x="1399.85" y="602"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -845,7 +845,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1170" y="608.667"/>
+	<position x="1148" y="601.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -918,7 +918,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1400.33" y="710"/>
+	<position x="1389.33" y="842"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -937,7 +937,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="site">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="font_color">
+	<column name="text_color">
 		<type name="character varying" length="7"/>
 	</column>
 	<column name="background_color">
@@ -1139,7 +1139,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1270" y="1082"/>
+	<position x="1279" y="1107"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1324,6 +1324,44 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="percentage"/>
+		</idxelement>
+</index>
+
+<table name="event_organizer">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<tag name="Event"/>
+	<position x="1399.85" y="707"/>
+	<column name="event_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="organizer_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="alternate_name" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="alternate_email">
+		<type name="character varying" length="255"/>
+	</column>
+	<constraint name="pk_event_organizer" type="pk-constr" table="public.event_organizer">
+		<columns names="event_id,organizer_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_event_organizer_event" table="public.event_organizer"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="event_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_event_organizer_organizer" table="public.event_organizer"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="organizer_id"/>
 		</idxelement>
 </index>
 
@@ -1540,6 +1578,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="sport_modality_modality" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.modality" table="public.sport_modality">
 	<columns names="modality_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_event_organizer_event" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.event" table="public.event_organizer">
+	<columns names="event_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_organizer_organizer" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.event_organizer">
+	<columns names="organizer_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1795,6 +1845,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#2f9789"
 	 src-table="public.sport_modality"
 	 dst-table="public.modality"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_organizer_cp_user_account" type="relfk"
+	 src-table="public.event_organizer"
+	 dst-table="public.user_account"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_event_organizer_cp_event" type="relfk"
+	 src-table="public.event_organizer"
+	 dst-table="public.event"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
