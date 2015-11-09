@@ -50,9 +50,9 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        e.description, ");
 		jpql.append(" 	        e.slug, ");
 		jpql.append(" 	        e.site, ");
-		jpql.append(" 	        e.textColor, ");
-		jpql.append(" 	        e.backgroundColor, ");
-		jpql.append(" 	        e.buttonColor ");
+		jpql.append(" 	        e.layout.textColor, ");
+		jpql.append(" 	        e.layout.backgroundColor, ");
+		jpql.append(" 	        e.layout.buttonColor ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Event e ");
 		jpql.append("  where e.slug = :slug ");

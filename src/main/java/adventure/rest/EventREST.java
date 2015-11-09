@@ -52,9 +52,9 @@ public class EventREST {
 		data.site = event.getSite();
 
 		data.layout = new LayoutData();
-		data.layout.textColor = event.getTextColor();
-		data.layout.backgroundColor = event.getBackgroundColor();
-		data.layout.buttonColor = event.getButtonColor();
+		data.layout.textColor = event.getLayout().getTextColor();
+		data.layout.backgroundColor = event.getLayout().getBackgroundColor();
+		data.layout.buttonColor = event.getLayout().getButtonColor();
 
 		data.races = new ArrayList<RaceData>();
 		for (Race race : RaceDAO.getInstance().findForEvent(event)) {

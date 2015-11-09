@@ -5,6 +5,7 @@ import static javax.persistence.EnumType.STRING;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -47,14 +48,8 @@ public class Event implements Serializable {
 	@Column(name = "payment_token")
 	private String paymentToken;
 
-	@Column(name = "text_color")
-	private String textColor;
-
-	@Column(name = "background_color")
-	private String backgroundColor;
-
-	@Column(name = "button_color")
-	private String buttonColor;
+	@Embedded
+	private Layout layout;
 
 	public Event() {
 	}
@@ -69,16 +64,17 @@ public class Event implements Serializable {
 		setDescription(description);
 	}
 
-	public Event(Integer id, String name, String description, String slug, String site, String textColor,
-			String backgroundColor, String buttonColor) {
+	public Event(Integer id, String name, String description, String slug, String site, String layoutTextColor,
+			String layoutBackgroundColor, String layoutButtonColor) {
 		setId(id);
 		setName(name);
 		setDescription(description);
 		setSlug(slug);
 		setSite(site);
-		setTextColor(textColor);
-		setBackgroundColor(backgroundColor);
-		setButtonColor(buttonColor);
+		setLayout(new Layout());
+		getLayout().setTextColor(layoutTextColor);
+		getLayout().setBackgroundColor(layoutBackgroundColor);
+		getLayout().setButtonColor(layoutButtonColor);
 	}
 
 	@Override
@@ -191,27 +187,11 @@ public class Event implements Serializable {
 		this.paymentToken = paymentToken;
 	}
 
-	public String getTextColor() {
-		return textColor;
+	public Layout getLayout() {
+		return layout;
 	}
 
-	public void setTextColor(String textColor) {
-		this.textColor = textColor;
-	}
-
-	public String getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(String backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-
-	public String getButtonColor() {
-		return buttonColor;
-	}
-
-	public void setButtonColor(String buttonColor) {
-		this.buttonColor = buttonColor;
+	public void setLayout(Layout layout) {
+		this.layout = layout;
 	}
 }
