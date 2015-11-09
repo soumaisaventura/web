@@ -1,5 +1,7 @@
 package adventure.rest;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
+import net.coobird.thumbnailator.Thumbnails;
+
+import org.apache.commons.codec.binary.Base64;
 
 import adventure.business.FeeBusiness;
 import adventure.entity.Championship;
@@ -122,8 +128,64 @@ public class EventREST {
 		return data;
 	}
 
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64")
+	public byte[] getBannerBase64(@PathParam("slug") String slug) throws Exception {
+		return getBannerBase64(slug, null);
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64/{width}")
+	public byte[] getBannerBase64(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
+		Event race = loadEventBanner(slug);
+		return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner")
+	public byte[] getBanner(@PathParam("slug") String slug) throws Exception {
+		return getBanner(slug, null);
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/{width}")
+	public byte[] getBanner(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
+		Event race = loadEventBanner(slug);
+		return resizeImage(race.getBanner(), 750, width);
+	}
+
+	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
+		byte[] result = image;
+
+		if (width != null && width != defaultWidth) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
+			result = out.toByteArray();
+		}
+
+		return result;
+	}
+
 	private Event loadEventDetails(String slug) throws Exception {
 		Event result = EventDAO.getInstance().loadForDetail(slug);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private Event loadEventBanner(String slug) throws Exception {
+		Event result = EventDAO.getInstance().loadForBanner(slug);
 
 		if (result == null) {
 			throw new NotFoundException();

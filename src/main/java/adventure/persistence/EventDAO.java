@@ -69,6 +69,27 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		return result;
 	}
 
+	public Event loadForBanner(String slug) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Event( ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.banner ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Event e ");
+		jpql.append("  where e.slug = :slug ");
+
+		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
+		query.setParameter("slug", slug);
+
+		Event result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	public List<User> findOrganizers(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new User ( ");

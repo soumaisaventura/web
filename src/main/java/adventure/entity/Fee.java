@@ -1,6 +1,5 @@
 package adventure.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
@@ -8,9 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class Fee implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Fee {
 
 	@Id
 	private Integer id;

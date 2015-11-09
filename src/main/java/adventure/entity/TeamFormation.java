@@ -1,6 +1,5 @@
 package adventure.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,34 +10,23 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
 
 @Entity
 @IdClass(TeamFormationPk.class)
 @Table(name = "user_registration")
-public class TeamFormation implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class TeamFormation {
 
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "registration_id")
-	@Index(name = "idx_user_registration_registration")
-	@ForeignKey(name = "fk_user_registration_registration")
 	private Registration registration;
 
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@Index(name = "idx_user_registration_user")
-	@ForeignKey(name = "fk_user_registration_user")
 	private User user;
 
-	@NotNull
-	@Column(name = "race_price", precision = 7, scale = 2)
+	@Column(name = "race_price")
 	private BigDecimal racePrice;
 
 	public TeamFormation() {

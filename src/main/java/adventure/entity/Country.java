@@ -1,35 +1,18 @@
 package adventure.entity;
 
-import static adventure.util.Constants.ABBREVIATION_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "country")
 public class Country {
 
 	@Id
-	@Column(name = "id")
 	private Integer id;
 
-	@NotEmpty
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_country_name")
 	private String name;
 
-	@NotEmpty
-	@Size(max = ABBREVIATION_SIZE)
-	@Column(name = "abbreviation")
-	@Index(name = "idx_country_abbreviation")
 	private String abbreviation;
 
 	@Override

@@ -1,11 +1,8 @@
 package adventure.entity;
 
-import static adventure.util.Constants.ENUM_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -21,72 +18,45 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
 
 import br.gov.frameworkdemoiselle.util.Strings;
 
 @Entity
-@Table(name = "registration", uniqueConstraints = {
-		@UniqueConstraint(name = "uk_registration_payment_code", columnNames = { "payment_code" }),
-		@UniqueConstraint(name = "uk_registration_payment_transaction", columnNames = { "payment_transaction" }) })
-public class Registration implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "registration")
+public class Registration {
 
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = SEQUENCE, generator = "seq_registration")
 	@SequenceGenerator(name = "seq_registration", sequenceName = "seq_registration", allocationSize = 1)
 	private Long id;
 
-	@ManyToOne(optional = false)
-	@ForeignKey(name = "fk_registration_race_category")
+	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "race_id", referencedColumnName = "race_id"),
 			@JoinColumn(name = "course_id", referencedColumnName = "course_id"),
 			@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
 	private RaceCategory raceCategory;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "period_id")
-	@ForeignKey(name = "fk_registration_period")
-	@Index(name = "idx_registration_period")
 	private Period period;
 
-	@NotNull
-	@Size(max = NAME_SIZE)
 	@Column(name = "team_name")
 	private String teamName;
 
-	@NotNull
-	@Column(name = "date")
-	@Index(name = "idx_registration_date")
 	private Date date;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "submitter_id")
-	@ForeignKey(name = "fk_registration_submitter")
-	@Index(name = "idx_registration_submitter")
 	private User submitter;
 
-	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "status", length = ENUM_SIZE)
-	@Index(name = "idx_registration_status")
 	private RegistrationStatusType status;
 
-	@NotNull
 	@Column(name = "status_date")
 	private Date statusDate;
 
-	@ManyToOne(optional = true)
+	@ManyToOne
 	@JoinColumn(name = "approver_id")
-	@ForeignKey(name = "fk_registration_approver")
-	@Index(name = "idx_registration_approver")
 	private User approver;
 
 	@Column(name = "payment_code")

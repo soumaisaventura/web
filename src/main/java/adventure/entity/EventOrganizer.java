@@ -1,10 +1,5 @@
 package adventure.entity;
 
-import static adventure.util.Constants.EMAIL_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,15 +7,11 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @IdClass(EventOrganizerPk.class)
 @Table(name = "event_organizer")
-public class EventOrganizer implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class EventOrganizer {
 
 	@Id
 	@ManyToOne
@@ -32,12 +23,9 @@ public class EventOrganizer implements Serializable {
 	@JoinColumn(name = "organizer_id")
 	private User organizer;
 
-	@NotNull
-	@Size(max = NAME_SIZE)
 	@Column(name = "alternate_name")
 	private String alternateName;
 
-	@Size(max = EMAIL_SIZE)
 	@Column(name = "alternate_email")
 	private String alternateEmail;
 

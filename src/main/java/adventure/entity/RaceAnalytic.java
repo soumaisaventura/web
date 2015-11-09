@@ -1,10 +1,6 @@
 package adventure.entity;
 
-import java.io.Serializable;
-
-public class RaceAnalytic implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class RaceAnalytic {
 
 	private String label;
 

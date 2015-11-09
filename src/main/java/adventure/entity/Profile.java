@@ -1,17 +1,11 @@
 package adventure.entity;
 
-import static adventure.util.Constants.CPF_SIZE;
-import static adventure.util.Constants.ENUM_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.RG_SIZE;
-import static adventure.util.Constants.TELEPHONE_SIZE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -20,76 +14,46 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.util.PendencyCount;
 
 @Entity
 @Table(name = "profile")
+@SuppressWarnings("serial")
 public class Profile implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@OneToOne
 	@JoinColumn(name = "id")
-	@ForeignKey(name = "fk_profile_user")
 	private User user;
 
-	@NotEmpty
-	@Column(name = "name")
-	@Size(max = NAME_SIZE)
-	@Index(name = "idx_profile_name")
 	private String name;
 
 	@PendencyCount
-	@Length(max = RG_SIZE)
-	@Column(name = "rg")
 	private String rg;
 
 	@PendencyCount
-	@Length(max = CPF_SIZE)
-	@Column(name = "cpf")
-	@Index(name = "idx_profile_cpf")
 	private String cpf;
 
-	@Past
 	@PendencyCount
 	@Temporal(DATE)
-	@Column(name = "birthday")
 	private Date birthday;
 
 	@PendencyCount
-	@Length(max = TELEPHONE_SIZE)
-	@Column(name = "mobile")
 	private String mobile;
 
-	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "gender", length = ENUM_SIZE)
 	private GenderType gender;
 
 	@PendencyCount
 	@Enumerated(STRING)
-	@Column(name = "tshirt", length = ENUM_SIZE)
 	private TshirtType tshirt;
 
+	@ManyToOne
 	@PendencyCount
-	@ManyToOne(optional = true)
 	@JoinColumn(name = "city_id")
-	@ForeignKey(name = "fk_user_city")
-	@Index(name = "idx_user_city")
 	private City city;
 
-	@NotNull
-	@Column(name = "pendencies")
 	private Integer pendencies;
 
 	public Profile() {
