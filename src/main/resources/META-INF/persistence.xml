@@ -8,13 +8,22 @@
 		<class>adventure.entity.User</class>
 		<class>adventure.entity.Profile</class>
 		<class>adventure.entity.Health</class>
+		<class>adventure.entity.Event</class>
 		<class>adventure.entity.Race</class>
+		<class>adventure.entity.RaceModality</class>
+		<class>adventure.entity.RaceCategory</class>
+		<class>adventure.entity.RaceOrganizer</class>
+		<class>adventure.entity.RaceFee</class>
+		<class>adventure.entity.Championship</class>
+		<class>adventure.entity.ChampionshipFee</class>
+		<class>adventure.entity.ChampionshipRace</class>
+		<class>adventure.entity.Sport</class>
+		<class>adventure.entity.Modality</class>
 		<class>adventure.entity.Period</class>
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Course</class>
-		<class>adventure.entity.RaceCategory</class>
-		<class>adventure.entity.RaceOrganizer</class>
 		<class>adventure.entity.Registration</class>
+		<class>adventure.entity.Fee</class>
 		<class>adventure.entity.TeamFormation</class>
 		<class>adventure.entity.Country</class>
 		<class>adventure.entity.State</class>

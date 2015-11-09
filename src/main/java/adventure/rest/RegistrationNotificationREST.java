@@ -40,6 +40,9 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
 
+/*
+ * http://www.soumaisaventura.com.br/api/registration/notification
+ */
 @Path("registration")
 public class RegistrationNotificationREST {
 
@@ -56,10 +59,11 @@ public class RegistrationNotificationREST {
 
 		if ("transaction".equalsIgnoreCase(type)) {
 			for (Race race : RaceDAO.getInstance().findOpenAutoPayment()) {
-				String body = getBody(code, race);
-				Transaction transaction = parse(body);
+				Transaction transaction = getBody(code, race);
 
-				update(race, transaction, uriInfo);
+				if (transaction != null) {
+					update(race, transaction, uriInfo);
+				}
 			}
 		}
 	}
@@ -95,8 +99,8 @@ public class RegistrationNotificationREST {
 		}
 	}
 
-	private String getBody(String code, Race race) throws Exception {
-		String result = null;
+	private Transaction getBody(String code, Race race) throws Exception {
+		Transaction result = null;
 
 		if (code != null) {
 			List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
@@ -116,8 +120,9 @@ public class RegistrationNotificationREST {
 			getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
 
 			if (response.getStatusLine().getStatusCode() == 200) {
-				result = Strings.parse(response.getEntity().getContent());
-				getLogger().fine("Body recebido [" + result + "]");
+				String body = Strings.parse(response.getEntity().getContent());
+				getLogger().fine("Body recebido [" + body + "]");
+				result = parse(body);
 			}
 		}
 
@@ -141,15 +146,6 @@ public class RegistrationNotificationREST {
 
 		return this.logger;
 	}
-
-	// public static void main(String[] args) throws Exception {
-	// File file = new File("/Users/zyc/Workspace/zyc/adventure/target/x.xml");
-	//
-	// RegistrationNotificationREST r = new RegistrationNotificationREST();
-	// Transaction transaction = r.parse(FileUtils.openInputStream(file));
-	//
-	// System.out.println(transaction);
-	// }
 
 	@XmlAccessorType(FIELD)
 	@XmlRootElement(name = "transaction")

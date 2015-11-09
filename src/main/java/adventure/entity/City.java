@@ -15,23 +15,23 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "CITY")
+@Table(name = "city")
 public class City {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "id")
 	private Integer id;
 
 	@NotEmpty
 	@Size(max = NAME_SIZE)
-	@Column(name = "NAME")
-	@Index(name = "IDX_CITY_NAME")
+	@Column(name = "name")
+	@Index(name = "idx_city_name")
 	private String name;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "STATE_ID")
-	@ForeignKey(name = "FK_CITY_STATE")
-	@Index(name = "IDX_CITY_STATE")
+	@JoinColumn(name = "state_id")
+	@ForeignKey(name = "fk_city_state")
+	@Index(name = "idx_city_state")
 	private State state;
 
 	public City() {

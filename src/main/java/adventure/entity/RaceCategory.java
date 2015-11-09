@@ -11,30 +11,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 @Entity
 @IdClass(RaceCategoryPk.class)
-@Table(name = "RACE_CATEGORY")
+@Table(name = "race_category")
 public class RaceCategory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "RACE_ID")
-	@ForeignKey(name = "FK_RACE_CATEGORY_RACE")
+	@JoinColumn(name = "race_id")
+	@Index(name = "idx_race_category_race")
+	@ForeignKey(name = "fk_race_category_race")
 	private Race race;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "COURSE_ID")
-	@ForeignKey(name = "FK_RACE_CATEGORY_COURSE")
+	@JoinColumn(name = "course_id")
+	@ForeignKey(name = "fk_race_category_course")
 	private Course course;
 
 	@Id
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "CATEGORY_ID")
-	@ForeignKey(name = "FK_RACE_CATEGORY_CATEGORY")
+	@JoinColumn(name = "category_id")
+	@Index(name = "idx_race_category_category")
+	@ForeignKey(name = "fk_race_category_category")
 	private Category category;
 
 	public RaceCategory() {

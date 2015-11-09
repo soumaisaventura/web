@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import adventure.entity.Event;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -22,6 +23,40 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 	public static RaceDAO getInstance() {
 		return Beans.getReference(RaceDAO.class);
 	}
+
+	public List<Race> findForEvent(Event event) throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Race( ");
+		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.slug, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        o.id, ");
+		jpql.append(" 	        o.name, ");
+		jpql.append(" 	        o.acronym, ");
+		jpql.append(" 	        r.beginning, ");
+		jpql.append(" 	        r.end, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Race r ");
+		jpql.append("        join r.sport o ");
+		jpql.append("   left join r.city c ");
+		jpql.append("   left join c.state s ");
+		jpql.append("  where r.event = :event ");
+		jpql.append("  order by ");
+		jpql.append("        r.date ");
+
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
+		query.setParameter("event", event);
+
+		return query.getResultList();
+	}
+
+	// TODO: OLD
 
 	public Race loadForDetail(Integer id) throws Exception {
 		StringBuffer jpql = new StringBuffer();

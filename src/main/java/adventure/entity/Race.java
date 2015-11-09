@@ -8,6 +8,7 @@ import static adventure.util.Constants.EMAIL_SIZE;
 import static adventure.util.Constants.ENUM_SIZE;
 import static adventure.util.Constants.HASH_SIZE;
 import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.SLUG_SIZE;
 import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -37,62 +38,92 @@ import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "RACE")
+@Table(name = "race")
 public class Race implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_RACE")
-	@SequenceGenerator(name = "SEQ_RACE", sequenceName = "SEQ_RACE", allocationSize = 1)
+	@Column(name = "id")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_race")
+	@SequenceGenerator(name = "seq_race", sequenceName = "seq_race", allocationSize = 1)
 	private Integer id;
+
+	@ManyToOne
+	@JoinColumn(name = "event_id")
+	@ForeignKey(name = "fk_race_event")
+	@Index(name = "idx_race_event")
+	private Event event;
+
+	@Size(max = SLUG_SIZE)
+	@Column(name = "slug")
+	@Index(name = "idx_race_slug")
+	private String slug;
 
 	@NotEmpty
 	@Size(max = NAME_SIZE)
-	@Column(name = "NAME")
-	@Index(name = "IDX_RACE_NAME")
+	@Column(name = "name")
+	@Index(name = "idx_race_name")
 	private String name;
 
 	@Size(max = TEXT_SIZE)
-	@Column(name = "DESCRIPTION")
+	@Column(name = "description")
+	@Index(name = "idx_race_description")
 	private String description;
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "sport_id")
+	@ForeignKey(name = "fk_race_sport")
+	@Index(name = "idx_race_sport")
+	private Sport sport;
 
 	@NotNull
 	@Temporal(DATE)
-	@Column(name = "DATE")
-	@Index(name = "IDX_RACE_DATE")
+	@Column(name = "date")
+	@Index(name = "idx_race_date")
 	private Date date;
 
+	@NotNull
+	@Temporal(DATE)
+	@Column(name = "beginning")
+	@Index(name = "idx_race_beginning")
+	private Date beginning;
+
+	@NotNull
+	@Temporal(DATE)
+	@Column(name = "ending")
+	@Index(name = "idx_race_ending")
+	private Date end;
+
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "CITY_ID")
-	@ForeignKey(name = "FK_RACE_CITY")
-	@Index(name = "IDX_RACE_CITY")
+	@JoinColumn(name = "city_id")
+	@ForeignKey(name = "fk_race_city")
+	@Index(name = "idx_race_city")
 	private City city;
 
 	@Size(max = EMAIL_SIZE)
 	private String site;
 
 	@Lob
-	@Column(name = "BANNER")
+	@Column(name = "banner")
 	private byte[] banner;
 
 	@NotNull
 	@Enumerated(STRING)
-	@Column(name = "PAYMENT_TYPE", length = ENUM_SIZE)
-	@Index(name = "IDX_RACE_PAYMENT_TYPE")
+	@Column(name = "payment_type", length = ENUM_SIZE)
+	@Index(name = "idx_race_payment_type")
 	private PaymentType paymentType;
 
 	@Size(max = TEXT_SIZE)
-	@Column(name = "PAYMENT_INFO")
+	@Column(name = "payment_info")
 	private String paymentInfo;
 
 	@Size(max = EMAIL_SIZE)
-	@Column(name = "PAYMENT_ACCOUNT")
+	@Column(name = "payment_account")
 	private String paymentAccount;
 
 	@Size(max = HASH_SIZE)
-	@Column(name = "PAYMENT_TOKEN")
+	@Column(name = "payment_token")
 	private String paymentToken;
 
 	@Transient
@@ -104,6 +135,30 @@ public class Race implements Serializable {
 	public Race(Integer id) {
 		this.id = id;
 	}
+
+	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
+			String sportAcronym, Date beginning, Date end, Integer cityId, String cityName, Integer stateId,
+			String stateName, String stateAbbreviation) {
+		setId(id);
+		setSlug(slug);
+		setName(name);
+		setDescription(description);
+		setSport(new Sport());
+		getSport().setId(sportId);
+		getSport().setName(sportName);
+		getSport().setAcronym(sportAcronym);
+		setBeginning(beginning);
+		setEnd(end);
+		setCity(new City());
+		getCity().setId(cityId);
+		getCity().setName(cityName);
+		getCity().setState(new State());
+		getCity().getState().setId(stateId);
+		getCity().getState().setName(stateName);
+		getCity().getState().setAbbreviation(stateAbbreviation);
+	}
+
+	// TODO: OLD
 
 	public Race(Integer id, String name, String description, Date date, String site, String paymentAccount,
 			String paymentToken, Integer cityId, String cityName, Integer stateId, String stateName,
@@ -190,6 +245,22 @@ public class Race implements Serializable {
 		this.id = id;
 	}
 
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -206,12 +277,36 @@ public class Race implements Serializable {
 		this.description = description;
 	}
 
+	public Sport getSport() {
+		return sport;
+	}
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
+	}
+
 	public Date getDate() {
 		return date;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public Date getBeginning() {
+		return beginning;
+	}
+
+	public void setBeginning(Date beginning) {
+		this.beginning = beginning;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public City getCity() {

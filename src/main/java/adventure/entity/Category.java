@@ -18,36 +18,36 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "category")
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_CATEGORY")
-	@SequenceGenerator(name = "SEQ_CATEGORY", sequenceName = "SEQ_CATEGORY", allocationSize = 1)
+	@Column(name = "id")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_category")
+	@SequenceGenerator(name = "seq_category", sequenceName = "seq_category", allocationSize = 1)
 	private Integer id;
 
 	@NotNull
 	@Size(max = NAME_SIZE)
-	@Column(name = "NAME")
-	@Index(name = "IDX_CATEGORY_NAME")
+	@Column(name = "name")
+	@Index(name = "idx_category_name")
 	private String name;
 
 	@NotNull
 	@Size(max = SMALL_DESCRIPTION_SIZE)
-	@Column(name = "DESCRIPTION")
+	@Column(name = "description")
 	private String description;
 
 	@NotNull
-	@Column(name = "TEAM_SIZE")
+	@Column(name = "team_size")
 	private Integer teamSize;
 
-	@Column(name = "MIN_MALE_MEMBERS")
+	@Column(name = "min_male_members")
 	private Integer minMaleMembers;
 
-	@Column(name = "MIN_FEMALE_MEMBERS")
+	@Column(name = "min_female_members")
 	private Integer minFemaleMembers;
 
 	@Override

@@ -17,6 +17,17 @@
 		<to type="permanent-redirect">%{context-path}/home</to>
 	</rule>
 
+	<!-- Novo -->
+	<rule>
+		<from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
+		<to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
+	</rule>
+	<rule>
+		<from>^/evento/([\w\d_\-/]+)$</from>
+		<to>/evento.jsf?evento_id=$1</to>
+	</rule>
+
+	<!-- Antigo -->
 	<rule>
 		<from>^/teste$</from>
 		<to>/teste.jsf</to>

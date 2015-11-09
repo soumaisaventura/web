@@ -28,58 +28,58 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Entity
-@Table(name = "USER_ACCOUNT", uniqueConstraints = { @UniqueConstraint(name = "UK_USER_EMAIL", columnNames = { "EMAIL" }) })
+@Table(name = "user_account", uniqueConstraints = { @UniqueConstraint(name = "uk_user_email", columnNames = { "email" }) })
 public class User implements Principal, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "SEQ_USER")
-	@SequenceGenerator(name = "SEQ_USER", sequenceName = "SEQ_USER", allocationSize = 1)
-	@Column(name = "ID")
+	@GeneratedValue(strategy = SEQUENCE, generator = "seq_user")
+	@SequenceGenerator(name = "seq_user", sequenceName = "seq_user", allocationSize = 1)
+	@Column(name = "id")
 	private Integer id;
 
 	@Email
 	@NotEmpty
 	@Size(max = EMAIL_SIZE)
-	@Column(name = "EMAIL")
-	@Index(name = "IDX_USER_EMAIL")
+	@Column(name = "email")
+	@Index(name = "idx_user_email")
 	private String email;
 
 	@JsonIgnore
 	@Size(max = HASH_SIZE)
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String password;
 
 	@JsonIgnore
 	@Size(max = HASH_SIZE)
-	@Column(name = "PASSWORD_RESET_TOKEN")
+	@Column(name = "password_reset_token")
 	private String passwordResetToken;
 
 	@JsonIgnore
-	@Column(name = "PASSWORD_RESET_REQUEST")
+	@Column(name = "password_reset_request")
 	private Date passwordResetRequest;
 
 	@NotNull
-	@Column(name = "CREATION")
+	@Column(name = "creation")
 	private Date creation;
 
 	@JsonIgnore
-	@Column(name = "ACTIVATION")
+	@Column(name = "activation")
 	private Date activation;
 
 	@JsonIgnore
 	@Size(max = HASH_SIZE)
-	@Column(name = "ACTIVATION_TOKEN")
+	@Column(name = "activation_token")
 	private String activationToken;
 
 	@JsonIgnore
-	@Column(name = "DELETED")
-	@Index(name = "IDX_USER_DELETED")
+	@Column(name = "deleted")
+	@Index(name = "idx_user_deleted")
 	private Date deleted;
 
-	@Column(name = "ADMIN")
-	@Index(name = "IDX_USER_ADMIN")
+	@Column(name = "admin")
+	@Index(name = "idx_user_admin")
 	private Boolean admin;
 
 	@Transient

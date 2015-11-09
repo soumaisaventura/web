@@ -24,46 +24,46 @@ import org.hibernate.annotations.ForeignKey;
 import adventure.util.PendencyCount;
 
 @Entity
-@Table(name = "HEALTH")
+@Table(name = "health")
 public class Health implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@OneToOne
-	@JoinColumn(name = "ID")
-	@ForeignKey(name = "FK_HEALTH_USER")
+	@JoinColumn(name = "id")
+	@ForeignKey(name = "fk_health_user")
 	private User user;
 
 	@PendencyCount
 	@Enumerated(STRING)
-	@Column(name = "BLOOD_TYPE", length = ENUM_SIZE)
+	@Column(name = "blood_type", length = ENUM_SIZE)
 	private BloodType bloodType;
 
 	@Size(max = TEXT_SIZE)
-	@Column(name = "ALLERGY")
+	@Column(name = "allergy")
 	private String allergy;
 
 	@Size(max = NAME_SIZE)
-	@Column(name = "HEALTH_CARE_NAME")
+	@Column(name = "health_care_name")
 	private String healthCareName;
 
 	@Size(max = GENERIC_ID_SIZE)
-	@Column(name = "HEALTH_CARE_NUMBER")
+	@Column(name = "health_care_number")
 	private String healthCareNumber;
 
 	@PendencyCount
 	@Size(max = NAME_SIZE)
-	@Column(name = "EMERGENCY_CONTACT_NAME")
+	@Column(name = "emergency_contact_name")
 	private String emergencyContactName;
 
 	@PendencyCount
 	@Size(max = TELEPHONE_SIZE)
-	@Column(name = "EMERGENCY_CONTACT_PHONE_NUMBER")
+	@Column(name = "emergency_contact_phone_number")
 	private String emergencyContactPhoneNumber;
 
 	@NotNull
-	@Column(name = "PENDENCIES")
+	@Column(name = "pendencies")
 	private Integer pendencies;
 
 	public Health() {
