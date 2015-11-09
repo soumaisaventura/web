@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1198,849" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="756,746" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -263,7 +263,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="880" y="882"/>
+	<position x="854" y="821"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -276,7 +276,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
 	</column>
+	<column name="name_2" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
 	<column name="description">
+		<type name="character varying" length="700"/>
+	</column>
+	<column name="description_2">
 		<type name="character varying" length="500"/>
 	</column>
 	<column name="banner">
@@ -312,11 +318,17 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="city_id">
 		<type name="integer"/>
 	</column>
+	<column name="visible" not-null="true">
+		<type name="boolean"/>
+	</column>
 	<constraint name="pk_race" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_race_slug" type="uq-constr" table="public.race">
 		<columns names="event_id,slug" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_race_name" type="uq-constr" table="public.race">
+		<columns names="event_id,name_2" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -564,7 +576,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_name" table="public.race"
+<index name="idx_race_name_old" table="public.race"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -1255,7 +1267,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<index name="idx_race_description" table="public.race"
+<index name="idx_race_description_old" table="public.race"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
@@ -1378,6 +1390,30 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="category_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_name" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="name_2"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_description" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="description_2"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_visible" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="visible"/>
 		</idxelement>
 </index>
 

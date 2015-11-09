@@ -238,6 +238,6 @@ ORDER BY p."name";
    WHERE u.id = p.id AND p.city_id = c.id AND c.state_id = s.id
 ORDER BY p."name";
 
-UPDATE category
-   SET sport_id = 1;
-   
+UPDATE race
+   SET name_2 = '50km'
+ WHERE id = 1;

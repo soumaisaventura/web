@@ -36,14 +36,23 @@ public class Race {
 
 	private String slug;
 
+	@Deprecated
 	private String name;
 
+	@Deprecated
 	private String description;
+
+	@Column(name = "name_2")
+	private String name2;
+
+	@Column(name = "description_2")
+	private String description2;
 
 	@ManyToOne
 	@JoinColumn(name = "sport_id")
 	private Sport sport;
 
+	@Deprecated
 	@Temporal(DATE)
 	private Date date;
 
@@ -59,23 +68,31 @@ public class Race {
 	@JoinColumn(name = "city_id")
 	private City city;
 
+	@Deprecated
 	private String site;
 
 	@Lob
+	@Deprecated
 	private byte[] banner;
 
+	@Deprecated
 	@Enumerated(STRING)
 	@Column(name = "payment_type")
 	private PaymentType paymentType;
 
+	@Deprecated
 	@Column(name = "payment_info")
 	private String paymentInfo;
 
+	@Deprecated
 	@Column(name = "payment_account")
 	private String paymentAccount;
 
+	@Deprecated
 	@Column(name = "payment_token")
 	private String paymentToken;
+
+	private Boolean visible;
 
 	@Transient
 	private Period registrationPeriod;
@@ -314,6 +331,14 @@ public class Race {
 
 	public void setPaymentToken(String paymentToken) {
 		this.paymentToken = paymentToken;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 	public Period getRegistrationPeriod() {
