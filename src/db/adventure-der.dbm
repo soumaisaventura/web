@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="665,689" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1198,849" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -130,7 +130,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="course">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="545" y="1065"/>
+	<position x="572" y="1290"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -192,7 +192,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1724.41" y="857.667"/>
+	<position x="1720.41" y="820.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -263,7 +263,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="883" y="872"/>
+	<position x="880" y="882"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -324,7 +324,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1482.08" y="1085.69"/>
+	<position x="1472.08" y="1089.69"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -334,8 +334,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="category_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<constraint name="race_category_pkey" type="pk-constr" table="public.race_category">
-		<columns names="category_id,course_id,race_id" ref-type="src-columns"/>
+	<constraint name="pk_race_category" type="pk-constr" table="public.race_category">
+		<columns names="race_id,category_id,course_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -723,7 +723,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1704.67" y="1019"/>
+	<position x="1721.67" y="1090"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -918,7 +918,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1389.33" y="842"/>
+	<position x="1393.33" y="849"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -937,13 +937,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="site">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="text_color">
+	<column name="text_color" not-null="true">
 		<type name="character varying" length="7"/>
 	</column>
-	<column name="background_color">
+	<column name="background_color" not-null="true">
 		<type name="character varying" length="7"/>
 	</column>
-	<column name="button_color">
+	<column name="button_color" not-null="true">
 		<type name="character varying" length="7"/>
 	</column>
 	<column name="payment_type" not-null="true">
@@ -1111,7 +1111,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1256" y="1247"/>
+	<position x="1203" y="1250"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1139,7 +1139,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1279" y="1107"/>
+	<position x="1213" y="1102"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1291,7 +1291,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1271" y="1425"/>
+	<position x="1224" y="1416"/>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1362,6 +1362,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="organizer_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_category_race" table="public.race_category"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_category_category" table="public.race_category"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="category_id"/>
 		</idxelement>
 </index>
 
