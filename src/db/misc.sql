@@ -239,5 +239,295 @@ ORDER BY p."name";
 ORDER BY p."name";
 
 UPDATE race
-   SET name_2 = '50km'
- WHERE id = 1;
+   SET slug = id;
+
+INSERT INTO race (id,
+                  name,
+                  date,
+                  payment_type,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  ending,
+                  slug,
+                  name_2,
+                  visible)
+     SELECT 11 + row_number () OVER (ORDER BY r.id, c.id),
+            c."name",
+            r."date",
+            'MANUAL',
+            r.event_id,
+            CASE WHEN c.adventure_racing THEN 1 ELSE 2 END,
+            r."date",
+            r."date",
+            c."name",
+            c."name",
+            FALSE
+       FROM course c, race r
+      WHERE c.race_id = r.id AND c.name NOT LIKE '0'
+   ORDER BY r.id, c.id;
+
+CREATE TABLE course_new_race
+AS
+     SELECT 11 + row_number () OVER (ORDER BY r.id, c.id) AS new_race_id,
+            c.id AS course_id
+       FROM course c, race r
+      WHERE c.race_id = r.id AND c.name NOT LIKE '0'
+   ORDER BY r.id, c.id;
+
+SELECT * FROM course_new_race;
+
+INSERT INTO race_category (category_id, race_id, course_id)
+     SELECT rc.category_id, cnr.new_race_id, 0 AS course_id
+       FROM race_category rc, course_new_race cnr
+      WHERE rc.course_id = cnr.course_id
+   ORDER BY cnr.new_race_id, rc.category_id;
+
+DELETE FROM race_category rc
+      WHERE race_id > 11;
+
+SELECT *
+  FROM championship_race c
+ WHERE race_id > 11;
+
+DELETE FROM championship_race c
+      WHERE race_id <= 11;
+
+SELECT *
+  FROM championship c;
+
+  SELECT e.name, r.name, r.id
+    FROM event e, race r
+   WHERE r.event_id = e.id AND r.id > 11
+ORDER BY e.id, r.id;
+
+DELETE FROM race_modality
+      WHERE race_id <= 11;
+
+INSERT INTO race_modality (race_id, modality_id)
+   --"Noite do Perrengue 3";"50Km";12
+   SELECT 12, 1
+   UNION
+   SELECT 12, 2
+   UNION
+   SELECT 12, 3
+   UNION
+   SELECT 12, 6
+   UNION
+   --"Sol do Salitre";"50Km";13
+   SELECT 13, 1
+   UNION
+   SELECT 13, 2
+   UNION
+   SELECT 13, 5
+   UNION
+   SELECT 13, 6
+   UNION
+   --"Mandacaru";"60Km";14
+   SELECT 14, 1
+   UNION
+   SELECT 14, 2
+   UNION
+   SELECT 14, 5
+   UNION
+   SELECT 14, 6
+   UNION
+   --"Peleja";"59Km";15
+   SELECT 15, 1
+   UNION
+   SELECT 15, 2
+   UNION
+   SELECT 15, 6
+   UNION
+   --"Casco de Peba";"Emotion 40Km";16
+   SELECT 16, 1
+   UNION
+   SELECT 16, 2
+   UNION
+   SELECT 16, 3
+   UNION
+   SELECT 16, 4
+   UNION
+   SELECT 16, 5
+   UNION
+   SELECT 16, 6
+   UNION
+   SELECT 16, 7
+   UNION
+   --"Casco de Peba";"Turbinado 90Km";17
+   SELECT 17, 1
+   UNION
+   SELECT 17, 2
+   UNION
+   SELECT 17, 3
+   UNION
+   SELECT 17, 4
+   UNION
+   SELECT 17, 5
+   UNION
+   SELECT 17, 6
+   UNION
+   SELECT 17, 7
+   UNION
+   --"Casco de Peba";"Cross Country 12Km";18
+   SELECT 18, 7
+   UNION
+   --"Casco de Peba";"Off-Road Aventura 4x4";19
+   SELECT 19, 8
+   UNION
+   --"Corrida do CT Gantuá";"Aventura";20
+   SELECT 20, 1
+   UNION
+   SELECT 20, 2
+   UNION
+   SELECT 20, 4
+   UNION
+   SELECT 20, 6
+   UNION
+   --"Corrida do CT Gantuá";"Trail Run";21
+   SELECT 21, 7
+   UNION
+   --"Laskpé";"SPORT ou PRO";22
+   SELECT 22, 1
+   UNION
+   SELECT 22, 2
+   UNION
+   SELECT 22, 3
+   UNION
+   SELECT 22, 5
+   UNION
+   SELECT 22, 6
+   UNION
+   --"Cangaço";"60km";23
+   SELECT 23, 1
+   UNION
+   SELECT 23, 2
+   UNION
+   SELECT 23, 6
+   UNION
+   SELECT 23, 7
+   UNION
+   --"Cangaço";"30km";24
+   SELECT 24, 1
+   UNION
+   SELECT 24, 2
+   UNION
+   SELECT 24, 6
+   UNION
+   SELECT 24, 7
+   UNION
+   --"Desafio dos Sertões";"SPORT ou PRO";25
+   SELECT 25, 1
+   UNION
+   SELECT 25, 2
+   UNION
+   SELECT 25, 3
+   UNION
+   SELECT 25, 4
+   UNION
+   SELECT 25, 6
+   UNION
+   --"2ª Etapa do Circuito Native";"Extreme 42km";26
+   SELECT 26, 1
+   UNION
+   SELECT 26, 2
+   UNION
+   SELECT 26, 6
+   UNION
+   --"2ª Etapa do Circuito Native";"Expedição 16km";27
+   SELECT 27, 2
+   UNION
+   SELECT 27, 6
+   UNION
+   --"2ª Etapa do Circuito Native";"Aventura 10km";28
+   SELECT 28, 2
+   UNION
+   SELECT 28, 6
+   UNION
+   --"Integração Aventura Urbana";"Race 50km";29
+   SELECT 29, 1
+   UNION
+   SELECT 29, 2
+   UNION
+   SELECT 29, 3
+   UNION
+   SELECT 29, 6;
+
+-- 1;"Mountain Biking";"mtb";""
+-- 2;"Trekking";"trk";""
+-- 3;"Canoagem";"can";""
+-- 4;"Técnicas Verticais";"vrt";""
+-- 5;"Natação";"nat";""
+-- 6;"Orientação";"ORI";""
+
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (1, 12);
+
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (1, 14);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (1, 20);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (1, 22);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (1, 25);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (2, 14);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (2, 15);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (2, 23);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (3, 13);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (3, 17);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (3, 22);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (3, 25);
+
+INSERT INTO championship_race (championship_id, race_id)
+     VALUES (3, 29);
+
+SELECT * FROM race_fee;
+
+
+
+INSERT INTO period (id,
+                    race_id,
+                    beginning,
+                    ending,
+                    price)
+     SELECT 24 + row_number () OVER (ORDER BY cnr.new_race_id, p.beginning)
+               AS id,
+            cnr.new_race_id,
+            p.beginning,
+            p.ending,
+            p.price
+       FROM period p, course_new_race cnr, course c
+      WHERE cnr.course_id = c.id AND c.race_id = p.race_id
+   ORDER BY cnr.new_race_id, p.beginning;
+
+UPDATE race _r
+   SET city_id =
+          (SELECT r.city_id
+             FROM course c, race r, course_new_race c1
+            WHERE     c.race_id = r.id
+                  AND c1.course_id = c.id
+                  AND c1.new_race_id = _r.id)
+ WHERE id > 11;
+
+SELECT *
+  FROM race_modality r;
