@@ -27,6 +27,15 @@ public class Category {
 	@Column(name = "min_female_members")
 	private Integer minFemaleMembers;
 
+	public Category() {
+	}
+
+	public Category(Integer id, String name, String description) {
+		setId(id);
+		setName(name);
+		setDescription(description);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

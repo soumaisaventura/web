@@ -178,7 +178,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append("   left join r.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where year(r.date) = :year ");
-		jpql.append("    and r.visible = true ");
+		jpql.append("    and r.id < 12 ");
 		jpql.append("  order by ");
 		jpql.append("        r.date ");
 

@@ -92,8 +92,6 @@ public class Race {
 	@Column(name = "payment_token")
 	private String paymentToken;
 
-	private Boolean visible;
-
 	@Transient
 	private Period registrationPeriod;
 
@@ -331,14 +329,6 @@ public class Race {
 
 	public void setPaymentToken(String paymentToken) {
 		this.paymentToken = paymentToken;
-	}
-
-	public Boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(Boolean visible) {
-		this.visible = visible;
 	}
 
 	public Period getRegistrationPeriod() {

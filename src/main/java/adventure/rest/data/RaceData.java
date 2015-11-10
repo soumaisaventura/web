@@ -18,6 +18,8 @@ public class RaceData {
 
 	public CityData city;
 
+	public List<CategoryData> categories;
+
 	public List<PeriodData> prices;
 
 	public List<ModalityData> modalities;

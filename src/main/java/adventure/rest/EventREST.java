@@ -15,6 +15,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.binary.Base64;
 
 import adventure.business.FeeBusiness;
+import adventure.entity.Category;
 import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Fee;
@@ -22,12 +23,14 @@ import adventure.entity.Modality;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
+import adventure.persistence.CategoryDAO;
 import adventure.persistence.ChampionshipDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.FeeDAO;
 import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
+import adventure.rest.data.CategoryData;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
@@ -95,6 +98,14 @@ public class EventREST {
 				championshipFees.addAll(FeeDAO.getInstance().findForEvent(championship));
 			}
 
+			raceData.categories = new ArrayList<CategoryData>();
+			for (Category category : CategoryDAO.getInstance().findForEvent(race)) {
+				CategoryData categoryData = new CategoryData();
+				categoryData.name = category.getName();
+				categoryData.description = category.getDescription();
+				raceData.categories.add(categoryData);
+			}
+
 			raceData.prices = new ArrayList<PeriodData>();
 			for (Period period : PeriodDAO.getInstance().findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
@@ -118,7 +129,7 @@ public class EventREST {
 		data.organizers = new ArrayList<UserData>();
 		for (User organizer : EventDAO.getInstance().findOrganizers(event)) {
 			UserData organizerData = new UserData();
-			organizerData.id = organizer.getId();
+			// organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();
 			organizerData.email = organizer.getEmail();
 			organizerData.mobile = organizer.getProfile().getMobile();
