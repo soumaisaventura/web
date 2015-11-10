@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="951,1031" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="653,526" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -887,7 +887,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1034.67" y="717.333"/>
+	<position x="1046.67" y="717.333"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
