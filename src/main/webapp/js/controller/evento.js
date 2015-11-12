@@ -10,26 +10,27 @@ $(function() {
 });
 
 function loadOk(event) {
-	var i = 0;
-	var now = moment("2015-03-05"); // TODO pegar data atual
-	
-	$.each(event.races, function( index, race ) {
-		
-		$.each(race.prices, function( index, value ) {
-			if (now >= moment(value.beginning) && now <= moment(value.end)){
-				race.price = value.price;
+	$.get( $("#contextPath").val() + '/js/controller/race.mst', function(template) {
+	    
+		$.each(event.races, function(i, race){
+			event.races[i].idx = i+1;
+			if (race.period.beginning === race.period.end){
+				event.races[i].date = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL'); 
 			} else {
-				console.log('nok');
+				event.races[i].date = moment(race.period.beginning).format('L') + " à " + moment(race.period.end).format('L');
 			}
+			
+			$.each(race.prices, function(j, price){
+				event.races[i].prices[j].beginning = moment(price.beginning).format('DD/MM');
+				event.races[i].prices[j].end = moment(price.end).format('DD/MM');
+			});
 		});
 		
-		i++;
+		event.contextPath = $("#contextPath").val();
+		console.log(event);
 		
-		$.get('../js/controller/race.mst', function(template) {
-			console.log(race);
-			race.color = 'color' + i;
-		    var rendered = Mustache.render(template, race);
-		    $('#provas').html(rendered);
-		  });
+		var rendered = Mustache.render(template, event);
+	    
+	    $('#provas').html(rendered);
 	});
 }

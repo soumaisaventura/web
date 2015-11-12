@@ -1,16 +1,60 @@
-<div class="col-md-4 {{color}}">
-	<div class="race-wrapper">
+{{#races}}
+<div class="race-wrapper">	
+	<div class="col-md-4 color{{idx}}">
 		<div class="header">
-			<div class="race-name">{{name}} {{id}}</div>
-			<div class="race-price"><sup>R$</sup> {{price}}</div>
+			<div class="race-name">{{name}}</div>
+			<div class="race-price"><sup>R$</sup> {{currentPrice}}</div>
 		</div>
 		<div class="body">
 			<div class="race-item">
-			<div class="race-modality">
-				<img src="w-canoagem.png"/>&nbsp;
-				<img src="w-corrida.png"/>&nbsp;
-				<img src="w-mtb.png"/>&nbsp;
-				<img src="w-natacao.png"/>&nbsp;
+				<div class="race-modality">
+					{{#modalities}}
+						<img src="{{contextPath}}/images/modalidade-{{id}}-icon.png"/>&nbsp;
+					{{/modalities}}
+				</div>
+			</div>
+			<div class="race-item">
+				<span class="glyphicon glyphicon-map-marker"></span> {{location.city.name}}, {{location.city.state}}
+			</div>
+			<div class="race-item">
+				<span class="glyphicon glyphicon-calendar"></span> {{date}}
+			</div>
+			<a data-toggle="collapse" href="#preco{{idx}}" aria-expanded="false" aria-controls="preco{{idx}}">
+				<div class="race-item">
+					<span class="glyphicon glyphicon glyphicon-usd"></span>
+					Preços 
+					<span class="glyphicon glyphicon-chevron-down pull-right"></span>
+				</div>
+				<div id="preco{{idx}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="preco{{idx}}">
+					<div class="panel-body text-center">
+						{{#prices}}
+						<div>
+							<div class="col-xs-6 text-right">{{beginning}} à {{end}} :</div>
+							<div class="col-xs-6 text-left"><strong style="font-size: 1.2em"><sup>R$</sup> {{price}}</strong></div>
+						</div>
+						{{/prices}}
+					</div>
+				</div>
+			</a>
+			<a data-toggle="collapse" href="#categoria{{idx}}" aria-expanded="false" aria-controls="categoria{{idx}}">
+				<div class="race-item">
+					<span class="glyphicon glyphicon-th-list"></span>
+					Categorias
+				    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+				</div>
+				<div id="categoria{{idx}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="categoria{{idx}}">
+					<div class="panel-body text-center">
+						{{#categories}}
+							<div>{{name}}</div>
+						{{/categories}}
+					</div>
+				</div>
+			</a>
+			<div class="race-item">
+				<button class="race-bt">Inscrever</button>
 			</div>
 		</div>
+	</div>
 </div>
+{{/races}}
+
