@@ -8,21 +8,93 @@
 	</ui:define>
 
 	<ui:define name="lib">
+		<script src="#{request.contextPath}/js/lib/mustache.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/race.js"></script>
+		<script src="#{request.contextPath}/js/proxy/evento.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/prova.js"></script>
+		<script src="#{request.contextPath}/js/controller/evento.js"></script>
+	</ui:define>
+	
+	<ui:define name="scriptlet">
+		<style>
+			* {
+				font-family: 'Lato', sans-serif;
+				/* color: #FFFFFF; */
+			}
+			
+			.color1 {
+				background-color: #f55039;
+			}
+			
+			.color2 {
+				background-color: #46A6F7;
+			}
+			
+			.color3 {
+				background-color: #47887E;
+			}
+			
+			.races>.col-md-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			
+			.header {
+				background-color: rgba(0, 0, 0, 0.5);
+				font-size: 52px;
+				font-weight: 900;
+				padding: 20px;
+				text-align: center;
+			}
+			
+			.race-item {
+				padding: 20px 20px 20px 20px;
+				text-align: center;
+				width: 100%;
+			}
+			
+			a {
+				text-decoration: none;
+			}
+			
+			a:hover {
+				text-decoration: none;
+			}
+			
+			.race-bt {
+				color: #fff;
+				background-color: rgba(0, 0, 0, 0.50);
+				border: none;
+				border-radius: 0px;
+				-webkit-border-radius: 0px;
+				display: inline-block;
+				font-size: 18px;
+				font-weight: 400;
+				line-height: 1.3333333;
+				padding: 10px 16px;
+				text-align: center;
+				vertical-align: middle;
+			}
+			
+			.panel-body {
+				padding: 0px;
+			}
+</style>
 	</ui:define>
 
 	<ui:define name="body">
-		Evento Id: #{param.id}
+		<input id="evento_id" type="hidden" value="#{param.evento_id}" />
+		
+		<div class="row races">
+			<div id="provas"></div>
+		</div>
 	</ui:define>
 
 </ui:composition>
