@@ -1,0 +1,16 @@
+<div class="col-md-4 {{color}}">
+	<div class="race-wrapper">
+		<div class="header">
+			<div class="race-name">{{name}} {{id}}</div>
+			<div class="race-price"><sup>R$</sup> {{price}}</div>
+		</div>
+		<div class="body">
+			<div class="race-item">
+			<div class="race-modality">
+				<img src="w-canoagem.png"/>&nbsp;
+				<img src="w-corrida.png"/>&nbsp;
+				<img src="w-mtb.png"/>&nbsp;
+				<img src="w-natacao.png"/>&nbsp;
+			</div>
+		</div>
+</div>
