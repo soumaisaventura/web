@@ -3,7 +3,6 @@
 
 	<ui:define name="lib">
 		<script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
-		<script src="#{request.contextPath}/js/lib/data.json"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -11,13 +10,10 @@
 
 	<ui:define name="controller">
 		<script src="#{request.contextPath}/js/controller/map.js"></script>
-		<script src="#{request.contextPath}/js/lib/markerclusterer.js"></script>
 	</ui:define>
 
 	<ui:define name="body">
 		<div id="map" style="height: 400px; width: 800px;"></div>
-
-		<button id="btn_limpar">Limpar</button>
 	</ui:define>
 
 </ui:composition>

@@ -1,8 +1,9 @@
 package adventure.rest;
 
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ import adventure.persistence.FeeDAO;
 import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
+import adventure.persistence.UserDAO;
 import adventure.rest.data.CategoryData;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
@@ -51,7 +53,7 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 public class EventREST {
 
 	@GET
-	@Path("{slug: [\\w\\d_\\-/]+}")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public EventData load(@PathParam("slug") String slug) throws Exception {
@@ -101,8 +103,8 @@ public class EventREST {
 			raceData.location.city.name = race.getCity().getName();
 			raceData.location.city.state = race.getCity().getState().getAbbreviation();
 			raceData.location.coords = new CoordsData();
-			raceData.location.coords.latitude = BigDecimal.valueOf(-13.0);
-			raceData.location.coords.longitude = BigDecimal.valueOf(-41);
+			raceData.location.coords.latitude = race.getCoords().getLatitude();
+			raceData.location.coords.longitude = race.getCoords().getLongitude();
 
 			// Race Championships
 
@@ -174,7 +176,7 @@ public class EventREST {
 		// Organizers
 
 		data.organizers = new ArrayList<UserData>();
-		for (User organizer : EventDAO.getInstance().findOrganizers(event)) {
+		for (User organizer : UserDAO.getInstance().findOrganizersForEvent(event)) {
 			UserData organizerData = new UserData();
 			// organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();
