@@ -1,43 +1,20 @@
 package adventure.entity;
 
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.SMALL_DESCRIPTION_SIZE;
-import static javax.persistence.GenerationType.SEQUENCE;
-
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name = "category")
-public class Category implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Category {
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = SEQUENCE, generator = "seq_category")
-	@SequenceGenerator(name = "seq_category", sequenceName = "seq_category", allocationSize = 1)
 	private Integer id;
 
-	@NotNull
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_category_name")
 	private String name;
 
-	@NotNull
-	@Size(max = SMALL_DESCRIPTION_SIZE)
-	@Column(name = "description")
 	private String description;
 
 	@NotNull
@@ -49,6 +26,15 @@ public class Category implements Serializable {
 
 	@Column(name = "min_female_members")
 	private Integer minFemaleMembers;
+
+	public Category() {
+	}
+
+	public Category(Integer id, String name, String description) {
+		setId(id);
+		setName(name);
+		setDescription(description);
+	}
 
 	@Override
 	public int hashCode() {

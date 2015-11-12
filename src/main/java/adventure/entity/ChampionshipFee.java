@@ -1,7 +1,5 @@
 package adventure.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -12,9 +10,7 @@ import javax.persistence.Table;
 @Entity
 @IdClass(ChampionshipFeePk.class)
 @Table(name = "championship_fee")
-public class ChampionshipFee implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ChampionshipFee {
 
 	@Id
 	@ManyToOne

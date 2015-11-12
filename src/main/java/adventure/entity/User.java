@@ -1,10 +1,7 @@
 package adventure.entity;
 
-import static adventure.util.Constants.EMAIL_SIZE;
-import static adventure.util.Constants.HASH_SIZE;
 import static javax.persistence.GenerationType.SEQUENCE;
 
-import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
 
@@ -15,23 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Entity
-@Table(name = "user_account", uniqueConstraints = { @UniqueConstraint(name = "uk_user_email", columnNames = { "email" }) })
-public class User implements Principal, Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "user_account")
+public class User implements Principal {
 
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = "seq_user")
@@ -39,20 +28,12 @@ public class User implements Principal, Serializable {
 	@Column(name = "id")
 	private Integer id;
 
-	@Email
-	@NotEmpty
-	@Size(max = EMAIL_SIZE)
-	@Column(name = "email")
-	@Index(name = "idx_user_email")
 	private String email;
 
 	@JsonIgnore
-	@Size(max = HASH_SIZE)
-	@Column(name = "password")
 	private String password;
 
 	@JsonIgnore
-	@Size(max = HASH_SIZE)
 	@Column(name = "password_reset_token")
 	private String passwordResetToken;
 
@@ -60,26 +41,17 @@ public class User implements Principal, Serializable {
 	@Column(name = "password_reset_request")
 	private Date passwordResetRequest;
 
-	@NotNull
-	@Column(name = "creation")
 	private Date creation;
 
-	@JsonIgnore
-	@Column(name = "activation")
 	private Date activation;
 
 	@JsonIgnore
-	@Size(max = HASH_SIZE)
 	@Column(name = "activation_token")
 	private String activationToken;
 
 	@JsonIgnore
-	@Column(name = "deleted")
-	@Index(name = "idx_user_deleted")
 	private Date deleted;
 
-	@Column(name = "admin")
-	@Index(name = "idx_user_admin")
 	private Boolean admin;
 
 	@Transient

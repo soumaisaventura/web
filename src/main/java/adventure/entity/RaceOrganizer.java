@@ -1,10 +1,5 @@
 package adventure.entity;
 
-import static adventure.util.Constants.EMAIL_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,36 +7,25 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @IdClass(RaceOrganizerPk.class)
 @Table(name = "race_organizer")
-public class RaceOrganizer implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class RaceOrganizer {
 
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "race_id")
-	@ForeignKey(name = "fk_race_organizer_race")
 	private Race race;
 
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "organizer_id")
-	@ForeignKey(name = "fk_race_organizer")
 	private User organizer;
 
-	@NotNull
-	@Size(max = NAME_SIZE)
 	@Column(name = "alternate_name")
 	private String alternateName;
 
-	@Size(max = EMAIL_SIZE)
 	@Column(name = "alternate_email")
 	private String alternateEmail;
 

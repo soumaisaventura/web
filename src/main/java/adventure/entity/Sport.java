@@ -1,29 +1,18 @@
 package adventure.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-// @Table(name = "sport")
-public class Sport implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "sport")
+public class Sport {
 
 	@Id
-	// @Column(name = "id")
 	private Integer id;
 
-	// @NotEmpty
-	// @Size(max = NAME_SIZE)
-	// @Column(name = "name")
-	// @Index(name = "idx_sport_name")
 	private String name;
 
-	// @Size(max = ACRONYM_SIZE)
-	// @Column(name = "acronym")
-	// @Index(name = "idx_sport_acronym")
 	private String acronym;
 
 	public Sport() {

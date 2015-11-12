@@ -29,8 +29,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        r.name2, ");
+		jpql.append(" 	        r.description2, ");
 		jpql.append(" 	        o.id, ");
 		jpql.append(" 	        o.name, ");
 		jpql.append(" 	        o.acronym, ");
@@ -178,6 +178,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append("   left join r.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where year(r.date) = :year ");
+		jpql.append("    and r.id < 12 ");
 		jpql.append("  order by ");
 		jpql.append("        r.date ");
 

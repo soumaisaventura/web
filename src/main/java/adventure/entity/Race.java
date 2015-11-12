@@ -4,125 +4,91 @@ import static adventure.entity.RaceStatusType.CLOSED;
 import static adventure.entity.RaceStatusType.END;
 import static adventure.entity.RaceStatusType.OPEN;
 import static adventure.entity.RaceStatusType.SOON;
-import static adventure.util.Constants.EMAIL_SIZE;
-import static adventure.util.Constants.ENUM_SIZE;
-import static adventure.util.Constants.HASH_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.SLUG_SIZE;
-import static adventure.util.Constants.TEXT_SIZE;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "race")
-public class Race implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Race {
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = SEQUENCE, generator = "seq_race")
-	@SequenceGenerator(name = "seq_race", sequenceName = "seq_race", allocationSize = 1)
 	private Integer id;
 
 	@ManyToOne
 	@JoinColumn(name = "event_id")
-	@ForeignKey(name = "fk_race_event")
-	@Index(name = "idx_race_event")
 	private Event event;
 
-	@Size(max = SLUG_SIZE)
-	@Column(name = "slug")
-	@Index(name = "idx_race_slug")
 	private String slug;
 
-	@NotEmpty
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_race_name")
+	@Deprecated
 	private String name;
 
-	@Size(max = TEXT_SIZE)
-	@Column(name = "description")
-	@Index(name = "idx_race_description")
+	@Deprecated
 	private String description;
 
-	@ManyToOne(optional = true)
+	@Column(name = "name_2")
+	private String name2;
+
+	@Column(name = "description_2")
+	private String description2;
+
+	@ManyToOne
 	@JoinColumn(name = "sport_id")
-	@ForeignKey(name = "fk_race_sport")
-	@Index(name = "idx_race_sport")
 	private Sport sport;
 
-	@NotNull
+	@Deprecated
 	@Temporal(DATE)
-	@Column(name = "date")
-	@Index(name = "idx_race_date")
 	private Date date;
 
-	@NotNull
 	@Temporal(DATE)
-	@Column(name = "beginning")
-	@Index(name = "idx_race_beginning")
 	private Date beginning;
 
 	@NotNull
 	@Temporal(DATE)
 	@Column(name = "ending")
-	@Index(name = "idx_race_ending")
 	private Date end;
 
-	@ManyToOne(optional = true)
+	@ManyToOne
 	@JoinColumn(name = "city_id")
-	@ForeignKey(name = "fk_race_city")
-	@Index(name = "idx_race_city")
 	private City city;
 
-	@Size(max = EMAIL_SIZE)
+	@Deprecated
 	private String site;
 
 	@Lob
-	@Column(name = "banner")
+	@Deprecated
 	private byte[] banner;
 
-	@NotNull
+	@Deprecated
 	@Enumerated(STRING)
-	@Column(name = "payment_type", length = ENUM_SIZE)
-	@Index(name = "idx_race_payment_type")
+	@Column(name = "payment_type")
 	private PaymentType paymentType;
 
-	@Size(max = TEXT_SIZE)
+	@Deprecated
 	@Column(name = "payment_info")
 	private String paymentInfo;
 
-	@Size(max = EMAIL_SIZE)
+	@Deprecated
 	@Column(name = "payment_account")
 	private String paymentAccount;
 
-	@Size(max = HASH_SIZE)
+	@Deprecated
 	@Column(name = "payment_token")
 	private String paymentToken;
 

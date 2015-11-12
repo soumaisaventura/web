@@ -1,5 +1,7 @@
 package adventure.rest;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import net.coobird.thumbnailator.Thumbnails;
+
+import org.apache.commons.codec.binary.Base64;
+
 import adventure.business.FeeBusiness;
+import adventure.entity.Category;
 import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Fee;
@@ -16,12 +23,14 @@ import adventure.entity.Modality;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
+import adventure.persistence.CategoryDAO;
 import adventure.persistence.ChampionshipDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.FeeDAO;
 import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
+import adventure.rest.data.CategoryData;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
@@ -89,6 +98,14 @@ public class EventREST {
 				championshipFees.addAll(FeeDAO.getInstance().findForEvent(championship));
 			}
 
+			raceData.categories = new ArrayList<CategoryData>();
+			for (Category category : CategoryDAO.getInstance().findForEvent(race)) {
+				CategoryData categoryData = new CategoryData();
+				categoryData.name = category.getName();
+				categoryData.description = category.getDescription();
+				raceData.categories.add(categoryData);
+			}
+
 			raceData.prices = new ArrayList<PeriodData>();
 			for (Period period : PeriodDAO.getInstance().findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
@@ -112,7 +129,7 @@ public class EventREST {
 		data.organizers = new ArrayList<UserData>();
 		for (User organizer : EventDAO.getInstance().findOrganizers(event)) {
 			UserData organizerData = new UserData();
-			organizerData.id = organizer.getId();
+			// organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();
 			organizerData.email = organizer.getEmail();
 			organizerData.mobile = organizer.getProfile().getMobile();
@@ -122,8 +139,64 @@ public class EventREST {
 		return data;
 	}
 
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64")
+	public byte[] getBannerBase64(@PathParam("slug") String slug) throws Exception {
+		return getBannerBase64(slug, null);
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64/{width}")
+	public byte[] getBannerBase64(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
+		Event race = loadEventBanner(slug);
+		return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner")
+	public byte[] getBanner(@PathParam("slug") String slug) throws Exception {
+		return getBanner(slug, null);
+	}
+
+	@GET
+	@Produces("image/png")
+	// @Cache("max-age=604800000")
+	@Path("{slug: [\\w\\d_\\-/]+}/banner/{width}")
+	public byte[] getBanner(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
+		Event race = loadEventBanner(slug);
+		return resizeImage(race.getBanner(), 750, width);
+	}
+
+	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
+		byte[] result = image;
+
+		if (width != null && width != defaultWidth) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
+			result = out.toByteArray();
+		}
+
+		return result;
+	}
+
 	private Event loadEventDetails(String slug) throws Exception {
 		Event result = EventDAO.getInstance().loadForDetail(slug);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private Event loadEventBanner(String slug) throws Exception {
+		Event result = EventDAO.getInstance().loadForBanner(slug);
 
 		if (result == null) {
 			throw new NotFoundException();

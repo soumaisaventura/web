@@ -1,61 +1,37 @@
 package adventure.entity;
 
-import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.DATE;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name = "period", uniqueConstraints = {
-		@UniqueConstraint(name = "uk_period_beginning", columnNames = { "race_id", "beginning" }),
-		@UniqueConstraint(name = "uk_period_ending", columnNames = { "race_id", "ending" }) })
-public class Period implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "period")
+public class Period {
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = SEQUENCE, generator = "seq_period")
-	@SequenceGenerator(name = "seq_period", sequenceName = "seq_period", allocationSize = 1)
 	private Integer id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "race_id")
-	@ForeignKey(name = "fk_period_race")
-	@Index(name = "idx_period_race")
 	private Race race;
 
-	@NotNull
 	@Temporal(DATE)
-	@Column(name = "beginning")
-	@Index(name = "idx_period_beginning")
 	private Date beginning;
 
-	@NotNull
 	@Temporal(DATE)
 	@Column(name = "ending")
-	@Index(name = "idx_period_ending")
 	private Date end;
 
-	@NotNull
-	@Column(name = "price", precision = 7, scale = 2)
+	@Column(name = "price")
 	private BigDecimal price;
 
 	public Period() {

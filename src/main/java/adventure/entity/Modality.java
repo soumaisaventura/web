@@ -1,27 +1,18 @@
 package adventure.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-//@Table(name = "modality")
-public class Modality implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Table(name = "modality")
+public class Modality {
 
 	@Id
-	// @Column(name = "id")
 	private Integer id;
 
-	// @NotEmpty
-	// @Size(max = NAME_SIZE)
-	// @Column(name = "name")
 	private String name;
 
-	// @Size(max = ACRONYM_SIZE)
-	// @Column(name = "acronym")
 	private String acronym;
 
 	public Modality() {

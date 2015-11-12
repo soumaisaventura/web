@@ -238,14 +238,117 @@ ORDER BY p."name";
    WHERE u.id = p.id AND p.city_id = c.id AND c.state_id = s.id
 ORDER BY p."name";
 
-INSERT INTO event_organizer
-   SELECT * FROM race_organizer;
+  SELECT e.name AS event_name, r.name AS race_name, r.id AS race_id
+    FROM event e, race r
+   WHERE r.event_id = e.id AND r.id > 11
+ORDER BY r.event_id, e.id;
 
-UPDATE event
-   SET text_color = '#ffffff';
+DELETE FROM race_category
+      WHERE course_id = 0;
 
-UPDATE event
-   SET background_color = '#000000';
+INSERT INTO race_category (race_id, category_id, course_id)
+   SELECT x.race_id, x.category_id, 0
+     FROM (SELECT 12 AS race_id, 3 AS category_id
+           UNION
+           SELECT 12, 2
+           UNION
+           SELECT 12, 4
+           UNION
+           SELECT 13, 1
+           UNION
+           SELECT 13, 8
+           UNION
+           SELECT 14, 1
+           UNION
+           SELECT 14, 8
+           UNION
+           SELECT 15, 1
+           UNION
+           SELECT 15, 8
+           UNION
+           SELECT 16, 1
+           UNION
+           SELECT 16, 8
+           UNION
+           SELECT 17, 1
+           UNION
+           SELECT 17, 8
+           UNION
+           SELECT 18, 9
+           UNION
+           SELECT 19, 14
+           UNION
+           SELECT 20, 11
+           UNION
+           SELECT 20, 2
+           UNION
+           SELECT 20, 12
+           UNION
+           SELECT 21, 10
+           UNION
+           SELECT 21, 2
+           UNION
+           SELECT 21, 12
+           UNION
+           SELECT 26, 3
+           UNION
+           SELECT 26, 2
+           UNION
+           SELECT 26, 4
+           UNION
+           SELECT 27, 1
+           UNION
+           SELECT 27, 3
+           UNION
+           SELECT 27, 2
+           UNION
+           SELECT 27, 4
+           UNION
+           SELECT 28, 3
+           UNION
+           SELECT 28, 2
+           UNION
+           SELECT 28, 4
+           UNION
+           SELECT 22, 1
+           UNION
+           SELECT 22, 8
+           UNION
+           SELECT 23, 1
+           UNION
+           SELECT 23, 8
+           UNION
+           SELECT 24, 2
+           UNION
+           SELECT 24, 4
+           UNION
+           SELECT 25, 1
+           UNION
+           SELECT 25, 8
+           UNION
+           SELECT 29, 1
+           UNION
+           SELECT 29, 11
+           UNION
+           SELECT 29, 8
+           UNION
+           SELECT 29, 10) x;
 
-UPDATE event
-   SET button_color = 'green';
+  SELECT DISTINCT p.name, u.email
+    FROM registration r,
+         course c,
+         user_account u,
+         user_registration tf,
+         profile p
+   WHERE     r.status = 'CONFIRMED'
+         AND r.id = tf.registration_id
+         AND tf.user_id = u.id
+         AND p.id = u.id
+         AND r.course_id = c.id
+         AND r.race_id IN (2,
+                           5,
+                           7,
+                           9,
+                           11)
+         AND c.adventure_racing = TRUE
+ORDER BY p."name";

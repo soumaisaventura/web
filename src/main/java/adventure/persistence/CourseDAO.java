@@ -61,6 +61,7 @@ public class CourseDAO extends JPACrud<Course, Integer> {
 		jpql.append("   join rc.category t ");
 		jpql.append("   join rc.course c ");
 		jpql.append("  where r = :race ");
+		jpql.append("    and c.id > 0 ");
 		jpql.append("  order by ");
 		jpql.append("        c.id, ");
 		jpql.append("        t.teamSize desc, ");

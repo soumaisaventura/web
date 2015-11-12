@@ -1,14 +1,10 @@
 package adventure.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Championship implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Championship {
 
 	@Id
 	private Integer id;

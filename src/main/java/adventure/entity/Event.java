@@ -1,23 +1,14 @@
 package adventure.entity;
 
-import static javax.persistence.EnumType.STRING;
-
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "event")
-public class Event implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Event {
 
 	@Id
 	private Integer id;
@@ -26,7 +17,6 @@ public class Event implements Serializable {
 
 	private String description;
 
-	@Column(name = "slug")
 	private String slug;
 
 	@Lob
@@ -34,19 +24,8 @@ public class Event implements Serializable {
 
 	private String site;
 
-	@NotNull
-	@Enumerated(STRING)
-	@Column(name = "payment_type")
-	private PaymentType paymentType;
-
-	@Column(name = "payment_info")
-	private String paymentInfo;
-
-	@Column(name = "payment_account")
-	private String paymentAccount;
-
-	@Column(name = "payment_token")
-	private String paymentToken;
+	@Embedded
+	private Payment payment;
 
 	@Embedded
 	private Layout layout;
@@ -62,6 +41,11 @@ public class Event implements Serializable {
 		setId(id);
 		setName(name);
 		setDescription(description);
+	}
+
+	public Event(Integer id, byte[] banner) {
+		setId(id);
+		setBanner(banner);
 	}
 
 	public Event(Integer id, String name, String description, String slug, String site, String layoutTextColor,
@@ -155,36 +139,12 @@ public class Event implements Serializable {
 		this.site = site;
 	}
 
-	public PaymentType getPaymentType() {
-		return paymentType;
+	public Payment getPayment() {
+		return payment;
 	}
 
-	public void setPaymentType(PaymentType paymentType) {
-		this.paymentType = paymentType;
-	}
-
-	public String getPaymentInfo() {
-		return paymentInfo;
-	}
-
-	public void setPaymentInfo(String paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
-
-	public String getPaymentAccount() {
-		return paymentAccount;
-	}
-
-	public void setPaymentAccount(String paymentAccount) {
-		this.paymentAccount = paymentAccount;
-	}
-
-	public String getPaymentToken() {
-		return paymentToken;
-	}
-
-	public void setPaymentToken(String paymentToken) {
-		this.paymentToken = paymentToken;
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	public Layout getLayout() {

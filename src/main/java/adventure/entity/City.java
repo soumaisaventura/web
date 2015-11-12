@@ -1,37 +1,22 @@
 package adventure.entity;
 
-import static adventure.util.Constants.NAME_SIZE;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Index;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "city")
 public class City {
 
 	@Id
-	@Column(name = "id")
 	private Integer id;
 
-	@NotEmpty
-	@Size(max = NAME_SIZE)
-	@Column(name = "name")
-	@Index(name = "idx_city_name")
 	private String name;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "state_id")
-	@ForeignKey(name = "fk_city_state")
-	@Index(name = "idx_city_state")
 	private State state;
 
 	public City() {
