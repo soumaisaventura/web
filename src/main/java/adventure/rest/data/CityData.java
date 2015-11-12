@@ -6,5 +6,5 @@ public class CityData {
 
 	public String name;
 
-	public StateData state;
+	public String state;
 }

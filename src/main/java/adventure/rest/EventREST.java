@@ -2,7 +2,9 @@ package adventure.rest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -33,13 +35,15 @@ import adventure.persistence.RaceDAO;
 import adventure.rest.data.CategoryData;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
+import adventure.rest.data.CoordsData;
 import adventure.rest.data.EventData;
 import adventure.rest.data.LayoutData;
+import adventure.rest.data.LocationData;
 import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
+import adventure.rest.data.RaceStatusData;
 import adventure.rest.data.SportData;
-import adventure.rest.data.StateData;
 import adventure.rest.data.UserData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 
@@ -54,6 +58,7 @@ public class EventREST {
 		FeeBusiness feeBusiness = FeeBusiness.getInstance();
 		EventData data = new EventData();
 		Event event = loadEventDetails(slug);
+		Date now = new Date();
 
 		data.id = event.getSlug();
 		data.name = event.getName();
@@ -65,6 +70,8 @@ public class EventREST {
 		data.layout.backgroundColor = event.getLayout().getBackgroundColor();
 		data.layout.buttonColor = event.getLayout().getButtonColor();
 
+		// Races
+
 		data.races = new ArrayList<RaceData>();
 		for (Race race : RaceDAO.getInstance().findForEvent(event)) {
 			List<Fee> championshipFees = new ArrayList<Fee>();
@@ -75,19 +82,29 @@ public class EventREST {
 			raceData.name = race.getName();
 			raceData.description = race.getDescription();
 
+			// Race Sport
+
 			raceData.sport = new SportData();
 			raceData.sport.id = race.getSport().getAcronym();
 			raceData.sport.name = race.getSport().getName();
+
+			// Race Period
 
 			raceData.period = new PeriodData();
 			raceData.period.beginning = race.getBeginning();
 			raceData.period.end = race.getEnd();
 
-			raceData.city = new CityData();
-			raceData.city.name = race.getCity().getName();
-			raceData.city.state = new StateData();
-			raceData.city.state.id = race.getCity().getState().getAbbreviation();
-			raceData.city.state.name = race.getCity().getState().getName();
+			// Race Location
+
+			raceData.location = new LocationData();
+			raceData.location.city = new CityData();
+			raceData.location.city.name = race.getCity().getName();
+			raceData.location.city.state = race.getCity().getState().getAbbreviation();
+			raceData.location.coords = new CoordsData();
+			raceData.location.coords.latitude = BigDecimal.valueOf(-13.0);
+			raceData.location.coords.longitude = BigDecimal.valueOf(-41);
+
+			// Race Championships
 
 			raceData.championships = new ArrayList<ChampionshipData>();
 			for (Championship championship : ChampionshipDAO.getInstance().findForEvent(race)) {
@@ -98,6 +115,8 @@ public class EventREST {
 				championshipFees.addAll(FeeDAO.getInstance().findForEvent(championship));
 			}
 
+			// Race Categories
+
 			raceData.categories = new ArrayList<CategoryData>();
 			for (Category category : CategoryDAO.getInstance().findForEvent(race)) {
 				CategoryData categoryData = new CategoryData();
@@ -106,6 +125,8 @@ public class EventREST {
 				raceData.categories.add(categoryData);
 			}
 
+			// Race Prices
+
 			raceData.prices = new ArrayList<PeriodData>();
 			for (Period period : PeriodDAO.getInstance().findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
@@ -113,7 +134,31 @@ public class EventREST {
 				periodData.end = period.getEnd();
 				periodData.price = feeBusiness.applyForEvent(period.getPrice(), raceFees, championshipFees);
 				raceData.prices.add(periodData);
+
+				if (now.after(periodData.beginning) && now.before(periodData.end)) {
+					raceData.currentPrice = periodData.price;
+					raceData.status = RaceStatusData.OPEN;
+				}
 			}
+
+			// Race Price & Race Status
+
+			if (raceData.currentPrice == null && !raceData.prices.isEmpty()) {
+				if (now.before(raceData.prices.get(0).beginning)) {
+					raceData.currentPrice = raceData.prices.get(0).price;
+					raceData.status = RaceStatusData.SOON;
+				} else {
+					raceData.currentPrice = raceData.prices.get(raceData.prices.size() - 1).price;
+
+					if (now.before(raceData.period.beginning)) {
+						raceData.status = RaceStatusData.CLOSED;
+					} else {
+						raceData.status = RaceStatusData.END;
+					}
+				}
+			}
+
+			// Modalities
 
 			raceData.modalities = new ArrayList<ModalityData>();
 			for (Modality modality : ModalityDAO.getInstance().findForEvent(race)) {
@@ -125,6 +170,8 @@ public class EventREST {
 
 			data.races.add(raceData);
 		}
+
+		// Organizers
 
 		data.organizers = new ArrayList<UserData>();
 		for (User organizer : EventDAO.getInstance().findOrganizers(event)) {

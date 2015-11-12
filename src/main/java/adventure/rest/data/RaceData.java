@@ -1,5 +1,6 @@
 package adventure.rest.data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class RaceData {
@@ -16,11 +17,15 @@ public class RaceData {
 
 	public PeriodData period;
 
-	public CityData city;
+	public LocationData location;
 
 	public List<CategoryData> categories;
+
+	public BigDecimal currentPrice;
 
 	public List<PeriodData> prices;
 
 	public List<ModalityData> modalities;
+
+	public RaceStatusData status;
 }
