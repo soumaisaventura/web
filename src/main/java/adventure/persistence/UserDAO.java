@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import adventure.entity.Event;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.User;
@@ -22,6 +23,31 @@ public class UserDAO extends JPACrud<User, Integer> {
 	public static UserDAO getInstance() {
 		return Beans.getReference(UserDAO.class);
 	}
+
+	public List<User> findOrganizersForEvent(Event event) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new User ( ");
+		jpql.append(" 	        o.id, ");
+		jpql.append(" 	        case when eo.alternateEmail is null then o.email else eo.alternateEmail end, ");
+		jpql.append(" 	        case when eo.alternateName is null then p.name else eo.alternateName end, ");
+		jpql.append(" 	        p.gender, ");
+		jpql.append(" 	        p.mobile ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from EventOrganizer eo ");
+		jpql.append("   join eo.organizer o, ");
+		jpql.append("        Profile p ");
+		jpql.append("  where o.id = p.id ");
+		jpql.append("    and eo.event = :event ");
+		jpql.append("  order by ");
+		jpql.append("        p.name ");
+
+		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		query.setParameter("event", event);
+
+		return query.getResultList();
+	}
+
+	// TODO: OLD
 
 	@Override
 	public User insert(User user) {

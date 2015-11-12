@@ -7,9 +7,11 @@ import static adventure.entity.RaceStatusType.SOON;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -68,6 +70,9 @@ public class Race {
 	@JoinColumn(name = "city_id")
 	private City city;
 
+	@Embedded
+	private Coords coords;
+
 	@Deprecated
 	private String site;
 
@@ -104,7 +109,7 @@ public class Race {
 
 	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
 			String sportAcronym, Date beginning, Date end, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation) {
+			String stateName, String stateAbbreviation, BigDecimal coordLatitude, BigDecimal coordLongitude) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -122,6 +127,9 @@ public class Race {
 		getCity().getState().setId(stateId);
 		getCity().getState().setName(stateName);
 		getCity().getState().setAbbreviation(stateAbbreviation);
+		setCoords(new Coords());
+		getCoords().setLatitude(coordLatitude);
+		getCoords().setLongitude(coordLongitude);
 	}
 
 	// TODO: OLD
@@ -243,6 +251,22 @@ public class Race {
 		this.description = description;
 	}
 
+	public String getName2() {
+		return name2;
+	}
+
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
+	public String getDescription2() {
+		return description2;
+	}
+
+	public void setDescription2(String description2) {
+		this.description2 = description2;
+	}
+
 	public Sport getSport() {
 		return sport;
 	}
@@ -281,6 +305,14 @@ public class Race {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public Coords getCoords() {
+		return coords;
+	}
+
+	public void setCoords(Coords coords) {
+		this.coords = coords;
 	}
 
 	public String getSite() {

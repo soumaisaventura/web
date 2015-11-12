@@ -5,6 +5,8 @@ import javax.inject.Named;
 @Named
 public class Constants {
 
+	public static final String EVENT_SLUG_PATTERN = "[\\w\\d_\\-/]+";
+
 	public static final int NAME_SIZE = 50;
 
 	public int getNameSize() {

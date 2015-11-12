@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="653,526" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="652,480" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -317,6 +317,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="city_id">
 		<type name="integer"/>
+	</column>
+	<column name="coord_latitude" not-null="true">
+		<type name="numeric" length="9" precision="7"/>
+	</column>
+	<column name="coord_longitude" not-null="true">
+		<type name="numeric" length="10" precision="7"/>
 	</column>
 	<constraint name="pk_race" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
