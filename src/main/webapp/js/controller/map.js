@@ -54,7 +54,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Cangaço'
 	});
 
 	// Desafio dos Sertões
@@ -64,7 +64,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Desafio dos Sertões 2015'
 	});
 
 	// Casco de Peba
@@ -74,7 +74,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Casco de Peba 2015'
 	});
 
 	// Noite do Perrengue
@@ -84,7 +84,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Noite do Perrengue 3'
 	});
 
 	// Corrida do CT Gantuá
@@ -94,7 +94,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Corrida do CT Gantuá 2015'
 	});
 
 	// Peleja
@@ -104,7 +104,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Peleja 2015'
 	});
 
 	// Laskpé
@@ -114,7 +114,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		clickable : false
+		title : 'Laskpé 2015'
 	});
 
 	// Native
@@ -124,7 +124,6 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-//		clickable : false,
 		title : 'Circuito Native 2015 – etapa 2'
 	});
 
@@ -135,8 +134,7 @@ function showMarkers() {
 		position : coord,
 		map : map,
 		icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + getColor(),
-		title : 'Mandacaru',
-		clickable : false
+		title : 'Mandacaru 2015'
 	});
 
 	console.log(getColor());
