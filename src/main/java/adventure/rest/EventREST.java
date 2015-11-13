@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -53,10 +54,25 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 public class EventREST {
 
 	@GET
+	@Path("basic")
+	// @Cache("max-age=28800")
+	@Produces("application/json")
+	public List<EventData> basicSearch(@QueryParam("min") Date min, @QueryParam("max") Date max) throws Exception {
+		List<EventData> result = new ArrayList<EventData>();
+
+		for (Event event : EventDAO.getInstance().basicSearch(min, max)) {
+			EventData data = new EventData();
+			result.add(data);
+		}
+
+		return result;
+	}
+
+	@GET
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	// @Cache("max-age=28800")
 	@Produces("application/json")
-	public EventData load(@PathParam("slug") String slug) throws Exception {
+	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
 		FeeBusiness feeBusiness = FeeBusiness.getInstance();
 		EventData data = new EventData();
 		Event event = loadEventDetails(slug);
@@ -234,7 +250,7 @@ public class EventREST {
 		return result;
 	}
 
-	private Event loadEventDetails(String slug) throws Exception {
+	private Event loadEventDetails(String slug) throws NotFoundException {
 		Event result = EventDAO.getInstance().loadForDetail(slug);
 
 		if (result == null) {
@@ -244,7 +260,7 @@ public class EventREST {
 		return result;
 	}
 
-	private Event loadEventBanner(String slug) throws Exception {
+	private Event loadEventBanner(String slug) throws NotFoundException {
 		Event result = EventDAO.getInstance().loadForBanner(slug);
 
 		if (result == null) {

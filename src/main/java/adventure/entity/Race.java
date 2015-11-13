@@ -107,6 +107,11 @@ public class Race {
 		this.id = id;
 	}
 
+	public Race(Integer id, Integer sportId, String sportName, String sportAcronym, Date beginning, Date end,
+			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
+			BigDecimal coordLatitude, BigDecimal coordLongitude) {
+	}
+
 	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
 			String sportAcronym, Date beginning, Date end, Integer cityId, String cityName, Integer stateId,
 			String stateName, String stateAbbreviation, BigDecimal coordLatitude, BigDecimal coordLongitude) {
