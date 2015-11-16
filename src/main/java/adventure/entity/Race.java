@@ -98,6 +98,7 @@ public class Race {
 	private String paymentToken;
 
 	@Transient
+	@Deprecated
 	private Period registrationPeriod;
 
 	public Race() {
@@ -107,9 +108,25 @@ public class Race {
 		this.id = id;
 	}
 
-	public Race(Integer id, Integer sportId, String sportName, String sportAcronym, Date beginning, Date end,
-			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-			BigDecimal coordLatitude, BigDecimal coordLongitude) {
+	public Race(Integer id, String name, String slug, Integer sportId, String sportName, String sportAcronym,
+			Integer eventId, String eventName, String eventSlug, Date beginning, Date end, BigDecimal coordLatitude,
+			BigDecimal coordLongitude) {
+		setId(id);
+		setName2(name);
+		setSlug(slug);
+		setSport(new Sport());
+		getSport().setId(sportId);
+		getSport().setName(sportName);
+		getSport().setAcronym(sportAcronym);
+		setEvent(new Event());
+		getEvent().setId(eventId);
+		getEvent().setName(eventName);
+		getEvent().setSlug(eventSlug);
+		setBeginning(beginning);
+		setEnd(end);
+		setCoords(new Coords());
+		getCoords().setLatitude(coordLatitude);
+		getCoords().setLongitude(coordLongitude);
 	}
 
 	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
@@ -161,6 +178,7 @@ public class Race {
 		getRegistrationPeriod().setEnd(registrationEnd);
 	}
 
+	@Deprecated
 	public RaceStatusType getStatus() {
 		RaceStatusType result = null;
 

@@ -12,13 +12,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.codec.binary.Base64;
 
 import adventure.business.FeeBusiness;
+import adventure.business.RaceBusiness;
 import adventure.entity.Category;
 import adventure.entity.Championship;
 import adventure.entity.Event;
@@ -45,23 +45,49 @@ import adventure.rest.data.LocationData;
 import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
-import adventure.rest.data.RaceStatusData;
 import adventure.rest.data.SportData;
 import adventure.rest.data.UserData;
+import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.NotFoundException;
 
 @Path("event")
 public class EventREST {
 
 	@GET
-	@Path("basic")
+	@Path("map")
 	// @Cache("max-age=28800")
 	@Produces("application/json")
-	public List<EventData> basicSearch(@QueryParam("min") Date min, @QueryParam("max") Date max) throws Exception {
+	public List<EventData> mapData() throws Exception {
+		RaceBusiness raceBusiness = RaceBusiness.getInstance();
+		PeriodDAO periodDAO = PeriodDAO.getInstance();
+		Date now = new Date();
+
 		List<EventData> result = new ArrayList<EventData>();
 
-		for (Event event : EventDAO.getInstance().basicSearch(min, max)) {
+		for (Event event : EventDAO.getInstance().mapData()) {
 			EventData data = new EventData();
+			data.id = event.getSlug();
+			data.name = event.getName();
+			data.races = new ArrayList<RaceData>();
+
+			for (Race race : event.getRaces()) {
+				List<Period> periods = periodDAO.findForEvent(race);
+
+				RaceData raceData = new RaceData();
+				raceData.id = race.getSlug();
+				raceData.name = race.getName2();
+				raceData.location = new LocationData();
+				raceData.location.coords = new CoordsData();
+				raceData.location.coords.latitude = race.getCoords().getLatitude();
+				raceData.location.coords.longitude = race.getCoords().getLongitude();
+				raceData.status = raceBusiness.getStatus(race, now, periods);
+				data.races.add(raceData);
+			}
+
+			if (data.races.isEmpty()) {
+				data.races = null;
+			}
+
 			result.add(data);
 		}
 
@@ -74,6 +100,14 @@ public class EventREST {
 	@Produces("application/json")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
 		FeeBusiness feeBusiness = FeeBusiness.getInstance();
+		RaceBusiness raceBusiness = RaceBusiness.getInstance();
+		FeeDAO feeDAO = FeeDAO.getInstance();
+		RaceDAO raceDAO = RaceDAO.getInstance();
+		ChampionshipDAO championshipDAO = ChampionshipDAO.getInstance();
+		CategoryDAO categoryDAO = CategoryDAO.getInstance();
+		ModalityDAO modalityDAO = ModalityDAO.getInstance();
+		PeriodDAO periodDAO = PeriodDAO.getInstance();
+
 		EventData data = new EventData();
 		Event event = loadEventDetails(slug);
 		Date now = new Date();
@@ -91,9 +125,9 @@ public class EventREST {
 		// Races
 
 		data.races = new ArrayList<RaceData>();
-		for (Race race : RaceDAO.getInstance().findForEvent(event)) {
+		for (Race race : raceDAO.findForEvent(event)) {
 			List<Fee> championshipFees = new ArrayList<Fee>();
-			List<Fee> raceFees = FeeDAO.getInstance().findForEvent(race);
+			List<Fee> raceFees = feeDAO.findForEvent(race);
 
 			RaceData raceData = new RaceData();
 			raceData.id = race.getSlug();
@@ -125,18 +159,18 @@ public class EventREST {
 			// Race Championships
 
 			raceData.championships = new ArrayList<ChampionshipData>();
-			for (Championship championship : ChampionshipDAO.getInstance().findForEvent(race)) {
+			for (Championship championship : championshipDAO.findForEvent(race)) {
 				ChampionshipData championshipData = new ChampionshipData();
 				championshipData.id = championship.getSlug();
 				championshipData.name = championship.getName();
 				raceData.championships.add(championshipData);
-				championshipFees.addAll(FeeDAO.getInstance().findForEvent(championship));
+				championshipFees.addAll(feeDAO.findForEvent(championship));
 			}
 
 			// Race Categories
 
 			raceData.categories = new ArrayList<CategoryData>();
-			for (Category category : CategoryDAO.getInstance().findForEvent(race)) {
+			for (Category category : categoryDAO.findForEvent(race)) {
 				CategoryData categoryData = new CategoryData();
 				categoryData.name = category.getName();
 				categoryData.description = category.getDescription();
@@ -144,42 +178,44 @@ public class EventREST {
 			}
 
 			// Race Prices
-
+			List<Period> periods = periodDAO.findForEvent(race);
 			raceData.prices = new ArrayList<PeriodData>();
-			for (Period period : PeriodDAO.getInstance().findForEvent(race)) {
+			for (Period period : periodDAO.findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
 				periodData.beginning = period.getBeginning();
 				periodData.end = period.getEnd();
 				periodData.price = feeBusiness.applyForEvent(period.getPrice(), raceFees, championshipFees);
 				raceData.prices.add(periodData);
 
-				if (now.after(periodData.beginning) && now.before(periodData.end)) {
-					raceData.currentPrice = periodData.price;
-					raceData.status = RaceStatusData.OPEN;
-				}
+				// if (now.after(periodData.beginning) && now.before(periodData.end)) {
+				// raceData.currentPrice = periodData.price;
+				// raceData.status = RaceStatusData.OPEN;
+				// }
 			}
 
 			// Race Price & Race Status
+			raceData.status = raceBusiness.getStatus(race, now, periods);
+			raceData.currentPrice = raceBusiness.getCurrentPrice(race, now, periods);
 
-			if (raceData.currentPrice == null && !raceData.prices.isEmpty()) {
-				if (now.before(raceData.prices.get(0).beginning)) {
-					raceData.currentPrice = raceData.prices.get(0).price;
-					raceData.status = RaceStatusData.SOON;
-				} else {
-					raceData.currentPrice = raceData.prices.get(raceData.prices.size() - 1).price;
-
-					if (now.before(raceData.period.beginning)) {
-						raceData.status = RaceStatusData.CLOSED;
-					} else {
-						raceData.status = RaceStatusData.END;
-					}
-				}
-			}
+			// if (raceData.currentPrice == null && !raceData.prices.isEmpty()) {
+			// if (now.before(raceData.prices.get(0).beginning)) {
+			// raceData.currentPrice = raceData.prices.get(0).price;
+			// raceData.status = RaceStatusData.SOON;
+			// } else {
+			// raceData.currentPrice = raceData.prices.get(raceData.prices.size() - 1).price;
+			//
+			// if (now.before(raceData.period.beginning)) {
+			// raceData.status = RaceStatusData.CLOSED;
+			// } else {
+			// raceData.status = RaceStatusData.END;
+			// }
+			// }
+			// }
 
 			// Modalities
 
 			raceData.modalities = new ArrayList<ModalityData>();
-			for (Modality modality : ModalityDAO.getInstance().findForEvent(race)) {
+			for (Modality modality : modalityDAO.findForEvent(race)) {
 				ModalityData modalityData = new ModalityData();
 				modalityData.id = modality.getAcronym();
 				modalityData.name = modality.getName();

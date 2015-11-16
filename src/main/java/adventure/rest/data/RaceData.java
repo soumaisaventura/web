@@ -3,6 +3,8 @@ package adventure.rest.data;
 import java.math.BigDecimal;
 import java.util.List;
 
+import adventure.entity.RaceStatusType;
+
 public class RaceData {
 
 	public String id;
@@ -27,5 +29,5 @@ public class RaceData {
 
 	public List<ModalityData> modalities;
 
-	public RaceStatusData status;
+	public RaceStatusType status;
 }

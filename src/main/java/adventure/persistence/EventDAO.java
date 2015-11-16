@@ -1,9 +1,6 @@
 package adventure.persistence;
 
-import static javax.persistence.TemporalType.DATE;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,35 +23,51 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		return Beans.getReference(EventDAO.class);
 	}
 
-	public List<Event> basicSearch(Date beginning, Date end) {
+	public List<Event> mapData() {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race ( ");
+		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.description ");
+		jpql.append(" 	        r.name2, ");
+		jpql.append(" 	        r.slug, ");
+		jpql.append(" 	        o.id, ");
+		jpql.append(" 	        o.name, ");
+		jpql.append(" 	        o.acronym, ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.name, ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        r.beginning, ");
+		jpql.append(" 	        r.end, ");
+		jpql.append(" 	        r.coords.latitude, ");
+		jpql.append(" 	        r.coords.longitude ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
+		jpql.append("   join r.sport o ");
 		jpql.append("   join r.event e ");
-		jpql.append("  where :beginning between r.beginning and r.end ");
-		jpql.append("     or :end between r.beginning and r.end ");
+		jpql.append("  where e.id > 0 ");
+		// jpql.append("     or :end between r.beginning and r.end ");
 		jpql.append("  order by ");
 		jpql.append("        r.beginning, ");
 		jpql.append("        r.end ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("beginning", beginning, DATE);
-		query.setParameter("end", beginning, DATE);
+		// query.setParameter("beginning", beginning, DATE);
+		// query.setParameter("end", beginning, DATE);
 
 		Map<Integer, Event> saved = new HashMap<Integer, Event>();
 		List<Event> result = new ArrayList<Event>();
 		for (Race race : query.getResultList()) {
 			Event currentEvent = race.getEvent();
-			Event savedEvent = saved.get(currentEvent.getId());
 			race.setEvent(null);
+			Event savedEvent = null;
+
+			if (!saved.isEmpty()) {
+				savedEvent = saved.get(currentEvent.getId());
+			}
 
 			if (savedEvent == null) {
 				currentEvent.setRaces(new ArrayList<Race>());
-				savedEvent = saved.put(currentEvent.getId(), currentEvent);
+				saved.put(currentEvent.getId(), currentEvent);
+				savedEvent = currentEvent;
 				result.add(currentEvent);
 			}
 
