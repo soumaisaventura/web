@@ -1,6 +1,8 @@
+<h1>{{name}}</h1>
+<div>{{description}}</div>
 {{#races}}
-<div class="race-wrapper">	
-	<div class="col-md-4 color{{idx}}">
+<div class="race-wrapper col-md-4">	
+	<div class="color{{idx}}">
 		<div class="header">
 			<div class="race-name">{{name}}</div>
 			<div class="race-price"><sup>R$</sup> {{currentPrice}}</div>

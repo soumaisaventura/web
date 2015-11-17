@@ -29,6 +29,11 @@
 				color: #FFFFFF;
 			}
 			
+			.col-md-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			
 			.race-wrapper .color1 {
 				background-color: #f55039;
 			}
@@ -47,11 +52,6 @@
 			
 			.race-wrapper .color5 {
 				background-color: #8F32B8;
-			}
-			
-			.race-wrapper .col-md-4 {
-				padding-left: 0;
-				padding-right: 0;
 			}
 			
 			.race-wrapper .header {
@@ -100,15 +100,23 @@
 			.race-wrapper > .panel-body {
 				padding: 0px;
 			}
+
 </style>
 	</ui:define>
 
+
+	<ui:define name="jumbotron">
+		<div class="jumbotron">
+      		<div class="container">
+ 				<img id="banner"/>
+      		</div>
+    	</div>
+	</ui:define>
+	
 	<ui:define name="body">
 		<input id="evento_id" type="hidden" value="#{param.evento_id}" />
 		
-		<div class="row races">
-			<div id="provas"></div>
-		</div>
+<!-- 		<div id="provas"></div> -->
 	</ui:define>
 
 </ui:composition>

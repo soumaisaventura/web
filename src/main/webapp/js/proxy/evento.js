@@ -7,6 +7,13 @@ var EventoProxy = {
 			type : "GET",
 			url : this.url + "/" + $slug
 		});
+	},
+	
+	getBanner: function($slug){
+		return $.ajax({
+			type: "GET",
+			url : this.url + "/" + $slug + "/banner/base64"
+		});
 	}
 	
 };
