@@ -1,11 +1,27 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="css">
+		<style>
+body {
+	padding-top: 50px;
+}
+
+#map {
+	position: absolute;
+	/*
+	left: 0;
+	*/
+}
+</style>
+	</ui:define>
+
 	<ui:define name="lib">
-		<script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+		<script src="https://maps.googleapis.com/maps/api/js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script src="#{request.contextPath}/js/proxy/evento-mapa.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
@@ -13,9 +29,8 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<div id="map" style="height: 400px; width: 800px;"></div>
-
-		<button id="buscar">Buscar</button>
+		<div id="content">
+			<div id="map" style="height: 800px; width: 800px;"></div>
+		</div>
 	</ui:define>
-
 </ui:composition>

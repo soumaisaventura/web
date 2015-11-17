@@ -1,13 +1,13 @@
 package adventure.util;
 
 import static java.util.Calendar.DAY_OF_MONTH;
+import static org.apache.commons.lang.time.DateUtils.truncate;
+import static org.apache.commons.lang.time.DateUtils.truncatedCompareTo;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.commons.lang.time.DateUtils;
 
 public final class Dates {
 
@@ -16,8 +16,28 @@ public final class Dates {
 	private Dates() {
 	}
 
-	public static Date ignoreTime(Date date) throws Exception {
-		return DateUtils.truncate(new Date(), DAY_OF_MONTH);
+	public static Date ignoreTime(Date date) {
+		return truncate(new Date(), DAY_OF_MONTH);
+	}
+
+	public static boolean before(Date date, Date beginning) {
+		return truncatedCompareTo(date, beginning, DAY_OF_MONTH) < 0;
+	}
+
+	public static boolean beforeOrSame(Date date, Date beginning) {
+		return truncatedCompareTo(date, beginning, DAY_OF_MONTH) <= 0;
+	}
+
+	public static boolean after(Date date, Date end) {
+		return truncatedCompareTo(date, end, DAY_OF_MONTH) > 0;
+	}
+
+	public static boolean afterOrSame(Date date, Date end) {
+		return truncatedCompareTo(date, end, DAY_OF_MONTH) >= 0;
+	}
+
+	public static boolean between(Date date, Date beginning, Date end) {
+		return afterOrSame(date, beginning) && beforeOrSame(date, end);
 	}
 
 	public static String parse(Date date) {

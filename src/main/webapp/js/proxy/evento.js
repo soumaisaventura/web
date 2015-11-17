@@ -2,10 +2,10 @@ var EventoProxy = {
 
 	url : App.getContextPath() + "/api/event",
 
-	load : function($slug) {
+	load : function(slug) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + $slug
+			url : this.url + "/" + slug
 		});
 	},
 	
@@ -15,5 +15,5 @@ var EventoProxy = {
 			url : this.url + "/" + $slug + "/banner/base64"
 		});
 	}
-	
+
 };

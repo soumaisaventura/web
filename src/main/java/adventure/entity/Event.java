@@ -1,10 +1,13 @@
 package adventure.entity;
 
+import java.util.List;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "event")
@@ -29,6 +32,9 @@ public class Event {
 
 	@Embedded
 	private Layout layout;
+
+	@Transient
+	private List<Race> races;
 
 	public Event() {
 	}
@@ -153,5 +159,13 @@ public class Event {
 
 	public void setLayout(Layout layout) {
 		this.layout = layout;
+	}
+
+	public List<Race> getRaces() {
+		return races;
+	}
+
+	public void setRaces(List<Race> races) {
+		this.races = races;
 	}
 }

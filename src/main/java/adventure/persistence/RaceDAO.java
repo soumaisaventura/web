@@ -24,7 +24,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		return Beans.getReference(RaceDAO.class);
 	}
 
-	public List<Race> findForEvent(Event event) throws Exception {
+	public List<Race> findForEvent(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
