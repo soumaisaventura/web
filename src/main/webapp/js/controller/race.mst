@@ -1,5 +1,5 @@
 {{#races}}
-<div class="race col-md-12">
+<div class="race col-md-8">
 	<div class="row" style="margin-bottom: 10px">
 		<div class="col-md-2">
 			<span class="glyphicon glyphicon-calendar"></span> {{date}}

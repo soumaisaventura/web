@@ -1,8 +1,10 @@
 $(function() {
 	var id = $("#id").val();
 
-	initMap();
-	EventoProxy.loadMap(id).done(loadMapOk);
+	var map = initMap();
+	EventoProxy.loadMap(id).done(function(data) {
+		loadMapOk(data, map, id)
+	});
 
 	moment.locale("pt-br");
 	numeral.language('pt-br');
@@ -13,23 +15,15 @@ $(function() {
 
 });
 
-var map;
-
 function initMap() {
 	var options = {
-		// zoom : 7,
-		disableDefaultUI : true,
-		draggable : false,
-		scrollwheel : false,
-		disableDoubleClickZoom : true,
-		zoomControl : false,
-		scaleControl : false
+		zoom : 12,
 	};
 
-	map = new google.maps.Map($("#map")[0], options);
+	return new google.maps.Map($("#map")[0], options);
 }
 
-function loadMapOk(data) {
+function loadMapOk(data, map, id) {
 	var marker;
 	var coord;
 	var coords = [];
@@ -38,23 +32,20 @@ function loadMapOk(data) {
 		$.each(this.races, function(i, race) {
 			coord = new google.maps.LatLng(race.location.coords.latitude, race.location.coords.longitude);
 			coords.push(coord);
+
 			marker = new google.maps.Marker({
-				position : coord,
 				map : map,
-				// icon :
-				// 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color='
-				// + getColor(race.status),
+				position : coord,
+				animation : id === event.id ? google.maps.Animation.DROP : null,
+				icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + (id === event.id ? 'ff1000' : 'f7f4f4'),
 				title : event.name
 			});
+
+			if (id === event.id) {
+				map.setCenter(coord);
+			}
 		});
 	});
-
-	var bounds = new google.maps.LatLngBounds();
-	$.each(coords, function() {
-		bounds.extend(this);
-	});
-	map.setCenter(bounds.getCenter());
-	map.fitBounds(bounds);
 }
 
 function getBannerOk(data) {
@@ -64,7 +55,6 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(event) {
-
 	$(".event-title").text(event.name);
 	$(".event-description").text(event.description);
 
