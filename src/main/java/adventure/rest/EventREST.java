@@ -84,7 +84,6 @@ public class EventREST {
 
 			for (Race race : event.getRaces()) {
 				List<Period> periods = periodDAO.findForEvent(race);
-
 				RaceData raceData = new RaceData();
 				raceData.id = race.getSlug();
 				raceData.name = race.getName2();

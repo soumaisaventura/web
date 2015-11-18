@@ -36,7 +36,6 @@ function loadMapOk(data, map, id) {
 			marker = new google.maps.Marker({
 				map : map,
 				position : coord,
-				animation : id === event.id ? google.maps.Animation.DROP : null,
 				icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + (id === event.id ? 'ff1000' : 'f7f4f4'),
 				title : event.name
 			});
