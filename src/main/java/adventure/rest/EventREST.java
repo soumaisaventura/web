@@ -70,9 +70,9 @@ public class EventREST {
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> mapData(@PathParam("slug") String slug) throws Exception {
-		RaceBusiness raceBusiness = RaceBusiness.getInstance();
-		PeriodDAO periodDAO = PeriodDAO.getInstance();
-		Date now = new Date();
+		// RaceBusiness raceBusiness = RaceBusiness.getInstance();
+		// PeriodDAO periodDAO = PeriodDAO.getInstance();
+		// Date now = new Date();
 
 		List<EventData> result = new ArrayList<EventData>();
 
@@ -82,22 +82,23 @@ public class EventREST {
 			data.name = event.getName();
 			data.races = new ArrayList<RaceData>();
 
-			for (Race race : event.getRaces()) {
-				List<Period> periods = periodDAO.findForEvent(race);
-				RaceData raceData = new RaceData();
-				raceData.id = race.getSlug();
-				raceData.name = race.getName2();
-				raceData.location = new LocationData();
-				raceData.location.coords = new CoordsData();
-				raceData.location.coords.latitude = race.getCoords().getLatitude();
-				raceData.location.coords.longitude = race.getCoords().getLongitude();
-				raceData.status = raceBusiness.getStatus(race, now, periods);
-				data.races.add(raceData);
-			}
+			data.location = new LocationData();
+			data.location.coords = new CoordsData();
+			data.location.coords.latitude = event.getCoords().getLatitude();
+			data.location.coords.longitude = event.getCoords().getLongitude();
 
-			if (data.races.isEmpty()) {
-				data.races = null;
-			}
+			// for (Race race : event.getRaces()) {
+			// List<Period> periods = periodDAO.findForEvent(race);
+			// RaceData raceData = new RaceData();
+			// raceData.id = race.getSlug();
+			// raceData.name = race.getName2();
+			// raceData.status = raceBusiness.getStatus(race, now, periods);
+			// data.races.add(raceData);
+			// }
+
+			// if (data.races.isEmpty()) {
+			// data.races = null;
+			// }
 
 			result.add(data);
 		}
@@ -133,6 +134,14 @@ public class EventREST {
 		data.layout.backgroundColor = event.getLayout().getBackgroundColor();
 		data.layout.buttonColor = event.getLayout().getButtonColor();
 
+		data.location = new LocationData();
+		data.location.city = new CityData();
+		data.location.city.name = event.getCity().getName();
+		data.location.city.state = event.getCity().getState().getAbbreviation();
+		data.location.coords = new CoordsData();
+		data.location.coords.latitude = event.getCoords().getLatitude();
+		data.location.coords.longitude = event.getCoords().getLongitude();
+
 		// Races
 
 		data.races = new ArrayList<RaceData>();
@@ -156,16 +165,6 @@ public class EventREST {
 			raceData.period = new PeriodData();
 			raceData.period.beginning = race.getBeginning();
 			raceData.period.end = race.getEnd();
-
-			// Race Location
-
-			raceData.location = new LocationData();
-			raceData.location.city = new CityData();
-			raceData.location.city.name = race.getCity().getName();
-			raceData.location.city.state = race.getCity().getState().getAbbreviation();
-			raceData.location.coords = new CoordsData();
-			raceData.location.coords.latitude = race.getCoords().getLatitude();
-			raceData.location.coords.longitude = race.getCoords().getLongitude();
 
 			// Race Championships
 

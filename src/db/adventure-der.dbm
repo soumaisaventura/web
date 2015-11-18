@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="650,478" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="538,480" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -318,12 +318,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="city_id">
 		<type name="integer"/>
 	</column>
-	<column name="coord_latitude" not-null="true">
-		<type name="numeric" length="9" precision="7"/>
-	</column>
-	<column name="coord_longitude" not-null="true">
-		<type name="numeric" length="10" precision="7"/>
-	</column>
 	<constraint name="pk_race" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -358,7 +352,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1399.85" y="602"/>
+	<position x="1399.85" y="599"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -933,7 +927,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1392.33" y="823"/>
+	<position x="1382.33" y="789"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -975,6 +969,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="payment_token">
 		<type name="character varying" length="64"/>
+	</column>
+	<column name="city_id">
+		<type name="integer"/>
+	</column>
+	<column name="coord_latitude">
+		<type name="numeric" length="9" precision="7"/>
+	</column>
+	<column name="coord_longitude">
+		<type name="numeric" length="10" precision="7"/>
 	</column>
 	<constraint name="pk_event" type="pk-constr" table="public.event">
 		<columns names="id" ref-type="src-columns"/>
@@ -1349,7 +1352,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1399.85" y="707"/>
+	<position x="1394.85" y="678"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1427,6 +1430,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<comment><![CDATA[cryptographic functions]]></comment>
 </extension>
+
+<index name="idx_event_city" table="public.event"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="id"/>
+		</idxelement>
+</index>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">
@@ -1581,6 +1592,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk_championship_race_race" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race" table="public.championship_race">
 	<columns names="race_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_event_city" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.city" table="public.event">
+	<columns names="city_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1918,6 +1935,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_event_organizer_cp_event" type="relfk"
 	 src-table="public.event_organizer"
 	 dst-table="public.event"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_event_city" type="relfk"
+	 src-table="public.event"
+	 dst-table="public.city"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

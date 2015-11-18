@@ -29,21 +29,20 @@ function loadMapOk(data, map, id) {
 	var coords = [];
 
 	$.each(data, function(i, event) {
-		$.each(this.races, function(i, race) {
-			coord = new google.maps.LatLng(race.location.coords.latitude, race.location.coords.longitude);
-			coords.push(coord);
+		coord = new google.maps.LatLng(event.location.coords.latitude, event.location.coords.longitude);
+		coords.push(coord);
 
-			marker = new google.maps.Marker({
-				map : map,
-				position : coord,
-				icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + (id === event.id ? 'ff1000' : 'f7f4f4'),
-				title : event.name
-			});
-
-			if (id === event.id) {
-				map.setCenter(coord);
-			}
+		marker = new google.maps.Marker({
+			map : map,
+			animation : id === event.id ? google.maps.Animation.DROP : null,
+			position : coord,
+			icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + (id === event.id ? 'ff1000' : 'f7f4f4'),
+			title : event.name
 		});
+
+		if (id === event.id) {
+			map.setCenter(coord);
+		}
 	});
 }
 
@@ -63,12 +62,14 @@ function loadEventOk(event) {
 			event.races[i].idx = i + 1;
 			event.races[i].day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
 			event.races[i].month = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('MMM');
-			
-//			if (race.period.beginning === race.period.end) {
-//				event.races[i].date = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL');
-//			} else {
-//				event.races[i].date = moment(race.period.beginning).format('L') + " à " + moment(race.period.end).format('L');
-//			}
+
+			// if (race.period.beginning === race.period.end) {
+			// event.races[i].date = moment(race.period.beginning,
+			// "YYYY-MM-DD").locale("pt-br").format('LL');
+			// } else {
+			// event.races[i].date = moment(race.period.beginning).format('L') +
+			// " à " + moment(race.period.end).format('L');
+			// }
 
 			$.each(race.prices, function(j, price) {
 				event.races[i].prices[j].beginning = moment(price.beginning).format('DD/MM');

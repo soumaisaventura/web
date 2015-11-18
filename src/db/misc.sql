@@ -368,3 +368,21 @@ UPDATE event
 UPDATE event
    SET background_color = '#808663'
  WHERE slug = 'corridadoctg/2015';
+
+UPDATE event e
+   SET coord_latitude =
+          (SELECT min (r.coord_latitude)
+             FROM race r
+            WHERE r.event_id = e.id),
+       coord_longitude =
+          (SELECT min (r.coord_longitude)
+             FROM race r
+            WHERE r.event_id = e.id),
+       city_id =
+          (SELECT min (r.city_id)
+             FROM race r
+            WHERE r.event_id = e.id);
+
+
+
+SELECT * FROM event;

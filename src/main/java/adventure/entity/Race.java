@@ -7,11 +7,9 @@ import static adventure.entity.RaceStatusType.SOON;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -67,11 +65,9 @@ public class Race {
 	private Date end;
 
 	@ManyToOne
+	@Deprecated
 	@JoinColumn(name = "city_id")
 	private City city;
-
-	@Embedded
-	private Coords coords;
 
 	@Deprecated
 	private String site;
@@ -109,8 +105,7 @@ public class Race {
 	}
 
 	public Race(Integer id, String name, String slug, Integer sportId, String sportName, String sportAcronym,
-			Integer eventId, String eventName, String eventSlug, Date beginning, Date end, BigDecimal coordLatitude,
-			BigDecimal coordLongitude) {
+			Integer eventId, String eventName, String eventSlug, Date beginning, Date end) {
 		setId(id);
 		setName2(name);
 		setSlug(slug);
@@ -122,16 +117,13 @@ public class Race {
 		getEvent().setId(eventId);
 		getEvent().setName(eventName);
 		getEvent().setSlug(eventSlug);
+		getEvent().setCoords(new Coords());
 		setBeginning(beginning);
 		setEnd(end);
-		setCoords(new Coords());
-		getCoords().setLatitude(coordLatitude);
-		getCoords().setLongitude(coordLongitude);
 	}
 
 	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
-			String sportAcronym, Date beginning, Date end, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation, BigDecimal coordLatitude, BigDecimal coordLongitude) {
+			String sportAcronym, Date beginning, Date end) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -142,16 +134,20 @@ public class Race {
 		getSport().setAcronym(sportAcronym);
 		setBeginning(beginning);
 		setEnd(end);
-		setCity(new City());
-		getCity().setId(cityId);
-		getCity().setName(cityName);
-		getCity().setState(new State());
-		getCity().getState().setId(stateId);
-		getCity().getState().setName(stateName);
-		getCity().getState().setAbbreviation(stateAbbreviation);
-		setCoords(new Coords());
-		getCoords().setLatitude(coordLatitude);
-		getCoords().setLongitude(coordLongitude);
+
+		// setEvent(new Event());
+		// getEvent().setId(eventId);
+		// getEvent().setCoords(new Coords());
+		// getEvent().getCoords().setLatitude(coordLatitude);
+		// getEvent().getCoords().setLongitude(coordLongitude);
+		//
+		// getEvent().setCity(new City());
+		// getEvent().getCity().setId(cityId);
+		// getEvent().getCity().setName(cityName);
+		// getEvent().getCity().setState(new State());
+		// getEvent().getCity().getState().setId(stateId);
+		// getEvent().getCity().getState().setName(stateName);
+		// getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	// TODO: OLD
@@ -322,20 +318,14 @@ public class Race {
 		this.end = end;
 	}
 
+	@Deprecated
 	public City getCity() {
 		return city;
 	}
 
+	@Deprecated
 	public void setCity(City city) {
 		this.city = city;
-	}
-
-	public Coords getCoords() {
-		return coords;
-	}
-
-	public void setCoords(Coords coords) {
-		this.coords = coords;
 	}
 
 	public String getSite() {

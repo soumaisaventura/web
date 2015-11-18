@@ -19,8 +19,6 @@ public class RaceData {
 
 	public PeriodData period;
 
-	public LocationData location;
-
 	public List<CategoryData> categories;
 
 	public BigDecimal currentPrice;

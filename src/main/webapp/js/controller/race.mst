@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="col-md-3 text-right">
-			<h2><span class="text-success"><strong><sup>R$</sup>{{currentPrice}}</strong></span></h2>
+			<h2><span class="text-success"><strong>R$ {{currentPrice}}</strong></span></h2>
 			<input type="button" class="btn btn-lg btn-success" value="Inscrever"/>
 		</div>
 	</div>

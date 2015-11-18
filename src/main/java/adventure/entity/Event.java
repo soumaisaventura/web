@@ -1,11 +1,14 @@
 package adventure.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,6 +32,13 @@ public class Event {
 
 	@Embedded
 	private Payment payment;
+
+	@ManyToOne
+	@JoinColumn(name = "city_id")
+	private City city;
+
+	@Embedded
+	private Coords coords;
 
 	@Embedded
 	private Layout layout;
@@ -54,8 +64,19 @@ public class Event {
 		setBanner(banner);
 	}
 
-	public Event(Integer id, String name, String description, String slug, String site, String layoutTextColor,
-			String layoutBackgroundColor, String layoutButtonColor) {
+	public Event(Integer id, String name, String slug, BigDecimal coordLatitude, BigDecimal coordLongitude) {
+		setId(id);
+		setName(name);
+		setSlug(slug);
+
+		setCoords(new Coords());
+		getCoords().setLatitude(coordLatitude);
+		getCoords().setLongitude(coordLongitude);
+	}
+
+	public Event(Integer id, String name, String description, String slug, String site, Integer cityId,
+			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
+			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor) {
 		setId(id);
 		setName(name);
 		setDescription(description);
@@ -65,6 +86,18 @@ public class Event {
 		getLayout().setTextColor(layoutTextColor);
 		getLayout().setBackgroundColor(layoutBackgroundColor);
 		getLayout().setButtonColor(layoutButtonColor);
+
+		setCoords(new Coords());
+		getCoords().setLatitude(coordLatitude);
+		getCoords().setLongitude(coordLongitude);
+
+		setCity(new City());
+		getCity().setId(cityId);
+		getCity().setName(cityName);
+		getCity().setState(new State());
+		getCity().getState().setId(stateId);
+		getCity().getState().setName(stateName);
+		getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	@Override
@@ -151,6 +184,22 @@ public class Event {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public Coords getCoords() {
+		return coords;
+	}
+
+	public void setCoords(Coords coords) {
+		this.coords = coords;
 	}
 
 	public Layout getLayout() {
