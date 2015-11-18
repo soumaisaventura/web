@@ -25,6 +25,19 @@
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/evento.css" />
+		<style>
+		/* =Call to Action	-------------------------------------------------------------- */
+		.race {
+			background-color: #efefef;
+			padding: 15px;
+			border-left:6px solid #3c763d;
+			margin-bottom: 5px;
+		}
+		
+		.event-organizer {
+			background-color: #18181C;
+		}
+		</style>
 	</ui:define>
 
 	<!--
@@ -55,14 +68,14 @@
 					<p class="event-description"></p>
 				</div>
 
-				<div class="row races">
-					<div class="col-md-12">
-						<div class="race">teste</div>
-					</div>
+				<div id="races" class="races">
 				</div>
 			</div>
 			<div class="col-md-4"></div>
 		</div>
+<!-- 		<div class="row event-organizer"> -->
+<!-- 			teste -->
+<!-- 		</div> -->
 	</ui:define>
 
 </ui:composition>

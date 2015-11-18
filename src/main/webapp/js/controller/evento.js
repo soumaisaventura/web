@@ -64,40 +64,31 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(event) {
-	console.log(event);
 
 	$(".event-title").text(event.name);
 	$(".event-description").text(event.description);
-	// $(".event-banner .right-col").css("background-color",
-	// event.layout.background_color);
 
-	// $(".jumbotron").css("background-color", event.layout.background_color);
-	//	
-	// $.get( $("#contextPath").val() + '/js/controller/race.mst',
-	// function(template) {
-	//
-	// $.each(event.races, function(i, race){
-	//						
-	// event.races[i].idx = i+1;
-	// if (race.period.beginning === race.period.end){
-	// event.races[i].date = moment(race.period.beginning,
-	// "YYYY-MM-DD").locale("pt-br").format('LL');
-	// } else {
-	// event.races[i].date = moment(race.period.beginning).format('L') + " à " +
-	// moment(race.period.end).format('L');
-	// }
-	//			
-	// $.each(race.prices, function(j, price){
-	// event.races[i].prices[j].beginning =
-	// moment(price.beginning).format('DD/MM');
-	// event.races[i].prices[j].end = moment(price.end).format('DD/MM');
-	// });
-	// });
-	//		
-	// event.contextPath = $("#contextPath").val();
-	//		
-	// var rendered = Mustache.render(template, event);
-	//	    
-	// $('#provas').html(rendered);
-	// });
+	$.get($("#contextPath").val() + '/js/controller/race.mst', function(template) {
+		$.each(event.races, function(i, race) {
+
+			event.races[i].idx = i + 1;
+			if (race.period.beginning === race.period.end) {
+				event.races[i].date = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL');
+			} else {
+				event.races[i].date = moment(race.period.beginning).format('L') + " à " + moment(race.period.end).format('L');
+			}
+
+			$.each(race.prices, function(j, price) {
+				event.races[i].prices[j].beginning = moment(price.beginning).format('DD/MM');
+				event.races[i].prices[j].end = moment(price.end).format('DD/MM');
+			});
+		});
+
+		event.contextPath = $("#contextPath").val();
+
+		var rendered = Mustache.render(template, event);
+		console.log(rendered);
+
+		$('#races').html(rendered);
+	});
 }
