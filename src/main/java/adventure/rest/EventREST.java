@@ -4,11 +4,15 @@ import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,6 +20,10 @@ import javax.ws.rs.Produces;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import adventure.business.FeeBusiness;
 import adventure.business.RaceBusiness;
@@ -47,17 +55,21 @@ import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
 import adventure.rest.data.SportData;
 import adventure.rest.data.UserData;
-import adventure.util.Dates;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("event")
 public class EventREST {
 
 	@GET
-	@Path("map")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
 	// @Cache("max-age=28800")
 	@Produces("application/json")
-	public List<EventData> mapData() throws Exception {
+	public List<EventData> mapData(@PathParam("slug") String slug) throws Exception {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		PeriodDAO periodDAO = PeriodDAO.getInstance();
 		Date now = new Date();
@@ -243,7 +255,7 @@ public class EventREST {
 	@GET
 	@Produces("image/png")
 	// @Cache("max-age=604800000")
-	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64")
 	public byte[] getBannerBase64(@PathParam("slug") String slug) throws Exception {
 		return getBannerBase64(slug, null);
 	}
@@ -251,16 +263,16 @@ public class EventREST {
 	@GET
 	@Produces("image/png")
 	// @Cache("max-age=604800000")
-	@Path("{slug: [\\w\\d_\\-/]+}/banner/base64/{width}")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64/{width}")
 	public byte[] getBannerBase64(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
-		Event race = loadEventBanner(slug);
-		return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
+		Event event = loadEventBanner(slug);
+		return Base64.encodeBase64(resizeImage(event.getBanner(), 750, width));
 	}
 
 	@GET
 	@Produces("image/png")
 	// @Cache("max-age=604800000")
-	@Path("{slug: [\\w\\d_\\-/]+}/banner")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
 	public byte[] getBanner(@PathParam("slug") String slug) throws Exception {
 		return getBanner(slug, null);
 	}
@@ -268,10 +280,38 @@ public class EventREST {
 	@GET
 	@Produces("image/png")
 	// @Cache("max-age=604800000")
-	@Path("{slug: [\\w\\d_\\-/]+}/banner/{width}")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/{width}")
 	public byte[] getBanner(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
-		Event race = loadEventBanner(slug);
-		return resizeImage(race.getBanner(), 750, width);
+		Event event = loadEventBanner(slug);
+		return resizeImage(event.getBanner(), 750, width);
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@ValidatePayload
+	@Consumes("multipart/form-data")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
+	public void setBanner(@PathParam("slug") String slug, @NotEmpty MultipartFormDataInput input) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+
+		InputPart file = null;
+		Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
+
+		for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
+			file = entry.getValue().get(0);
+			break;
+		}
+
+		if (file == null) {
+			throw new UnprocessableEntityException().addViolation("banner", "campo obrigatório");
+		}
+
+		InputStream inputStream = file.getBody(InputStream.class, null);
+		event.setBanner(IOUtils.toByteArray(inputStream));
+
+		EventDAO.getInstance().update(event);
 	}
 
 	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
@@ -281,6 +321,23 @@ public class EventREST {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
 			result = out.toByteArray();
+		}
+
+		return result;
+	}
+
+	private void checkPermission(Event race) throws ForbiddenException {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		// if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// throw new ForbiddenException();
+		// }
+	}
+
+	private Event loadEvent(String slug) throws NotFoundException {
+		Event result = EventDAO.getInstance().load(slug);
+
+		if (result == null) {
+			throw new NotFoundException();
 		}
 
 		return result;

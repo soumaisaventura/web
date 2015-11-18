@@ -99,6 +99,24 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		return result;
 	}
 
+	public Event load(String slug) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select e ");
+		jpql.append("   from Event e ");
+		jpql.append("  where e.slug = :slug ");
+
+		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
+		query.setParameter("slug", slug);
+
+		Event result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	public Event loadForDetail(String slug) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Event( ");

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="652,480" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="650,478" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -933,7 +933,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1393.33" y="849"/>
+	<position x="1392.33" y="823"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -952,10 +952,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="site">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="text_color" not-null="true">
+	<column name="top_color">
 		<type name="character varying" length="7"/>
 	</column>
 	<column name="background_color" not-null="true">
+		<type name="character varying" length="7"/>
+	</column>
+	<column name="text_color" not-null="true">
 		<type name="character varying" length="7"/>
 	</column>
 	<column name="button_color" not-null="true">
@@ -1419,6 +1422,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 			<column name="team_size"/>
 		</idxelement>
 </index>
+
+<extension name="pgcrypto">
+	<schema name="public"/>
+	<comment><![CDATA[cryptographic functions]]></comment>
+</extension>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">

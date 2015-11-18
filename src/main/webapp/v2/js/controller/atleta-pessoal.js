@@ -20,7 +20,7 @@ $(function() {
 	 */
 	$.when(LocationProxy.loadStates(), UserProfileProxy.load()).done(function(states, user){
 		App.loadStateCombos(states[0], $("#uf"));
-		loadOk(user[0]);
+		loadEventOk(user[0]);
 	});
 	
 	/**

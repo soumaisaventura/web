@@ -1,0 +1,51 @@
+#map {
+	height: 350px;
+	width: auto;
+}
+
+.event-banner {
+	/* 	background-color: black; */
+	/* 	position: relative; */
+	
+}
+
+.event-description {
+	margin: 0 auto;
+}
+
+.event-banner .right-col {
+	/* 	height: 350px; */
+	/* 	line-height: 350px; */
+	/* 	position: relative; */
+	/* 	top: 50%; */
+	/* 	transform: translateY(	+10%); */
+	/* 	position: absolute; */
+	/* 	top: 50%; */
+	/* 	left: 50%; */
+	/* 	transform: translate(0%, -50%); */
+	
+}
+
+.event-title {
+	color: black;
+}
+
+.event-info .left-col {
+	/* 	margin-top: 1px; */
+	/* 	background-color: gray; */
+	
+}
+
+.event-description {
+	color: black;
+	font-size: 1.1em;
+	text-align: justify;
+}
+
+.races {
+	margin-top: 20px;
+}
+
+.race {
+	background-color: #ccc;
+}

@@ -8,7 +8,7 @@ SELECT *
 
 SELECT *
   FROM user_account ua
- WHERE id IN (50);
+ WHERE id IN (457);
 
 SELECT *
   FROM profile p
@@ -16,7 +16,7 @@ SELECT *
 
 SELECT *
   FROM health h
- WHERE h.id = 581;
+ WHERE h.id IN (1309, 1316);
 
 SELECT *
   FROM user_registration tf,
@@ -26,7 +26,7 @@ SELECT *
  WHERE     tf.user_id = p.id
        AND tf.registration_id = re.id
        AND re.race_id = ra.id
-       AND tf.user_id = 359;
+       AND tf.user_id IN (1309, 1316);
 
 SELECT *
   FROM user_registration tf, profile p
@@ -34,7 +34,7 @@ SELECT *
 
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%zadson%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%josilene%';
 
 UPDATE user_registration
    SET user_id = 302
@@ -352,3 +352,19 @@ INSERT INTO race_category (race_id, category_id, course_id)
                            11)
          AND c.adventure_racing = TRUE
 ORDER BY p."name";
+
+UPDATE event
+   SET background_color = '#000000'
+ WHERE slug = 'np3';
+
+UPDATE event
+   SET background_color = '#FF6600'
+ WHERE slug = 'salitre/2015';
+
+UPDATE event
+   SET background_color = '#140000'
+ WHERE slug = 'cascodepeba/2015';
+
+UPDATE event
+   SET background_color = '#808663'
+ WHERE slug = 'corridadoctg/2015';
