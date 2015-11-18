@@ -1,64 +1,70 @@
-<div class="row">
-	<div class="col-md-8 col-sm-12 col-xs-12 text-justify">
-		<img id="banner" class="img-responsive" style="margin: 0 auto;"/>
-		<h1><strong>{{name}}</strong></h1>
-		{{description}}
-		
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-top:20px;">
-		{{#races}}
-			
-	  		<div class="panel panel-default">
-	    		<div class="panel-heading" role="tab" id="heading{{id}}">
-	      			<h3 class="panel-title">
-	        			<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{id}}" aria-expanded="true" aria-controls="collapse{{id}}">
-	          				<strong>{{name}}</strong> 
-	        			</a>
-	        			
-	        			<span class="pull-right">
-	        				<strong>Preço Atual: <sup>R$</sup>{{currentPrice}}</strong>
-	        				<span class="label label-danger" style="border-radius: 5em; margin-left: 20px;">Encerrado</span>
-	        			</span>
-	      			</h3>
-	    		</div>
-	    		<div id="collapse{{id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{id}}">
-	      			<div class="panel-body">
-	        			<p><span class="glyphicon glyphicon-calendar"></span> {{date}}</p>
-	        			<p><span class="glyphicon glyphicon-map-marker"></span> {{location.city.name}} / {{location.city.state}}</p> 
-	        			<p><span class="glyphicon glyphicon-usd"></span> Inscrições</p>
-	        			<ul>
-	        			{{#prices}}
-	        			<li>{{beginning}} à {{end}}: <sup>R$</sup>{{price}}</li>
-	        			{{/prices}}
-	        			</ul>
-	        			<p><span class="glyphicon glyphicon-th-list"></span> Categorias</p>
-	        			<ul>
-	        			{{#categories}}
-	        			<li>{{name}}</li>
-	        			{{/categories}}
-	        			</ul>
-	        			<p><span class="glyphicon glyphicon-equalizer"></span> Modalidades</p>
-	        			<p>
-	        			{{#modalities}}
-	        				<img src="{{contextPath}}/images/modalidade-{{id}}-icon-black.png"/>&nbsp;
-	        			{{/modalities}}
-	        			</p>
-	      			</div>
-	    		</div>
-	  		</div>
-
-		{{/races}}
+{{#races}}
+<div class="race col-md-8">
+	<div class="row" style="margin-bottom: 10px">
+		<div class="col-md-2">
+			<span class="glyphicon glyphicon-calendar"></span> {{date}}
+		</div>
+		<div class="col-md-8">
+			<div class="row">
+				<div class="col-md-12">
+						<h3><strong>{{name}}</strong></h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+						{{#modalities}}
+						<img src="{{contextPath}}/images/modalidade-{{id}}-icon-black.png" style="width: 24px; height: 24px;"/>
+						{{/modalities}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<span class="glyphicon glyphicon-map-marker"></span> {{location.city.name}} / {{location.city.state}}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="row">
+				<div class="col-md-12">
+					<h2><span class="pull-right text-success"><strong><sup>R$</sup>{{currentPrice}}</strong></span></h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-right">
+					<input type="button" class="btn btn-sm btn-success" value="Inscrever"/>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-4 col-sm-12 col-xs-12">
-		<div class="panel panel-default">
-  			<div class="panel-heading">Organizadores</div>
-  			<div class="panel-body">
-    			{{#organizers}}
-				<h4>{{name}}</h4>
-				<h6>{{email}}</h6>
-				<h6>{{mobile}}</h6>
-				{{/organizers}}
-  			</div>
+	
+	<!--
+	<div class="row" style="margin-bottom: 10px">
+		<div class="col-md-10">
+			<h2>
+				<strong>{{name}}</strong>
+				{{#modalities}}
+				<img src="{{contextPath}}/images/modalidade-{{id}}-icon-black.png" style="width: 24px; height: 24px;"/>&nbsp;
+				{{/modalities}}
+			</h2>
 		</div>
-  	</div>
+		<div class="col-md-2">
+    		<h2><span class="pull-right text-success"><strong><sup>R$</sup>{{currentPrice}}</strong></span></h2>
+		</div>
+	</div>
+	<div class="row" style="margin-bottom: 10px">
+		<div class="col-md-8">
+    		
+		</div>
+		<div class="col-md-4 text-right">
+    		<input type="button" class="btn btn-sm btn-success" value="Inscrever"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<span class="glyphicon glyphicon-calendar"></span> {{date}}
+			<span class="glyphicon glyphicon-map-marker"></span> {{location.city.name}} / {{location.city.state}}
+		</div>
+	</div>
+	-->
 </div>
+{{/races}}
