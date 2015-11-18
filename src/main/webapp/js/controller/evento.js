@@ -61,11 +61,14 @@ function loadEventOk(event) {
 		$.each(event.races, function(i, race) {
 
 			event.races[i].idx = i + 1;
-			if (race.period.beginning === race.period.end) {
-				event.races[i].date = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL');
-			} else {
-				event.races[i].date = moment(race.period.beginning).format('L') + " à " + moment(race.period.end).format('L');
-			}
+			event.races[i].day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
+			event.races[i].month = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('MMM');
+			
+//			if (race.period.beginning === race.period.end) {
+//				event.races[i].date = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL');
+//			} else {
+//				event.races[i].date = moment(race.period.beginning).format('L') + " à " + moment(race.period.end).format('L');
+//			}
 
 			$.each(race.prices, function(j, price) {
 				event.races[i].prices[j].beginning = moment(price.beginning).format('DD/MM');
