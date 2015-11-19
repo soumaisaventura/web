@@ -1,9 +1,9 @@
 package adventure.entity;
 
-import static adventure.entity.RaceStatusType.CLOSED;
-import static adventure.entity.RaceStatusType.END;
-import static adventure.entity.RaceStatusType.OPEN;
-import static adventure.entity.RaceStatusType.SOON;
+import static adventure.entity.StatusType.CLOSED;
+import static adventure.entity.StatusType.END;
+import static adventure.entity.StatusType.OPEN;
+import static adventure.entity.StatusType.SOON;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
@@ -138,8 +138,8 @@ public class Race {
 	}
 
 	@Deprecated
-	public RaceStatusType getStatus() {
-		RaceStatusType result = null;
+	public StatusType getStatus() {
+		StatusType result = null;
 
 		if (registrationPeriod != null && registrationPeriod.getBeginning() != null
 				&& registrationPeriod.getEnd() != null && this.date != null) {

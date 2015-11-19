@@ -202,6 +202,10 @@ public class EventREST {
 			raceData.currentPeriod.end = currentPeriod.getEnd();
 			raceData.currentPeriod.price = currentPeriod.getPrice();
 
+			if (eventData.status == null || eventData.status.getOrder() < raceData.status.getOrder()) {
+				eventData.status = raceData.status;
+			}
+
 			// Modalities
 
 			raceData.modalities = new ArrayList<ModalityData>();

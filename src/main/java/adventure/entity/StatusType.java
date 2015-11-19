@@ -3,14 +3,21 @@ package adventure.entity;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
-public enum RaceStatusType {
+public enum StatusType {
 
-	SOON("soon"), OPEN("open"), CLOSED("closed"), END("end");
+	SOON(0, "soon"), OPEN(1, "open"), CLOSED(2, "closed"), END(3, "end");
+
+	private final Integer order;
 
 	private final String value;
 
-	RaceStatusType(String value) {
+	StatusType(Integer order, String value) {
+		this.order = order;
 		this.value = value;
+	}
+
+	public Integer getOrder() {
+		return order;
 	}
 
 	@JsonValue
@@ -19,10 +26,10 @@ public enum RaceStatusType {
 	}
 
 	@JsonCreator
-	public static RaceStatusType fromValue(String value) {
-		RaceStatusType result = null;
+	public static StatusType fromValue(String value) {
+		StatusType result = null;
 
-		for (RaceStatusType statusType : values()) {
+		for (StatusType statusType : values()) {
 			if (statusType.toString().equalsIgnoreCase(value)) {
 				result = statusType;
 				break;
