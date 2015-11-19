@@ -40,12 +40,29 @@
 	color: black;
 	font-size: 1.1em;
 	text-align: justify;
+	line-height: 25px;
 }
 
 .races {
-	margin-top: 20px;
+	margin-top: 40px;
 }
 
 .race {
-	background-color: #ccc;
+	background-color: #efefef;
+	padding: 15px;
+	border-left: 6px solid #3c763d;
+	margin-bottom: 20px;
+}
+
+.race .col-md-3 {
+	padding-right: 30px;
+}
+
+.month {
+	font-size: 0.8em;
+}
+
+.modality-icon {
+	width: 20px;
+	height: 20px;
 }

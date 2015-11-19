@@ -25,28 +25,7 @@
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/evento.css" />
-		<style>
-/* =Call to Action	-------------------------------------------------------------- */
-.race {
-	background-color: #efefef;
-	padding: 15px;
-	border-left: 6px solid #3c763d;
-	margin-bottom: 20px;
-}
-
-.event-organizer {
-	background-color: #18181C;
-}
-</style>
 	</ui:define>
-
-	<!--
-	<ui:define name="jumbotron">
-		<div class="jumbotron" style="padding: 0px">
-			<img id="banner" class="img-responsive" style="margin: 0 auto;" />
-		</div>
-	</ui:define>
-	-->
 
 	<ui:define name="body">
 		<input id="id" type="hidden" value="#{param.evento_id}" />
@@ -79,34 +58,77 @@
 		<div id="event-race-template" hidden="true">
 			<div class="race col-md-12">
 				<div class="row" style="margin-bottom: 10px">
-					<div class="col-md-2 text-center">
-						<h2>
-							<strong>{{day}}</strong>
-						</h2>
+					<div class="col-md-2 text-center text-primary">
 						<h3>
-							<strong>{{month}}</strong>
+							<strong>{{day}}</strong><br/>
+							<span class="month">{{month}}</span>
 						</h3>
 					</div>
 					<div class="col-md-7">
 						<div class="row">
 							<div class="col-md-12">
-								<h2>
+								<h3>
 									<strong>{{name}}</strong>
-								</h2>
-								{{description}}
+								</h3>
+								<span>{{description}}</span>
 								<br />
 								<br />
-								<a href="#">Saiba mais</a>
+								<a data-toggle="collapse" href="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">Saiba mais</a>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-3 text-right">
-						<h2>
-							<span class="text-success"><strong>R$ {{current_period.price}}</strong></span>
-						</h2>
+						<h3>
+							<span class="text-success"><strong>R$ {{current_period.price}}</strong><br/><h5> até {{current_period.end}}</h5></span>
+						</h3>
 						<a class="col-xs-12 btn btn-lg btn-success" href="#{request.contextPath}/evento/#{param.evento_id}/{{id}}/inscricao">
 							<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span> Inscreva-se
 						</a>
+					</div>
+				</div>
+				<div class="collapse" id="collapse-{{id}}">
+					<div class="row">
+						<div class="col-md-7 col-md-offset-2">
+							
+							<p><strong>{{sport.name}}</strong></p>
+							<ul>
+								<li>
+									{{#modalities}}
+									<img class="modality-icon" src="#{request.contextPath}/images/modalidade-{{id}}-icon-black.png" title="{{name}}"/>
+									{{/modalities}}
+								</li>
+							</ul>
+
+							<p><strong>Data</strong></p>
+							<ul>
+								<li>
+									{{period.beginning}}{{#moreThanOneDay}} à {{period.end}}{{/moreThanOneDay}}	
+								</li>
+							</ul>
+							
+							<p><strong>Categoria(s)</strong></p>
+							<ul>
+								{{#categories}}
+								<li>{{name}}</li>
+								{{/categories}}
+							</ul>
+						
+							{{#hasChampionship}}
+							<p><strong>Campeonato(s)</strong></p>
+							<ul>
+								{{#championships}}
+								<li>{{name}}</li>
+								{{/championships}}
+							</ul>
+							{{/hasChampionship}}
+							
+						</div>
+						<div class="col-md-3">
+						<p><strong>Preço individual</strong></p>
+						 {{#prices}}
+						 	<div>{{beginning}} á {{end}}: <sup>R$</sup> <strong>{{price}}</strong></div>
+						 {{/prices}}
+						</div>								
 					</div>
 				</div>
 			</div>
