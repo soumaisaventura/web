@@ -43,6 +43,10 @@
 	line-height: 25px;
 }
 
+.race-description {
+/* 	text-align: justify; */
+}
+
 .races {
 	margin-top: 40px;
 }
