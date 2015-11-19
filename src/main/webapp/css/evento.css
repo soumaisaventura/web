@@ -67,6 +67,10 @@ h1, h2, h3, h4, h5, h6 {
 	border-left: 6px solid #3c763d;
 }
 
+.event-map {
+	padding: 0;
+}
+
 .month {
 	font-size: 0.8em;
 }

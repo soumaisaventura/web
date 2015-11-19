@@ -56,6 +56,12 @@ function getBannerOk(data) {
 function loadEventOk(data) {
 	$(".event-title").text(data.name);
 	$(".event-description").text(data.description);
+	$("#days-left").text(data.period.countdown);
+	$("#event-location").text(data.location.city.name + " / " + data.location.city.state);
+	
+	var b = moment(data.period.beginning, "YYYY-MM-DD").locale("pt-br").format("L");
+	var e = moment(data.period.end, "YYYY-MM-DD").locale("pt-br").format("L");
+	$("#period").text(b + " à " + e);
 
 	console.log(data);
 
