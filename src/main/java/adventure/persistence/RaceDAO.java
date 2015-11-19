@@ -29,8 +29,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.name2, ");
-		jpql.append(" 	        r.description2, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.description, ");
 		jpql.append(" 	        o.id, ");
 		jpql.append(" 	        o.name, ");
 		jpql.append(" 	        o.acronym, ");

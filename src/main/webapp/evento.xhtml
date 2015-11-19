@@ -26,18 +26,18 @@
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/evento.css" />
 		<style>
-		/* =Call to Action	-------------------------------------------------------------- */
-		.race {
-			background-color: #efefef;
-			padding: 15px;
-			border-left:6px solid #3c763d;
-			margin-bottom: 20px;
-		}
-		
-		.event-organizer {
-			background-color: #18181C;
-		}
-		</style>
+/* =Call to Action	-------------------------------------------------------------- */
+.race {
+	background-color: #efefef;
+	padding: 15px;
+	border-left: 6px solid #3c763d;
+	margin-bottom: 20px;
+}
+
+.event-organizer {
+	background-color: #18181C;
+}
+</style>
 	</ui:define>
 
 	<!--
@@ -68,14 +68,47 @@
 					<p class="event-description"></p>
 				</div>
 
-				<div id="races" class="races">
-				</div>
+				<div id="races" class="races"></div>
 			</div>
 			<div class="col-md-4"></div>
 		</div>
-<!-- 		<div class="row event-organizer"> -->
-<!-- 			teste -->
-<!-- 		</div> -->
+
+		<div id="race-template" hidden="true">
+			<div class="race col-md-12">
+				<div class="row" style="margin-bottom: 10px">
+					<div class="col-md-2 text-center">
+						<h2>
+							<strong>{{day}}</strong>
+						</h2>
+						<h3>
+							<strong>{{month}}</strong>
+						</h3>
+					</div>
+					<div class="col-md-7">
+						<div class="row">
+							<div class="col-md-12">
+								<h2>
+									<strong>{{name}}</strong>
+								</h2>
+								{{description}}
+								<br />
+								<br />
+								<a href="#">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 text-right">
+						<h2>
+							<span class="text-success"><strong>R$ {{currentPrice}}</strong></span>
+						</h2>
+						<a class="col-xs-12 btn btn-lg btn-success" href="#{request.contextPath}/evento/#{param.evento_id}/{{id}}/inscricao">
+							<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span> Inscreva-se
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</ui:define>
 
 </ui:composition>

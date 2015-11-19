@@ -353,36 +353,67 @@ INSERT INTO race_category (race_id, category_id, course_id)
          AND c.adventure_racing = TRUE
 ORDER BY p."name";
 
-UPDATE event
-   SET background_color = '#000000'
- WHERE slug = 'np3';
+UPDATE race
+   SET description =
+          'Corrida de Aventura com orientação por mapa e bússola.'
+ WHERE id = 12;
 
-UPDATE event
-   SET background_color = '#FF6600'
- WHERE slug = 'salitre/2015';
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Flutuação, Remo e Navegação com mapa e bússola.'
+ WHERE id = 17;
 
-UPDATE event
-   SET background_color = '#140000'
- WHERE slug = 'cascodepeba/2015';
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Flutuação, Remo e Navegação com mapa e bússola.'
+ WHERE id = 16;
 
-UPDATE event
-   SET background_color = '#808663'
- WHERE slug = 'corridadoctg/2015';
+UPDATE race
+   SET description =
+          'Corrida em trilha balizada com muita areia fofa e muitos desafios.'
+ WHERE id = 18;
 
-UPDATE event e
-   SET coord_latitude =
-          (SELECT min (r.coord_latitude)
-             FROM race r
-            WHERE r.event_id = e.id),
-       coord_longitude =
-          (SELECT min (r.coord_longitude)
-             FROM race r
-            WHERE r.event_id = e.id),
-       city_id =
-          (SELECT min (r.city_id)
-             FROM race r
-            WHERE r.event_id = e.id);
+UPDATE race
+   SET description =
+          'Competição motorizada e eletrizante. Traga sua máquina para acelerar em grande estilo.'
+ WHERE id = 19;
 
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Técnicas Verticais e Navegação com mapa e bússola.'
+ WHERE id = 20;
 
+UPDATE race
+   SET description =
+          'Corrida em trilha balizada pelos lugares mais bonitos e deslumbrantes de Mucugê. Se prepare porque vai ter subida.'
+ WHERE id = 21;
 
-SELECT * FROM event;
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Técnicas Verticais e Navegação com mapa e bússola.'
+ WHERE id = 20;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking, Natação/Flutuação, Canoagem e Orientação com mapa e bússola.'
+ WHERE id = 22;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking e Orientação com mapa e bússola.'
+ WHERE id = 23;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura para novatos com as modalidades Mountain Biking, Corrida/Trekking e Orientação com mapa e bússola.'
+ WHERE id = 24;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking, Remo, Técnicas Verticais e Orientação com mapa e bússola.'
+ WHERE id = 25;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, e Orientação com mapa e bússola.'
+ WHERE id = 15;

@@ -52,36 +52,25 @@ function getBannerOk(data) {
 	}
 }
 
-function loadEventOk(event) {
-	$(".event-title").text(event.name);
-	$(".event-description").text(event.description);
+function loadEventOk(data) {
+	$(".event-title").text(data.name);
+	$(".event-description").text(data.description);
 
-	$.get($("#contextPath").val() + '/js/controller/race.mst', function(template) {
-		$.each(event.races, function(i, race) {
+	console.log(data);
 
-			event.races[i].idx = i + 1;
-			event.races[i].day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
-			event.races[i].month = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('MMM');
+	var template = $('#race-template').html();
 
-			// if (race.period.beginning === race.period.end) {
-			// event.races[i].date = moment(race.period.beginning,
-			// "YYYY-MM-DD").locale("pt-br").format('LL');
-			// } else {
-			// event.races[i].date = moment(race.period.beginning).format('L') +
-			// " à " + moment(race.period.end).format('L');
-			// }
+	$.each(data.races, function(i, race) {
+		race.idx = i + 1;
+		race.day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
+		race.month = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('MMM');
 
-			$.each(race.prices, function(j, price) {
-				event.races[i].prices[j].beginning = moment(price.beginning).format('DD/MM');
-				event.races[i].prices[j].end = moment(price.end).format('DD/MM');
-			});
+		$.each(race.prices, function(j, price) {
+			race.prices[j].beginning = moment(price.beginning).format('DD/MM');
+			race.prices[j].end = moment(price.end).format('DD/MM');
 		});
 
-		event.contextPath = $("#contextPath").val();
-
-		var rendered = Mustache.render(template, event);
-		console.log(rendered);
-
-		$('#races').html(rendered);
+		var rendered = Mustache.render(template, race);
+		$('#races').append(rendered);
 	});
 }

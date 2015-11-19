@@ -82,9 +82,9 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Event( ");
 		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.slug, ");
 		jpql.append(" 	        e.name, ");
 		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.slug, ");
 		jpql.append(" 	        e.site, ");
 		jpql.append(" 	        c.id, ");
 		jpql.append(" 	        c.name, ");

@@ -36,17 +36,17 @@ public class Race {
 
 	private String slug;
 
-	@Deprecated
+	// @Deprecated
 	private String name;
 
-	@Deprecated
+	// @Deprecated
 	private String description;
 
-	@Column(name = "name_2")
-	private String name2;
+	// @Column(name = "name_2")
+	// private String name2;
 
-	@Column(name = "description_2")
-	private String description2;
+	// @Column(name = "description_2")
+	// private String description2;
 
 	@ManyToOne
 	@JoinColumn(name = "sport_id")
@@ -104,23 +104,23 @@ public class Race {
 		this.id = id;
 	}
 
-	public Race(Integer id, String name, String slug, Integer sportId, String sportName, String sportAcronym,
-			Integer eventId, String eventName, String eventSlug, Date beginning, Date end) {
-		setId(id);
-		setName2(name);
-		setSlug(slug);
-		setSport(new Sport());
-		getSport().setId(sportId);
-		getSport().setName(sportName);
-		getSport().setAcronym(sportAcronym);
-		setEvent(new Event());
-		getEvent().setId(eventId);
-		getEvent().setName(eventName);
-		getEvent().setSlug(eventSlug);
-		getEvent().setCoords(new Coords());
-		setBeginning(beginning);
-		setEnd(end);
-	}
+	// public Race(Integer id, String name, String slug, Integer sportId, String sportName, String sportAcronym,
+	// Integer eventId, String eventName, String eventSlug, Date beginning, Date end) {
+	// setId(id);
+	// setName(name);
+	// setSlug(slug);
+	// setSport(new Sport());
+	// getSport().setId(sportId);
+	// getSport().setName(sportName);
+	// getSport().setAcronym(sportAcronym);
+	// setEvent(new Event());
+	// getEvent().setId(eventId);
+	// getEvent().setName(eventName);
+	// getEvent().setSlug(eventSlug);
+	// getEvent().setCoords(new Coords());
+	// setBeginning(beginning);
+	// setEnd(end);
+	// }
 
 	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
 			String sportAcronym, Date beginning, Date end) {
@@ -134,20 +134,6 @@ public class Race {
 		getSport().setAcronym(sportAcronym);
 		setBeginning(beginning);
 		setEnd(end);
-
-		// setEvent(new Event());
-		// getEvent().setId(eventId);
-		// getEvent().setCoords(new Coords());
-		// getEvent().getCoords().setLatitude(coordLatitude);
-		// getEvent().getCoords().setLongitude(coordLongitude);
-		//
-		// getEvent().setCity(new City());
-		// getEvent().getCity().setId(cityId);
-		// getEvent().getCity().setName(cityName);
-		// getEvent().getCity().setState(new State());
-		// getEvent().getCity().getState().setId(stateId);
-		// getEvent().getCity().getState().setName(stateName);
-		// getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	// TODO: OLD
@@ -270,22 +256,6 @@ public class Race {
 		this.description = description;
 	}
 
-	public String getName2() {
-		return name2;
-	}
-
-	public void setName2(String name2) {
-		this.name2 = name2;
-	}
-
-	public String getDescription2() {
-		return description2;
-	}
-
-	public void setDescription2(String description2) {
-		this.description2 = description2;
-	}
-
 	public Sport getSport() {
 		return sport;
 	}
@@ -294,10 +264,12 @@ public class Race {
 		this.sport = sport;
 	}
 
+	@Deprecated
 	public Date getDate() {
 		return date;
 	}
 
+	@Deprecated
 	public void setDate(Date date) {
 		this.date = date;
 	}
@@ -328,58 +300,72 @@ public class Race {
 		this.city = city;
 	}
 
+	@Deprecated
 	public String getSite() {
 		return site;
 	}
 
+	@Deprecated
 	public void setSite(String site) {
 		this.site = site;
 	}
 
+	@Deprecated
 	public byte[] getBanner() {
 		return banner;
 	}
 
+	@Deprecated
 	public void setBanner(byte[] banner) {
 		this.banner = banner;
 	}
 
+	@Deprecated
 	public PaymentType getPaymentType() {
 		return paymentType;
 	}
 
+	@Deprecated
 	public void setPaymentType(PaymentType paymentType) {
 		this.paymentType = paymentType;
 	}
 
+	@Deprecated
 	public String getPaymentInfo() {
 		return paymentInfo;
 	}
 
+	@Deprecated
 	public void setPaymentInfo(String paymentInfo) {
 		this.paymentInfo = paymentInfo;
 	}
 
+	@Deprecated
 	public String getPaymentAccount() {
 		return paymentAccount;
 	}
 
+	@Deprecated
 	public void setPaymentAccount(String paymentAccount) {
 		this.paymentAccount = paymentAccount;
 	}
 
+	@Deprecated
 	public String getPaymentToken() {
 		return paymentToken;
 	}
 
+	@Deprecated
 	public void setPaymentToken(String paymentToken) {
 		this.paymentToken = paymentToken;
 	}
 
+	@Deprecated
 	public Period getRegistrationPeriod() {
 		return registrationPeriod;
 	}
 
+	@Deprecated
 	public void setRegistrationPeriod(Period registrationPeriod) {
 		this.registrationPeriod = registrationPeriod;
 	}

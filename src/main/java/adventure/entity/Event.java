@@ -74,13 +74,13 @@ public class Event {
 		getCoords().setLongitude(coordLongitude);
 	}
 
-	public Event(Integer id, String name, String description, String slug, String site, Integer cityId,
+	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
 			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
 			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor) {
 		setId(id);
+		setSlug(slug);
 		setName(name);
 		setDescription(description);
-		setSlug(slug);
 		setSite(site);
 		setLayout(new Layout());
 		getLayout().setTextColor(layoutTextColor);
