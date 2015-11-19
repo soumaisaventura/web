@@ -58,7 +58,7 @@
 		<div id="event-race-template" hidden="true">
 			<div class="race col-md-12">
 				<div class="row" style="margin-bottom: 10px">
-					<div class="col-md-2 text-center text-primary">
+					<div class="col-md-2 text-center text-success">
 						<h3>
 							<strong>{{day}}</strong><br/>
 							<span class="month">{{month}}</span>
@@ -79,7 +79,7 @@
 					</div>
 					<div class="col-md-3 text-right">
 						<h3>
-							<span class="text-success"><strong>R$ {{current_period.price}}</strong><br/><h5> até {{current_period.end}}</h5></span>
+							<span class="text-success"><strong>*R$ {{current_period.price}}</strong><br/><h5> até {{current_period.end}}</h5></span>
 						</h3>
 						<a class="col-xs-12 btn btn-lg btn-success" href="#{request.contextPath}/evento/#{param.evento_id}/{{id}}/inscricao">
 							<span class='glyphicon glyphicon-pencil' aria-hidden='true' style='font-size: 0.8em;'></span> Inscreva-se
@@ -96,6 +96,13 @@
 									{{#modalities}}
 									<img class="modality-icon" src="#{request.contextPath}/images/modalidade-{{id}}-icon-black.png" title="{{name}}"/>
 									{{/modalities}}
+								</li>
+							</ul>
+
+							<p><strong>Distância</strong></p>
+							<ul>
+								<li>
+									{{distance}} km
 								</li>
 							</ul>
 
@@ -123,8 +130,8 @@
 							{{/hasChampionship}}
 							
 						</div>
-						<div class="col-md-3">
-						<p><strong>Preço individual</strong></p>
+						<div class="col-md-3 text-right">
+						<p><strong class="text-success">*preço por pessoa</strong></p>
 						 {{#prices}}
 						 	<div>{{beginning}} á {{end}}: <sup>R$</sup> <strong>{{price}}</strong></div>
 						 {{/prices}}

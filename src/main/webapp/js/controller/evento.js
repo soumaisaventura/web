@@ -18,6 +18,7 @@ $(function() {
 function initMap() {
 	var options = {
 		zoom : 12,
+		scrollwheel : false
 	};
 
 	return new google.maps.Map($("#map")[0], options);
