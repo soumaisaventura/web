@@ -5,7 +5,6 @@ import static adventure.entity.RaceStatusType.END;
 import static adventure.entity.RaceStatusType.OPEN;
 import static adventure.entity.RaceStatusType.SOON;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -38,21 +37,21 @@ public class RaceBusiness {
 		return result;
 	}
 
-	public BigDecimal getCurrentPrice(Race race, Date date, List<Period> periods) {
-		BigDecimal result = null;
+	public Period getPeriod(Date date, List<Period> periods) {
+		Period result = null;
 
 		for (int i = 0; i < periods.size(); i++) {
 			Period period = periods.get(i);
 
 			if (Dates.between(date, period.getBeginning(), period.getEnd())) {
-				result = period.getPrice();
-				break;
-
+				result = period;
 			} else if (i == 0 && Dates.before(date, period.getBeginning())) {
-				result = period.getPrice();
-				break;
+				result = period;
 			} else if (i == periods.size() - 1 && Dates.after(date, period.getEnd())) {
-				result = period.getPrice();
+				result = period;
+			}
+
+			if (result != null) {
 				break;
 			}
 		}

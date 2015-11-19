@@ -20,24 +20,24 @@ public final class Dates {
 		return truncate(new Date(), DAY_OF_MONTH);
 	}
 
-	public static boolean before(Date date, Date beginning) {
-		return truncatedCompareTo(date, beginning, DAY_OF_MONTH) < 0;
+	public static boolean before(Date date, Date other) {
+		return truncatedCompareTo(date, other, DAY_OF_MONTH) < 0;
 	}
 
-	public static boolean beforeOrSame(Date date, Date beginning) {
-		return truncatedCompareTo(date, beginning, DAY_OF_MONTH) <= 0;
+	public static boolean beforeOrSame(Date date, Date other) {
+		return truncatedCompareTo(date, other, DAY_OF_MONTH) <= 0;
 	}
 
-	public static boolean after(Date date, Date end) {
-		return truncatedCompareTo(date, end, DAY_OF_MONTH) > 0;
+	public static boolean after(Date date, Date other) {
+		return truncatedCompareTo(date, other, DAY_OF_MONTH) > 0;
 	}
 
-	public static boolean afterOrSame(Date date, Date end) {
-		return truncatedCompareTo(date, end, DAY_OF_MONTH) >= 0;
+	public static boolean afterOrSame(Date date, Date other) {
+		return truncatedCompareTo(date, other, DAY_OF_MONTH) >= 0;
 	}
 
-	public static boolean between(Date date, Date beginning, Date end) {
-		return afterOrSame(date, beginning) && beforeOrSame(date, end);
+	public static boolean between(Date date, Date min, Date max) {
+		return afterOrSame(date, min) && beforeOrSame(date, max);
 	}
 
 	public static String parse(Date date) {

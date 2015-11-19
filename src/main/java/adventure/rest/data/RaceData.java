@@ -1,7 +1,8 @@
 package adventure.rest.data;
 
-import java.math.BigDecimal;
 import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import adventure.entity.RaceStatusType;
 
@@ -21,7 +22,8 @@ public class RaceData {
 
 	public List<CategoryData> categories;
 
-	public BigDecimal currentPrice;
+	@JsonProperty("current_period")
+	public PeriodData currentPeriod;
 
 	public List<PeriodData> prices;
 

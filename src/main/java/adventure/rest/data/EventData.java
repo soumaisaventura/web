@@ -12,6 +12,8 @@ public class EventData {
 
 	public String site;
 
+	public PeriodData period;
+
 	public LocationData location;
 
 	public List<RaceData> races;

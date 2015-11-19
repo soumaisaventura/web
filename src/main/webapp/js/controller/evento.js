@@ -58,7 +58,7 @@ function loadEventOk(data) {
 
 	console.log(data);
 
-	var template = $('#race-template').html();
+	var template = $('#event-race-template').html();
 
 	$.each(data.races, function(i, race) {
 		race.idx = i + 1;
@@ -71,6 +71,6 @@ function loadEventOk(data) {
 		});
 
 		var rendered = Mustache.render(template, race);
-		$('#races').append(rendered);
+		$('#event-races').append(rendered);
 	});
 }
