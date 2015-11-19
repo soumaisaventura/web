@@ -24,6 +24,8 @@ import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 
 import adventure.business.FeeBusiness;
 import adventure.business.RaceBusiness;
@@ -212,6 +214,11 @@ public class EventREST {
 
 			eventData.races.add(raceData);
 		}
+
+		// Countdown
+
+		int days = Days.daysBetween(new LocalDate(now), new LocalDate(eventData.period.beginning)).getDays();
+		eventData.period.countdown = days > 0 ? days : 0;
 
 		// Organizers
 

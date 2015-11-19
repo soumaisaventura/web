@@ -5,8 +5,10 @@ import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "beginning", "end", "price" })
+@JsonPropertyOrder({ "countdown", "beginning", "end", "price" })
 public class PeriodData {
+
+	public Integer countdown;
 
 	public Date beginning;
 
