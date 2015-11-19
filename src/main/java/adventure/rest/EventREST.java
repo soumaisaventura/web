@@ -27,7 +27,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
-import adventure.business.FeeBusiness;
 import adventure.business.RaceBusiness;
 import adventure.entity.Category;
 import adventure.entity.Championship;
@@ -94,7 +93,7 @@ public class EventREST {
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
-		FeeBusiness feeBusiness = FeeBusiness.getInstance();
+		// FeeBusiness feeBusiness = FeeBusiness.getInstance();
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		FeeDAO feeDAO = FeeDAO.getInstance();
 		RaceDAO raceDAO = RaceDAO.getInstance();
@@ -131,7 +130,7 @@ public class EventREST {
 		eventData.races = new ArrayList<RaceData>();
 		for (Race race : raceDAO.findForEvent(event)) {
 			List<Fee> championshipFees = new ArrayList<Fee>();
-			List<Fee> raceFees = feeDAO.findForEvent(race);
+			// List<Fee> raceFees = feeDAO.findForEvent(race);
 
 			RaceData raceData = new RaceData();
 			raceData.id = race.getSlug();
@@ -189,7 +188,8 @@ public class EventREST {
 				PeriodData periodData = new PeriodData();
 				periodData.beginning = period.getBeginning();
 				periodData.end = period.getEnd();
-				periodData.price = feeBusiness.applyForEvent(period.getPrice(), raceFees, championshipFees);
+				// periodData.price = feeBusiness.applyForEvent(period.getPrice(), raceFees, championshipFees);
+				periodData.price = period.getPrice();
 				raceData.prices.add(periodData);
 			}
 

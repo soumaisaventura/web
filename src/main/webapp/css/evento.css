@@ -30,10 +30,15 @@
 	color: black;
 }
 
-.event-info .left-col {
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0px;
+}
+
+.event-info {
 	/* 	margin-top: 1px; */
 	/* 	background-color: gray; */
-	
+	margin-top: 40px;
+	margin-bottom: 40px;
 }
 
 .event-description {
@@ -44,22 +49,22 @@
 }
 
 .race-description {
-/* 	text-align: justify; */
+	text-align: justify;
 }
 
-.races {
-	margin-top: 40px;
+.event-race-detail {
+	margin-top: 20px;
 }
 
-.race {
+.event-race {
 	background-color: #efefef;
-	padding: 15px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
 	border-left: 6px solid #3c763d;
 	margin-bottom: 20px;
-}
-
-.race .col-md-3 {
-	padding-right: 30px;
+	border-left: 6px solid #3c763d;
 }
 
 .month {
@@ -67,6 +72,6 @@
 }
 
 .modality-icon {
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 16px;
 }

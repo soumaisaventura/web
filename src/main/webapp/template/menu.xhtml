@@ -5,16 +5,11 @@
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 
 				<a class="navbar-brand" href="#{request.contextPath}/inicio">
-					<span class="acronym" title="Sou+ Aventura">
-						Sou+ Aventura
-						<!--
+					<span class="acronym" title="Sou+ Aventura"> Sou+ Aventura <!--
  						<img src="#{request.contextPath}/images/logo.png" />
 						-->
 					</span>
@@ -22,21 +17,29 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul id="menu-left" class="nav navbar-nav">
-					<li id="race-next-menu-item">
-						<a href="#{request.contextPath}/calendario/2015">Calendário 2015</a>
+					<li id="race-next-menu-item" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+							Calendário <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#{request.contextPath}/calendario/2015">2015</a>
+							</li>
+							<li>
+								<a href="#{request.contextPath}/calendario/2016">2016</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 				<ul id="menu-left" class="nav navbar-nav">
 					<li id="user-profile-menu-item">
 						<a href="#{request.contextPath}/atleta/pessoal" class="loggedin-menu" style="display: none">
-							Dados pessoais
-							<span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
+							Dados pessoais <span id="profile-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
 						</a>
 					</li>
 					<li id="user-health-menu-item">
 						<a href="#{request.contextPath}/atleta/saude" class="loggedin-menu" style="display: none">
-							Dados de saúde
-							<span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
+							Dados de saúde <span id="health-badge" title="pendências cadastrais" class="label label-danger label-as-badge"></span>
 						</a>
 					</li>
 					<li id="registration-list-menu-item">
