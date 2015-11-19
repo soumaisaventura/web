@@ -36,17 +36,11 @@ public class Race {
 
 	private String slug;
 
-	// @Deprecated
 	private String name;
 
-	// @Deprecated
 	private String description;
 
-	// @Column(name = "name_2")
-	// private String name2;
-
-	// @Column(name = "description_2")
-	// private String description2;
+	private Integer distance;
 
 	@ManyToOne
 	@JoinColumn(name = "sport_id")
@@ -104,29 +98,12 @@ public class Race {
 		this.id = id;
 	}
 
-	// public Race(Integer id, String name, String slug, Integer sportId, String sportName, String sportAcronym,
-	// Integer eventId, String eventName, String eventSlug, Date beginning, Date end) {
-	// setId(id);
-	// setName(name);
-	// setSlug(slug);
-	// setSport(new Sport());
-	// getSport().setId(sportId);
-	// getSport().setName(sportName);
-	// getSport().setAcronym(sportAcronym);
-	// setEvent(new Event());
-	// getEvent().setId(eventId);
-	// getEvent().setName(eventName);
-	// getEvent().setSlug(eventSlug);
-	// getEvent().setCoords(new Coords());
-	// setBeginning(beginning);
-	// setEnd(end);
-	// }
-
-	public Race(Integer id, String slug, String name, String description, Integer sportId, String sportName,
-			String sportAcronym, Date beginning, Date end) {
+	public Race(Integer id, String slug, String name, String description, Integer distance, Integer sportId,
+			String sportName, String sportAcronym, Date beginning, Date end) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
+		setDistance(distance);
 		setDescription(description);
 		setSport(new Sport());
 		getSport().setId(sportId);
@@ -254,6 +231,14 @@ public class Race {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Integer distance) {
+		this.distance = distance;
 	}
 
 	public Sport getSport() {

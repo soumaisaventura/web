@@ -1,5 +1,8 @@
 package adventure.rest.data;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "id", "name" })
 public class ChampionshipData {
 
 	public String id;

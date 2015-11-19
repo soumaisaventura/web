@@ -77,13 +77,10 @@ public class EventREST {
 			EventData data = new EventData();
 			data.id = event.getSlug();
 			data.name = event.getName();
-			data.races = new ArrayList<RaceData>();
-
 			data.location = new LocationData();
 			data.location.coords = new CoordsData();
 			data.location.coords.latitude = event.getCoords().getLatitude();
 			data.location.coords.longitude = event.getCoords().getLongitude();
-
 			result.add(data);
 		}
 
@@ -138,6 +135,7 @@ public class EventREST {
 			raceData.id = race.getSlug();
 			raceData.name = race.getName();
 			raceData.description = race.getDescription();
+			raceData.distance = race.getDistance();
 
 			// Race Sport
 

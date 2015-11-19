@@ -40,6 +40,7 @@ public class Registration {
 	@JoinColumn(name = "period_id")
 	private Period period;
 
+	@Deprecated
 	@Column(name = "team_name")
 	private String teamName;
 
@@ -203,10 +204,12 @@ public class Registration {
 		this.period = period;
 	}
 
+	@Deprecated
 	public String getTeamName() {
 		return teamName;
 	}
 
+	@Deprecated
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
