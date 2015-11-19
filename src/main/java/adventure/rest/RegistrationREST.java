@@ -1,6 +1,6 @@
 package adventure.rest;
 
-import static adventure.entity.RaceStatusType.OPEN;
+import static adventure.entity.StatusType.OPEN;
 import static adventure.entity.RegistrationStatusType.CANCELLED;
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
@@ -36,7 +36,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
-import adventure.entity.RaceStatusType;
+import adventure.entity.StatusType;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
@@ -444,7 +444,7 @@ public class RegistrationREST {
 
 		public List<UserData> organizers = new ArrayList<UserData>();
 
-		public RaceStatusType status;
+		public StatusType status;
 	}
 
 	public static class CourseData {

@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name", "description", "site", "period", "location", "races", "organizers", "layout" })
+import adventure.entity.StatusType;
+
+@JsonPropertyOrder({ "id", "name", "description", "site", "period", "location", "races", "organizers", "layout",
+		"status" })
 public class EventData {
 
 	public String id;
@@ -24,4 +27,6 @@ public class EventData {
 	public List<UserData> organizers;
 
 	public LayoutData layout;
+
+	public StatusType status;
 }

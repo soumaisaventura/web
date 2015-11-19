@@ -1,16 +1,16 @@
 package adventure.business;
 
-import static adventure.entity.RaceStatusType.CLOSED;
-import static adventure.entity.RaceStatusType.END;
-import static adventure.entity.RaceStatusType.OPEN;
-import static adventure.entity.RaceStatusType.SOON;
+import static adventure.entity.StatusType.CLOSED;
+import static adventure.entity.StatusType.END;
+import static adventure.entity.StatusType.OPEN;
+import static adventure.entity.StatusType.SOON;
 
 import java.util.Date;
 import java.util.List;
 
 import adventure.entity.Period;
 import adventure.entity.Race;
-import adventure.entity.RaceStatusType;
+import adventure.entity.StatusType;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -20,8 +20,8 @@ public class RaceBusiness {
 		return Beans.getReference(RaceBusiness.class);
 	}
 
-	public RaceStatusType getStatus(Race race, Date date, List<Period> periods) {
-		RaceStatusType result = null;
+	public StatusType getStatus(Race race, Date date, List<Period> periods) {
+		StatusType result = null;
 		Period registrationPeriod = computePeriod(periods);
 
 		if (Dates.before(date, registrationPeriod.getBeginning())) {

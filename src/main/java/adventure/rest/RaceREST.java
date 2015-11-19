@@ -28,7 +28,7 @@ import adventure.entity.City;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
-import adventure.entity.RaceStatusType;
+import adventure.entity.StatusType;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.CourseDAO;
@@ -382,7 +382,7 @@ public class RaceREST {
 
 		public RegistrationData registration;
 
-		public RaceStatusType status;
+		public StatusType status;
 	}
 
 	public static class RegistrationData {
