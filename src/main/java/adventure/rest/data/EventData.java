@@ -2,6 +2,9 @@ package adventure.rest.data;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "id", "name", "description", "site", "period", "location", "races", "organizers", "layout" })
 public class EventData {
 
 	public String id;

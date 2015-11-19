@@ -3,9 +3,12 @@ package adventure.rest.data;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import adventure.entity.RaceStatusType;
 
+@JsonPropertyOrder({ "id", "name", "description", "distance", "sport", "championships", "period", "categories",
+		"currentPeriod", "prices", "modalities", "status" })
 public class RaceData {
 
 	public String id;
@@ -13,6 +16,8 @@ public class RaceData {
 	public String name;
 
 	public String description;
+
+	public Integer distance;
 
 	public SportData sport;
 

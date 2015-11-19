@@ -353,67 +353,85 @@ INSERT INTO race_category (race_id, category_id, course_id)
          AND c.adventure_racing = TRUE
 ORDER BY p."name";
 
+  SELECT e.slug,
+         r.id,
+         r.name,
+         r.distance
+    FROM race r, event e
+   WHERE r.event_id = e.id AND r.id > 11
+ORDER BY e.id, r.id;
+
 UPDATE race
-   SET description =
-          'Corrida de Aventura com orientação por mapa e bússola.'
+   SET distance = 0;
+
+UPDATE race
+   SET distance = 50
  WHERE id = 12;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Flutuação, Remo e Navegação com mapa e bússola.'
- WHERE id = 17;
+   SET distance = 50
+ WHERE id = 13;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Flutuação, Remo e Navegação com mapa e bússola.'
+   SET distance = 60
+ WHERE id = 14;
+
+UPDATE race
+   SET distance = 59
+ WHERE id = 15;
+
+UPDATE race
+   SET distance = 40
  WHERE id = 16;
 
 UPDATE race
-   SET description =
-          'Corrida em trilha balizada com muita areia fofa e muitos desafios.'
+   SET distance = 90
+ WHERE id = 17;
+
+UPDATE race
+   SET distance = 12
  WHERE id = 18;
 
 UPDATE race
-   SET description =
-          'Competição motorizada e eletrizante. Traga sua máquina para acelerar em grande estilo.'
+   SET distance = 50
  WHERE id = 19;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Técnicas Verticais e Navegação com mapa e bússola.'
+   SET distance = 75
  WHERE id = 20;
 
 UPDATE race
-   SET description =
-          'Corrida em trilha balizada pelos lugares mais bonitos e deslumbrantes de Mucugê. Se prepare porque vai ter subida.'
+   SET distance = 21
  WHERE id = 21;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, Técnicas Verticais e Navegação com mapa e bússola.'
- WHERE id = 20;
-
-UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking, Natação/Flutuação, Canoagem e Orientação com mapa e bússola.'
+   SET distance = 80
  WHERE id = 22;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking e Orientação com mapa e bússola.'
+   SET distance = 60
  WHERE id = 23;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura para novatos com as modalidades Mountain Biking, Corrida/Trekking e Orientação com mapa e bússola.'
+   SET distance = 30
  WHERE id = 24;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Corrida/Trekking, Remo, Técnicas Verticais e Orientação com mapa e bússola.'
+   SET distance = 150
  WHERE id = 25;
 
 UPDATE race
-   SET description =
-          'Corrida de Aventura com as modalidades Mountain Biking, Trekking, e Orientação com mapa e bússola.'
- WHERE id = 15;
+   SET distance = 42
+ WHERE id = 26;
+
+UPDATE race
+   SET distance = 16
+ WHERE id = 27;
+
+UPDATE race
+   SET distance = 10
+ WHERE id = 28;
+
+UPDATE race
+   SET distance = 50
+ WHERE id = 29;

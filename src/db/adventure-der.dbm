@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="538,480" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="537,713" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -263,7 +263,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="854" y="821"/>
+	<position x="859" y="834"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -276,14 +276,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
 	</column>
-	<column name="name_2" not-null="true">
-		<type name="character varying" length="50"/>
-	</column>
 	<column name="description">
 		<type name="character varying" length="700"/>
 	</column>
-	<column name="description_2">
-		<type name="character varying" length="500"/>
+	<column name="distance">
+		<type name="integer"/>
 	</column>
 	<column name="banner">
 		<type name="oid"/>
@@ -325,7 +322,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="event_id,slug" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_race_name" type="uq-constr" table="public.race">
-		<columns names="event_id,name_2" ref-type="src-columns"/>
+		<columns names="event_id,name" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -352,7 +349,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1399.85" y="599"/>
+	<position x="1336.85" y="605"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -573,7 +570,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_name_old" table="public.race"
+<index name="idx_race_name" table="public.race"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
@@ -854,7 +851,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1148" y="601.667"/>
+	<position x="1071" y="604.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -927,7 +924,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1382.33" y="789"/>
+	<position x="1396.33" y="791"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1276,7 +1273,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<index name="idx_race_description_old" table="public.race"
+<index name="idx_race_description" table="public.race"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
@@ -1402,22 +1399,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_name" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="0">
-		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="name_2"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_description" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="0">
-		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="description_2"/>
-		</idxelement>
-</index>
-
 <index name="idx_category_team_size" table="public.category"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
@@ -1436,6 +1417,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_beginning" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="beginning"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_distance" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="distance"/>
 		</idxelement>
 </index>
 
