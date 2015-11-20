@@ -63,10 +63,11 @@ function loadEventOk(data) {
 	var e = moment(data.period.end, "YYYY-MM-DD").locale("pt-br").format("L");
 	$("#period").text(b + " à " + e);
 
-	console.log(data);
-
+	var organizerTemplate = $('#event-organizer-template').html();
+	var renderedOrganizers = Mustache.render(organizerTemplate, data);
+	$('#organizers').append(renderedOrganizers);
+	
 	var template = $('#event-race-template').html();
-
 	$.each(data.races, function(i, race) {
 		race.idx = i + 1;
 		race.day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
