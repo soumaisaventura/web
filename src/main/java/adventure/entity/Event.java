@@ -46,6 +46,10 @@ public class Event {
 	@Transient
 	private List<Race> races;
 
+	@ManyToOne
+	@JoinColumn(name = "_status_id")
+	private Status status;
+
 	public Event() {
 	}
 
@@ -76,7 +80,8 @@ public class Event {
 
 	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
 			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
-			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor) {
+			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor,
+			Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -98,6 +103,8 @@ public class Event {
 		getCity().getState().setId(stateId);
 		getCity().getState().setName(stateName);
 		getCity().getState().setAbbreviation(stateAbbreviation);
+
+		setStatus(status);
 	}
 
 	@Override
@@ -216,5 +223,13 @@ public class Event {
 
 	public void setRaces(List<Race> races) {
 		this.races = races;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

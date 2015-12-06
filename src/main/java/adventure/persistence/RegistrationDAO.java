@@ -78,6 +78,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.paymentInfo, ");
 		jpql.append("        ra.paymentAccount, ");
 		jpql.append("        ra.paymentToken, ");
+		jpql.append("        ra.status, ");
 		jpql.append("        pe.id, ");
 		jpql.append("        pe.price, ");
 		jpql.append("        ci.id, ");
@@ -141,6 +142,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.paymentInfo, ");
 		jpql.append("        ra.paymentAccount, ");
 		jpql.append("        ra.paymentToken, ");
+		jpql.append("        ra.status, ");
 		jpql.append("        pe.id, ");
 		jpql.append("        pe.price, ");
 		jpql.append("        ci.id, ");
@@ -195,11 +197,9 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     p.name, ");
 		jpql.append(" 	     p.mobile, ");
 		jpql.append(" 	     p.tshirt, ");
-
 		jpql.append(" 	     p.birthday, ");
 		jpql.append(" 	     p.rg, ");
 		jpql.append(" 	     p.cpf, ");
-
 		jpql.append(" 	     ci.id, ");
 		jpql.append(" 	     ci.name, ");
 		jpql.append(" 	     st.id, ");

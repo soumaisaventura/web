@@ -1,9 +1,5 @@
 package adventure.entity;
 
-import static adventure.entity.StatusType.CLOSED;
-import static adventure.entity.StatusType.END;
-import static adventure.entity.StatusType.OPEN;
-import static adventure.entity.StatusType.SOON;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
@@ -20,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang.time.DateUtils;
 
 @Entity
 @Table(name = "race")
@@ -57,6 +51,10 @@ public class Race {
 	@Temporal(DATE)
 	@Column(name = "ending")
 	private Date end;
+
+	@ManyToOne
+	@JoinColumn(name = "_status_id")
+	private Status status;
 
 	@ManyToOne
 	@Deprecated
@@ -117,7 +115,7 @@ public class Race {
 
 	public Race(Integer id, String name, String description, Date date, String site, String paymentAccount,
 			String paymentToken, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation, Date registrationBeginning, Date registrationEnd) {
+			String stateAbbreviation, Date registrationBeginning, Date registrationEnd, Status status) {
 		setId(id);
 		setName(name);
 		setDescription(description);
@@ -135,33 +133,34 @@ public class Race {
 		setRegistrationPeriod(new Period());
 		getRegistrationPeriod().setBeginning(registrationBeginning);
 		getRegistrationPeriod().setEnd(registrationEnd);
+		setStatus(status);
 	}
 
-	@Deprecated
-	public StatusType getStatus() {
-		StatusType result = null;
-
-		if (registrationPeriod != null && registrationPeriod.getBeginning() != null
-				&& registrationPeriod.getEnd() != null && this.date != null) {
-			Date now = new Date();
-
-			if (now.before(registrationPeriod.getBeginning())) {
-				result = SOON;
-			} else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())
-					|| DateUtils.isSameDay(now, registrationPeriod.getEnd())) {
-				result = OPEN;
-			} else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)
-					|| DateUtils.isSameDay(now, this.date)) {
-				result = CLOSED;
-			} else if (now.after(this.date)) {
-				result = END;
-			} else {
-				throw new IllegalStateException("O status da prova " + this.name + " não pôde ser definido");
-			}
-		}
-
-		return result;
-	}
+	// @Deprecated
+	// public StatusType getStatus() {
+	// StatusType result = null;
+	//
+	// if (registrationPeriod != null && registrationPeriod.getBeginning() != null
+	// && registrationPeriod.getEnd() != null && this.date != null) {
+	// Date now = new Date();
+	//
+	// if (now.before(registrationPeriod.getBeginning())) {
+	// result = SOON;
+	// } else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())
+	// || DateUtils.isSameDay(now, registrationPeriod.getEnd())) {
+	// result = OPEN;
+	// } else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)
+	// || DateUtils.isSameDay(now, this.date)) {
+	// result = CLOSED;
+	// } else if (now.after(this.date)) {
+	// result = END;
+	// } else {
+	// throw new IllegalStateException("O status da prova " + this.name + " não pôde ser definido");
+	// }
+	// }
+	//
+	// return result;
+	// }
 
 	@Override
 	public int hashCode() {
@@ -353,5 +352,13 @@ public class Race {
 	@Deprecated
 	public void setRegistrationPeriod(Period registrationPeriod) {
 		this.registrationPeriod = registrationPeriod;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

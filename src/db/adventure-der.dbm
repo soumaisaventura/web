@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="537,713" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="568,696" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -263,7 +263,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="859" y="834"/>
+	<position x="808" y="818"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -315,6 +315,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="city_id">
 		<type name="integer"/>
 	</column>
+	<column name="_status_id">
+		<type name="integer" length="6"/>
+	</column>
 	<constraint name="pk_race" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -330,7 +333,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1472.08" y="1089.69"/>
+	<position x="1454.08" y="1144.69"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -924,7 +927,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1396.33" y="791"/>
+	<position x="1397.33" y="790"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -975,6 +978,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="coord_longitude">
 		<type name="numeric" length="10" precision="7"/>
+	</column>
+	<column name="_status_id">
+		<type name="integer" length="6"/>
 	</column>
 	<constraint name="pk_event" type="pk-constr" table="public.event">
 		<columns names="id" ref-type="src-columns"/>
@@ -1157,7 +1163,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1213" y="1102"/>
+	<position x="1101" y="1124"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1436,6 +1442,52 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
+<table name="status">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<tag name="Event"/>
+	<position x="1151" y="977"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="6"/>
+	</column>
+	<column name="description">
+		<type name="character varying" length="50"/>
+	</column>
+	<constraint name="pk_status" type="pk-constr" table="public.status">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_status_name" type="uq-constr" table="public.status">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_event_status" table="public.event"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="_status_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_status" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="_status_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_status_name" table="public.status"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="name"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">
 	<columns names="sport_id" ref-type="src-columns"/>
@@ -1493,6 +1545,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk_race_event" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.event" table="public.race">
 	<columns names="event_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_status" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.status" table="public.race">
+	<columns names="_status_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1595,6 +1653,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk_event_city" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.city" table="public.event">
 	<columns names="city_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_event_status" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.status" table="public.event">
+	<columns names="_status_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1935,8 +1999,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_event_city" type="relfk"
+	 custom-color="#801a7a"
 	 src-table="public.event"
 	 dst-table="public.city"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_status" type="relfk"
+	 custom-color="#965500"
+	 src-table="public.race"
+	 dst-table="public.status"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_event_status" type="relfk"
+	 custom-color="#965500"
+	 src-table="public.event"
+	 dst-table="public.status"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

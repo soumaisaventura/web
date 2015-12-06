@@ -1,12 +1,12 @@
 $(function() {
-	$("#race-next-menu-item").addClass("active");
-	RaceProxy.find($("#ano").text()).done(findOk);
+	$("#event-next-menu-item").addClass("active");
+	EventProxy.find($("#ano").text()).done(findOk);
 
-	$('#open-races').on('click', '.panel', function() {
-		location.href = App.getContextPath() + "/prova/" + $(this).data("race");
+	$('#open-events').on('click', '.panel', function() {
+		location.href = App.getContextPath() + "/prova/" + $(this).data("event");
 	});
 
-	$('#open-races').on('mouseover', '.panel', function() {
+	$('#open-events').on('mouseover', '.panel', function() {
 		$(this).css('cursor', 'pointer');
 	});
 });
@@ -35,14 +35,14 @@ function findOk(data) {
 	var template = $('#template').html();
 
 	$.each(data, function(index, value) {
-		var day = moment(value.date, "YYYY-MM-DD");
+		var day = moment(value.period.beginning, "YYYY-MM-DD");
 
 		value.date = day.locale("pt-br").format("DD [de] MMMM");
-		value.place = value.city ? value.city : "Local não definido";
+		value.place = value.location.city ? value.location.city.name + "/" + value.location.city.state : "Local não definido";
 		value.corner = (value.status == "open" ? "inscrições abertas" : (value.status == "closed" ? "inscrições encerradas" : ""));
 
 		var rendered = Mustache.render(template, value);
-		$('#open-races').append(rendered);
+		$('#open-events').append(rendered);
 	});
 
 }

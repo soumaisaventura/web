@@ -68,6 +68,57 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class EventREST {
 
 	@GET
+	@Path("year/{year}")
+	// @Cache("max-age=28800")
+	@Produces("application/json")
+	public List<EventData> year(@PathParam("year") Integer year) throws Exception {
+		RaceDAO raceDAO = RaceDAO.getInstance();
+		// PeriodDAO periodDAO = PeriodDAO.getInstance();
+		// RaceBusiness raceBusiness = RaceBusiness.getInstance();
+		// Date now = new Date();
+
+		List<EventData> result = new ArrayList<EventData>();
+
+		for (Event event : EventDAO.getInstance().findByYear(year)) {
+			EventData eventData = new EventData();
+
+			eventData.id = event.getSlug();
+			eventData.name = event.getName();
+			eventData.period = new PeriodData();
+			eventData.status = event.getStatus().getName();
+
+			eventData.location = new LocationData();
+			eventData.location.city = new CityData();
+			eventData.location.city.name = event.getCity().getName();
+			eventData.location.city.state = event.getCity().getState().getAbbreviation();
+			// eventData.location.coords = new CoordsData();
+			// eventData.location.coords.latitude = event.getCoords().getLatitude();
+			// eventData.location.coords.longitude = event.getCoords().getLongitude();
+
+			for (Race race : raceDAO.findForEvent(event)) {
+				if (eventData.period.beginning == null || Dates.before(race.getBeginning(), eventData.period.beginning)) {
+					eventData.period.beginning = race.getBeginning();
+				}
+
+				if (eventData.period.end == null || Dates.after(race.getEnd(), eventData.period.end)) {
+					eventData.period.end = race.getEnd();
+				}
+
+				// List<Period> periods = periodDAO.findForEvent(race);
+				// StatusType status = raceBusiness.getStatus(race, now, periods);
+				//
+				// if (eventData.status == null || eventData.status.getOrder() < status.getOrder()) {
+				// eventData.status = status;
+				// }
+			}
+
+			result.add(eventData);
+		}
+
+		return result.isEmpty() ? null : result;
+	}
+
+	@GET
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
 	// @Cache("max-age=28800")
 	@Produces("application/json")
@@ -137,6 +188,7 @@ public class EventREST {
 			raceData.name = race.getName();
 			raceData.description = race.getDescription();
 			raceData.distance = race.getDistance();
+			raceData.status = race.getStatus().getName();
 
 			// Race Sport
 
@@ -193,18 +245,18 @@ public class EventREST {
 				raceData.prices.add(periodData);
 			}
 
-			// Current Period & Race Status
+			// Current Period
 
-			raceData.status = raceBusiness.getStatus(race, now, periods);
+			// raceData.status = raceBusiness.getStatus(race, now, periods);
 			Period currentPeriod = raceBusiness.getPeriod(now, periods);
 			raceData.currentPeriod = new PeriodData();
 			raceData.currentPeriod.beginning = currentPeriod.getBeginning();
 			raceData.currentPeriod.end = currentPeriod.getEnd();
 			raceData.currentPeriod.price = currentPeriod.getPrice();
 
-			if (eventData.status == null || eventData.status.getOrder() < raceData.status.getOrder()) {
-				eventData.status = raceData.status;
-			}
+			// if (eventData.status == null || eventData.status.getOrder() < raceData.status.getOrder()) {
+			// eventData.status = raceData.status;
+			// }
 
 			// Modalities
 

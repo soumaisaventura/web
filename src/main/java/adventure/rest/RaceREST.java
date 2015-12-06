@@ -28,7 +28,6 @@ import adventure.entity.City;
 import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
-import adventure.entity.StatusType;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.CourseDAO;
@@ -61,7 +60,7 @@ public class RaceREST {
 			data.id = race.getId();
 			data.name = race.getName();
 			data.date = race.getDate();
-			data.status = race.getStatus();
+			data.status = race.getStatus().getName();
 			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 					+ race.getCity().getState().getAbbreviation() : null;
 
@@ -87,7 +86,7 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
-		data.status = race.getStatus();
+		data.status = race.getStatus().getName();
 		data.registration = new RegistrationData();
 		data.registration.prices.addAll(loadPeriod(race));
 		data.registration.period = new PeriodData();
@@ -114,7 +113,7 @@ public class RaceREST {
 		data.description = race.getDescription();
 		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 				+ race.getCity().getState().getAbbreviation() : null;
-		data.status = race.getStatus();
+		data.status = race.getStatus().getName();
 
 		return data;
 	}
@@ -382,7 +381,7 @@ public class RaceREST {
 
 		public RegistrationData registration;
 
-		public StatusType status;
+		public String status;
 	}
 
 	public static class RegistrationData {

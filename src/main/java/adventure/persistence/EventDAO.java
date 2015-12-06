@@ -19,6 +19,42 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		return Beans.getReference(EventDAO.class);
 	}
 
+	public List<Event> findByYear(Integer year) throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Event( ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        e.name, ");
+		jpql.append(" 	        e.description, ");
+		jpql.append(" 	        e.site, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation, ");
+		jpql.append(" 	        e.coords.latitude, ");
+		jpql.append(" 	        e.coords.longitude, ");
+		jpql.append(" 	        e.layout.textColor, ");
+		jpql.append(" 	        e.layout.backgroundColor, ");
+		jpql.append(" 	        e.layout.buttonColor, ");
+		jpql.append(" 	        e.status ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Event e ");
+		jpql.append("   left join e.city c ");
+		jpql.append("   left join c.state s ");
+		jpql.append("  where e.id > 0 ");
+		// jpql.append("  where exists (from Race r_ ");
+		// jpql.append("               where r_.event = e ");
+		// jpql.append("                 and year(r_.date) = :year ");
+		// jpql.append("  order by ");
+		// jpql.append("        r.date ");
+
+		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
+		// query.setParameter("year", year);
+
+		return query.getResultList();
+	}
+
 	public List<Event> mapData() {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Event( ");
@@ -95,7 +131,8 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        e.coords.longitude, ");
 		jpql.append(" 	        e.layout.textColor, ");
 		jpql.append(" 	        e.layout.backgroundColor, ");
-		jpql.append(" 	        e.layout.buttonColor ");
+		jpql.append(" 	        e.layout.buttonColor, ");
+		jpql.append(" 	        e.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Event e ");
 		jpql.append("   left join e.city c ");

@@ -94,7 +94,7 @@ public class Registration {
 			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
 			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
 			PaymentType racePaymentType, String racePaymentInfo, String racePaymentAccount, String racePaymentToken,
-			Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
+			Status status, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
 			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
 			String courseName, Date registrationPeriodBeginning, Date registrationPeriodEnd) {
 		setId(registrationId);
@@ -120,6 +120,7 @@ public class Registration {
 		getRaceCategory().getRace().setPaymentInfo(racePaymentInfo);
 		getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
 		getRaceCategory().getRace().setPaymentToken(racePaymentToken);
+		getRaceCategory().getRace().setStatus(status);
 
 		getRaceCategory().getRace().setCity(new City());
 		getRaceCategory().getRace().getCity().setId(cityId);
