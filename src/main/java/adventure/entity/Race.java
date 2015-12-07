@@ -97,7 +97,7 @@ public class Race {
 	}
 
 	public Race(Integer id, String slug, String name, String description, Integer distance, Integer sportId,
-			String sportName, String sportAcronym, Date beginning, Date end) {
+			String sportName, String sportAcronym, Date beginning, Date end, Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -109,6 +109,7 @@ public class Race {
 		getSport().setAcronym(sportAcronym);
 		setBeginning(beginning);
 		setEnd(end);
+		setStatus(status);
 	}
 
 	// TODO: OLD

@@ -36,7 +36,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        o.name, ");
 		jpql.append(" 	        o.acronym, ");
 		jpql.append(" 	        r.beginning, ");
-		jpql.append(" 	        r.end ");
+		jpql.append(" 	        r.end, ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("        join r.sport o ");

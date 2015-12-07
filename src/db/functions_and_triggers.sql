@@ -188,3 +188,7 @@ EXECUTE PROCEDURE trg_race_before_update ();
 UPDATE race
    SET _status_id = race_status (id, ending)
  WHERE _status_id < 4;
+ 
+ 
+ UPDATE period
+   SET ending = ending;

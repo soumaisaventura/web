@@ -2,7 +2,7 @@ $(function() {
 	var id = $("#id").val();
 
 	var map = initMap();
-	EventoProxy.loadMap(id).done(function(data) {
+	EventProxy.loadMap(id).done(function(data) {
 		loadMapOk(data, map, id)
 	});
 
@@ -10,8 +10,8 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
 
-	EventoProxy.load(id).done(loadEventOk);
-	EventoProxy.getBanner(id).done(getBannerOk);
+	EventProxy.load(id).done(loadEventOk);
+	EventProxy.getBanner(id).done(getBannerOk);
 
 });
 

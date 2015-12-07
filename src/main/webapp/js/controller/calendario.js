@@ -3,7 +3,7 @@ $(function() {
 	EventProxy.find($("#ano").text()).done(findOk);
 
 	$('#open-events').on('click', '.panel', function() {
-		location.href = App.getContextPath() + "/prova/" + $(this).data("event");
+		location.href = App.getContextPath() + "/evento/" + $(this).data("event");
 	});
 
 	$('#open-events').on('mouseover', '.panel', function() {
