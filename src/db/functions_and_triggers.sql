@@ -1,7 +1,5 @@
 DROP FUNCTION IF EXISTS race_status (RACE, DATE);
 
---CREATE OR REPLACE FUNCTION race_status (_race RACE)
-
 CREATE OR REPLACE FUNCTION race_status (_race_id integer, _race_ending DATE)
    RETURNS integer
 AS
@@ -54,42 +52,61 @@ AS
 $func$
    # VARIABLE_CONFLICT use_variable
 DECLARE
-   RACE   race%ROWTYPE;
+   event_id   event.id%TYPE;
 BEGIN
    IF NEW.race_id <> OLD.race_id
    THEN
-      /*
-       SELECT r.*
-         INTO RACE
-         FROM race r
-        WHERE r.id = OLD.race_id;
-     */
-
       UPDATE race
-         --         SET _status_id = race_status (RACE)
          SET _status_id = race_status (OLD.race_id, OLD.ending)
        WHERE id = OLD.race_id;
+
+      SELECT r.event_id
+        INTO event_id
+        FROM race r
+       WHERE r.id = OLD.race_id;
+
+      UPDATE event
+         SET _beginning =
+                (SELECT min (r.beginning)
+                   FROM race r
+                  WHERE r.id = OLD.race_id),
+             _ending =
+                (SELECT max (r.ending)
+                   FROM race r
+                  WHERE r.id = OLD.race_id)
+       WHERE id = event_id;
+
+      event_id = NULL;
    END IF;
 
    IF NEW.race_id IS NOT NULL
    THEN
-      /*
-        SELECT r.*
-          INTO RACE
-          FROM race r
-         WHERE r.id = NEW.race_id;
-      */
-
       UPDATE race
-         --         SET _status_id = race_status (RACE)
          SET _status_id = race_status (NEW.race_id, NEW.ending)
        WHERE id = NEW.race_id;
+
+      SELECT r.event_id
+        INTO event_id
+        FROM race r
+       WHERE r.id = NEW.race_id;
+
+      UPDATE event
+         SET _beginning =
+                (SELECT min (r.beginning)
+                   FROM race r
+                  WHERE r.id = NEW.race_id),
+             _ending =
+                (SELECT max (r.ending)
+                   FROM race r
+                  WHERE r.id = NEW.race_id)
+       WHERE id = event_id;
    END IF;
 
    RETURN NULL;
 END;
 $func$
    LANGUAGE plpgsql;
+
 
 DROP TRIGGER IF EXISTS trg_period_after_all ON period;
 
@@ -139,8 +156,6 @@ BEGIN
          END IF;
       END LOOP;
 
-      --RAISE EXCEPTION 'x : %', status_id;
-
       UPDATE event
          SET _status_id = status_id
        WHERE id = NEW.event_id;
@@ -165,9 +180,7 @@ AS
 $func$
    # VARIABLE_CONFLICT use_variable
 BEGIN
-   --   NEW._status_id = race_status (NEW);
    NEW._status_id = race_status (NEW.id, NEW.ending);
-
    RETURN NEW;
 END;
 $func$
@@ -181,14 +194,13 @@ CREATE TRIGGER trg_race_before_update
    FOR EACH ROW
 EXECUTE PROCEDURE trg_race_before_update ();
 
-
-/*
- */
+----------------
 
 UPDATE race
    SET _status_id = race_status (id, ending)
  WHERE _status_id < 4;
- 
- 
- UPDATE period
+
+UPDATE period
    SET ending = ending;
+
+SELECT _beginning, _ending, * FROM event;

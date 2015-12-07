@@ -270,7 +270,6 @@ ORDER BY p."name";
    WHERE r.event_id = e.id AND r.id > 11
 ORDER BY e.id, r.id;
 
-
 ----
 
 SELECT race_status (r.*) AS x, r.*

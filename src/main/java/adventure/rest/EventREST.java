@@ -56,7 +56,6 @@ import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
 import adventure.rest.data.SportData;
 import adventure.rest.data.UserData;
-import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -85,6 +84,8 @@ public class EventREST {
 			eventData.id = event.getSlug();
 			eventData.name = event.getName();
 			eventData.period = new PeriodData();
+			eventData.period.beginning = event.getBeginning();
+			eventData.period.end = event.getEnd();
 			eventData.status = event.getStatus().getName();
 
 			eventData.location = new LocationData();
@@ -95,22 +96,23 @@ public class EventREST {
 			// eventData.location.coords.latitude = event.getCoords().getLatitude();
 			// eventData.location.coords.longitude = event.getCoords().getLongitude();
 
-			for (Race race : raceDAO.findForEvent(event)) {
-				if (eventData.period.beginning == null || Dates.before(race.getBeginning(), eventData.period.beginning)) {
-					eventData.period.beginning = race.getBeginning();
-				}
+			// for (Race race : raceDAO.findForEvent(event)) {
+			// if (eventData.period.beginning == null || Dates.before(race.getBeginning(), eventData.period.beginning))
+			// {
+			// eventData.period.beginning = race.getBeginning();
+			// }
+			//
+			// if (eventData.period.end == null || Dates.after(race.getEnd(), eventData.period.end)) {
+			// eventData.period.end = race.getEnd();
+			// }
 
-				if (eventData.period.end == null || Dates.after(race.getEnd(), eventData.period.end)) {
-					eventData.period.end = race.getEnd();
-				}
-
-				// List<Period> periods = periodDAO.findForEvent(race);
-				// StatusType status = raceBusiness.getStatus(race, now, periods);
-				//
-				// if (eventData.status == null || eventData.status.getOrder() < status.getOrder()) {
-				// eventData.status = status;
-				// }
-			}
+			// List<Period> periods = periodDAO.findForEvent(race);
+			// StatusType status = raceBusiness.getStatus(race, now, periods);
+			//
+			// if (eventData.status == null || eventData.status.getOrder() < status.getOrder()) {
+			// eventData.status = status;
+			// }
+			// }
 
 			result.add(eventData);
 		}
@@ -162,6 +164,8 @@ public class EventREST {
 		eventData.description = event.getDescription();
 		eventData.site = event.getSite();
 		eventData.period = new PeriodData();
+		eventData.period.beginning = event.getBeginning();
+		eventData.period.end = event.getEnd();
 
 		eventData.layout = new LayoutData();
 		eventData.layout.textColor = event.getLayout().getTextColor();
@@ -202,14 +206,14 @@ public class EventREST {
 			raceData.period.beginning = race.getBeginning();
 			raceData.period.end = race.getEnd();
 
-			if (eventData.period.beginning == null
-					|| Dates.before(raceData.period.beginning, eventData.period.beginning)) {
-				eventData.period.beginning = raceData.period.beginning;
-			}
-
-			if (eventData.period.end == null || Dates.after(raceData.period.end, eventData.period.end)) {
-				eventData.period.end = raceData.period.end;
-			}
+			// if (eventData.period.beginning == null
+			// || Dates.before(raceData.period.beginning, eventData.period.beginning)) {
+			// eventData.period.beginning = raceData.period.beginning;
+			// }
+			//
+			// if (eventData.period.end == null || Dates.after(raceData.period.end, eventData.period.end)) {
+			// eventData.period.end = raceData.period.end;
+			// }
 
 			// Race Championships
 

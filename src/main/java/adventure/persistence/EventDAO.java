@@ -37,20 +37,20 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        e.layout.textColor, ");
 		jpql.append(" 	        e.layout.backgroundColor, ");
 		jpql.append(" 	        e.layout.buttonColor, ");
+		jpql.append(" 	        e.beginning, ");
+		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Event e ");
 		jpql.append("   left join e.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where e.id > 0 ");
-		// jpql.append("  where exists (from Race r_ ");
-		// jpql.append("               where r_.event = e ");
-		// jpql.append("                 and year(r_.date) = :year ");
-		// jpql.append("  order by ");
-		// jpql.append("        r.date ");
+		jpql.append("   and year(e.beginning) = :year ");
+		jpql.append("  order by ");
+		jpql.append("        e.beginning ");
 
 		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		// query.setParameter("year", year);
+		query.setParameter("year", year);
 
 		return query.getResultList();
 	}
@@ -132,6 +132,8 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        e.layout.textColor, ");
 		jpql.append(" 	        e.layout.backgroundColor, ");
 		jpql.append(" 	        e.layout.buttonColor, ");
+		jpql.append(" 	        e.beginning, ");
+		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Event e ");

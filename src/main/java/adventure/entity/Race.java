@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "race")
@@ -47,7 +46,6 @@ public class Race {
 	@Temporal(DATE)
 	private Date beginning;
 
-	@NotNull
 	@Temporal(DATE)
 	@Column(name = "ending")
 	private Date end;

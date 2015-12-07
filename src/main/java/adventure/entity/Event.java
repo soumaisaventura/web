@@ -1,8 +1,12 @@
 package adventure.entity;
 
+import static javax.persistence.TemporalType.DATE;
+
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
 @Entity
@@ -46,6 +51,14 @@ public class Event {
 	@Transient
 	private List<Race> races;
 
+	@Temporal(DATE)
+	@Column(name = "_beginning")
+	private Date beginning;
+
+	@Temporal(DATE)
+	@Column(name = "_ending")
+	private Date end;
+
 	@ManyToOne
 	@JoinColumn(name = "_status_id")
 	private Status status;
@@ -81,7 +94,7 @@ public class Event {
 	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
 			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
 			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor,
-			Status status) {
+			Date beginnig, Date end, Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -103,6 +116,9 @@ public class Event {
 		getCity().getState().setId(stateId);
 		getCity().getState().setName(stateName);
 		getCity().getState().setAbbreviation(stateAbbreviation);
+
+		setBeginning(beginnig);
+		setEnd(end);
 
 		setStatus(status);
 	}
@@ -223,6 +239,22 @@ public class Event {
 
 	public void setRaces(List<Race> races) {
 		this.races = races;
+	}
+
+	public Date getBeginning() {
+		return beginning;
+	}
+
+	public void setBeginning(Date beginning) {
+		this.beginning = beginning;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public Status getStatus() {
