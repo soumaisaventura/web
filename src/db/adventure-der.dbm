@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="568,696" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="591,1051" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -315,7 +315,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="city_id">
 		<type name="integer"/>
 	</column>
-	<column name="_status_id">
+	<column name="_status_id" not-null="true">
 		<type name="integer" length="6"/>
 	</column>
 	<constraint name="pk_race" type="pk-constr" table="public.race">
@@ -333,7 +333,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1454.08" y="1144.69"/>
+	<position x="1458.08" y="1155.69"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -352,7 +352,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1336.85" y="605"/>
+	<position x="1404.85" y="594"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -732,7 +732,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1721.67" y="1090"/>
+	<position x="1845.67" y="1099"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -887,7 +887,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1046.67" y="717.333"/>
+	<position x="1059.67" y="711.333"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -927,7 +927,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1397.33" y="790"/>
+	<position x="1399.33" y="824"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -979,7 +979,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="coord_longitude">
 		<type name="numeric" length="10" precision="7"/>
 	</column>
-	<column name="_status_id">
+	<column name="_status_id" not-null="true">
 		<type name="integer" length="6"/>
 	</column>
 	<constraint name="pk_event" type="pk-constr" table="public.event">
@@ -1355,7 +1355,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1394.85" y="678"/>
+	<position x="1404.85" y="693"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1446,7 +1446,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1151" y="977"/>
+	<position x="1152" y="988"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1487,6 +1487,229 @@ CAUTION: Do not modify this file unless you know what you are doing.
 			<column name="name"/>
 		</idxelement>
 </index>
+
+<function name="race_status"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="integer"/>
+	</return-type>
+	<parameter name="_race_id">
+		<type name="integer"/>
+	</parameter>
+	<parameter name="_race_ending">
+		<type name="date"/>
+	</parameter>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   period      period%ROWTYPE;
+   today       DATE;
+   status_id   status.id%TYPE;
+BEGIN
+   today = CURRENT_DATE;
+
+   IF _race_id IS NULL
+   THEN
+      RETURN NULL;
+   END IF;
+
+   SELECT min (p.beginning), max (p.ending)
+     INTO period.beginning, period.ending
+     FROM period p
+    WHERE p.race_id = _race_id;
+
+   IF period.beginning IS NULL
+   THEN
+      RETURN 1;
+   END IF;
+
+   IF today < period.beginning
+   THEN
+      status_id = 1;
+   ELSEIF today >= period.beginning AND today <= period.ending
+   THEN
+      status_id = 2;
+   ELSEIF today > period.ending AND today <= _race_ending
+   THEN
+      status_id = 3;
+   ELSEIF today > _race_ending
+   THEN
+      status_id = 4;
+   END IF;
+
+   RETURN status_id;
+END
+]]></definition>
+</function>
+
+<function name="trg_period_after_all"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   RACE   race%ROWTYPE;
+BEGIN
+   IF NEW.race_id <> OLD.race_id
+   THEN
+      /*
+       SELECT r.*
+         INTO RACE
+         FROM race r
+        WHERE r.id = OLD.race_id;
+     */
+
+      UPDATE race
+         --         SET _status_id = race_status (RACE)
+         SET _status_id = race_status (OLD.race_id, OLD.ending)
+       WHERE id = OLD.race_id;
+   END IF;
+
+   IF NEW.race_id IS NOT NULL
+   THEN
+      /*
+        SELECT r.*
+          INTO RACE
+          FROM race r
+         WHERE r.id = NEW.race_id;
+      */
+
+      UPDATE race
+         --         SET _status_id = race_status (RACE)
+         SET _status_id = race_status (NEW.race_id, NEW.ending)
+       WHERE id = NEW.race_id;
+   END IF;
+
+   RETURN NULL;
+END;
+]]></definition>
+</function>
+
+<function name="trg_race_after_all"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   l_race      race%ROWTYPE;
+   status_id   event._status_id%TYPE;
+BEGIN
+   IF NEW.event_id <> OLD.event_id
+   THEN
+      FOR l_race IN SELECT r.*
+                      FROM race r
+                     WHERE r.event_id = OLD.event_id
+      LOOP
+         IF status_id IS NULL OR l_race._status_id < status_id
+         THEN
+            status_id = l_race._status_id;
+         END IF;
+      END LOOP;
+
+      UPDATE event
+         SET _status_id = status_id
+       WHERE id = OLD.event_id;
+   END IF;
+
+   status_id = NULL;
+
+   IF NEW.event_id IS NOT NULL
+   THEN
+      FOR l_race IN SELECT r.*
+                      FROM race r
+                     WHERE r.event_id = NEW.event_id
+      LOOP
+         IF status_id IS NULL OR l_race._status_id < status_id
+         THEN
+            status_id = l_race._status_id;
+         END IF;
+      END LOOP;
+
+      --RAISE EXCEPTION 'x : %', status_id;
+
+      UPDATE event
+         SET _status_id = status_id
+       WHERE id = NEW.event_id;
+   END IF;
+
+   RETURN NULL;
+END;
+]]></definition>
+</function>
+
+<function name="trg_race_before_update"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+BEGIN
+   --   NEW._status_id = race_status (NEW);
+   NEW._status_id = race_status (NEW.id, NEW.ending);
+
+   RETURN NEW;
+END;
+]]></definition>
+</function>
+
+<trigger name="trg_period_after_all" firing-type="AFTER" per-line="true" constraint="false"
+	 ins-event="true" del-event="true" upd-event="true" trunc-event="false"
+	 table="public.period">
+		<function signature="public.trg_period_after_all()"/>
+</trigger>
+
+<trigger name="trg_race_after_all" firing-type="AFTER" per-line="true" constraint="false"
+	 ins-event="true" del-event="true" upd-event="true" trunc-event="false"
+	 table="public.race">
+		<function signature="public.trg_race_after_all()"/>
+</trigger>
+
+<trigger name="trg_race_before_update" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.race">
+		<function signature="public.trg_race_before_update()"/>
+</trigger>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">

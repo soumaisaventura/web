@@ -1,7 +1,9 @@
-DROP FUNCTION IF EXISTS race_status (RACE);
+DROP FUNCTION IF EXISTS race_status (RACE, DATE);
 
-CREATE OR REPLACE FUNCTION race_status (_race RACE)
-   RETURNS status.id%TYPE
+--CREATE OR REPLACE FUNCTION race_status (_race RACE)
+
+CREATE OR REPLACE FUNCTION race_status (_race_id integer, _race_ending DATE)
+   RETURNS integer
 AS
 $func$
    # VARIABLE_CONFLICT use_variable
@@ -12,7 +14,7 @@ DECLARE
 BEGIN
    today = CURRENT_DATE;
 
-   IF _race IS NULL
+   IF _race_id IS NULL
    THEN
       RETURN NULL;
    END IF;
@@ -20,7 +22,7 @@ BEGIN
    SELECT min (p.beginning), max (p.ending)
      INTO period.beginning, period.ending
      FROM period p
-    WHERE p.race_id = _race.id;
+    WHERE p.race_id = _race_id;
 
    IF period.beginning IS NULL
    THEN
@@ -33,10 +35,10 @@ BEGIN
    ELSEIF today >= period.beginning AND today <= period.ending
    THEN
       status_id = 2;
-   ELSEIF today > period.ending AND today <= _race.ending
+   ELSEIF today > period.ending AND today <= _race_ending
    THEN
       status_id = 3;
-   ELSEIF today > _race.ending
+   ELSEIF today > _race_ending
    THEN
       status_id = 4;
    END IF;
@@ -56,25 +58,31 @@ DECLARE
 BEGIN
    IF NEW.race_id <> OLD.race_id
    THEN
-      SELECT r.*
-        INTO RACE
-        FROM race r
-       WHERE r.id = OLD.race_id;
+      /*
+       SELECT r.*
+         INTO RACE
+         FROM race r
+        WHERE r.id = OLD.race_id;
+     */
 
       UPDATE race
-         SET _status_id = race_status (RACE)
+         --         SET _status_id = race_status (RACE)
+         SET _status_id = race_status (OLD.race_id, OLD.ending)
        WHERE id = OLD.race_id;
    END IF;
 
    IF NEW.race_id IS NOT NULL
    THEN
-      SELECT r.*
-        INTO RACE
-        FROM race r
-       WHERE r.id = NEW.race_id;
+      /*
+        SELECT r.*
+          INTO RACE
+          FROM race r
+         WHERE r.id = NEW.race_id;
+      */
 
       UPDATE race
-         SET _status_id = race_status (RACE)
+         --         SET _status_id = race_status (RACE)
+         SET _status_id = race_status (NEW.race_id, NEW.ending)
        WHERE id = NEW.race_id;
    END IF;
 
@@ -157,7 +165,8 @@ AS
 $func$
    # VARIABLE_CONFLICT use_variable
 BEGIN
-   NEW._status_id = race_status (NEW);
+   --   NEW._status_id = race_status (NEW);
+   NEW._status_id = race_status (NEW.id, NEW.ending);
 
    RETURN NEW;
 END;
@@ -171,3 +180,11 @@ CREATE TRIGGER trg_race_before_update
    ON race
    FOR EACH ROW
 EXECUTE PROCEDURE trg_race_before_update ();
+
+
+/*
+ */
+
+UPDATE race
+   SET _status_id = race_status (id, ending)
+ WHERE _status_id < 4;

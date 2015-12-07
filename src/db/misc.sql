@@ -319,27 +319,3 @@ UPDATE race
  WHERE id = 11;
 
 ----
-
-
-INSERT INTO status (id, name, precedence)
-     VALUES (1, 'soon', 1);
-
-INSERT INTO status (id, name, precedence)
-     VALUES (2, 'open', 2);
-
-INSERT INTO status (id, name, precedence)
-     VALUES (3, 'closed', 3);
-
-INSERT INTO status (id, name, precedence)
-     VALUES (4, 'end', 4);
-
-
-UPDATE period
-   SET ending = ending;
-
-UPDATE event
-   SET _status_id = NULL;
-
-SELECT _status_id, * FROM race;
-
-SELECT _status_id, * FROM event;
