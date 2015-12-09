@@ -2,13 +2,17 @@ package adventure.rest.data;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name", "description", "site", "period", "location", "races", "organizers", "layout",
-		"status" })
+@JsonPropertyOrder({ "id", "internal_id", "name", "description", "site", "period", "location", "races", "organizers",
+		"layout", "status" })
 public class EventData {
 
 	public String id;
+
+	@JsonProperty("internal_id")
+	public Integer internalId;
 
 	public String name;
 

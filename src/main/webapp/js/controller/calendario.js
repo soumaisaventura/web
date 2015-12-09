@@ -1,6 +1,9 @@
 $(function() {
-	$("#event-next-menu-item").addClass("active");
-	EventProxy.find($("#ano").text()).done(findOk);
+	var year = $("#ano").text();
+
+	$("#race-next-menu-item").addClass("active");
+	$("#race-next-menu-item-" + year).addClass("active");
+	EventProxy.find(year).done(findOk);
 
 	$('#open-events').on('click', '.panel', function() {
 		location.href = App.getContextPath() + "/evento/" + $(this).data("event");
