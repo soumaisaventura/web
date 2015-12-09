@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="810,80" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="954,120" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -229,6 +229,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
+	</column>
+	<column name="picture">
+		<type name="oid"/>
 	</column>
 	<column name="gender" not-null="true">
 		<type name="character varying" length="20"/>
@@ -464,16 +467,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="password">
 		<type name="character varying" length="64"/>
 	</column>
-	<column name="activation">
-		<type name="timestamp"/>
-	</column>
-	<column name="activation_token">
-		<type name="character varying" length="64"/>
-	</column>
 	<column name="password_reset_request">
 		<type name="timestamp"/>
 	</column>
 	<column name="password_reset_token">
+		<type name="character varying" length="64"/>
+	</column>
+	<column name="facebook_id">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="facebook_token">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="google_id">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="google_token">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="activation">
+		<type name="timestamp"/>
+	</column>
+	<column name="activation_token">
 		<type name="character varying" length="64"/>
 	</column>
 	<column name="creation" not-null="true">
