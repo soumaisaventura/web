@@ -72,7 +72,7 @@ AS
 
   SELECT aux2.cidade, sum (qtd) AS qtd
     FROM (  SELECT CASE
-                      WHEN count (*) < 20
+                      WHEN count (*) < 2
                       THEN
                          'Outras'
                       ELSE
@@ -84,13 +84,20 @@ AS
                    count (*) AS qtd
               FROM (SELECT DISTINCT
                            v.user_id, v.user_city_name, v.user_state_abbreviation
-                      FROM vw_user_registration v) aux1
+                      FROM vw_user_registration v
+                     WHERE v.race_id = 1) aux1
           GROUP BY aux1.user_city_name, aux1.user_state_abbreviation) aux2
 GROUP BY aux2.cidade
 ORDER BY qtd DESC;
 
 
 /* Corredores por faixa etária */
+
+
+(SELECT count( DISTINCT v.user_id)
+   FROM vw_user_registration v
+  WHERE v.race_id = 1);
+
 
   SELECT aux2.faixa_etaria, count (*) AS qtd
     FROM (SELECT CASE
@@ -114,15 +121,17 @@ ORDER BY qtd DESC;
                  END
                     AS faixa_etaria
             FROM (SELECT DISTINCT v.user_id, v.user_age
-                    FROM vw_user_registration v) aux1) aux2
+                    FROM vw_user_registration v
+                   WHERE v.race_id = 1) aux1) aux2
 GROUP BY aux2.faixa_etaria
 ORDER BY aux2.faixa_etaria;
 
 /* Corredores por faixa etária */
 
-  SELECT aux1.user_gender, count (*) AS qtd
+  SELECT aux1.user_gender, count (*) / 110.0 * 100 AS qtd
     FROM (SELECT DISTINCT v.user_id, v.user_gender
-            FROM vw_user_registration v) aux1
+            FROM vw_user_registration v
+           WHERE v.race_id = 1) aux1
 GROUP BY aux1.user_gender
 ORDER BY qtd DESC;
 
@@ -155,6 +164,17 @@ ORDER BY arrecadado DESC;
 GROUP BY v.race_city_name, v.race_state_abbreviation
 ORDER BY quartetos DESC;
 
+SELECT *
+  FROM vw_user_registration v;
+
+/* Pessoas inscrit por categoria */
+
+  SELECT v.category_name, count (*) / 110.0 * 100 AS qtd
+    FROM vw_user_registration v
+   WHERE v.race_id = 1
+GROUP BY v.category_name
+ORDER BY qtd DESC;
+
 
 /* Inscrições por categoria  */
 
@@ -172,9 +192,9 @@ SELECT count(DISTINCT v.user_id)
 
 /* Inscrições com desconto  */
 
-SELECT sum (aux1.desconto) AS desconto,
-       sum (aux1.Isencao) AS Isencao,
-       sum (aux1.integral) AS integral
+SELECT sum (aux1.desconto) / 110.0 * 100 AS desconto,
+       sum (aux1.Isencao) / 110.0 * 100 AS Isencao,
+       sum (aux1.integral) / 110.0 * 100 AS integral
   FROM (SELECT CASE
                   WHEN v.race_price > 0 AND v.race_price <> v.period_price
                   THEN
@@ -186,7 +206,8 @@ SELECT sum (aux1.desconto) AS desconto,
                CASE WHEN v.race_price = 0 THEN 1 ELSE 0 END AS Isencao,
                CASE WHEN v.race_price = v.period_price THEN 1 ELSE 0 END
                   AS integral
-          FROM vw_user_registration v) aux1;
+          FROM vw_user_registration v
+         WHERE v.race_id = 1) aux1;
 
 
 /* Frequentcia dos atletas  */

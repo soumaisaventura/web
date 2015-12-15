@@ -1,9 +1,9 @@
 package adventure.rest;
 
-import static adventure.entity.StatusType.OPEN;
 import static adventure.entity.RegistrationStatusType.CANCELLED;
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
+import static adventure.entity.Status.OPEN_ID;
 import static java.util.Locale.US;
 
 import java.math.BigDecimal;
@@ -36,7 +36,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
-import adventure.entity.StatusType;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
@@ -208,7 +207,7 @@ public class RegistrationREST {
 		data.race.city.id = race.getCity().getId();
 		data.race.city.name = race.getCity().getName();
 		data.race.city.state = race.getCity().getState().getAbbreviation();
-		data.race.status = race.getStatus();
+		data.race.status = race.getStatus().getName();
 
 		for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
 			UserData organizer = new UserData();
@@ -312,7 +311,7 @@ public class RegistrationREST {
 			throw new ForbiddenException();
 		}
 
-		if (race.getStatus() != OPEN) {
+		if (race.getStatus().getId() != OPEN_ID) {
 			throw new UnprocessableEntityException().addViolation("period", "fora do período permitido");
 		}
 
@@ -444,7 +443,7 @@ public class RegistrationREST {
 
 		public List<UserData> organizers = new ArrayList<UserData>();
 
-		public StatusType status;
+		public String status;
 	}
 
 	public static class CourseData {

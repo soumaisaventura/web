@@ -3,6 +3,7 @@ package adventure.rest;
 import javax.ws.rs.Path;
 
 import adventure.entity.GenderType;
+import adventure.entity.OAuthInfo;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.util.ApplicationConfig;
@@ -37,10 +38,10 @@ public class GoogleLogonREST extends OAuthLogon {
 
 		Userinfo userInfo = service.userinfo().get().execute();
 
-		return createUser(userInfo);
+		return createUser(userInfo, code);
 	}
 
-	private User createUser(Userinfo userInfo) {
+	private User createUser(Userinfo userInfo, String code) {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
@@ -55,6 +56,9 @@ public class GoogleLogonREST extends OAuthLogon {
 		User user = new User();
 		user.setEmail(userInfo.getEmail());
 		user.setProfile(profile);
+		user.setGoogleInfo(new OAuthInfo());
+		user.getGoogleInfo().setId(userInfo.getId());
+		user.getGoogleInfo().setToken(code);
 
 		// userInfo.get("birthday");
 

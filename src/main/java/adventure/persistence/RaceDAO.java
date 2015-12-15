@@ -36,7 +36,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        o.name, ");
 		jpql.append(" 	        o.acronym, ");
 		jpql.append(" 	        r.beginning, ");
-		jpql.append(" 	        r.end ");
+		jpql.append(" 	        r.end, ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("        join r.sport o ");
@@ -74,7 +75,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	         where _p.race = r), ");
 		jpql.append(" 	       (select max(_p.end) ");
 		jpql.append(" 	          from Period _p ");
-		jpql.append(" 	         where _p.race = r) ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -133,7 +135,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	         where _p.race = r), ");
 		jpql.append(" 	       (select max(_p.end) ");
 		jpql.append(" 	          from Period _p ");
-		jpql.append(" 	         where _p.race = r) ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -168,7 +171,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	         where _p.race = r), ");
 		jpql.append(" 	       (select max(_p.end) ");
 		jpql.append(" 	          from Period _p ");
-		jpql.append(" 	         where _p.race = r) ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("   left join r.city c ");
@@ -204,7 +208,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	         where _p.race = r), ");
 		jpql.append(" 	       (select max(_p.end) ");
 		jpql.append(" 	          from Period _p ");
-		jpql.append(" 	         where _p.race = r) ");
+		jpql.append(" 	         where _p.race = r), ");
+		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Period p ");
 		jpql.append("   join p.race r ");

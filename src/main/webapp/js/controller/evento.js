@@ -54,7 +54,6 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(data) {
-	
 	$(".event-title").text(data.name);
 	$(".event-description").text(data.description);
 	$("#days-left").text(data.period.countdown);

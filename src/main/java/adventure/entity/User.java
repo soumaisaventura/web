@@ -5,7 +5,10 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.security.Principal;
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -40,6 +43,16 @@ public class User implements Principal {
 	@JsonIgnore
 	@Column(name = "password_reset_request")
 	private Date passwordResetRequest;
+
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "facebook_id")),
+			@AttributeOverride(name = "token", column = @Column(name = "facebook_token")) })
+	private OAuthInfo facebookInfo;
+
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "google_id")),
+			@AttributeOverride(name = "token", column = @Column(name = "google_token")) })
+	private OAuthInfo googleInfo;
 
 	private Date creation;
 
@@ -196,6 +209,22 @@ public class User implements Principal {
 
 	public void setPasswordResetRequest(Date passwordResetRequest) {
 		this.passwordResetRequest = passwordResetRequest;
+	}
+
+	public OAuthInfo getFacebookInfo() {
+		return facebookInfo;
+	}
+
+	public void setFacebookInfo(OAuthInfo facebookInfo) {
+		this.facebookInfo = facebookInfo;
+	}
+
+	public OAuthInfo getGoogleInfo() {
+		return googleInfo;
+	}
+
+	public void setGoogleInfo(OAuthInfo googleInfo) {
+		this.googleInfo = googleInfo;
 	}
 
 	public Date getCreation() {

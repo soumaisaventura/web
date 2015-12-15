@@ -269,3 +269,36 @@ ORDER BY p."name";
     FROM race r, event e
    WHERE r.event_id = e.id AND r.id > 11
 ORDER BY e.id, r.id;
+
+----
+
+SELECT race_status (r.*) AS x, r.*
+  FROM race r;
+
+--
+
+SELECT _status_id
+  FROM race
+ WHERE id = 11;
+
+UPDATE race
+   SET ending = '2014-12-06'::date, beginning = ending
+ WHERE id = 11;
+
+UPDATE race
+   SET ending = '2015-12-06'::date, beginning = ending
+ WHERE id = 11;
+
+--
+
+SELECT _status_id
+  FROM event
+ WHERE id = 0;
+
+UPDATE race
+   SET ending = '2014-12-06'::date, beginning = ending
+ WHERE id = 11;
+
+UPDATE race
+   SET ending = '2015-12-06'::date, beginning = ending
+ WHERE id = 11;

@@ -81,7 +81,7 @@ img.responsive, img.main-col-images {
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/race.js"></script>
+		<script src="#{request.contextPath}/js/proxy/event.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
@@ -94,12 +94,15 @@ img.responsive, img.main-col-images {
 				Calendário <span id="ano">#{param.ano}</span>
 			</h1>
 		</div>
-		
-		<div id="open-races" class="row"></div>
+
+		<div id="open-events" class="row"></div>
 
 		<div id="template" hidden="true">
-			<div class="race col-md-4" id="block-{{id}}">
-				<div class="panel panel-default" data-race="{{id}}" style="cursor: pointer;">
+			<!--
+		<script id="template" type="text/html">
+		-->
+			<div class="event col-md-4" id="block-{{id}}">
+				<div class="panel panel-default" data-event="{{id}}" style="cursor: pointer;">
 					<div class="panel-heading" style="padding: 0px;">
 						<div class="box">
 							<div class="corner">
@@ -110,7 +113,7 @@ img.responsive, img.main-col-images {
 									<span>{{corner}}</span>
 								</div>
 								<img id="banner-{{id}}" alt="{{name}}" class="responsive {{status}}"
-									data-src="#{request.contextPath}/api/race/{{id}}/banner/{breakpoint-name}" />
+									data-src="#{request.contextPath}/api/event/{{id}}/banner/{breakpoint-name}" />
 							</div>
 						</div>
 					</div>
@@ -129,6 +132,10 @@ img.responsive, img.main-col-images {
 				</div>
 			</div>
 		</div>
+		<!--
+		</script>
+		-->
+
 	</ui:define>
 
 </ui:composition>
