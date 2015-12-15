@@ -54,6 +54,7 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(data) {
+	
 	$(".event-title").text(data.name);
 	$(".event-description").text(data.description);
 	$("#days-left").text(data.period.countdown);
@@ -89,4 +90,8 @@ function loadEventOk(data) {
 		var rendered = Mustache.render(template, race);
 		$('#event-races').append(rendered);
 	});
+	
+	if(data.status === 'end' || data.status === 'closed'){
+		$(".end").detach();
+	}
 }
