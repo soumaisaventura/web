@@ -302,3 +302,7 @@ UPDATE race
 UPDATE race
    SET ending = '2015-12-06'::date, beginning = ending
  WHERE id = 11;
+
+UPDATE profile
+   SET picture = NULL
+ WHERE id = 2;

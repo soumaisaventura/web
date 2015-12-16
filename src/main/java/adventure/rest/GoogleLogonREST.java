@@ -3,7 +3,6 @@ package adventure.rest;
 import javax.ws.rs.Path;
 
 import adventure.entity.GenderType;
-import adventure.entity.OAuthInfo;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.util.ApplicationConfig;
@@ -26,7 +25,7 @@ public class GoogleLogonREST extends OAuthLogon {
 	private static JacksonFactory FACTORY = new JacksonFactory();
 
 	@Override
-	protected User createUser(String code) throws Exception {
+	protected Created createUser(String code) throws Exception {
 		ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
 		String clientId = config.getOAuthGoogleId();
 		String clientSecret = config.getOAuthGoogleSecret();
@@ -41,7 +40,7 @@ public class GoogleLogonREST extends OAuthLogon {
 		return createUser(userInfo, code);
 	}
 
-	private User createUser(Userinfo userInfo, String code) {
+	private Created createUser(Userinfo userInfo, String code) throws Exception {
 		if (!userInfo.getVerifiedEmail()) {
 			throw new IllegalStateException("O e-mail não foi verificado");
 		}
@@ -56,12 +55,11 @@ public class GoogleLogonREST extends OAuthLogon {
 		User user = new User();
 		user.setEmail(userInfo.getEmail());
 		user.setProfile(profile);
-		user.setGoogleInfo(new OAuthInfo());
-		user.getGoogleInfo().setId(userInfo.getId());
-		user.getGoogleInfo().setToken(code);
+		user.setGoogleId(userInfo.getId());
+		user.setGoogleToken(code);
 
 		// userInfo.get("birthday");
 
-		return user;
+		return new Created(user, userInfo.getPicture());
 	}
 }

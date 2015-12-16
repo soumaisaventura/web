@@ -11,10 +11,11 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.business.MailBusiness;
+import adventure.business.ProfileBusiness;
 import adventure.entity.Health;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
-import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.OAuthSession;
@@ -27,7 +28,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 public abstract class OAuthLogon {
 
-	protected abstract User createUser(String code) throws Exception;
+	protected abstract Created createUser(String code) throws Exception;
 
 	@POST
 	@Transactional
@@ -38,7 +39,8 @@ public abstract class OAuthLogon {
 		UserDAO userDAO = UserDAO.getInstance();
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 
-		User oauth = createUser(data.token);
+		Created created = createUser(data.token);
+		User oauth = created.user;
 		User persisted = UserDAO.getInstance().loadForAuthentication(oauth.getEmail());
 
 		if (persisted == null) {
@@ -50,7 +52,7 @@ public abstract class OAuthLogon {
 
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
 			login(oauth.getEmail());
-			MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+			MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 
 		} else if (persisted.getActivation() == null) {
 			oauth.setActivation(new Date());
@@ -64,6 +66,7 @@ public abstract class OAuthLogon {
 			persisted.setProfile(profileDAO.load(persisted));
 			Misc.copyFields(oauth.getProfile(), persisted.getProfile());
 			profileDAO.update(persisted.getProfile());
+			ProfileBusiness.getInstance().updatePicture(persisted.getId(), created.pictureUrl);
 
 			login(oauth.getEmail());
 		}
@@ -83,5 +86,17 @@ public abstract class OAuthLogon {
 
 		@NotEmpty
 		public String token;
+	}
+
+	protected class Created {
+
+		final private User user;
+
+		final private String pictureUrl;
+
+		protected Created(User user, String pictureUrl) {
+			this.user = user;
+			this.pictureUrl = pictureUrl;
+		}
 	}
 }

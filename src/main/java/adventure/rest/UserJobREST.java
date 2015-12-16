@@ -10,9 +10,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import adventure.business.MailBusiness;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
-import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.transaction.TransactionContext;
@@ -33,7 +33,7 @@ public class UserJobREST {
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 		HealthDAO healthDAO = HealthDAO.getInstance();
 		UserDAO userDAO = UserDAO.getInstance();
-		MailDAO mailDAO = MailDAO.getInstance();
+		MailBusiness mailBusiness = MailBusiness.getInstance();
 
 		TransactionContext context = Beans.getReference(TransactionContext.class);
 		User previous = null;
@@ -66,7 +66,7 @@ public class UserJobREST {
 						User original = persistedByName.get(0);
 
 						for (String email : dups) {
-							mailDAO.sendAccountRemoval(original, email);
+							mailBusiness.sendAccountRemoval(original, email);
 						}
 
 						getLogger().info(

@@ -15,12 +15,12 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.business.MailBusiness;
 import adventure.entity.GenderType;
 import adventure.entity.Health;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
-import adventure.persistence.MailDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
@@ -53,7 +53,7 @@ public class SignUpREST {
 		HealthDAO.getInstance().insert(new Health(user));
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendUserActivation(user.getEmail(), baseUri);
+		MailBusiness.getInstance().sendUserActivation(user.getEmail(), baseUri);
 	}
 
 	@DELETE

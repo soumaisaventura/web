@@ -15,6 +15,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.hibernate.validator.constraints.Length;
@@ -28,6 +29,7 @@ import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.rest.LocationREST.CityData;
 import adventure.util.PendencyCounter;
+import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -40,7 +42,7 @@ public class UserProfileREST {
 	@LoggedIn
 	@Produces("application/json")
 	public ProfileData load() throws Exception {
-		Profile profile = ProfileDAO.getInstance().loadDetails(User.getLoggedIn());
+		Profile profile = loadProfileDetails(User.getLoggedIn());
 
 		ProfileData data = new ProfileData();
 		data.name = profile.getName();
@@ -59,13 +61,29 @@ public class UserProfileREST {
 		return data;
 	}
 
+	@GET
+	// @Produces("image/png")
+	@Path("{id}/picture")
+	@Produces("image/jpeg")
+	// @Cache("max-age=604800000")
+	public byte[] getPicture(@PathParam("id") Integer id) throws Exception {
+		Profile profile = loadProfile(id);
+		byte result[] = profile.getPicture();
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
 	@PUT
 	@LoggedIn
 	@Transactional
 	@ValidatePayload
 	@Consumes("application/json")
 	public void update(ProfileData data) throws Exception {
-		Profile persisted = ProfileDAO.getInstance().load(User.getLoggedIn());
+		Profile persisted = loadProfile(User.getLoggedIn());
 		persisted.setName(data.name);
 		persisted.setRg(data.rg);
 		persisted.setCpf(data.cpf);
@@ -77,6 +95,36 @@ public class UserProfileREST {
 
 		ProfileDAO.getInstance().update(persisted);
 		User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
+	}
+
+	private Profile loadProfile(Integer id) throws NotFoundException {
+		Profile result = ProfileDAO.getInstance().load(id);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private Profile loadProfile(User user) throws NotFoundException {
+		Profile result = ProfileDAO.getInstance().load(user);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private Profile loadProfileDetails(User user) throws NotFoundException {
+		Profile result = ProfileDAO.getInstance().loadDetails(user);
+
+		if (result == null) {
+			throw new NotFoundException();
+		}
+
+		return result;
 	}
 
 	public static class ProfileData {

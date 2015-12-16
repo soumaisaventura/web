@@ -14,8 +14,8 @@ import javax.ws.rs.core.UriInfo;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.business.MailBusiness;
 import adventure.entity.User;
-import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
@@ -35,7 +35,7 @@ public class PasswordREST {
 	@Consumes("application/json")
 	public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
+		MailBusiness.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
 	}
 
 	@POST
@@ -69,7 +69,7 @@ public class PasswordREST {
 
 			if (wasActivated) {
 				URI baseUri = uriInfo.getBaseUri().resolve("..");
-				MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+				MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 			}
 		}
 

@@ -15,8 +15,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import adventure.business.MailBusiness;
 import adventure.entity.User;
-import adventure.persistence.MailDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.SignUpREST.ActivationData;
 import adventure.security.ActivationSession;
@@ -75,7 +75,7 @@ public class UserREST {
 		userDAO.update(persisted);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+		MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 
 		return User.getLoggedIn();
 	}

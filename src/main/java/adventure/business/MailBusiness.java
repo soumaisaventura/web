@@ -1,4 +1,4 @@
-package adventure.persistence;
+package adventure.business;
 
 import static javax.mail.Message.RecipientType.TO;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.inject.Inject;
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
 import javax.mail.Authenticator;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -23,31 +23,29 @@ import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.persistence.RegistrationDAO;
+import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import adventure.util.Dates;
 import adventure.util.Misc;
-import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
-@Transactional
-public class MailDAO implements Serializable {
+@Stateless
+public class MailBusiness implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static MailDAO getInstance() {
-		return Beans.getReference(MailDAO.class);
+	public static MailBusiness getInstance() {
+		return Beans.getReference(MailBusiness.class);
 	}
 
-	@Inject
-	private ApplicationConfig config;
-
-	@Inject
-	private UserDAO userDAO;
-
+	@Asynchronous
 	public void sendUserActivation(final String email, final URI baseUri) throws Exception {
+		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
@@ -70,6 +68,7 @@ public class MailDAO implements Serializable {
 		send("Confirmação de e-mail", content, "text/html", email);
 	}
 
+	@Asynchronous
 	public void sendWelcome(User user, URI baseUri) throws Exception {
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
 		content = clearContent(content);
@@ -85,7 +84,9 @@ public class MailDAO implements Serializable {
 		send("Seja bem-vindo!", content, "text/html", user.getEmail());
 	}
 
+	@Asynchronous
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
+		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
@@ -109,7 +110,9 @@ public class MailDAO implements Serializable {
 		send("Criação de senha", content, "text/html", email);
 	}
 
+	@Asynchronous
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
+		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
 
@@ -133,6 +136,7 @@ public class MailDAO implements Serializable {
 		send("Recuperação de senha", content, "text/html", email);
 	}
 
+	@Asynchronous
 	public void sendAccountRemoval(User user, String dupEmail) throws Exception {
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/account-removal.html"));
 		content = clearContent(content);
@@ -144,6 +148,7 @@ public class MailDAO implements Serializable {
 		send("Remoção de conta", content, "text/html", dupEmail);
 	}
 
+	@Asynchronous
 	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
@@ -182,6 +187,7 @@ public class MailDAO implements Serializable {
 		}
 	}
 
+	@Asynchronous
 	public void sendRegistrationFailed(User member, User submitter, RaceCategory raceCategory, String teamName,
 			URI baseUri) throws Exception {
 		Race race = raceCategory.getRace();
@@ -208,6 +214,7 @@ public class MailDAO implements Serializable {
 		send(subject, content, "text/html", member.getEmail());
 	}
 
+	@Asynchronous
 	public void sendRegistrationPeriodChanging(Registration registration, Date newPeriodBegining, Date newPeriodEnd,
 			URI baseUri) throws Exception {
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
@@ -237,6 +244,7 @@ public class MailDAO implements Serializable {
 		}
 	}
 
+	@Asynchronous
 	public void sendRegistrationCancellation(Registration registration, URI baseUri) throws Exception {
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
@@ -275,6 +283,7 @@ public class MailDAO implements Serializable {
 		return replacement;
 	}
 
+	@Asynchronous
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
 		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
@@ -315,32 +324,34 @@ public class MailDAO implements Serializable {
 		return content.replaceAll("<div id=\"campaign\">.+</div>", "");
 	}
 
-	private void send(final String subject, final String content, final String type, final String to) {
-		new Thread() {
+	private void send(final String subject, final String content, final String type, final String to) throws Exception {
+		// new Thread() {
+		//
+		// public void run() {
+		// try {
+		ApplicationConfig config = getConfig();
+		final String PREFIX = config.getAppTitle() + " – ";
+		final String SUFIX = "";
 
-			public void run() {
-				try {
-					final String PREFIX = config.getAppTitle() + " – ";
-					final String SUFIX = "";
+		MimeMessage message = new MimeMessage(getSession());
+		message.setFrom(new InternetAddress("contato@soumaisaventura.com.br"));
+		message.setSubject(PREFIX + subject + SUFIX, "UTF-8");
+		// message.setRecipients(TO, Strings.join(",", to));
+		message.setRecipients(TO, to);
+		message.setContent(content, type);
 
-					MimeMessage message = new MimeMessage(getSession());
-					message.setFrom(new InternetAddress("contato@soumaisaventura.com.br"));
-					message.setSubject(PREFIX + subject + SUFIX, "UTF-8");
-					// message.setRecipients(TO, Strings.join(",", to));
-					message.setRecipients(TO, to);
-					message.setContent(content, type);
+		Transport.send(message);
 
-					Transport.send(message);
-
-				} catch (MessagingException cause) {
-					throw new RuntimeException(cause);
-				}
-			};
-
-		}.start();
+		// } catch (MessagingException cause) {
+		// throw new RuntimeException(cause);
+		// }
+		// };
+		//
+		// }.start();
 	}
 
 	private Session getSession() {
+		final ApplicationConfig config = getConfig();
 		Properties props = new Properties();
 		props.put("mail.smtp.host", config.getMailSmtpHost());
 		props.put("mail.smtp.auth", "true");
@@ -358,10 +369,15 @@ public class MailDAO implements Serializable {
 		Authenticator authenticator = new javax.mail.Authenticator() {
 
 			protected PasswordAuthentication getPasswordAuthentication() {
+
 				return new PasswordAuthentication(config.getMailSmtpUser(), config.getMailSmtpPassword());
 			}
 		};
 
 		return Session.getInstance(props, authenticator);
+	}
+
+	private ApplicationConfig getConfig() {
+		return Beans.getReference(ApplicationConfig.class);
 	}
 }

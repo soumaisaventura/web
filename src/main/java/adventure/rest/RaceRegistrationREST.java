@@ -23,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import adventure.business.MailBusiness;
 import adventure.entity.Category;
 import adventure.entity.GenderType;
 import adventure.entity.Period;
@@ -31,7 +32,6 @@ import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.MailDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
@@ -73,7 +73,7 @@ public class RaceRegistrationREST {
 
 		Registration result = submit(data, raceCategory, members, date, period, submitter);
 
-		MailDAO.getInstance().sendRegistrationCreation(result, baseUri);
+		MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
 		return result.getFormattedId();
 	}
 
@@ -248,7 +248,7 @@ public class RaceRegistrationREST {
 
 			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
 				exception.addViolation("members", parse(member) + " possui pendências cadastrais.");
-				MailDAO.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
+				MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
 			}
 		}
 

@@ -9,10 +9,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import adventure.business.MailBusiness;
 import adventure.entity.Period;
 import adventure.entity.Registration;
 import adventure.entity.TeamFormation;
-import adventure.persistence.MailDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
@@ -35,7 +35,7 @@ public class RegistrationJobREST {
 		List<Registration> expired = registrationDAO.findForUpdatePeriod();
 		TeamFormationDAO teamFormationDAO = TeamFormationDAO.getInstance();
 		PeriodDAO periodDAO = PeriodDAO.getInstance();
-		MailDAO mailDAO = MailDAO.getInstance();
+		MailBusiness mailBusiness = MailBusiness.getInstance();
 
 		for (Registration registration : expired) {
 			Period period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
@@ -54,7 +54,7 @@ public class RegistrationJobREST {
 			getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");
 
 			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			mailDAO.sendRegistrationPeriodChanging(registration, period.getBeginning(), period.getEnd(), baseUri);
+			mailBusiness.sendRegistrationPeriodChanging(registration, period.getBeginning(), period.getEnd(), baseUri);
 		}
 	}
 

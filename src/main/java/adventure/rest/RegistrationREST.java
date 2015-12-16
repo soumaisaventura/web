@@ -34,13 +34,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import adventure.business.MailBusiness;
 import adventure.entity.PaymentType;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
 import adventure.entity.TeamFormation;
 import adventure.entity.User;
-import adventure.persistence.MailDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
@@ -113,7 +113,7 @@ public class RegistrationREST {
 		RegistrationDAO.getInstance().update(registration);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
+		MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
 	}
 
 	@POST
@@ -149,7 +149,7 @@ public class RegistrationREST {
 		RegistrationDAO.getInstance().update(registration);
 
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailDAO.getInstance().sendRegistrationCancellation(registration, baseUri);
+		MailBusiness.getInstance().sendRegistrationCancellation(registration, baseUri);
 	}
 
 	@GET

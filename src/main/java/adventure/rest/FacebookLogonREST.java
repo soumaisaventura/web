@@ -22,7 +22,7 @@ import adventure.entity.User;
 public class FacebookLogonREST extends OAuthLogon {
 
 	@Override
-	protected User createUser(String code) throws Exception {
+	protected Created createUser(String code) throws Exception {
 		HttpClient client = new DefaultHttpClient();
 
 		String newUrl = "https://graph.facebook.com/me?access_token=" + code;
@@ -44,27 +44,35 @@ public class FacebookLogonREST extends OAuthLogon {
 
 		Profile profile = new Profile();
 		profile.setName(rootNode.get("name").asText());
+		// profile.setPicture(getPicture("http://graph.facebook.com/" + asText(rootNode.get("id"))
+		// + "/picture?height=372&width=372&redirect=true"));
 
 		// TODO Tratar gender null;
 
-		if (rootNode.get("gender") != null) {
+		if (asText(rootNode.get("gender")) != null) {
 			// TODO Tratar gender de outro tipo adventure.entity.GenderType.OTHER
-			profile.setGender(GenderType.valueOf(rootNode.get("gender").asText().toUpperCase()));
+			profile.setGender(GenderType.valueOf(asText(rootNode.get("gender")).toUpperCase()));
 		}
 
 		if (rootNode.get("birthday") != null) {
 			DateFormat format = new SimpleDateFormat("MM/dd/yyyyy");
-			profile.setBirthday(format.parse(rootNode.get("birthday").asText()));
+			profile.setBirthday(format.parse(asText(rootNode.get("birthday"))));
 		}
 
 		User user = new User();
 		// TODO Tratar email nulo
 		user.setEmail(rootNode.get("email").asText());
 		user.setProfile(profile);
-		// user.setFacebookInfo(new OAuthInfo());
-		// user.getFacebookInfo().setId(rootNode.get("email").asText());
+		user.setFacebookId(asText(rootNode.get("id")));
+		user.setFacebookToken(code);
 
 		client.getConnectionManager().shutdown();
-		return user;
+
+		return new Created(user, "http://graph.facebook.com/" + user.getFacebookId()
+				+ "/picture?height=372&width=372&redirect=true");
+	}
+
+	private String asText(JsonNode node) {
+		return node != null ? node.asText() : null;
 	}
 }

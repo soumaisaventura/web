@@ -9,6 +9,11 @@ public class OAuthInfo {
 
 	private String token;
 
+	public OAuthInfo(String id, String token) {
+		this.id = id;
+		this.token = token;
+	}
+
 	public String getId() {
 		return id;
 	}

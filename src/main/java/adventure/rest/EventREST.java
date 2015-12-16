@@ -71,7 +71,7 @@ public class EventREST {
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> year(@PathParam("year") Integer year) throws Exception {
-		RaceDAO raceDAO = RaceDAO.getInstance();
+		// RaceDAO raceDAO = RaceDAO.getInstance();
 		// PeriodDAO periodDAO = PeriodDAO.getInstance();
 		// RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		// Date now = new Date();

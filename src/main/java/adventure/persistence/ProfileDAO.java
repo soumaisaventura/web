@@ -45,6 +45,12 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 		return super.update(profile);
 	}
 
+	public Profile loadDetails(Integer id) {
+		User user = new User();
+		user.setId(id);
+		return loadDetails(user);
+	}
+
 	public Profile loadDetails(User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
@@ -96,5 +102,11 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 			result = null;
 		}
 		return result;
+	}
+
+	public Profile load(Integer id) {
+		User user = new User();
+		user.setId(id);
+		return load(user);
 	}
 }

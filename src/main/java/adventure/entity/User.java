@@ -5,10 +5,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.security.Principal;
 import java.util.Date;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -44,15 +41,21 @@ public class User implements Principal {
 	@Column(name = "password_reset_request")
 	private Date passwordResetRequest;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "facebook_id")),
-			@AttributeOverride(name = "token", column = @Column(name = "facebook_token")) })
-	private OAuthInfo facebookInfo;
+	@JsonIgnore
+	@Column(name = "facebook_id")
+	private String facebookId;
 
-	@Embedded
-	@AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "google_id")),
-			@AttributeOverride(name = "token", column = @Column(name = "google_token")) })
-	private OAuthInfo googleInfo;
+	@JsonIgnore
+	@Column(name = "facebook_token")
+	private String facebookToken;
+
+	@JsonIgnore
+	@Column(name = "google_id")
+	private String googleId;
+
+	@JsonIgnore
+	@Column(name = "google_token")
+	private String googleToken;
 
 	private Date creation;
 
@@ -211,20 +214,36 @@ public class User implements Principal {
 		this.passwordResetRequest = passwordResetRequest;
 	}
 
-	public OAuthInfo getFacebookInfo() {
-		return facebookInfo;
+	public String getFacebookId() {
+		return facebookId;
 	}
 
-	public void setFacebookInfo(OAuthInfo facebookInfo) {
-		this.facebookInfo = facebookInfo;
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
 	}
 
-	public OAuthInfo getGoogleInfo() {
-		return googleInfo;
+	public String getFacebookToken() {
+		return facebookToken;
 	}
 
-	public void setGoogleInfo(OAuthInfo googleInfo) {
-		this.googleInfo = googleInfo;
+	public void setFacebookToken(String facebookToken) {
+		this.facebookToken = facebookToken;
+	}
+
+	public String getGoogleId() {
+		return googleId;
+	}
+
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+
+	public String getGoogleToken() {
+		return googleToken;
+	}
+
+	public void setGoogleToken(String googleToken) {
+		this.googleToken = googleToken;
 	}
 
 	public Date getCreation() {

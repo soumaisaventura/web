@@ -1,6 +1,7 @@
 package adventure.entity;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,10 +26,14 @@ public class Profile implements Serializable {
 
 	@Id
 	@OneToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "id")
 	private User user;
 
 	private String name;
+
+	@Lob
+	private byte[] picture;
 
 	@PendencyCount
 	private String rg;
@@ -49,8 +55,8 @@ public class Profile implements Serializable {
 	@Enumerated(STRING)
 	private TshirtType tshirt;
 
-	@ManyToOne
 	@PendencyCount
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "city_id")
 	private City city;
 
@@ -132,6 +138,14 @@ public class Profile implements Serializable {
 		this.name = name;
 	}
 
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
 	public String getRg() {
 		return rg;
 	}
@@ -195,4 +209,5 @@ public class Profile implements Serializable {
 	public void setPendencies(Integer pendencies) {
 		this.pendencies = pendencies;
 	}
+
 }

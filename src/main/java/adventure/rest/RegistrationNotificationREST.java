@@ -30,9 +30,9 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import adventure.business.MailBusiness;
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.persistence.MailDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -89,7 +89,7 @@ public class RegistrationNotificationREST {
 					persistedRegistration.setDate(new Date());
 					dao.update(persistedRegistration);
 
-					MailDAO.getInstance().sendRegistrationConfirmation(registration, baseUri);
+					MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
 					break;
 
 				case 7: // cancelada

@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import adventure.persistence.MailDAO;
+import adventure.business.MailBusiness;
 import adventure.security.UnconfirmedUserException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 
@@ -21,6 +21,6 @@ public class UnconfirmedUserExceptionMapper extends SendMailExceptionMapperHelpe
 
 	@Override
 	protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
-		MailDAO.getInstance().sendUserActivation(credentials.getUsername(), baseUri);
+		MailBusiness.getInstance().sendUserActivation(credentials.getUsername(), baseUri);
 	}
 }
