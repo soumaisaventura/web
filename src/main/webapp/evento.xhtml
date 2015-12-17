@@ -28,61 +28,58 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<input id="id" type="hidden" value="#{param.evento_id}" />
-
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8 left-col">
-				<div class="row">
-					<div class="col-md-12 event-banner">
-						<img id="banner" class="img-responsive rounded" />
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12 event-info">
-						<div class="row">
-							<div class="col-md-12">
-								<div>
-									<span class="event-title"></span>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<span class="event-info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="event-location-city"></span></span>
-								<span class="event-info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="event-date"></span></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 event-description">
-								<div>
-									<p class="event-description"></p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div id="event-info" class="event-races"></div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div id="event-races" class="event-races"></div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12 event-organizers" hidden="true">
-						<div id="event-organizers"></div>
-					</div>
+		<div class="container-fluid yyy">
+			<div class="row text-center">
+				<div class="col-md-12 event-banner text-center">
+					<img id="banner" class="img-responsive center-block" />
 				</div>
 			</div>
+		</div>
 
-			<!--
+		<div class="container">
+			<input id="id" type="hidden" value="#{param.evento_id}" />
+
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8 left-col">
+
+					<div class="row">
+						<div class="col-md-12 event-info">
+							<div class="row">
+								<div class="col-md-12">
+									<div>
+										<span class="event-title"></span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span class="event-info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="event-location-city"></span></span>
+									<span class="event-info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="event-date"></span></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 event-description">
+									<div>
+										<p class="event-description"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div id="event-info" class="event-races"></div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div id="event-races" class="event-races"></div>
+						</div>
+					</div>
+				</div>
+				<!--
 			<div class="col-md-4 right-col">
 				<div class="row">
 					<div class="col-md-12">
@@ -97,14 +94,27 @@
 				</div>
 			</div>
 			-->
+			</div>
+		</div>
+
+		<div class="container-fluid xxx">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 event-organizers" hidden="true">
+						<div id="event-organizers"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div id="event-organizer-template" hidden="true">
-			<div class="event-organizer col-md-4">
-				<img class="img-responsive rounded" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
-				<h4>{{name}}</h4>
-				<h5>{{email}}</h5>
-				<h5>{{mobile}}</h5>
+			<div class="event-organizer col-md-3">
+				<img class="img-responsive event-organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+				<div class="text-center">
+					<div class="event-organizer-name">{{name}}</div>
+					<div class="event-organizer-email">{{email}}</div>
+					<div class="event-organizer-mobile">{{mobile}}</div>
+				</div>
 			</div>
 		</div>
 

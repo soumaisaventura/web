@@ -91,7 +91,7 @@ function loadEventOk(event) {
 			$('#event-organizers').append(rendered);
 		});
 
-		// $(".event-organizers").show();
+		$(".event-organizers").show();
 	}
 
 	// Races

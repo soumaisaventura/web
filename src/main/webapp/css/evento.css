@@ -86,7 +86,45 @@ ul.event-race-list-info {
 }
 
 .event-organizer {
-	padding: 10px;
+	padding: 50px;
+	/* 	padding-left: 0px; */
+	/* 	padding-right: 40px; */
+	/* 	margin: 20px; */
+	display: inline-block;
+	float: none !important;
+/* 	margin-right: -4px; */
+}
+
+.xxx {
+	text-align: center;
+	background-color: #f1f1f1;
+}
+
+.yyy {
+	text-align: center;
+	background-color: #262425;
+}
+
+.event-organizers {
+	text-align: center;
+}
+
+.event-organizer-picture {
+	/* 	border: 1px solid #dbdbdb; */
+	border-radius: 10px;
+}
+
+.event-organizer-name {
+	padding-top: 10px;
+	font-size: x-large;
+}
+
+.event-organizer-email {
+	
+}
+
+.event-organizer-mobile {
+	
 }
 
 .event-map {
