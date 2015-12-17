@@ -45,6 +45,13 @@ function loadMapOk(data, map, id) {
 			title : event.name
 		});
 
+		marker.addListener('click', function() {
+			var lat = this.getPosition().lat();
+			var lng = this.getPosition().lng();
+			var zoom = this.getMap().getZoom();
+			window.open("https://www.google.com/maps/dir//" + lat + "," + lng + "/@" + lat + "," + lng + "," + zoom + "z", "_blank");
+		});
+
 		if (id === event.id) {
 			map.setCenter(coord);
 		}

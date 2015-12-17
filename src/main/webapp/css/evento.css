@@ -1,8 +1,3 @@
-#map {
-	height: 300px;
-	width: auto;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	margin-top: 0px;
 }
@@ -142,12 +137,18 @@ ul.event-race-list-info {
 	
 }
 
+#map {
+	height: 300px;
+	width: auto;
+}
+
 .event-map-section {
 	background-color: #f7f4ed;
 }
 
 .event-map-section div {
-	padding: 0px;
+	/* 	padding: 0px; */
+	
 }
 
 .race-title {
