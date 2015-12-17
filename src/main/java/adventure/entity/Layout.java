@@ -1,7 +1,11 @@
 package adventure.entity;
 
+import java.lang.reflect.Field;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import br.gov.frameworkdemoiselle.util.Reflections;
 
 @Embeddable
 public class Layout {
@@ -14,6 +18,16 @@ public class Layout {
 
 	@Column(name = "button_color")
 	private String buttonColor;
+
+	public boolean isEmpty() {
+		boolean resut = true;
+
+		for (Field field : Reflections.getNonStaticDeclaredFields(this.getClass())) {
+			resut &= Reflections.getFieldValue(field, this) == null;
+		}
+
+		return resut;
+	}
 
 	@Override
 	public int hashCode() {

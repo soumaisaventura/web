@@ -71,11 +71,6 @@ public class EventREST {
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> year(@PathParam("year") Integer year) throws Exception {
-		// RaceDAO raceDAO = RaceDAO.getInstance();
-		// PeriodDAO periodDAO = PeriodDAO.getInstance();
-		// RaceBusiness raceBusiness = RaceBusiness.getInstance();
-		// Date now = new Date();
-
 		List<EventData> result = new ArrayList<EventData>();
 
 		for (Event event : EventDAO.getInstance().findByYear(year)) {
@@ -92,27 +87,6 @@ public class EventREST {
 			eventData.location.city = new CityData();
 			eventData.location.city.name = event.getCity().getName();
 			eventData.location.city.state = event.getCity().getState().getAbbreviation();
-			// eventData.location.coords = new CoordsData();
-			// eventData.location.coords.latitude = event.getCoords().getLatitude();
-			// eventData.location.coords.longitude = event.getCoords().getLongitude();
-
-			// for (Race race : raceDAO.findForEvent(event)) {
-			// if (eventData.period.beginning == null || Dates.before(race.getBeginning(), eventData.period.beginning))
-			// {
-			// eventData.period.beginning = race.getBeginning();
-			// }
-			//
-			// if (eventData.period.end == null || Dates.after(race.getEnd(), eventData.period.end)) {
-			// eventData.period.end = race.getEnd();
-			// }
-
-			// List<Period> periods = periodDAO.findForEvent(race);
-			// StatusType status = raceBusiness.getStatus(race, now, periods);
-			//
-			// if (eventData.status == null || eventData.status.getOrder() < status.getOrder()) {
-			// eventData.status = status;
-			// }
-			// }
 
 			result.add(eventData);
 		}
@@ -146,7 +120,6 @@ public class EventREST {
 	// @Cache("max-age=28800")
 	@Produces("application/json")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
-		// FeeBusiness feeBusiness = FeeBusiness.getInstance();
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		FeeDAO feeDAO = FeeDAO.getInstance();
 		RaceDAO raceDAO = RaceDAO.getInstance();
@@ -167,25 +140,33 @@ public class EventREST {
 		eventData.period.beginning = event.getBeginning();
 		eventData.period.end = event.getEnd();
 
-		eventData.layout = new LayoutData();
-		eventData.layout.textColor = event.getLayout().getTextColor();
-		eventData.layout.backgroundColor = event.getLayout().getBackgroundColor();
-		eventData.layout.buttonColor = event.getLayout().getButtonColor();
+		// Layout
+
+		if (!event.getLayout().isEmpty()) {
+			eventData.layout = new LayoutData();
+			eventData.layout.textColor = event.getLayout().getTextColor();
+			eventData.layout.backgroundColor = event.getLayout().getBackgroundColor();
+			eventData.layout.buttonColor = event.getLayout().getButtonColor();
+		}
+
+		// Location
 
 		eventData.location = new LocationData();
 		eventData.location.city = new CityData();
 		eventData.location.city.name = event.getCity().getName();
 		eventData.location.city.state = event.getCity().getState().getAbbreviation();
-		eventData.location.coords = new CoordsData();
-		eventData.location.coords.latitude = event.getCoords().getLatitude();
-		eventData.location.coords.longitude = event.getCoords().getLongitude();
+
+		if (!event.getCoords().isEmpty()) {
+			eventData.location.coords = new CoordsData();
+			eventData.location.coords.latitude = event.getCoords().getLatitude();
+			eventData.location.coords.longitude = event.getCoords().getLongitude();
+		}
 
 		// Races
 
 		eventData.races = new ArrayList<RaceData>();
 		for (Race race : raceDAO.findForEvent(event)) {
 			List<Fee> championshipFees = new ArrayList<Fee>();
-			// List<Fee> raceFees = feeDAO.findForEvent(race);
 
 			RaceData raceData = new RaceData();
 			raceData.id = race.getSlug();
@@ -194,28 +175,17 @@ public class EventREST {
 			raceData.distance = race.getDistance();
 			raceData.status = race.getStatus().getName();
 
-			// Race Sport
+			// Sport
 
 			raceData.sport = new SportData();
 			raceData.sport.id = race.getSport().getAcronym();
 			raceData.sport.name = race.getSport().getName();
 
-			// Race Period
+			// Period
 
 			raceData.period = new PeriodData();
 			raceData.period.beginning = race.getBeginning();
 			raceData.period.end = race.getEnd();
-
-			// if (eventData.period.beginning == null
-			// || Dates.before(raceData.period.beginning, eventData.period.beginning)) {
-			// eventData.period.beginning = raceData.period.beginning;
-			// }
-			//
-			// if (eventData.period.end == null || Dates.after(raceData.period.end, eventData.period.end)) {
-			// eventData.period.end = raceData.period.end;
-			// }
-
-			// Race Championships
 
 			raceData.championships = new ArrayList<ChampionshipData>();
 			for (Championship championship : championshipDAO.findForEvent(race)) {
@@ -226,7 +196,7 @@ public class EventREST {
 				championshipFees.addAll(feeDAO.findForEvent(championship));
 			}
 
-			// Race Categories
+			// Categories
 
 			raceData.categories = new ArrayList<CategoryData>();
 			for (Category category : categoryDAO.findForEvent(race)) {
@@ -236,7 +206,7 @@ public class EventREST {
 				raceData.categories.add(categoryData);
 			}
 
-			// Race Prices
+			// Prices
 
 			List<Period> periods = periodDAO.findForEvent(race);
 			raceData.prices = new ArrayList<PeriodData>();
@@ -244,23 +214,19 @@ public class EventREST {
 				PeriodData periodData = new PeriodData();
 				periodData.beginning = period.getBeginning();
 				periodData.end = period.getEnd();
-				// periodData.price = feeBusiness.applyForEvent(period.getPrice(), raceFees, championshipFees);
 				periodData.price = period.getPrice();
 				raceData.prices.add(periodData);
 			}
 
 			// Current Period
 
-			// raceData.status = raceBusiness.getStatus(race, now, periods);
 			Period currentPeriod = raceBusiness.getPeriod(now, periods);
-			raceData.currentPeriod = new PeriodData();
-			raceData.currentPeriod.beginning = currentPeriod.getBeginning();
-			raceData.currentPeriod.end = currentPeriod.getEnd();
-			raceData.currentPeriod.price = currentPeriod.getPrice();
-
-			// if (eventData.status == null || eventData.status.getOrder() < raceData.status.getOrder()) {
-			// eventData.status = raceData.status;
-			// }
+			if (currentPeriod != null) {
+				raceData.currentPeriod = new PeriodData();
+				raceData.currentPeriod.beginning = currentPeriod.getBeginning();
+				raceData.currentPeriod.end = currentPeriod.getEnd();
+				raceData.currentPeriod.price = currentPeriod.getPrice();
+			}
 
 			// Modalities
 
@@ -278,14 +244,14 @@ public class EventREST {
 		// Countdown
 
 		int days = Days.daysBetween(new LocalDate(now), new LocalDate(eventData.period.beginning)).getDays();
-		eventData.period.countdown = days > 0 ? days : 0;
+		eventData.period.countdown = days >= 0 ? days : -1;
 
 		// Organizers
 
 		eventData.organizers = new ArrayList<UserData>();
 		for (User organizer : UserDAO.getInstance().findOrganizersForEvent(event)) {
 			UserData organizerData = new UserData();
-			// organizerData.id = organizer.getId();
+			organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();
 			organizerData.email = organizer.getEmail();
 			organizerData.mobile = organizer.getProfile().getMobile();

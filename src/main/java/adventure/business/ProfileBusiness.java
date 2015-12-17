@@ -1,10 +1,14 @@
 package adventure.business;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -27,18 +31,28 @@ public class ProfileBusiness {
 	@Asynchronous
 	@Transactional
 	public void updatePicture(Integer profileId, String pictureUrl) throws Exception {
-		byte[] picture = getPicture(new URL(pictureUrl));
+		InputStream inputStream = getPicture(new URL(pictureUrl));
 
-		if (picture != null) {
-			ProfileDAO profileDAO = ProfileDAO.getInstance();
-			Profile profile = profileDAO.load(profileId);
-			profile.setPicture(picture);
-			profileDAO.update(profile);
+		if (inputStream != null) {
+			updatePicture(profileId, inputStream);
 		}
 	}
 
-	private byte[] getPicture(URL url) throws Exception {
-		byte[] result = null;
+	@Transactional
+	public void updatePicture(Integer profileId, InputStream inputStream) throws Exception {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		Thumbnails.of(inputStream).crop(Positions.CENTER).size(250, 250).keepAspectRatio(true)
+				.toOutputStream(outputStream);
+		byte picture[] = outputStream.toByteArray();
+
+		ProfileDAO profileDAO = ProfileDAO.getInstance();
+		Profile profile = profileDAO.load(profileId);
+		profile.setPicture(picture);
+		profileDAO.update(profile);
+	}
+
+	private InputStream getPicture(URL url) throws Exception {
+		InputStream result = null;
 
 		if (url != null) {
 			// try {
@@ -63,9 +77,10 @@ public class ProfileBusiness {
 				result = getPicture(new URL(location));
 
 			} else if (status == 200) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				response.getEntity().writeTo(out);
-				result = out.toByteArray();
+				// ByteArrayOutputStream out = new ByteArrayOutputStream();
+				// response.getEntity().writeTo(out);
+				// result = out.toByteArray();
+				result = response.getEntity().getContent();
 				// result = Strings.parse(conn.getInputStream()).getBytes();
 			} else {
 				result = null;

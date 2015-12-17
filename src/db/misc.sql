@@ -306,3 +306,57 @@ UPDATE race
 UPDATE profile
    SET picture = NULL
  WHERE id = 2;
+
+----
+
+
+DELETE FROM event_organizer
+      WHERE event_id = 12;
+
+DELETE FROM race
+      WHERE id = 30;
+
+DELETE FROM event
+      WHERE id = 12;
+
+INSERT INTO event (id,
+                   slug,
+                   name,
+                   description,
+                   payment_type,
+                   city_id,
+                   _status_id)
+     VALUES (12,
+             'np4',
+             '4ª Noite do Perrengue',
+             'Em breve mais informações.',
+             'AUTO',
+             5571,
+             1);
+
+INSERT INTO race (id,
+                  slug,
+                  name,
+                  description,
+                  distance,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  ending,
+                  _status_id)
+     VALUES (30,
+             'aventura',
+             'Corrida de Aventura 60km',
+             'Em breve mais informações.',
+             60,
+             12,
+             1,
+             '2016-03-19',
+             '2016-03-19',
+             1);
+
+INSERT INTO event_organizer (event_id, organizer_id, alternate_name)
+     VALUES (12, 8, 'Gustavo Chagas');
+
+INSERT INTO event_organizer (event_id, organizer_id, alternate_name)
+     VALUES (12, 9, 'Arnaldo Maciel');

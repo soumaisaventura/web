@@ -48,8 +48,33 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 25px;
 }
 
+.race-title {
+	margin-bottom: 13px;
+}
+
+.race-info {
+	padding-left: 0px;
+	padding-right: 0px;
+	/* 	color: #5e5e5e; */
+}
+
+.race-name {
+	/* 	background-color: #bbb; */
+	/* 	color: white; */
+	font-size: 23px;
+	padding-right: 6px;
+	/* 	color: #bbbbbb; */
+}
+
 .race-description {
 	text-align: justify;
+	/* 	color: #939393; */
+}
+
+.race-date {
+	/* 	background-color: #bbb; */
+	font-size: 15px;
+	color: #d9534f;
 }
 
 .event-race-detail {
@@ -57,22 +82,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .event-race {
-	background-color: #efefef;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 30px;
-	padding-right: 30px;
-	border-left: 6px solid #3c763d;
-	margin-bottom: 20px;
-	border-left: 6px solid #3c763d;
+	/* 	background-color: #efefef; */
+	padding-top: 13px;
+	padding-bottom: 13px;
+	/* 	padding-left: 30px; */
+	/* 	padding-right: 30px; */
+	/* 	border-left: 6px solid #3c763d; */
+	border-top: 1px solid #f1f1f1;
+	/* 	margin-bottom: 20px; */
 }
 
 .event-map {
 	padding: 0;
-}
-
-.month {
-	font-size: 0.8em;
 }
 
 .modality-icon {
@@ -81,5 +102,5 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .event-organizer {
-	margin-bottom: 30px;
+	padding: 10px;
 }

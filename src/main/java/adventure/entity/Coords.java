@@ -1,9 +1,12 @@
 package adventure.entity;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import br.gov.frameworkdemoiselle.util.Reflections;
 
 @Embeddable
 public class Coords {
@@ -13,6 +16,16 @@ public class Coords {
 
 	@Column(name = "coord_longitude")
 	private BigDecimal longitude;
+
+	public boolean isEmpty() {
+		boolean resut = true;
+
+		for (Field field : Reflections.getNonStaticDeclaredFields(this.getClass())) {
+			resut &= Reflections.getFieldValue(field, this) == null;
+		}
+
+		return resut;
+	}
 
 	@Override
 	public int hashCode() {

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="954,120" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="632,546" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -287,27 +287,33 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="banner">
 		<type name="oid"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="site">
 		<type name="character varying" length="255"/>
 	</column>
-	<column name="payment_type" not-null="true">
+	<column name="payment_type">
 		<type name="character varying" length="20"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="payment_info">
 		<type name="character varying" length="500"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="payment_account">
 		<type name="character varying" length="255"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="payment_token">
 		<type name="character varying" length="64"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="date" not-null="true">
+	<column name="date">
 		<type name="date"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="beginning" not-null="true">
 		<type name="date"/>
@@ -317,6 +323,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="city_id">
 		<type name="integer"/>
+		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="_status_id" not-null="true">
 		<type name="integer" length="6"/>
@@ -964,13 +971,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="top_color">
 		<type name="character varying" length="7"/>
 	</column>
-	<column name="background_color" not-null="true">
+	<column name="background_color">
 		<type name="character varying" length="7"/>
 	</column>
-	<column name="text_color" not-null="true">
+	<column name="text_color">
 		<type name="character varying" length="7"/>
 	</column>
-	<column name="button_color" not-null="true">
+	<column name="button_color">
 		<type name="character varying" length="7"/>
 	</column>
 	<column name="payment_type" not-null="true">
@@ -985,7 +992,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="payment_token">
 		<type name="character varying" length="64"/>
 	</column>
-	<column name="city_id">
+	<column name="city_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="coord_latitude">
@@ -1624,6 +1631,49 @@ CAUTION: Do not modify this file unless you know what you are doing.
 			<expression><![CDATA[extract(year from _beginning)]]></expression>
 		</idxelement>
 </index>
+
+<function name="event_status"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="integer"/>
+	</return-type>
+	<parameter name="_event_id">
+		<type name="integer"/>
+	</parameter>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   l_race      race%ROWTYPE;
+   status_id   status.id%TYPE;
+BEGIN
+   FOR l_race IN SELECT r.*
+                   FROM race r
+                  WHERE r.event_id = _event_id
+   LOOP
+      IF status_id IS NULL OR l_race._status_id < status_id
+      THEN
+         status_id = l_race._status_id;
+      END IF;
+   END LOOP;
+
+   IF status_id IS NULL
+   THEN
+      status_id = 1;
+   END IF;
+
+   RETURN status_id;
+END
+]]></definition>
+</function>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">

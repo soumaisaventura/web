@@ -5,7 +5,10 @@ import static adventure.util.Constants.NAME_SIZE;
 import static adventure.util.Constants.RG_SIZE;
 import static adventure.util.Constants.TELEPHONE_SIZE;
 
+import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,7 +23,10 @@ import javax.ws.rs.Produces;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import adventure.business.ProfileBusiness;
 import adventure.entity.GenderType;
 import adventure.entity.Profile;
 import adventure.entity.TshirtType;
@@ -29,7 +35,9 @@ import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.rest.LocationREST.CityData;
 import adventure.util.PendencyCounter;
+import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -62,7 +70,6 @@ public class UserProfileREST {
 	}
 
 	@GET
-	// @Produces("image/png")
 	@Path("{id}/picture")
 	@Produces("image/jpeg")
 	// @Cache("max-age=604800000")
@@ -75,6 +82,41 @@ public class UserProfileREST {
 		}
 
 		return result;
+	}
+
+	@PUT
+	@LoggedIn
+	@Transactional
+	@ValidatePayload
+	@Path("{id}/picture")
+	@Consumes("multipart/form-data")
+	public void setPicture(@PathParam("id") Integer id, @NotEmpty MultipartFormDataInput input) throws Exception {
+		Profile profile = loadProfile(id);
+		checkPermission(profile);
+
+		InputPart file = null;
+		Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
+
+		for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
+			file = entry.getValue().get(0);
+			break;
+		}
+
+		if (file == null) {
+			throw new UnprocessableEntityException().addViolation("file", "campo obrigatório");
+		}
+
+		// profile.setPicture(IOUtils.toByteArray(inputStream));
+		// ProfileDAO.getInstance().update(profile);
+
+		InputStream inputStream = file.getBody(InputStream.class, null);
+		ProfileBusiness.getInstance().updatePicture(id, inputStream);
+	}
+
+	private void checkPermission(Profile profile) throws ForbiddenException {
+		if (!User.getLoggedIn().getAdmin() && !profile.getUser().getId().equals(User.getLoggedIn().getId())) {
+			throw new ForbiddenException();
+		}
 	}
 
 	@PUT

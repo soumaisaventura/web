@@ -86,6 +86,9 @@ body {
 	border-bottom-color: #F0F0F0;
 }
 
+.rounded {
+	border-radius: 6px;
+}
 /*
 .navbar-brand {
 	font-size: 1.3em;

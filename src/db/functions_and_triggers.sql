@@ -1,4 +1,35 @@
-DROP FUNCTION IF EXISTS race_status (RACE, DATE);
+DROP FUNCTION IF EXISTS event_status (integer);
+
+CREATE OR REPLACE FUNCTION event_status (_event_id integer)
+   RETURNS integer
+AS
+$func$
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   l_race      race%ROWTYPE;
+   status_id   status.id%TYPE;
+BEGIN
+   FOR l_race IN SELECT r.*
+                   FROM race r
+                  WHERE r.event_id = _event_id
+   LOOP
+      IF status_id IS NULL OR l_race._status_id < status_id
+      THEN
+         status_id = l_race._status_id;
+      END IF;
+   END LOOP;
+
+   IF status_id IS NULL
+   THEN
+      status_id = 1;
+   END IF;
+
+   RETURN status_id;
+END
+$func$
+   LANGUAGE plpgsql;
+
+DROP FUNCTION IF EXISTS race_status (integer, DATE);
 
 CREATE OR REPLACE FUNCTION race_status (_race_id integer, _race_ending DATE)
    RETURNS integer
@@ -50,33 +81,38 @@ CREATE OR REPLACE FUNCTION trg_period_after_all ()
    RETURNS trigger
 AS
 $func$
+   /*
    # VARIABLE_CONFLICT use_variable
 DECLARE
    event_id   event.id%TYPE;
+   */
 BEGIN
    IF NEW.race_id <> OLD.race_id
    THEN
       UPDATE race
          SET _status_id = race_status (OLD.race_id, OLD.ending)
        WHERE id = OLD.race_id;
+   /*
+         SELECT r.event_id
+           INTO event_id
+           FROM race r
+          WHERE r.id = OLD.race_id;
 
-      SELECT r.event_id
-        INTO event_id
-        FROM race r
-       WHERE r.id = OLD.race_id;
+         UPDATE event
+            SET _beginning =
+                   (SELECT min (r.beginning)
+                      FROM race r
+                     WHERE r.id = OLD.race_id),
+                _ending =
+                   (SELECT max (r.ending)
+                      FROM race r
+                     WHERE r.id = OLD.race_id)
+          WHERE id = event_id;
+         event_id = NULL;
+   */
 
-      UPDATE event
-         SET _beginning =
-                (SELECT min (r.beginning)
-                   FROM race r
-                  WHERE r.id = OLD.race_id),
-             _ending =
-                (SELECT max (r.ending)
-                   FROM race r
-                  WHERE r.id = OLD.race_id)
-       WHERE id = event_id;
 
-      event_id = NULL;
+
    END IF;
 
    IF NEW.race_id IS NOT NULL
@@ -84,22 +120,26 @@ BEGIN
       UPDATE race
          SET _status_id = race_status (NEW.race_id, NEW.ending)
        WHERE id = NEW.race_id;
+   /*
+       SELECT r.event_id
+         INTO event_id
+         FROM race r
+        WHERE r.id = NEW.race_id;
 
-      SELECT r.event_id
-        INTO event_id
-        FROM race r
-       WHERE r.id = NEW.race_id;
+       UPDATE event
+          SET _beginning =
+                 (SELECT min (r.beginning)
+                    FROM race r
+                   WHERE r.id = NEW.race_id),
+              _ending =
+                 (SELECT max (r.ending)
+                    FROM race r
+                   WHERE r.id = NEW.race_id)
+        WHERE id = event_id;
+     */
 
-      UPDATE event
-         SET _beginning =
-                (SELECT min (r.beginning)
-                   FROM race r
-                  WHERE r.id = NEW.race_id),
-             _ending =
-                (SELECT max (r.ending)
-                   FROM race r
-                  WHERE r.id = NEW.race_id)
-       WHERE id = event_id;
+
+
    END IF;
 
    RETURN NULL;
@@ -122,43 +162,39 @@ AS
 $func$
    # VARIABLE_CONFLICT use_variable
 DECLARE
-   l_race      race%ROWTYPE;
-   status_id   event._status_id%TYPE;
+   l_race         race%ROWTYPE;
+   status_id      event._status_id%TYPE;
+   new_event_id   event.id%TYPE;
+   old_event_id   event.id%TYPE;
 BEGIN
-   IF NEW.event_id <> OLD.event_id
+   IF TG_OP IN ('INSERT', 'UPDATE')
    THEN
-      FOR l_race IN SELECT r.*
-                      FROM race r
-                     WHERE r.event_id = OLD.event_id
-      LOOP
-         IF status_id IS NULL OR l_race._status_id < status_id
-         THEN
-            status_id = l_race._status_id;
-         END IF;
-      END LOOP;
-
       UPDATE event
-         SET _status_id = status_id
-       WHERE id = OLD.event_id;
+         SET _status_id = event_status (NEW.event_id),
+             _beginning =
+                (SELECT min (r.beginning)
+                   FROM race r
+                  WHERE r.id = NEW.id),
+             _ending =
+                (SELECT max (r.ending)
+                   FROM race r
+                  WHERE r.id = NEW.id)
+       WHERE id = NEW.event_id;
    END IF;
 
-   status_id = NULL;
-
-   IF NEW.event_id IS NOT NULL
+   IF TG_OP IN ('DELETE', 'UPDATE')
    THEN
-      FOR l_race IN SELECT r.*
-                      FROM race r
-                     WHERE r.event_id = NEW.event_id
-      LOOP
-         IF status_id IS NULL OR l_race._status_id < status_id
-         THEN
-            status_id = l_race._status_id;
-         END IF;
-      END LOOP;
-
       UPDATE event
-         SET _status_id = status_id
-       WHERE id = NEW.event_id;
+         SET _status_id = event_status (OLD.event_id),
+             _beginning =
+                (SELECT min (r.beginning)
+                   FROM race r
+                  WHERE r.id = OLD.id),
+             _ending =
+                (SELECT max (r.ending)
+                   FROM race r
+                  WHERE r.id = OLD.id)
+       WHERE id = OLD.event_id;
    END IF;
 
    RETURN NULL;
@@ -193,14 +229,3 @@ CREATE TRIGGER trg_race_before_update
    ON race
    FOR EACH ROW
 EXECUTE PROCEDURE trg_race_before_update ();
-
-----------------
-
-UPDATE race
-   SET _status_id = race_status (id, ending)
- WHERE _status_id < 4;
-
-UPDATE period
-   SET ending = ending;
-
-SELECT _beginning, _ending, * FROM event;

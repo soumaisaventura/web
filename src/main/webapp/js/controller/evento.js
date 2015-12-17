@@ -1,10 +1,10 @@
 $(function() {
 	var id = $("#id").val();
 
-	var map = initMap();
-	EventProxy.loadMap(id).done(function(data) {
-		loadMapOk(data, map, id)
-	});
+//	var map = initMap();
+//	EventProxy.loadMap(id).done(function(data) {
+//		loadMapOk(data, map, id)
+//	});
 
 	moment.locale("pt-br");
 	numeral.language('pt-br');
@@ -53,43 +53,70 @@ function getBannerOk(data) {
 	}
 }
 
-function loadEventOk(data) {
-	$(".event-title").text(data.name);
-	$(".event-description").text(data.description);
-	$("#days-left").text(data.period.countdown);
-	$("#event-location").text(data.location.city.name + " / " + data.location.city.state);
-	
-	var b = moment(data.period.beginning, "YYYY-MM-DD").locale("pt-br").format("L");
-	var e = moment(data.period.end, "YYYY-MM-DD").locale("pt-br").format("L");
+function loadEventOk(event) {
+	$(".event-title").text(event.name);
+	$(".event-description").text(event.description);
+	$("#days-left").text(event.period.countdown);
+	$("#event-location").text(event.location.city.name + " / " + event.location.city.state);
+
+	var b = App.moment(event.period.beginning).format("L");
+	var e = App.moment(event.period.end).format("L");
 	$("#period").text(b + " à " + e);
 
-	var organizerTemplate = $('#event-organizer-template').html();
-	var renderedOrganizers = Mustache.render(organizerTemplate, data);
-	$('#organizers').append(renderedOrganizers);
-	
-	var template = $('#event-race-template').html();
-	$.each(data.races, function(i, race) {
-		race.idx = i + 1;
-		race.day = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('DD');
-		race.month = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('MMM');
-		
-		race.moreThanOneDay = !(race.period.beginning === race.period.end);
-		race.period.beginning = moment(race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('L');
-		race.period.end = moment(race.period.end, "YYYY-MM-DD").locale("pt-br").format('L');
-		
-		race.current_period.end = moment(race.current_period.end, "YYYY-MM-DD").locale("pt-br").format('DD/MM');
+	// var organizerTemplate = $('#event-organizer-template').html();
+	// var renderedOrganizers = Mustache.render(organizerTemplate, event);
+	// $('#organizers').append(renderedOrganizers);
 
-		$.each(race.prices, function(j, price) {
-			race.prices[j].beginning = moment(price.beginning).format('DD/MM');
-			race.prices[j].end = moment(price.end).format('DD/MM');
+	var template;
+
+	console.log(event.organizers);
+
+	// Organizers
+
+	template = $('#event-organizer-template').html();
+	if (event.organizers) {
+		$.each(event.organizers, function(i, organizer) {
+			var rendered = Mustache.render(template, organizer);
+			$('#event-organizers').append(rendered);
 		});
-		
-		race.hasChampionship = (race.championships != null && race.championships.length > 0);
-		
-		var rendered = Mustache.render(template, race);
-		$('#event-races').append(rendered);
-	});
-	
-	// Remove o botão de inscreva-se caso a corrida esteja com status end ou closed.
-	$(".end, .closed").detach();
+
+		$(".event-organizers").show();
+	}
+
+	// Races
+
+	template = $('#event-race-template').html();
+	if (event.races) {
+		$.each(event.races, function(i, race) {
+			race.idx = i + 1;
+
+			// Periods
+
+			race.date = App.moment(race.period.beginning).format("DD [de] MMMM");
+			race.month = App.moment(race.period.beginning).format('MMM');
+			race.more_than_one_day = race.period.beginning !== race.period.end;
+			race.period.beginning = App.moment(race.period.beginning).format('L');
+			race.period.end = App.moment(race.period.end).format('L');
+
+			if (race.current_period) {
+				race.current_period.end = App.moment(race.current_period.end).format('DD/MM');
+			}
+
+			// Prices
+
+			if (race.prices) {
+				$.each(race.prices, function(j, price) {
+					race.prices[j].beginning = App.moment(price.beginning).format('DD/MM');
+					race.prices[j].end = App.moment(price.end).format('DD/MM');
+				});
+			}
+
+			race.hasChampionship = (race.championships != null && race.championships.length > 0);
+
+			var rendered = Mustache.render(template, race);
+			$('#event-races').append(rendered);
+		});
+	}
+
+	$(".soon, .end, .closed").detach();
 }

@@ -31,9 +31,9 @@
 		<input id="id" type="hidden" value="#{param.evento_id}" />
 
 		<div class="row">
-			<div class="col-md-8 left-col">
+			<div class="col-md-offset-2 col-md-8 left-col">
 				<div class="row event-banner">
-					<img id="banner" class="img-responsive" style="margin: 0 auto;" />
+					<img id="banner" class="img-responsive rounded" style="margin: 0 auto;" />
 				</div>
 				<div class="row">
 					<div class="col-md-12 event-info">
@@ -47,66 +47,52 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div id="event-races" class="races"></div>
+						<div id="event-races" class="event-races"></div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div id="event-organizers" class="event-organizers"></div>
 					</div>
 				</div>
 			</div>
 
+			<!--
 			<div class="col-md-4 right-col">
 				<div class="row">
 					<div class="col-md-12">
-						<div id="map"></div>
+						<div id="map" class="rounded"></div>
 					</div>
 				</div>
-<!-- 				<div class="row"> -->
-<!-- 					<div class="panel panel-info"> -->
-<!-- 	  					<div class="panel-heading text-center"> -->
-<!-- 	    					<h2>Local</h2> -->
-<!-- 	  					</div> -->
-<!-- 						<div class="panel-body text-center"> -->
-<!-- 	  						<h3 id="event-location"></h3> -->
-<!-- 	  					</div> -->
-<!-- 						<div class="panel-footer event-map"> -->
-<!-- 							<div id="map"></div>		 -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-
-				<div class="row">
+				<div class="row event-organizers" hidden="true">
 					<div class="col-md-12 event-info">
 						<h3 class="text-center">Organizadores</h3>
-	  					<div id="organizers" class="panel-body text-center"></div>
-	  				</div>
-
+						<div id="event-organizers" class="panel-body text-center"></div>
+					</div>
 				</div>
 			</div>
+			-->
 		</div>
 
 		<div id="event-organizer-template" hidden="true">
-			{{#organizers}}
-			<div class="event-organizer">
+			<div class="event-organizer col-md-4">
+				<img class="img-responsive rounded" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
 				<h4>{{name}}</h4>
 				<h5>{{email}}</h5>
 				<h5>{{mobile}}</h5>
 			</div>
-			{{/organizers}}
 		</div>
 
 		<div id="event-race-template" hidden="true">
 			<div class="event-race col-md-12">
 				<div class="row">
-					<div class="col-md-2 text-center text-success">
-						<h2>
-							<div>{{day}}</div>
-							<div class="month" style="font-size: 0.6em;">{{month}}</div>
-						</h2>
-					</div>
-					<div class="col-md-7">
+					<div class="col-md-9">
 						<div class="row">
-							<div class="col-md-12">
-								<h3>
-									<strong>{{name}}</strong>
-								</h3>
+							<div class="col-md-12 race-info">
+								<div class="race-title">
+									<span class="race-name">{{name}}</span> <span class="race-date">{{date}}</span>
+								</div>
 								<p class="race-description">{{description}}</p>
 								<a data-toggle="collapse" href="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">Saiba mais</a>
 							</div>
@@ -124,7 +110,7 @@
 				</div>
 				<div class="collapse" id="collapse-{{id}}">
 					<div class="row event-race-detail">
-						<div class="col-md-7 col-md-offset-2">
+						<div class="col-md-7">
 							<p>
 								<strong>{{sport.name}}</strong>
 							</p>
@@ -143,9 +129,9 @@
 							</p>
 							<ul>
 								<li>
-									{{period.beginning}}{{#moreThanOneDay}}
+									{{period.beginning}}{{#more_than_one_day}}
 									<small>à</small>
-									{{period.end}}{{/moreThanOneDay}}
+									{{period.end}}{{/more_than_one_day}}
 								</li>
 							</ul>
 							<p>

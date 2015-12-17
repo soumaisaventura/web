@@ -161,6 +161,10 @@ var App = {
 			default:
 				return '<span class="registration label label-danger">Status desconhecido</span>';
 		}
+	},
+
+	moment : function(date) {
+		return moment(date, "YYYY-MM-DD").locale("pt-br");
 	}
 };
 
