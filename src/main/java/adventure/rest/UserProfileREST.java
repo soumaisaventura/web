@@ -40,6 +40,7 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import br.gov.frameworkdemoiselle.validation.annotation.Cpf;
 
@@ -72,7 +73,7 @@ public class UserProfileREST {
 	@GET
 	@Path("{id}/picture")
 	@Produces("image/jpeg")
-	// @Cache("max-age=604800000")
+	@Cache("max-age=604800000")
 	public byte[] getPicture(@PathParam("id") Integer id) throws Exception {
 		Profile profile = loadProfile(id);
 		byte result[] = profile.getPicture();

@@ -89,6 +89,11 @@ body {
 .rounded {
 	border-radius: 6px;
 }
+
+.glyphicon {
+	font-size: 0.8em;
+}
+
 /*
 .navbar-brand {
 	font-size: 1.3em;

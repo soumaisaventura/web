@@ -1,10 +1,10 @@
 $(function() {
 	var id = $("#id").val();
 
-//	var map = initMap();
-//	EventProxy.loadMap(id).done(function(data) {
-//		loadMapOk(data, map, id)
-//	});
+	// var map = initMap();
+	// EventProxy.loadMap(id).done(function(data) {
+	// loadMapOk(data, map, id)
+	// });
 
 	moment.locale("pt-br");
 	numeral.language('pt-br');
@@ -57,11 +57,22 @@ function loadEventOk(event) {
 	$(".event-title").text(event.name);
 	$(".event-description").text(event.description);
 	$("#days-left").text(event.period.countdown);
-	$("#event-location").text(event.location.city.name + " / " + event.location.city.state);
+	$("#event-location-city").text(event.location.city.name + " / " + event.location.city.state);
 
-	var b = App.moment(event.period.beginning).format("L");
-	var e = App.moment(event.period.end).format("L");
-	$("#period").text(b + " à " + e);
+	if (event.period.beginning !== event.period.end) {
+		if (moment(event.period.beginning).isSame(moment(event.period.end), 'month')) {
+			$("#event-date").append(App.moment(event.period.beginning).format("DD"));
+		} else {
+			$("#event-date").append(App.moment(event.period.beginning).format("DD [de] MMMM"));
+		}
+
+		$("#event-date").append(" à ");
+	}
+	$("#event-date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
+
+	// var b = App.moment(event.period.beginning).format("DD [de] MMMM");
+	// var e = App.moment(event.period.end).format("DD [de] MMMM [de] YYYY");
+	// $("#event-date").text(b + " à " + e);
 
 	// var organizerTemplate = $('#event-organizer-template').html();
 	// var renderedOrganizers = Mustache.render(organizerTemplate, event);
@@ -80,7 +91,7 @@ function loadEventOk(event) {
 			$('#event-organizers').append(rendered);
 		});
 
-		$(".event-organizers").show();
+		// $(".event-organizers").show();
 	}
 
 	// Races
@@ -93,13 +104,14 @@ function loadEventOk(event) {
 			// Periods
 
 			race.date = App.moment(race.period.beginning).format("DD [de] MMMM");
-			race.month = App.moment(race.period.beginning).format('MMM');
+			race.day = App.moment(race.period.beginning).format('DD');
+			race.month = App.moment(race.period.beginning).format('MMM').toUpperCase();
 			race.more_than_one_day = race.period.beginning !== race.period.end;
 			race.period.beginning = App.moment(race.period.beginning).format('L');
 			race.period.end = App.moment(race.period.end).format('L');
 
 			if (race.current_period) {
-				race.current_period.end = App.moment(race.current_period.end).format('DD/MM');
+				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
 			}
 
 			// Prices
@@ -110,8 +122,6 @@ function loadEventOk(event) {
 					race.prices[j].end = App.moment(price.end).format('DD/MM');
 				});
 			}
-
-			race.hasChampionship = (race.championships != null && race.championships.length > 0);
 
 			var rendered = Mustache.render(template, race);
 			$('#event-races').append(rendered);

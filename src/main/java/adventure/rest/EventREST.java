@@ -61,6 +61,7 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("event")
@@ -68,7 +69,7 @@ public class EventREST {
 
 	@GET
 	@Path("year/{year}")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> year(@PathParam("year") Integer year) throws Exception {
 		List<EventData> result = new ArrayList<EventData>();
@@ -96,7 +97,7 @@ public class EventREST {
 
 	@GET
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> mapData(@PathParam("slug") String slug) throws Exception {
 		List<EventData> result = new ArrayList<EventData>();
@@ -117,7 +118,7 @@ public class EventREST {
 
 	@GET
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
-	// @Cache("max-age=28800")
+	@Cache("max-age=28800")
 	@Produces("application/json")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
@@ -263,7 +264,7 @@ public class EventREST {
 
 	@GET
 	@Produces("image/png")
-	// @Cache("max-age=604800000")
+	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64")
 	public byte[] getBannerBase64(@PathParam("slug") String slug) throws Exception {
 		return getBannerBase64(slug, null);
@@ -271,7 +272,7 @@ public class EventREST {
 
 	@GET
 	@Produces("image/png")
-	// @Cache("max-age=604800000")
+	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64/{width}")
 	public byte[] getBannerBase64(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
 		Event event = loadEventBanner(slug);
@@ -280,7 +281,7 @@ public class EventREST {
 
 	@GET
 	@Produces("image/png")
-	// @Cache("max-age=604800000")
+	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
 	public byte[] getBanner(@PathParam("slug") String slug) throws Exception {
 		return getBanner(slug, null);
@@ -288,7 +289,7 @@ public class EventREST {
 
 	@GET
 	@Produces("image/png")
-	// @Cache("max-age=604800000")
+	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/{width}")
 	public byte[] getBanner(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
 		Event event = loadEventBanner(slug);

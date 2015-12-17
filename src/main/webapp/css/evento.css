@@ -3,6 +3,27 @@
 	width: auto;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0px;
+}
+
+ul.event-race-list-info {
+	list-style-type: square;
+}
+
+/* li:before { */
+/* 	content: "■"; */
+/* 	color: blue; */
+/* } */
+
+/* .equal, .equal>div[class*='col-'] { */
+/* 	display: -webkit-box; */
+/* 	display: -moz-box; */
+/* 	display: -ms-flexbox; */
+/* 	display: -webkit-flex; */
+/* 	display: flex; */
+/* 	flex: 1 1 auto; */
+/* } */
 .event-banner {
 	/* 	background-color: black; */
 	/* 	position: relative; */
@@ -10,7 +31,7 @@
 }
 
 .event-description {
-	margin: 0 auto;
+	padding-top: 20px;
 }
 
 .event-banner .right-col {
@@ -27,18 +48,19 @@
 }
 
 .event-title {
+	font-size: xx-large;
 	color: black;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	margin-top: 0px;
 }
 
 .event-info {
 	/* 	margin-top: 1px; */
 	/* 	background-color: gray; */
-	margin-top: 40px;
+	margin-top: 30px;
 	margin-bottom: 40px;
+}
+
+.event-info-icon {
+	padding-right: 10px;
 }
 
 .event-description {
@@ -46,6 +68,29 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 1.1em;
 	text-align: justify;
 	line-height: 25px;
+}
+
+.event-race-detail {
+	margin-top: 20px;
+}
+
+.event-race {
+	/* 	background-color: #efefef; */
+	padding-top: 30px;
+	padding-bottom: 30px;
+	/* 	padding-left: 30px; */
+	/* 	padding-right: 30px; */
+	/* 	border-left: 6px solid #3c763d; */
+	border-top: 1px solid #f1f1f1;
+	/* 	margin-bottom: 20px; */
+}
+
+.event-organizer {
+	padding: 10px;
+}
+
+.event-map {
+	padding: 0;
 }
 
 .race-title {
@@ -61,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 .race-name {
 	/* 	background-color: #bbb; */
 	/* 	color: white; */
-	font-size: 23px;
+	font-size: x-large;
 	padding-right: 6px;
 	/* 	color: #bbbbbb; */
 }
@@ -77,23 +122,24 @@ h1, h2, h3, h4, h5, h6 {
 	color: #d9534f;
 }
 
-.event-race-detail {
-	margin-top: 20px;
+.race-registration {
+	font-size: 16px;
 }
 
-.event-race {
-	/* 	background-color: #efefef; */
-	padding-top: 13px;
-	padding-bottom: 13px;
-	/* 	padding-left: 30px; */
-	/* 	padding-right: 30px; */
-	/* 	border-left: 6px solid #3c763d; */
-	border-top: 1px solid #f1f1f1;
-	/* 	margin-bottom: 20px; */
+.race-registration-icon {
+	float: left;
+	height: 40px;
+	padding-left: 20px;
+	padding-right: 10px;
 }
 
-.event-map {
-	padding: 0;
+.race-registration-price {
+	font-size: small;
+	color: #cffccf;
+}
+
+.race-registration-hint {
+	font-size: small;
 }
 
 .modality-icon {
@@ -101,6 +147,28 @@ h1, h2, h3, h4, h5, h6 {
 	height: 16px;
 }
 
-.event-organizer {
-	padding: 10px;
+.calendar {
+	border: 1px solid #dbdbdb;
+	margin-right: 10px;
+	text-align: center;
+	font-size: 11px;
+	float: left;
+	width: 40px;
+	float: left;
+	font-size: 11px;
+	/* 	font-size: x-small; */
+	/* 	display: inline; */
+	border-radius: 2px;
+}
+
+.calendar .day {
+	font-size: 1.3em;
+}
+
+.calendar .month {
+	background-color: #d9534f;
+	font-size: 0.9em;
+	color: white;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
 }
