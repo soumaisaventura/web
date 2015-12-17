@@ -1,10 +1,10 @@
 $(function() {
 	var id = $("#id").val();
 
-	// var map = initMap();
-	// EventProxy.loadMap(id).done(function(data) {
-	// loadMapOk(data, map, id)
-	// });
+	var map = initMap();
+	EventProxy.loadMap(id).done(function(data) {
+		loadMapOk(data, map, id)
+	});
 
 	moment.locale("pt-br");
 	numeral.language('pt-br');
@@ -17,8 +17,13 @@ $(function() {
 
 function initMap() {
 	var options = {
-		zoom : 12,
-		scrollwheel : false
+		zoom : 14,
+		disableDefaultUI : true,
+		draggable : false,
+		scrollwheel : false,
+		disableDoubleClickZoom : true,
+		zoomControl : false,
+		scaleControl : false
 	};
 
 	return new google.maps.Map($("#map")[0], options);

@@ -41,24 +41,25 @@
 
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8 left-col">
-
 					<div class="row">
-						<div class="col-md-12 event-info">
-							<div class="row">
-								<div class="col-md-12">
-									<div>
-										<span class="event-title"></span>
+						<div class="col-md-12">
+							<div class="event-info section-padding">
+								<div class="row">
+									<div class="col-md-12">
+										<div>
+											<span class="event-title"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span class="event-info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="event-location-city"></span></span>
+										<span class="event-info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="event-date"></span></span>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
-									<span class="event-info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="event-location-city"></span></span>
-									<span class="event-info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="event-date"></span></span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 event-description">
+								<div class="col-md-12 event-description section-padding">
 									<div>
 										<p class="event-description"></p>
 									</div>
@@ -78,6 +79,12 @@
 							<div id="event-races" class="event-races"></div>
 						</div>
 					</div>
+
+					<!-- 					<div class="row"> -->
+					<!-- 						<div class="col-md-12"> -->
+					<!-- 							<div id="map"></div> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
 				</div>
 				<!--
 			<div class="col-md-4 right-col">
@@ -97,8 +104,21 @@
 			</div>
 		</div>
 
-		<div class="container-fluid xxx">
+		<div class="container-fluid event-map-section">
 			<div class="container">
+				<div class="col-md-offset-2 col-md-8 left-col">
+					<div id="map"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid event-organizers-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-offset-2 col-md-8 left-col">
+						<div class="event-organizers-title section-padding">Organizadores</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-12 event-organizers" hidden="true">
 						<div id="event-organizers"></div>
@@ -107,9 +127,12 @@
 			</div>
 		</div>
 
+
 		<div id="event-organizer-template" hidden="true">
-			<div class="event-organizer col-md-3">
-				<img class="img-responsive event-organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+			<div class="event-organizer col-md-3 section-padding">
+				<div class="event-organizer-picture-parent">
+					<img class="img-responsive event-organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+				</div>
 				<div class="text-center">
 					<div class="event-organizer-name">{{name}}</div>
 					<div class="event-organizer-email">{{email}}</div>
@@ -120,7 +143,7 @@
 
 		<div id="event-race-template" hidden="true">
 			<div class="row">
-				<div class="event-race col-md-12">
+				<div class="event-race col-md-12 section-padding">
 					<div class="row">
 						<div class="col-md-8">
 							<div class="calendar">

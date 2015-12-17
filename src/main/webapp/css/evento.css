@@ -1,5 +1,5 @@
 #map {
-	height: 350px;
+	height: 300px;
 	width: auto;
 }
 
@@ -30,10 +30,6 @@ ul.event-race-list-info {
 	
 }
 
-.event-description {
-	padding-top: 20px;
-}
-
 .event-banner .right-col {
 	/* 	height: 350px; */
 	/* 	line-height: 350px; */
@@ -55,8 +51,14 @@ ul.event-race-list-info {
 .event-info {
 	/* 	margin-top: 1px; */
 	/* 	background-color: gray; */
-	margin-top: 30px;
-	margin-bottom: 40px;
+	/* 	margin-top: 30px; */
+	/* 	margin-bottom: 40px; */
+	
+}
+
+.section-padding {
+	padding-top: 30px;
+	padding-bottom: 30px;
 }
 
 .event-info-icon {
@@ -68,6 +70,7 @@ ul.event-race-list-info {
 	font-size: 1.1em;
 	text-align: justify;
 	line-height: 25px;
+	border-top: 1px solid #eee;
 }
 
 .event-race-detail {
@@ -76,47 +79,59 @@ ul.event-race-list-info {
 
 .event-race {
 	/* 	background-color: #efefef; */
-	padding-top: 30px;
-	padding-bottom: 30px;
+	/* 	padding-top: 30px; */
+	/* 	padding-bottom: 30px; */
 	/* 	padding-left: 30px; */
 	/* 	padding-right: 30px; */
 	/* 	border-left: 6px solid #3c763d; */
-	border-top: 1px solid #f1f1f1;
+	border-top: 1px solid #eee;
 	/* 	margin-bottom: 20px; */
-}
-
-.event-organizer {
-	padding: 50px;
-	/* 	padding-left: 0px; */
-	/* 	padding-right: 40px; */
-	/* 	margin: 20px; */
-	display: inline-block;
-	float: none !important;
-/* 	margin-right: -4px; */
-}
-
-.xxx {
-	text-align: center;
-	background-color: #f1f1f1;
 }
 
 .yyy {
 	text-align: center;
-	background-color: #262425;
+	background-color: #4f4a4c;
+}
+
+.event-organizers-section {
+	/* 	background-color: #f1f1f1; */
+	color: #777;
 }
 
 .event-organizers {
 	text-align: center;
 }
 
+.event-organizers-title {
+	font-size: xx-large;
+	padding-bottom: 0px;
+}
+
+.event-organizer {
+	/* 	padding-left: 0px; */
+	/* 	padding-right: 40px; */
+	/* 	margin: 20px; */
+	display: inline-block;
+	float: none !important;
+	/* 	margin-right: -4px; */
+	/* 	color: black; */
+}
+
 .event-organizer-picture {
-	/* 	border: 1px solid #dbdbdb; */
+	/* 	border: 1px solid #bbb; */
 	border-radius: 10px;
 }
 
+.event-organizer-picture-parent {
+	padding-left: 30px;
+	padding-right: 30px;
+	/* 	border: 1px solid black; */
+}
+
 .event-organizer-name {
-	padding-top: 10px;
-	font-size: x-large;
+	font-size: large;
+	padding-top: 15px;
+	padding-bottom: 7px;
 }
 
 .event-organizer-email {
@@ -127,8 +142,12 @@ ul.event-race-list-info {
 	
 }
 
-.event-map {
-	padding: 0;
+.event-map-section {
+	background-color: #f7f4ed;
+}
+
+.event-map-section div {
+	padding: 0px;
 }
 
 .race-title {
@@ -187,6 +206,7 @@ ul.event-race-list-info {
 
 .calendar {
 	border: 1px solid #dbdbdb;
+	/* 	border: 1px solid #eee; */
 	margin-right: 10px;
 	text-align: center;
 	font-size: 11px;
