@@ -42,7 +42,6 @@ function loadMapOk(data, map, id) {
 			map : map,
 			animation : id === event.id ? google.maps.Animation.DROP : null,
 			position : coord,
-			icon : 'http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=' + (id === event.id ? 'ff1000' : 'f7f4f4'),
 			title : event.name
 		});
 
@@ -75,17 +74,7 @@ function loadEventOk(event) {
 	}
 	$("#event-date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
 
-	// var b = App.moment(event.period.beginning).format("DD [de] MMMM");
-	// var e = App.moment(event.period.end).format("DD [de] MMMM [de] YYYY");
-	// $("#event-date").text(b + " à " + e);
-
-	// var organizerTemplate = $('#event-organizer-template').html();
-	// var renderedOrganizers = Mustache.render(organizerTemplate, event);
-	// $('#organizers').append(renderedOrganizers);
-
 	var template;
-
-	console.log(event.organizers);
 
 	// Organizers
 
