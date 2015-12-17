@@ -49,7 +49,7 @@ function loadMapOk(data, map, id) {
 			var lat = this.getPosition().lat();
 			var lng = this.getPosition().lng();
 			// var zoom = this.getMap().getZoom();
-			window.open("https://maps.google.com/?q=@" + lat + "," + lng, "_blank");
+			window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
 		});
 
 		if (id === event.id) {
