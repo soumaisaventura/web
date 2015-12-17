@@ -360,3 +360,9 @@ INSERT INTO event_organizer (event_id, organizer_id, alternate_name)
 
 INSERT INTO event_organizer (event_id, organizer_id, alternate_name)
      VALUES (12, 9, 'Arnaldo Maciel');
+
+
+
+UPDATE profile
+   SET picture = NULL
+ WHERE id = 168;
