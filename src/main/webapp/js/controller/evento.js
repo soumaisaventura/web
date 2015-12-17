@@ -48,8 +48,8 @@ function loadMapOk(data, map, id) {
 		marker.addListener('click', function() {
 			var lat = this.getPosition().lat();
 			var lng = this.getPosition().lng();
-			var zoom = this.getMap().getZoom();
-			window.open("https://www.google.com/maps/dir//" + lat + "," + lng + "/@" + lat + "," + lng + "," + zoom + "z", "_blank");
+			// var zoom = this.getMap().getZoom();
+			window.open("https://maps.google.com/?q=@" + lat + "," + lng, "_blank");
 		});
 
 		if (id === event.id) {
