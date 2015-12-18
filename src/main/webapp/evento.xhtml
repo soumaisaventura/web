@@ -40,32 +40,28 @@
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div>
-						<span id="event-title" class="title no-border"></span>
+						<span id="title" class="title no-border"></span>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<span class="event-info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="event-location-city"></span></span>
-					<span class="event-info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="event-date"></span></span>
+					<span class="info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="location-city"></span></span> <span
+						class="info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="date"></span></span>
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-offset-2 col-md-8 event-description">
+			<div class="col-md-offset-2 col-md-8 description">
 				<div>
-					<p id="event-description"></p>
+					<p id="description"></p>
 				</div>
 			</div>
 		</div>
 
-		<!-- 		<div class="row"> -->
-		<!-- 			<div class="col-md-offset-2 col-md-8"> -->
-		<div id="event-races" class="event-races"></div>
-		<!-- 			</div> -->
-		<!-- 		</div> -->
+		<div id="races" class="races"></div>
 
 		<div class="row">
 			<div class="col-md-offset-2 col-md-8">
@@ -88,28 +84,28 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-offset-2 col-md-8 event-organizers" hidden="true">
-				<div id="event-organizers"></div>
+			<div class="col-md-offset-2 col-md-8 organizers" hidden="true">
+				<div id="organizers"></div>
 			</div>
 		</div>
 
-		<div id="event-organizer-template" hidden="true">
-			<div class="event-organizer col-md-3 section-padding">
-				<div class="event-organizer-picture-parent">
-					<img class="img-responsive event-organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+		<div id="organizer-template" hidden="true">
+			<div class="organizer col-md-3 section-padding">
+				<div class="organizer-picture-parent">
+					<img class="img-responsive organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
 				</div>
 				<div class="text-center">
-					<div class="event-organizer-name">{{name}}</div>
-					<div class="event-organizer-email">{{email}}</div>
-					<div class="event-organizer-mobile">{{mobile}}</div>
+					<div class="organizer-name">{{name}}</div>
+					<div class="organizer-email">{{email}}</div>
+					<div class="organizer-mobile">{{mobile}}</div>
 				</div>
 			</div>
 		</div>
 
-		<div id="event-race-template" hidden="true">
+		<div id="race-template" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div class="row event-race section-padding">
+					<div class="row race section-padding">
 						<div class="col-md-8">
 							<div class="calendar">
 								<div class="month">{{month}}</div>
@@ -141,7 +137,7 @@
 						</div>
 					</div>
 					<div class="collapse" id="collapse-{{id}}">
-						<div class="row event-race-detail">
+						<div class="row race-detail">
 
 							<!-- Esporte -->
 
@@ -151,7 +147,7 @@
 										<h3 class="panel-title">{{sport.name}}</h3>
 									</div>
 									<div class="panel-body">
-										<ul class="event-race-list-info">
+										<ul class="race-list-info">
 											<li>
 												Data: {{period.beginning}}{{#more_than_one_day}}
 												<small>à</small>
@@ -172,7 +168,7 @@
 										<h3 class="panel-title">Categoria</h3>
 									</div>
 									<div class="panel-body">
-										<ul class="event-race-list-info">
+										<ul class="race-list-info">
 											{{#categories}}
 											<li>{{name}}</li>
 											{{/categories}}
@@ -191,7 +187,7 @@
 										<h3 class="panel-title">Lote de inscrição</h3>
 									</div>
 									<div class="panel-body">
-										<ul class="event-race-list-info">
+										<ul class="race-list-info">
 											{{#prices}}
 											<li>
 												{{beginning}}
@@ -214,7 +210,7 @@
 										<h3 class="panel-title">Modalidade</h3>
 									</div>
 									<div class="panel-body">
-										<ul class="event-race-list-info">
+										<ul class="race-list-info">
 											{{#modalities}}
 											<li>{{name}}</li>
 											{{/modalities}}
@@ -233,7 +229,7 @@
 										<h3 class="panel-title">Campeonato</h3>
 									</div>
 									<div class="panel-body">
-										<ul class="event-race-list-info">
+										<ul class="race-list-info">
 											{{#championships}}
 											<li>{{name}}</li>
 											{{/championships}}

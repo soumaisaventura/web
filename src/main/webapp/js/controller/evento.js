@@ -65,14 +65,14 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(event) {
-	$("#event-title").text(event.name);
-	$("#event-description").text(event.description);
+	$("#title").text(event.name);
+	$("#description").text(event.description);
 	$("#days-left").text(event.period.countdown);
-	$("#event-location-city").text(event.location.city.name + " / " + event.location.city.state);
+	$("#location-city").text(event.location.city.name + " / " + event.location.city.state);
 
 	// if (event.layout) {
 	// if (event.layout.background_color) {
-	// $(".event-banner-section").css("background-color",
+	// $(".banner-section").css("background-color",
 	// event.layout.background_color);
 	// }
 	// }
@@ -81,32 +81,32 @@ function loadEventOk(event) {
 
 	if (event.period.beginning !== event.period.end) {
 		if (moment(event.period.beginning).isSame(moment(event.period.end), 'month')) {
-			$("#event-date").append(App.moment(event.period.beginning).format("DD"));
+			$("#date").append(App.moment(event.period.beginning).format("DD"));
 		} else {
-			$("#event-date").append(App.moment(event.period.beginning).format("DD [de] MMMM"));
+			$("#date").append(App.moment(event.period.beginning).format("DD [de] MMMM"));
 		}
 
-		$("#event-date").append(" à ");
+		$("#date").append(" à ");
 	}
-	$("#event-date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
+	$("#date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
 
 	var template;
 
 	// Organizers
 
-	template = $('#event-organizer-template').html();
+	template = $('#organizer-template').html();
 	if (event.organizers) {
 		$.each(event.organizers, function(i, organizer) {
 			var rendered = Mustache.render(template, organizer);
-			$('#event-organizers').append(rendered);
+			$('#organizers').append(rendered);
 		});
 
-		$(".event-organizers").show();
+		$(".organizers").show();
 	}
 
 	// Races
 
-	template = $('#event-race-template').html();
+	template = $('#race-template').html();
 	if (event.races) {
 		$.each(event.races, function(i, race) {
 			race.idx = i + 1;
@@ -134,7 +134,7 @@ function loadEventOk(event) {
 			}
 
 			var rendered = Mustache.render(template, race);
-			$('#event-races').append(rendered);
+			$('#races').append(rendered);
 		});
 	}
 

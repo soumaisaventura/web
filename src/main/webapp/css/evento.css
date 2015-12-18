@@ -7,15 +7,15 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 30px;
 }
 
-ul.event-race-list-info {
+ul.race-list-info {
 	list-style-type: square;
 }
 
-.event-info-icon {
+.info-icon {
 	padding-right: 10px;
 }
 
-.event-description {
+.description {
 	color: black;
 	font-size: 1.1em;
 	text-align: justify;
@@ -23,15 +23,15 @@ ul.event-race-list-info {
 	padding-bottom: 30px;
 }
 
-.event-race-detail {
+.race-detail {
 	margin-top: 20px;
 }
 
-.event-race {
+.race {
 	border-top: 1px solid #eee;
 }
 
-.event-organizers {
+.organizers {
 	text-align: center;
 }
 
@@ -46,31 +46,31 @@ ul.event-race-list-info {
 	border: 0px;
 }
 
-.event-organizer {
+.organizer {
 	display: inline-block;
 	float: none !important;
 }
 
-.event-organizer-picture {
+.organizer-picture {
 	border-radius: 10px;
 }
 
-.event-organizer-picture-parent {
+.organizer-picture-parent {
 	padding-left: 30px;
 	padding-right: 30px;
 }
 
-.event-organizer-name {
+.organizer-name {
 	font-size: large;
 	padding-top: 15px;
 	padding-bottom: 7px;
 }
 
-.event-organizer-email {
+.organizer-email {
 	
 }
 
-.event-organizer-mobile {
+.organizer-mobile {
 	
 }
 
