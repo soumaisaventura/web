@@ -65,22 +65,17 @@ function getBannerOk(data) {
 }
 
 function loadEventOk(event) {
-	$(".event-title").text(event.name);
-	$(".event-description").text(event.description);
+	$("#event-title").text(event.name);
+	$("#event-description").text(event.description);
 	$("#days-left").text(event.period.countdown);
 	$("#event-location-city").text(event.location.city.name + " / " + event.location.city.state);
 
-	if (event.layout) {
-		if (event.layout.background_color) {
-			// console.log(event.layout.background_color);
-			// console.log($(".event-map-section"));
-			// $(".event-map-section").css({
-			// "background-color" : event.layout.background_color
-			// });
-			$(".event-banner-section").css("background-color", event.layout.background_color);
-			// console.log($(".event-map-section"));
-		}
-	}
+	// if (event.layout) {
+	// if (event.layout.background_color) {
+	// $(".event-banner-section").css("background-color",
+	// event.layout.background_color);
+	// }
+	// }
 
 	// Date
 

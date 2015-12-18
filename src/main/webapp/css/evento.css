@@ -2,63 +2,13 @@ h1, h2, h3, h4, h5, h6 {
 	margin-top: 0px;
 }
 
-ul.event-race-list-info {
-	list-style-type: square;
-}
-
-/* li:before { */
-/* 	content: "■"; */
-/* 	color: blue; */
-/* } */
-
-/* .equal, .equal>div[class*='col-'] { */
-/* 	display: -webkit-box; */
-/* 	display: -moz-box; */
-/* 	display: -ms-flexbox; */
-/* 	display: -webkit-flex; */
-/* 	display: flex; */
-/* 	flex: 1 1 auto; */
-/* } */
-.event-banner-section {
-	text-align: center;
-	background-color: #4f4a4c;
-}
-
-.event-banner {
-	/* 	background-color: black; */
-	/* 	position: relative; */
-	
-}
-
-.event-banner .right-col {
-	/* 	height: 350px; */
-	/* 	line-height: 350px; */
-	/* 	position: relative; */
-	/* 	top: 50%; */
-	/* 	transform: translateY(	+10%); */
-	/* 	position: absolute; */
-	/* 	top: 50%; */
-	/* 	left: 50%; */
-	/* 	transform: translate(0%, -50%); */
-	
-}
-
-.event-title {
-	font-size: xx-large;
-	color: black;
-}
-
-.event-info {
-	/* 	margin-top: 1px; */
-	/* 	background-color: gray; */
-	/* 	margin-top: 30px; */
-	/* 	margin-bottom: 40px; */
-	
-}
-
 .section-padding {
 	padding-top: 30px;
 	padding-bottom: 30px;
+}
+
+ul.event-race-list-info {
+	list-style-type: square;
 }
 
 .event-info-icon {
@@ -70,7 +20,7 @@ ul.event-race-list-info {
 	font-size: 1.1em;
 	text-align: justify;
 	line-height: 25px;
-	border-top: 1px solid #eee;
+	padding-bottom: 30px;
 }
 
 .event-race-detail {
@@ -78,49 +28,36 @@ ul.event-race-list-info {
 }
 
 .event-race {
-	/* 	background-color: #efefef; */
-	/* 	padding-top: 30px; */
-	/* 	padding-bottom: 30px; */
-	/* 	padding-left: 30px; */
-	/* 	padding-right: 30px; */
-	/* 	border-left: 6px solid #3c763d; */
 	border-top: 1px solid #eee;
-	/* 	margin-bottom: 20px; */
-}
-
-.event-organizers-section {
-	/* 	background-color: #f1f1f1; */
-	color: #777;
 }
 
 .event-organizers {
 	text-align: center;
 }
 
-.event-organizers-title {
+.title {
 	font-size: xx-large;
+	border-top: 1px solid #eee;
+	padding-top: 30px;
 	padding-bottom: 0px;
 }
 
+.no-border {
+	border: 0px;
+}
+
 .event-organizer {
-	/* 	padding-left: 0px; */
-	/* 	padding-right: 40px; */
-	/* 	margin: 20px; */
 	display: inline-block;
 	float: none !important;
-	/* 	margin-right: -4px; */
-	/* 	color: black; */
 }
 
 .event-organizer-picture {
-	/* 	border: 1px solid #bbb; */
 	border-radius: 10px;
 }
 
 .event-organizer-picture-parent {
 	padding-left: 30px;
 	padding-right: 30px;
-	/* 	border: 1px solid black; */
 }
 
 .event-organizer-name {
@@ -142,15 +79,6 @@ ul.event-race-list-info {
 	width: auto;
 }
 
-.event-map-section {
-	background-color: #f7f4ed;
-}
-
-.event-map-section div {
-	/* 	padding: 0px; */
-	
-}
-
 .race-title {
 	margin-bottom: 13px;
 }
@@ -158,24 +86,18 @@ ul.event-race-list-info {
 .race-info {
 	padding-left: 0px;
 	padding-right: 0px;
-	/* 	color: #5e5e5e; */
 }
 
 .race-name {
-	/* 	background-color: #bbb; */
-	/* 	color: white; */
 	font-size: x-large;
 	padding-right: 6px;
-	/* 	color: #bbbbbb; */
 }
 
 .race-description {
 	text-align: justify;
-	/* 	color: #939393; */
 }
 
 .race-date {
-	/* 	background-color: #bbb; */
 	font-size: 15px;
 	color: #d9534f;
 }
@@ -207,7 +129,6 @@ ul.event-race-list-info {
 
 .calendar {
 	border: 1px solid #dbdbdb;
-	/* 	border: 1px solid #eee; */
 	margin-right: 10px;
 	text-align: center;
 	font-size: 11px;
@@ -215,8 +136,6 @@ ul.event-race-list-info {
 	width: 40px;
 	float: left;
 	font-size: 11px;
-	/* 	font-size: x-small; */
-	/* 	display: inline; */
 	border-radius: 2px;
 }
 
