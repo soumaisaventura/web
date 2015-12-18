@@ -70,6 +70,20 @@ function loadEventOk(event) {
 	$("#days-left").text(event.period.countdown);
 	$("#event-location-city").text(event.location.city.name + " / " + event.location.city.state);
 
+	if (event.layout) {
+		if (event.layout.background_color) {
+			// console.log(event.layout.background_color);
+			// console.log($(".event-map-section"));
+			// $(".event-map-section").css({
+			// "background-color" : event.layout.background_color
+			// });
+			$(".event-banner-section").css("background-color", event.layout.background_color);
+			// console.log($(".event-map-section"));
+		}
+	}
+
+	// Date
+
 	if (event.period.beginning !== event.period.end) {
 		if (moment(event.period.beginning).isSame(moment(event.period.end), 'month')) {
 			$("#event-date").append(App.moment(event.period.beginning).format("DD"));

@@ -19,6 +19,11 @@ ul.event-race-list-info {
 /* 	display: flex; */
 /* 	flex: 1 1 auto; */
 /* } */
+.event-banner-section {
+	text-align: center;
+	background-color: #4f4a4c;
+}
+
 .event-banner {
 	/* 	background-color: black; */
 	/* 	position: relative; */
@@ -81,11 +86,6 @@ ul.event-race-list-info {
 	/* 	border-left: 6px solid #3c763d; */
 	border-top: 1px solid #eee;
 	/* 	margin-bottom: 20px; */
-}
-
-.yyy {
-	text-align: center;
-	background-color: #4f4a4c;
 }
 
 .event-organizers-section {
