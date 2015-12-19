@@ -135,8 +135,14 @@ function loadEventOk(event) {
 
 			var rendered = Mustache.render(template, race);
 			$('#races').append(rendered);
-		});
-	}
 
-	$(".soon, .end, .closed").detach();
+			if (race.status !== 'open') {
+				$(".race>div:nth-child(1)").addClass("change");
+				$(".race>div:nth-child(2)").addClass("remove");
+			}
+		});
+
+		$(".race .change").removeClass("col-md-8").addClass("col-md-12");
+		$(".race .remove").remove();
+	}
 }

@@ -1,5 +1,18 @@
-h1, h2, h3, h4, h5, h6 {
-	margin-top: 0px;
+h1, h2 {
+	font-size: xx-large;
+	padding-bottom: 0px;
+	margin: 0px;
+}
+
+h2 {
+	font-size: x-large;
+}
+
+.title {
+	font-size: xx-large;
+	border-top: 1px solid #eee;
+	padding-top: 30px;
+	padding-bottom: 0px;
 }
 
 .section-padding {
@@ -23,23 +36,8 @@ ul.race-list-info {
 	padding-bottom: 30px;
 }
 
-.race-detail {
-	margin-top: 20px;
-}
-
-.race {
-	border-top: 1px solid #eee;
-}
-
 .organizers {
 	text-align: center;
-}
-
-.title {
-	font-size: xx-large;
-	border-top: 1px solid #eee;
-	padding-top: 30px;
-	padding-bottom: 0px;
 }
 
 .no-border {
@@ -79,20 +77,42 @@ ul.race-list-info {
 	width: auto;
 }
 
-.race-title {
-	margin-bottom: 13px;
+.race {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-top: 1px solid #eee;
 }
 
-.race-info {
+.race>div {
 	padding-left: 0px;
-	padding-right: 0px;
 }
 
-.race-name {
-	font-size: x-large;
-	padding-right: 6px;
+.race>div>.row:nth-child(1) {
+	padding-bottom: 10px;
 }
 
+.race>div>.row:nth-child(2) {
+	padding-bottom: 30px;
+}
+
+.race .calendar {
+	margin-right: 6px;
+}
+
+.race h2 {
+	margin-top: 3px;
+	margin-bottom: 0x;
+	border: 0px;
+	padding: 0px;
+}
+
+.race-detail {
+	margin-top: 20px;
+}
+
+/* .race-title { */
+/* 	margin-bottom: 13px; */
+/* } */
 .race-description {
 	text-align: justify;
 }
@@ -129,21 +149,19 @@ ul.race-list-info {
 
 .calendar {
 	border: 1px solid #dbdbdb;
-	margin-right: 10px;
+	border-radius: 2px;
+	margin: 0px;
+	padding: 0px;
 	text-align: center;
 	font-size: 11px;
 	float: left;
 	width: 40px;
 	float: left;
 	font-size: 11px;
-	border-radius: 2px;
+	text-align: center;
 }
 
-.calendar .day {
-	font-size: 1.3em;
-}
-
-.calendar .month {
+.calendar div:FIRST-CHILD {
 	background-color: #d9534f;
 	font-size: 0.9em;
 	color: white;
