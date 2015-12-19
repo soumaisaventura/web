@@ -81,65 +81,19 @@ CREATE OR REPLACE FUNCTION trg_period_after_all ()
    RETURNS trigger
 AS
 $func$
-   /*
-   # VARIABLE_CONFLICT use_variable
-DECLARE
-   event_id   event.id%TYPE;
-   */
 BEGIN
-   IF NEW.race_id <> OLD.race_id
-   THEN
-      UPDATE race
-         SET _status_id = race_status (OLD.race_id, OLD.ending)
-       WHERE id = OLD.race_id;
-   /*
-         SELECT r.event_id
-           INTO event_id
-           FROM race r
-          WHERE r.id = OLD.race_id;
-
-         UPDATE event
-            SET _beginning =
-                   (SELECT min (r.beginning)
-                      FROM race r
-                     WHERE r.id = OLD.race_id),
-                _ending =
-                   (SELECT max (r.ending)
-                      FROM race r
-                     WHERE r.id = OLD.race_id)
-          WHERE id = event_id;
-         event_id = NULL;
-   */
-
-
-
-   END IF;
-
-   IF NEW.race_id IS NOT NULL
+   IF TG_OP IN ('INSERT', 'UPDATE')
    THEN
       UPDATE race
          SET _status_id = race_status (NEW.race_id, NEW.ending)
        WHERE id = NEW.race_id;
-   /*
-       SELECT r.event_id
-         INTO event_id
-         FROM race r
-        WHERE r.id = NEW.race_id;
+   END IF;
 
-       UPDATE event
-          SET _beginning =
-                 (SELECT min (r.beginning)
-                    FROM race r
-                   WHERE r.id = NEW.race_id),
-              _ending =
-                 (SELECT max (r.ending)
-                    FROM race r
-                   WHERE r.id = NEW.race_id)
-        WHERE id = event_id;
-     */
-
-
-
+   IF TG_OP IN ('DELETE', 'UPDATE')
+   THEN
+      UPDATE race
+         SET _status_id = race_status (OLD.race_id, OLD.ending)
+       WHERE id = OLD.race_id;
    END IF;
 
    RETURN NULL;

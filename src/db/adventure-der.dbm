@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="632,546" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1217,502" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -59,7 +59,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1391" y="1530.54"/>
+	<position x="1389" y="1618.54"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -127,33 +127,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="course">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="558" y="1259"/>
-	<column name="id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="race_id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="50"/>
-	</column>
-	<column name="length" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="annual_fee" not-null="true">
-		<type name="boolean"/>
-	</column>
-	<column name="adventure_racing" not-null="true">
-		<type name="boolean"/>
-	</column>
-	<constraint name="pk_course" type="pk-constr" table="public.course">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <table name="health">
 	<schema name="public"/>
 	<role name="postgres"/>
@@ -192,7 +165,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1748.41" y="910.667"/>
+	<position x="1699.41" y="608.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -266,7 +239,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="808" y="818"/>
+	<position x="845" y="846"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -285,45 +258,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="distance">
 		<type name="integer"/>
 	</column>
-	<column name="banner">
-		<type name="oid"/>
-		<comment><![CDATA[deprecated]]></comment>
-	</column>
-	<column name="site">
-		<type name="character varying" length="255"/>
-	</column>
-	<column name="payment_type">
-		<type name="character varying" length="20"/>
-		<comment><![CDATA[deprecated]]></comment>
-	</column>
-	<column name="payment_info">
-		<type name="character varying" length="500"/>
-		<comment><![CDATA[deprecated]]></comment>
-	</column>
-	<column name="payment_account">
-		<type name="character varying" length="255"/>
-		<comment><![CDATA[deprecated]]></comment>
-	</column>
-	<column name="payment_token">
-		<type name="character varying" length="64"/>
-		<comment><![CDATA[deprecated]]></comment>
-	</column>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
-	</column>
-	<column name="date">
-		<type name="date"/>
-		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="beginning" not-null="true">
 		<type name="date"/>
 	</column>
 	<column name="ending" not-null="true">
 		<type name="date"/>
-	</column>
-	<column name="city_id">
-		<type name="integer"/>
-		<comment><![CDATA[deprecated]]></comment>
 	</column>
 	<column name="_status_id" not-null="true">
 		<type name="integer" length="6"/>
@@ -343,40 +285,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1437.08" y="1226.69"/>
+	<position x="1453.08" y="1225.69"/>
 	<column name="race_id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="course_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="category_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<constraint name="pk_race_category" type="pk-constr" table="public.race_category">
-		<columns names="race_id,category_id,course_id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="race_organizer">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<tag name="Event"/>
-	<position x="1404.85" y="594"/>
-	<column name="race_id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="organizer_id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="alternate_name" not-null="true">
-		<type name="character varying" length="50"/>
-	</column>
-	<column name="alternate_email">
-		<type name="character varying" length="255"/>
-	</column>
-	<constraint name="race_organizer_pkey" type="pk-constr" table="public.race_organizer">
-		<columns names="organizer_id,race_id" ref-type="src-columns"/>
+		<columns names="race_id,category_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -384,14 +301,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2123" y="861"/>
+	<position x="2134" y="769"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
 	<column name="race_id" not-null="true">
-		<type name="integer"/>
-	</column>
-	<column name="course_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="category_id" not-null="true">
@@ -426,6 +340,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="payment_code">
 		<type name="character varying" length="64"/>
+	</column>
+	<column name="race_id_old">
+		<type name="integer"/>
+	</column>
+	<column name="course_id_old">
+		<type name="integer"/>
 	</column>
 	<constraint name="pk_registration" type="pk-constr" table="public.registration">
 		<columns names="id" ref-type="src-columns"/>
@@ -555,14 +475,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_course_race" table="public.course"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="race_id"/>
-		</idxelement>
-</index>
-
 <index name="idx_period_race" table="public.period"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="90">
@@ -600,22 +512,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 index-type="btree" factor="90">
 		<idxelement use-sorting="false">
 			<column name="name"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_date" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="date"/>
-		</idxelement>
-</index>
-
-<index name="idx_race_city" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="90">
-		<idxelement use-sorting="false">
-			<column name="city_id"/>
 		</idxelement>
 </index>
 
@@ -742,19 +638,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_payment_type" table="public.race"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="btree" factor="0">
-		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="payment_type"/>
-		</idxelement>
-</index>
-
 <table name="team">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2138.67" y="1201"/>
+	<position x="2146.67" y="1096"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -784,7 +672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1879" y="663"/>
+	<position x="1983" y="630"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -835,7 +723,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="848.67" y="1563"/>
+	<position x="851.67" y="1648"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -876,15 +764,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1071" y="604.667"/>
+	<position x="1068" y="604.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="name" not-null="true">
-		<type name="character varying" length="50"/>
-	</column>
 	<column name="slug" not-null="true">
 		<type name="character varying" length="255"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="50"/>
 	</column>
 	<constraint name="pk_championship" type="pk-constr" table="public.championship">
 		<columns names="id" ref-type="src-columns"/>
@@ -949,7 +837,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1405.33" y="824"/>
+	<position x="1402.33" y="848"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -967,18 +855,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="site">
 		<type name="character varying" length="255"/>
-	</column>
-	<column name="top_color">
-		<type name="character varying" length="7"/>
-	</column>
-	<column name="background_color">
-		<type name="character varying" length="7"/>
-	</column>
-	<column name="text_color">
-		<type name="character varying" length="7"/>
-	</column>
-	<column name="button_color">
-		<type name="character varying" length="7"/>
 	</column>
 	<column name="payment_type" not-null="true">
 		<type name="character varying" length="20"/>
@@ -1163,7 +1039,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1122" y="1329"/>
+	<position x="1030" y="1366"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1191,7 +1067,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1132" y="1177"/>
+	<position x="983" y="1226"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1343,7 +1219,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1137" y="1479"/>
+	<position x="1045" y="1521"/>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1383,7 +1259,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1404.85" y="693"/>
+	<position x="1409.85" y="614"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1474,7 +1350,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1135" y="1020"/>
+	<position x="1194" y="1226"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1675,6 +1551,33 @@ END
 ]]></definition>
 </function>
 
+<index name="idx_registration_race_category" table="public.registration"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="category_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_registration_period" table="public.registration"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="period_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_ending" table="public.race"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="ending"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">
 	<columns names="sport_id" ref-type="src-columns"/>
@@ -1684,12 +1587,6 @@ END
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">
 	<columns names="state_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_course_race" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race" table="public.course">
-	<columns names="race_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1713,12 +1610,6 @@ END
 
 <constraint name="fk_user_city" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.city" table="public.profile">
-	<columns names="city_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_race_city" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.city" table="public.race">
 	<columns names="city_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1753,34 +1644,10 @@ END
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_race_category_course" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.course" table="public.race_category">
-	<columns names="course_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_race_organizer_race" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race" table="public.race_organizer">
-	<columns names="race_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_race_organizer" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.race_organizer">
-	<columns names="organizer_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="fk_registration_submitter" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.registration">
 	<columns names="submitter_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_registration_race_category" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race_category" table="public.registration">
-	<columns names="category_id,course_id,race_id" ref-type="src-columns"/>
-	<columns names="category_id,course_id,race_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_resgistration_period" type="fk-constr" comparison-type="MATCH FULL"
@@ -1799,6 +1666,12 @@ END
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.team" table="public.registration">
 	<columns names="team_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_registration_race_category" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race_category" table="public.registration">
+	<columns names="race_id,category_id" ref-type="src-columns"/>
+	<columns names="race_id,category_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_state_country" type="fk-constr" comparison-type="MATCH SIMPLE"
@@ -1927,12 +1800,6 @@ END
 	 dst-table="public.state"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_course_race" type="relfk"
-	 custom-color="#868988"
-	 src-table="public.course"
-	 dst-table="public.race"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_health_user_account" type="relfk"
 	 custom-color="#285503"
 	 src-table="public.health"
@@ -1961,16 +1828,6 @@ END
 	 dst-table="public.city"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_race_city" type="relfk"
-	 custom-color="#801a7a"
-	 src-table="public.race"
-	 dst-table="public.city"
-	 src-required="false" dst-required="false">
-	<label ref-type="src-label">
-		<position x="222.203" y="44.1297"/>
-	</label>
-</relationship>
-
 <relationship name="rel_race_category_category" type="relfk"
 	 custom-color="#2f9789"
 	 src-table="public.race_category"
@@ -1987,28 +1844,6 @@ END
 	</label>
 </relationship>
 
-<relationship name="rel_race_category_course" type="relfk"
-	 custom-color="#868988"
-	 src-table="public.race_category"
-	 dst-table="public.course"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_race_organizer_race" type="relfk"
-	 custom-color="#965500"
-	 src-table="public.race_organizer"
-	 dst-table="public.race"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
-
-<relationship name="rel_race_organizer_user_account" type="relfk"
-	 custom-color="#285503"
-	 src-table="public.race_organizer"
-	 dst-table="public.user_account"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_registration_user_account" type="relfk"
 	 custom-color="#285503"
 	 src-table="public.registration"
@@ -2018,12 +1853,6 @@ END
 		<position x="132.536" y="-35.7606"/>
 	</label>
 </relationship>
-
-<relationship name="rel_registration_race_category" type="relfk"
-	 custom-color="#965500"
-	 src-table="public.registration"
-	 dst-table="public.race_category"
-	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_state_country" type="relfk"
 	 custom-color="#801a7a"
@@ -2181,6 +2010,7 @@ END
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_event_organizer_cp_event" type="relfk"
+	 custom-color="#965500"
 	 src-table="public.event_organizer"
 	 dst-table="public.event"
 	 src-required="false" dst-required="false"/>
@@ -2201,6 +2031,12 @@ END
 	 custom-color="#965500"
 	 src-table="public.event"
 	 dst-table="public.status"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_registration_race_category" type="relfk"
+	 custom-color="#965500"
+	 src-table="public.registration"
+	 dst-table="public.race_category"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
