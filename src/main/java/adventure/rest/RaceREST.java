@@ -1,8 +1,5 @@
 package adventure.rest;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,24 +7,14 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
-import adventure.entity.City;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
-import adventure.persistence.CityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
@@ -56,10 +43,10 @@ public class RaceREST {
 			RaceData data = new RaceData();
 			data.id = race.getId();
 			data.name = race.getName();
-			data.date = race.getDate();
+			// data.date = race.getDate();
 			data.status = race.getStatus().getName();
-			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-					+ race.getCity().getState().getAbbreviation() : null;
+			// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+			// + race.getCity().getState().getAbbreviation() : null;
 
 			// data.courses = null;
 			result.add(data);
@@ -78,11 +65,11 @@ public class RaceREST {
 
 		data.id = race.getId();
 		data.name = race.getName();
-		data.date = race.getDate();
-		data.site = race.getSite();
+		// data.date = race.getDate();
+		// data.site = race.getSite();
 		data.description = race.getDescription();
-		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-				+ race.getCity().getState().getAbbreviation() : null;
+		// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+		// + race.getCity().getState().getAbbreviation() : null;
 		data.status = race.getStatus().getName();
 		data.registration = new RegistrationData();
 		data.registration.prices.addAll(loadPeriod(race));
@@ -105,77 +92,77 @@ public class RaceREST {
 
 		data.id = race.getId();
 		data.name = race.getName();
-		data.date = race.getDate();
-		data.site = race.getSite();
+		// data.date = race.getDate();
+		// data.site = race.getSite();
 		data.description = race.getDescription();
-		data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-				+ race.getCity().getState().getAbbreviation() : null;
+		// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+		// + race.getCity().getState().getAbbreviation() : null;
 		data.status = race.getStatus().getName();
 
 		return data;
 	}
 
-	@GET
-	@Cache("max-age=604800000")
-	@Path("{id}/banner/base64")
-	@Produces("image/png")
-	public byte[] getBannerBase64(@PathParam("id") Integer id) throws Exception {
-		return getBannerBase64(id, null);
-	}
+	// @GET
+	// @Cache("max-age=604800000")
+	// @Path("{id}/banner/base64")
+	// @Produces("image/png")
+	// public byte[] getBannerBase64(@PathParam("id") Integer id) throws Exception {
+	// return getBannerBase64(id, null);
+	// }
 
-	@GET
-	@Cache("max-age=604800000")
-	@Path("{id}/banner/base64/{width}")
-	@Produces("image/png")
-	public byte[] getBannerBase64(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
-		Race race = loadRace(id);
-		return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
-	}
+	// @GET
+	// @Cache("max-age=604800000")
+	// @Path("{id}/banner/base64/{width}")
+	// @Produces("image/png")
+	// public byte[] getBannerBase64(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
+	// Race race = loadRace(id);
+	// return Base64.encodeBase64(resizeImage(race.getBanner(), 750, width));
+	// }
 
-	@GET
-	@Path("{id}/banner")
-	@Cache("max-age=604800000")
-	@Produces("image/png")
-	public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
-		return getBanner(id, null);
-	}
+	// @GET
+	// @Path("{id}/banner")
+	// @Cache("max-age=604800000")
+	// @Produces("image/png")
+	// public byte[] getBanner(@PathParam("id") Integer id) throws Exception {
+	// return getBanner(id, null);
+	// }
 
-	@GET
-	@Path("{id}/banner/{width}")
-	@Cache("max-age=604800000")
-	@Produces("image/png")
-	public byte[] getBanner(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
-		Race race = loadRace(id);
-		return resizeImage(race.getBanner(), 750, width);
-	}
+	// @GET
+	// @Path("{id}/banner/{width}")
+	// @Cache("max-age=604800000")
+	// @Produces("image/png")
+	// public byte[] getBanner(@PathParam("id") Integer id, @PathParam("width") Integer width) throws Exception {
+	// Race race = loadRace(id);
+	// return resizeImage(race.getBanner(), 750, width);
+	// }
 
-	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
-		byte[] result = image;
+	// private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
+	// byte[] result = image;
+	//
+	// if (width != null && width != defaultWidth) {
+	// ByteArrayOutputStream out = new ByteArrayOutputStream();
+	// Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
+	// result = out.toByteArray();
+	// }
+	//
+	// return result;
+	// }
 
-		if (width != null && width != defaultWidth) {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
-			result = out.toByteArray();
-		}
-
-		return result;
-	}
-
-	@PUT
-	@LoggedIn
-	@Transactional
-	@Path("{id}/banner")
-	@Consumes("multipart/form-data")
-	public void setBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
-		Race race = loadRace(id);
-		checkPermission(race);
-
-		InputPart file = input.getFormDataMap().get("file").get(0);
-		InputStream inputStream = file.getBody(InputStream.class, null);
-		race.setBanner(IOUtils.toByteArray(inputStream));
-
-		RaceDAO.getInstance().update(race);
-	}
+	// @PUT
+	// @LoggedIn
+	// @Transactional
+	// @Path("{id}/banner")
+	// @Consumes("multipart/form-data")
+	// public void setBanner(@PathParam("id") Integer id, MultipartFormDataInput input) throws Exception {
+	// Race race = loadRace(id);
+	// checkPermission(race);
+	//
+	// InputPart file = input.getFormDataMap().get("file").get(0);
+	// InputStream inputStream = file.getBody(InputStream.class, null);
+	// race.setBanner(IOUtils.toByteArray(inputStream));
+	//
+	// RaceDAO.getInstance().update(race);
+	// }
 
 	@PATCH
 	@LoggedIn
@@ -195,19 +182,19 @@ public class RaceREST {
 			race.setDescription(data.description);
 		}
 
-		if (data.date != null) {
-			race.setDate(data.date);
-		}
+		// if (data.date != null) {
+		// race.setDate(data.date);
+		// }
 
-		if (data.cityId != null) {
-			City city = CityDAO.getInstance().load(data.cityId);
-
-			if (city == null) {
-				throw new UnprocessableEntityException().addViolation("cityId", "Cidade inválida");
-			}
-
-			race.setCity(city);
-		}
+		// if (data.cityId != null) {
+		// City city = CityDAO.getInstance().load(data.cityId);
+		//
+		// if (city == null) {
+		// throw new UnprocessableEntityException().addViolation("cityId", "Cidade inválida");
+		// }
+		//
+		// race.setCity(city);
+		// }
 
 		RaceDAO.getInstance().update(race);
 	}
@@ -366,11 +353,11 @@ public class RaceREST {
 
 		public String description;
 
-		public String city;
+		// public String city;
 
-		public Date date;
+		// public Date date;
 
-		public String site;
+		// public String site;
 
 		// public List<CourseData> courses = new ArrayList<CourseData>();
 

@@ -1,7 +1,5 @@
 package adventure.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -40,7 +38,7 @@ public class RaceCategory {
 
 	public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
 			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, /* Integer courseId, String courseName, */
-			Integer raceId, String raceName, Date raceDate) {
+			Integer raceId, String raceName /* , Date raceDate */) {
 		setCategory(new Category());
 		getCategory().setId(categoryId);
 		getCategory().setName(categoryName);
@@ -56,7 +54,7 @@ public class RaceCategory {
 		setRace(new Race());
 		getRace().setId(raceId);
 		getRace().setName(raceName);
-		getRace().setDate(raceDate);
+		// getRace().setDate(raceDate);
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class RaceCategory {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
-//		result = prime * result + ((course == null) ? 0 : course.hashCode());
+		// result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result + ((race == null) ? 0 : race.hashCode());
 		return result;
 	}

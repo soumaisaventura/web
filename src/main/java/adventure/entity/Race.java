@@ -1,16 +1,13 @@
 package adventure.entity;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -39,9 +36,9 @@ public class Race {
 	@JoinColumn(name = "sport_id")
 	private Sport sport;
 
-	@Deprecated
-	@Temporal(DATE)
-	private Date date;
+	// @Deprecated
+	// @Temporal(DATE)
+	// private Date date;
 
 	@Temporal(DATE)
 	private Date beginning;
@@ -54,37 +51,36 @@ public class Race {
 	@JoinColumn(name = "_status_id")
 	private Status status;
 
-	@ManyToOne
-	@Deprecated
-	@JoinColumn(name = "city_id")
-	private City city;
+	// @ManyToOne
+	// @Deprecated
+	// @JoinColumn(name = "city_id")
+	// private City city;
 
-	@Deprecated
-	private String site;
+	// @Deprecated
+	// private String site;
 
-	@Lob
-	@Deprecated
-	private byte[] banner;
+	// @Lob
+	// @Deprecated
+	// private byte[] banner;
 
-	@Deprecated
-	@Enumerated(STRING)
-	@Column(name = "payment_type")
-	private PaymentType paymentType;
+	// @Deprecated
+	// @Enumerated(STRING)
+	// @Column(name = "payment_type")
+	// private PaymentType paymentType;
 
-	@Deprecated
-	@Column(name = "payment_info")
-	private String paymentInfo;
+	// @Deprecated
+	// @Column(name = "payment_info")
+	// private String paymentInfo;
 
-	@Deprecated
-	@Column(name = "payment_account")
-	private String paymentAccount;
+	// @Deprecated
+	// @Column(name = "payment_account")
+	// private String paymentAccount;
 
-	@Deprecated
-	@Column(name = "payment_token")
-	private String paymentToken;
+	// @Deprecated
+	// @Column(name = "payment_token")
+	// private String paymentToken;
 
 	@Transient
-	@Deprecated
 	private Period registrationPeriod;
 
 	public Race() {
@@ -118,17 +114,17 @@ public class Race {
 		setId(id);
 		setName(name);
 		setDescription(description);
-		setDate(date);
-		setSite(site);
-		setPaymentAccount(paymentAccount);
-		setPaymentToken(paymentToken);
-		setCity(new City());
-		getCity().setId(cityId);
-		getCity().setName(cityName);
-		getCity().setState(new State());
-		getCity().getState().setId(stateId);
-		getCity().getState().setName(stateName);
-		getCity().getState().setAbbreviation(stateAbbreviation);
+		// setDate(date);
+		// setSite(site);
+		// setPaymentAccount(paymentAccount);
+		// setPaymentToken(paymentToken);
+		// setCity(new City());
+		// getCity().setId(cityId);
+		// getCity().setName(cityName);
+		// getCity().setState(new State());
+		// getCity().getState().setId(stateId);
+		// getCity().getState().setName(stateName);
+		// getCity().getState().setAbbreviation(stateAbbreviation);
 		setRegistrationPeriod(new Period());
 		getRegistrationPeriod().setBeginning(registrationBeginning);
 		getRegistrationPeriod().setEnd(registrationEnd);
@@ -247,15 +243,15 @@ public class Race {
 		this.sport = sport;
 	}
 
-	@Deprecated
-	public Date getDate() {
-		return date;
-	}
+	// @Deprecated
+	// public Date getDate() {
+	// return date;
+	// }
 
-	@Deprecated
-	public void setDate(Date date) {
-		this.date = date;
-	}
+	// @Deprecated
+	// public void setDate(Date date) {
+	// this.date = date;
+	// }
 
 	public Date getBeginning() {
 		return beginning;
@@ -273,82 +269,80 @@ public class Race {
 		this.end = end;
 	}
 
-	@Deprecated
-	public City getCity() {
-		return city;
-	}
+	// @Deprecated
+	// public City getCity() {
+	// return city;
+	// }
 
-	@Deprecated
-	public void setCity(City city) {
-		this.city = city;
-	}
+	// @Deprecated
+	// public void setCity(City city) {
+	// this.city = city;
+	// }
 
-	@Deprecated
-	public String getSite() {
-		return site;
-	}
+	// @Deprecated
+	// public String getSite() {
+	// return site;
+	// }
 
-	@Deprecated
-	public void setSite(String site) {
-		this.site = site;
-	}
+	// @Deprecated
+	// public void setSite(String site) {
+	// this.site = site;
+	// }
 
-	@Deprecated
-	public byte[] getBanner() {
-		return banner;
-	}
+	// @Deprecated
+	// public byte[] getBanner() {
+	// return banner;
+	// }
 
-	@Deprecated
-	public void setBanner(byte[] banner) {
-		this.banner = banner;
-	}
+	// @Deprecated
+	// public void setBanner(byte[] banner) {
+	// this.banner = banner;
+	// }
 
-	@Deprecated
-	public PaymentType getPaymentType() {
-		return paymentType;
-	}
+	// @Deprecated
+	// public PaymentType getPaymentType() {
+	// return paymentType;
+	// }
 
-	@Deprecated
-	public void setPaymentType(PaymentType paymentType) {
-		this.paymentType = paymentType;
-	}
+	// @Deprecated
+	// public void setPaymentType(PaymentType paymentType) {
+	// this.paymentType = paymentType;
+	// }
 
-	@Deprecated
-	public String getPaymentInfo() {
-		return paymentInfo;
-	}
+	// @Deprecated
+	// public String getPaymentInfo() {
+	// return paymentInfo;
+	// }
 
-	@Deprecated
-	public void setPaymentInfo(String paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
+	// @Deprecated
+	// public void setPaymentInfo(String paymentInfo) {
+	// this.paymentInfo = paymentInfo;
+	// }
 
-	@Deprecated
-	public String getPaymentAccount() {
-		return paymentAccount;
-	}
+	// @Deprecated
+	// public String getPaymentAccount() {
+	// return paymentAccount;
+	// }
 
-	@Deprecated
-	public void setPaymentAccount(String paymentAccount) {
-		this.paymentAccount = paymentAccount;
-	}
+	// @Deprecated
+	// public void setPaymentAccount(String paymentAccount) {
+	// this.paymentAccount = paymentAccount;
+	// }
 
-	@Deprecated
-	public String getPaymentToken() {
-		return paymentToken;
-	}
+	// @Deprecated
+	// public String getPaymentToken() {
+	// return paymentToken;
+	// }
 
-	@Deprecated
-	public void setPaymentToken(String paymentToken) {
-		this.paymentToken = paymentToken;
-	}
+	// @Deprecated
+	// public void setPaymentToken(String paymentToken) {
+	// this.paymentToken = paymentToken;
+	// }
 
-	@Deprecated
 	public Period getRegistrationPeriod() {
 		return registrationPeriod;
 	}
 
-	@Deprecated
 	public void setRegistrationPeriod(Period registrationPeriod) {
 		this.registrationPeriod = registrationPeriod;
 	}

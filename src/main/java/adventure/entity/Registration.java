@@ -72,7 +72,10 @@ public class Registration {
 	}
 
 	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
-			Integer raceId, String raceName, Date raceDate, Integer cityId, String cityName, String stateAbbreviation) {
+			Integer raceId, String raceName /*
+											 * , Date raceDate, Integer cityId, String cityName, String
+											 * stateAbbreviation
+											 */) {
 		setId(registrationId);
 		setStatus(registrationStatus);
 		setTeamName(reistrationTeamName);
@@ -80,24 +83,35 @@ public class Registration {
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
-		getRaceCategory().getRace().setDate(raceDate);
+		// getRaceCategory().getRace().setDate(raceDate);
 
-		getRaceCategory().getRace().setCity(new City());
-		getRaceCategory().getRace().getCity().setId(cityId);
-		getRaceCategory().getRace().getCity().setName(cityName);
-		getRaceCategory().getRace().getCity().setState(new State());
-		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+		// getRaceCategory().getRace().setCity(new City());
+		// getRaceCategory().getRace().getCity().setId(cityId);
+		// getRaceCategory().getRace().getCity().setName(cityName);
+		// getRaceCategory().getRace().getCity().setState(new State());
+		// getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
 			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
-			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
-			PaymentType racePaymentType, String racePaymentInfo, String racePaymentAccount, String racePaymentToken,
-			Status status, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, /*
-																								 * Integer courseId,
-																								 * String courseName,
-																								 */
+			RegistrationStatusType registrationStatus, Integer raceId, String raceName, /*
+																						 * Date raceDate, PaymentType
+																						 * racePaymentType, String
+																						 * racePaymentInfo, String
+																						 * racePaymentAccount, String
+																						 * racePaymentToken,
+																						 */
+			Status status, Integer periodId, BigDecimal periodPrice, /*
+																	 * Integer cityId, String cityName, Integer stateId,
+																	 * String stateName, String stateAbbreviation,
+																	 */Integer categoryId, String categoryName, /*
+																												 * Integer
+																												 * courseId
+																												 * ,
+																												 * String
+																												 * courseName
+																												 * ,
+																												 */
 			Date registrationPeriodBeginning, Date registrationPeriodEnd) {
 		setId(registrationId);
 		setDate(registrationDate);
@@ -117,20 +131,20 @@ public class Registration {
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
-		getRaceCategory().getRace().setDate(raceDate);
-		getRaceCategory().getRace().setPaymentType(racePaymentType);
-		getRaceCategory().getRace().setPaymentInfo(racePaymentInfo);
-		getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
-		getRaceCategory().getRace().setPaymentToken(racePaymentToken);
+		// getRaceCategory().getRace().setDate(raceDate);
+		// getRaceCategory().getRace().setPaymentType(racePaymentType);
+		// getRaceCategory().getRace().setPaymentInfo(racePaymentInfo);
+		// getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
+		// getRaceCategory().getRace().setPaymentToken(racePaymentToken);
 		getRaceCategory().getRace().setStatus(status);
 
-		getRaceCategory().getRace().setCity(new City());
-		getRaceCategory().getRace().getCity().setId(cityId);
-		getRaceCategory().getRace().getCity().setName(cityName);
-		getRaceCategory().getRace().getCity().setState(new State());
-		getRaceCategory().getRace().getCity().getState().setId(stateId);
-		getRaceCategory().getRace().getCity().getState().setName(stateName);
-		getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+		// getRaceCategory().getRace().setCity(new City());
+		// getRaceCategory().getRace().getCity().setId(cityId);
+		// getRaceCategory().getRace().getCity().setName(cityName);
+		// getRaceCategory().getRace().getCity().setState(new State());
+		// getRaceCategory().getRace().getCity().getState().setId(stateId);
+		// getRaceCategory().getRace().getCity().getState().setName(stateName);
+		// getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 
 		getRaceCategory().getRace().setRegistrationPeriod(new Period());
 		getRaceCategory().getRace().getRegistrationPeriod().setBeginning(registrationPeriodBeginning);

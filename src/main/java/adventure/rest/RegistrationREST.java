@@ -35,7 +35,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import adventure.business.MailBusiness;
-import adventure.entity.PaymentType;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationStatusType;
@@ -44,7 +43,6 @@ import adventure.entity.User;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
-import adventure.rest.LocationREST.CityData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -79,11 +77,11 @@ public class RegistrationREST {
 			data.race = new RaceData();
 			data.race.id = registration.getRaceCategory().getRace().getId();
 			data.race.name = registration.getRaceCategory().getRace().getName();
-			data.race.date = registration.getRaceCategory().getRace().getDate();
-			data.race.city = new CityData();
-			data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
-			data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
-			data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
+			// data.race.date = registration.getRaceCategory().getRace().getDate();
+			// data.race.city = new CityData();
+			// data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
+			// data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
+			// data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
 
 			result.add(data);
 		}
@@ -170,11 +168,11 @@ public class RegistrationREST {
 		data.submitter.email = registration.getSubmitter().getEmail();
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
 		data.teamName = registration.getTeamName();
-		data.payment = new PaymentData();
-		data.payment.type = registration.getRaceCategory().getRace().getPaymentType();
-		data.payment.info = registration.getRaceCategory().getRace().getPaymentInfo();
-		data.payment.code = registration.getPaymentCode();
-		data.payment.transaction = registration.getPaymentTransaction();
+		// data.payment = new PaymentData();
+		// data.payment.type = registration.getRaceCategory().getRace().getPaymentType();
+		// data.payment.info = registration.getRaceCategory().getRace().getPaymentInfo();
+		// data.payment.code = registration.getPaymentCode();
+		// data.payment.transaction = registration.getPaymentTransaction();
 
 		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
 		Race race = registration.getRaceCategory().getRace();
@@ -202,11 +200,11 @@ public class RegistrationREST {
 		data.race = new RaceData();
 		data.race.id = race.getId();
 		data.race.name = race.getName();
-		data.race.date = race.getDate();
-		data.race.city = new CityData();
-		data.race.city.id = race.getCity().getId();
-		data.race.city.name = race.getCity().getName();
-		data.race.city.state = race.getCity().getState().getAbbreviation();
+		// data.race.date = race.getDate();
+		// data.race.city = new CityData();
+		// data.race.city.id = race.getCity().getId();
+		// data.race.city.name = race.getCity().getName();
+		// data.race.city.state = race.getCity().getState().getAbbreviation();
 		data.race.status = race.getStatus().getName();
 
 		// for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
@@ -327,8 +325,8 @@ public class RegistrationREST {
 
 	private String createCode(Registration registration, URI baseUri) throws Exception {
 		List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
-		payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getPaymentAccount()));
-		payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getPaymentToken()));
+		// payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getPaymentAccount()));
+		// payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getPaymentToken()));
 		payload.add(new BasicNameValuePair("currency", "BRL"));
 		payload.add(new BasicNameValuePair("reference", registration.getFormattedId()));
 		payload.add(new BasicNameValuePair("redirectURL", baseUri.toString() + "registration/"
@@ -415,7 +413,7 @@ public class RegistrationREST {
 
 		public RegistrationStatusType status;
 
-		public PaymentData payment;
+		// public PaymentData payment;
 
 		public UserData submitter;
 
@@ -437,9 +435,9 @@ public class RegistrationREST {
 
 		public String name;
 
-		public Date date;
+		// public Date date;
 
-		public CityData city;
+		// public CityData city;
 
 		// public List<UserData> organizers = new ArrayList<UserData>();
 
@@ -482,14 +480,14 @@ public class RegistrationREST {
 		public float racePrice;
 	}
 
-	public static class PaymentData {
-
-		public PaymentType type;
-
-		public String info;
-
-		public String code;
-
-		public String transaction;
-	}
+	// public static class PaymentData {
+	//
+	// public PaymentType type;
+	//
+	// public String info;
+	//
+	// public String code;
+	//
+	// public String transaction;
+	// }
 }

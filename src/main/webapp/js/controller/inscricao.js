@@ -60,8 +60,8 @@ function loadOk(data) {
 	$("#summary-section").show();
 
 	$(".race-name").text(data.race.name);
-	$("#race-date").text(moment(data.race.date).format('LL'));
-	$("#race-city").text(data.race.city.name + "/" + data.race.city.state);
+	// $("#race-date").text(moment(data.race.date).format('LL'));
+	// $("#race-city").text(data.race.city.name + "/" + data.race.city.state);
 	$("#race-section").show();
 
 	$("#race-category").text(data.category.name /* + " " + data.course.name */);

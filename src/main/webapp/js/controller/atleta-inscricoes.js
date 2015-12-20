@@ -34,10 +34,12 @@ function findOk($data, $status, $request) {
 				td1 += "</h3>";
 				// td1 += "<h5>";
 				td1 += "<span class='glyphicon glyphicon-calendar' style='font-size: 0.8em'></span> ";
-				td1 += moment(value.race.date, "YYYY-MM-DD").locale("pt-br").format('LL');
+				// td1 += moment(value.race.date,
+				// "YYYY-MM-DD").locale("pt-br").format('LL');
+				td1 += "value.race.date";
 				td1 += "&nbsp;&nbsp;";
 				td1 += "<span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> ";
-				td1 += value.race.city.name + "/" + value.race.city.state;
+				td1 += "value.race.city.name" + "/" + "value.race.city.state";
 				// td1 += "</h5>";
 				td1 += "<h5 style='padding-top: 5px; margin: 0px;'>";
 				td1 += value.teamName;

@@ -76,8 +76,8 @@ public class RaceRegistrationDownloadREST {
 		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(race.getDate());
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTime(race.getDate());
 
 		return oututStream.toByteArray();
 	}
