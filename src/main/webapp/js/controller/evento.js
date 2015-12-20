@@ -70,13 +70,6 @@ function loadEventOk(event) {
 	$("#days-left").text(event.period.countdown);
 	$("#location-city").text(event.location.city.name + " / " + event.location.city.state);
 
-	// if (event.layout) {
-	// if (event.layout.background_color) {
-	// $(".banner-section").css("background-color",
-	// event.layout.background_color);
-	// }
-	// }
-
 	// Date
 
 	if (event.period.beginning !== event.period.end) {

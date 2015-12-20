@@ -34,9 +34,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        s.abbreviation, ");
 		jpql.append(" 	        e.coords.latitude, ");
 		jpql.append(" 	        e.coords.longitude, ");
-		jpql.append(" 	        e.layout.textColor, ");
-		jpql.append(" 	        e.layout.backgroundColor, ");
-		jpql.append(" 	        e.layout.buttonColor, ");
 		jpql.append(" 	        e.beginning, ");
 		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");
@@ -68,8 +65,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append("  where e.id > 0 ");
 
 		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		// query.setParameter("beginning", beginning, DATE);
-		// query.setParameter("end", beginning, DATE);
 
 		return query.getResultList();
 	}
@@ -129,9 +124,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        s.abbreviation, ");
 		jpql.append(" 	        e.coords.latitude, ");
 		jpql.append(" 	        e.coords.longitude, ");
-		jpql.append(" 	        e.layout.textColor, ");
-		jpql.append(" 	        e.layout.backgroundColor, ");
-		jpql.append(" 	        e.layout.buttonColor, ");
 		jpql.append(" 	        e.beginning, ");
 		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");

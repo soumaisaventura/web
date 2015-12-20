@@ -45,9 +45,6 @@ public class Event {
 	@Embedded
 	private Coords coords;
 
-	@Embedded
-	private Layout layout;
-
 	@Transient
 	private List<Race> races;
 
@@ -93,17 +90,12 @@ public class Event {
 
 	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
 			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
-			BigDecimal coordLongitude, String layoutTextColor, String layoutBackgroundColor, String layoutButtonColor,
-			Date beginnig, Date end, Status status) {
+			BigDecimal coordLongitude, Date beginnig, Date end, Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
 		setDescription(description);
 		setSite(site);
-		setLayout(new Layout());
-		getLayout().setTextColor(layoutTextColor);
-		getLayout().setBackgroundColor(layoutBackgroundColor);
-		getLayout().setButtonColor(layoutButtonColor);
 
 		setCoords(new Coords());
 		getCoords().setLatitude(coordLatitude);
@@ -223,14 +215,6 @@ public class Event {
 
 	public void setCoords(Coords coords) {
 		this.coords = coords;
-	}
-
-	public Layout getLayout() {
-		return layout;
-	}
-
-	public void setLayout(Layout layout) {
-		this.layout = layout;
 	}
 
 	public List<Race> getRaces() {

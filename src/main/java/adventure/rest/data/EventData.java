@@ -28,7 +28,5 @@ public class EventData {
 
 	public List<UserData> organizers;
 
-	public LayoutData layout;
-
 	public String status;
 }

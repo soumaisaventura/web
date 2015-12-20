@@ -49,7 +49,6 @@ import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.CoordsData;
 import adventure.rest.data.EventData;
-import adventure.rest.data.LayoutData;
 import adventure.rest.data.LocationData;
 import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
@@ -140,15 +139,6 @@ public class EventREST {
 		eventData.period = new PeriodData();
 		eventData.period.beginning = event.getBeginning();
 		eventData.period.end = event.getEnd();
-
-		// Layout
-
-		if (!event.getLayout().isEmpty()) {
-			eventData.layout = new LayoutData();
-			eventData.layout.textColor = event.getLayout().getTextColor();
-			eventData.layout.backgroundColor = event.getLayout().getBackgroundColor();
-			eventData.layout.buttonColor = event.getLayout().getButtonColor();
-		}
 
 		// Location
 
