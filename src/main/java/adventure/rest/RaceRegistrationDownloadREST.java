@@ -57,8 +57,8 @@ public class RaceRegistrationDownloadREST {
 	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRaceDetails(id);
 
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 
@@ -89,8 +89,8 @@ public class RaceRegistrationDownloadREST {
 	public byte[] exportXLSX(@PathParam("id") Integer id) throws Exception {
 		Race race = loadRaceDetails(id);
 
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 

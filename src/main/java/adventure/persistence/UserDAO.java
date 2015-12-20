@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Event;
-import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.User;
 import br.gov.frameworkdemoiselle.template.JPACrud;
@@ -165,29 +164,29 @@ public class UserDAO extends JPACrud<User, Integer> {
 		return query.getResultList();
 	}
 
-	public List<User> findRaceOrganizers(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     o.id, ");
-		jpql.append(" 	     case when ro.alternateEmail is null then o.email else ro.alternateEmail end, ");
-		jpql.append(" 	     case when ro.alternateName is null then p.name else ro.alternateName end, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.mobile ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from RaceOrganizer ro ");
-		jpql.append("   join ro.organizer o, ");
-		jpql.append("        Profile p ");
-		jpql.append("  where o = p.user ");
-		jpql.append("    and ro.race = :race ");
-		jpql.append("  order by ");
-		jpql.append("        p.name ");
-
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-		query.setParameter("race", race);
-
-		return query.getResultList();
-	}
+	// public List<User> findRaceOrganizers(Race race) {
+	// StringBuffer jpql = new StringBuffer();
+	// jpql.append(" select ");
+	// jpql.append(" 	 new User( ");
+	// jpql.append(" 	     o.id, ");
+	// jpql.append(" 	     case when ro.alternateEmail is null then o.email else ro.alternateEmail end, ");
+	// jpql.append(" 	     case when ro.alternateName is null then p.name else ro.alternateName end, ");
+	// jpql.append(" 	     p.gender, ");
+	// jpql.append(" 	     p.mobile ");
+	// jpql.append(" 	     ) ");
+	// jpql.append("   from RaceOrganizer ro ");
+	// jpql.append("   join ro.organizer o, ");
+	// jpql.append("        Profile p ");
+	// jpql.append("  where o = p.user ");
+	// jpql.append("    and ro.race = :race ");
+	// jpql.append("  order by ");
+	// jpql.append("        p.name ");
+	//
+	// TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+	// query.setParameter("race", race);
+	//
+	// return query.getResultList();
+	// }
 
 	public List<User> findTeamFormation(Registration registration) {
 		StringBuffer jpql = new StringBuffer();

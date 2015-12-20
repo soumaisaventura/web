@@ -90,7 +90,7 @@ public class RaceREST {
 		data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
 		data.registration.period.end = race.getRegistrationPeriod().getEnd();
 		// data.courses.addAll(loadCourse(race));
-		data.organizers.addAll(loadOrganizer(race));
+		// data.organizers.addAll(loadOrganizer(race));
 
 		return data;
 	}
@@ -249,24 +249,24 @@ public class RaceREST {
 	// return result;
 	// }
 
-	private List<OrganizerData> loadOrganizer(Race race) throws Exception {
-		List<OrganizerData> result = new ArrayList<OrganizerData>();
-
-		for (User organizers : UserDAO.getInstance().findRaceOrganizers(race)) {
-			OrganizerData organizerData = new OrganizerData();
-			organizerData.id = organizers.getId();
-			organizerData.email = organizers.getEmail();
-			organizerData.name = organizers.getProfile().getName();
-
-			result.add(organizerData);
-		}
-
-		return result;
-	}
+	// private List<OrganizerData> loadOrganizer(Race race) throws Exception {
+	// List<OrganizerData> result = new ArrayList<OrganizerData>();
+	//
+	// for (User organizers : UserDAO.getInstance().findRaceOrganizers(race)) {
+	// OrganizerData organizerData = new OrganizerData();
+	// organizerData.id = organizers.getId();
+	// organizerData.email = organizers.getEmail();
+	// organizerData.name = organizers.getProfile().getName();
+	//
+	// result.add(organizerData);
+	// }
+	//
+	// return result;
+	// }
 
 	private void checkPermission(Race race) throws ForbiddenException {
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 	}
@@ -374,7 +374,7 @@ public class RaceREST {
 
 		// public List<CourseData> courses = new ArrayList<CourseData>();
 
-		public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
+		// public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
 
 		public RegistrationData registration;
 
@@ -397,14 +397,14 @@ public class RaceREST {
 		public BigDecimal price;
 	}
 
-//	public static class CourseData {
-//
-//		public Integer id;
-//
-//		public String name;
-//
-//		public List<CategoryData> categories = new ArrayList<CategoryData>();
-//	}
+	// public static class CourseData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// public List<CategoryData> categories = new ArrayList<CategoryData>();
+	// }
 
 	public static class CategoryData {
 
@@ -417,14 +417,14 @@ public class RaceREST {
 		public Integer teamSize;
 	}
 
-	public static class OrganizerData {
-
-		public Integer id;
-
-		public String name;
-
-		public String email;
-	}
+	// public static class OrganizerData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// public String email;
+	// }
 
 	public static class OrderRowData {
 

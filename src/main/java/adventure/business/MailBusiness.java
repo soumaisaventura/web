@@ -171,12 +171,12 @@ public class MailBusiness implements Serializable {
 		// content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
-		String replacement = "";
-		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
-			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
-					+ "; " + organizer.getEmail() + "$2\r";
-		}
-		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
+		// String replacement = "";
+		// for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
+		// replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+		// + "; " + organizer.getEmail() + "$2\r";
+		// }
+		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
 
 		String subject = "Pedido de inscrição";
 		subject += " #" + registration.getFormattedId();
@@ -233,7 +233,7 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 		content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
 		content = content.replace("{newPeriodEnd}", Dates.parse(newPeriodEnd));
-		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
+		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
 
 		String subject = "Reajuste no pedido";
 		subject += " #" + registration.getFormattedId();
@@ -262,7 +262,7 @@ public class MailBusiness implements Serializable {
 				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
-		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
+		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
 
 		String subject = "Cancelamento da inscrição";
 		subject += " #" + registration.getFormattedId();
@@ -273,15 +273,15 @@ public class MailBusiness implements Serializable {
 		}
 	}
 
-	private String getOrganizerInfo(Race race) {
-		String replacement = "";
-		for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
-			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
-					+ "; " + organizer.getEmail() + "$2\r";
-		}
-
-		return replacement;
-	}
+	// private String getOrganizerInfo(Race race) {
+	// String replacement = "";
+	// for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
+	// replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+	// + "; " + organizer.getEmail() + "$2\r";
+	// }
+	//
+	// return replacement;
+	// }
 
 	@Asynchronous
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {

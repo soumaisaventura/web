@@ -188,6 +188,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		return query.getResultList();
 	}
 
+	@Deprecated
 	public List<Registration> findToOrganizer(Race race) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");

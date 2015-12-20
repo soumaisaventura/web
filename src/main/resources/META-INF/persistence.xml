@@ -13,7 +13,7 @@
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>
-		<class>adventure.entity.RaceOrganizer</class>
+<!-- 		<class>adventure.entity.RaceOrganizer</class> -->
 		<class>adventure.entity.RaceFee</class>
 		<class>adventure.entity.Status</class>
 		<class>adventure.entity.Championship</class>

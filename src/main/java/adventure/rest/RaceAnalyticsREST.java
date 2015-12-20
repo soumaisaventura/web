@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -87,8 +88,8 @@ public class RaceAnalyticsREST {
 	}
 
 	private void checkPermission(Race race) throws ForbiddenException {
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 	}

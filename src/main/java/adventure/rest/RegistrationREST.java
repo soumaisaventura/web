@@ -98,8 +98,8 @@ public class RegistrationREST {
 	public void confirm(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 
@@ -123,8 +123,8 @@ public class RegistrationREST {
 	public void cancel(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
+		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
 			throw new ForbiddenException();
 		}
 
@@ -178,12 +178,12 @@ public class RegistrationREST {
 
 		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
 		Race race = registration.getRaceCategory().getRace();
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User loggedInUser = User.getLoggedIn();
 
 		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
 				&& !teamFormations.contains(new TeamFormation(registration, loggedInUser))
-				&& !organizers.contains(loggedInUser)) {
+		/* && !organizers.contains(loggedInUser) */) {
 			throw new ForbiddenException();
 		}
 
@@ -209,14 +209,14 @@ public class RegistrationREST {
 		data.race.city.state = race.getCity().getState().getAbbreviation();
 		data.race.status = race.getStatus().getName();
 
-		for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
-			UserData organizer = new UserData();
-			organizer.id = user.getId();
-			organizer.email = user.getEmail();
-			organizer.name = user.getProfile().getName();
-			organizer.phone = user.getProfile().getMobile();
-			data.race.organizers.add(organizer);
-		}
+		// for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
+		// UserData organizer = new UserData();
+		// organizer.id = user.getId();
+		// organizer.email = user.getEmail();
+		// organizer.name = user.getProfile().getName();
+		// organizer.phone = user.getProfile().getMobile();
+		// data.race.organizers.add(organizer);
+		// }
 
 		// data.course = new CourseData();
 		// data.course.id = registration.getRaceCategory().getCourse().getId();
@@ -264,11 +264,11 @@ public class RegistrationREST {
 			throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 		Race race = registration.getRaceCategory().getRace();
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User member = loadMember(memberId);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
+		if (!loggedInUser.getAdmin() /* && !organizers.contains(loggedInUser) */) {
 			throw new ForbiddenException();
 		}
 
@@ -303,11 +303,11 @@ public class RegistrationREST {
 	public void updateTeamName(@PathParam("id") Long id, String teamName) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 		Race race = registration.getRaceCategory().getRace();
-		List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		List<User> team = UserDAO.getInstance().findTeamFormation(registration);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser) && !team.contains(loggedInUser)) {
+		if (!loggedInUser.getAdmin() /* && !organizers.contains(loggedInUser) */&& !team.contains(loggedInUser)) {
 			throw new ForbiddenException();
 		}
 
@@ -421,7 +421,7 @@ public class RegistrationREST {
 
 		public RaceData race;
 
-//		public CourseData course;
+		// public CourseData course;
 
 		public CategoryData category;
 
@@ -441,7 +441,7 @@ public class RegistrationREST {
 
 		public CityData city;
 
-		public List<UserData> organizers = new ArrayList<UserData>();
+		// public List<UserData> organizers = new ArrayList<UserData>();
 
 		public String status;
 	}

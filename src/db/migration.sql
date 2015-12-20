@@ -287,11 +287,12 @@ CREATE INDEX idx_race_ending ON public.race
  );
 
 
--- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race CASCADE;
---
--- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer CASCADE;
---
--- DROP TABLE IF EXISTS public.race_organizer CASCADE;
+ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race CASCADE;
+
+ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer CASCADE;
+
+DROP TABLE IF EXISTS public.race_organizer CASCADE;
+
 --
 -- ALTER TABLE public.race
 --    DROP COLUMN IF EXISTS date CASCADE;
