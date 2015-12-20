@@ -218,9 +218,9 @@ public class RegistrationREST {
 			data.race.organizers.add(organizer);
 		}
 
-		data.course = new CourseData();
-		data.course.id = registration.getRaceCategory().getCourse().getId();
-		data.course.name = registration.getRaceCategory().getCourse().getName();
+		// data.course = new CourseData();
+		// data.course.id = registration.getRaceCategory().getCourse().getId();
+		// data.course.name = registration.getRaceCategory().getCourse().getName();
 		data.category = new CategoryData();
 		data.category.id = registration.getRaceCategory().getCategory().getId();
 		data.category.name = registration.getRaceCategory().getCategory().getName();
@@ -421,7 +421,7 @@ public class RegistrationREST {
 
 		public RaceData race;
 
-		public CourseData course;
+//		public CourseData course;
 
 		public CategoryData category;
 
@@ -446,12 +446,12 @@ public class RegistrationREST {
 		public String status;
 	}
 
-	public static class CourseData {
-
-		public Integer id;
-
-		public String name;
-	}
+	// public static class CourseData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	// }
 
 	public static class CategoryData {
 

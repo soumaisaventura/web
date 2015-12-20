@@ -30,15 +30,15 @@ public class RaceAnalyticsREST {
 		return RaceAnalyticDAO.getInstance().getRegistrationByCategory(race);
 	}
 
-	@GET
-	@LoggedIn
-	@Path("course")
-	@Produces("application/json")
-	public List<RaceAnalytic> getCourses(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRace(id);
-		checkPermission(race);
-		return RaceAnalyticDAO.getInstance().getRegistrationByCourse(race);
-	}
+	// @GET
+	// @LoggedIn
+	// @Path("course")
+	// @Produces("application/json")
+	// public List<RaceAnalytic> getCourses(@PathParam("id") Integer id) throws Exception {
+	// Race race = loadRace(id);
+	// checkPermission(race);
+	// return RaceAnalyticDAO.getInstance().getRegistrationByCourse(race);
+	// }
 
 	@GET
 	@LoggedIn

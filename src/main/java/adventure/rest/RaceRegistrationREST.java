@@ -40,7 +40,6 @@ import adventure.persistence.TeamFormationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.RegistrationREST.BillData;
 import adventure.rest.RegistrationREST.CategoryData;
-import adventure.rest.RegistrationREST.CourseData;
 import adventure.rest.RegistrationREST.RegistrationData;
 import adventure.rest.RegistrationREST.UserData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
@@ -66,7 +65,7 @@ public class RaceRegistrationREST {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 
 		User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
-		RaceCategory raceCategory = loadRaceCategory(id, data.course, data.category);
+		RaceCategory raceCategory = loadRaceCategory(id, /* data.course, */data.category);
 		List<User> members = loadMembers(data.members);
 		Period period = loadPeriod(raceCategory.getRace(), date);
 		validate(raceCategory, members, submitter, data.teamName, baseUri);
@@ -131,9 +130,9 @@ public class RaceRegistrationREST {
 			data.category.id = registration.getRaceCategory().getCategory().getId();
 			data.category.name = registration.getRaceCategory().getCategory().getName();
 
-			data.course = new CourseData();
-			data.course.id = registration.getRaceCategory().getCourse().getId();
-			data.course.name = registration.getRaceCategory().getCourse().getName();
+			// data.course = new CourseData();
+			// data.course.id = registration.getRaceCategory().getCourse().getId();
+			// data.course.name = registration.getRaceCategory().getCourse().getName();
 
 			data.teamFormation = new ArrayList<UserData>();
 			for (TeamFormation teamFormation : registration.getTeamFormations()) {
@@ -167,8 +166,8 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private RaceCategory loadRaceCategory(Integer raceId, Integer courseId, Integer categoryId) throws Exception {
-		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, courseId, categoryId);
+	private RaceCategory loadRaceCategory(Integer raceId, /* Integer courseId, */Integer categoryId) throws Exception {
+		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, /* courseId, */categoryId);
 
 		if (result == null) {
 			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
@@ -291,8 +290,8 @@ public class RaceRegistrationREST {
 		@NotNull
 		public Integer category;
 
-		@NotNull
-		public Integer course;
+		// @NotNull
+		// public Integer course;
 
 		@NotEmpty
 		public List<Integer> members;

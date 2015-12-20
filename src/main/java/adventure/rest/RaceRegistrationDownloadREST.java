@@ -169,8 +169,8 @@ public class RaceRegistrationDownloadREST {
 			cEquipesIdx = 0;
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getFormattedId());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getStatus().description());
-			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
-					registration.getRaceCategory().getCourse().getName());
+			// createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
+			// registration.getRaceCategory().getCourse().getName());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
 					registration.getRaceCategory().getCategory().getName());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getTeamName());
@@ -185,8 +185,8 @@ public class RaceRegistrationDownloadREST {
 				cAtletasIdx = 0;
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getFormattedId());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getStatus().description());
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
-						registration.getRaceCategory().getCourse().getName());
+				// createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+				// registration.getRaceCategory().getCourse().getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						registration.getRaceCategory().getCategory().getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getTeamName());

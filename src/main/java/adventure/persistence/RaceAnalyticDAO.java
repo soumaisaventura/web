@@ -25,7 +25,9 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new adventure.entity.RaceAnalytic( ");
-		jpql.append("        ca.name || ' ' || co.name, ");
+		jpql.append("        ca.name ");
+		// jpql.append("        || ' ' || co.name ");
+		jpql.append("        , ");
 		jpql.append("        (select count(_re) ");
 		jpql.append("           from Registration _re ");
 		jpql.append("          where _re.raceCategory = rc ");
@@ -34,33 +36,10 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.category ca ");
-		jpql.append("   join rc.course co ");
+		// jpql.append("   join rc.course co ");
 		jpql.append("  where rc.race = :race ");
 		jpql.append("  order by ");
-		jpql.append("        co.id, _count desc ");
-
-		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
-		query.setParameter("race", race);
-		query.setParameter("status", CONFIRMED);
-
-		return query.getResultList();
-	}
-
-	public List<RaceAnalytic> getRegistrationByCourse(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new adventure.entity.RaceAnalytic( ");
-		jpql.append("        co.name, ");
-		jpql.append("        (select count(_re) ");
-		jpql.append("           from Registration _re ");
-		jpql.append("           join _re.raceCategory _rc ");
-		jpql.append("          where _rc.course = co ");
-		jpql.append("            and _re.status = :status ");
-		jpql.append("        ) as _count ");
-		jpql.append("        ) ");
-		jpql.append("   from Course co ");
-		jpql.append("  where co.race = :race ");
-		jpql.append("  order by ");
+		// jpql.append("        co.id, ");
 		jpql.append("        _count desc ");
 
 		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
@@ -69,6 +48,30 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
+
+	// public List<RaceAnalytic> getRegistrationByCourse(Race race) {
+	// StringBuffer jpql = new StringBuffer();
+	// jpql.append(" select ");
+	// jpql.append("    new adventure.entity.RaceAnalytic( ");
+	// jpql.append("        co.name, ");
+	// jpql.append("        (select count(_re) ");
+	// jpql.append("           from Registration _re ");
+	// jpql.append("           join _re.raceCategory _rc ");
+	// jpql.append("          where _rc.course = co ");
+	// jpql.append("            and _re.status = :status ");
+	// jpql.append("        ) as _count ");
+	// jpql.append("        ) ");
+	// jpql.append("   from Course co ");
+	// jpql.append("  where co.race = :race ");
+	// jpql.append("  order by ");
+	// jpql.append("        _count desc ");
+	//
+	// TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
+	// query.setParameter("race", race);
+	// query.setParameter("status", CONFIRMED);
+	//
+	// return query.getResultList();
+	// }
 
 	public List<RaceAnalytic> getRegistrationByStatus(Race race) {
 		StringBuffer jpql = new StringBuffer();

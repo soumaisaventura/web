@@ -23,7 +23,7 @@
 		<class>adventure.entity.Modality</class>
 		<class>adventure.entity.Period</class>
 		<class>adventure.entity.Category</class>
-		<class>adventure.entity.Course</class>
+<!-- 		<class>adventure.entity.Course</class> -->
 		<class>adventure.entity.Registration</class>
 		<class>adventure.entity.Fee</class>
 		<class>adventure.entity.TeamFormation</class>

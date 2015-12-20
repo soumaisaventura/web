@@ -32,15 +32,14 @@ public class Registration {
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "race_id", referencedColumnName = "race_id"),
-			@JoinColumn(name = "course_id", referencedColumnName = "course_id"),
-			@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
+	/* @JoinColumn(name = "course_id", referencedColumnName = "course_id"), */
+	@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
 	private RaceCategory raceCategory;
 
 	@ManyToOne
 	@JoinColumn(name = "period_id")
 	private Period period;
 
-	@Deprecated
 	@Column(name = "team_name")
 	private String teamName;
 
@@ -95,8 +94,11 @@ public class Registration {
 			RegistrationStatusType registrationStatus, Integer raceId, String raceName, Date raceDate,
 			PaymentType racePaymentType, String racePaymentInfo, String racePaymentAccount, String racePaymentToken,
 			Status status, Integer periodId, BigDecimal periodPrice, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, Integer courseId,
-			String courseName, Date registrationPeriodBeginning, Date registrationPeriodEnd) {
+			String stateName, String stateAbbreviation, Integer categoryId, String categoryName, /*
+																								 * Integer courseId,
+																								 * String courseName,
+																								 */
+			Date registrationPeriodBeginning, Date registrationPeriodEnd) {
 		setId(registrationId);
 		setDate(registrationDate);
 		setTeamName(teamName);
@@ -138,9 +140,9 @@ public class Registration {
 		getPeriod().setId(periodId);
 		getPeriod().setPrice(periodPrice);
 
-		getRaceCategory().setCourse(new Course());
-		getRaceCategory().getCourse().setId(courseId);
-		getRaceCategory().getCourse().setName(courseName);
+		// getRaceCategory().setCourse(new Course());
+		// getRaceCategory().getCourse().setId(courseId);
+		// getRaceCategory().getCourse().setName(courseName);
 
 		getRaceCategory().setCategory(new Category());
 		getRaceCategory().getCategory().setId(categoryId);
@@ -205,12 +207,10 @@ public class Registration {
 		this.period = period;
 	}
 
-	@Deprecated
 	public String getTeamName() {
 		return teamName;
 	}
 
-	@Deprecated
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}

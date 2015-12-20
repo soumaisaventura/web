@@ -33,7 +33,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		RaceCategory raceCategory = registration.getRaceCategory();
 		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
-		raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
+		// raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
 		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
 
 		return super.insert(registration);
@@ -48,7 +48,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		RaceCategory raceCategory = registration.getRaceCategory();
 		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
-		raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
+		// raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
 		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
 
 		return super.update(registration);
@@ -88,8 +88,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        st.abbreviation, ");
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
-		jpql.append("        co.id, ");
-		jpql.append("        co.name, ");
+		// jpql.append("        co.id, ");
+		// jpql.append("        co.name, ");
 		jpql.append(" 	     (select min(_p.beginning) ");
 		jpql.append(" 	        from Period _p ");
 		jpql.append(" 	       where _p.race = ra), ");
@@ -101,7 +101,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join re.submitter su ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
-		jpql.append("   join rc.course co ");
+		// jpql.append("   join rc.course co ");
 		jpql.append("   join rc.category ca ");
 		jpql.append("   join re.period pe ");
 		jpql.append("   left join ra.city ci ");
@@ -152,8 +152,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        st.abbreviation, ");
 		jpql.append("        ca.id, ");
 		jpql.append("        ca.name, ");
-		jpql.append("        co.id, ");
-		jpql.append("        co.name, ");
+		// jpql.append("        co.id, ");
+		// jpql.append("        co.name, ");
 		jpql.append(" 	     (select min(_p.beginning) ");
 		jpql.append(" 	        from Period _p ");
 		jpql.append(" 	       where _p.race = ra), ");
@@ -165,7 +165,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join re.submitter su ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
-		jpql.append("   join rc.course co ");
+		// jpql.append("   join rc.course co ");
 		jpql.append("   join rc.category ca ");
 		jpql.append("   join re.period pe ");
 		jpql.append("   left join ra.city ci ");
@@ -211,17 +211,17 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     re.date, ");
 		jpql.append(" 	     ra.id, ");
 		jpql.append(" 	     ca.id, ");
-		jpql.append(" 	     ca.name, ");
-		jpql.append(" 	     co.id, ");
-		jpql.append(" 	     co.name ");
+		jpql.append(" 	     ca.name ");
+		// jpql.append(" 	     co.id, ");
+		// jpql.append(" 	     co.name ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from TeamFormation tf ");
 		jpql.append("   join tf.user u ");
 		jpql.append("   join tf.registration re ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
-		jpql.append("   join rc.category ca ");
-		jpql.append("   join rc.course co, ");
+		jpql.append("   join rc.category ca, ");
+		// jpql.append("   join rc.course co, ");
 		jpql.append("        Profile p ");
 		jpql.append("   join p.city ci ");
 		jpql.append("   join ci.state st ");

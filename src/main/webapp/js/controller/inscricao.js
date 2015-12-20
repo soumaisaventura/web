@@ -28,12 +28,14 @@ function updateBreadcrumb(data) {
 	var user = App.getLoggedInUser();
 
 	var organizer = false;
-	$.each(data.race.organizers, function(i, value) {
-		if (user.id === value.id) {
-			organizer = true;
-			return;
-		}
-	});
+	if (data.race.organizers) {
+		$.each(data.race.organizers, function(i, value) {
+			if (user.id === value.id) {
+				organizer = true;
+				return;
+			}
+		});
+	}
 
 	if (organizer || user.admin) {
 		$(".breadcrumb.organizer").show();
@@ -62,7 +64,7 @@ function loadOk(data) {
 	$("#race-city").text(data.race.city.name + "/" + data.race.city.state);
 	$("#race-section").show();
 
-	$("#race-category").text(data.category.name + " " + data.course.name);
+	$("#race-category").text(data.category.name /* + " " + data.course.name */);
 
 	var user = App.getLoggedInUser();
 	var member = false;
@@ -106,29 +108,32 @@ function loadOk(data) {
 	}
 
 	var authorized = user ? user.admin : null;
-	$.each(data.race.organizers, function(i, organizer) {
-		var row = "";
-		row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
-		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(organizer.name);
-		row = row.concat("<br/>");
-		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(organizer.email);
 
-		if (organizer.phone) {
+	if (data.race.organizers) {
+		$.each(data.race.organizers, function(i, organizer) {
+			var row = "";
+			row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
+			row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+			row = row.concat(organizer.name);
 			row = row.concat("<br/>");
-			row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-			row = row.concat(organizer.phone);
-		}
+			row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+			row = row.concat(organizer.email);
 
-		if (user && organizer.id == user.id) {
-			authorized = true;
-		}
+			if (organizer.phone) {
+				row = row.concat("<br/>");
+				row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+				row = row.concat(organizer.phone);
+			}
 
-		row = row.concat("</div>");
-		$("#race-organizers").append(row);
-	});
-	$("#organizers-section").show();
+			if (user && organizer.id == user.id) {
+				authorized = true;
+			}
+
+			row = row.concat("</div>");
+			$("#race-organizers").append(row);
+		});
+		$("#organizers-section").show();
+	}
 
 	$("#registration-submitter").text(data.submitter.name);
 	$("#registration-date").text(moment(data.date).format('L'));

@@ -30,7 +30,7 @@ public class CategoryDAO extends JPACrud<Category, Integer> {
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.category c ");
 		jpql.append("  where rc.race = :race ");
-		jpql.append("    and rc.course.id = 0 ");
+		// jpql.append("    and rc.course.id = 0 ");
 		jpql.append("  order by ");
 		jpql.append("        c.teamSize, ");
 		jpql.append("        c.name ");

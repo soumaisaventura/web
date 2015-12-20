@@ -23,14 +23,11 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
-import adventure.entity.Category;
 import adventure.entity.City;
-import adventure.entity.Course;
 import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
-import adventure.persistence.CourseDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
@@ -64,7 +61,7 @@ public class RaceREST {
 			data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
 					+ race.getCity().getState().getAbbreviation() : null;
 
-			data.courses = null;
+			// data.courses = null;
 			result.add(data);
 		}
 
@@ -92,7 +89,7 @@ public class RaceREST {
 		data.registration.period = new PeriodData();
 		data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
 		data.registration.period.end = race.getRegistrationPeriod().getEnd();
-		data.courses.addAll(loadCourse(race));
+		// data.courses.addAll(loadCourse(race));
 		data.organizers.addAll(loadOrganizer(race));
 
 		return data;
@@ -229,28 +226,28 @@ public class RaceREST {
 		return result;
 	}
 
-	private List<CourseData> loadCourse(Race race) throws Exception {
-		List<CourseData> result = new ArrayList<CourseData>();
-
-		for (Course course : CourseDAO.getInstance().findWithCategories(race)) {
-			CourseData courseData = new CourseData();
-			courseData.id = course.getId();
-			courseData.name = course.getName();
-
-			for (Category category : course.getCategories()) {
-				CategoryData categoryData = new CategoryData();
-				categoryData.id = category.getId();
-				categoryData.name = category.getName();
-				categoryData.description = category.getDescription();
-				categoryData.teamSize = category.getTeamSize();
-				courseData.categories.add(categoryData);
-			}
-
-			result.add(courseData);
-		}
-
-		return result;
-	}
+	// private List<CourseData> loadCourse(Race race) throws Exception {
+	// List<CourseData> result = new ArrayList<CourseData>();
+	//
+	// for (Course course : CourseDAO.getInstance().findWithCategories(race)) {
+	// CourseData courseData = new CourseData();
+	// courseData.id = course.getId();
+	// courseData.name = course.getName();
+	//
+	// for (Category category : course.getCategories()) {
+	// CategoryData categoryData = new CategoryData();
+	// categoryData.id = category.getId();
+	// categoryData.name = category.getName();
+	// categoryData.description = category.getDescription();
+	// categoryData.teamSize = category.getTeamSize();
+	// courseData.categories.add(categoryData);
+	// }
+	//
+	// result.add(courseData);
+	// }
+	//
+	// return result;
+	// }
 
 	private List<OrganizerData> loadOrganizer(Race race) throws Exception {
 		List<OrganizerData> result = new ArrayList<OrganizerData>();
@@ -274,15 +271,15 @@ public class RaceREST {
 		}
 	}
 
-	@GET
-	@Cache("max-age=28800")
-	@Path("{id}/courses")
-	@Produces("application/json")
-	public List<CourseData> findCourses(@PathParam("id") Integer id) throws Exception {
-		Race race = loadJustRaceId(id);
-		List<CourseData> result = loadCourse(race);
-		return result.isEmpty() ? null : result;
-	}
+	// @GET
+	// @Cache("max-age=28800")
+	// @Path("{id}/courses")
+	// @Produces("application/json")
+	// public List<CourseData> findCourses(@PathParam("id") Integer id) throws Exception {
+	// Race race = loadJustRaceId(id);
+	// List<CourseData> result = loadCourse(race);
+	// return result.isEmpty() ? null : result;
+	// }
 
 	@GET
 	@Path("{id}/order")
@@ -375,7 +372,7 @@ public class RaceREST {
 
 		public String site;
 
-		public List<CourseData> courses = new ArrayList<CourseData>();
+		// public List<CourseData> courses = new ArrayList<CourseData>();
 
 		public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
 
@@ -400,14 +397,14 @@ public class RaceREST {
 		public BigDecimal price;
 	}
 
-	public static class CourseData {
-
-		public Integer id;
-
-		public String name;
-
-		public List<CategoryData> categories = new ArrayList<CategoryData>();
-	}
+//	public static class CourseData {
+//
+//		public Integer id;
+//
+//		public String name;
+//
+//		public List<CategoryData> categories = new ArrayList<CategoryData>();
+//	}
 
 	public static class CategoryData {
 

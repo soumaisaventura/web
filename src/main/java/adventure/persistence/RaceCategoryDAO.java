@@ -23,7 +23,7 @@ public class RaceCategoryDAO implements Serializable {
 		return Beans.getReference(RaceCategoryDAO.class);
 	}
 
-	public RaceCategory loadForRegistration(Integer raceId, Integer courseId, Integer categoryId) throws Exception {
+	public RaceCategory loadForRegistration(Integer raceId, /* Integer courseId, */Integer categoryId) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new RaceCategory( ");
@@ -33,8 +33,8 @@ public class RaceCategoryDAO implements Serializable {
 		jpql.append("        t.teamSize, ");
 		jpql.append("        t.minMaleMembers, ");
 		jpql.append("        t.minFemaleMembers, ");
-		jpql.append("        c.id, ");
-		jpql.append("        c.name, ");
+		// jpql.append("        c.id, ");
+		// jpql.append("        c.name, ");
 		jpql.append("        r.id, ");
 		jpql.append("        r.name, ");
 		jpql.append("        r.date ");
@@ -42,18 +42,18 @@ public class RaceCategoryDAO implements Serializable {
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.race r ");
 		jpql.append("   join rc.category t ");
-		jpql.append("   join rc.course c ");
+		// jpql.append("   join rc.course c ");
 		jpql.append("  where r.id = :raceId ");
-		jpql.append("    and c.id = :courseId ");
+		// jpql.append("    and c.id = :courseId ");
 		jpql.append("    and t.id = :categoryId ");
 		jpql.append("  order by ");
-		jpql.append("        c.name desc, ");
+		// jpql.append("        c.name desc, ");
 		jpql.append("        t.teamSize desc, ");
 		jpql.append("        t.name ");
 
 		TypedQuery<RaceCategory> query = em.createQuery(jpql.toString(), RaceCategory.class);
 		query.setParameter("raceId", raceId);
-		query.setParameter("courseId", courseId);
+		// query.setParameter("courseId", courseId);
 		query.setParameter("categoryId", categoryId);
 
 		RaceCategory result;

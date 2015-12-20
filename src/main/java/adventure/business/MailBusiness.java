@@ -168,7 +168,7 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
+		// content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
 		String replacement = "";
@@ -304,7 +304,7 @@ public class MailBusiness implements Serializable {
 				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
+		// content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
 		String subject = "Confirmação da inscrição";

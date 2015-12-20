@@ -8,7 +8,7 @@ public class RaceCategoryPk implements Serializable {
 
 	Integer race;
 
-	Integer course;
+	// Integer course;
 
 	Integer category;
 
@@ -17,7 +17,7 @@ public class RaceCategoryPk implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((course == null) ? 0 : course.hashCode());
+		// result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result + ((race == null) ? 0 : race.hashCode());
 		return result;
 	}
@@ -41,13 +41,13 @@ public class RaceCategoryPk implements Serializable {
 		} else if (!category.equals(other.category)) {
 			return false;
 		}
-		if (course == null) {
-			if (other.course != null) {
-				return false;
-			}
-		} else if (!course.equals(other.course)) {
-			return false;
-		}
+		// if (course == null) {
+		// if (other.course != null) {
+		// return false;
+		// }
+		// } else if (!course.equals(other.course)) {
+		// return false;
+		// }
 		if (race == null) {
 			if (other.race != null) {
 				return false;

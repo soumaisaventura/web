@@ -234,11 +234,7 @@ DROP INDEX IF EXISTS public.idx_course_race CASCADE;
 
 DROP TABLE IF EXISTS public.course CASCADE;
 
-ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race CASCADE;
-
-ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer CASCADE;
-
-DROP TABLE IF EXISTS public.race_organizer CASCADE;
+DELETE FROM race_organizer;
 
 DELETE FROM period p
       WHERE p.race_id IN (SELECT r.id
@@ -284,44 +280,52 @@ DROP INDEX IF EXISTS public.idx_race_city CASCADE;
 
 
 
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS date CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS city_id CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS banner CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS payment_account CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS payment_token CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS payment_type CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS payment_info CASCADE;
-
-ALTER TABLE public.race
-   DROP COLUMN IF EXISTS site CASCADE;
-
 CREATE INDEX idx_race_ending ON public.race
  USING btree
  (
    ending ASC NULLS LAST
  );
 
-ALTER TABLE public.event
-   DROP COLUMN IF EXISTS background_color CASCADE;
 
-ALTER TABLE public.event
-   DROP COLUMN IF EXISTS button_color CASCADE;
-
-ALTER TABLE public.event
-   DROP COLUMN IF EXISTS text_color CASCADE;
-
-ALTER TABLE public.event
-   DROP COLUMN IF EXISTS top_color CASCADE;
+-- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer_race CASCADE;
+--
+-- ALTER TABLE public.race_organizer DROP CONSTRAINT IF EXISTS fk_race_organizer CASCADE;
+--
+-- DROP TABLE IF EXISTS public.race_organizer CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS date CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS city_id CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS banner CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS payment_account CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS payment_token CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS payment_type CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS payment_info CASCADE;
+--
+-- ALTER TABLE public.race
+--    DROP COLUMN IF EXISTS site CASCADE;
+--
+--
+-- ALTER TABLE public.event
+--    DROP COLUMN IF EXISTS background_color CASCADE;
+--
+-- ALTER TABLE public.event
+--    DROP COLUMN IF EXISTS button_color CASCADE;
+--
+-- ALTER TABLE public.event
+--    DROP COLUMN IF EXISTS text_color CASCADE;
+--
+-- ALTER TABLE public.event
+--    DROP COLUMN IF EXISTS top_color CASCADE;
