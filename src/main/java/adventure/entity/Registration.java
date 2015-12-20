@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -59,11 +60,8 @@ public class Registration {
 	@JoinColumn(name = "approver_id")
 	private User approver;
 
-	@Column(name = "payment_code")
-	private String paymentCode;
-
-	@Column(name = "payment_transaction")
-	private String paymentTransaction;
+	@Embedded
+	private RegistrationPayment payment;
 
 	@Transient
 	private List<UserRegistration> userRegistrations;
@@ -102,71 +100,66 @@ public class Registration {
 		getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
-	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
-			String paymentTransaction, Integer submitterId, String submitterEmail, String submitterName,
-			RegistrationStatusType registrationStatus, Integer raceId, String raceName, /*
-																						 * Date raceDate, PaymentType
-																						 * racePaymentType, String
-																						 * racePaymentInfo, String
-																						 * racePaymentAccount, String
-																						 * racePaymentToken,
-																						 */
-			Status status, Integer periodId, BigDecimal periodPrice, /*
-																	 * Integer cityId, String cityName, Integer stateId,
-																	 * String stateName, String stateAbbreviation,
-																	 */Integer categoryId, String categoryName, /*
-																												 * Integer
-																												 * courseId
-																												 * ,
-																												 * String
-																												 * courseName
-																												 * ,
-																												 */
-			Date registrationPeriodBeginning, Date registrationPeriodEnd) {
-		setId(registrationId);
-		setDate(registrationDate);
+	public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCode,
+			String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
+			String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
+			String raceSlug, Integer raceDistance, Date racePeriodBeginning, Date racePeriodEnd, Integer eventId,
+			String eventName, String eventSlug, EventPaymentType eventPaymentType, String eventPaymentInfo,
+			String eventPaymentAccount, String eventPaymentToken, BigDecimal eventCoordsLatitude,
+			BigDecimal eventCoordsLongitude, Integer cityId, String cityName, Integer stateId, String stateName,
+			String stateAbbreviation, Integer categoryId, String categoryName) {
+		setId(id);
+		setDate(date);
 		setTeamName(teamName);
-		setStatus(registrationStatus);
-		setPaymentCode(paymentCode);
-		setPaymentTransaction(paymentTransaction);
+		setStatus(status);
 
-		User submitter = new User();
-		setSubmitter(submitter);
-		getSubmitter().setId(submitterId);
-		getSubmitter().setEmail(submitterEmail);
-		getSubmitter().setProfile(new Profile());
-		getSubmitter().getProfile().setName(submitterName);
-
-		setRaceCategory(new RaceCategory());
-		getRaceCategory().setRace(new Race());
-		getRaceCategory().getRace().setId(raceId);
-		getRaceCategory().getRace().setName(raceName);
-		// getRaceCategory().getRace().setDate(raceDate);
-		// getRaceCategory().getRace().setPaymentType(racePaymentType);
-		// getRaceCategory().getRace().setPaymentInfo(racePaymentInfo);
-		// getRaceCategory().getRace().setPaymentAccount(racePaymentAccount);
-		// getRaceCategory().getRace().setPaymentToken(racePaymentToken);
-		getRaceCategory().getRace().setStatus(status);
-
-		// getRaceCategory().getRace().setCity(new City());
-		// getRaceCategory().getRace().getCity().setId(cityId);
-		// getRaceCategory().getRace().getCity().setName(cityName);
-		// getRaceCategory().getRace().getCity().setState(new State());
-		// getRaceCategory().getRace().getCity().getState().setId(stateId);
-		// getRaceCategory().getRace().getCity().getState().setName(stateName);
-		// getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
-
-		getRaceCategory().getRace().setRegistrationPeriod(new RegistrationPeriod());
-		getRaceCategory().getRace().getRegistrationPeriod().setBeginning(registrationPeriodBeginning);
-		getRaceCategory().getRace().getRegistrationPeriod().setEnd(registrationPeriodEnd);
+		setPayment(new RegistrationPayment());
+		getPayment().setCode(paymentCode);
+		getPayment().setTransaction(paymentTransaction);
 
 		setPeriod(new RegistrationPeriod());
 		getPeriod().setId(periodId);
 		getPeriod().setPrice(periodPrice);
 
-		// getRaceCategory().setCourse(new Course());
-		// getRaceCategory().getCourse().setId(courseId);
-		// getRaceCategory().getCourse().setName(courseName);
+		setSubmitter(new User());
+		getSubmitter().setId(submitterId);
+		getSubmitter().setEmail(submitterEmail);
+		getSubmitter().setProfile(new Profile());
+		getSubmitter().getProfile().setName(submitterName);
+		getSubmitter().getProfile().setMobile(submitterMobile);
+
+		setRaceCategory(new RaceCategory());
+		getRaceCategory().setRace(new Race());
+		getRaceCategory().getRace().setId(raceId);
+		getRaceCategory().getRace().setName(raceName);
+		getRaceCategory().getRace().setSlug(raceSlug);
+		getRaceCategory().getRace().setDistance(raceDistance);
+		getRaceCategory().getRace().setPeriod(new Period());
+		getRaceCategory().getRace().getPeriod().setBeginning(racePeriodBeginning);
+		getRaceCategory().getRace().getPeriod().setEnd(racePeriodEnd);
+
+		getRaceCategory().getRace().setEvent(new Event());
+		getRaceCategory().getRace().getEvent().setId(eventId);
+		getRaceCategory().getRace().getEvent().setName(eventName);
+		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+
+		getRaceCategory().getRace().getEvent().setPayment(new EventPayment());
+		getRaceCategory().getRace().getEvent().getPayment().setType(eventPaymentType);
+		getRaceCategory().getRace().getEvent().getPayment().setInfo(eventPaymentInfo);
+		getRaceCategory().getRace().getEvent().getPayment().setAccount(eventPaymentAccount);
+		getRaceCategory().getRace().getEvent().getPayment().setToken(eventPaymentToken);
+
+		getRaceCategory().getRace().getEvent().setCoords(new Coords());
+		getRaceCategory().getRace().getEvent().getCoords().setLatitude(eventCoordsLatitude);
+		getRaceCategory().getRace().getEvent().getCoords().setLongitude(eventCoordsLongitude);
+
+		getRaceCategory().getRace().getEvent().setCity(new City());
+		getRaceCategory().getRace().getEvent().getCity().setId(cityId);
+		getRaceCategory().getRace().getEvent().getCity().setName(cityName);
+		getRaceCategory().getRace().getEvent().getCity().setState(new State());
+		getRaceCategory().getRace().getEvent().getCity().getState().setId(stateId);
+		getRaceCategory().getRace().getEvent().getCity().getState().setName(stateName);
+		getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 
 		getRaceCategory().setCategory(new Category());
 		getRaceCategory().getCategory().setId(categoryId);
@@ -279,20 +272,12 @@ public class Registration {
 		this.approver = approver;
 	}
 
-	public String getPaymentTransaction() {
-		return paymentTransaction;
+	public RegistrationPayment getPayment() {
+		return payment;
 	}
 
-	public void setPaymentTransaction(String paymentTransaction) {
-		this.paymentTransaction = paymentTransaction;
-	}
-
-	public String getPaymentCode() {
-		return paymentCode;
-	}
-
-	public void setPaymentCode(String paymentCode) {
-		this.paymentCode = paymentCode;
+	public void setPayment(RegistrationPayment payment) {
+		this.payment = payment;
 	}
 
 	public List<UserRegistration> getUserRegistrations() {

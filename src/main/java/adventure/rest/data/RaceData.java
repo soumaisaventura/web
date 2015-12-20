@@ -5,8 +5,8 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "internal_id", "name", "description", "distance", "event", "sport", "championships",
-		"period", "categories", "currentPeriod", "prices", "modalities", "status" })
+@JsonPropertyOrder({ "id", "internal_id", "status", "name", "description", "distance", "period", "event", "sport",
+		"championships", "categories", "currentPeriod", "prices", "modalities" })
 public class RaceData {
 
 	public String id;
@@ -14,19 +14,21 @@ public class RaceData {
 	@JsonProperty("internal_id")
 	public Integer internalId;
 
+	public String status;
+
 	public String name;
 
 	public String description;
 
 	public Integer distance;
 
+	public PeriodData period;
+
 	public EventData event;
 
 	public SportData sport;
 
 	public List<ChampionshipData> championships;
-
-	public PeriodData period;
 
 	public List<CategoryData> categories;
 
@@ -37,5 +39,4 @@ public class RaceData {
 
 	public List<ModalityData> modalities;
 
-	public String status;
 }

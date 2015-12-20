@@ -36,7 +36,7 @@ public class Event {
 	private String site;
 
 	@Embedded
-	private Payment payment;
+	private EventPayment payment;
 
 	@ManyToOne
 	@JoinColumn(name = "city_id")
@@ -193,11 +193,11 @@ public class Event {
 		this.site = site;
 	}
 
-	public Payment getPayment() {
+	public EventPayment getPayment() {
 		return payment;
 	}
 
-	public void setPayment(Payment payment) {
+	public void setPayment(EventPayment payment) {
 		this.payment = payment;
 	}
 

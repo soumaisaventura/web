@@ -6,16 +6,18 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import adventure.entity.RegistrationStatusType;
 
-@JsonPropertyOrder({ "id", "number", "date", "status", "submitter", "race", "category", "team" })
+@JsonPropertyOrder({ "id", "number", "status", "date", "payment", "submitter", "race", "category", "team" })
 public class RegistrationData {
 
 	public Long id;
 
 	public String number;
 
+	public RegistrationStatusType status;
+
 	public Date date;
 
-	public RegistrationStatusType status;
+	public RegistrationPaymentData payment;
 
 	public UserData submitter;
 

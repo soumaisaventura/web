@@ -79,12 +79,12 @@ public class RegistrationNotificationREST {
 
 			switch (transaction.status) {
 				case 1: // iniciada
-					persistedRegistration.setPaymentTransaction(transaction.code);
+					persistedRegistration.getPayment().setTransaction(transaction.code);
 					dao.update(persistedRegistration);
 					break;
 
 				case 3: // paga
-					persistedRegistration.setPaymentTransaction(transaction.code);
+					persistedRegistration.getPayment().setTransaction(transaction.code);
 					persistedRegistration.setStatus(CONFIRMED);
 					persistedRegistration.setDate(new Date());
 					dao.update(persistedRegistration);
@@ -93,7 +93,7 @@ public class RegistrationNotificationREST {
 					break;
 
 				case 7: // cancelada
-					persistedRegistration.setPaymentTransaction(null);
+					persistedRegistration.getPayment().setTransaction(null);
 					dao.update(persistedRegistration);
 			}
 		}

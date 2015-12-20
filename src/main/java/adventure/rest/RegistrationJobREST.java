@@ -10,8 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import adventure.business.MailBusiness;
-import adventure.entity.RegistrationPeriod;
 import adventure.entity.Registration;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.UserRegistration;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RegistrationDAO;
@@ -48,7 +48,7 @@ public class RegistrationJobREST {
 
 			Registration persisted = registrationDAO.load(registration.getId());
 			persisted.setPeriod(period);
-			persisted.setPaymentCode(null);
+			persisted.getPayment().setCode(null);
 			registrationDAO.update(persisted);
 
 			getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");

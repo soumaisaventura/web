@@ -1,6 +1,6 @@
 package adventure.persistence;
 
-import static adventure.entity.PaymentType.AUTO;
+import static adventure.entity.EventPaymentType.AUTO;
 import static javax.persistence.TemporalType.DATE;
 
 import java.util.Date;

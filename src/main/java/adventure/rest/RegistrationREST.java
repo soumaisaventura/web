@@ -37,18 +37,24 @@ import org.apache.http.message.BasicNameValuePair;
 import adventure.business.MailBusiness;
 import adventure.entity.Race;
 import adventure.entity.Registration;
+import adventure.entity.RegistrationPayment;
 import adventure.entity.User;
 import adventure.entity.UserRegistration;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.UserRegistrationDAO;
 import adventure.persistence.UserDAO;
+import adventure.persistence.UserRegistrationDAO;
+import adventure.rest.data.CategoryData;
 import adventure.rest.data.CityData;
+import adventure.rest.data.CoordsData;
 import adventure.rest.data.EventData;
+import adventure.rest.data.EventPaymentData;
 import adventure.rest.data.LocationData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
 import adventure.rest.data.RegistrationData;
+import adventure.rest.data.RegistrationPaymentData;
 import adventure.rest.data.TeamData;
+import adventure.rest.data.UserData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -184,65 +190,86 @@ public class RegistrationREST {
 		data.number = registration.getFormattedId();
 		data.date = registration.getDate();
 		data.status = registration.getStatus();
-		// data.submitter = new UserData();
-		// data.submitter.id = registration.getSubmitter().getId();
-		// data.submitter.email = registration.getSubmitter().getEmail();
-		// data.submitter.name = registration.getSubmitter().getProfile().getName();
-		// data.teamName = registration.getTeamName();
-		// data.payment = new PaymentData();
-		// data.payment.type = registration.getRaceCategory().getRace().getPaymentType();
-		// data.payment.info = registration.getRaceCategory().getRace().getPaymentInfo();
-		// data.payment.code = registration.getPaymentCode();
-		// data.payment.transaction = registration.getPaymentTransaction();
 
-		List<UserRegistration> teamFormations = UserRegistrationDAO.getInstance().find(registration);
-		Race race = registration.getRaceCategory().getRace();
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		User loggedInUser = User.getLoggedIn();
+		data.payment = new RegistrationPaymentData();
+		data.payment.code = registration.getPayment().getCode();
+		data.payment.transaction = registration.getPayment().getTransaction();
 
-		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
-				&& !teamFormations.contains(new UserRegistration(registration, loggedInUser))
-		/* && !organizers.contains(loggedInUser) */) {
-			throw new ForbiddenException();
-		}
+		data.submitter = new UserData();
+		data.submitter.id = registration.getSubmitter().getId();
+		data.submitter.email = registration.getSubmitter().getEmail();
+		data.submitter.name = registration.getSubmitter().getProfile().getName();
+		data.submitter.mobile = registration.getSubmitter().getProfile().getMobile();
 
-		// for (UserRegistration teamFormation : teamFormations) {
-		// UserData member = new UserData();
-		// member.id = teamFormation.getUser().getId();
-		// member.email = teamFormation.getUser().getEmail();
-		// member.name = teamFormation.getUser().getProfile().getName();
-		// member.phone = teamFormation.getUser().getProfile().getMobile();
-		//
-		// member.bill = new BillData();
-		// member.bill.racePrice = teamFormation.getRacePrice().floatValue();
-		// data.teamFormation.add(member);
-		// }
+		data.team = new TeamData();
+		data.team.name = registration.getTeamName();
 
 		data.race = new RaceData();
-		// data.race.id = race.getId();
-		data.race.name = race.getName();
-		// data.race.date = race.getDate();
-		// data.race.city = new CityData();
-		// data.race.city.id = race.getCity().getId();
-		// data.race.city.name = race.getCity().getName();
-		// data.race.city.state = race.getCity().getState().getAbbreviation();
-		data.race.status = race.getStatus().getName();
+		data.race.id = registration.getRaceCategory().getRace().getSlug();
+		data.race.internalId = registration.getRaceCategory().getRace().getId();
+		data.race.name = registration.getRaceCategory().getRace().getName();
+		data.race.distance = registration.getRaceCategory().getRace().getDistance();
 
-		// for (User user : UserDAO.getInstance().findRaceOrganizers(race)) {
-		// UserData organizer = new UserData();
-		// organizer.id = user.getId();
-		// organizer.email = user.getEmail();
-		// organizer.name = user.getProfile().getName();
-		// organizer.phone = user.getProfile().getMobile();
-		// data.race.organizers.add(organizer);
+		data.race.period = new PeriodData();
+		data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
+		data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
+
+		data.race.event = new EventData();
+		data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
+		data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
+		data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
+
+		data.race.event.payment = new EventPaymentData();
+		data.race.event.payment.type = registration.getRaceCategory().getRace().getEvent().getPayment().getType();
+		data.race.event.payment.info = registration.getRaceCategory().getRace().getEvent().getPayment().getInfo();
+
+		data.race.event.location = new LocationData();
+		data.race.event.location.coords = new CoordsData();
+		data.race.event.location.coords.latitude = registration.getRaceCategory().getRace().getEvent().getCoords()
+				.getLatitude();
+		data.race.event.location.coords.longitude = registration.getRaceCategory().getRace().getEvent().getCoords()
+				.getLongitude();
+
+		data.race.event.location.city = new CityData();
+		data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
+		data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity().getName();
+		data.race.event.location.city.state = registration.getRaceCategory().getRace().getEvent().getCity().getState()
+				.getAbbreviation();
+
+		data.category = new CategoryData();
+		data.category.name = registration.getRaceCategory().getCategory().getName();
+
+		// Race race = registration.getRaceCategory().getRace();
+		// List<User> organizers = UserDAO.getInstance().findOrganizersForEvent(race.getEvent());
+		// User loggedInUser = User.getLoggedIn();
+		//
+		// if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
+		// && !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
+		// /* && !organizers.contains(loggedInUser) */) {
+		// throw new ForbiddenException();
 		// }
 
-		// data.course = new CourseData();
-		// data.course.id = registration.getRaceCategory().getCourse().getId();
-		// data.course.name = registration.getRaceCategory().getCourse().getName();
-		// data.category = new CategoryData();
-		// data.category.id = registration.getRaceCategory().getCategory().getId();
-		// data.category.name = registration.getRaceCategory().getCategory().getName();
+		data.race.event.organizers = new ArrayList<UserData>();
+		for (User organizer : UserDAO.getInstance().findOrganizersForEvent(
+				registration.getRaceCategory().getRace().getEvent())) {
+			UserData userData = new UserData();
+			userData.id = organizer.getId();
+			userData.email = organizer.getEmail();
+			userData.name = organizer.getProfile().getName();
+			userData.mobile = organizer.getProfile().getMobile();
+			data.race.event.organizers.add(userData);
+		}
+
+		data.team.members = new ArrayList<UserData>();
+		for (UserRegistration userRegistration : UserRegistrationDAO.getInstance().find(registration)) {
+			UserData userData = new UserData();
+			userData.id = userRegistration.getUser().getId();
+			userData.email = userRegistration.getUser().getEmail();
+			userData.name = userRegistration.getUser().getProfile().getName();
+			userData.mobile = userRegistration.getUser().getProfile().getMobile();
+			userData.racePrice = userRegistration.getRacePrice();
+			data.team.members.add(userData);
+		}
 
 		return data;
 	}
@@ -254,7 +281,7 @@ public class RegistrationREST {
 	@Produces("text/plain")
 	public Response sendPayment(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
-		String code = registration.getPaymentCode();
+		String code = registration.getPayment().getCode();
 		int status;
 
 		if (code == null) {
@@ -262,7 +289,8 @@ public class RegistrationREST {
 			code = createCode(registration, baseUri);
 
 			Registration persistedRegistration = RegistrationDAO.getInstance().load(registration.getId());
-			persistedRegistration.setPaymentCode(code);
+			persistedRegistration.setPayment(new RegistrationPayment());
+			persistedRegistration.getPayment().setCode(code);
 			RegistrationDAO.getInstance().update(persistedRegistration);
 
 			status = 201;
@@ -297,7 +325,7 @@ public class RegistrationREST {
 					+ " não faz parte da equipe " + registration.getTeamName());
 		}
 
-		if (registration.getPaymentTransaction() != null) {
+		if (registration.getPayment().getTransaction() != null) {
 			throw new UnprocessableEntityException().addViolation("transaction", "O pagamento já está em andamento");
 		}
 
@@ -310,7 +338,7 @@ public class RegistrationREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
-		persisted.setPaymentCode(null);
+		persisted.getPayment().setCode(null);
 		registrationDAO.update(persisted);
 	}
 
@@ -472,43 +500,32 @@ public class RegistrationREST {
 	// public String name;
 	// }
 
-	public static class CategoryData {
+	// public static class CategoryData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	// }
 
-		public Integer id;
-
-		public String name;
-	}
-
-	public static class UserData {
-
-		public Integer id;
-
-		public String name;
-
-		public String email;
-
-		public String phone;
-
-		public String city;
-
-		public String state;
-
-		public BillData bill;
-	}
+	// public static class UserData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// public String email;
+	//
+	// public String phone;
+	//
+	// public String city;
+	//
+	// public String state;
+	//
+	// public BillData bill;
+	// }
 
 	public static class BillData {
 
 		public float racePrice;
 	}
-
-	// public static class PaymentData {
-	//
-	// public PaymentType type;
-	//
-	// public String info;
-	//
-	// public String code;
-	//
-	// public String transaction;
-	// }
 }

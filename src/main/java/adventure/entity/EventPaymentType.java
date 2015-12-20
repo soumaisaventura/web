@@ -3,13 +3,13 @@ package adventure.entity;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
-public enum PaymentType {
+public enum EventPaymentType {
 
 	AUTO("auto"), MANUAL("manual");
 
 	private final String value;
 
-	PaymentType(String value) {
+	EventPaymentType(String value) {
 		this.value = value;
 	}
 
@@ -19,10 +19,10 @@ public enum PaymentType {
 	}
 
 	@JsonCreator
-	public static PaymentType fromValue(String value) {
-		PaymentType result = null;
+	public static EventPaymentType fromValue(String value) {
+		EventPaymentType result = null;
 
-		for (PaymentType statusType : values()) {
+		for (EventPaymentType statusType : values()) {
 			if (statusType.toString().equalsIgnoreCase(value)) {
 				result = statusType;
 				break;

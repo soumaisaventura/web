@@ -50,67 +50,66 @@ function updateBreadcrumb(data) {
 	}
 }
 
-function loadOk(data) {
-	updateBreadcrumb(data);
+function loadOk(registration) {
+	updateBreadcrumb(registration);
 
-	$("#registration-id").text(data.number);
-	$("#team-name").text(data.teamName);
-	$("#race-status").html(App.translateStatus(data.status));
-	$("#race-status").data('status', data.status);
+	$("#registration-id").text(registration.number);
+	$("#team-name").text(registration.team.name);
+	$("#race-status").html(App.translateStatus(registration.status));
+	$("#race-status").data('status', registration.status);
 	$("#summary-section").show();
 
-	$(".race-name").text(data.race.name);
-	// $("#race-date").text(moment(data.race.date).format('LL'));
-	// $("#race-city").text(data.race.city.name + "/" + data.race.city.state);
+	$(".race-name").text(registration.race.event.name);
+	$("#race-date").text(moment(registration.race.period.beginning).format('LL'));
+	$("#race-city").text(registration.race.event.location.city.name + "/" + registration.race.event.location.city.state);
 	$("#race-section").show();
 
-	$("#race-category").text(data.category.name /* + " " + data.course.name */);
+	$("#race-category").text(registration.category.name + " " + registration.race.name);
 
 	var user = App.getLoggedInUser();
-	var member = false;
-
-	$.each(data.teamFormation, function(i, value) {
+	var isMember = false;
+	//
+	$.each(registration.team.members, function(i, member) {
 		var row = "";
 		row = row.concat("<tr>");
 		row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
 		row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat("<span style='font-size: 1.0em'>" + value.name + "</span>");
+		row = row.concat("<span style='font-size: 1.0em'>" + member.name + "</span>");
 		row = row.concat("<br/>");
 		row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(value.email);
+		row = row.concat(member.email);
 		row = row.concat("<br/>");
 		row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-		row = row.concat(value.phone);
+		row = row.concat(member.mobile);
 		row = row.concat("</td>");
 		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<a href='#' data-pk='" + value.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
-				+ numeral(value.bill.racePrice).format() + "</a>");
+		row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
+				+ numeral(member.race_price).format() + "</a>");
 		row = row.concat("</td>");
 		row = row.concat("</tr>");
 		$("#team-formation > tbody:last").append(row);
 
-		if (user && value.id == user.id) {
-			member = true;
+		if (user && member.id == user.id) {
+			isMember = true;
 		}
 	});
 
 	updateTotal();
 	$("#team-section").show();
 
-	if (data.status == 'pendent') {
+	if (registration.status == 'pendent') {
 		$(".payment-type").hide();
-		$(".payment-type-" + data.payment.type).show();
-		$('#registration-payment-info').html(data.payment.info ? App.replaceEmailByMailTo(data.payment.info.replace(/\n|\r/g, '<br>')) : '');
-
-		updatePaymentButton(data.payment.code, data.payment.transaction);
-
+		$(".payment-type-" + registration.race.event.payment.type).show();
+		$('#registration-payment-info').html(
+				registration.race.event.payment.info ? App.replaceEmailByMailTo(registration.race.event.payment.info.replace(/\n|\r/g, '<br>')) : '');
+		updatePaymentButton(registration.payment.code, registration.payment.transaction);
 		$('#payment-section').show();
 	}
 
-	var authorized = user ? user.admin : null;
+	var isAuthorized = user ? user.admin : null;
 
-	if (data.race.organizers) {
-		$.each(data.race.organizers, function(i, organizer) {
+	if (registration.race.event.organizers) {
+		$.each(registration.race.event.organizers, function(i, organizer) {
 			var row = "";
 			row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
 			row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
@@ -119,14 +118,14 @@ function loadOk(data) {
 			row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
 			row = row.concat(organizer.email);
 
-			if (organizer.phone) {
+			if (organizer.mobile) {
 				row = row.concat("<br/>");
 				row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-				row = row.concat(organizer.phone);
+				row = row.concat(organizer.mobile);
 			}
 
 			if (user && organizer.id == user.id) {
-				authorized = true;
+				isAuthorized = true;
 			}
 
 			row = row.concat("</div>");
@@ -135,12 +134,12 @@ function loadOk(data) {
 		$("#organizers-section").show();
 	}
 
-	$("#registration-submitter").text(data.submitter.name);
-	$("#registration-date").text(moment(data.date).format('L'));
+	$("#registration-submitter").text(registration.submitter.name);
+	$("#registration-date").text(moment(registration.date).format('L'));
 	$("#footer-section").show();
 
-	loadEditableCurrency(data.id, authorized && data.status == 'pendent');
-	loadEditableTeamName(data.id, data.race.status == 'open' && (authorized || member));
+	loadEditableCurrency(registration.id, isAuthorized && registration.status == 'pendent');
+	loadEditableTeamName(registration.id, registration.race.status == 'open' && (isAuthorized || isMember));
 }
 
 function loadEditableCurrency(registrationId, enabled) {
