@@ -3,7 +3,7 @@ package adventure.business;
 import java.util.Date;
 import java.util.List;
 
-import adventure.entity.Period;
+import adventure.entity.RegistrationPeriod;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -30,11 +30,11 @@ public class RaceBusiness {
 	// return result;
 	// }
 
-	public Period getPeriod(Date date, List<Period> periods) {
-		Period result = null;
+	public RegistrationPeriod getPeriod(Date date, List<RegistrationPeriod> periods) {
+		RegistrationPeriod result = null;
 
 		for (int i = 0; i < periods.size(); i++) {
-			Period period = periods.get(i);
+			RegistrationPeriod period = periods.get(i);
 
 			if (Dates.between(date, period.getBeginning(), period.getEnd())) {
 				result = period;

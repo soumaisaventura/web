@@ -12,37 +12,37 @@ import javax.persistence.TypedQuery;
 
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.entity.UserRegistration;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class TeamFormationDAO implements Serializable {
+public class UserRegistrationDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static TeamFormationDAO getInstance() {
-		return Beans.getReference(TeamFormationDAO.class);
+	public static UserRegistrationDAO getInstance() {
+		return Beans.getReference(UserRegistrationDAO.class);
 	}
 
 	@Inject
 	private EntityManager em;
 
-	public TeamFormation insert(TeamFormation entity) {
+	public UserRegistration insert(UserRegistration entity) {
 		em.persist(entity);
 		return entity;
 	}
 
-	public TeamFormation update(TeamFormation entity) {
+	public UserRegistration update(UserRegistration entity) {
 		em.merge(entity);
 		return entity;
 	}
 
-	public List<TeamFormation> find(Registration registration) {
+	public List<UserRegistration> find(Registration registration) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append(" 	 new TeamFormation( ");
+		jpql.append(" 	 new UserRegistration( ");
 		jpql.append(" 	     r.id, ");
 		jpql.append(" 	     u.id, ");
 		jpql.append(" 	     u.email, ");
@@ -51,7 +51,7 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append(" 	     pr.mobile, ");
 		jpql.append(" 	     tf.racePrice ");
 		jpql.append(" 	     ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.user u ");
 		jpql.append("   join tf.registration r, ");
 		jpql.append("        Profile pr ");
@@ -60,24 +60,24 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append("  order by ");
 		jpql.append("        pr.name ");
 
-		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
+		TypedQuery<UserRegistration> query = em.createQuery(jpql.toString(), UserRegistration.class);
 		query.setParameter("registration", registration);
 
 		return query.getResultList();
 	}
 
-	public TeamFormation load(Registration registration, User user) {
+	public UserRegistration load(Registration registration, User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select tf ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("  where tf.registration = :registration ");
 		jpql.append("    and tf.user = :user ");
 
-		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
+		TypedQuery<UserRegistration> query = em.createQuery(jpql.toString(), UserRegistration.class);
 		query.setParameter("registration", registration);
 		query.setParameter("user", user);
 
-		TeamFormation result;
+		UserRegistration result;
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException cause) {
@@ -86,15 +86,15 @@ public class TeamFormationDAO implements Serializable {
 		return result;
 	}
 
-	public TeamFormation loadForRegistrationSubmissionValidation(Race race, User user) {
+	public UserRegistration loadForRegistrationSubmissionValidation(Race race, User user) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new TeamFormation( ");
+		jpql.append("    new UserRegistration( ");
 		jpql.append("        u.id, ");
 		jpql.append("        r.id, ");
 		jpql.append("        r.teamName ");
 		jpql.append("        ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.user u ");
 		jpql.append("   join tf.registration r ");
 		jpql.append("   join r.raceCategory rc ");
@@ -103,12 +103,12 @@ public class TeamFormationDAO implements Serializable {
 		jpql.append("    and u = :user ");
 		jpql.append("    and r.status <> :status ");
 
-		TypedQuery<TeamFormation> query = em.createQuery(jpql.toString(), TeamFormation.class);
+		TypedQuery<UserRegistration> query = em.createQuery(jpql.toString(), UserRegistration.class);
 		query.setParameter("race", race);
 		query.setParameter("user", user);
 		query.setParameter("status", CANCELLED);
 
-		TeamFormation result;
+		UserRegistration result;
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException cause) {

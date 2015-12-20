@@ -33,7 +33,7 @@ import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Fee;
 import adventure.entity.Modality;
-import adventure.entity.Period;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.Race;
 import adventure.entity.User;
 import adventure.persistence.CategoryDAO;
@@ -175,8 +175,8 @@ public class EventREST {
 			// Period
 
 			raceData.period = new PeriodData();
-			raceData.period.beginning = race.getBeginning();
-			raceData.period.end = race.getEnd();
+			raceData.period.beginning = race.getPeriod().getBeginning();
+			raceData.period.end = race.getPeriod().getEnd();
 
 			raceData.championships = new ArrayList<ChampionshipData>();
 			for (Championship championship : championshipDAO.findForEvent(race)) {
@@ -199,9 +199,9 @@ public class EventREST {
 
 			// Prices
 
-			List<Period> periods = periodDAO.findForEvent(race);
+			List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
 			raceData.prices = new ArrayList<PeriodData>();
-			for (Period period : periodDAO.findForEvent(race)) {
+			for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
 				periodData.beginning = period.getBeginning();
 				periodData.end = period.getEnd();
@@ -211,7 +211,7 @@ public class EventREST {
 
 			// Current Period
 
-			Period currentPeriod = raceBusiness.getPeriod(now, periods);
+			RegistrationPeriod currentPeriod = raceBusiness.getPeriod(now, periods);
 			if (currentPeriod != null) {
 				raceData.currentPeriod = new PeriodData();
 				raceData.currentPeriod.beginning = currentPeriod.getBeginning();

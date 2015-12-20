@@ -2,63 +2,29 @@ package adventure.entity;
 
 import static javax.persistence.TemporalType.DATE;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 
-@Entity
-@Table(name = "period")
+@Embeddable
 public class Period {
 
-	@Id
-	private Integer id;
-
-	@ManyToOne
-	@JoinColumn(name = "race_id")
-	private Race race;
-
 	@Temporal(DATE)
+	@Column(name = "beginning")
 	private Date beginning;
 
 	@Temporal(DATE)
 	@Column(name = "ending")
 	private Date end;
 
-	@Column(name = "price")
-	private BigDecimal price;
-
-	public Period() {
-	}
-
-	public Period(Date beginning, Date end, BigDecimal price) {
-		setBeginning(beginning);
-		setEnd(end);
-		setPrice(price);
-	}
-
-	// TODO: OLD
-
-	public Period(Race race) {
-		this.race = race;
-	}
-
-	public Period(Date beginning, Date end) {
-		setBeginning(beginning);
-		setEnd(end);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((beginning == null) ? 0 : beginning.hashCode());
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
 		return result;
 	}
 
@@ -74,30 +40,21 @@ public class Period {
 			return false;
 		}
 		Period other = (Period) obj;
-		if (id == null) {
-			if (other.id != null) {
+		if (beginning == null) {
+			if (other.beginning != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!beginning.equals(other.beginning)) {
+			return false;
+		}
+		if (end == null) {
+			if (other.end != null) {
+				return false;
+			}
+		} else if (!end.equals(other.end)) {
 			return false;
 		}
 		return true;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Race getRace() {
-		return race;
-	}
-
-	public void setRace(Race race) {
-		this.race = race;
 	}
 
 	public Date getBeginning() {
@@ -114,13 +71,5 @@ public class Period {
 
 	public void setEnd(Date end) {
 		this.end = end;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
 	}
 }

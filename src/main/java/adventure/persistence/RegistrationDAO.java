@@ -14,8 +14,8 @@ import javax.persistence.TypedQuery;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.entity.UserRegistration;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -91,10 +91,10 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		// jpql.append("        co.id, ");
 		// jpql.append("        co.name, ");
 		jpql.append(" 	     (select min(_p.beginning) ");
-		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	        from RegistrationPeriod _p ");
 		jpql.append(" 	       where _p.race = ra), ");
 		jpql.append(" 	     (select max(_p.end) ");
-		jpql.append(" 	        from Period _p ");
+		jpql.append(" 	        from RegistrationPeriod _p ");
 		jpql.append(" 	       where _p.race = ra) ");
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
@@ -192,7 +192,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	public List<Registration> findToOrganizer(Race race) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append(" 	 new TeamFormation( ");
+		jpql.append(" 	 new UserRegistration( ");
 		jpql.append(" 	     u.id, ");
 		jpql.append(" 	     u.email, ");
 		jpql.append(" 	     p.name, ");
@@ -216,7 +216,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		// jpql.append(" 	     co.id, ");
 		// jpql.append(" 	     co.name ");
 		jpql.append(" 	     ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.user u ");
 		jpql.append("   join tf.registration re ");
 		jpql.append("   join re.raceCategory rc ");
@@ -231,20 +231,20 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("  order by ");
 		jpql.append("        re.id desc ");
 
-		TypedQuery<TeamFormation> query = getEntityManager().createQuery(jpql.toString(), TeamFormation.class);
+		TypedQuery<UserRegistration> query = getEntityManager().createQuery(jpql.toString(), UserRegistration.class);
 		query.setParameter("race", race);
 
 		Registration registration = null;
 		List<Registration> result = new ArrayList<Registration>();
-		for (TeamFormation teamFormation : query.getResultList()) {
+		for (UserRegistration teamFormation : query.getResultList()) {
 			if (!teamFormation.getRegistration().equals(registration)) {
 				registration = teamFormation.getRegistration();
-				registration.setTeamFormations(new ArrayList<TeamFormation>());
+				registration.setUserRegistrations(new ArrayList<UserRegistration>());
 				result.add(registration);
 			}
 
 			teamFormation.setRegistration(null);
-			registration.getTeamFormations().add(teamFormation);
+			registration.getUserRegistrations().add(teamFormation);
 		}
 
 		return result;
@@ -258,19 +258,25 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        re.status, ");
 		jpql.append("        re.teamName, ");
 		jpql.append("        ra.id, ");
-		jpql.append("        ra.name ");
-		// jpql.append("        ra.date, ");
-		// jpql.append("        ci.id, ");
-		// jpql.append("        ci.name, ");
-		// jpql.append("        st.abbreviation ");
+		jpql.append("        ra.name, ");
+		jpql.append("        ra.slug, ");
+		jpql.append("        ra.period.beginning, ");
+		jpql.append("        ra.period.end, ");
+		jpql.append("        ev.id, ");
+		jpql.append("        ev.name, ");
+		jpql.append("        ev.slug, ");
+		jpql.append("        ci.id, ");
+		jpql.append("        ci.name, ");
+		jpql.append("        st.abbreviation ");
 		jpql.append("    ) ");
-		jpql.append("   from TeamFormation tf ");
-		jpql.append("   join tf.registration re ");
+		jpql.append("   from UserRegistration ur ");
+		jpql.append("   join ur.registration re ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
-		// jpql.append("   left join ra.city ci ");
-		// jpql.append("   left join ci.state st ");
-		jpql.append("  where tf.user = :user ");
+		jpql.append("   join ra.event ev ");
+		jpql.append("   join ev.city ci ");
+		jpql.append("   join ci.state st ");
+		jpql.append("  where ur.user = :user ");
 		jpql.append("  order by ");
 		jpql.append("        re.date desc ");
 

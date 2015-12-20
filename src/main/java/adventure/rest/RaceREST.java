@@ -12,7 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import adventure.entity.Period;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.Race;
 import adventure.entity.User;
 import adventure.persistence.PeriodDAO;
@@ -202,7 +202,7 @@ public class RaceREST {
 	private List<PeriodData> loadPeriod(Race race) throws Exception {
 		List<PeriodData> result = new ArrayList<PeriodData>();
 
-		for (Period period : PeriodDAO.getInstance().find(race)) {
+		for (RegistrationPeriod period : PeriodDAO.getInstance().find(race)) {
 			PeriodData periodData = new PeriodData();
 			periodData.beginning = period.getBeginning();
 			periodData.end = period.getEnd();
@@ -275,7 +275,7 @@ public class RaceREST {
 			throws Exception {
 		Race race = loadJustRaceId(id);
 
-		Period period = PeriodDAO.getInstance().loadCurrent(race);
+		RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
 		List<OrderRowData> result = new ArrayList<RaceREST.OrderRowData>();
 
 		if (users.isEmpty()) {

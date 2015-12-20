@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import adventure.entity.TeamFormation;
+import adventure.entity.UserRegistration;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -44,9 +44,9 @@ public final class Misc {
 		return memberNames;
 	}
 
-	public static String stringfyTeamFormation(List<TeamFormation> members) {
+	public static String stringfyTeamFormation(List<UserRegistration> members) {
 		List<String> result = new ArrayList<String>();
-		for (TeamFormation teamFormation : members) {
+		for (UserRegistration teamFormation : members) {
 			result.add(teamFormation.getUser().getProfile().getName());
 		}
 

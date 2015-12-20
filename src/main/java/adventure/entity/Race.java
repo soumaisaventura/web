@@ -1,16 +1,13 @@
 package adventure.entity;
 
-import static javax.persistence.TemporalType.DATE;
-
 import java.util.Date;
 
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
 @Entity
@@ -40,12 +37,15 @@ public class Race {
 	// @Temporal(DATE)
 	// private Date date;
 
-	@Temporal(DATE)
-	private Date beginning;
+	@Embedded
+	private Period period;
 
-	@Temporal(DATE)
-	@Column(name = "ending")
-	private Date end;
+	// @Temporal(DATE)
+	// private Date beginning;
+	//
+	// @Temporal(DATE)
+	// @Column(name = "ending")
+	// private Date end;
 
 	@ManyToOne
 	@JoinColumn(name = "_status_id")
@@ -81,7 +81,7 @@ public class Race {
 	// private String paymentToken;
 
 	@Transient
-	private Period registrationPeriod;
+	private RegistrationPeriod registrationPeriod;
 
 	public Race() {
 	}
@@ -91,7 +91,7 @@ public class Race {
 	}
 
 	public Race(Integer id, String slug, String name, String description, Integer distance, Integer sportId,
-			String sportName, String sportAcronym, Date beginning, Date end, Status status) {
+			String sportName, String sportAcronym, Date periodBeginning, Date periodEnd, Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
@@ -101,8 +101,9 @@ public class Race {
 		getSport().setId(sportId);
 		getSport().setName(sportName);
 		getSport().setAcronym(sportAcronym);
-		setBeginning(beginning);
-		setEnd(end);
+		setPeriod(new Period());
+		getPeriod().setBeginning(periodBeginning);
+		getPeriod().setEnd(periodEnd);
 		setStatus(status);
 	}
 
@@ -125,7 +126,7 @@ public class Race {
 		// getCity().getState().setId(stateId);
 		// getCity().getState().setName(stateName);
 		// getCity().getState().setAbbreviation(stateAbbreviation);
-		setRegistrationPeriod(new Period());
+		setRegistrationPeriod(new RegistrationPeriod());
 		getRegistrationPeriod().setBeginning(registrationBeginning);
 		getRegistrationPeriod().setEnd(registrationEnd);
 		setStatus(status);
@@ -253,20 +254,28 @@ public class Race {
 	// this.date = date;
 	// }
 
-	public Date getBeginning() {
-		return beginning;
+	// public Date getBeginning() {
+	// return beginning;
+	// }
+
+	// public void setBeginning(Date beginning) {
+	// this.beginning = beginning;
+	// }
+
+	// public Date getEnd() {
+	// return end;
+	// }
+
+	// public void setEnd(Date end) {
+	// this.end = end;
+	// }
+
+	public Period getPeriod() {
+		return period;
 	}
 
-	public void setBeginning(Date beginning) {
-		this.beginning = beginning;
-	}
-
-	public Date getEnd() {
-		return end;
-	}
-
-	public void setEnd(Date end) {
-		this.end = end;
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 
 	// @Deprecated
@@ -339,11 +348,11 @@ public class Race {
 	// this.paymentToken = paymentToken;
 	// }
 
-	public Period getRegistrationPeriod() {
+	public RegistrationPeriod getRegistrationPeriod() {
 		return registrationPeriod;
 	}
 
-	public void setRegistrationPeriod(Period registrationPeriod) {
+	public void setRegistrationPeriod(RegistrationPeriod registrationPeriod) {
 		this.registrationPeriod = registrationPeriod;
 	}
 

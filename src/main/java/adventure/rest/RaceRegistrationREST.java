@@ -26,22 +26,22 @@ import org.hibernate.validator.constraints.NotEmpty;
 import adventure.business.MailBusiness;
 import adventure.entity.Category;
 import adventure.entity.GenderType;
-import adventure.entity.Period;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
+import adventure.entity.UserRegistration;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceCategoryDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.RegistrationREST.BillData;
 import adventure.rest.RegistrationREST.CategoryData;
-import adventure.rest.RegistrationREST.RegistrationData;
 import adventure.rest.RegistrationREST.UserData;
+import adventure.rest.data.RegistrationData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -67,7 +67,7 @@ public class RaceRegistrationREST {
 		User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
 		RaceCategory raceCategory = loadRaceCategory(id, /* data.course, */data.category);
 		List<User> members = loadMembers(data.members);
-		Period period = loadPeriod(raceCategory.getRace(), date);
+		RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
 		validate(raceCategory, members, submitter, data.teamName, baseUri);
 
 		Registration result = submit(data, raceCategory, members, date, period, submitter);
@@ -77,7 +77,7 @@ public class RaceRegistrationREST {
 	}
 
 	private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
-			Period period, User submitter) {
+			RegistrationPeriod period, User submitter) {
 		Registration result = null;
 		Registration registration = new Registration();
 		registration.setTeamName(data.teamName);
@@ -89,16 +89,16 @@ public class RaceRegistrationREST {
 		registration.setPeriod(period);
 		result = RegistrationDAO.getInstance().insert(registration);
 
-		result.setTeamFormations(new ArrayList<TeamFormation>());
+		result.setUserRegistrations(new ArrayList<UserRegistration>());
 		for (User member : members) {
 			User atachedMember = UserDAO.getInstance().load(member.getId());
-			TeamFormation teamFormation = new TeamFormation();
+			UserRegistration teamFormation = new UserRegistration();
 			teamFormation.setRegistration(registration);
 			teamFormation.setUser(atachedMember);
 			teamFormation.setRacePrice(period.getPrice());
 
-			TeamFormationDAO.getInstance().insert(teamFormation);
-			result.getTeamFormations().add(teamFormation);
+			UserRegistrationDAO.getInstance().insert(teamFormation);
+			result.getUserRegistrations().add(teamFormation);
 		}
 
 		return result;
@@ -122,33 +122,33 @@ public class RaceRegistrationREST {
 			RegistrationData data = new RegistrationData();
 			data.id = registration.getId();
 			data.number = registration.getFormattedId();
-			data.teamName = registration.getTeamName();
+			// data.teamName = registration.getTeamName();
 			data.date = registration.getDate();
 			data.status = registration.getStatus();
 
-			data.category = new CategoryData();
-			data.category.id = registration.getRaceCategory().getCategory().getId();
-			data.category.name = registration.getRaceCategory().getCategory().getName();
+			// data.category = new CategoryData();
+			// data.category.id = registration.getRaceCategory().getCategory().getId();
+			// data.category.name = registration.getRaceCategory().getCategory().getName();
 
 			// data.course = new CourseData();
 			// data.course.id = registration.getRaceCategory().getCourse().getId();
 			// data.course.name = registration.getRaceCategory().getCourse().getName();
 
-			data.teamFormation = new ArrayList<UserData>();
-			for (TeamFormation teamFormation : registration.getTeamFormations()) {
-				UserData userData = new UserData();
-				userData.id = teamFormation.getUser().getId();
-				userData.email = teamFormation.getUser().getEmail();
-				userData.name = teamFormation.getUser().getProfile().getName();
-				userData.phone = teamFormation.getUser().getProfile().getMobile();
-				userData.city = teamFormation.getUser().getProfile().getCity().getName();
-				userData.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
-
-				userData.bill = new BillData();
-				userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
-
-				data.teamFormation.add(userData);
-			}
+			// data.teamFormation = new ArrayList<UserData>();
+			// for (UserRegistration teamFormation : registration.getTeamFormations()) {
+			// UserData userData = new UserData();
+			// userData.id = teamFormation.getUser().getId();
+			// userData.email = teamFormation.getUser().getEmail();
+			// userData.name = teamFormation.getUser().getProfile().getName();
+			// userData.phone = teamFormation.getUser().getProfile().getMobile();
+			// userData.city = teamFormation.getUser().getProfile().getCity().getName();
+			// userData.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
+			//
+			// userData.bill = new BillData();
+			// userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
+			//
+			// data.teamFormation.add(userData);
+			// }
 
 			result.add(data);
 		}
@@ -199,11 +199,11 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private Period loadPeriod(Race race, Date date) throws Exception {
-		Period result = PeriodDAO.getInstance().load(race, date);
+	private RegistrationPeriod loadPeriod(Race race, Date date) throws Exception {
+		RegistrationPeriod result = PeriodDAO.getInstance().load(race, date);
 
 		if (result == null && User.getLoggedIn().getAdmin()) {
-			List<Period> periods = PeriodDAO.getInstance().find(race);
+			List<RegistrationPeriod> periods = PeriodDAO.getInstance().find(race);
 			result = periods != null && !periods.isEmpty() ? periods.get(periods.size() - 1) : null;
 		}
 
@@ -237,7 +237,7 @@ public class RaceRegistrationREST {
 		}
 
 		for (User member : members) {
-			TeamFormation formation = TeamFormationDAO.getInstance().loadForRegistrationSubmissionValidation(
+			UserRegistration formation = UserRegistrationDAO.getInstance().loadForRegistrationSubmissionValidation(
 					raceCategory.getRace(), member);
 
 			if (formation != null) {

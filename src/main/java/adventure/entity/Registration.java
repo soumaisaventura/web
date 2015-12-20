@@ -38,7 +38,7 @@ public class Registration {
 
 	@ManyToOne
 	@JoinColumn(name = "period_id")
-	private Period period;
+	private RegistrationPeriod period;
 
 	@Column(name = "team_name")
 	private String teamName;
@@ -66,30 +66,40 @@ public class Registration {
 	private String paymentTransaction;
 
 	@Transient
-	private List<TeamFormation> teamFormations;
+	private List<UserRegistration> userRegistrations;
 
 	public Registration() {
 	}
 
 	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
-			Integer raceId, String raceName /*
-											 * , Date raceDate, Integer cityId, String cityName, String
-											 * stateAbbreviation
-											 */) {
+			Integer raceId, String raceName, String raceSlug, Date racePeriodBeginning, Date racePeriodEnd,
+			Integer eventId, String eventName, String eventSlug, Integer cityId, String cityName,
+			String stateAbbreviation) {
+
 		setId(registrationId);
 		setStatus(registrationStatus);
 		setTeamName(reistrationTeamName);
+
 		setRaceCategory(new RaceCategory());
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
-		// getRaceCategory().getRace().setDate(raceDate);
+		getRaceCategory().getRace().setSlug(raceSlug);
 
-		// getRaceCategory().getRace().setCity(new City());
-		// getRaceCategory().getRace().getCity().setId(cityId);
-		// getRaceCategory().getRace().getCity().setName(cityName);
-		// getRaceCategory().getRace().getCity().setState(new State());
-		// getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
+		getRaceCategory().getRace().setPeriod(new Period());
+		getRaceCategory().getRace().getPeriod().setBeginning(racePeriodBeginning);
+		getRaceCategory().getRace().getPeriod().setEnd(racePeriodEnd);
+
+		getRaceCategory().getRace().setEvent(new Event());
+		getRaceCategory().getRace().getEvent().setId(eventId);
+		getRaceCategory().getRace().getEvent().setName(eventName);
+		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+
+		getRaceCategory().getRace().getEvent().setCity(new City());
+		getRaceCategory().getRace().getEvent().getCity().setId(cityId);
+		getRaceCategory().getRace().getEvent().getCity().setName(cityName);
+		getRaceCategory().getRace().getEvent().getCity().setState(new State());
+		getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	public Registration(Long registrationId, Date registrationDate, String teamName, String paymentCode,
@@ -146,11 +156,11 @@ public class Registration {
 		// getRaceCategory().getRace().getCity().getState().setName(stateName);
 		// getRaceCategory().getRace().getCity().getState().setAbbreviation(stateAbbreviation);
 
-		getRaceCategory().getRace().setRegistrationPeriod(new Period());
+		getRaceCategory().getRace().setRegistrationPeriod(new RegistrationPeriod());
 		getRaceCategory().getRace().getRegistrationPeriod().setBeginning(registrationPeriodBeginning);
 		getRaceCategory().getRace().getRegistrationPeriod().setEnd(registrationPeriodEnd);
 
-		setPeriod(new Period());
+		setPeriod(new RegistrationPeriod());
 		getPeriod().setId(periodId);
 		getPeriod().setPrice(periodPrice);
 
@@ -213,11 +223,11 @@ public class Registration {
 		this.raceCategory = raceCategory;
 	}
 
-	public Period getPeriod() {
+	public RegistrationPeriod getPeriod() {
 		return period;
 	}
 
-	public void setPeriod(Period period) {
+	public void setPeriod(RegistrationPeriod period) {
 		this.period = period;
 	}
 
@@ -285,11 +295,11 @@ public class Registration {
 		this.paymentCode = paymentCode;
 	}
 
-	public List<TeamFormation> getTeamFormations() {
-		return teamFormations;
+	public List<UserRegistration> getUserRegistrations() {
+		return userRegistrations;
 	}
 
-	public void setTeamFormations(List<TeamFormation> teamFormations) {
-		this.teamFormations = teamFormations;
+	public void setUserRegistrations(List<UserRegistration> userRegistrations) {
+		this.userRegistrations = userRegistrations;
 	}
 }

@@ -36,7 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import adventure.entity.Profile;
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
+import adventure.entity.UserRegistration;
 import adventure.entity.User;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
@@ -175,7 +175,7 @@ public class RaceRegistrationDownloadREST {
 					registration.getRaceCategory().getCategory().getName());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getTeamName());
 
-			for (TeamFormation teamFormation : registration.getTeamFormations()) {
+			for (UserRegistration teamFormation : registration.getUserRegistrations()) {
 				User user = teamFormation.getUser();
 				Profile profile = user.getProfile();
 
@@ -211,7 +211,7 @@ public class RaceRegistrationDownloadREST {
 				style.setDataFormat(dataFormat);
 			}
 
-			biggestTeam = registration.getTeamFormations().size() > biggestTeam ? registration.getTeamFormations()
+			biggestTeam = registration.getUserRegistrations().size() > biggestTeam ? registration.getUserRegistrations()
 					.size() : biggestTeam;
 		}
 

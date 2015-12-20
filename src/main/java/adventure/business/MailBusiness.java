@@ -21,10 +21,10 @@ import javax.mail.internet.MimeMessage;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
+import adventure.entity.UserRegistration;
 import adventure.entity.User;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
@@ -150,7 +150,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
-		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -182,7 +182,7 @@ public class MailBusiness implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (TeamFormation member : members) {
+		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 	}
@@ -217,7 +217,7 @@ public class MailBusiness implements Serializable {
 	@Asynchronous
 	public void sendRegistrationPeriodChanging(Registration registration, Date newPeriodBegining, Date newPeriodEnd,
 			URI baseUri) throws Exception {
-		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -239,14 +239,14 @@ public class MailBusiness implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (TeamFormation member : members) {
+		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 	}
 
 	@Asynchronous
 	public void sendRegistrationCancellation(Registration registration, URI baseUri) throws Exception {
-		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -268,7 +268,7 @@ public class MailBusiness implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (TeamFormation member : members) {
+		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 	}
@@ -286,7 +286,7 @@ public class MailBusiness implements Serializable {
 	@Asynchronous
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
 		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
-		List<TeamFormation> members = TeamFormationDAO.getInstance().find(registration);
+		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
 
@@ -311,7 +311,7 @@ public class MailBusiness implements Serializable {
 		subject += " #" + registration.getFormattedId();
 		subject += " – " + race.getName();
 
-		for (TeamFormation member : members) {
+		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
 		}
 

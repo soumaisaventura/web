@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @IdClass(TeamFormationPk.class)
 @Table(name = "user_registration")
-public class TeamFormation {
+public class UserRegistration {
 
 	@Id
 	@ManyToOne
@@ -29,15 +29,15 @@ public class TeamFormation {
 	@Column(name = "race_price")
 	private BigDecimal racePrice;
 
-	public TeamFormation() {
+	public UserRegistration() {
 	}
 
-	public TeamFormation(Registration registration, User user) {
+	public UserRegistration(Registration registration, User user) {
 		setRegistration(registration);
 		setUser(user);
 	}
 
-	public TeamFormation(Integer userId, String userEmail, String profileName, String profileMobile,
+	public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
 			TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
 			String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
 			RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
@@ -80,7 +80,7 @@ public class TeamFormation {
 		// getRegistration().getRaceCategory().getCourse().setName(courseName);
 	}
 
-	public TeamFormation(Long registrationId, Integer userId, String userEmail, String profileName,
+	public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,
 			GenderType profileGender, String profileMobile, BigDecimal racePrice) {
 		setRegistration(new Registration());
 		getRegistration().setId(registrationId);
@@ -97,7 +97,7 @@ public class TeamFormation {
 		setRacePrice(racePrice);
 	}
 
-	public TeamFormation(Integer userId, Long registrationId, String registrationTeamName) {
+	public UserRegistration(Integer userId, Long registrationId, String registrationTeamName) {
 		setUser(new User());
 		getUser().setId(userId);
 
@@ -123,10 +123,10 @@ public class TeamFormation {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof TeamFormation)) {
+		if (!(obj instanceof UserRegistration)) {
 			return false;
 		}
-		TeamFormation other = (TeamFormation) obj;
+		UserRegistration other = (UserRegistration) obj;
 		if (user == null) {
 			if (other.user != null) {
 				return false;

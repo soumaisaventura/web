@@ -21,12 +21,12 @@
 		<class>adventure.entity.ChampionshipRace</class>
 		<class>adventure.entity.Sport</class>
 		<class>adventure.entity.Modality</class>
-		<class>adventure.entity.Period</class>
+		<class>adventure.entity.RegistrationPeriod</class>
 		<class>adventure.entity.Category</class>
 <!-- 		<class>adventure.entity.Course</class> -->
 		<class>adventure.entity.Registration</class>
 		<class>adventure.entity.Fee</class>
-		<class>adventure.entity.TeamFormation</class>
+		<class>adventure.entity.UserRegistration</class>
 		<class>adventure.entity.Country</class>
 		<class>adventure.entity.State</class>
 		<class>adventure.entity.City</class>

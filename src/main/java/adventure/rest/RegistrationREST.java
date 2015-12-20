@@ -37,12 +37,18 @@ import org.apache.http.message.BasicNameValuePair;
 import adventure.business.MailBusiness;
 import adventure.entity.Race;
 import adventure.entity.Registration;
-import adventure.entity.RegistrationStatusType;
-import adventure.entity.TeamFormation;
 import adventure.entity.User;
+import adventure.entity.UserRegistration;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.CityData;
+import adventure.rest.data.EventData;
+import adventure.rest.data.LocationData;
+import adventure.rest.data.PeriodData;
+import adventure.rest.data.RaceData;
+import adventure.rest.data.RegistrationData;
+import adventure.rest.data.TeamData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -72,16 +78,31 @@ public class RegistrationREST {
 			RegistrationData data = new RegistrationData();
 			data.id = registration.getId();
 			data.number = registration.getFormattedId();
-			data.teamName = registration.getTeamName();
+			data.team = new TeamData();
+			data.team.name = registration.getTeamName();
 			data.status = registration.getStatus();
+
 			data.race = new RaceData();
-			data.race.id = registration.getRaceCategory().getRace().getId();
+			data.race.internalId = registration.getRaceCategory().getRace().getId();
+			data.race.id = registration.getRaceCategory().getRace().getSlug();
 			data.race.name = registration.getRaceCategory().getRace().getName();
-			// data.race.date = registration.getRaceCategory().getRace().getDate();
-			// data.race.city = new CityData();
-			// data.race.city.id = registration.getRaceCategory().getRace().getCity().getId();
-			// data.race.city.name = registration.getRaceCategory().getRace().getCity().getName();
-			// data.race.city.state = registration.getRaceCategory().getRace().getCity().getState().getAbbreviation();
+
+			data.race.period = new PeriodData();
+			data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
+			data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
+
+			data.race.event = new EventData();
+			data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
+			data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
+			data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
+
+			data.race.event.location = new LocationData();
+			data.race.event.location.city = new CityData();
+			data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
+			data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity()
+					.getName();
+			data.race.event.location.city.state = registration.getRaceCategory().getRace().getEvent().getCity()
+					.getState().getAbbreviation();
 
 			result.add(data);
 		}
@@ -163,42 +184,42 @@ public class RegistrationREST {
 		data.number = registration.getFormattedId();
 		data.date = registration.getDate();
 		data.status = registration.getStatus();
-		data.submitter = new UserData();
-		data.submitter.id = registration.getSubmitter().getId();
-		data.submitter.email = registration.getSubmitter().getEmail();
-		data.submitter.name = registration.getSubmitter().getProfile().getName();
-		data.teamName = registration.getTeamName();
+		// data.submitter = new UserData();
+		// data.submitter.id = registration.getSubmitter().getId();
+		// data.submitter.email = registration.getSubmitter().getEmail();
+		// data.submitter.name = registration.getSubmitter().getProfile().getName();
+		// data.teamName = registration.getTeamName();
 		// data.payment = new PaymentData();
 		// data.payment.type = registration.getRaceCategory().getRace().getPaymentType();
 		// data.payment.info = registration.getRaceCategory().getRace().getPaymentInfo();
 		// data.payment.code = registration.getPaymentCode();
 		// data.payment.transaction = registration.getPaymentTransaction();
 
-		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
+		List<UserRegistration> teamFormations = UserRegistrationDAO.getInstance().find(registration);
 		Race race = registration.getRaceCategory().getRace();
 		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
 		User loggedInUser = User.getLoggedIn();
 
 		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
-				&& !teamFormations.contains(new TeamFormation(registration, loggedInUser))
+				&& !teamFormations.contains(new UserRegistration(registration, loggedInUser))
 		/* && !organizers.contains(loggedInUser) */) {
 			throw new ForbiddenException();
 		}
 
-		for (TeamFormation teamFormation : teamFormations) {
-			UserData member = new UserData();
-			member.id = teamFormation.getUser().getId();
-			member.email = teamFormation.getUser().getEmail();
-			member.name = teamFormation.getUser().getProfile().getName();
-			member.phone = teamFormation.getUser().getProfile().getMobile();
-
-			member.bill = new BillData();
-			member.bill.racePrice = teamFormation.getRacePrice().floatValue();
-			data.teamFormation.add(member);
-		}
+		// for (UserRegistration teamFormation : teamFormations) {
+		// UserData member = new UserData();
+		// member.id = teamFormation.getUser().getId();
+		// member.email = teamFormation.getUser().getEmail();
+		// member.name = teamFormation.getUser().getProfile().getName();
+		// member.phone = teamFormation.getUser().getProfile().getMobile();
+		//
+		// member.bill = new BillData();
+		// member.bill.racePrice = teamFormation.getRacePrice().floatValue();
+		// data.teamFormation.add(member);
+		// }
 
 		data.race = new RaceData();
-		data.race.id = race.getId();
+		// data.race.id = race.getId();
 		data.race.name = race.getName();
 		// data.race.date = race.getDate();
 		// data.race.city = new CityData();
@@ -219,9 +240,9 @@ public class RegistrationREST {
 		// data.course = new CourseData();
 		// data.course.id = registration.getRaceCategory().getCourse().getId();
 		// data.course.name = registration.getRaceCategory().getCourse().getName();
-		data.category = new CategoryData();
-		data.category.id = registration.getRaceCategory().getCategory().getId();
-		data.category.name = registration.getRaceCategory().getCategory().getName();
+		// data.category = new CategoryData();
+		// data.category.id = registration.getRaceCategory().getCategory().getId();
+		// data.category.name = registration.getRaceCategory().getCategory().getName();
 
 		return data;
 	}
@@ -270,7 +291,7 @@ public class RegistrationREST {
 			throw new ForbiddenException();
 		}
 
-		TeamFormation teamFormation = TeamFormationDAO.getInstance().load(registration, member);
+		UserRegistration teamFormation = UserRegistrationDAO.getInstance().load(registration, member);
 		if (teamFormation == null) {
 			throw new UnprocessableEntityException().addViolation("member", member.getProfile().getName()
 					+ " não faz parte da equipe " + registration.getTeamName());
@@ -285,7 +306,7 @@ public class RegistrationREST {
 		}
 
 		teamFormation.setRacePrice(price);
-		TeamFormationDAO.getInstance().update(teamFormation);
+		UserRegistrationDAO.getInstance().update(teamFormation);
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
@@ -337,8 +358,8 @@ public class RegistrationREST {
 		numberFormat.setMinimumFractionDigits(2);
 
 		int i = 0;
-		List<TeamFormation> teamFormations = TeamFormationDAO.getInstance().find(registration);
-		for (TeamFormation teamFormation : teamFormations) {
+		List<UserRegistration> teamFormations = UserRegistrationDAO.getInstance().find(registration);
+		for (UserRegistration teamFormation : teamFormations) {
 			if (teamFormation.getRacePrice().doubleValue() > 0) {
 				i++;
 				payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
@@ -403,46 +424,46 @@ public class RegistrationREST {
 		return result;
 	}
 
-	public static class RegistrationData {
+	// public static class RegistrationData {
+	//
+	// public Long id;
+	//
+	// public String number;
+	//
+	// public Date date;
+	//
+	// public RegistrationStatusType status;
+	//
+	// // public PaymentData payment;
+	//
+	// public UserData submitter;
+	//
+	// public RaceData race;
+	//
+	// // public CourseData course;
+	//
+	// public CategoryData category;
+	//
+	// public String teamName;
+	//
+	// public List<UserData> teamFormation = new ArrayList<UserData>();
+	//
+	// }
 
-		public Long id;
-
-		public String number;
-
-		public Date date;
-
-		public RegistrationStatusType status;
-
-		// public PaymentData payment;
-
-		public UserData submitter;
-
-		public RaceData race;
-
-		// public CourseData course;
-
-		public CategoryData category;
-
-		public String teamName;
-
-		public List<UserData> teamFormation = new ArrayList<UserData>();
-
-	}
-
-	public static class RaceData {
-
-		public Integer id;
-
-		public String name;
-
-		// public Date date;
-
-		// public CityData city;
-
-		// public List<UserData> organizers = new ArrayList<UserData>();
-
-		public String status;
-	}
+	// public static class RaceData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// // public Date date;
+	//
+	// // public CityData city;
+	//
+	// // public List<UserData> organizers = new ArrayList<UserData>();
+	//
+	// public String status;
+	// }
 
 	// public static class CourseData {
 	//

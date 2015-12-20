@@ -101,7 +101,7 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ci.name || '/' || st.abbreviation, ");
 		jpql.append("        count(re) ");
 		jpql.append("        ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.registration re ");
 		jpql.append("   join re.raceCategory rc, ");
 		jpql.append("        Profile pr ");
@@ -129,7 +129,7 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        case when pr.tshirt is null then 'Indefinido' else pr.tshirt end, ");
 		jpql.append("        count(re) ");
 		jpql.append("        ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.registration re ");
 		jpql.append("   join re.raceCategory rc, ");
 		jpql.append("        Profile pr ");

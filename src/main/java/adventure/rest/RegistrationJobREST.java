@@ -10,12 +10,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import adventure.business.MailBusiness;
-import adventure.entity.Period;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.Registration;
-import adventure.entity.TeamFormation;
+import adventure.entity.UserRegistration;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.TeamFormationDAO;
+import adventure.persistence.UserRegistrationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
@@ -33,15 +33,15 @@ public class RegistrationJobREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		List<Registration> expired = registrationDAO.findForUpdatePeriod();
-		TeamFormationDAO teamFormationDAO = TeamFormationDAO.getInstance();
+		UserRegistrationDAO teamFormationDAO = UserRegistrationDAO.getInstance();
 		PeriodDAO periodDAO = PeriodDAO.getInstance();
 		MailBusiness mailBusiness = MailBusiness.getInstance();
 
 		for (Registration registration : expired) {
-			Period period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
+			RegistrationPeriod period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
 
-			for (TeamFormation teamFormation : teamFormationDAO.find(registration)) {
-				TeamFormation persisted = teamFormationDAO.load(registration, teamFormation.getUser());
+			for (UserRegistration teamFormation : teamFormationDAO.find(registration)) {
+				UserRegistration persisted = teamFormationDAO.load(registration, teamFormation.getUser());
 				persisted.setRacePrice(period.getPrice());
 				teamFormationDAO.update(persisted);
 			}

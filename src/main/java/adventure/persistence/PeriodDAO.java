@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import adventure.entity.Period;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -28,7 +28,7 @@ public class PeriodDAO implements Serializable {
 		return Beans.getReference(PeriodDAO.class);
 	}
 
-	public List<Period> findForEvent(Race race) {
+	public List<RegistrationPeriod> findForEvent(Race race) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new Period ( ");
@@ -41,7 +41,7 @@ public class PeriodDAO implements Serializable {
 		jpql.append("  order by ");
 		jpql.append("        p.beginning ");
 
-		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
+		TypedQuery<RegistrationPeriod> query = em.createQuery(jpql.toString(), RegistrationPeriod.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();
@@ -49,11 +49,11 @@ public class PeriodDAO implements Serializable {
 
 	// TODO: OLD
 
-	public Period loadCurrent(Race race) throws Exception {
+	public RegistrationPeriod loadCurrent(Race race) throws Exception {
 		return load(race, new Date());
 	}
 
-	public Period load(Race race, Date date) throws Exception {
+	public RegistrationPeriod load(Race race, Date date) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select p ");
 		jpql.append("   from Period p ");
@@ -63,11 +63,11 @@ public class PeriodDAO implements Serializable {
 		jpql.append("  order by ");
 		jpql.append("        p.beginning ");
 
-		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
+		TypedQuery<RegistrationPeriod> query = em.createQuery(jpql.toString(), RegistrationPeriod.class);
 		query.setParameter("race", race);
 		query.setParameter("date", date, DATE);
 
-		Period result;
+		RegistrationPeriod result;
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException cause) {
@@ -76,7 +76,7 @@ public class PeriodDAO implements Serializable {
 		return result;
 	}
 
-	public List<Period> find(Race race) throws Exception {
+	public List<RegistrationPeriod> find(Race race) throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select p ");
 		jpql.append("   from Period p ");
@@ -85,7 +85,7 @@ public class PeriodDAO implements Serializable {
 		jpql.append("  order by ");
 		jpql.append("        p.beginning ");
 
-		TypedQuery<Period> query = em.createQuery(jpql.toString(), Period.class);
+		TypedQuery<RegistrationPeriod> query = em.createQuery(jpql.toString(), RegistrationPeriod.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();
