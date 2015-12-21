@@ -53,40 +53,26 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		return query.getResultList();
 	}
 
-	// TODO: OLD
-
-	public Race loadForDetail(Integer id) throws Exception {
+	public Race loadMetaOgg(String raceSlug, String eventSlug) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.slug, ");
 		jpql.append(" 	        r.description, ");
-		// jpql.append(" 	        r.date, ");
-		// jpql.append(" 	        r.site, ");
-		// jpql.append(" 	        r.paymentAccount, ");
-		// jpql.append(" 	        r.paymentToken, ");
-		// jpql.append(" 	        c.id, ");
-		// jpql.append(" 	        c.name, ");
-		// jpql.append(" 	        s.id, ");
-		// jpql.append(" 	        s.name, ");
-		// jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	       (select min(_p.beginning) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		// jpql.append(" 	       (select max(_p.end) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		jpql.append(" 	        r.status ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.name, ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        e.description ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
-		// jpql.append("   left join r.city c ");
-		// jpql.append("   left join c.state s ");
-		jpql.append("  where r.id = :id ");
-		// jpql.append("  order by ");
-		// jpql.append("        r.date ");
+		jpql.append("   join r.event e ");
+		jpql.append("  where r.slug = :raceSlug ");
+		jpql.append("    and e.slug = :eventSlug ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("id", id);
+		query.setParameter("raceSlug", raceSlug);
+		query.setParameter("eventSlug", eventSlug);
 
 		Race result;
 		try {
@@ -96,6 +82,53 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		}
 		return result;
 	}
+
+	public Race loadForDetail(String raceSlug, String eventSlug) throws Exception {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select new Race( ");
+		jpql.append(" 	        r.id, ");
+		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.slug, ");
+		jpql.append(" 	        r.description, ");
+		jpql.append(" 	        r.period.beginning, ");
+		jpql.append(" 	        r.period.end, ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.name, ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        e.description, ");
+		jpql.append(" 	        e.site, ");
+		jpql.append(" 	        e.payment.account, ");
+		jpql.append(" 	        e.payment.token, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation, ");
+		jpql.append(" 	        a.id, ");
+		jpql.append(" 	        a.name ");
+		jpql.append(" 	     ) ");
+		jpql.append("   from Race r ");
+		jpql.append("   join r.event e ");
+		jpql.append("   join r.status a ");
+		jpql.append("   join e.city c ");
+		jpql.append("   join c.state s ");
+		jpql.append("  where r.slug = :raceSlug ");
+		jpql.append("    and e.slug = :eventSlug ");
+
+		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
+		query.setParameter("raceSlug", raceSlug);
+		query.setParameter("eventSlug", eventSlug);
+
+		Race result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
+	// TODO: OLD
 
 	public Race loadJustId(Integer id) throws Exception {
 		StringBuffer jpql = new StringBuffer();

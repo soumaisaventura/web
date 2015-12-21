@@ -15,27 +15,24 @@ $(function() {
 });
 
 function findOk(data) {
+	console.log("xxx");
+	console.log(data);
+
 	new Riloadr({
 		breakpoints : [ {
-			name : '288',
-			maxWidth : 320
-		}, // iPhone 3
-		{
-			name : '400',
-			maxWidth : 320,
-			minDevicePixelRatio : 2
-		}, // iPhone 4 Retina display
-		{
-			name : '320',
-			minWidth : 321,
-			maxWidth : 640
+			name : '1170',
+			minWidth : 1200
 		}, {
-			name : '358',
-			minWidth : 641
+			name : '970',
+			minWidth : 992
+		}, {
+			name : '750',
+			maxWidth : 991
 		} ]
 	});
 
 	var template = $('#template');
+
 	$.each(data, function(index, value) {
 		var day = moment(value.period.beginning, "YYYY-MM-DD");
 

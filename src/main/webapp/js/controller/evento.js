@@ -58,19 +58,7 @@ function loadEventOk(event) {
 	$("#description").text(event.description);
 	$("#days-left").text(event.period.countdown);
 	$("#location-city").text(event.location.city.name + " / " + event.location.city.state);
-
-	// Date
-
-	if (event.period.beginning !== event.period.end) {
-		if (moment(event.period.beginning).isSame(moment(event.period.end), 'month')) {
-			$("#date").append(App.moment(event.period.beginning).format("DD"));
-		} else {
-			$("#date").append(App.moment(event.period.beginning).format("DD [de] MMMM"));
-		}
-
-		$("#date").append(" à ");
-	}
-	$("#date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
+	$("#date").text(App.parsePeriod(event.period));
 	$(".info-section").show();
 
 	var template;

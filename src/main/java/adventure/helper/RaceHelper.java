@@ -21,11 +21,12 @@ public class RaceHelper {
 		if (!initialized) {
 			initialized = true;
 
-			String param = request.getParameter("id");
-			Race race = RaceDAO.getInstance().load(Integer.parseInt(param));
+			String eventId = request.getParameter("evento_id");
+			String raceId = request.getParameter("prova_id");
+			Race race = RaceDAO.getInstance().loadMetaOgg(raceId, eventId);
 
-			this.title = race.getName();
-			this.description = race.getDescription();
+			this.title = race.getEvent().getName() + " – " + race.getName();
+			this.description = race.getEvent().getDescription();
 		}
 	}
 

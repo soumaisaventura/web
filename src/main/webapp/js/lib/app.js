@@ -165,6 +165,21 @@ var App = {
 
 	moment : function(date) {
 		return moment(date, "YYYY-MM-DD").locale("pt-br");
+	},
+
+	parsePeriod : function(period) {
+		var text = "";
+		if (period.beginning !== period.end) {
+			if (moment(period.beginning).isSame(moment(period.end), 'month')) {
+				text += App.moment(period.beginning).format("DD");
+			} else {
+				text += App.moment(period.beginning).format("DD [de] MMMM");
+			}
+
+			text += " à ";
+		}
+		text += App.moment(period.end).format("DD [de] MMMM [de] YYYY");
+		return text;
 	}
 };
 

@@ -107,29 +107,59 @@ public class Race {
 		setStatus(status);
 	}
 
-	// TODO: OLD
+	// Meta OGG
 
-	public Race(Integer id, String name, String description, Date date, String site, String paymentAccount,
-			String paymentToken, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation, Date registrationBeginning, Date registrationEnd, Status status) {
+	public Race(Integer id, String name, String slug, String description, Integer eventId, String eventName,
+			String eventSlug, String eventDescription) {
 		setId(id);
 		setName(name);
+		setSlug(slug);
 		setDescription(description);
-		// setDate(date);
-		// setSite(site);
-		// setPaymentAccount(paymentAccount);
-		// setPaymentToken(paymentToken);
-		// setCity(new City());
-		// getCity().setId(cityId);
-		// getCity().setName(cityName);
-		// getCity().setState(new State());
-		// getCity().getState().setId(stateId);
-		// getCity().getState().setName(stateName);
-		// getCity().getState().setAbbreviation(stateAbbreviation);
-		setRegistrationPeriod(new RegistrationPeriod());
-		getRegistrationPeriod().setBeginning(registrationBeginning);
-		getRegistrationPeriod().setEnd(registrationEnd);
-		setStatus(status);
+
+		setEvent(new Event());
+		getEvent().setId(eventId);
+		getEvent().setName(eventName);
+		getEvent().setSlug(eventSlug);
+		getEvent().setDescription(eventDescription);
+	}
+
+	// Detail
+
+	public Race(Integer id, String name, String slug, String description, Date periodBeginning, Date periodEnd,
+			Integer eventId, String eventName, String eventSlug, String eventDescription, String eventSite,
+			String eventPaymentAccount, String eventPaymentToken, Integer cityId, String cityName, Integer stateId,
+			String stateName, String stateAbbreviation, Integer statusId, String statusName) {
+		setId(id);
+		setName(name);
+		setSlug(slug);
+		setDescription(description);
+
+		setStatus(new Status());
+		getStatus().setId(statusId);
+		getStatus().setName(statusName);
+
+		setPeriod(new Period());
+		getPeriod().setBeginning(periodBeginning);
+		getPeriod().setEnd(periodEnd);
+
+		setEvent(new Event());
+		getEvent().setId(eventId);
+		getEvent().setName(eventName);
+		getEvent().setSlug(eventSlug);
+		getEvent().setDescription(eventDescription);
+		getEvent().setSite(eventSite);
+
+		getEvent().setPayment(new EventPayment());
+		getEvent().getPayment().setAccount(eventPaymentAccount);
+		getEvent().getPayment().setToken(eventPaymentToken);
+
+		getEvent().setCity(new City());
+		getEvent().getCity().setId(cityId);
+		getEvent().getCity().setName(cityName);
+		getEvent().getCity().setState(new State());
+		getEvent().getCity().getState().setId(stateId);
+		getEvent().getCity().getState().setName(stateName);
+		getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
 
 	// @Deprecated

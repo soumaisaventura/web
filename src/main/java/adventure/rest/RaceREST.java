@@ -1,6 +1,8 @@
 package adventure.rest;
 
-import java.math.BigDecimal;
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
+import static adventure.util.Constants.RACE_SLUG_PATTERN;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,12 +14,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import adventure.entity.RegistrationPeriod;
 import adventure.entity.Race;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.CityData;
+import adventure.rest.data.EventData;
+import adventure.rest.data.LocationData;
+import adventure.rest.data.PeriodData;
+import adventure.rest.data.RaceData;
 import adventure.rest.provider.PATCH;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -27,33 +34,33 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("race")
+@Path("event")
 public class RaceREST {
 
 	// OLD
 
-	@GET
-	@Path("year/{year}")
-	@Cache("max-age=28800")
-	@Produces("application/json")
-	public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
-		List<RaceData> result = new ArrayList<RaceData>();
-
-		for (Race race : RaceDAO.getInstance().findByYear(year)) {
-			RaceData data = new RaceData();
-			data.id = race.getId();
-			data.name = race.getName();
-			// data.date = race.getDate();
-			data.status = race.getStatus().getName();
-			// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-			// + race.getCity().getState().getAbbreviation() : null;
-
-			// data.courses = null;
-			result.add(data);
-		}
-
-		return result.isEmpty() ? null : result;
-	}
+//	@GET
+//	@Path("year/{year}")
+//	@Cache("max-age=28800")
+//	@Produces("application/json")
+//	public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
+//		List<RaceData> result = new ArrayList<RaceData>();
+//
+//		// for (Race race : RaceDAO.getInstance().findByYear(year)) {
+//		// RaceData data = new RaceData();
+//		// data.id = race.getId();
+//		// data.name = race.getName();
+//		// // data.date = race.getDate();
+//		// data.status = race.getStatus().getName();
+//		// // data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+//		// // + race.getCity().getState().getAbbreviation() : null;
+//		//
+//		// // data.courses = null;
+//		// result.add(data);
+//		// }
+//
+//		return result.isEmpty() ? null : result;
+//	}
 
 	@GET
 	@Path("{id}")
@@ -61,43 +68,57 @@ public class RaceREST {
 	@Produces("application/json")
 	public RaceData load(@PathParam("id") Integer id) throws Exception {
 		RaceData data = new RaceData();
-		Race race = loadRaceDetails(id);
-
-		data.id = race.getId();
-		data.name = race.getName();
-		// data.date = race.getDate();
-		// data.site = race.getSite();
-		data.description = race.getDescription();
-		// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-		// + race.getCity().getState().getAbbreviation() : null;
-		data.status = race.getStatus().getName();
-		data.registration = new RegistrationData();
-		data.registration.prices.addAll(loadPeriod(race));
-		data.registration.period = new PeriodData();
-		data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
-		data.registration.period.end = race.getRegistrationPeriod().getEnd();
-		// data.courses.addAll(loadCourse(race));
-		// data.organizers.addAll(loadOrganizer(race));
+		// Race race = loadRaceDetails(id);
+		//
+		// data.id = race.getId();
+		// data.name = race.getName();
+		// // data.date = race.getDate();
+		// // data.site = race.getSite();
+		// data.description = race.getDescription();
+		// // data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+		// // + race.getCity().getState().getAbbreviation() : null;
+		// data.status = race.getStatus().getName();
+		// data.registration = new RegistrationData();
+		// data.registration.prices.addAll(loadPeriod(race));
+		// data.registration.period = new PeriodData();
+		// data.registration.period.beginning = race.getRegistrationPeriod().getBeginning();
+		// data.registration.period.end = race.getRegistrationPeriod().getEnd();
+		// // data.courses.addAll(loadCourse(race));
+		// // data.organizers.addAll(loadOrganizer(race));
 
 		return data;
 	}
 
 	@GET
-	@Path("{id}/summary")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public RaceData loadSummary(@PathParam("id") Integer id) throws Exception {
+	@Path("{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/summary")
+	public RaceData loadSummary(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug)
+			throws Exception {
 		RaceData data = new RaceData();
-		Race race = loadRaceDetails(id);
+		Race race = loadRaceDetails(raceSlug, eventSlug);
 
-		data.id = race.getId();
+		data.id = race.getSlug();
+		data.internalId = race.getId();
 		data.name = race.getName();
-		// data.date = race.getDate();
-		// data.site = race.getSite();
 		data.description = race.getDescription();
-		// data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-		// + race.getCity().getState().getAbbreviation() : null;
 		data.status = race.getStatus().getName();
+
+		data.period = new PeriodData();
+		data.period.beginning = race.getPeriod().getBeginning();
+		data.period.end = race.getPeriod().getEnd();
+
+		data.event = new EventData();
+		data.event.id = race.getEvent().getSlug();
+		data.event.internalId = race.getEvent().getId();
+		data.event.name = race.getEvent().getName();
+		data.event.site = race.getEvent().getSite();
+
+		data.event.location = new LocationData();
+		data.event.location.city = new CityData();
+		data.event.location.city.id = race.getEvent().getCity().getId();
+		data.event.location.city.name = race.getEvent().getCity().getName();
+		data.event.location.city.state = race.getEvent().getCity().getState().getAbbreviation();
 
 		return data;
 	}
@@ -313,8 +334,8 @@ public class RaceREST {
 		return result;
 	}
 
-	private Race loadRaceDetails(Integer id) throws Exception {
-		Race result = RaceDAO.getInstance().loadForDetail(id);
+	private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {
+		Race result = RaceDAO.getInstance().loadForDetail(raceSlug, eventSlug);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -345,28 +366,28 @@ public class RaceREST {
 
 	}
 
-	public static class RaceData {
-
-		public Integer id;
-
-		public String name;
-
-		public String description;
-
-		// public String city;
-
-		// public Date date;
-
-		// public String site;
-
-		// public List<CourseData> courses = new ArrayList<CourseData>();
-
-		// public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
-
-		public RegistrationData registration;
-
-		public String status;
-	}
+	// public static class RaceData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// public String description;
+	//
+	// // public String city;
+	//
+	// // public Date date;
+	//
+	// // public String site;
+	//
+	// // public List<CourseData> courses = new ArrayList<CourseData>();
+	//
+	// // public List<OrganizerData> organizers = new ArrayList<OrganizerData>();
+	//
+	// public RegistrationData registration;
+	//
+	// public String status;
+	// }
 
 	public static class RegistrationData {
 
@@ -375,14 +396,14 @@ public class RaceREST {
 		public List<PeriodData> prices = new ArrayList<PeriodData>();
 	}
 
-	public static class PeriodData {
-
-		public Date beginning;
-
-		public Date end;
-
-		public BigDecimal price;
-	}
+	// public static class PeriodData {
+	//
+	// public Date beginning;
+	//
+	// public Date end;
+	//
+	// public BigDecimal price;
+	// }
 
 	// public static class CourseData {
 	//

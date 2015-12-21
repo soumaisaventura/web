@@ -255,7 +255,8 @@ public class RaceRegistrationDownloadREST {
 	}
 
 	private Race loadRaceDetails(Integer id) throws Exception {
-		Race result = RaceDAO.getInstance().loadForDetail(id);
+//		Race result = RaceDAO.getInstance().loadForDetail(id);
+		Race result = null;
 
 		if (result == null) {
 			throw new NotFoundException();

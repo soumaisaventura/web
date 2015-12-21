@@ -2,14 +2,10 @@ package adventure.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import adventure.entity.UserRegistration;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 
@@ -78,15 +74,5 @@ public final class Misc {
 		}
 
 		return capitalized;
-	}
-
-	public static URI getBaseURI() {
-		HttpServletRequest request = Beans.getReference(HttpServletRequest.class);
-		String contextPath = request.getContextPath();
-		String requestURL = request.getRequestURL().toString();
-
-		int i = requestURL.indexOf(contextPath);
-
-		return URI.create(requestURL.substring(0, i) + contextPath);
 	}
 }

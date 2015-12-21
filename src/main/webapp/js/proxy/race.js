@@ -1,6 +1,6 @@
 var RaceProxy = {
 
-	url : App.getContextPath() + "/api/race",
+	url : App.getContextPath() + "/api/event",
 
 	load : function($race) {
 		return $.ajax({
@@ -9,10 +9,10 @@ var RaceProxy = {
 		});
 	},
 
-	loadSummary : function(raceId) {
+	loadSummary : function(raceId, eventId) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + raceId + "/summary",
+			url : this.url + "/" + eventId + "/" + raceId + "/summary",
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}

@@ -95,9 +95,9 @@ public class EventREST {
 	}
 
 	@GET
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
 	@Cache("max-age=28800")
 	@Produces("application/json")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
 	public List<EventData> mapData(@PathParam("slug") String slug) throws Exception {
 		List<EventData> result = new ArrayList<EventData>();
 
@@ -116,9 +116,9 @@ public class EventREST {
 	}
 
 	@GET
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	@Cache("max-age=28800")
 	@Produces("application/json")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		FeeDAO feeDAO = FeeDAO.getInstance();
