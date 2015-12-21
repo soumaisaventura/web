@@ -21,16 +21,6 @@ $(function() {
 		} else {
 			$("#pesquisa-atleta").show();
 		}
-		// Verifica se o percurso vai cobrar annualfee
-		var annualfee = $(this).find('option:selected').data("annualfee");
-		var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
-		$.each(membersWithAnnualFee, function(i, member) {
-			if (!annualfee) {
-				resetMemberFee(member);
-			} else {
-				recoveryMemberFee(member);
-			}
-		});
 		updateTotal();
 	});
 
@@ -51,7 +41,7 @@ $(function() {
 	/**
 	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
 	 */
-	RaceProxy.findCourses(id).done(loadCategoriesOk);
+	RaceProxy.findCategories(raceId, eventId).done(loadCategoriesOk);
 
 	/**
 	 * Carrega o usuário logado na lista de membros da equipe
@@ -179,15 +169,12 @@ function loadSummaryOk(race) {
  * Monta a caixa de seleção das categorias disponíveis da corrida. TODO Pensar
  * numa estrutura para pegar a quantidade de membros da corrida.
  */
-function loadCategoriesOk(data) {
+function loadCategoriesOk(categories) {
 	var option;
-	$.each(data, function(index, course) {
-		$.each(course.categories, function(index, category) {
-			option = new Option(course.name + " – " + this.name, this.id + "#" + course.id);
-			$(option).data("annualfee", course.annualFee);
-			$(option).data("teamsize", category.teamSize);
-			$("#category").append(option);
-		});
+	$.each(categories, function(i, category) {
+		option = new Option(category.name, category.id);
+		$(option).data("teamsize", category.teamSize);
+		$("#category").append(option);
 	});
 }
 

@@ -14,12 +14,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import adventure.entity.Category;
 import adventure.entity.Race;
 import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
+import adventure.persistence.CategoryDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.CategoryData;
 import adventure.rest.data.CityData;
 import adventure.rest.data.EventData;
 import adventure.rest.data.LocationData;
@@ -39,28 +42,28 @@ public class RaceREST {
 
 	// OLD
 
-//	@GET
-//	@Path("year/{year}")
-//	@Cache("max-age=28800")
-//	@Produces("application/json")
-//	public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
-//		List<RaceData> result = new ArrayList<RaceData>();
-//
-//		// for (Race race : RaceDAO.getInstance().findByYear(year)) {
-//		// RaceData data = new RaceData();
-//		// data.id = race.getId();
-//		// data.name = race.getName();
-//		// // data.date = race.getDate();
-//		// data.status = race.getStatus().getName();
-//		// // data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
-//		// // + race.getCity().getState().getAbbreviation() : null;
-//		//
-//		// // data.courses = null;
-//		// result.add(data);
-//		// }
-//
-//		return result.isEmpty() ? null : result;
-//	}
+	// @GET
+	// @Path("year/{year}")
+	// @Cache("max-age=28800")
+	// @Produces("application/json")
+	// public List<RaceData> year(@PathParam("year") Integer year) throws Exception {
+	// List<RaceData> result = new ArrayList<RaceData>();
+	//
+	// // for (Race race : RaceDAO.getInstance().findByYear(year)) {
+	// // RaceData data = new RaceData();
+	// // data.id = race.getId();
+	// // data.name = race.getName();
+	// // // data.date = race.getDate();
+	// // data.status = race.getStatus().getName();
+	// // // data.city = race.getCity().getName() != null ? race.getCity().getName() + "/"
+	// // // + race.getCity().getState().getAbbreviation() : null;
+	// //
+	// // // data.courses = null;
+	// // result.add(data);
+	// // }
+	//
+	// return result.isEmpty() ? null : result;
+	// }
 
 	@GET
 	@Path("{id}")
@@ -234,29 +237,6 @@ public class RaceREST {
 		return result;
 	}
 
-	// private List<CourseData> loadCourse(Race race) throws Exception {
-	// List<CourseData> result = new ArrayList<CourseData>();
-	//
-	// for (Course course : CourseDAO.getInstance().findWithCategories(race)) {
-	// CourseData courseData = new CourseData();
-	// courseData.id = course.getId();
-	// courseData.name = course.getName();
-	//
-	// for (Category category : course.getCategories()) {
-	// CategoryData categoryData = new CategoryData();
-	// categoryData.id = category.getId();
-	// categoryData.name = category.getName();
-	// categoryData.description = category.getDescription();
-	// categoryData.teamSize = category.getTeamSize();
-	// courseData.categories.add(categoryData);
-	// }
-	//
-	// result.add(courseData);
-	// }
-	//
-	// return result;
-	// }
-
 	// private List<OrganizerData> loadOrganizer(Race race) throws Exception {
 	// List<OrganizerData> result = new ArrayList<OrganizerData>();
 	//
@@ -279,15 +259,32 @@ public class RaceREST {
 		}
 	}
 
-	// @GET
-	// @Cache("max-age=28800")
-	// @Path("{id}/courses")
-	// @Produces("application/json")
-	// public List<CourseData> findCourses(@PathParam("id") Integer id) throws Exception {
-	// Race race = loadJustRaceId(id);
-	// List<CourseData> result = loadCourse(race);
-	// return result.isEmpty() ? null : result;
-	// }
+	@GET
+	@Cache("max-age=28800")
+	@Produces("application/json")
+	@Path("{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/categories")
+	public List<CategoryData> findCourses(@PathParam("raceSlug") String raceSlug,
+			@PathParam("eventSlug") String eventSlug) throws Exception {
+		Race race = loadRaceDetails(raceSlug, eventSlug);
+		List<CategoryData> result = loadCourse(race);
+		return result.isEmpty() ? null : result;
+	}
+
+	private List<CategoryData> loadCourse(Race race) throws Exception {
+		List<CategoryData> result = new ArrayList<CategoryData>();
+
+		for (Category category : CategoryDAO.getInstance().find(race)) {
+			CategoryData categoryData = new CategoryData();
+			categoryData.name = category.getName();
+			categoryData.description = category.getDescription();
+			categoryData.teamSize = category.getTeamSize();
+			categoryData.minMaleMembers = category.getMinMaleMembers();
+			categoryData.minFemaleMembers = category.getMinFemaleMembers();
+			result.add(categoryData);
+		}
+
+		return result;
+	}
 
 	@GET
 	@Path("{id}/order")
@@ -414,16 +411,16 @@ public class RaceREST {
 	// public List<CategoryData> categories = new ArrayList<CategoryData>();
 	// }
 
-	public static class CategoryData {
-
-		public Integer id;
-
-		public String name;
-
-		public String description;
-
-		public Integer teamSize;
-	}
+	// public static class CategoryData {
+	//
+	// public Integer id;
+	//
+	// public String name;
+	//
+	// public String description;
+	//
+	// public Integer teamSize;
+	// }
 
 	// public static class OrganizerData {
 	//

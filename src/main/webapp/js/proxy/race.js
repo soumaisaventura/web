@@ -26,10 +26,10 @@ var RaceProxy = {
 		});
 	},
 
-	findCourses : function(raceId) {
+	findCategories : function(raceId, eventId) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + raceId + "/courses"
+			url : this.url + "/" + eventId + "/" + raceId + "/categories"
 		});
 	},
 

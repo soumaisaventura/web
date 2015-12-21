@@ -30,10 +30,14 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(Integer id, String name, String description) {
+	public Category(Integer id, String name, String description, Integer teamSize, Integer minMaleMembers,
+			Integer minFemaleMembers) {
 		setId(id);
 		setName(name);
 		setDescription(description);
+		setTeamSize(teamSize);
+		setMinMaleMembers(minMaleMembers);
+		setMinFemaleMembers(minFemaleMembers);
 	}
 
 	@Override

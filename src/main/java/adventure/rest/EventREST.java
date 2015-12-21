@@ -191,7 +191,7 @@ public class EventREST {
 			// Categories
 
 			raceData.categories = new ArrayList<CategoryData>();
-			for (Category category : categoryDAO.findForEvent(race)) {
+			for (Category category : categoryDAO.find(race)) {
 				CategoryData categoryData = new CategoryData();
 				categoryData.name = category.getName();
 				categoryData.description = category.getDescription();

@@ -19,20 +19,22 @@ public class CategoryDAO extends JPACrud<Category, Integer> {
 		return Beans.getReference(CategoryDAO.class);
 	}
 
-	public List<Category> findForEvent(Race race) {
+	public List<Category> find(Race race) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new Category ( ");
 		jpql.append("        c.id, ");
 		jpql.append("        c.name, ");
-		jpql.append("        c.description ");
+		jpql.append("        c.description, ");
+		jpql.append("        c.teamSize, ");
+		jpql.append("        c.minMaleMembers, ");
+		jpql.append("        c.minFemaleMembers ");
 		jpql.append("        ) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.category c ");
 		jpql.append("  where rc.race = :race ");
-		// jpql.append("    and rc.course.id = 0 ");
 		jpql.append("  order by ");
-		jpql.append("        c.teamSize, ");
+		jpql.append("        c.teamSize desc, ");
 		jpql.append("        c.name ");
 
 		TypedQuery<Category> query = getEntityManager().createQuery(jpql.toString(), Category.class);
