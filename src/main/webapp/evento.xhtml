@@ -30,13 +30,13 @@
 	<ui:define name="body">
 		<input id="id" type="hidden" value="#{param.evento_id}" />
 
-		<div class="row">
+		<div class="row banner-section" hidden="true">
 			<div class="col-md-offset-2 col-md-8">
 				<img id="banner" class="img-responsive center-block" />
 			</div>
 		</div>
 
-		<div class="section-padding">
+		<div class="info-section section-padding" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div>
@@ -44,7 +44,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<span class="info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="location-city"></span></span> <span
@@ -63,41 +62,47 @@
 
 		<div id="races" class="races"></div>
 
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8">
-				<div class="title">Local</div>
+		<div class="location-section" hidden="true">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="title">Local</div>
+				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8">
-				<div class="section-padding">
-					<div id="map"></div>
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="section-padding">
+						<div id="map"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8">
-				<div class="title">Organizadores</div>
+		<div class="organizers-section" hidden="true">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="title">Organizadores</div>
+				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8 organizers" hidden="true">
-				<div id="organizers"></div>
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8 organizers">
+					<div id="organizers"></div>
+				</div>
 			</div>
 		</div>
 
 		<div id="organizer-template" hidden="true">
-			<div class="organizer col-md-3 section-padding">
-				<div class="organizer-picture-parent">
-					<img class="img-responsive organizer-picture" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+			<div class="organizer col-md-4 section-padding">
+				<div>
+					<img class="img-responsive" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
 				</div>
 				<div class="text-center">
 					<div class="organizer-name">{{name}}</div>
-					<div class="organizer-email">{{email}}</div>
-					<div class="organizer-mobile">{{mobile}}</div>
+					<div class="organizer-email">
+						<a href="mailto:{{email}}" target="_blank">{{email}}</a>
+					</div>
+					<div class="organizer-mobile">
+						<a href="tel:+55{{mobile}}" target="_blank">{{mobile}}</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -106,7 +111,6 @@
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="race">
-						<!-- 						<div class="row"> -->
 						<div class="col-md-8">
 							<div class="row">
 								<div class="col-md-12">
@@ -140,7 +144,6 @@
 								<span class='race-registration-hint'>*preço por pessoa</span>
 							</div>
 						</div>
-						<!-- 						</div> -->
 						<div class="collapse" id="collapse-{{id}}">
 							<div class="row race-detail">
 

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1217,502" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1232,346" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -196,7 +196,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1737.79" y="219.667"/>
+	<position x="1758.79" y="202.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -285,7 +285,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1453.08" y="1225.69"/>
+	<position x="1459.08" y="1211.69"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -301,7 +301,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2134" y="769"/>
+	<position x="2140" y="739"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -384,7 +384,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="2112" y="184"/>
+	<position x="2127" y="200"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -642,7 +642,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2146.67" y="1096"/>
+	<position x="2157.67" y="1062"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -672,7 +672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1983" y="630"/>
+	<position x="1958" y="615"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>

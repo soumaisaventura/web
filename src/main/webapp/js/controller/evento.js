@@ -1,19 +1,36 @@
 $(function() {
-	var id = $("#id").val();
-
-	var map = initMap();
-	EventProxy.loadMap(id).done(function(data) {
-		loadMapOk(data, map, id)
-	});
-
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('$ 0,0');
 
-	EventProxy.load(id).done(loadEventOk);
-	EventProxy.getBanner(id).done(getBannerOk);
+	var id = $("#id").val();
+	EventProxy.load(id).done(function(event) {
+		loadEventOk(event);
+		loadMap(event);
+	});
 
+	EventProxy.getBanner(id).done(getBannerOk);
 });
+
+function loadMap(event) {
+	var map = initMap();
+	var coord = new google.maps.LatLng(event.location.coords.latitude, event.location.coords.longitude);
+	var marker = new google.maps.Marker({
+		map : map,
+		animation : google.maps.Animation.BOUNCE,
+		position : coord,
+		title : event.name
+	});
+
+	marker.addListener('click', function() {
+		var lat = this.getPosition().lat();
+		var lng = this.getPosition().lng();
+		window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
+	});
+
+	map.setCenter(coord);
+	$(".location-section").show();
+}
 
 function initMap() {
 	var options = {
@@ -29,38 +46,10 @@ function initMap() {
 	return new google.maps.Map($("#map")[0], options);
 }
 
-function loadMapOk(data, map, id) {
-	var marker;
-	var coord;
-	var coords = [];
-
-	$.each(data, function(i, event) {
-		coord = new google.maps.LatLng(event.location.coords.latitude, event.location.coords.longitude);
-		coords.push(coord);
-
-		marker = new google.maps.Marker({
-			map : map,
-			animation : id === event.id ? google.maps.Animation.DROP : null,
-			position : coord,
-			title : event.name
-		});
-
-		marker.addListener('click', function() {
-			var lat = this.getPosition().lat();
-			var lng = this.getPosition().lng();
-			// var zoom = this.getMap().getZoom();
-			window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
-		});
-
-		if (id === event.id) {
-			map.setCenter(coord);
-		}
-	});
-}
-
 function getBannerOk(data) {
 	if (data) {
 		$("#banner").attr("src", "data:image/png;base64," + data);
+		$(".banner-section").show();
 	}
 }
 
@@ -82,6 +71,7 @@ function loadEventOk(event) {
 		$("#date").append(" à ");
 	}
 	$("#date").append(App.moment(event.period.end).format("DD [de] MMMM [de] YYYY"));
+	$(".info-section").show();
 
 	var template;
 
@@ -94,7 +84,7 @@ function loadEventOk(event) {
 			$('#organizers').append(rendered);
 		});
 
-		$(".organizers").show();
+		$(".organizers-section").show();
 	}
 
 	// Races

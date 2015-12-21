@@ -14,12 +14,12 @@
 	padding: 0px;
 }
 
-html, body { 
-	height:100%;
+html, body {
+	height: 100%;
 }
 
 body {
-	padding-top: 50px;
+	padding-top: 70px;
 }
 
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button

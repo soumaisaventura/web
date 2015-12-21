@@ -35,15 +35,15 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		jpql.append(" 	        o.id, ");
 		jpql.append(" 	        o.name, ");
 		jpql.append(" 	        o.acronym, ");
-		jpql.append(" 	        r.beginning, ");
-		jpql.append(" 	        r.end, ");
+		jpql.append(" 	        r.period.beginning, ");
+		jpql.append(" 	        r.period.end, ");
 		jpql.append(" 	        r.status ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Race r ");
 		jpql.append("        join r.sport o ");
 		jpql.append("  where r.event = :event ");
 		jpql.append("  order by ");
-		jpql.append("        r.beginning, ");
+		jpql.append("        r.period.beginning, ");
 		jpql.append("        o.id, ");
 		jpql.append("        r.distance desc ");
 

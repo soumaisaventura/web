@@ -1,3 +1,4 @@
+
 SELECT *
   FROM city c, state s
  WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
