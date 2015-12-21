@@ -23,7 +23,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 		return Beans.getReference(UserDAO.class);
 	}
 
-	public List<User> findOrganizersForEvent(Event event) {
+	public List<User> findOrganizers(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new User ( ");
 		jpql.append(" 	        o.id, ");
@@ -149,7 +149,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("    and p.pendencies + h.pendencies > 0");
 		jpql.append("    and not exists ");
 		jpql.append("        (select _tf.user.id ");
-		jpql.append("           from TeamFormation _tf ");
+		jpql.append("           from UserRegistration _tf ");
 		jpql.append("          where _tf.user = u) ");
 		jpql.append("    and not exists ");
 		jpql.append("        (select _r.organizer.id ");
@@ -188,7 +188,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 	// return query.getResultList();
 	// }
 
-	public List<User> findTeamFormation(Registration registration) {
+	public List<User> findUserRegistrations(Registration registration) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append(" 	 new User( ");
@@ -198,7 +198,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.mobile ");
 		jpql.append(" 	     ) ");
-		jpql.append("   from TeamFormation tf ");
+		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.user us, ");
 		jpql.append("        Profile p ");
 		jpql.append("  where us = p.user ");

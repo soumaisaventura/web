@@ -33,8 +33,7 @@ public class Registration {
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "race_id", referencedColumnName = "race_id"),
-	/* @JoinColumn(name = "course_id", referencedColumnName = "course_id"), */
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
+			@JoinColumn(name = "category_id", referencedColumnName = "category_id") })
 	private RaceCategory raceCategory;
 
 	@ManyToOne
@@ -103,11 +102,12 @@ public class Registration {
 	public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCode,
 			String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
 			String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
-			String raceSlug, Integer raceDistance, Date racePeriodBeginning, Date racePeriodEnd, Integer eventId,
-			String eventName, String eventSlug, EventPaymentType eventPaymentType, String eventPaymentInfo,
-			String eventPaymentAccount, String eventPaymentToken, BigDecimal eventCoordsLatitude,
-			BigDecimal eventCoordsLongitude, Integer cityId, String cityName, Integer stateId, String stateName,
-			String stateAbbreviation, Integer categoryId, String categoryName) {
+			String raceSlug, Integer raceDistance, Integer raceStatusId, String raceStatusName,
+			Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventSlug,
+			EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
+			String eventPaymentToken, BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude, Integer cityId,
+			String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer categoryId,
+			String categoryName) {
 		setId(id);
 		setDate(date);
 		setTeamName(teamName);
@@ -134,6 +134,11 @@ public class Registration {
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setSlug(raceSlug);
 		getRaceCategory().getRace().setDistance(raceDistance);
+
+		getRaceCategory().getRace().setStatus(new Status());
+		getRaceCategory().getRace().getStatus().setId(raceStatusId);
+		getRaceCategory().getRace().getStatus().setName(raceStatusName);
+
 		getRaceCategory().getRace().setPeriod(new Period());
 		getRaceCategory().getRace().getPeriod().setBeginning(racePeriodBeginning);
 		getRaceCategory().getRace().getPeriod().setEnd(racePeriodEnd);

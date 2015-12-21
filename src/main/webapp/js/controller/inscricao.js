@@ -3,9 +3,6 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('0.00');
 
-	/**
-	 * Carrega dados da inscrição
-	 */
 	RegistrationProxy.load($("#registration").val()).done(loadOk);
 });
 
@@ -39,11 +36,9 @@ function updateBreadcrumb(data) {
 
 	if (organizer || user.admin) {
 		$(".breadcrumb.organizer").show();
-
 		$("#race-link").attr("href", App.getContextPath() + "/prova/" + data.race.id);
 		$("#dashboard-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel");
 		$("#registration-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel/inscricoes");
-
 	} else {
 		$("#registration-list-menu-item").addClass("active");
 		$(".breadcrumb.athlete").show();
@@ -68,7 +63,6 @@ function loadOk(registration) {
 
 	var user = App.getLoggedInUser();
 	var isMember = false;
-	//
 	$.each(registration.team.members, function(i, member) {
 		var row = "";
 		row = row.concat("<tr>");
@@ -107,7 +101,6 @@ function loadOk(registration) {
 	}
 
 	var isAuthorized = user ? user.admin : null;
-
 	if (registration.race.event.organizers) {
 		$.each(registration.race.event.organizers, function(i, organizer) {
 			var row = "";
@@ -205,12 +198,10 @@ function loadEditableTeamName(registrationId, enabled) {
 				if (request.status == 422) {
 					message = request.responseJSON[0].message;
 				}
-
 				d.reject(message);
 			};
 
 			RegistrationProxy.updateTeamName(registrationId, params.value).done(updateValuesOk).fail(updateValuesFailed);
-
 			return d.promise();
 		}
 	});
@@ -253,6 +244,7 @@ function updatePaymentButton(code, transaction) {
 		$("#payment").attr("disabled", false);
 
 		$("#payment").click(function() {
+			$(this).button('loading');
 			openPaymentFlow(code);
 		});
 	} else {
@@ -260,13 +252,15 @@ function updatePaymentButton(code, transaction) {
 		$("#payment").attr("disabled", false);
 
 		$("#payment").click(function() {
-			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed);
+			var $this = $(this);
+			$this.button('loading');
+			RegistrationProxy.sendPayment($("#registration").val()).done(sendPaymentOk).fail(sendPaymentFailed).always(function() {
+				$this.button('reset');
+			});
 		});
 	}
 }
 
 function openPaymentFlow(code) {
-	// window.open('https://pagseguro.uol.com.br/v2/checkout/payment.html?code='
-	// + code);
 	location.href = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + code;
 }

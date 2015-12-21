@@ -97,27 +97,6 @@ public class EventREST {
 	@GET
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/map")
-	public List<EventData> mapData(@PathParam("slug") String slug) throws Exception {
-		List<EventData> result = new ArrayList<EventData>();
-
-		for (Event event : EventDAO.getInstance().mapData()) {
-			EventData data = new EventData();
-			data.id = event.getSlug();
-			data.name = event.getName();
-			data.location = new LocationData();
-			data.location.coords = new CoordsData();
-			data.location.coords.latitude = event.getCoords().getLatitude();
-			data.location.coords.longitude = event.getCoords().getLongitude();
-			result.add(data);
-		}
-
-		return result;
-	}
-
-	@GET
-	@Cache("max-age=28800")
-	@Produces("application/json")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	public EventData load(@PathParam("slug") String slug) throws NotFoundException {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
@@ -133,6 +112,7 @@ public class EventREST {
 		Date now = new Date();
 
 		eventData.id = event.getSlug();
+		eventData.internalId = event.getId();
 		eventData.name = event.getName();
 		eventData.description = event.getDescription();
 		eventData.site = event.getSite();
@@ -162,6 +142,7 @@ public class EventREST {
 
 			RaceData raceData = new RaceData();
 			raceData.id = race.getSlug();
+			raceData.internalId = race.getId();
 			raceData.name = race.getName();
 			raceData.description = race.getDescription();
 			raceData.distance = race.getDistance();
@@ -198,12 +179,13 @@ public class EventREST {
 				raceData.categories.add(categoryData);
 			}
 
-			// Prices
+			// Registration Period + Prices
 
 			List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
 			raceData.prices = new ArrayList<PeriodData>();
 			for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
 				PeriodData periodData = new PeriodData();
+				periodData.internalId = period.getId();
 				periodData.beginning = period.getBeginning();
 				periodData.end = period.getEnd();
 				periodData.price = period.getPrice();
@@ -241,7 +223,7 @@ public class EventREST {
 		// Organizers
 
 		eventData.organizers = new ArrayList<UserData>();
-		for (User organizer : UserDAO.getInstance().findOrganizersForEvent(event)) {
+		for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
 			UserData organizerData = new UserData();
 			organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();

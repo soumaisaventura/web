@@ -199,7 +199,7 @@ public class RaceRegistrationREST {
 		RegistrationPeriod result = PeriodDAO.getInstance().load(race, date);
 
 		if (result == null && User.getLoggedIn().getAdmin()) {
-			List<RegistrationPeriod> periods = PeriodDAO.getInstance().find(race);
+			List<RegistrationPeriod> periods = PeriodDAO.getInstance().findForEvent(race);
 			result = periods != null && !periods.isEmpty() ? periods.get(periods.size() - 1) : null;
 		}
 

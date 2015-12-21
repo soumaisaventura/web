@@ -3,10 +3,14 @@ package adventure.rest.data;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "countdown", "beginning", "end", "price" })
+@JsonPropertyOrder({ "internal_id", "countdown", "beginning", "end", "price" })
 public class PeriodData {
+
+	@JsonProperty("internal_id")
+	public Integer internalId;
 
 	public Integer countdown;
 

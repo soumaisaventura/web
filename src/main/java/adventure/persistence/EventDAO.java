@@ -52,23 +52,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		return query.getResultList();
 	}
 
-	public List<Event> mapData() {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Event( ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.coords.latitude, ");
-		jpql.append(" 	        e.coords.longitude ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Event e ");
-		jpql.append("  where e.id > 0 ");
-
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-
-		return query.getResultList();
-	}
-
 	public Event loadForMeta(String slug) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Event( ");

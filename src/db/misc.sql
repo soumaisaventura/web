@@ -1,4 +1,3 @@
-
 SELECT *
   FROM city c, state s
  WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
@@ -281,8 +280,12 @@ SELECT *
 
 UPDATE period
    SET ending = '2016-01-01'::date
- WHERE id = 27;
+ WHERE id IN (27, 36);
 
 SELECT *
   FROM race
  WHERE event_id = 1;
+
+SELECT *
+  FROM registration r
+ WHERE r.id = 0682;

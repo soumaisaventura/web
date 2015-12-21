@@ -123,8 +123,9 @@ public class RegistrationREST {
 	public void confirm(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
-		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
+		List<User> organizers = UserDAO.getInstance().findOrganizers(
+				registration.getRaceCategory().getRace().getEvent());
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 
@@ -148,8 +149,9 @@ public class RegistrationREST {
 	public void cancel(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(registration.getRaceCategory().getRace());
-		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
+		List<User> organizers = UserDAO.getInstance().findOrganizers(
+				registration.getRaceCategory().getRace().getEvent());
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 
@@ -209,6 +211,7 @@ public class RegistrationREST {
 		data.race.internalId = registration.getRaceCategory().getRace().getId();
 		data.race.name = registration.getRaceCategory().getRace().getName();
 		data.race.distance = registration.getRaceCategory().getRace().getDistance();
+		data.race.status = registration.getRaceCategory().getRace().getStatus().getName();
 
 		data.race.period = new PeriodData();
 		data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
@@ -250,8 +253,7 @@ public class RegistrationREST {
 		// }
 
 		data.race.event.organizers = new ArrayList<UserData>();
-		for (User organizer : UserDAO.getInstance().findOrganizersForEvent(
-				registration.getRaceCategory().getRace().getEvent())) {
+		for (User organizer : UserDAO.getInstance().findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
 			UserData userData = new UserData();
 			userData.id = organizer.getId();
 			userData.email = organizer.getEmail();
@@ -311,11 +313,11 @@ public class RegistrationREST {
 			throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 		Race race = registration.getRaceCategory().getRace();
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
+		List<User> organizers = UserDAO.getInstance().findOrganizers(race.getEvent());
 		User member = loadMember(memberId);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!loggedInUser.getAdmin() /* && !organizers.contains(loggedInUser) */) {
+		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
 			throw new ForbiddenException();
 		}
 
@@ -338,8 +340,11 @@ public class RegistrationREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		Registration persisted = registrationDAO.load(id);
-		persisted.getPayment().setCode(null);
-		registrationDAO.update(persisted);
+
+		if (persisted.getPayment() != null) {
+			persisted.getPayment().setCode(null);
+			registrationDAO.update(persisted);
+		}
 	}
 
 	@PUT
@@ -350,11 +355,11 @@ public class RegistrationREST {
 	public void updateTeamName(@PathParam("id") Long id, String teamName) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 		Race race = registration.getRaceCategory().getRace();
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		List<User> team = UserDAO.getInstance().findTeamFormation(registration);
+		List<User> organizers = UserDAO.getInstance().findOrganizers(race.getEvent());
+		List<User> team = UserDAO.getInstance().findUserRegistrations(registration);
 		User loggedInUser = User.getLoggedIn();
 
-		if (!loggedInUser.getAdmin() /* && !organizers.contains(loggedInUser) */&& !team.contains(loggedInUser)) {
+		if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser) && !team.contains(loggedInUser)) {
 			throw new ForbiddenException();
 		}
 
@@ -374,8 +379,10 @@ public class RegistrationREST {
 
 	private String createCode(Registration registration, URI baseUri) throws Exception {
 		List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
-		// payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getPaymentAccount()));
-		// payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getPaymentToken()));
+		payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getEvent().getPayment()
+				.getAccount()));
+		payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getEvent().getPayment()
+				.getToken()));
 		payload.add(new BasicNameValuePair("currency", "BRL"));
 		payload.add(new BasicNameValuePair("reference", registration.getFormattedId()));
 		payload.add(new BasicNameValuePair("redirectURL", baseUri.toString() + "registration/"
@@ -450,82 +457,5 @@ public class RegistrationREST {
 		}
 
 		return result;
-	}
-
-	// public static class RegistrationData {
-	//
-	// public Long id;
-	//
-	// public String number;
-	//
-	// public Date date;
-	//
-	// public RegistrationStatusType status;
-	//
-	// // public PaymentData payment;
-	//
-	// public UserData submitter;
-	//
-	// public RaceData race;
-	//
-	// // public CourseData course;
-	//
-	// public CategoryData category;
-	//
-	// public String teamName;
-	//
-	// public List<UserData> teamFormation = new ArrayList<UserData>();
-	//
-	// }
-
-	// public static class RaceData {
-	//
-	// public Integer id;
-	//
-	// public String name;
-	//
-	// // public Date date;
-	//
-	// // public CityData city;
-	//
-	// // public List<UserData> organizers = new ArrayList<UserData>();
-	//
-	// public String status;
-	// }
-
-	// public static class CourseData {
-	//
-	// public Integer id;
-	//
-	// public String name;
-	// }
-
-	// public static class CategoryData {
-	//
-	// public Integer id;
-	//
-	// public String name;
-	// }
-
-	// public static class UserData {
-	//
-	// public Integer id;
-	//
-	// public String name;
-	//
-	// public String email;
-	//
-	// public String phone;
-	//
-	// public String city;
-	//
-	// public String state;
-	//
-	// public BillData bill;
-	// }
-
-	public static class BillData {
-
-		public float racePrice;
 	}
 }

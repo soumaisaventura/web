@@ -33,7 +33,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		RaceCategory raceCategory = registration.getRaceCategory();
 		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
-		// raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
 		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
 
 		return super.insert(registration);
@@ -48,7 +47,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 		RaceCategory raceCategory = registration.getRaceCategory();
 		raceCategory.setCategory(CategoryDAO.getInstance().load(raceCategory.getCategory().getId()));
-		// raceCategory.setCourse(CourseDAO.getInstance().load(raceCategory.getCourse().getId()));
 		raceCategory.setRace(RaceDAO.getInstance().load(raceCategory.getRace().getId()));
 
 		return super.update(registration);
@@ -78,6 +76,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ra.name, ");
 		jpql.append("        ra.slug, ");
 		jpql.append("        ra.distance, ");
+		jpql.append("        sa.id, ");
+		jpql.append("        sa.name, ");
 		jpql.append("        ra.period.beginning, ");
 		jpql.append("        ra.period.end, ");
 		jpql.append("        ev.id, ");
@@ -102,6 +102,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join re.period pe ");
 		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.status sa ");
 		jpql.append("   join rc.category ca ");
 		jpql.append("   join ra.event ev ");
 		jpql.append("   join ev.city ci ");
