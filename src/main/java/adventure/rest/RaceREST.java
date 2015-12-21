@@ -28,6 +28,7 @@ import adventure.rest.data.EventData;
 import adventure.rest.data.LocationData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
+import adventure.rest.data.UserData;
 import adventure.rest.provider.PATCH;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -263,7 +264,7 @@ public class RaceREST {
 	@Cache("max-age=28800")
 	@Produces("application/json")
 	@Path("{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/categories")
-	public List<CategoryData> findCourses(@PathParam("raceSlug") String raceSlug,
+	public List<CategoryData> findCategories(@PathParam("raceSlug") String raceSlug,
 			@PathParam("eventSlug") String eventSlug) throws Exception {
 		Race race = loadRaceDetails(raceSlug, eventSlug);
 		List<CategoryData> result = loadCourse(race);
@@ -275,6 +276,7 @@ public class RaceREST {
 
 		for (Category category : CategoryDAO.getInstance().find(race)) {
 			CategoryData categoryData = new CategoryData();
+			categoryData.id = category.getId();
 			categoryData.name = category.getName();
 			categoryData.description = category.getDescription();
 			categoryData.teamSize = category.getTeamSize();
@@ -287,14 +289,15 @@ public class RaceREST {
 	}
 
 	@GET
-	@Path("{id}/order")
+	@Cache("max-age=28800")
 	@Produces("application/json")
-	public List<OrderRowData> getOrder(@PathParam("id") Integer id, @QueryParam("users") List<Integer> users)
-			throws Exception {
-		Race race = loadJustRaceId(id);
+	@Path("{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/order")
+	public List<UserData> getOrder(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
+			@QueryParam("users_ids") List<Integer> users) throws Exception {
+		Race race = loadRaceDetails(raceSlug, eventSlug);
 
 		RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
-		List<OrderRowData> result = new ArrayList<RaceREST.OrderRowData>();
+		List<UserData> result = new ArrayList<UserData>();
 
 		if (users.isEmpty()) {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
@@ -306,10 +309,10 @@ public class RaceREST {
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
-					OrderRowData row = new OrderRowData();
+					UserData row = new UserData();
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
-					row.racePrice = period.getPrice().floatValue();
+					row.racePrice = period.getPrice();
 
 					result.add(row);
 				}
@@ -317,7 +320,6 @@ public class RaceREST {
 		}
 
 		period.setRace(null);
-
 		return result;
 	}
 

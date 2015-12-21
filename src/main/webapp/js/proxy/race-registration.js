@@ -1,6 +1,6 @@
 var RaceRegistrationProxy = {
 
-	url : App.getContextPath() + "/api/race",
+	url : App.getContextPath() + "/api/event",
 
 	validateRegistration : function(race, data) {
 		return $.ajax({
@@ -14,10 +14,10 @@ var RaceRegistrationProxy = {
 		});
 	},
 
-	submitRegistration : function(race, data) {
+	submitRegistration : function(raceId, eventId, data) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/" + race + "/registration",
+			url : this.url + "/" + eventId + "/" + raceId + "/registration",
 			data : JSON.stringify(data),
 			contentType : "application/json",
 			beforeSend : function(request) {

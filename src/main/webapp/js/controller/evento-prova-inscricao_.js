@@ -4,17 +4,12 @@ $(function() {
 	numeral.defaultFormat('0.00');
 
 	var memberIds = [];
-	var id = $("#id").val();
 	var eventId = $("#event_id").val();
 	var raceId = $("#race_id").val();
 
-	$("#category").focus();
+	$("#categoryId").focus();
 
-	/*
-	 * Ajusta o total individual Ajusta o total geral Voltar os valores
-	 * originais quando a corrida cobrar annualfee
-	 */
-	$("#category").on("change", function() {
+	$("#categoryId").on("change", function() {
 		var teamsize = $(this).find('option:selected').data("teamsize");
 		if (teamsize === 1) {
 			$("#pesquisa-atleta").hide();
@@ -32,36 +27,21 @@ $(function() {
 	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
-
-	/**
-	 * Carrega os dados da corrida
-	 */
 	RaceProxy.loadSummary(raceId, eventId).done(loadSummaryOk);
-
-	/**
-	 * Carrega a combo de categoria com as categorias disponíveis para a corrida
-	 */
 	RaceProxy.findCategories(raceId, eventId).done(loadCategoriesOk);
 
-	/**
-	 * Carrega o usuário logado na lista de membros da equipe
-	 */
 	var user;
 
 	if (!(user = App.getLoggedInUser())) {
 		App.handle401();
 	}
 
-	RaceProxy.order(id, user.id).done(function(order) {
+	RaceProxy.order(raceId, eventId, user.id).done(function(order) {
 		memberIds.push(order[0].id);
 		addRowOnMemberList(order[0], true);
 		updateTotal();
 	});
 
-	/**
-	 * Habilita o autocomplete no campo Atleta Ao selecionar o atleta
-	 * automaticamente entra na lista de membros
-	 */
 	$("#members").autocomplete({
 		source : function(request, response) {
 			UserProxy.search(request.term, memberIds).done(function(data) {
@@ -81,20 +61,17 @@ $(function() {
 		}
 	});
 
-	/**
-	 * 
-	 */
 	$("#bt-add-athlete").click(function() {
 		var members = $("#members");
 		var membersId = $("#members-id");
 		$("#members-message").hide();
 		if (membersId) {
-			RaceProxy.order(id, membersId.val()).done(function(order) {
+			RaceProxy.order(raceId, eventId, membersId.val()).done(function(order) {
 				memberIds.push(order[0].id);
 				addRowOnMemberList(order[0], false);
 
 				/** Refatorar Ini */
-				var annualfee = $("#category").find('option:selected').data("annualfee");
+				var annualfee = $("#categoryId").find('option:selected').data("annualfee");
 				var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
 				$.each(membersWithAnnualFee, function(i, member) {
 					if (!annualfee) {
@@ -117,9 +94,6 @@ $(function() {
 		}
 	});
 
-	/**
-	 * Adiciona um event listener para remoção nos membros inseridos na equipe
-	 */
 	$("#members-list").on("click", ".remove", function(e) {
 		e.preventDefault();
 
@@ -131,22 +105,20 @@ $(function() {
 		updateTotal();
 	});
 
-	/**
-	 * TODO Ajustar método Cadastro dos dados da equipe
-	 */
 	$("form").submit(function(event) {
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
-		var category = $("#category");
+		var category = $("#categoryId");
+
+		console.log(category.data("id"));
 
 		var data = {
-			'teamName' : $("#teamName").val(),
-			'category' : category.val() ? category.val().split("#")[0] : "",
-			'course' : category.val() ? category.val().split("#")[1] : "",
-			'members' : memberIds
+			'team_name' : $("#teamName").val(),
+			'category_id' : category.val(),
+			'members_ids' : memberIds
 		};
-		RaceRegistrationProxy.submitRegistration(id, data).done(registrationOk);
+		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk);
 	});
 });
 
@@ -156,25 +128,18 @@ function getOAuthAppIdsOk(data) {
 	$("#facebook-appid").val(data.facebook);
 }
 
-/**
- * Carrega dados da corrida
- */
 function loadSummaryOk(race) {
 	$(".race-name").text(race.event.name)
 	$("#race-date").text(App.parsePeriod(race.period));
 	$("#race-city").text(race.event.location.city.name + " / " + race.event.location.city.state);
 }
 
-/**
- * Monta a caixa de seleção das categorias disponíveis da corrida. TODO Pensar
- * numa estrutura para pegar a quantidade de membros da corrida.
- */
 function loadCategoriesOk(categories) {
-	var option;
 	$.each(categories, function(i, category) {
-		option = new Option(category.name, category.id);
+		var option = new Option(category.name, category.id);
 		$(option).data("teamsize", category.teamSize);
-		$("#category").append(option);
+		$(option).data("id", category.id);
+		$("#categoryId").append(option);
 	});
 }
 
@@ -253,15 +218,18 @@ function convertToLabelValueStructureFromUser(data) {
 	return newData;
 }
 
+/**
+ * @param athlete
+ * @param exclude
+ */
 function addRowOnMemberList(athlete, exclude) {
 	var row = "";
-	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.racePrice + "' data-original-annualfee='" + athlete.annualFee
-			+ "' data-annualfee='" + athlete.annualFee + "'>");
+	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.race_price + "'>");
 	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
 	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
-	row = row.concat("<td class='ammount text-right' nowrap='nowrap' style='vertical-align:middle;' data-ammount='" + athlete.racePrice + "'>"
-			+ numeral(athlete.racePrice).format() + "</td>");
+	row = row.concat("<td class='ammount text-right' nowrap='nowrap' style='vertical-align:middle;' data-ammount='" + athlete.race_price + "'>"
+			+ numeral(athlete.race_price).format() + "</td>");
 	row = row.concat("</tr>");
 	$('#members-list').data('footable').appendRow(row);
 }

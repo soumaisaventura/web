@@ -3,15 +3,14 @@ package adventure.rest;
 import static adventure.entity.GenderType.FEMALE;
 import static adventure.entity.GenderType.MALE;
 import static adventure.entity.RegistrationStatusType.PENDENT;
-import static adventure.util.Constants.NAME_SIZE;
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
+import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,8 +19,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.business.MailBusiness;
 import adventure.entity.Category;
@@ -38,6 +35,7 @@ import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
+import adventure.rest.data.RaceRegistrationData;
 import adventure.rest.data.RegistrationData;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -46,7 +44,7 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
-@Path("race/{id}/registration")
+@Path("event/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/registration")
 public class RaceRegistrationREST {
 
 	@POST
@@ -55,15 +53,15 @@ public class RaceRegistrationREST {
 	@ValidatePayload
 	@Produces("text/plain")
 	@Consumes("application/json")
-	public String submit(RaceRegistrationData data, @PathParam("id") Integer id, @Context UriInfo uriInfo)
-			throws Exception {
-		loadRace(id);
+	public String submit(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
+			RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
+		Race race = loadRace(raceSlug, eventSlug);
 		Date date = new Date();
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 
 		User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
-		RaceCategory raceCategory = loadRaceCategory(id, /* data.course, */data.category);
-		List<User> members = loadMembers(data.members);
+		RaceCategory raceCategory = loadRaceCategory(race.getId(), data.categoryId);
+		List<User> members = loadMembers(data.membersIds);
 		RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
 		validate(raceCategory, members, submitter, data.teamName, baseUri);
 
@@ -106,8 +104,9 @@ public class RaceRegistrationREST {
 	@Path("list")
 	@Transactional
 	@Produces("application/json")
-	public List<RegistrationData> find(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRace(id);
+	public List<RegistrationData> find(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug)
+			throws Exception {
+		Race race = loadRace(raceSlug, eventSlug);
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
 
 		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
@@ -153,9 +152,8 @@ public class RaceRegistrationREST {
 		return result.isEmpty() ? null : result;
 	}
 
-	private Race loadRace(Integer id) throws Exception {
-		Race result = null;
-//		Race result = RaceDAO.getInstance().loadForDetail(id);
+	private Race loadRace(String raceSlug, String eventSlug) throws Exception {
+		Race result = RaceDAO.getInstance().loadForDetail(raceSlug, eventSlug);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -164,8 +162,8 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	private RaceCategory loadRaceCategory(Integer raceId, /* Integer courseId, */Integer categoryId) throws Exception {
-		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, /* courseId, */categoryId);
+	private RaceCategory loadRaceCategory(Integer raceId, Integer categoryId) throws Exception {
+		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, categoryId);
 
 		if (result == null) {
 			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
@@ -277,21 +275,5 @@ public class RaceRegistrationREST {
 		}
 
 		return result;
-	}
-
-	public static class RaceRegistrationData {
-
-		@NotEmpty
-		@Size(max = NAME_SIZE)
-		public String teamName;
-
-		@NotNull
-		public Integer category;
-
-		// @NotNull
-		// public Integer course;
-
-		@NotEmpty
-		public List<Integer> members;
 	}
 }

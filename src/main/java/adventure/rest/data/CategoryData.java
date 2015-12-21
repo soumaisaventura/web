@@ -3,8 +3,10 @@ package adventure.rest.data;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers" })
+@JsonPropertyOrder({ "id", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers" })
 public class CategoryData {
+
+	public Integer id;
 
 	public String name;
 
