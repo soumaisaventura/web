@@ -50,10 +50,6 @@ ul.race-list-info {
 	margin-right: -4px;
 }
 
-.organizer img {
-	border-radius: 10px;
-}
-
 .organizer>div:nth-child(1) {
 	padding-left: 20px;
 	padding-right: 20px;

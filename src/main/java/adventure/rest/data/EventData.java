@@ -20,6 +20,8 @@ public class EventData {
 
 	public String description;
 
+	// public URI banner;
+
 	public String site;
 
 	public PeriodData period;

@@ -15,7 +15,7 @@ $(function() {
 });
 
 function findOk(data) {
-	var group1 = new Riloadr({
+	new Riloadr({
 		breakpoints : [ {
 			name : '288',
 			maxWidth : 320
@@ -35,8 +35,7 @@ function findOk(data) {
 		} ]
 	});
 
-	var template = $('#template').html();
-
+	var template = $('#template');
 	$.each(data, function(index, value) {
 		var day = moment(value.period.beginning, "YYYY-MM-DD");
 
@@ -44,21 +43,8 @@ function findOk(data) {
 		value.place = value.location.city ? value.location.city.name + "/" + value.location.city.state : "Local não definido";
 		value.corner = (value.status == "open" ? "inscrições abertas" : (value.status == "closed" ? "inscrições encerradas" : ""));
 
-		var rendered = Mustache.render(template, value);
+		var rendered = Mustache.render(template.html(), value);
 		$('#open-events').append(rendered);
 	});
-
-}
-
-function carregarBanner(id, data) {
-	var banner = "";
-
-	if (data) {
-		banner = "data:image/png;base64," + data;
-	} else {
-		banner = "http://placehold.it/750x350";
-	}
-
-	$("#banner-" + id).attr("src", banner);
-	$("#block-" + id).show();
+	template.remove();
 }

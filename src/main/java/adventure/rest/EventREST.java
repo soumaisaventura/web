@@ -33,8 +33,8 @@ import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Fee;
 import adventure.entity.Modality;
-import adventure.entity.RegistrationPeriod;
 import adventure.entity.Race;
+import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
 import adventure.persistence.CategoryDAO;
 import adventure.persistence.ChampionshipDAO;
@@ -139,6 +139,7 @@ public class EventREST {
 		eventData.period = new PeriodData();
 		eventData.period.beginning = event.getBeginning();
 		eventData.period.end = event.getEnd();
+		// eventData.banner = UriBuilder.fromUri(Misc.getBaseURI()).path("evento/" + slug + "/banner.png").build();
 
 		// Location
 

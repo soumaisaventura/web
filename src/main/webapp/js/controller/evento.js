@@ -8,8 +8,6 @@ $(function() {
 		loadEventOk(event);
 		loadMap(event);
 	});
-
-	EventProxy.getBanner(id).done(getBannerOk);
 });
 
 function loadMap(event) {
@@ -46,14 +44,16 @@ function initMap() {
 	return new google.maps.Map($("#map")[0], options);
 }
 
-function getBannerOk(data) {
-	if (data) {
-		$("#banner").attr("src", "data:image/png;base64," + data);
-		$(".banner-section").show();
-	}
-}
-
 function loadEventOk(event) {
+	new Riloadr({
+		breakpoints : [ {
+			name : '',
+			minWidth : 1
+		} ]
+	});
+
+	$(".banner-section").show();
+
 	$("#title").text(event.name);
 	$("#description").text(event.description);
 	$("#days-left").text(event.period.countdown);
@@ -77,19 +77,19 @@ function loadEventOk(event) {
 
 	// Organizers
 
-	template = $('#organizer-template').html();
+	template = $('#organizer-template');
 	if (event.organizers) {
 		$.each(event.organizers, function(i, organizer) {
-			var rendered = Mustache.render(template, organizer);
+			var rendered = Mustache.render(template.html(), organizer);
 			$('#organizers').append(rendered);
 		});
-
 		$(".organizers-section").show();
 	}
+	template.remove();
 
 	// Races
 
-	template = $('#race-template').html();
+	template = $('#race-template');
 	if (event.races) {
 		$.each(event.races, function(i, race) {
 			race.idx = i + 1;
@@ -116,7 +116,7 @@ function loadEventOk(event) {
 				});
 			}
 
-			var rendered = Mustache.render(template, race);
+			var rendered = Mustache.render(template.html(), race);
 			$('#races').append(rendered);
 
 			if (race.status !== 'open') {
@@ -128,4 +128,5 @@ function loadEventOk(event) {
 		$(".race .change").removeClass("col-md-8").addClass("col-md-12");
 		$(".race .remove").remove();
 	}
+	template.remove();
 }

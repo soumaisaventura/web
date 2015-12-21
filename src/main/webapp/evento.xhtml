@@ -12,6 +12,8 @@
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/riloadr.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/riloadr.jquery.min.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js"></script>
 	</ui:define>
 
@@ -32,7 +34,7 @@
 
 		<div class="row banner-section" hidden="true">
 			<div class="col-md-offset-2 col-md-8">
-				<img id="banner" class="img-responsive center-block" />
+				<img id="banner" class="img-responsive" src="#{request.contextPath}/api/event/#{param.evento_id}/banner" />
 			</div>
 		</div>
 
@@ -93,7 +95,7 @@
 		<div id="organizer-template" hidden="true">
 			<div class="organizer col-md-4 section-padding">
 				<div>
-					<img class="img-responsive" src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
+					<img class="img-responsive img-rounded responsive" data-src="#{request.contextPath}/api/user/profile/{{id}}/picture" />
 				</div>
 				<div class="text-center">
 					<div class="organizer-name">{{name}}</div>
