@@ -112,7 +112,7 @@
 		<div id="race-template" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div class="race">
+					<div class="race {{status}}">
 						<div class="col-md-8">
 							<div class="row">
 								<div class="col-md-12">
@@ -142,8 +142,7 @@
 											<span class="race-registration-hint">*</span>R$ {{current_period.price}} até {{current_period.end}}
 										</div>
 									</div>
-								</a>
-								<span class='race-registration-hint'>*preço por pessoa</span>
+								</a> <span class='race-registration-hint'>*preço por pessoa</span>
 							</div>
 						</div>
 						<div class="collapse" id="collapse-{{id}}">
@@ -158,10 +157,7 @@
 										</div>
 										<div class="panel-body">
 											<ul class="race-list-info">
-												<li>
-													Data: {{period.beginning}}{{#more_than_one_day}}
-													<small>à</small>
-													{{period.end}}{{/more_than_one_day}}
+												<li>Data: {{period.beginning}}{{#more_than_one_day}} <small>à</small> {{period.end}}{{/more_than_one_day}}
 												</li>
 												<li>Distância: {{distance}} km</li>
 											</ul>
@@ -180,8 +176,7 @@
 										<div class="panel-body">
 											<ul class="race-list-info">
 												{{#categories}}
-												<li>{{name}}</li>
-												{{/categories}}
+												<li>{{name}}</li> {{/categories}}
 											</ul>
 										</div>
 									</div>
@@ -199,12 +194,8 @@
 										<div class="panel-body">
 											<ul class="race-list-info">
 												{{#prices}}
-												<li>
-													{{beginning}}
-													<small>à</small>
-													{{end}}: <span><sup>R$</sup> <strong>{{price}}</strong>*</span>
-												</li>
-												{{/prices}}
+												<li>{{beginning}} <small>à</small> {{end}}: <span><sup>R$</sup> <strong>{{price}}</strong>*</span>
+												</li> {{/prices}}
 											</ul>
 										</div>
 									</div>
@@ -222,8 +213,7 @@
 										<div class="panel-body">
 											<ul class="race-list-info">
 												{{#modalities}}
-												<li>{{name}}</li>
-												{{/modalities}}
+												<li>{{name}}</li> {{/modalities}}
 											</ul>
 										</div>
 									</div>
@@ -241,8 +231,7 @@
 										<div class="panel-body">
 											<ul class="race-list-info">
 												{{#championships}}
-												<li>{{name}}</li>
-												{{/championships}}
+												<li>{{name}}</li> {{/championships}}
 											</ul>
 										</div>
 									</div>
