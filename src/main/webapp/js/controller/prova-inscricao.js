@@ -95,7 +95,7 @@ $(function() {
 	$("#bt-add-athlete").click(function() {
 		var members = $("#members");
 		var membersId = $("#members-id");
-		$("#members-message").hide();
+		$("#membersIds-message").hide();
 		if (membersId) {
 			RaceProxy.order(id, membersId.val()).done(function(order) {
 				memberIds.push(order[0].id);
@@ -120,7 +120,7 @@ $(function() {
 			members.val("");
 
 		} else {
-			$("#members-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
+			$("#membersIds-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
 			members.focus();
 		}
 	});
@@ -216,7 +216,7 @@ function registrationOk(data) {
 function registrationFailed(request) {
 	switch (request.status) {
 		case 500:
-			$("#members-message")
+			$("#membersIds-message")
 					.html(
 							"Ocorreu um erro interno no servidor e sua inscrição não foi concluída. Informe ao administrador pelo e-mail: contato@soumaisaventura.com.br")
 					.show();

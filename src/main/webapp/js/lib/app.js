@@ -89,7 +89,7 @@ var App = {
 			var id = $(this).attr('id');
 			var messages = [];
 
-			$.each(request.responseJSON, function(index, value) {
+			$.each(request.responseJSON, function(i, value) {
 				var aux = value.property ? value.property : "global";
 
 				if (id == aux) {

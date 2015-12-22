@@ -1,5 +1,7 @@
 package adventure.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -37,8 +39,8 @@ public class RaceCategory {
 	}
 
 	public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
-			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, /* Integer courseId, String courseName, */
-			Integer raceId, String raceName /* , Date raceDate */) {
+			Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer raceId, String raceName,
+			Date racePeriodBeginning, Date racePeriodEnd) {
 		setCategory(new Category());
 		getCategory().setId(categoryId);
 		getCategory().setName(categoryName);
@@ -47,14 +49,12 @@ public class RaceCategory {
 		getCategory().setMinMaleMembers(categoryMinMaleMembers);
 		getCategory().setMinFemaleMembers(categoryMinFemaleMembers);
 
-		// setCourse(new Course());
-		// getCourse().setId(courseId);
-		// getCourse().setName(courseName);
-
 		setRace(new Race());
 		getRace().setId(raceId);
 		getRace().setName(raceName);
-		// getRace().setDate(raceDate);
+		getRace().setPeriod(new Period());
+		getRace().getPeriod().setBeginning(racePeriodBeginning);
+		getRace().getPeriod().setEnd(racePeriodEnd);
 	}
 
 	@Override
@@ -62,7 +62,6 @@ public class RaceCategory {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		// result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result + ((race == null) ? 0 : race.hashCode());
 		return result;
 	}
@@ -86,13 +85,6 @@ public class RaceCategory {
 		} else if (!category.equals(other.category)) {
 			return false;
 		}
-		// if (course == null) {
-		// if (other.course != null) {
-		// return false;
-		// }
-		// } else if (!course.equals(other.course)) {
-		// return false;
-		// }
 		if (race == null) {
 			if (other.race != null) {
 				return false;
@@ -110,14 +102,6 @@ public class RaceCategory {
 	public void setRace(Race race) {
 		this.race = race;
 	}
-
-	// public Course getCourse() {
-	// return course;
-	// }
-	//
-	// public void setCourse(Course course) {
-	// this.course = course;
-	// }
 
 	public Category getCategory() {
 		return category;

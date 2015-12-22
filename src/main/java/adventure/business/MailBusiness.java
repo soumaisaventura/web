@@ -21,11 +21,11 @@ import javax.mail.internet.MimeMessage;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
-import adventure.entity.UserRegistration;
 import adventure.entity.User;
+import adventure.entity.UserRegistration;
 import adventure.persistence.RegistrationDAO;
-import adventure.persistence.UserRegistrationDAO;
 import adventure.persistence.UserDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import adventure.util.Dates;
@@ -159,24 +159,24 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
-		content = content.replace("{raceName}", escapeHtml(race.getName()));
-		// content = content.replace("{raceCity}", escapeHtml(race.getCity().getName()));
-		// content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
-		// content = content.replace("{raceDate}", Dates.parse(race.getDate()));
-		// content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-		// "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+		content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
+		content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
+		content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
+		content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		// content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
+		content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
-		// String replacement = "";
-		// for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
-		// replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
-		// + "; " + organizer.getEmail() + "$2\r";
-		// }
-		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
+		String replacement = "";
+		for (User organizer : UserDAO.getInstance().findOrganizers(race.getEvent())) {
+			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+					+ "; " + organizer.getEmail() + "$2\r";
+		}
+		content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
 
 		String subject = "Pedido de inscrição";
 		subject += " #" + registration.getFormattedId();

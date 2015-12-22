@@ -42,7 +42,7 @@ $(function() {
 		updateTotal();
 	});
 
-	$("#members").autocomplete({
+	$("#members_ids").autocomplete({
 		source : function(request, response) {
 			UserProxy.search(request.term, memberIds).done(function(data) {
 				response(convertToLabelValueStructureFromUser(data));
@@ -51,20 +51,20 @@ $(function() {
 		minLength : 3,
 		select : function(event, ui) {
 			$("#members-id").val(ui.item.value);
-			$("#members").val(ui.item.label);
+			$("#members_ids").val(ui.item.label);
 			return false;
 		},
 		focus : function(event, ui) {
 			$("#members-id").val(ui.item.value);
-			$("#members").val(ui.item.label);
+			$("#members_ids").val(ui.item.label);
 			return false;
 		}
 	});
 
 	$("#bt-add-athlete").click(function() {
-		var members = $("#members");
+		var members = $("#members_ids");
 		var membersId = $("#members-id");
-		$("#members-message").hide();
+		$("#members_ids-message").hide();
 		if (membersId) {
 			RaceProxy.order(raceId, eventId, membersId.val()).done(function(order) {
 				memberIds.push(order[0].id);
@@ -89,7 +89,7 @@ $(function() {
 			members.val("");
 
 		} else {
-			$("#members-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
+			$("#members_ids-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
 			members.focus();
 		}
 	});
@@ -109,13 +109,9 @@ $(function() {
 		event.preventDefault();
 		$("[id$='-message']").hide();
 
-		var category = $("#categoryId");
-
-		console.log(category.data("id"));
-
 		var data = {
 			'team_name' : $("#teamName").val(),
-			'category_id' : category.val(),
+			'category_id' : $("#categoryId").val(),
 			'members_ids' : memberIds
 		};
 		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk);

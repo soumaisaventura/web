@@ -102,6 +102,10 @@ public class RaceREST {
 		RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
 		List<UserData> result = new ArrayList<UserData>();
 
+		if (period == null) {
+			period = new RegistrationPeriod();
+		}
+
 		if (users.isEmpty()) {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
@@ -116,7 +120,6 @@ public class RaceREST {
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice();
-
 					result.add(row);
 				}
 			}

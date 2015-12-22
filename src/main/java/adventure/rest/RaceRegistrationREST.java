@@ -61,11 +61,11 @@ public class RaceRegistrationREST {
 
 		User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
 		RaceCategory raceCategory = loadRaceCategory(race.getId(), data.categoryId);
-		List<User> members = loadMembers(data.membersIds);
+		List<User> membersIds = loadMembers(data.membersIds);
 		RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
-		validate(raceCategory, members, submitter, data.teamName, baseUri);
+		validate(raceCategory, membersIds, submitter, data.teamName, baseUri);
 
-		Registration result = submit(data, raceCategory, members, date, period, submitter);
+		Registration result = submit(data, raceCategory, membersIds, date, period, submitter);
 
 		MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
 		return result.getFormattedId();
@@ -163,10 +163,10 @@ public class RaceRegistrationREST {
 	}
 
 	private RaceCategory loadRaceCategory(Integer raceId, Integer categoryId) throws Exception {
-		RaceCategory result = RaceCategoryDAO.getInstance().loadForRegistration(raceId, categoryId);
+		RaceCategory result = RaceCategoryDAO.getInstance().load(raceId, categoryId);
 
 		if (result == null) {
-			throw new UnprocessableEntityException().addViolation("category", "indisponível para esta prova");
+			throw new UnprocessableEntityException().addViolation("categoryId", "indisponível para esta prova");
 		}
 
 		return result;
@@ -180,9 +180,9 @@ public class RaceRegistrationREST {
 			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
-				exception.addViolation("members", "Usuário " + id + " inválido.");
+				exception.addViolation("members_ids", "Usuário " + id + " inválido.");
 			} else if (result.contains(user)) {
-				exception.addViolation("members", "Usuário " + id + " duplicado.");
+				exception.addViolation("members_ids", "Usuário " + id + " duplicado.");
 			} else {
 				result.add(user);
 			}
@@ -217,19 +217,19 @@ public class RaceRegistrationREST {
 		Category category = raceCategory.getCategory();
 
 		if (total > category.getTeamSize()) {
-			exception.addViolation("members", "Tem muita gente na equipe.");
+			exception.addViolation("members_ids", "Tem muita gente na equipe.");
 		} else if (total < category.getTeamSize()) {
-			exception.addViolation("members", "A equipe está incompleta.");
+			exception.addViolation("members_ids", "A equipe está incompleta.");
 		}
 
 		int male = count(members, MALE);
 		if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-			exception.addViolation("members", "Falta atleta do sexo masculino.");
+			exception.addViolation("members_ids", "Falta atleta do sexo masculino.");
 		}
 
 		int female = count(members, FEMALE);
 		if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-			exception.addViolation("members", "Falta atleta do sexo feminino.");
+			exception.addViolation("members_ids", "Falta atleta do sexo feminino.");
 		}
 
 		for (User member : members) {
@@ -237,12 +237,12 @@ public class RaceRegistrationREST {
 					raceCategory.getRace(), member);
 
 			if (formation != null) {
-				exception.addViolation("members", parse(member) + " já faz parte da equipe "
+				exception.addViolation("members_ids", parse(member) + " já faz parte da equipe "
 						+ formation.getRegistration().getTeamName() + ".");
 			}
 
 			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
-				exception.addViolation("members", parse(member) + " possui pendências cadastrais.");
+				exception.addViolation("members_ids", parse(member) + " possui pendências cadastrais.");
 				MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
 			}
 		}

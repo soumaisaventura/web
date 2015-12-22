@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name", "email", "mobile" })
+@JsonPropertyOrder({ "id", "name", "email", "mobile", "racePrice" })
 public class UserData {
 
 	public Integer id;
