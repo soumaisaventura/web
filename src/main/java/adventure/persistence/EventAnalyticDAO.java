@@ -6,25 +6,26 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import adventure.entity.Event;
 import adventure.entity.Race;
-import adventure.entity.RaceAnalytic;
+import adventure.entity.EventAnalytic;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 @Transactional
-public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
+public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static RaceAnalyticDAO getInstance() {
-		return Beans.getReference(RaceAnalyticDAO.class);
+	public static EventAnalyticDAO getInstance() {
+		return Beans.getReference(EventAnalyticDAO.class);
 	}
 
-	public List<RaceAnalytic> getRegistrationByCategory(Race race) {
+	public List<EventAnalytic> getRegistrationByCategory(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new adventure.entity.RaceAnalytic( ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
 		jpql.append("        ca.name ");
 		// jpql.append("        || ' ' || co.name ");
 		jpql.append("        , ");
@@ -42,17 +43,17 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		// jpql.append("        co.id, ");
 		jpql.append("        _count desc ");
 
-		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
-		query.setParameter("race", race);
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("race", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();
 	}
 
-	// public List<RaceAnalytic> getRegistrationByCourse(Race race) {
+	// public List<EventAnalytic> getRegistrationByCourse(Race race) {
 	// StringBuffer jpql = new StringBuffer();
 	// jpql.append(" select ");
-	// jpql.append("    new adventure.entity.RaceAnalytic( ");
+	// jpql.append("    new adventure.entity.EventAnalytic( ");
 	// jpql.append("        co.name, ");
 	// jpql.append("        (select count(_re) ");
 	// jpql.append("           from Registration _re ");
@@ -66,17 +67,17 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 	// jpql.append("  order by ");
 	// jpql.append("        _count desc ");
 	//
-	// TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
+	// TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 	// query.setParameter("race", race);
 	// query.setParameter("status", CONFIRMED);
 	//
 	// return query.getResultList();
 	// }
 
-	public List<RaceAnalytic> getRegistrationByStatus(Race race) {
+	public List<EventAnalytic> getRegistrationByStatus(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new adventure.entity.RaceAnalytic( ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
 		jpql.append("        re.status, ");
 		jpql.append("        count(re) ");
 		jpql.append("        ) ");
@@ -88,16 +89,16 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("  order by ");
 		jpql.append("        count(re) desc ");
 
-		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
-		query.setParameter("race", race);
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("race", event);
 
 		return query.getResultList();
 	}
 
-	public List<RaceAnalytic> getRegistrationByCity(Race race) {
+	public List<EventAnalytic> getRegistrationByCity(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new adventure.entity.RaceAnalytic( ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
 		jpql.append("        ci.name || '/' || st.abbreviation, ");
 		jpql.append("        count(re) ");
 		jpql.append("        ) ");
@@ -115,17 +116,17 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("  order by ");
 		jpql.append("        count(re) desc, ci.name ");
 
-		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
-		query.setParameter("race", race);
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("race", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();
 	}
 
-	public List<RaceAnalytic> getRegistrationByTshirt(Race race) {
+	public List<EventAnalytic> getRegistrationByTshirt(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
-		jpql.append("    new adventure.entity.RaceAnalytic( ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
 		jpql.append("        case when pr.tshirt is null then 'Indefinido' else pr.tshirt end, ");
 		jpql.append("        count(re) ");
 		jpql.append("        ) ");
@@ -141,8 +142,8 @@ public class RaceAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("  order by ");
 		jpql.append("        count(re) desc ");
 
-		TypedQuery<RaceAnalytic> query = getEntityManager().createQuery(jpql.toString(), RaceAnalytic.class);
-		query.setParameter("race", race);
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("race", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();

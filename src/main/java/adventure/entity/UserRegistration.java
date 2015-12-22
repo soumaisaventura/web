@@ -41,7 +41,7 @@ public class UserRegistration {
 			TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
 			String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
 			RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
-			Integer raceId, Integer categoryId, String categoryName /* , Integer courseId, String courseName */) {
+			Integer raceId, String raceSlug, String raceName, Integer categoryId, String categoryName) {
 		setUser(new User());
 		getUser().setId(userId);
 		getUser().setEmail(userEmail);
@@ -72,12 +72,12 @@ public class UserRegistration {
 		getRegistration().setRaceCategory(new RaceCategory());
 		getRegistration().getRaceCategory().setRace(new Race());
 		getRegistration().getRaceCategory().getRace().setId(raceId);
+		getRegistration().getRaceCategory().getRace().setSlug(raceSlug);
+		getRegistration().getRaceCategory().getRace().setName(raceName);
+
 		getRegistration().getRaceCategory().setCategory(new Category());
 		getRegistration().getRaceCategory().getCategory().setId(categoryId);
 		getRegistration().getRaceCategory().getCategory().setName(categoryName);
-		// getRegistration().getRaceCategory().setCourse(new Course());
-		// getRegistration().getRaceCategory().getCourse().setId(courseId);
-		// getRegistration().getRaceCategory().getCourse().setName(courseName);
 	}
 
 	public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,

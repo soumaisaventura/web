@@ -57,7 +57,7 @@ function loadEventOk(event) {
 	$("#title").text(event.name);
 	$("#description").text(event.description);
 	$("#days-left").text(event.period.countdown);
-	$("#location-city").text(event.location.city.name + " / " + event.location.city.state);
+	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
 	$(".info-section").show();
 
