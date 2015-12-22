@@ -53,6 +53,7 @@ div[id$="-section"] {
 	display: inline-block;
 	float: none !important;
 	margin-right: -4px;
+	padding-bottom: 15px;
 }
 
 .organizer>div:nth-child(1) {

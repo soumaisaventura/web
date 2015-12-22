@@ -27,7 +27,7 @@ function loadMap(event) {
 	});
 
 	map.setCenter(coord);
-	$(".location-section").show();
+	$("#location-section").show();
 }
 
 function initMap() {
@@ -52,14 +52,14 @@ function loadEventOk(event) {
 		} ]
 	});
 
-	$(".banner-section").show();
+	$("#banner-section").show();
 
 	$("#title").text(event.name);
 	$("#description").text(event.description);
 	$("#days-left").text(event.period.countdown);
 	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
-	$(".info-section").show();
+	$("#info-section").show();
 
 	var template;
 
@@ -71,7 +71,7 @@ function loadEventOk(event) {
 			var rendered = Mustache.render(template.html(), organizer);
 			$('#organizers').append(rendered);
 		});
-		$(".organizers-section").show();
+		$("#organizers-section").show();
 	}
 	template.remove();
 
@@ -105,14 +105,19 @@ function loadEventOk(event) {
 			}
 
 			var rendered = Mustache.render(template.html(), race);
-			$('#races').append(rendered);
+			$('#races-section').append(rendered);
 
 		});
 
-		$(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
-		$(".race:not(.open)>div:nth-child(2)").remove();
+//		$(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
+//		$(".race:not(.open)>div:nth-child(2)").remove();
 		
-		$(".end").removeClass("btn-success").addClass("btn-warning");
+		$(".end, .closed").removeClass("btn-success")
+						  .addClass("btn-danger")
+						  .html("<strong style='font-size: large'>Inscrições<br/>encerradas</strong>")
+						  .removeAttr("href")
+						  .css("cursor", "default");
+		$(".hint-end, .hint-closed").remove();
 	}
 	template.remove();
 }
