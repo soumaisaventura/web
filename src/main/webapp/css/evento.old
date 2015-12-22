@@ -1,0 +1,169 @@
+h1, h2 {
+	font-size: xx-large;
+	padding-bottom: 0px;
+	margin: 0px;
+}
+
+h2 {
+	font-size: x-large;
+}
+
+.title {
+	font-size: xx-large;
+	border-top: 1px solid #eee;
+	padding-top: 30px;
+	padding-bottom: 0px;
+}
+
+.section-padding {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+ul.race-list-info {
+	list-style-type: square;
+}
+
+.info-icon {
+	padding-right: 10px;
+}
+
+.description {
+	color: black;
+	font-size: 1.1em;
+	text-align: justify;
+	line-height: 25px;
+	padding-bottom: 30px;
+}
+
+#organizers {
+	text-align: center;
+}
+
+.no-border {
+	border: 0px;
+}
+
+.organizer {
+	display: inline-block;
+	float: none !important;
+	margin-right: -4px;
+}
+
+.organizer>div:nth-child(1) {
+	padding-left: 20px;
+	padding-right: 20px;
+	overflow: hidden;
+	position: relative;
+}
+
+.organizer-name {
+	font-size: large;
+	padding-top: 15px;
+	padding-bottom: 7px;
+}
+
+.organizer-email {
+	
+}
+
+.organizer-mobile {
+	
+}
+
+#map {
+	height: 300px;
+	width: auto;
+}
+
+.race {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-top: 1px solid #eee;
+}
+
+.race>div {
+	padding-left: 0px;
+}
+
+.race>div>.row:nth-child(1) {
+	padding-bottom: 10px;
+}
+
+.race>div>.row:nth-child(2) {
+	padding-bottom: 30px;
+}
+
+.race .calendar {
+	margin-right: 6px;
+}
+
+.race h2 {
+	margin-top: 3px;
+	margin-bottom: 0x;
+	border: 0px;
+	padding: 0px;
+}
+
+.race-detail {
+	margin-top: 20px;
+}
+
+/* .race-title { */
+/* 	margin-bottom: 13px; */
+/* } */
+.race-description {
+	text-align: justify;
+}
+
+.race-date {
+	font-size: 15px;
+	color: #d9534f;
+}
+
+.race-registration {
+	font-size: 16px;
+}
+
+.race-registration-icon {
+	float: left;
+	height: 40px;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+.race-registration-price {
+	font-size: small;
+	color: #cffccf;
+}
+
+.race-registration-hint {
+	font-size: small;
+}
+
+.modality-icon {
+	width: 16px;
+	height: 16px;
+}
+
+.calendar {
+	border: 1px solid #dbdbdb;
+	border-radius: 2px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	font-size: 11px;
+	float: left;
+	width: 32px;
+	float: left;
+	font-size: 11px;
+	text-align: center;
+}
+
+.calendar div:nth-child(1) {
+	background-color: #d9534f;
+	font-size: 0.9em;
+	color: white;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+}

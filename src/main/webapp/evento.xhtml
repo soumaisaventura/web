@@ -32,62 +32,185 @@
 	<ui:define name="body">
 		<input id="id" type="hidden" value="#{param.evento_id}" />
 
-		<div class="row banner-section" hidden="true">
+		<div id="banner-section" class="row" hidden="true">
 			<div class="col-md-offset-2 col-md-8">
 				<img id="banner" class="img-responsive" src="#{request.contextPath}/api/event/#{param.evento_id}/banner" />
 			</div>
 		</div>
 
-		<div class="info-section section-padding" hidden="true">
+		<div id="info-section" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div>
-						<h1 id="title"></h1>
-					</div>
+					<h1 id="title"></h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<span class="info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="location-city"></span></span> <span
-						class="info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span id="date"></span></span>
+					<span class="info-icon"> 
+						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 
+						<span id="location-city"></span>
+					</span> 
+					<br class="visible-xs-block"/>
+					<span class="info-icon"> 
+						<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+						<span id="date"></span>
+					</span>
 				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8 description">
-				<div>
+			<div class="description row">
+				<div class="col-md-offset-2 col-md-8">
 					<p id="description"></p>
 				</div>
 			</div>
 		</div>
 
-		<div id="races" class="races"></div>
+		<div id="races-section" class="races"></div>
 
-		<div class="location-section" hidden="true">
+		<div id="location-section" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div class="title">Local</div>
+					<h1>Local</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div class="section-padding">
-						<div id="map"></div>
-					</div>
+					<div id="map"></div>
 				</div>
 			</div>
 		</div>
 
-		<div class="organizers-section" hidden="true">
+		<div id="organizers-section" hidden="true">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<div class="title">Organizadores</div>
+					<h1>Organizadores</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8 organizers">
 					<div id="organizers"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="race-template" hidden="true">
+			<div class="row">
+
+				<div class="col-md-offset-2 col-md-6">
+					<div class="calendar">
+						<div>{{month}}</div>
+						<div>{{day}}</div>
+					</div>
+					<h2 class="race-name">{{name}}</h2>
+					<p class="race-description">{{description}}</p>
+					<a data-toggle="collapse" href="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">Saiba mais</a>
+				</div>
+				
+				<div class="col-md-2 {{status}}">
+					<a class="btn btn-block btn-success text-left" href="#{request.contextPath}/evento/#{param.evento_id}/{{id}}/inscricao" role="button">
+						<div class="row">
+							<div class="col-md-12">
+								<span class='glyphicon glyphicon-pencil'  aria-hidden='true'></span> <strong style="font-size: large">Inscreva-se</strong>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								* R$ {{current_period.price}} até {{current_period.end}}
+							</div>
+						</div>
+					</a> 
+					<span class='race-registration-hint'>*preço por pessoa</span>
+				</div>
+			</div>
+			<div class="collapse" id="collapse-{{id}}">
+				<div class="row">
+					<!-- Esporte -->
+					<div class="col-md-offset-2 col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">{{sport.name}}</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="race-list-info">
+									<li>Data: {{period.beginning}}{{#more_than_one_day}} <small>à</small> {{period.end}}{{/more_than_one_day}}
+									</li>
+									<li>Distância: {{distance}} km</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- Cateoria -->
+					{{#categories.length}}
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Categoria</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="race-list-info">
+									{{#categories}}
+									<li>{{name}}</li> {{/categories}}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{{/categories.length}}
+				</div>
+
+				<div class="row">
+					<!-- Preço -->
+					{{#prices.length}}
+					<div class="col-md-offset-2 col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Lote de inscrição</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="race-list-info">
+									{{#prices}}
+									<li>{{beginning}} <small>à</small> {{end}}: <span><sup>R$</sup> <strong>{{price}}</strong>*</span>
+									</li> {{/prices}}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{{/prices.length}}
+
+					<!-- Modalidade -->
+					{{#modalities.length}}
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Modalidade</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="race-list-info">
+									{{#modalities}}
+									<li>{{name}}</li> {{/modalities}}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{{/modalities.length}}
+				</div>
+
+				<div class="row">
+					<!-- Campeonato -->
+					{{#championships.length}}
+					<div class="col-md-offset-2 col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Campeonato</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="race-list-info">
+									{{#championships}}
+									<li>{{name}}</li> {{/championships}}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{{/championships.length}}
 				</div>
 			</div>
 		</div>
@@ -109,140 +232,6 @@
 			</div>
 		</div>
 
-		<div id="race-template" hidden="true">
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
-					<div class="race {{status}}">
-						<div class="col-md-8">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="calendar">
-										<div>{{month}}</div>
-										<div>{{day}}</div>
-									</div>
-									<h2>{{name}}</h2>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<p class="race-description">{{description}}</p>
-									<a data-toggle="collapse" href="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">Saiba mais</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="text-right race-registration">
-								<a class="col-xs-12 btn btn-lg btn-success" href="#{request.contextPath}/evento/#{param.evento_id}/{{id}}/inscricao">
-									<div class="race-registration-icon">
-										<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>
-									</div>
-									<div class="text-left">
-										<div>Inscreva-se</div>
-										<div class='race-registration-price'>
-											<span class="race-registration-hint">*</span>R$ {{current_period.price}} até {{current_period.end}}
-										</div>
-									</div>
-								</a> <span class='race-registration-hint'>*preço por pessoa</span>
-							</div>
-						</div>
-						<div class="collapse" id="collapse-{{id}}">
-							<div class="row race-detail">
-
-								<!-- Esporte -->
-
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">{{sport.name}}</h3>
-										</div>
-										<div class="panel-body">
-											<ul class="race-list-info">
-												<li>Data: {{period.beginning}}{{#more_than_one_day}} <small>à</small> {{period.end}}{{/more_than_one_day}}
-												</li>
-												<li>Distância: {{distance}} km</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-
-								<!-- Cateoria -->
-
-								{{#categories.length}}
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Categoria</h3>
-										</div>
-										<div class="panel-body">
-											<ul class="race-list-info">
-												{{#categories}}
-												<li>{{name}}</li> {{/categories}}
-											</ul>
-										</div>
-									</div>
-								</div>
-								{{/categories.length}}
-
-								<!-- Preço -->
-
-								{{#prices.length}}
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Lote de inscrição</h3>
-										</div>
-										<div class="panel-body">
-											<ul class="race-list-info">
-												{{#prices}}
-												<li>{{beginning}} <small>à</small> {{end}}: <span><sup>R$</sup> <strong>{{price}}</strong>*</span>
-												</li> {{/prices}}
-											</ul>
-										</div>
-									</div>
-								</div>
-								{{/prices.length}}
-
-								<!-- Modalidade -->
-
-								{{#modalities.length}}
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Modalidade</h3>
-										</div>
-										<div class="panel-body">
-											<ul class="race-list-info">
-												{{#modalities}}
-												<li>{{name}}</li> {{/modalities}}
-											</ul>
-										</div>
-									</div>
-								</div>
-								{{/modalities.length}}
-
-								<!-- Campeonato -->
-
-								{{#championships.length}}
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Campeonato</h3>
-										</div>
-										<div class="panel-body">
-											<ul class="race-list-info">
-												{{#championships}}
-												<li>{{name}}</li> {{/championships}}
-											</ul>
-										</div>
-									</div>
-								</div>
-								{{/championships.length}}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</ui:define>
 
 </ui:composition>

@@ -1,31 +1,11 @@
-h1, h2 {
-	/* 	font-size: xx-large; */
-	padding-bottom: 0px;
-	margin: 0px;
-}
-
-h2 {
-	font-size: x-large;
-}
-
-.title {
-	font-size: xx-large;
-	border-top: 1px solid #eee;
+div[id$="-section"] {
 	padding-top: 30px;
-	padding-bottom: 0px;
 }
 
-.section-padding {
-	padding-top: 30px;
-	padding-bottom: 30px;
-}
 
-ul.race-list-info {
-	list-style-type: square;
-}
-
-.info-icon {
-	padding-right: 10px;
+#map {
+	height: 300px;
+	width: auto;
 }
 
 .description {
@@ -33,15 +13,40 @@ ul.race-list-info {
 	font-size: 1.1em;
 	text-align: justify;
 	line-height: 25px;
-	padding-bottom: 30px;
+	padding-top: 30px;
+}
+
+.race-name {
+	margin-top: 0px;
+	line-height: 33px;
+}
+
+.calendar {
+	border: 1px solid #dbdbdb;
+	border-radius: 2px;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	margin-right: 10px;
+	text-align: center;
+	font-size: 11px;
+	width: 32px;
+	font-size: 11px;
+	text-align: center;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.calendar div:nth-child(1) {
+	background-color: #d9534f;
+	font-size: 0.9em;
+	color: white;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
 }
 
 #organizers {
 	text-align: center;
-}
-
-.no-border {
-	border: 0px;
 }
 
 .organizer {
@@ -63,62 +68,8 @@ ul.race-list-info {
 	padding-bottom: 7px;
 }
 
-.organizer-email {
-	
-}
-
-.organizer-mobile {
-	
-}
-
-#map {
-	height: 300px;
-	width: auto;
-}
-
-.race {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	border-top: 1px solid #eee;
-}
-
-.race>div {
-	padding-left: 0px;
-}
-
-.race>div>.row:nth-child(1) {
-	padding-bottom: 10px;
-}
-
-.race>div>.row:nth-child(2) {
-	padding-bottom: 30px;
-}
-
-.race .calendar {
-	margin-right: 6px;
-}
-
-.race h2 {
-	margin-top: 3px;
-	margin-bottom: 0x;
-	border: 0px;
-	padding: 0px;
-}
-
-.race-detail {
-	margin-top: 20px;
-}
-
-/* .race-title { */
-/* 	margin-bottom: 13px; */
-/* } */
-.race-description {
-	text-align: justify;
-}
-
-.race-date {
-	font-size: 15px;
-	color: #d9534f;
+.races > .row {
+	padding-bottom: 15px;
 }
 
 .race-registration {
@@ -126,7 +77,6 @@ ul.race-list-info {
 }
 
 .race-registration-icon {
-	float: left;
 	height: 40px;
 	padding-left: 20px;
 	padding-right: 10px;
@@ -141,29 +91,11 @@ ul.race-list-info {
 	font-size: small;
 }
 
-.modality-icon {
-	width: 16px;
-	height: 16px;
-}
-
-.calendar {
-	border: 1px solid #dbdbdb;
-	border-radius: 2px;
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	font-size: 11px;
-	float: left;
-	width: 32px;
-	float: left;
-	font-size: 11px;
-	text-align: center;
-}
-
-.calendar div:nth-child(1) {
-	background-color: #d9534f;
-	font-size: 0.9em;
-	color: white;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
+@media screen and (max-width: 320px) {
+	h1 {
+		font-size: 24px;
+	}
+	h2 {
+		font-size: 20px;
+	}
 }

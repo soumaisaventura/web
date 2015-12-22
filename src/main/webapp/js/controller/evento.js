@@ -111,6 +111,8 @@ function loadEventOk(event) {
 
 		$(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
 		$(".race:not(.open)>div:nth-child(2)").remove();
+		
+		$(".end").removeClass("btn-success").addClass("btn-warning");
 	}
 	template.remove();
 }
