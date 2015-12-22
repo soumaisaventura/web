@@ -180,6 +180,10 @@ var App = {
 		}
 		text += App.moment(period.end).format("DD [de] MMMM [de] YYYY");
 		return text;
+	},
+
+	parseCity : function(city) {
+		return city.name + "/" + city.state;
 	}
 };
 

@@ -99,59 +99,6 @@ public class RaceRegistrationREST {
 		return result;
 	}
 
-	@GET
-	@LoggedIn
-	@Path("list")
-	@Transactional
-	@Produces("application/json")
-	public List<RegistrationData> find(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug)
-			throws Exception {
-		Race race = loadRace(raceSlug, eventSlug);
-		List<RegistrationData> result = new ArrayList<RegistrationData>();
-
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
-			throw new ForbiddenException();
-		}
-
-		for (Registration registration : RegistrationDAO.getInstance().findToOrganizer(race)) {
-			RegistrationData data = new RegistrationData();
-			data.id = registration.getId();
-			data.number = registration.getFormattedId();
-			// data.teamName = registration.getTeamName();
-			data.date = registration.getDate();
-			data.status = registration.getStatus();
-
-			// data.category = new CategoryData();
-			// data.category.id = registration.getRaceCategory().getCategory().getId();
-			// data.category.name = registration.getRaceCategory().getCategory().getName();
-
-			// data.course = new CourseData();
-			// data.course.id = registration.getRaceCategory().getCourse().getId();
-			// data.course.name = registration.getRaceCategory().getCourse().getName();
-
-			// data.teamFormation = new ArrayList<UserData>();
-			// for (UserRegistration teamFormation : registration.getTeamFormations()) {
-			// UserData userData = new UserData();
-			// userData.id = teamFormation.getUser().getId();
-			// userData.email = teamFormation.getUser().getEmail();
-			// userData.name = teamFormation.getUser().getProfile().getName();
-			// userData.phone = teamFormation.getUser().getProfile().getMobile();
-			// userData.city = teamFormation.getUser().getProfile().getCity().getName();
-			// userData.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
-			//
-			// userData.bill = new BillData();
-			// userData.bill.racePrice = teamFormation.getRacePrice().floatValue();
-			//
-			// data.teamFormation.add(userData);
-			// }
-
-			result.add(data);
-		}
-
-		return result.isEmpty() ? null : result;
-	}
-
 	private Race loadRace(String raceSlug, String eventSlug) throws Exception {
 		Race result = RaceDAO.getInstance().loadForDetail(raceSlug, eventSlug);
 

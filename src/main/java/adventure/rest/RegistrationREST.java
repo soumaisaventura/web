@@ -4,6 +4,7 @@ import static adventure.entity.RegistrationStatusType.CANCELLED;
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.entity.Status.OPEN_ID;
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static java.util.Locale.US;
 
 import java.math.BigDecimal;
@@ -35,11 +36,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import adventure.business.MailBusiness;
+import adventure.entity.Event;
 import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationPayment;
 import adventure.entity.User;
 import adventure.entity.UserRegistration;
+import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
@@ -67,10 +70,6 @@ import br.gov.frameworkdemoiselle.util.Strings;
 
 @Path("registration")
 public class RegistrationREST {
-
-	public static RegistrationREST getInstance() {
-		return Beans.getReference(RegistrationREST.class);
-	}
 
 	@GET
 	@LoggedIn
@@ -116,73 +115,10 @@ public class RegistrationREST {
 		return result.isEmpty() ? null : result;
 	}
 
-	@POST
-	@LoggedIn
-	@Transactional
-	@Path("{id}/confirm")
-	public void confirm(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
-		Registration registration = loadRegistrationForDetails(id);
-
-		List<User> organizers = UserDAO.getInstance().findOrganizers(
-				registration.getRaceCategory().getRace().getEvent());
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-
-		if (registration.getStatus() != PENDENT) {
-			throw new UnprocessableEntityException().addViolation("Só é possível confirmar inscrições pendentes.");
-		}
-
-		registration.setStatus(CONFIRMED);
-		registration.setStatusDate(new Date());
-		registration.setApprover(User.getLoggedIn());
-		RegistrationDAO.getInstance().update(registration);
-
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
-	}
-
-	@POST
-	@LoggedIn
-	@Transactional
-	@Path("{id}/cancel")
-	public void cancel(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
-		Registration registration = loadRegistrationForDetails(id);
-
-		List<User> organizers = UserDAO.getInstance().findOrganizers(
-				registration.getRaceCategory().getRace().getEvent());
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-
-		switch (registration.getStatus()) {
-			case CANCELLED:
-				throw new UnprocessableEntityException().addViolation("Esta inscrição já foi cancelada.");
-
-			case CONFIRMED:
-				if (!User.getLoggedIn().getAdmin()) {
-					throw new ForbiddenException()
-							.addViolation("Somente os administradores podem cancelar uma inscrição já confirmada.");
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		registration.setStatus(CANCELLED);
-		registration.setStatusDate(new Date());
-		registration.setApprover(User.getLoggedIn());
-		RegistrationDAO.getInstance().update(registration);
-
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailBusiness.getInstance().sendRegistrationCancellation(registration, baseUri);
-	}
-
 	@GET
 	@LoggedIn
-	@Path("{id}")
 	@Transactional
+	@Path("{id: \\d+}")
 	@Produces("application/json")
 	public RegistrationData load(@PathParam("id") Long id) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
@@ -242,15 +178,16 @@ public class RegistrationREST {
 		data.category = new CategoryData();
 		data.category.name = registration.getRaceCategory().getCategory().getName();
 
-		// Race race = registration.getRaceCategory().getRace();
-		// List<User> organizers = UserDAO.getInstance().findOrganizersForEvent(race.getEvent());
-		// User loggedInUser = User.getLoggedIn();
+		List<User> organizers = UserDAO.getInstance().findOrganizers(
+				registration.getRaceCategory().getRace().getEvent());
+		User loggedInUser = User.getLoggedIn();
+		List<UserRegistration> userRegistrations = UserRegistrationDAO.getInstance().find(registration);
 		//
-		// if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
-		// && !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
-		// /* && !organizers.contains(loggedInUser) */) {
-		// throw new ForbiddenException();
-		// }
+		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
+				&& !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
+				&& !organizers.contains(loggedInUser)) {
+			throw new ForbiddenException();
+		}
 
 		data.race.event.organizers = new ArrayList<UserData>();
 		for (User organizer : UserDAO.getInstance().findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
@@ -263,7 +200,7 @@ public class RegistrationREST {
 		}
 
 		data.team.members = new ArrayList<UserData>();
-		for (UserRegistration userRegistration : UserRegistrationDAO.getInstance().find(registration)) {
+		for (UserRegistration userRegistration : userRegistrations) {
 			UserData userData = new UserData();
 			userData.id = userRegistration.getUser().getId();
 			userData.email = userRegistration.getUser().getEmail();
@@ -274,6 +211,124 @@ public class RegistrationREST {
 		}
 
 		return data;
+	}
+
+	@GET
+	@LoggedIn
+	@Transactional
+	@Produces("application/json")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
+	public List<RegistrationData> find(@PathParam("slug") String slug) throws Exception {
+		List<RegistrationData> result = new ArrayList<RegistrationData>();
+		Event event = loadEventDetail(slug);
+
+		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		for (Registration registration : RegistrationDAO.getInstance().findToOrganizer(event)) {
+			RegistrationData data = new RegistrationData();
+			data.id = registration.getId();
+			data.number = registration.getFormattedId();
+			data.date = registration.getDate();
+			data.status = registration.getStatus();
+
+			data.team = new TeamData();
+			data.team.name = registration.getTeamName();
+
+			data.category = new CategoryData();
+			data.category.id = registration.getRaceCategory().getCategory().getId();
+			data.category.name = registration.getRaceCategory().getCategory().getName();
+
+			data.race = new RaceData();
+			data.race.id = registration.getRaceCategory().getRace().getSlug();
+			data.race.internalId = registration.getRaceCategory().getRace().getId();
+			data.race.name = registration.getRaceCategory().getRace().getName();
+
+			data.team.members = new ArrayList<UserData>();
+			for (UserRegistration teamFormation : registration.getUserRegistrations()) {
+				UserData userData = new UserData();
+				userData.id = teamFormation.getUser().getId();
+				userData.email = teamFormation.getUser().getEmail();
+				userData.name = teamFormation.getUser().getProfile().getName();
+				userData.mobile = teamFormation.getUser().getProfile().getMobile();
+
+				userData.city = new CityData();
+				userData.city.name = teamFormation.getUser().getProfile().getCity().getName();
+				userData.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
+
+				userData.racePrice = teamFormation.getRacePrice();
+				data.team.members.add(userData);
+			}
+
+			result.add(data);
+		}
+
+		return result.isEmpty() ? null : result;
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("{id: \\d+}/confirm")
+	public void confirm(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+
+		List<User> organizers = UserDAO.getInstance().findOrganizers(
+				registration.getRaceCategory().getRace().getEvent());
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		if (registration.getStatus() != PENDENT) {
+			throw new UnprocessableEntityException().addViolation("Só é possível confirmar inscrições pendentes.");
+		}
+
+		registration.setStatus(CONFIRMED);
+		registration.setStatusDate(new Date());
+		registration.setApprover(User.getLoggedIn());
+		RegistrationDAO.getInstance().update(registration);
+
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
+	}
+
+	@POST
+	@LoggedIn
+	@Transactional
+	@Path("{id: \\d+}/cancel")
+	public void cancel(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+		Registration registration = loadRegistrationForDetails(id);
+
+		List<User> organizers = UserDAO.getInstance().findOrganizers(
+				registration.getRaceCategory().getRace().getEvent());
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+			throw new ForbiddenException();
+		}
+
+		switch (registration.getStatus()) {
+			case CANCELLED:
+				throw new UnprocessableEntityException().addViolation("Esta inscrição já foi cancelada.");
+
+			case CONFIRMED:
+				if (!User.getLoggedIn().getAdmin()) {
+					throw new ForbiddenException()
+							.addViolation("Somente os administradores podem cancelar uma inscrição já confirmada.");
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		registration.setStatus(CANCELLED);
+		registration.setStatusDate(new Date());
+		registration.setApprover(User.getLoggedIn());
+		RegistrationDAO.getInstance().update(registration);
+
+		URI baseUri = uriInfo.getBaseUri().resolve("..");
+		MailBusiness.getInstance().sendRegistrationCancellation(registration, baseUri);
 	}
 
 	@POST
@@ -446,6 +501,14 @@ public class RegistrationREST {
 			throw new NotFoundException();
 		}
 
+		return result;
+	}
+
+	private Event loadEventDetail(String slug) throws NotFoundException {
+		Event result = EventDAO.getInstance().loadForDetail(slug);
+		if (result == null) {
+			throw new NotFoundException();
+		}
 		return result;
 	}
 

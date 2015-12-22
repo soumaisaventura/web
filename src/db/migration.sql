@@ -331,6 +331,9 @@ ALTER TABLE public.event
 ALTER TABLE public.event
    DROP COLUMN IF EXISTS top_color CASCADE;
 
+DELETE FROM event
+      WHERE id = 0;
+
 UPDATE period
-   SET ending = '2016-01-01'::date
+   SET ending = '2016-01-01'
  WHERE id IN (27, 36);

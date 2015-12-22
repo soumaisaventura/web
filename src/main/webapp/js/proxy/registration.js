@@ -12,6 +12,16 @@ var RegistrationProxy = {
 		});
 	},
 
+	find : function(eventId) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + (eventId ? "/" + eventId : ""),
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	load : function(id) {
 		return $.ajax({
 			type : "GET",

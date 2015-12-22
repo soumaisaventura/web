@@ -272,20 +272,28 @@ ORDER BY e.id, r.id;
 
 ----
 
-SELECT * FROM race;
-
-SELECT *
-  FROM period
- WHERE race_id = 12;
-
 UPDATE period
    SET ending = '2016-01-01'::date
  WHERE id IN (27, 36);
- 
-SELECT *
-  FROM race
- WHERE event_id = 1;
 
-SELECT *
-  FROM registration r
- WHERE r.id = 0682;
+
+
+  SELECT event5_.id
+    FROM user_registration userregist0_
+         INNER JOIN user_account user1_ ON userregist0_.user_id = user1_.id
+         INNER JOIN registration registrati2_
+            ON userregist0_.registration_id = registrati2_.id
+         INNER JOIN race_category racecatego3_
+            ON     registrati2_.category_id = racecatego3_.category_id
+               AND registrati2_.race_id = racecatego3_.race_id
+         INNER JOIN race race4_ ON racecatego3_.race_id = race4_.id
+         INNER JOIN event event5_ ON race4_.event_id = event5_.id
+         INNER JOIN category category6_
+            ON racecatego3_.category_id = category6_.id
+         CROSS JOIN profile profile7_
+         INNER JOIN city city8_
+            ON profile7_.city_id = city8_.id
+         INNER JOIN state state9_
+            ON city8_.state_id = state9_.id
+   WHERE user1_.id = profile7_.id -- AND event5_.id = 5
+ORDER BY registrati2_.id DESC;

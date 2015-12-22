@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import adventure.entity.Event;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
@@ -189,8 +190,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		return query.getResultList();
 	}
 
-	@Deprecated
-	public List<Registration> findToOrganizer(Race race) {
+	public List<Registration> findToOrganizer(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append(" 	 new UserRegistration( ");
@@ -212,28 +212,28 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append(" 	     re.teamName, ");
 		jpql.append(" 	     re.date, ");
 		jpql.append(" 	     ra.id, ");
+		jpql.append(" 	     ra.slug, ");
+		jpql.append(" 	     ra.name, ");
 		jpql.append(" 	     ca.id, ");
 		jpql.append(" 	     ca.name ");
-		// jpql.append(" 	     co.id, ");
-		// jpql.append(" 	     co.name ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.user u ");
 		jpql.append("   join tf.registration re ");
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.event ev ");
 		jpql.append("   join rc.category ca, ");
-		// jpql.append("   join rc.course co, ");
 		jpql.append("        Profile p ");
 		jpql.append("   join p.city ci ");
 		jpql.append("   join ci.state st ");
 		jpql.append("  where u = p.user ");
-		jpql.append("    and ra = :race ");
+		jpql.append("    and ev = :event ");
 		jpql.append("  order by ");
 		jpql.append("        re.id desc ");
 
 		TypedQuery<UserRegistration> query = getEntityManager().createQuery(jpql.toString(), UserRegistration.class);
-		query.setParameter("race", race);
+		query.setParameter("event", event);
 
 		Registration registration = null;
 		List<Registration> result = new ArrayList<Registration>();

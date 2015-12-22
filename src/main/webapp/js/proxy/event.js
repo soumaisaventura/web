@@ -19,7 +19,7 @@ var EventProxy = {
 	loadSummary : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + id + "/summary"
+			url : this.url + "/" + id + "?summary=true"
 		});
 	}
 };

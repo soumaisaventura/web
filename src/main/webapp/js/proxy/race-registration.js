@@ -2,18 +2,6 @@ var RaceRegistrationProxy = {
 
 	url : App.getContextPath() + "/api/event",
 
-	validateRegistration : function(race, data) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/" + race + "/registration/validate",
-			data : JSON.stringify(data),
-			contentType : "application/json",
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
-
 	submitRegistration : function(raceId, eventId, data) {
 		return $.ajax({
 			type : "POST",
@@ -26,15 +14,15 @@ var RaceRegistrationProxy = {
 		});
 	},
 
-	find : function(race) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + race + "/registration/list",
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
+	// find : function(eventId) {
+	// return $.ajax({
+	// type : "GET",
+	// url : this.url + "/" + eventId + "/registration/list",
+	// beforeSend : function(request) {
+	// App.setHeader(request)
+	// }
+	// });
+	// },
 
 	formDownload : function(raceId, callback) {
 		this.download(this.url + "/" + raceId + "/registration/form", callback);
