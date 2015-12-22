@@ -19,7 +19,6 @@ import javax.ws.rs.Produces;
 
 import net.coobird.thumbnailator.Thumbnails;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
@@ -236,20 +235,19 @@ public class EventREST {
 	}
 
 	@GET
-	@Produces("image/png")
-	@Cache("max-age=604800000")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64")
-	public byte[] getBannerBase64(@PathParam("slug") String slug) throws Exception {
-		return getBannerBase64(slug, null);
-	}
+	@Cache("max-age=28800")
+	@Produces("application/json")
+	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/summary")
+	public EventData loadSummary(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEventDetails(slug);
 
-	@GET
-	@Produces("image/png")
-	@Cache("max-age=604800000")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/base64/{width}")
-	public byte[] getBannerBase64(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
-		Event event = loadEventBanner(slug);
-		return Base64.encodeBase64(resizeImage(event.getBanner(), 750, width));
+		EventData data = new EventData();
+		data.id = event.getSlug();
+		data.internalId = event.getId();
+		data.name = event.getName();
+		data.status = event.getStatus().getName();
+
+		return data;
 	}
 
 	@GET

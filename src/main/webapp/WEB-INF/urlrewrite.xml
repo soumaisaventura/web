@@ -25,6 +25,14 @@
 	
 	<!-- Novo -->
 	<rule>
+		<from>^/evento/([\w\d_\-/]+)/paine/inscricoesl$</from>
+		<to>/evento-painel-inscricoes.jsf?evento_id=$1</to>
+	</rule>
+	<rule>
+		<from>^/evento/([\w\d_\-/]+)/painel$</from>
+		<to>/evento-painel.jsf?evento_id=$1</to>
+	</rule>
+	<rule>
 		<from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
 		<to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
 	</rule>

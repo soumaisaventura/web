@@ -9,25 +9,17 @@ var EventProxy = {
 		});
 	},
 
-	load : function(slug) {
+	load : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + slug
+			url : this.url + "/" + id
 		});
 	},
 
-	loadMap : function(slug) {
+	loadSummary : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + slug + "/map"
-		});
-	},
-
-	getBanner : function(slug) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + slug + "/banner/base64"
+			url : this.url + "/" + id + "/summary"
 		});
 	}
-
 };

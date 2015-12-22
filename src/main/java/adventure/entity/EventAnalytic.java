@@ -1,17 +1,17 @@
 package adventure.entity;
 
-public class RaceAnalytic {
+public class EventAnalytic {
 
 	private String label;
 
 	private Integer value;
 
-	public RaceAnalytic(String label, Long value) {
+	public EventAnalytic(String label, Long value) {
 		setLabel(label);
 		setValue(value.intValue());
 	}
 
-	public RaceAnalytic(RegistrationStatusType status, Long value) {
+	public EventAnalytic(RegistrationStatusType status, Long value) {
 		setLabel(status.name());
 		setValue(value.intValue());
 	}
@@ -32,10 +32,10 @@ public class RaceAnalytic {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof RaceAnalytic)) {
+		if (!(obj instanceof EventAnalytic)) {
 			return false;
 		}
-		RaceAnalytic other = (RaceAnalytic) obj;
+		EventAnalytic other = (EventAnalytic) obj;
 		if (label == null) {
 			if (other.label != null) {
 				return false;
