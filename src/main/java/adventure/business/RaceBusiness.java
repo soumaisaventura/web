@@ -13,23 +13,6 @@ public class RaceBusiness {
 		return Beans.getReference(RaceBusiness.class);
 	}
 
-	// public StatusType getStatus(Race race, Date date, List<Period> periods) {
-	// StatusType result = null;
-	// Period registrationPeriod = computePeriod(periods);
-	//
-	// if (Dates.before(date, registrationPeriod.getBeginning())) {
-	// result = SOON;
-	// } else if (Dates.between(date, registrationPeriod.getBeginning(), registrationPeriod.getEnd())) {
-	// result = OPEN;
-	// } else if (Dates.after(date, registrationPeriod.getEnd()) && Dates.beforeOrSame(date, race.getEnd())) {
-	// result = CLOSED;
-	// } else if (Dates.after(date, race.getEnd())) {
-	// result = END;
-	// }
-	//
-	// return result;
-	// }
-
 	public RegistrationPeriod getPeriod(Date date, List<RegistrationPeriod> periods) {
 		RegistrationPeriod result = null;
 
@@ -51,24 +34,4 @@ public class RaceBusiness {
 
 		return result;
 	}
-
-	// private Period computePeriod(List<Period> periods) {
-	// Date beginning = null;
-	// Date end = null;
-	//
-	// for (Period period : periods) {
-	// if (beginning == null || Dates.before(period.getBeginning(), beginning)) {
-	// beginning = period.getBeginning();
-	// }
-	//
-	// if (end == null || Dates.after(period.getEnd(), end)) {
-	// end = period.getEnd();
-	// }
-	// }
-	//
-	// Period result = new Period();
-	// result.setBeginning(beginning);
-	// result.setEnd(end);
-	// return result;
-	// }
 }

@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -36,8 +35,6 @@ import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
 import adventure.rest.data.RaceRegistrationData;
-import adventure.rest.data.RegistrationData;
-import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;

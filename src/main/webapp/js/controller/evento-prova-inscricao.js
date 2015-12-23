@@ -131,12 +131,14 @@ function loadSummaryOk(race) {
 }
 
 function loadCategoriesOk(categories) {
-	$.each(categories, function(i, category) {
-		var option = new Option(category.name, category.id);
-		$(option).data("teamsize", category.teamSize);
-		$(option).data("id", category.id);
-		$("#categoryId").append(option);
-	});
+	if (categories) {
+		$.each(categories, function(i, category) {
+			var option = new Option(category.name, category.id);
+			$(option).data("teamsize", category.teamSize);
+			$(option).data("id", category.id);
+			$("#categoryId").append(option);
+		});
+	}
 }
 
 function registrationOk(data) {

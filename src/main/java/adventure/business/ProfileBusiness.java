@@ -55,46 +55,20 @@ public class ProfileBusiness {
 		InputStream result = null;
 
 		if (url != null) {
-			// try {
-			// URL _url = new URL(url);
-
 			HttpGet request = new HttpGet(url.toString());
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute(request);
-
 			int status = response.getStatusLine().getStatusCode();
 
-			// HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			// conn.setInstanceFollowRedirects(false);
-			// conn.connect();
-			// int status = conn.getResponseCode();
-
 			if (status == 301 || status == 302) {
-				// String location = conn.getHeaderField("Location");
 				Header[] headers = response.getHeaders("Location");
 				String location = headers.length > 0 ? headers[0].getValue() : null;
-				// String location = response.getHeaders("Location")[0];
 				result = getPicture(new URL(location));
-
 			} else if (status == 200) {
-				// ByteArrayOutputStream out = new ByteArrayOutputStream();
-				// response.getEntity().writeTo(out);
-				// result = out.toByteArray();
 				result = response.getEntity().getContent();
-				// result = Strings.parse(conn.getInputStream()).getBytes();
 			} else {
 				result = null;
 			}
-
-			// if (!conn.getURL().equals(url)) {
-			// } else {
-			// result = content.getBytes();
-			// }
-
-			// } catch (Exception cause) {
-			// // TODO Fazer log da exceção
-			// cause.printStackTrace();
-			// }
 		}
 
 		return result;

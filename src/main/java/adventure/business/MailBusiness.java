@@ -18,6 +18,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import adventure.entity.Event;
 import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import adventure.entity.Registration;
@@ -203,8 +204,8 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{registrationTeamName}", escapeHtml(teamName));
 		content = content.replace("{what}", member.getId().equals(submitter.getId()) ? "se inscrever"
 				: "inscrever você");
-		content = content.replace("{raceName}", escapeHtml(race.getName()));
-		// content = content.replace("{raceDate}", Dates.parse(race.getDate()));
+		content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
+		content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
 				"$1" + baseUri.resolve("atleta/" + pendency + "$2"));
 
@@ -226,7 +227,7 @@ public class MailBusiness implements Serializable {
 		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-		content = content.replace("{raceName}", escapeHtml(race.getName()));
+		content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
 		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
 				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
@@ -254,15 +255,16 @@ public class MailBusiness implements Serializable {
 		content = clearContent(content);
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-		content = content.replace("{raceName}", escapeHtml(race.getName()));
-		// content = content.replace("{raceDate}", Dates.parse(race.getDate()));
-		// content = content.replace("{raceCity}", escapeHtml(race.getCity().getName()));
-		// content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
-		// content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-		// "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+		content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
+		content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
+		content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
+		content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
-		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
+		content = content
+				.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race.getEvent())));
 
 		String subject = "Cancelamento da inscrição";
 		subject += " #" + registration.getFormattedId();
@@ -273,15 +275,15 @@ public class MailBusiness implements Serializable {
 		}
 	}
 
-	// private String getOrganizerInfo(Race race) {
-	// String replacement = "";
-	// for (User organizer : UserDAO.getInstance().findRaceOrganizers(race)) {
-	// replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
-	// + "; " + organizer.getEmail() + "$2\r";
-	// }
-	//
-	// return replacement;
-	// }
+	private String getOrganizerInfo(Event event) {
+		String replacement = "";
+		for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
+			replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
+					+ "; " + organizer.getEmail() + "$2\r";
+		}
+
+		return replacement;
+	}
 
 	@Asynchronous
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
@@ -296,15 +298,15 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{appName}", "Sou+ Aventura");
 		content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
 		content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
-		content = content.replace("{raceName}", escapeHtml(race.getName()));
-		// content = content.replace("{raceCity}", escapeHtml(race.getCity().getName()));
-		// content = content.replace("{raceState}", race.getCity().getState().getAbbreviation());
-		// content = content.replace("{raceDate}", Dates.parse(race.getDate()));
-		// content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-		// "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+		content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
+		content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
+		content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
+		content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
+		content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+				"$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
 		content = content.replace("{registrationId}", registration.getFormattedId());
 		content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-		// content = content.replace("{courseName}", registration.getRaceCategory().getCourse().getName());
+		content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 
 		String subject = "Confirmação da inscrição";
@@ -325,10 +327,6 @@ public class MailBusiness implements Serializable {
 	}
 
 	private void send(final String subject, final String content, final String type, final String to) throws Exception {
-		// new Thread() {
-		//
-		// public void run() {
-		// try {
 		ApplicationConfig config = getConfig();
 		final String PREFIX = config.getAppTitle() + " – ";
 		final String SUFIX = "";
@@ -336,18 +334,10 @@ public class MailBusiness implements Serializable {
 		MimeMessage message = new MimeMessage(getSession());
 		message.setFrom(new InternetAddress("contato@soumaisaventura.com.br"));
 		message.setSubject(PREFIX + subject + SUFIX, "UTF-8");
-		// message.setRecipients(TO, Strings.join(",", to));
 		message.setRecipients(TO, to);
 		message.setContent(content, type);
 
 		Transport.send(message);
-
-		// } catch (MessagingException cause) {
-		// throw new RuntimeException(cause);
-		// }
-		// };
-		//
-		// }.start();
 	}
 
 	private Session getSession() {
