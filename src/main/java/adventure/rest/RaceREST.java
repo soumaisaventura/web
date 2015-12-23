@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import adventure.entity.Category;
 import adventure.entity.Race;
@@ -38,8 +40,8 @@ public class RaceREST {
 	@Path("summary")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public RaceData loadSummary(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug)
-			throws Exception {
+	public RaceData loadSummary(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
+			@Context UriInfo uriInfo) throws Exception {
 		RaceData data = new RaceData();
 		Race race = loadRaceDetails(raceSlug, eventSlug);
 
@@ -53,7 +55,7 @@ public class RaceREST {
 		data.period.beginning = race.getPeriod().getBeginning();
 		data.period.end = race.getPeriod().getEnd();
 
-		data.event = new EventData();
+		data.event = new EventData(uriInfo);
 		data.event.id = race.getEvent().getSlug();
 		data.event.internalId = race.getEvent().getId();
 		data.event.name = race.getEvent().getName();
@@ -96,7 +98,7 @@ public class RaceREST {
 	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<UserData> getOrder(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
-			@QueryParam("users_ids") List<Integer> users) throws Exception {
+			@QueryParam("users_ids") List<Integer> users, @Context UriInfo uriInfo) throws Exception {
 		Race race = loadRaceDetails(raceSlug, eventSlug);
 
 		RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
@@ -116,7 +118,7 @@ public class RaceREST {
 				if (user == null) {
 					throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
 				} else {
-					UserData row = new UserData();
+					UserData row = new UserData(uriInfo);
 					row.id = user.getId();
 					row.name = user.getProfile().getName();
 					row.racePrice = period.getPrice();

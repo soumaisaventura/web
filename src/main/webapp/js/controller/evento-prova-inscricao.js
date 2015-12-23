@@ -118,8 +118,6 @@ $(function() {
 	});
 });
 
-/* ---------------- Funções de Callback ---------------- */
-
 function getOAuthAppIdsOk(data) {
 	$("#facebook-appid").val(data.facebook);
 }
@@ -199,33 +197,28 @@ function shareOnFacebook() {
 	window.open(url, '_blank');
 }
 
-/* ---------------- Funções Utilitárias ---------------- */
-
-/**
- * Função utilitária que converte o objeto retornado no suggest para o formato
- * do jqueryUi.
- */
 function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
-			"label" : this.profile.name,
+			"label" : this.name,
 			"value" : this.id
 		});
 	});
 	return newData;
 }
 
-/**
- * @param athlete
- * @param exclude
- */
 function addRowOnMemberList(athlete, exclude) {
+	console.log(athlete);
+
 	var row = "";
 	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.race_price + "'>");
 	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
 			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
-	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>" + athlete.name + "</td>");
+	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>");
+	row = row.concat("<img class='img-rounded' src='" + athlete.picture.thumbnail + "'>&nbsp;&nbsp;&nbsp;");
+	row = row.concat(athlete.name);
+	row = row.concat("</td>");
 	row = row.concat("<td class='ammount text-right' nowrap='nowrap' style='vertical-align:middle;' data-ammount='" + athlete.race_price + "'>"
 			+ numeral(athlete.race_price).format() + "</td>");
 	row = row.concat("</tr>");

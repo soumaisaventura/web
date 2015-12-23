@@ -75,7 +75,7 @@ public class RegistrationREST {
 	@LoggedIn
 	@Transactional
 	@Produces("application/json")
-	public List<RegistrationData> find() throws Exception {
+	public List<RegistrationData> find(@Context UriInfo uriInfo) throws Exception {
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
 		User loggedInUser = User.getLoggedIn();
 
@@ -96,7 +96,7 @@ public class RegistrationREST {
 			data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
 			data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
 
-			data.race.event = new EventData();
+			data.race.event = new EventData(uriInfo);
 			data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
 			data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
 			data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
@@ -120,7 +120,7 @@ public class RegistrationREST {
 	@Transactional
 	@Path("{id: \\d+}")
 	@Produces("application/json")
-	public RegistrationData load(@PathParam("id") Long id) throws Exception {
+	public RegistrationData load(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
 
 		RegistrationData data = new RegistrationData();
@@ -133,7 +133,7 @@ public class RegistrationREST {
 		data.payment.code = registration.getPayment().getCode();
 		data.payment.transaction = registration.getPayment().getTransaction();
 
-		data.submitter = new UserData();
+		data.submitter = new UserData(uriInfo);
 		data.submitter.id = registration.getSubmitter().getId();
 		data.submitter.email = registration.getSubmitter().getEmail();
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
@@ -153,7 +153,7 @@ public class RegistrationREST {
 		data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
 		data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
 
-		data.race.event = new EventData();
+		data.race.event = new EventData(uriInfo);
 		data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
 		data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
 		data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
@@ -191,7 +191,7 @@ public class RegistrationREST {
 
 		data.race.event.organizers = new ArrayList<UserData>();
 		for (User organizer : UserDAO.getInstance().findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
-			UserData userData = new UserData();
+			UserData userData = new UserData(uriInfo);
 			userData.id = organizer.getId();
 			userData.email = organizer.getEmail();
 			userData.name = organizer.getProfile().getName();
@@ -201,7 +201,7 @@ public class RegistrationREST {
 
 		data.team.members = new ArrayList<UserData>();
 		for (UserRegistration userRegistration : userRegistrations) {
-			UserData userData = new UserData();
+			UserData userData = new UserData(uriInfo);
 			userData.id = userRegistration.getUser().getId();
 			userData.email = userRegistration.getUser().getEmail();
 			userData.name = userRegistration.getUser().getProfile().getName();
@@ -218,7 +218,7 @@ public class RegistrationREST {
 	@Transactional
 	@Produces("application/json")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
-	public List<RegistrationData> find(@PathParam("slug") String slug) throws Exception {
+	public List<RegistrationData> find(@PathParam("slug") String slug, @Context UriInfo uriInfo) throws Exception {
 		List<RegistrationData> result = new ArrayList<RegistrationData>();
 		Event event = loadEventDetail(slug);
 
@@ -248,7 +248,7 @@ public class RegistrationREST {
 
 			data.team.members = new ArrayList<UserData>();
 			for (UserRegistration teamFormation : registration.getUserRegistrations()) {
-				UserData userData = new UserData();
+				UserData userData = new UserData(uriInfo);
 				userData.id = teamFormation.getUser().getId();
 				userData.email = teamFormation.getUser().getEmail();
 				userData.name = teamFormation.getUser().getProfile().getName();

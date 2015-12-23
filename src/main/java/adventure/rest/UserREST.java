@@ -19,6 +19,7 @@ import adventure.business.MailBusiness;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.rest.SignUpREST.ActivationData;
+import adventure.rest.data.UserData;
 import adventure.security.ActivationSession;
 import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -35,17 +36,16 @@ public class UserREST {
 	@GET
 	@Path("search")
 	@Produces("application/json")
-	public List<User> search(@QueryParam("q") String q, @QueryParam("excludes[]") List<Integer> excludes)
-			throws Exception {
+	public List<UserData> search(@QueryParam("q") String q, @QueryParam("excludes[]") List<Integer> excludes,
+			@Context UriInfo uriInfo) throws Exception {
 		validate(q);
-		return UserDAO.getInstance().search(q, excludes);
-	}
+		List<UserData> result = new ArrayList<UserData>();
 
-	@GET
-	@Path("all")
-	@Produces("application/json")
-	public List<User> findAll() throws Exception {
-		return UserDAO.getInstance().search("%", new ArrayList<Integer>());
+		for (User user : UserDAO.getInstance().search(q, excludes)) {
+			result.add(new UserData(user, uriInfo));
+		}
+
+		return result != null ? result : null;
 	}
 
 	private void validate(String q) throws Exception {
@@ -62,7 +62,7 @@ public class UserREST {
 	@Path("activation/{token}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public User activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
+	public UserData activate(@PathParam("token") String token, ActivationData data, @Context UriInfo uriInfo)
 			throws Exception {
 		UserDAO userDAO = UserDAO.getInstance();
 		User persisted = userDAO.load(data.email);
@@ -77,7 +77,7 @@ public class UserREST {
 		URI baseUri = uriInfo.getBaseUri().resolve("..");
 		MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 
-		return User.getLoggedIn();
+		return new UserData(User.getLoggedIn(), uriInfo);
 	}
 
 	private void validate(String token, User user) throws Exception {

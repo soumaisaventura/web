@@ -52,7 +52,7 @@ function updateOk(data) {
 	App.setLoggedInUser(user);
 
 	var content = {};
-	if (App.getLoggedInUser().profile.pendencies > 0) {
+	if (App.getLoggedInUser().pendencies.profile > 0) {
 		content = {
 			title : "Dados salvos",
 			message : "Porém você ainda possui pendências nos dados de pessoais. Deseja resolver isso logo?",

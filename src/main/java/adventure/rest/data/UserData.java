@@ -2,15 +2,23 @@ package adventure.rest.data;
 
 import java.math.BigDecimal;
 
+import javax.ws.rs.core.UriInfo;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name", "email", "mobile", "racePrice", "city" })
+import adventure.entity.GenderType;
+import adventure.entity.User;
+
+@JsonPropertyOrder({ "id", "name", "gender", "email", "picture", "mobile", "racePrice", "city", "roles", "pendencies" })
 public class UserData {
 
 	public Integer id;
 
 	public String name;
+
+	public GenderType gender;
 
 	public String email;
 
@@ -20,4 +28,41 @@ public class UserData {
 	public BigDecimal racePrice;
 
 	public CityData city;
+
+	public RolesData roles;
+
+	public PendenciesData pendencies;
+
+	@JsonIgnore
+	private UriInfo uriInfo;
+
+	private PictureData picture;
+
+	public UserData(UriInfo uriInfo) {
+		this.uriInfo = uriInfo;
+	}
+
+	public UserData(User user, UriInfo uriInfo) {
+		this(uriInfo);
+
+		this.id = user.getId();
+		this.name = user.getProfile().getName();
+		this.gender = user.getProfile().getGender();
+		this.mobile = user.getProfile().getMobile();
+
+		this.pendencies = new PendenciesData();
+		this.pendencies.profile = user.getProfile().getPendencies();
+		this.pendencies.health = user.getHealth().getPendencies();
+
+		this.roles = new RolesData();
+		this.roles.admin = user.getAdmin();
+	}
+
+	public PictureData getPicture() {
+		if (picture == null) {
+			picture = new PictureData(this, uriInfo);
+		}
+
+		return picture;
+	}
 }

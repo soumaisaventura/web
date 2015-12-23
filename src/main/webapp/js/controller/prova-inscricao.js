@@ -257,7 +257,7 @@ function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
-			"label" : this.profile.name,
+			"label" : this.name,
 			"value" : this.id
 		});
 	});

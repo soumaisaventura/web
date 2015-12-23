@@ -276,24 +276,19 @@ UPDATE period
    SET ending = '2016-01-01'::date
  WHERE id IN (27, 36);
 
+  SELECT racecatego0_.race_id,
+         category1_.id AS col_0_0_,
+         category1_.name AS col_1_0_,
+         category1_.description AS col_2_0_,
+         category1_.team_size AS col_3_0_,
+         category1_.min_male_members AS col_4_0_,
+         category1_.min_female_members AS col_5_0_
+    FROM race_category racecatego0_
+         INNER JOIN category category1_
+            ON racecatego0_.category_id = category1_.id
+-- WHERE racecatego0_.race_id = 30
+ORDER BY category1_.team_size DESC, category1_.name;
 
-
-  SELECT event5_.id
-    FROM user_registration userregist0_
-         INNER JOIN user_account user1_ ON userregist0_.user_id = user1_.id
-         INNER JOIN registration registrati2_
-            ON userregist0_.registration_id = registrati2_.id
-         INNER JOIN race_category racecatego3_
-            ON     registrati2_.category_id = racecatego3_.category_id
-               AND registrati2_.race_id = racecatego3_.race_id
-         INNER JOIN race race4_ ON racecatego3_.race_id = race4_.id
-         INNER JOIN event event5_ ON race4_.event_id = event5_.id
-         INNER JOIN category category6_
-            ON racecatego3_.category_id = category6_.id
-         CROSS JOIN profile profile7_
-         INNER JOIN city city8_
-            ON profile7_.city_id = city8_.id
-         INNER JOIN state state9_
-            ON city8_.state_id = state9_.id
-   WHERE user1_.id = profile7_.id -- AND event5_.id = 5
-ORDER BY registrati2_.id DESC;
+SELECT *
+  FROM race
+ WHERE id = 30;

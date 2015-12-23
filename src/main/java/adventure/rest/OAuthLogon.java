@@ -18,6 +18,7 @@ import adventure.entity.User;
 import adventure.persistence.HealthDAO;
 import adventure.persistence.ProfileDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.UserData;
 import adventure.security.OAuthSession;
 import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.security.Credentials;
@@ -35,7 +36,7 @@ public abstract class OAuthLogon {
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
-	public User login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+	public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
 		UserDAO userDAO = UserDAO.getInstance();
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 
@@ -71,7 +72,7 @@ public abstract class OAuthLogon {
 			login(oauth.getEmail());
 		}
 
-		return User.getLoggedIn();
+		return new UserData(User.getLoggedIn(), uriInfo);
 	}
 
 	protected void login(String username) {

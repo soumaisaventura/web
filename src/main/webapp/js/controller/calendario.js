@@ -15,9 +15,6 @@ $(function() {
 });
 
 function findOk(data) {
-	console.log("xxx");
-	console.log(data);
-
 	new Riloadr({
 		breakpoints : [ {
 			name : '1170',

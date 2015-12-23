@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import adventure.entity.User;
+import adventure.rest.data.UserData;
 import adventure.util.ApplicationConfig;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -25,7 +26,7 @@ public class LogonREST {
 	@ValidatePayload
 	@Consumes("application/json")
 	@Produces("application/json")
-	public User login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+	public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
 		Credentials credentials = Beans.getReference(Credentials.class);
 		credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
 		credentials.setPassword(data.password != null ? data.password.trim() : null);
@@ -33,8 +34,7 @@ public class LogonREST {
 		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
 		securityContext.login();
 
-		User user = User.getLoggedIn();
-		return user;
+		return new UserData(User.getLoggedIn(), uriInfo);
 	}
 
 	@GET

@@ -106,3 +106,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 	width: 400px;
 }
 */
+.footer {
+	padding-top: 100px;
+	margin-top: 50px;
+	background-color: #dbdbdb;
+}
+
+.footer>.row {
+	height: 200px;
+}

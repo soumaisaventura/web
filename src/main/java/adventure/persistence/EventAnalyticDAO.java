@@ -7,8 +7,8 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import adventure.entity.Event;
-import adventure.entity.Race;
 import adventure.entity.EventAnalytic;
+import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;

@@ -1,5 +1,9 @@
 package adventure.business;
 
+import static adventure.util.Constants.USER_PHOTO_HEIGHT;
+import static adventure.util.Constants.USER_PHOTO_WIDTH;
+import static net.coobird.thumbnailator.geometry.Positions.CENTER;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -8,7 +12,6 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -41,7 +44,7 @@ public class ProfileBusiness {
 	@Transactional
 	public void updatePicture(Integer profileId, InputStream inputStream) throws Exception {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		Thumbnails.of(inputStream).crop(Positions.CENTER).size(250, 250).keepAspectRatio(true)
+		Thumbnails.of(inputStream).crop(CENTER).size(USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT).keepAspectRatio(true)
 				.toOutputStream(outputStream);
 		byte picture[] = outputStream.toByteArray();
 

@@ -70,11 +70,11 @@ function loginOk(data, status, request) {
 	var url;
 	var pendencies = false;
 
-	if (data.profile.pendencies > 0) {
+	if (data.pendencies.profile > 0) {
 		url = App.getContextPath() + "/user/profile";
 		pendencies = true;
 
-	} else if (data.health && data.health.pendencies > 0) {
+	} else if (data.health && data.pendencies.health > 0) {
 		url = App.getContextPath() + "/user/health";
 		pendencies = true;
 	}

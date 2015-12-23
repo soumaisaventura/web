@@ -2,8 +2,6 @@ package adventure.rest;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +15,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
-import net.coobird.thumbnailator.Thumbnails;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -27,6 +25,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
+import adventure.business.ImageBusiness;
 import adventure.business.RaceBusiness;
 import adventure.entity.Category;
 import adventure.entity.Championship;
@@ -70,11 +69,11 @@ public class EventREST {
 	@Path("year/{year}")
 	@Cache("max-age=28800")
 	@Produces("application/json")
-	public List<EventData> year(@PathParam("year") Integer year) throws Exception {
+	public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
 		List<EventData> result = new ArrayList<EventData>();
 
 		for (Event event : EventDAO.getInstance().findByYear(year)) {
-			EventData eventData = new EventData();
+			EventData eventData = new EventData(uriInfo);
 
 			eventData.id = event.getSlug();
 			eventData.name = event.getName();
@@ -98,8 +97,8 @@ public class EventREST {
 	@Cache("max-age=28800")
 	@Produces("application/json")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
-	public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary)
-			throws NotFoundException {
+	public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary,
+			@Context UriInfo uriInfo) throws NotFoundException {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		FeeDAO feeDAO = FeeDAO.getInstance();
 		RaceDAO raceDAO = RaceDAO.getInstance();
@@ -108,7 +107,7 @@ public class EventREST {
 		ModalityDAO modalityDAO = ModalityDAO.getInstance();
 		PeriodDAO periodDAO = PeriodDAO.getInstance();
 
-		EventData eventData = new EventData();
+		EventData eventData = new EventData(uriInfo);
 		Event event = loadEventDetails(slug);
 		Date now = new Date();
 
@@ -120,7 +119,6 @@ public class EventREST {
 		eventData.period = new PeriodData();
 		eventData.period.beginning = event.getBeginning();
 		eventData.period.end = event.getEnd();
-		// eventData.banner = UriBuilder.fromUri(Misc.getBaseURI()).path("evento/" + slug + "/banner.png").build();
 
 		// Location
 
@@ -227,7 +225,7 @@ public class EventREST {
 
 		eventData.organizers = new ArrayList<UserData>();
 		for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
-			UserData organizerData = new UserData();
+			UserData organizerData = new UserData(uriInfo);
 			organizerData.id = organizer.getId();
 			organizerData.name = organizer.getProfile().getName();
 			organizerData.email = organizer.getEmail();
@@ -242,17 +240,9 @@ public class EventREST {
 	@Produces("image/png")
 	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-	public byte[] getBanner(@PathParam("slug") String slug) throws Exception {
-		return getBanner(slug, null);
-	}
-
-	@GET
-	@Produces("image/png")
-	@Cache("max-age=604800000")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner/{width}")
-	public byte[] getBanner(@PathParam("slug") String slug, @PathParam("width") Integer width) throws Exception {
+	public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width) throws Exception {
 		Event event = loadEventBanner(slug);
-		return resizeImage(event.getBanner(), 750, width);
+		return ImageBusiness.getInstance().resize(event.getBanner(), 750, width);
 	}
 
 	@PUT
@@ -281,18 +271,6 @@ public class EventREST {
 		event.setBanner(IOUtils.toByteArray(inputStream));
 
 		EventDAO.getInstance().update(event);
-	}
-
-	private byte[] resizeImage(byte[] image, Integer defaultWidth, Integer width) throws Exception {
-		byte[] result = image;
-
-		if (width != null && width != defaultWidth) {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
-			result = out.toByteArray();
-		}
-
-		return result;
 	}
 
 	private void checkPermission(Event event) throws ForbiddenException {

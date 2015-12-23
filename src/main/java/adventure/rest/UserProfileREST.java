@@ -4,12 +4,15 @@ import static adventure.util.Constants.CPF_SIZE;
 import static adventure.util.Constants.NAME_SIZE;
 import static adventure.util.Constants.RG_SIZE;
 import static adventure.util.Constants.TELEPHONE_SIZE;
+import static adventure.util.Constants.USER_PHOTO_WIDTH;
+import static adventure.util.Constants.USER_THUMBNAIL_WIDTH;
 
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -20,12 +23,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import adventure.business.ImageBusiness;
 import adventure.business.ProfileBusiness;
 import adventure.entity.GenderType;
 import adventure.entity.Profile;
@@ -71,25 +77,29 @@ public class UserProfileREST {
 	}
 
 	@GET
-	@Path("{id}/picture")
+	@Path("{id: \\d+}/picture")
 	@Produces("image/jpeg")
 	@Cache("max-age=604800000")
-	public byte[] getPicture(@PathParam("id") Integer id) throws Exception {
+	public byte[] getPicture(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
 		Profile profile = loadProfile(id);
-		byte result[] = profile.getPicture();
+		return loadPicture(profile, context);
+	}
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
-
-		return result;
+	@GET
+	@Path("{id: \\d+}/thumbnail")
+	@Produces("image/jpeg")
+	@Cache("max-age=604800000")
+	public byte[] getThumbnail(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
+		Profile profile = loadProfile(id);
+		return ImageBusiness.getInstance()
+				.resize(loadPicture(profile, context), USER_PHOTO_WIDTH, USER_THUMBNAIL_WIDTH);
 	}
 
 	@PUT
 	@LoggedIn
 	@Transactional
 	@ValidatePayload
-	@Path("{id}/picture")
+	@Path("{id: \\d+}/picture")
 	@Consumes("multipart/form-data")
 	public void setPicture(@PathParam("id") Integer id, @NotEmpty MultipartFormDataInput input) throws Exception {
 		Profile profile = loadProfile(id);
@@ -106,9 +116,6 @@ public class UserProfileREST {
 		if (file == null) {
 			throw new UnprocessableEntityException().addViolation("file", "campo obrigatório");
 		}
-
-		// profile.setPicture(IOUtils.toByteArray(inputStream));
-		// ProfileDAO.getInstance().update(profile);
 
 		InputStream inputStream = file.getBody(InputStream.class, null);
 		ProfileBusiness.getInstance().updatePicture(id, inputStream);
@@ -165,6 +172,20 @@ public class UserProfileREST {
 
 		if (result == null) {
 			throw new NotFoundException();
+		}
+
+		return result;
+	}
+
+	private byte[] loadPicture(Profile profile, ServletContext context) throws Exception {
+		byte[] result = profile.getPicture();
+
+		if (result == null) {
+			InputStream in = context.getResourceAsStream("/images/foto_anonimo_"
+					+ profile.getGender().toString().toLowerCase() + ".jpg");
+			// InputStream in = Reflections.getResourceAsStream("/images/foto_anonimo_"
+			// + profile.getGender().toString().toLowerCase() + ".jpg");
+			result = IOUtils.toByteArray(in);
 		}
 
 		return result;

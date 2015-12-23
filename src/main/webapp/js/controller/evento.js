@@ -26,6 +26,10 @@ function loadMap(event) {
 		window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
 	});
 
+	$(window).on("orientationchange resize", function(event) {
+		map.setCenter(coord);
+	});
+
 	map.setCenter(coord);
 	$("#location-section").show();
 }
@@ -52,6 +56,7 @@ function loadEventOk(event) {
 		} ]
 	});
 
+	$("#banner").attr("src", event.banner);
 	$("#banner-section").show();
 
 	$("#title").text(event.name);
@@ -109,14 +114,11 @@ function loadEventOk(event) {
 
 		});
 
-//		$(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
-//		$(".race:not(.open)>div:nth-child(2)").remove();
-		
-		$(".end, .closed").removeClass("btn-success")
-						  .addClass("btn-danger")
-						  .html("<strong style='font-size: large'>Inscrições<br/>encerradas</strong>")
-						  .removeAttr("href")
-						  .css("cursor", "default");
+		// $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
+		// $(".race:not(.open)>div:nth-child(2)").remove();
+
+		$(".end, .closed").removeClass("btn-success").addClass("btn-danger").html(
+				"<strong style='font-size: large'>Inscrições<br/>encerradas</strong>").removeAttr("href").css("cursor", "default");
 		$(".hint-end, .hint-closed").remove();
 	}
 	template.remove();
