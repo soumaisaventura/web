@@ -40,7 +40,7 @@ var RaceProxy = {
 	// });
 	// },
 
-	order : function(raceId, eventId, users) {
+	getOrder : function(raceId, eventId, users) {
 		return $.ajax({
 			type : "GET",
 			url : this.url + "/" + eventId + "/" + raceId + "/order?users_ids=" + users

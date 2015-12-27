@@ -21,13 +21,6 @@ public class RaceBusiness {
 
 			if (Dates.between(date, period.getBeginning(), period.getEnd())) {
 				result = period;
-			} else if (i == 0 && Dates.before(date, period.getBeginning())) {
-				result = period;
-			} else if (i == periods.size() - 1 && Dates.after(date, period.getEnd())) {
-				result = period;
-			}
-
-			if (result != null) {
 				break;
 			}
 		}

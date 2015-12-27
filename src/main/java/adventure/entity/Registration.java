@@ -69,8 +69,8 @@ public class Registration {
 	}
 
 	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
-			Integer raceId, String raceName, String raceSlug, Date racePeriodBeginning, Date racePeriodEnd,
-			Integer eventId, String eventName, String eventSlug, Integer cityId, String cityName,
+			Integer raceId, String raceName, String raceDescription, String raceSlug, Date racePeriodBeginning,
+			Date racePeriodEnd, Integer eventId, String eventName, String eventSlug, Integer cityId, String cityName,
 			String stateAbbreviation) {
 
 		setId(registrationId);
@@ -81,6 +81,7 @@ public class Registration {
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
+		getRaceCategory().getRace().setDescription(raceDescription);
 		getRaceCategory().getRace().setSlug(raceSlug);
 
 		getRaceCategory().getRace().setPeriod(new Period());
@@ -102,7 +103,7 @@ public class Registration {
 	public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCode,
 			String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
 			String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
-			String raceSlug, Integer raceDistance, Integer raceStatusId, String raceStatusName,
+			String raceDescription, String raceSlug, Integer raceDistance, Integer raceStatusId, String raceStatusName,
 			Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventSlug,
 			EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
 			String eventPaymentToken, BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude, Integer cityId,
@@ -132,6 +133,7 @@ public class Registration {
 		getRaceCategory().setRace(new Race());
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
+		getRaceCategory().getRace().setDescription(raceDescription);
 		getRaceCategory().getRace().setSlug(raceSlug);
 		getRaceCategory().getRace().setDistance(raceDistance);
 

@@ -25,7 +25,7 @@ var App = {
 
 	isAdmin : function() {
 		var user = this.getLoggedInUser();
-		return user ? user.admin : false;
+		return user ? user.roles.admin : false;
 	},
 
 	getLoggedInUser : function() {

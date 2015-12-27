@@ -91,6 +91,7 @@ public class RegistrationREST {
 			data.race.internalId = registration.getRaceCategory().getRace().getId();
 			data.race.id = registration.getRaceCategory().getRace().getSlug();
 			data.race.name = registration.getRaceCategory().getRace().getName();
+			data.race.description = registration.getRaceCategory().getRace().getDescription();
 
 			data.race.period = new PeriodData();
 			data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
@@ -146,6 +147,7 @@ public class RegistrationREST {
 		data.race.id = registration.getRaceCategory().getRace().getSlug();
 		data.race.internalId = registration.getRaceCategory().getRace().getId();
 		data.race.name = registration.getRaceCategory().getRace().getName();
+		data.race.description = registration.getRaceCategory().getRace().getDescription();
 		data.race.distance = registration.getRaceCategory().getRace().getDistance();
 		data.race.status = registration.getRaceCategory().getRace().getStatus().getName();
 

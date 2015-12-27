@@ -104,8 +104,8 @@ public class RegistrationNotificationREST {
 
 		if (code != null) {
 			List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
-			// payload.add(new BasicNameValuePair("email", race.getPaymentAccount()));
-			// payload.add(new BasicNameValuePair("token", race.getPaymentToken()));
+			payload.add(new BasicNameValuePair("email", race.getEvent().getPayment().getAccount()));
+			payload.add(new BasicNameValuePair("token", race.getEvent().getPayment().getToken()));
 
 			String url = "";
 			url += "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + code;

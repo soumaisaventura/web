@@ -34,7 +34,7 @@ function updateBreadcrumb(data) {
 		});
 	}
 
-	if (organizer || user.admin) {
+	if (organizer || App.isAdmin()) {
 		$(".breadcrumb.organizer").show();
 		$("#race-link").attr("href", App.getContextPath() + "/prova/" + data.race.id);
 		$("#dashboard-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel");
@@ -55,6 +55,7 @@ function loadOk(registration) {
 	$("#summary-section").show();
 
 	$(".race-name").text(registration.race.event.name);
+	$("#race-description").text(registration.race.description);
 	$("#race-date").text(moment(registration.race.period.beginning).format('LL'));
 	$("#race-city").text(registration.race.event.location.city.name + "/" + registration.race.event.location.city.state);
 	$("#race-section").show();
@@ -62,6 +63,7 @@ function loadOk(registration) {
 	$("#race-category").text(registration.category.name + " " + registration.race.name);
 
 	var user = App.getLoggedInUser();
+
 	var isMember = false;
 	$.each(registration.team.members, function(i, member) {
 		var row = "";
@@ -100,7 +102,7 @@ function loadOk(registration) {
 		$('#payment-section').show();
 	}
 
-	var isAuthorized = user ? user.admin : null;
+	var isAuthorized = user ? App.isAdmin() : null;
 	if (registration.race.event.organizers) {
 		$.each(registration.race.event.organizers, function(i, organizer) {
 			var row = "";

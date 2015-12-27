@@ -75,6 +75,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        pr.mobile, ");
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
+		jpql.append("        ra.description, ");
 		jpql.append("        ra.slug, ");
 		jpql.append("        ra.distance, ");
 		jpql.append("        sa.id, ");
@@ -260,6 +261,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        re.teamName, ");
 		jpql.append("        ra.id, ");
 		jpql.append("        ra.name, ");
+		jpql.append("        ra.description, ");
 		jpql.append("        ra.slug, ");
 		jpql.append("        ra.period.beginning, ");
 		jpql.append("        ra.period.end, ");

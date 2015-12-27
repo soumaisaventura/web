@@ -104,14 +104,10 @@ public class RaceREST {
 		RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
 		List<UserData> result = new ArrayList<UserData>();
 
-		if (period == null) {
-			period = new RegistrationPeriod();
-		}
-
 		if (users.isEmpty()) {
 			throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
 
-		} else {
+		} else if (period != null) {
 			for (Integer userId : users) {
 				User user = UserDAO.getInstance().loadBasics(userId);
 
@@ -125,10 +121,11 @@ public class RaceREST {
 					result.add(row);
 				}
 			}
+
+			period.setRace(null);
 		}
 
-		period.setRace(null);
-		return result;
+		return result.isEmpty() ? null : result;
 	}
 
 	private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {

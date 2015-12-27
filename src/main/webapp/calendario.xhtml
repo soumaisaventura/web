@@ -98,10 +98,7 @@ img.responsive, img.main-col-images {
 
 			<div id="open-events" class="row"></div>
 
-			<div id="template" hidden="true">
-				<!--
-		<script id="template" type="text/html">
-		-->
+			<script id="template" type="text/template">
 				<div class="event col-md-4" id="block-{{id}}">
 					<div class="panel panel-default" data-event="{{id}}" style="cursor: pointer;">
 						<div class="panel-heading" style="padding: 0px;">
@@ -113,8 +110,7 @@ img.responsive, img.main-col-images {
 									<div class="corner {{status}}">
 										<span>{{corner}}</span>
 									</div>
-									<img id="banner-{{id}}" alt="{{name}}" class="responsive {{status}}"
-										data-src="{{banner}}?width={breakpoint-name}" />
+									<img id="banner-{{id}}" alt="{{name}}" class="responsive {{status}}" data-src="{{banner}}?width={breakpoint-name}" />
 								</div>
 							</div>
 						</div>
@@ -132,11 +128,8 @@ img.responsive, img.main-col-images {
 						</div>
 					</div>
 				</div>
-			</div>
+			</script>
 		</div>
-		<!--
-		</script>
-		-->
 
 	</ui:define>
 

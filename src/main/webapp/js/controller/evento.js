@@ -73,6 +73,8 @@ function loadEventOk(event) {
 	template = $('#organizer-template');
 	if (event.organizers) {
 		$.each(event.organizers, function(i, organizer) {
+			var pattern = /[\(\)\- ]/g;
+			organizer.mobile_link = "tel:+55" + organizer.mobile.replace(pattern, "");
 			var rendered = Mustache.render(template.html(), organizer);
 			$('#organizers').append(rendered);
 		});
@@ -117,9 +119,11 @@ function loadEventOk(event) {
 		// $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
 		// $(".race:not(.open)>div:nth-child(2)").remove();
 
-		$(".end, .closed").removeClass("btn-success").addClass("btn-danger").html(
-				"<strong style='font-size: large'>Inscrições<br/>encerradas</strong>").removeAttr("href").css("cursor", "default");
-		$(".hint-end, .hint-closed").remove();
+		$(".end, .closed").removeClass("btn-success").addClass("btn-danger").html("<span style='font-size: large'>Inscrições<br/>encerradas</span>")
+				.removeAttr("href").css("cursor", "default");
+		$(".soon").removeClass("btn-success").addClass("btn-warning").html("<span style='font-size: large'>Inscrições<br/>em breve</span>")
+				.removeAttr("href").css("cursor", "default");
+		$(".hint-end, .hint-closed, .hint-soon").remove();
 	}
 	template.remove();
 }

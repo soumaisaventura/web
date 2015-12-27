@@ -24,7 +24,6 @@ $(function() {
 			phone : 450
 		}
 	});
-	$("#annual-fee-description").text(App.annualFeeDescription);
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
 	RaceProxy.loadSummary(raceId, eventId).done(loadSummaryOk);
@@ -36,10 +35,8 @@ $(function() {
 		App.handle401();
 	}
 
-	RaceProxy.order(raceId, eventId, user.id).done(function(order) {
-		memberIds.push(order[0].id);
-		addRowOnMemberList(order[0], true);
-		updateTotal();
+	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
+		getOrderOk(order, memberIds, false);
 	});
 
 	$("#members_ids").autocomplete({
@@ -62,29 +59,18 @@ $(function() {
 	});
 
 	$("#bt-add-athlete").click(function() {
+
 		var members = $("#members_ids");
 		var membersId = $("#members-id");
+
 		$("#members_ids-message").hide();
 		if (membersId) {
-			RaceProxy.order(raceId, eventId, membersId.val()).done(function(order) {
-				memberIds.push(order[0].id);
-				addRowOnMemberList(order[0], false);
+			RaceProxy.getOrder(raceId, eventId, membersId.val()).done(function(order) {
+				getOrderOk(order, memberIds, true);
 
-				/** Refatorar Ini */
-				var annualfee = $("#categoryId").find('option:selected').data("annualfee");
-				var membersWithAnnualFee = ($('[id^="member-"]').filter('[data-original-annualfee!="0"]'));
-				$.each(membersWithAnnualFee, function(i, member) {
-					if (!annualfee) {
-						resetMemberFee(member);
-					} else {
-						recoveryMemberFee(member);
-					}
-				});
-				/** Refatorar Fim */
-
-				updateTotal();
+				console.log(membersId.val());
+				console.log(memberIds);
 			});
-
 			membersId.val("");
 			members.val("");
 
@@ -118,12 +104,26 @@ $(function() {
 	});
 });
 
+function getOrderOk(order, memberIds, deletable) {
+	if (order) {
+		memberIds.push(order[0].id);
+		addRowOnMemberList(order[0], deletable);
+		updateTotal();
+		$("#summary-section, #submit-button-section, #members-section").show();
+	} else {
+		console.log("Fora do período de inscrição!");
+		var url = $("#event_link").attr("href");
+		window.location.href = url;
+	}
+}
+
 function getOAuthAppIdsOk(data) {
 	$("#facebook-appid").val(data.facebook);
 }
 
 function loadSummaryOk(race) {
 	$(".race-name").text(race.event.name)
+	$("#race-description").text(race.description)
 	$("#race-date").text(App.parsePeriod(race.period));
 	$("#race-city").text(App.parseCity(race.event.location.city));
 }
@@ -187,13 +187,6 @@ function shareOnFacebook() {
 	url += "&redirect_uri=" + App.getBaseUrl() + "/close";
 	url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
 
-	// var url = "";
-	// url += "http://www.facebook.com/sharer/sharer.php?u=";
-	// url += App.getBaseUrl() + "/registration/" + $("#registration-id").val()
-	// + "/public";
-
-	// console.log(url);
-
 	window.open(url, '_blank');
 }
 
@@ -208,21 +201,15 @@ function convertToLabelValueStructureFromUser(data) {
 	return newData;
 }
 
-function addRowOnMemberList(athlete, exclude) {
-	console.log(athlete);
+function addRowOnMemberList(athlete, deletable) {
+	console.log(deletable);
 
-	var row = "";
-	row = row.concat("<tr id='member-" + athlete.id + "' data-raceprice='" + athlete.race_price + "'>");
-	row = exclude ? row.concat("<td></td>") : row.concat("<td><a href='#' class='remove' data-id='" + athlete.id
-			+ "'><span class='glyphicon glyphicon-trash'/></a></td>");
-	row = row.concat("<td class='footable-first-column' style='vertical-align:middle;'>");
-	row = row.concat("<img class='img-rounded' src='" + athlete.picture.thumbnail + "'>&nbsp;&nbsp;&nbsp;");
-	row = row.concat(athlete.name);
-	row = row.concat("</td>");
-	row = row.concat("<td class='ammount text-right' nowrap='nowrap' style='vertical-align:middle;' data-ammount='" + athlete.race_price + "'>"
-			+ numeral(athlete.race_price).format() + "</td>");
-	row = row.concat("</tr>");
-	$('#members-list').data('footable').appendRow(row);
+	athlete.deletable = deletable;
+	athlete.formmated_race_price = numeral(athlete.race_price).format();
+
+	var template = $("#member-template");
+	var rendered = Mustache.render(template.html(), athlete);
+	$('#members-list').data('footable').appendRow(rendered);
 }
 
 function updateTotal() {
@@ -233,34 +220,4 @@ function updateTotal() {
 	});
 
 	$("#total").text(numeral(total).format());
-}
-
-function resetMemberFee(member) {
-	var $member = $(member);
-	var annualfee = 0;
-	var ammount = $member.data("raceprice");
-	$member.data("annualfee", annualfee);
-	$member.data("ammount", ammount);
-	$member.children(":nth-child(4)").html("R$ " + annualfee);
-	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o
-	// melhor o
-	// local para
-	// colocar o
-	// ammount
-	$member.children(":nth-child(5)").html("R$ " + ammount);
-}
-
-function recoveryMemberFee(member) {
-	var $member = $(member);
-	var annualfee = $member.data("original-annualfee");
-	var raceprice = $member.data("raceprice");
-	var ammount = annualfee + raceprice;
-	$member.data("ammount", ammount);
-	$member.children(":nth-child(4)").html("R$ " + annualfee);
-	$member.children(":nth-child(5)").data("ammount", ammount); // Verificar o
-	// melhor o
-	// local para
-	// colocar o
-	// ammount
-	$member.children(":nth-child(5)").html("R$ " + ammount);
 }
