@@ -19,7 +19,7 @@ update registration set race_id = xx, course_id = 0 where race_id = '
 
 ----
 
-CREATE MATERIALIZED VIEW race_category_old
+CREATE TABLE race_category_old
 AS
    SELECT * FROM race_category;
 
@@ -169,7 +169,7 @@ UPDATE period
  WHERE id = 59;
 
 
-CREATE MATERIALIZED VIEW registration_period_old
+CREATE TABLE registration_period_old
 AS
    SELECT r.id AS registration_id, p_old.id AS p_old_id, p_new.id AS p_new_id
      --SELECT count(r.*)
@@ -179,9 +179,6 @@ AS
           AND p_old.beginning = p_new.beginning
           AND p_old.ending = p_new.ending;
 
-  SELECT p_old_id, count (*)
-    FROM registration_period_old
-GROUP BY p_old_id;
 
 UPDATE registration r
    SET period_id =
@@ -245,9 +242,11 @@ DELETE FROM race
       WHERE event_id = 0;
 
 
-DROP MATERIALIZED VIEW IF EXISTS mv_race_category;
+DROP TABLE IF EXISTS mv_race_category;
 
-DROP MATERIALIZED VIEW IF EXISTS registration_period_old;
+DROP TABLE IF EXISTS registration_period_old;
+
+DROP TABLE IF EXISTS race_category_old;
 
 
 ALTER TABLE public.race_category
@@ -334,6 +333,6 @@ ALTER TABLE public.event
 DELETE FROM event
       WHERE id = 0;
 
-UPDATE period
-   SET ending = '2016-01-01'
- WHERE id IN (27, 36);
+select *
+ FROM event
+      WHERE id = 0;
