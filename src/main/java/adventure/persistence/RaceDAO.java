@@ -1,9 +1,9 @@
 package adventure.persistence;
 
 import static adventure.entity.EventPaymentType.AUTO;
-import static javax.persistence.TemporalType.DATE;
+import static adventure.entity.Status.CLOSED_ID;
+import static adventure.entity.Status.OPEN_ID;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -128,138 +128,42 @@ public class RaceDAO extends JPACrud<Race, Integer> {
 		return result;
 	}
 
-	// TODO: OLD
-
-	public Race loadJustId(Integer id) throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race(r.id) ");
-		jpql.append("   from Race r ");
-		jpql.append("  where r.id = :id ");
-
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("id", id);
-
-		Race result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
-
-	public List<Race> findNext() throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.description, ");
-		// jpql.append(" 	        r.date, ");
-		// jpql.append(" 	        r.site, ");
-		// jpql.append(" 	        r.paymentAccount, ");
-		// jpql.append(" 	        r.paymentToken, ");
-		// jpql.append(" 	        c.id, ");
-		// jpql.append(" 	        c.name, ");
-		// jpql.append(" 	        s.id, ");
-		// jpql.append(" 	        s.name, ");
-		// jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	       (select min(_p.beginning) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		// jpql.append(" 	       (select max(_p.end) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		jpql.append(" 	        r.status ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		// jpql.append("   left join r.city c ");
-		// jpql.append("   left join c.state s ");
-		jpql.append("  where r.beginning >= :date ");
-		jpql.append("  order by ");
-		jpql.append("        r.beginning ");
-
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("date", new Date(), DATE);
-
-		return query.getResultList();
-	}
-
-	public List<Race> findByYear(Integer year) throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.description, ");
-		// jpql.append(" 	        r.date, ");
-		// jpql.append(" 	        r.site, ");
-		// jpql.append(" 	        r.paymentAccount, ");
-		// jpql.append(" 	        r.paymentToken, ");
-		// jpql.append(" 	        c.id, ");
-		// jpql.append(" 	        c.name, ");
-		// jpql.append(" 	        s.id, ");
-		// jpql.append(" 	        s.name, ");
-		// jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	       (select min(_p.beginning) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		// jpql.append(" 	       (select max(_p.end) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		jpql.append(" 	        r.status ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		// jpql.append("   left join r.city c ");
-		// jpql.append("   left join c.state s ");
-		jpql.append("  where year(r.beginning) = :year ");
-		jpql.append("    and r.id < 12 ");
-		jpql.append("  order by ");
-		jpql.append("        r.beginning ");
-
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("year", year);
-
-		return query.getResultList();
-	}
-
 	public List<Race> findOpenAutoPayment() throws Exception {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new Race( ");
 		jpql.append(" 	        r.id, ");
 		jpql.append(" 	        r.name, ");
+		jpql.append(" 	        r.slug, ");
 		jpql.append(" 	        r.description, ");
-		// jpql.append(" 	        r.date, ");
-		// jpql.append(" 	        r.site, ");
-		// jpql.append(" 	        r.paymentAccount, ");
-		// jpql.append(" 	        r.paymentToken, ");
-		// jpql.append(" 	        c.id, ");
-		// jpql.append(" 	        c.name, ");
-		// jpql.append(" 	        s.id, ");
-		// jpql.append(" 	        s.name, ");
-		// jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	       (select min(_p.beginning) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		// jpql.append(" 	       (select max(_p.end) ");
-		// jpql.append(" 	          from Period _p ");
-		// jpql.append(" 	         where _p.race = r), ");
-		jpql.append(" 	        r.status ");
+		jpql.append(" 	        r.period.beginning, ");
+		jpql.append(" 	        r.period.end, ");
+		jpql.append(" 	        e.id, ");
+		jpql.append(" 	        e.name, ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        e.description, ");
+		jpql.append(" 	        e.site, ");
+		jpql.append(" 	        e.payment.account, ");
+		jpql.append(" 	        e.payment.token, ");
+		jpql.append(" 	        c.id, ");
+		jpql.append(" 	        c.name, ");
+		jpql.append(" 	        s.id, ");
+		jpql.append(" 	        s.name, ");
+		jpql.append(" 	        s.abbreviation, ");
+		jpql.append(" 	        a.id, ");
+		jpql.append(" 	        a.name ");
 		jpql.append(" 	     ) ");
-		jpql.append("   from Period p ");
-		jpql.append("   join p.race r ");
-		// jpql.append("   left join r.city c ");
-		// jpql.append("   left join c.state s ");
-		jpql.append("  where :date between p.beginning and p.end ");
-		jpql.append("    and r.paymentType = :paymentType ");
-		jpql.append("  group by ");
-		jpql.append("        r.id ");
-		// jpql.append("        c.id, ");
-		// jpql.append("        s.id ");
-		jpql.append("  order by ");
-		jpql.append("        r.beginning ");
+		jpql.append("   from Race r ");
+		jpql.append("   join r.event e ");
+		jpql.append("   join r.status a ");
+		jpql.append("   join e.city c ");
+		jpql.append("   join c.state s ");
+		jpql.append("  where e.payment.type = :eventPaymentType ");
+		jpql.append("    and a.id in (:raceOpenStatusId, :raceClosedStatusId) ");
 
 		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("date", new Date(), DATE);
-		query.setParameter("paymentType", AUTO);
+		query.setParameter("eventPaymentType", AUTO);
+		query.setParameter("raceOpenStatusId", OPEN_ID);
+		query.setParameter("raceClosedStatusId", CLOSED_ID);
 
 		return query.getResultList();
 	}

@@ -33,52 +33,12 @@ public class Race {
 	@JoinColumn(name = "sport_id")
 	private Sport sport;
 
-	// @Deprecated
-	// @Temporal(DATE)
-	// private Date date;
-
 	@Embedded
 	private Period period;
-
-	// @Temporal(DATE)
-	// private Date beginning;
-	//
-	// @Temporal(DATE)
-	// @Column(name = "ending")
-	// private Date end;
 
 	@ManyToOne
 	@JoinColumn(name = "_status_id")
 	private Status status;
-
-	// @ManyToOne
-	// @Deprecated
-	// @JoinColumn(name = "city_id")
-	// private City city;
-
-	// @Deprecated
-	// private String site;
-
-	// @Lob
-	// @Deprecated
-	// private byte[] banner;
-
-	// @Deprecated
-	// @Enumerated(STRING)
-	// @Column(name = "payment_type")
-	// private PaymentType paymentType;
-
-	// @Deprecated
-	// @Column(name = "payment_info")
-	// private String paymentInfo;
-
-	// @Deprecated
-	// @Column(name = "payment_account")
-	// private String paymentAccount;
-
-	// @Deprecated
-	// @Column(name = "payment_token")
-	// private String paymentToken;
 
 	@Transient
 	private RegistrationPeriod registrationPeriod;
@@ -161,32 +121,6 @@ public class Race {
 		getEvent().getCity().getState().setName(stateName);
 		getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 	}
-
-	// @Deprecated
-	// public StatusType getStatus() {
-	// StatusType result = null;
-	//
-	// if (registrationPeriod != null && registrationPeriod.getBeginning() != null
-	// && registrationPeriod.getEnd() != null && this.date != null) {
-	// Date now = new Date();
-	//
-	// if (now.before(registrationPeriod.getBeginning())) {
-	// result = SOON;
-	// } else if (now.after(registrationPeriod.getBeginning()) && now.before(registrationPeriod.getEnd())
-	// || DateUtils.isSameDay(now, registrationPeriod.getEnd())) {
-	// result = OPEN;
-	// } else if (now.after(registrationPeriod.getEnd()) && now.before(this.date)
-	// || DateUtils.isSameDay(now, this.date)) {
-	// result = CLOSED;
-	// } else if (now.after(this.date)) {
-	// result = END;
-	// } else {
-	// throw new IllegalStateException("O status da prova " + this.name + " não pôde ser definido");
-	// }
-	// }
-	//
-	// return result;
-	// }
 
 	@Override
 	public int hashCode() {
@@ -274,32 +208,6 @@ public class Race {
 		this.sport = sport;
 	}
 
-	// @Deprecated
-	// public Date getDate() {
-	// return date;
-	// }
-
-	// @Deprecated
-	// public void setDate(Date date) {
-	// this.date = date;
-	// }
-
-	// public Date getBeginning() {
-	// return beginning;
-	// }
-
-	// public void setBeginning(Date beginning) {
-	// this.beginning = beginning;
-	// }
-
-	// public Date getEnd() {
-	// return end;
-	// }
-
-	// public void setEnd(Date end) {
-	// this.end = end;
-	// }
-
 	public Period getPeriod() {
 		return period;
 	}
@@ -307,76 +215,6 @@ public class Race {
 	public void setPeriod(Period period) {
 		this.period = period;
 	}
-
-	// @Deprecated
-	// public City getCity() {
-	// return city;
-	// }
-
-	// @Deprecated
-	// public void setCity(City city) {
-	// this.city = city;
-	// }
-
-	// @Deprecated
-	// public String getSite() {
-	// return site;
-	// }
-
-	// @Deprecated
-	// public void setSite(String site) {
-	// this.site = site;
-	// }
-
-	// @Deprecated
-	// public byte[] getBanner() {
-	// return banner;
-	// }
-
-	// @Deprecated
-	// public void setBanner(byte[] banner) {
-	// this.banner = banner;
-	// }
-
-	// @Deprecated
-	// public PaymentType getPaymentType() {
-	// return paymentType;
-	// }
-
-	// @Deprecated
-	// public void setPaymentType(PaymentType paymentType) {
-	// this.paymentType = paymentType;
-	// }
-
-	// @Deprecated
-	// public String getPaymentInfo() {
-	// return paymentInfo;
-	// }
-
-	// @Deprecated
-	// public void setPaymentInfo(String paymentInfo) {
-	// this.paymentInfo = paymentInfo;
-	// }
-
-	// @Deprecated
-	// public String getPaymentAccount() {
-	// return paymentAccount;
-	// }
-
-	// @Deprecated
-	// public void setPaymentAccount(String paymentAccount) {
-	// this.paymentAccount = paymentAccount;
-	// }
-
-	// @Deprecated
-	// public String getPaymentToken() {
-	// return paymentToken;
-	// }
-
-	// @Deprecated
-	// public void setPaymentToken(String paymentToken) {
-	// this.paymentToken = paymentToken;
-	// }
 
 	public RegistrationPeriod getRegistrationPeriod() {
 		return registrationPeriod;

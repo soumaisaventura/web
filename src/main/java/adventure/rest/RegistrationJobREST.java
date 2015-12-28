@@ -33,17 +33,17 @@ public class RegistrationJobREST {
 
 		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
 		List<Registration> expired = registrationDAO.findForUpdatePeriod();
-		UserRegistrationDAO teamFormationDAO = UserRegistrationDAO.getInstance();
+		UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
 		PeriodDAO periodDAO = PeriodDAO.getInstance();
 		MailBusiness mailBusiness = MailBusiness.getInstance();
 
 		for (Registration registration : expired) {
 			RegistrationPeriod period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
 
-			for (UserRegistration teamFormation : teamFormationDAO.find(registration)) {
-				UserRegistration persisted = teamFormationDAO.load(registration, teamFormation.getUser());
+			for (UserRegistration teamFormation : userRegistrationDAO.find(registration)) {
+				UserRegistration persisted = userRegistrationDAO.load(registration, teamFormation.getUser());
 				persisted.setRacePrice(period.getPrice());
-				teamFormationDAO.update(persisted);
+				userRegistrationDAO.update(persisted);
 			}
 
 			Registration persisted = registrationDAO.load(registration.getId());
