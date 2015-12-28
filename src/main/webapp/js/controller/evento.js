@@ -100,7 +100,25 @@ function loadEventOk(event) {
 			race.more_than_one_day = race.period.beginning !== race.period.end;
 			race.period.beginning = App.moment(race.period.beginning).format('L');
 			race.period.end = App.moment(race.period.end).format('L');
+			
+			switch(race.status){
+				case 'open' 	: race.status_button = true;
+								  break;
+				
+				case 'end' 		: race.status_button = false;
+				  				  race.status_class = "danger";
+								  break;
+								  
+				case 'closed' 	: race.status_button = false;
+								  race.status_class = "danger";
+								  break;
 
+				
+				case 'soon' 	: race.status_button = false;
+								  race.status_class = "warning";
+								  break;
+			}
+				
 			if (race.current_period) {
 				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
 			}
@@ -122,10 +140,9 @@ function loadEventOk(event) {
 		// $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
 		// $(".race:not(.open)>div:nth-child(2)").remove();
 
-		$(".end, .closed").removeClass("btn-success").addClass("btn-danger").html("<span style='font-size: large'>Inscrições<br/>encerradas</span>")
-				.removeAttr("href").css("cursor", "default");
-		$(".soon").removeClass("btn-success").addClass("btn-warning").html("<span style='font-size: large'>Inscrições<br/>em breve</span>")
-				.removeAttr("href").css("cursor", "default");
+		$(".end, .closed").html("Inscrições encerradas");
+		$(".soon").html("Inscrições em breve");
+
 		$(".hint-end, .hint-closed, .hint-soon").remove();
 	}
 	template.remove();

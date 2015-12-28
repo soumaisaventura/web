@@ -2,10 +2,39 @@ div[id$="-section"] {
 	padding-top: 30px;
 }
 
+#title, #location-title, #organizer-title {
+	border-top: 1px solid #eee;
+	padding-top: 30px;
+	padding-bottom: 0px;
+}
 
 #map {
 	height: 300px;
 	width: auto;
+}
+
+.label-danger {
+	font-weight: normal;
+	font-size: medium;
+	background-color: #fff;
+	color: #d9534f;
+	border: 1px solid #d9534f; 
+}
+
+.label-warning {
+	font-weight: normal;
+	font-size: medium;
+	background-color: #fff;
+	color: #f0ad4e;
+	border: 1px solid #f0ad4e; 
+}
+
+.full-width {
+    display:block;
+}
+
+.info-icon {
+	padding-right: 10px;
 }
 
 .description {
@@ -67,6 +96,20 @@ div[id$="-section"] {
 	font-size: large;
 	padding-top: 15px;
 	padding-bottom: 7px;
+}
+
+.race {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-top: 1px solid #eee;
+}
+
+.race > div:nth-child(1) {
+	padding-left: 0px;
+}
+
+.race > div:nth-child(2) {
+	padding-right: 0px;
 }
 
 .races > .row {
