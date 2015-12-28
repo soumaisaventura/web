@@ -19,11 +19,6 @@ public class RaceCategory {
 	@JoinColumn(name = "race_id")
 	private Race race;
 
-	// @Id
-	// @ManyToOne
-	// @JoinColumn(name = "course_id")
-	// private Course course;
-
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "category_id")
