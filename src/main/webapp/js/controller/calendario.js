@@ -30,14 +30,15 @@ function findOk(data) {
 
 	var template = $('#template');
 
-	$.each(data, function(index, value) {
-		var day = moment(value.period.beginning, "YYYY-MM-DD");
+	$.each(data, function(index, event) {
+		var day = moment(event.period.beginning, "YYYY-MM-DD");
 
-		value.date = day.locale("pt-br").format("DD [de] MMMM");
-		value.place = value.location.city ? value.location.city.name + "/" + value.location.city.state : "Local não definido";
-		value.corner = (value.status == "open" ? "inscrições abertas" : (value.status == "closed" ? "inscrições encerradas" : ""));
+		event.date = day.locale("pt-br").format("DD [de] MMMM");
+		event.place = event.location.city ? event.location.city.name + "/" + event.location.city.state : "Local não definido";
+		event.corner = (event.status == "open" ? "inscrições abertas" : (event.status == "closed" ? "inscrições encerradas" : ""));
+		event.status = moment().year() !== day.year() && event.status === "end" ? null : event.status;
 
-		var rendered = Mustache.render(template.html(), value);
+		var rendered = Mustache.render(template.html(), event);
 		$('#open-events').append(rendered);
 	});
 	template.remove();

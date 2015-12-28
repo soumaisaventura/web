@@ -292,3 +292,29 @@ ORDER BY category1_.team_size DESC, category1_.name;
 SELECT *
   FROM race
  WHERE id = 30;
+
+
+UPDATE event
+   SET coord_latitude = -9.40527, coord_longitude = -40.4852208
+ WHERE id = 11;
+
+UPDATE race
+   SET description =
+          'Corrida de Aventura com orientação por mapa e bússola.'
+ WHERE id IN (13, 14);
+ 
+ UPDATE race
+   SET description =
+          'Corrida de Aventura com trekking, mountain biking e orientação por mapa e bússola.'
+ WHERE id IN (26);
+ 
+ 
+UPDATE race
+   SET description =
+          'Trekking com orientação por mapa e bússola.'
+ WHERE id IN (27, 28);
+ 
+ UPDATE race
+   SET description =
+          'Corrida de Aventura urbana com orientação por mapa e bússola.'
+ WHERE id IN (29);

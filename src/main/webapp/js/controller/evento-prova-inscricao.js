@@ -67,9 +67,6 @@ $(function() {
 		if (membersId) {
 			RaceProxy.getOrder(raceId, eventId, membersId.val()).done(function(order) {
 				getOrderOk(order, memberIds, true);
-
-				console.log(membersId.val());
-				console.log(memberIds);
 			});
 			membersId.val("");
 			members.val("");
@@ -132,10 +129,15 @@ function loadCategoriesOk(categories) {
 	if (categories) {
 		$.each(categories, function(i, category) {
 			var option = new Option(category.name, category.id);
-			$(option).data("teamsize", category.teamSize);
+			$(option).data("teamsize", category.team_size);
 			$(option).data("id", category.id);
 			$("#categoryId").append(option);
 		});
+
+		if (categories.length === 1) {
+			$("#categoryId").val(categories[0].id);
+			$("#pesquisa-atleta").hide();
+		}
 	}
 }
 
@@ -202,8 +204,6 @@ function convertToLabelValueStructureFromUser(data) {
 }
 
 function addRowOnMemberList(athlete, deletable) {
-	console.log(deletable);
-
 	athlete.deletable = deletable;
 	athlete.formmated_race_price = numeral(athlete.race_price).format();
 

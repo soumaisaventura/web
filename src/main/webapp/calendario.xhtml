@@ -9,68 +9,7 @@
 	</ui:define>
 
 	<ui:define name="css">
-		<style>
-img {
-	max-width: 100%;
-}
-
-.lt-ie8 img {
-	-ms-interpolation-mode: bicubic;
-}
-
-.lt-ie7 img {
-	width: 100%;
-}
-
-.no-js img.responsive, .no-js img.main-col-images {
-	display: none;
-}
-
-img.responsive, img.main-col-images {
-	visibility: hidden;
-	min-height: 100px;
-}
-
-.box {
-	position: relative;
-	width: 100%;
-	overflow: hidden;
-}
-
-.corner {
-	overflow: hidden;
-	position: absolute;
-	right: -3.5em;
-	top: 2.5em;
-	-moz-transform: rotate(45deg);
-	-webkit-transform: rotate(45deg);
-	transform: rotate(45deg);
-}
-
-.corner span {
-	color: #fff;
-	display: block;
-	font-size: .9em;
-	font-weight: bold;
-	padding: 0.5em 3em;
-	text-align: center;
-	text-decoration: none;
-	text-shadow: 1px 1px 1px #000;
-}
-
-.open {
-	background-color: #055C27;
-}
-
-.closed {
-	background-color: #950F09;
-}
-
-.end {
-	opacity: 0.4;
-	filter: alpha(opacity = 40);
-}
-</style>
+		<link rel="stylesheet" href="#{request.contextPath}/css/calendario.css" />
 	</ui:define>
 
 	<ui:define name="lib">
@@ -95,6 +34,8 @@ img.responsive, img.main-col-images {
 					Calendário <span id="ano">#{param.ano}</span>
 				</h1>
 			</div>
+
+			<!-- Avaliar o uso: http://www.jonathanargentiero.com/zoomsaic/ -->
 
 			<div id="open-events" class="row"></div>
 
