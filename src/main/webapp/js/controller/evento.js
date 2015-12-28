@@ -20,13 +20,16 @@ function loadMap(event) {
 		title : event.name
 	});
 
-	marker.addListener('click', function() {
+	google.maps.event.addListener(marker, 'click', function() {
 		var lat = this.getPosition().lat();
 		var lng = this.getPosition().lng();
 		window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
 	});
 
-	$(window).on("orientationchange resize", function(event) {
+	google.maps.event.addDomListener(window, "resize", function(event) {
+		map.setCenter(coord);
+	});
+	google.maps.event.addDomListener(window, "orientationchange", function(event) {
 		map.setCenter(coord);
 	});
 
