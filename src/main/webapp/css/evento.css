@@ -1,11 +1,15 @@
-div[id$="-section"] {
+#races-section, #location-section, #organizers-section {
 	padding-top: 30px;
 }
 
-#title, #location-title, #organizer-title {
+#title {
+	padding-bottom: 0px;
+}
+
+#location-title, #organizer-title {
 	border-top: 1px solid #eee;
 	padding-top: 30px;
-	padding-bottom: 0px;
+	padding-bottom: 30px;
 }
 
 #map {
@@ -31,6 +35,7 @@ div[id$="-section"] {
 
 .full-width {
     display:block;
+    width: 100%;
 }
 
 .info-icon {
@@ -109,6 +114,7 @@ div[id$="-section"] {
 }
 
 .race > div:nth-child(2) {
+	padding-left: 0px;
 	padding-right: 0px;
 }
 
