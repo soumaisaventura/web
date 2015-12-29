@@ -72,7 +72,7 @@ html, body {
 
 .event-label-danger {
 	font-weight: normal;
-	font-size: medium;
+	font-size: small;
 	background-color: #fff;
 	color: #d9534f;
 	border: 1px solid #d9534f; 

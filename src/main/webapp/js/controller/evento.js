@@ -145,7 +145,7 @@ function loadEventOk(event) {
 
 				
 				case 'soon' 	: race.status_button = false;
-								  race.status_class = "warning";
+								  race.status_class = "danger";
 								  break;
 			}
 				
