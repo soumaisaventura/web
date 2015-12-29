@@ -1,71 +1,43 @@
-#races-section, #location-section, #organizers-section {
-	padding-top: 30px;
+html, body {
+  overflow-x: hidden;
+}
+
+/********** INFO SECTION **********/
+#info-section {
+	margin-top: 30px;
 }
 
 #title {
 	margin-top: 0px;
-	padding-top: 30px;
-	padding-bottom: 0px;
-}
-
-#description {
 	margin-bottom: 0px;
-}
-
-#location-title, #organizer-title {
-	border-top: 1px solid #eee;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-#map {
-	height: 300px;
-	width: auto;
-}
-
-.event-label-danger {
-	font-weight: normal;
-	font-size: medium;
-	background-color: #fff;
-	color: #d9534f;
-	border: 1px solid #d9534f; 
-}
-
-.collapse > .row {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.label-warning {
-	font-weight: normal;
-	font-size: medium;
-	background-color: #fff;
-	color: #f0ad4e;
-	border: 1px solid #f0ad4e; 
-}
-
-.full-width {
-    display:block;
-    width: 100%;
 }
 
 .info-icon {
 	padding-right: 10px;
 }
 
-.description {
+#description {
 	color: black;
 	font-size: 1.1em;
 	text-align: justify;
 	line-height: 25px;
 	padding-top: 30px;
+	margin-bottom: 0px;
 }
 
-.race-name {
-	margin-top: 0px;
-	line-height: 33px;
+/********** RACE SECTION **********/
+
+#races-section {
+	margin-top: 30px;
+}
+
+.race {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.race-border {
+	border-top: 1px solid #eee;
 }
 
 .calendar {
@@ -79,8 +51,6 @@
 	font-size: 11px;
 	width: 32px;
 	font-size: 11px;
-	text-align: center;
-	text-align: center;
 	margin-right: 10px;
 }
 
@@ -92,7 +62,58 @@
 	border-top-right-radius: 2px;
 }
 
+.race-name {
+	margin-top: 0px;
+	line-height: 32px;
+}
+
+.event-label-danger {
+	font-weight: normal;
+	font-size: medium;
+	background-color: #fff;
+	color: #d9534f;
+	border: 1px solid #d9534f; 
+}
+
+.full-width {
+    display:block;
+    width: 100%;
+}
+
+.saiba-mais {
+	margin-top: 10px;
+}
+
+/********** LOCATION SECTION **********/
+
+#location-title {
+	border-top: 1px solid #eee;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 30px;
+}
+
+#map {
+	height: 300px;
+	margin-top: 30px;
+	width: auto;
+}
+
+/********** ORGANIZERS SECTION **********/
+
+#organizers-section {
+	margin-top: 30px;
+}
+
+#organizer-title {
+	border-top: 1px solid #eee;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 30px;
+}
+
 #organizers {
+	margin-top: 30px;
 	text-align: center;
 }
 
@@ -114,46 +135,6 @@
 	font-size: large;
 	padding-top: 15px;
 	padding-bottom: 7px;
-}
-
-.race {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	padding-left: 5px;
-	padding-right: 5px;
-	border-top: 1px solid #eee;
-}
-
-.race > div:nth-child(1) {
-	padding-left: 0px;
-}
-
-.race > div:nth-child(2) {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-
-.races > .row {
-	padding-bottom: 15px;
-}
-
-.race-registration {
-	font-size: 16px;
-}
-
-.race-registration-icon {
-	height: 40px;
-	padding-left: 20px;
-	padding-right: 10px;
-}
-
-.race-registration-price {
-	font-size: small;
-	color: #cffccf;
-}
-
-.race-registration-hint {
-	font-size: small;
 }
 
 @media screen and (max-width: 320px) {

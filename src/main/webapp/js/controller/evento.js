@@ -58,21 +58,21 @@ function loadEventOk(event) {
 			minWidth : 1
 		} ]
 	});
-
+	
+	// Banner section
 	$("#banner").attr("src", event.banner);
 	$("#banner-section").show();
-
+	
+	// Info section
 	$("#title").text(event.name);
-	$("#description").text(event.description);
-	$("#days-left").text(event.period.countdown);
 	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
+	$("#description").text(event.description);
 	$("#info-section").show();
-
+	
 	var template;
 
 	// Organizers
-
 	template = $('#organizer-template');
 	if (event.organizers) {
 		$.each(event.organizers, function(i, organizer) {
@@ -84,7 +84,7 @@ function loadEventOk(event) {
 		$("#organizers-section").show();
 	}
 	template.remove();
-
+	
 	// Races
 
 	template = $('#race-template');
@@ -143,7 +143,7 @@ function loadEventOk(event) {
 		$(".end, .closed").html("Inscrições encerradas");
 		$(".soon").html("Inscrições em breve");
 
-		$(".hint-end, .hint-closed, .hint-soon").remove();
+		// $(".hint-end, .hint-closed, .hint-soon").remove();
 	}
 	template.remove();
 }
