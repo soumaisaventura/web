@@ -59,6 +59,17 @@ function loadEventOk(event) {
 		} ]
 	});
 	
+	var authorized = false;
+	var user = App.getLoggedInUser();
+	if (event.organizers && event.organizers.length > 0) {
+		$.each(event.organizers, function(index, value) {
+			if (user && value.id == user.id) {
+				authorized = true;
+				return false;
+			}
+		});
+	}
+	
 	// Banner section
 	$("#banner").attr("src", event.banner);
 	$("#banner-section").show();
@@ -71,7 +82,20 @@ function loadEventOk(event) {
 	$("#info-section").show();
 	
 	var template;
-
+	
+	// Title
+	template = $('#title-template');
+	event.authorized = authorized;
+	event.city = App.parseCity(event.location.city);
+	event.date = App.parsePeriod(event.period);
+	console.log(event);
+	var rendered = Mustache.render(template.html(), event);
+	console.log("---------------");
+	console.log(rendered);
+	$('#title-column').append(rendered);
+	template.remove();
+	
+	
 	// Organizers
 	template = $('#organizer-template');
 	if (event.organizers) {
@@ -101,6 +125,12 @@ function loadEventOk(event) {
 			race.period.beginning = App.moment(race.period.beginning).format('L');
 			race.period.end = App.moment(race.period.end).format('L');
 			
+			if (race.current_period) {
+				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
+			}
+			
+			// Status
+			
 			switch(race.status){
 				case 'open' 	: race.status_button = true;
 								  break;
@@ -119,9 +149,6 @@ function loadEventOk(event) {
 								  break;
 			}
 				
-			if (race.current_period) {
-				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
-			}
 
 			// Prices
 

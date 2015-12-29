@@ -25,6 +25,9 @@ html, body {
 	margin-bottom: 0px;
 }
 
+.painel {
+	margin-bottom: 30px; 
+}
 /********** RACE SECTION **********/
 
 #races-section {
@@ -143,5 +146,10 @@ html, body {
 	}
 	h2 {
 		font-size: 20px;
+	}
+	
+	#painel {
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 }	
