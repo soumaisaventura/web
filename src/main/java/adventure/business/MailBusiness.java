@@ -46,6 +46,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendUserActivation(final String email, final URI baseUri) throws Exception {
+		beforeAsync();
 		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
@@ -71,6 +72,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendWelcome(User user, URI baseUri) throws Exception {
+		beforeAsync();
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
 		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
@@ -87,6 +89,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
+		beforeAsync();
 		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
@@ -113,6 +116,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
+		beforeAsync();
 		UserDAO userDAO = UserDAO.getInstance();
 		User user = userDAO.loadForAuthentication(email);
 		final String token;
@@ -139,6 +143,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendAccountRemoval(User user, String dupEmail) throws Exception {
+		beforeAsync();
 		String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/account-removal.html"));
 		content = clearContent(content);
 		content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
@@ -151,6 +156,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
+		beforeAsync();
 		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
@@ -191,6 +197,7 @@ public class MailBusiness implements Serializable {
 	@Asynchronous
 	public void sendRegistrationFailed(User member, User submitter, RaceCategory raceCategory, String teamName,
 			URI baseUri) throws Exception {
+		beforeAsync();
 		Race race = raceCategory.getRace();
 		String pendency = (member.getProfile().getPendencies() > 0 ? "pessoal" : "saude");
 
@@ -218,6 +225,7 @@ public class MailBusiness implements Serializable {
 	@Asynchronous
 	public void sendRegistrationPeriodChanging(Registration registration, Date newPeriodBegining, Date newPeriodEnd,
 			URI baseUri) throws Exception {
+		beforeAsync();
 		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
@@ -247,6 +255,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendRegistrationCancellation(Registration registration, URI baseUri) throws Exception {
+		beforeAsync();
 		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
 		Race race = registration.getRaceCategory().getRace();
@@ -287,6 +296,7 @@ public class MailBusiness implements Serializable {
 
 	@Asynchronous
 	public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
+		beforeAsync();
 		// User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
 		List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
 		registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
@@ -369,5 +379,9 @@ public class MailBusiness implements Serializable {
 
 	private ApplicationConfig getConfig() {
 		return Beans.getReference(ApplicationConfig.class);
+	}
+
+	private void beforeAsync() throws Exception {
+		Thread.sleep(300);
 	}
 }

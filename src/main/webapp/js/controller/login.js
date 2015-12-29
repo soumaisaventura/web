@@ -118,22 +118,32 @@ function loginOk(data, status, request) {
 	}
 
 	if (pendencies) {
-		bootbox.dialog({
-			title : "Atenção!",
-			message : "Seus dados cadastrais estão incompletos. Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
-			buttons : {
-				main : {
-					label : "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='font-size: 0.8em;'></span> Resolver agora",
-					className : "btn-success",
-					callback : function() {
-						location.href = url;
-					}
-				}
-			},
-			onEscape : function() {
-				App.restoreSavedLocation();
-			}
+		swal({
+			title : "Dados cadastrais incompletos",
+			text : "Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
+			type : "warning"
+		}, function() {
+			window.location.href = url;
 		});
+
+		// bootbox.dialog({
+		// title : "Atenção!",
+		// message : "Seus dados cadastrais estão incompletos. Para se inscrever
+		// nas provas você precisa resolver isso. É fácil e rápido!",
+		// buttons : {
+		// main : {
+		// label : "<span class='glyphicon glyphicon-edit' aria-hidden='true'
+		// style='font-size: 0.8em;'></span> Resolver agora",
+		// className : "btn-success",
+		// callback : function() {
+		// location.href = url;
+		// }
+		// }
+		// },
+		// onEscape : function() {
+		// App.restoreSavedLocation();
+		// }
+		// });
 
 	} else {
 		App.restoreSavedLocation();
@@ -147,7 +157,13 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			$("#global-message").html('Usuário ou senha inválidos.').show();
+			// $("#global-message").html(request.responseText).show();
+			swal({
+				title : "",
+				text : request.responseText,
+				confirmButtonClass : "btn-danger",
+				type : "error"
+			});
 			break;
 	}
 }

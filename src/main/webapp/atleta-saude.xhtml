@@ -1,9 +1,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
+	</ui:define>
+
 	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
 		<script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -89,8 +93,7 @@
 				<div class="row" style="margin-bottom: 15px">
 					<div class="form-group">
 						<button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span>
-							Salvar
+							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span> Salvar
 						</button>
 					</div>
 				</div>

@@ -8,18 +8,18 @@ $(function() {
 	});
 });
 
-function loadMenu(data) {
-	if (data) {
+function loadMenu(user) {
+	if (user) {
 		$(".loggedout-menu").hide();
 		$(".loggedin-menu").show();
-		$("#currentUser").html(data.name);
+		$("#currentUser").html(user.name);
 
-		if (data.pendencies.profile > 0) {
-			$("#profile-badge").text(data.pendencies.profile);
+		if (user.pendencies.profile && user.pendencies.profile > 0) {
+			$("#profile-badge").text(user.pendencies.profile);
 		}
 
-		if (data.health && data.pendencies.health > 0) {
-			$("#health-badge").text(data.pendencies.health);
+		if (user.pendencies.health && user.pendencies.health > 0) {
+			$("#health-badge").text(user.pendencies.health);
 		}
 	}
 }

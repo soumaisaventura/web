@@ -44,7 +44,7 @@ import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.util.Reflections;
 
-@Path("race/{id}/registration")
+//@Path("race/{id}/registration")
 public class RaceRegistrationDownloadREST {
 
 	@GET

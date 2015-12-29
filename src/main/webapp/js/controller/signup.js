@@ -24,8 +24,16 @@ $(function() {
 	});
 });
 
-// SignUp process
 function signupOk(data, status, request) {
-	$("#global-message").removeClass('alert-danger').addClass('alert-success').text(
-			"Cadastro efetuado. Siga as instruções no seu e-mail para ativar a sua conta.").show();
+	swal({
+		title : "Cadastro efetuado",
+		text : "Siga as instruções no seu e-mail para ativar a sua conta.",
+		type : "success"
+	}, function() {
+		window.location.href = App.getContextPath() + "/login";
+	});
+
+	// alert("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a
+	// sua conta.");
+	// window.location.href = App.getContextPath() + "/login";
 }

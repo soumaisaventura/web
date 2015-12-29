@@ -2,10 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
-		<!-- 	<script async="async" defer="defer" src="https://connect.facebook.net/pt_BR/all.js"></script> -->
-		<!-- 	<script async="async" defer="defer" src="https://apis.google.com/js/client:plus.js"></script> -->
-		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
 		<script src="#{request.contextPath}/js/lib/spin.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
@@ -14,6 +12,10 @@
 
 	<ui:define name="controller">
 		<script src="#{request.contextPath}/js/controller/login.js"></script>
+	</ui:define>
+
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
 	</ui:define>
 
 	<ui:define name="body">
@@ -58,8 +60,7 @@
 				</div>
 				<div class="row" style="padding-bottom: 20px">
 					<button type="submit" class="btn btn-lg btn-success col-xs-12 col-md-5 ">
-						<span class="glyphicon glyphicon-ok" aria-hidden='true' style="font-size: 0.8em;" />
-						Entrar
+						<span class="glyphicon glyphicon-ok" aria-hidden='true' style="font-size: 0.8em;" /> Entrar
 					</button>
 				</div>
 			</form>

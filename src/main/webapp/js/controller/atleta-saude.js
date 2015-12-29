@@ -42,53 +42,22 @@ function loadOk(data) {
 	$("#form-section").show();
 }
 
-/**
- * 
- */
 function updateOk(data) {
 	$("[id$='-message']").hide();
 	var user = App.getLoggedInUser();
-	user.health = null;
+	user.pendencies.health = null;
 	App.setLoggedInUser(user);
 
-	var content = {};
-	if (App.getLoggedInUser().pendencies.profile > 0) {
-		content = {
+	if (user.pendencies.profile && user.pendencies.profile > 0) {
+		swal({
 			title : "Dados salvos",
-			message : "Porém você ainda possui pendências nos dados de pessoais. Deseja resolver isso logo?",
-			buttons : {
-				success : {
-					label : "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true' style='font-size: 0.8em;'></span> Sim",
-					className : "btn-success",
-					callback : function() {
-						location.href = App.getContextPath() + "/user/profile";
-					}
-				},
-				danger : {
-					label : "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true' style='font-size: 0.8em;'></span> Não",
-					className : "btn-danger",
-					callback : function() {
-						App.restoreSavedLocation();
-					}
-				}
-			}
-
-		}
+			text : "Porém você ainda possui pendências nos dados pessoais.",
+			confirmButtonText : "Resolver agora",
+			type : "warning"
+		}, function() {
+			location.href = App.getContextPath() + "/user/profile";
+		});
 	} else {
-		content = {
-			title : "Parabéns",
-			message : "Você não possui pendências cadastrais.",
-			buttons : {
-				success : {
-					label : "<span class='glyphicon glyphicon-ok' aria-hidden='true' style='font-size: 0.8em;'></span> Ok",
-					className : "btn-success",
-					callback : function() {
-						App.restoreSavedLocation();
-					}
-				}
-			}
-		}
+		App.restoreSavedLocation();
 	}
-
-	bootbox.dialog(content);
 }

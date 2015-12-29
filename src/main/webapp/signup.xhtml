@@ -1,12 +1,20 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:adventure="http://java.sun.com/jsf/composite/adventure" template="/template/main.xhtml">
 
+	<ui:define name="lib">
+		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
+	</ui:define>
+
 	<ui:define name="proxy">
 		<script src="#{request.contextPath}/js/proxy/signup.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
 		<script src="#{request.contextPath}/js/controller/signup.js"></script>
+	</ui:define>
+
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
 	</ui:define>
 
 	<ui:define name="body">
@@ -62,8 +70,7 @@
 					<div class="form-group">
 						<input id="global" type="hidden" />
 						<button type="submit" class="btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-check" aria-hidden='true' style="font-size: 0.8em;"></span>
-							Registrar
+							<span class="glyphicon glyphicon-check" aria-hidden='true' style="font-size: 0.8em;"></span> Registrar
 						</button>
 					</div>
 				</div>
