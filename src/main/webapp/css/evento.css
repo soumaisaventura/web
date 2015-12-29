@@ -3,13 +3,21 @@
 }
 
 #title {
+	margin-top: 0px;
+	padding-top: 30px;
 	padding-bottom: 0px;
+}
+
+#description {
+	margin-bottom: 0px;
 }
 
 #location-title, #organizer-title {
 	border-top: 1px solid #eee;
 	padding-top: 30px;
 	padding-bottom: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 #map {
@@ -17,12 +25,17 @@
 	width: auto;
 }
 
-.label-danger {
+.event-label-danger {
 	font-weight: normal;
 	font-size: medium;
 	background-color: #fff;
 	color: #d9534f;
 	border: 1px solid #d9534f; 
+}
+
+.collapse > .row {
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .label-warning {
@@ -106,6 +119,8 @@
 .race {
 	padding-top: 30px;
 	padding-bottom: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
 	border-top: 1px solid #eee;
 }
 
@@ -148,4 +163,4 @@
 	h2 {
 		font-size: 20px;
 	}
-}
+}	
