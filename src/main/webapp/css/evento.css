@@ -1,5 +1,5 @@
 html, body {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 
 /********** INFO SECTION **********/
@@ -26,10 +26,9 @@ html, body {
 }
 
 .painel {
-	margin-bottom: 30px; 
+	margin-bottom: 30px;
 }
 /********** RACE SECTION **********/
-
 #races-section {
 	margin-top: 30px;
 }
@@ -57,6 +56,15 @@ html, body {
 	margin-right: 10px;
 }
 
+.race-name {
+	margin-top: 0px;
+	line-height: 32px;
+}
+
+.race-description {
+	text-align: justify;
+}
+
 .calendar div:nth-child(1) {
 	background-color: #d9534f;
 	font-size: 0.9em;
@@ -65,22 +73,17 @@ html, body {
 	border-top-right-radius: 2px;
 }
 
-.race-name {
-	margin-top: 0px;
-	line-height: 32px;
-}
-
 .event-label-danger {
 	font-weight: normal;
-	font-size: small;
+	font-size: 15px;
 	background-color: #fff;
 	color: #d9534f;
-	border: 1px solid #d9534f; 
+	border: 1px solid #d9534f;
 }
 
 .full-width {
-    display:block;
-    width: 100%;
+	display: block;
+	width: 100%;
 }
 
 .saiba-mais {
@@ -88,7 +91,6 @@ html, body {
 }
 
 /********** LOCATION SECTION **********/
-
 #location-title {
 	border-top: 1px solid #eee;
 	margin-top: 0px;
@@ -103,7 +105,6 @@ html, body {
 }
 
 /********** ORGANIZERS SECTION **********/
-
 #organizers-section {
 	margin-top: 30px;
 }
@@ -147,9 +148,8 @@ html, body {
 	h2 {
 		font-size: 20px;
 	}
-	
 	#painel {
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
-}	
+}
