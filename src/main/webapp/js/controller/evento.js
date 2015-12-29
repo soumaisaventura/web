@@ -58,31 +58,32 @@ function loadEventOk(event) {
 			minWidth : 1
 		} ]
 	});
-	
-	var authorized = false;
+
 	var user = App.getLoggedInUser();
-	if (event.organizers && event.organizers.length > 0) {
+	var authorized = user ? user.roles.admin : false;
+
+	if (user && user.roles && user.roles.organizer && event.organizers && event.organizers.length > 0) {
 		$.each(event.organizers, function(index, value) {
-			if (user && value.id == user.id) {
+			if (value.id == user.id) {
 				authorized = true;
 				return false;
 			}
 		});
 	}
-	
+
 	// Banner section
 	$("#banner").attr("src", event.banner);
 	$("#banner-section").show();
-	
+
 	// Info section
 	$("#title").text(event.name);
 	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
 	$("#description").text(event.description);
 	$("#info-section").show();
-	
+
 	var template;
-	
+
 	// Title
 	template = $('#title-template');
 	event.authorized = authorized;
@@ -94,8 +95,7 @@ function loadEventOk(event) {
 	console.log(rendered);
 	$('#title-column').append(rendered);
 	template.remove();
-	
-	
+
 	// Organizers
 	template = $('#organizer-template');
 	if (event.organizers) {
@@ -108,7 +108,7 @@ function loadEventOk(event) {
 		$("#organizers-section").show();
 	}
 	template.remove();
-	
+
 	// Races
 
 	template = $('#race-template');
@@ -124,31 +124,33 @@ function loadEventOk(event) {
 			race.more_than_one_day = race.period.beginning !== race.period.end;
 			race.period.beginning = App.moment(race.period.beginning).format('L');
 			race.period.end = App.moment(race.period.end).format('L');
-			
+
 			if (race.current_period) {
 				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
 			}
-			
-			// Status
-			
-			switch(race.status){
-				case 'open' 	: race.status_button = true;
-								  break;
-				
-				case 'end' 		: race.status_button = false;
-				  				  race.status_class = "danger";
-								  break;
-								  
-				case 'closed' 	: race.status_button = false;
-								  race.status_class = "danger";
-								  break;
 
-				
-				case 'soon' 	: race.status_button = false;
-								  race.status_class = "danger";
-								  break;
+			// Status
+
+			switch (race.status) {
+				case 'open':
+					race.status_button = true;
+					break;
+
+				case 'end':
+					race.status_button = false;
+					race.status_class = "danger";
+					break;
+
+				case 'closed':
+					race.status_button = false;
+					race.status_class = "danger";
+					break;
+
+				case 'soon':
+					race.status_button = false;
+					race.status_class = "danger";
+					break;
 			}
-				
 
 			// Prices
 
