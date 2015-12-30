@@ -22,23 +22,21 @@ function sendPaymentFailed(request) {
 }
 
 function updateBreadcrumb(data) {
-	var user = App.getLoggedInUser();
 
-	var organizer = false;
-	if (data.race.organizers) {
-		$.each(data.race.organizers, function(i, value) {
+	var user = App.getLoggedInUser();
+	var authorized = user ? user.roles.admin : false;
+
+	if (user && user.roles && user.roles.organizer && data.race.event.organizers && data.race.event.organizers.length > 0) {
+		$.each(data.race.event.organizers, function(i, value) {
 			if (user.id === value.id) {
-				organizer = true;
+				authorized = true;
 				return;
 			}
 		});
 	}
 
-	if (organizer || App.isAdmin()) {
+	if (authorized) {
 		$(".breadcrumb.organizer").show();
-		$("#race-link").attr("href", App.getContextPath() + "/prova/" + data.race.id);
-		$("#dashboard-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel");
-		$("#registration-link").attr("href", App.getContextPath() + "/prova/" + data.race.id + "/painel/inscricoes");
 	} else {
 		$("#registration-list-menu-item").addClass("active");
 		$(".breadcrumb.athlete").show();

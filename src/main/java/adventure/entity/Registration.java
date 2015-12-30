@@ -68,6 +68,19 @@ public class Registration {
 	public Registration() {
 	}
 
+	public Registration(Long id, Integer eventId, String eventName, String eventSlug, Date eventBeginning, Date eventEnd) {
+		setId(id);
+
+		setRaceCategory(new RaceCategory());
+		getRaceCategory().setRace(new Race());
+		getRaceCategory().getRace().setEvent(new Event());
+		getRaceCategory().getRace().getEvent().setId(eventId);
+		getRaceCategory().getRace().getEvent().setName(eventName);
+		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+		getRaceCategory().getRace().getEvent().setBeginning(eventBeginning);
+		getRaceCategory().getRace().getEvent().setEnd(eventEnd);
+	}
+
 	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
 			Integer raceId, String raceName, String raceDescription, String raceSlug, Date racePeriodBeginning,
 			Date racePeriodEnd, Integer eventId, String eventName, String eventSlug, Integer cityId, String cityName,

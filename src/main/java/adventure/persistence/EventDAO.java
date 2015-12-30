@@ -57,7 +57,10 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" select new Event( ");
 		jpql.append(" 	        e.id, ");
 		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.description ");
+		jpql.append(" 	        e.slug, ");
+		jpql.append(" 	        e.description, ");
+		jpql.append(" 	        e.beginning, ");
+		jpql.append(" 	        e.end ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Event e ");
 		jpql.append("  where e.slug = :slug ");

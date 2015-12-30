@@ -183,3 +183,53 @@ CREATE TRIGGER trg_race_before_update
    ON race
    FOR EACH ROW
 EXECUTE PROCEDURE trg_race_before_update ();
+
+---------------
+
+
+CREATE OR REPLACE FUNCTION trg_event_organizer_after_all ()
+   RETURNS trigger
+AS
+$func$
+   # VARIABLE_CONFLICT use_variable
+BEGIN
+   IF TG_OP IN ('INSERT', 'UPDATE')
+   THEN
+      UPDATE user_account
+         SET _organizer =
+                (SELECT count (*) > 0
+                   FROM event_organizer eo
+                  WHERE eo.organizer_id = NEW.organizer_id)
+       WHERE id = NEW.organizer_id;
+   END IF;
+
+   IF TG_OP IN ('DELETE', 'UPDATE')
+   THEN
+      UPDATE user_account
+         SET _organizer =
+                (SELECT count (*) > 0
+                   FROM event_organizer eo
+                  WHERE eo.organizer_id = OLD.organizer_id)
+       WHERE id = OLD.organizer_id;
+   END IF;
+
+   RETURN NULL;
+END;
+$func$
+   LANGUAGE plpgsql;
+
+
+DROP TRIGGER IF EXISTS trg_event_organizer_after_all ON event_organizer;
+
+CREATE TRIGGER trg_event_organizer_after_all
+   AFTER INSERT OR UPDATE OR DELETE
+   ON event_organizer
+   FOR EACH ROW
+EXECUTE PROCEDURE trg_event_organizer_after_all ();
+
+UPDATE event_organizer
+   SET organizer_id = organizer_id;
+
+UPDATE user_account
+   SET _organizer = FALSE
+ WHERE _organizer IS NULL;

@@ -77,6 +77,7 @@ function loadEventOk(event) {
 
 	// Info section
 	$("#title").text(event.name);
+	$("#breadcrumb-event-name").text(event.name);
 	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
 	$("#description").text(event.description);
@@ -89,10 +90,7 @@ function loadEventOk(event) {
 	event.authorized = authorized;
 	event.city = App.parseCity(event.location.city);
 	event.date = App.parsePeriod(event.period);
-	console.log(event);
 	var rendered = Mustache.render(template.html(), event);
-	console.log("---------------");
-	console.log(rendered);
 	$('#title-column').append(rendered);
 	template.remove();
 

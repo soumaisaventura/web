@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1232,346" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1274,42" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -425,6 +425,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="timestamp"/>
 	</column>
 	<column name="admin" not-null="true" default-value="false">
+		<type name="boolean"/>
+	</column>
+	<column name="_organizer" not-null="true">
 		<type name="boolean"/>
 	</column>
 	<constraint name="pk_user_account" type="pk-constr" table="public.user_account">
@@ -1577,6 +1580,62 @@ END
 			<column name="ending"/>
 		</idxelement>
 </index>
+
+<index name="idx_user_organizer" table="public.user_account"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="_organizer"/>
+		</idxelement>
+</index>
+
+<function name="trg_event_organizer_after_all"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+BEGIN
+   IF TG_OP IN ('INSERT', 'UPDATE')
+   THEN
+      UPDATE user_account
+         SET _organizer =
+                (SELECT count (*) > 0
+                   FROM event_organizer eo
+                  WHERE eo.organizer_id = NEW.organizer_id)
+       WHERE id = NEW.organizer_id;
+   END IF;
+
+   IF TG_OP IN ('DELETE', 'UPDATE')
+   THEN
+      UPDATE user_account
+         SET _organizer =
+                (SELECT count (*) > 0
+                   FROM event_organizer eo
+                  WHERE eo.organizer_id = OLD.organizer_id)
+       WHERE id = OLD.organizer_id;
+   END IF;
+
+   RETURN NULL;
+END;
+]]></definition>
+</function>
+
+<trigger name="trg_event_organizer_after_all" firing-type="AFTER" per-line="true" constraint="false"
+	 ins-event="true" del-event="true" upd-event="true" trunc-event="false"
+	 table="public.event_organizer">
+		<function signature="public.trg_event_organizer_after_all()"/>
+</trigger>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">

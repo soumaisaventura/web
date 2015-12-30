@@ -29,15 +29,13 @@
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
 			<li>
-				<a href="#{request.contextPath}/calendario/2015">Calendário 2015</a>
+				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/prova/#{param.evento_id}">
-					<span class="race-name"></span>
-				</a>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/prova/#{param.evento_id}/painel">Painel</a>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}/painel">Painel</a>
 			</li>
 			<li class="active">Inscrições</li>
 		</ol>

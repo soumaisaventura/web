@@ -26,31 +26,29 @@
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb organizer" hidden="true">
 			<li>
-				<a href="#{request.contextPath}/calendario/2015">Calendário 2015</a>
+				<a href="#{request.contextPath}/calendario/#{registrationHelper.getYear(request)}">Calendário #{registrationHelper.getYear(request)}</a>
 			</li>
 			<li>
-				<a id="race-link">
-					<span class="race-name"></span>
-				</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}">#{registrationHelper.getTitle(request)}</a>
 			</li>
 			<li>
-				<a id="dashboard-link">Painel</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}/painel">Painel</a>
 			</li>
 			<li>
-				<a id="registration-link">Inscrições</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}/painel/inscricoes">Inscrições</a>
 			</li>
-			<li class="active">##{param.id}</li>
+			<li class="active">##{param.inscricao_id}</li>
 		</ol>
 		<ol class="breadcrumb athlete" hidden="true">
 			<li>
 				<a href="#{request.contextPath}/atleta/inscricoes">Minhas inscrições</a>
 			</li>
-			<li class="active">##{param.id}</li>
+			<li class="active">##{param.inscricao_id}</li>
 		</ol>
 	</ui:define>
 
 	<ui:define name="body">
-		<input id="registration" type="hidden" value="#{param.id}" />
+		<input id="registration" type="hidden" value="#{param.inscricao_id}" />
 
 		<div class="col-md-6 col-md-offset-3">
 			<div id="summary-section" hidden="true" class="row" style="vertical-align: middle;">

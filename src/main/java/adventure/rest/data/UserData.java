@@ -56,6 +56,7 @@ public class UserData {
 
 		this.roles = new RolesData();
 		this.roles.admin = user.getAdmin();
+		this.roles.organizer = user.getOrganizer();
 	}
 
 	public PictureData getPicture() {

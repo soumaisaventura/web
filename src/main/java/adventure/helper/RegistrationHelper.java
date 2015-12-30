@@ -6,12 +6,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
-import adventure.entity.Event;
-import adventure.persistence.EventDAO;
+import adventure.entity.Registration;
+import adventure.persistence.RegistrationDAO;
 
 @Named
 @RequestScoped
-public class EventHelper {
+public class RegistrationHelper {
 
 	private boolean initialized = false;
 
@@ -19,24 +19,21 @@ public class EventHelper {
 
 	private String slug;
 
-	private String description;
-
 	private Integer year;
 
 	public void initialize(HttpServletRequest request) {
 		if (!initialized) {
 			initialized = true;
 
-			String param = request.getParameter("evento_id");
-			Event event = EventDAO.getInstance().loadForMeta(param);
+			String param = request.getParameter("inscricao_id");
+			Registration registration = RegistrationDAO.getInstance().loadForMeta(Long.parseLong(param));
 
-			if (event != null) {
-				this.title = event.getName();
-				slug = event.getSlug();
-				this.description = event.getDescription();
+			if (registration != null) {
+				this.title = registration.getRaceCategory().getRace().getEvent().getName();
+				slug = registration.getRaceCategory().getRace().getEvent().getSlug();
 
 				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(event.getBeginning());
+				calendar.setTime(registration.getRaceCategory().getRace().getEvent().getBeginning());
 				this.year = calendar.get(Calendar.YEAR);
 			}
 		}
@@ -50,12 +47,6 @@ public class EventHelper {
 	public String getSlug(HttpServletRequest request) {
 		initialize(request);
 		return slug;
-
-	}
-
-	public String getDescription(HttpServletRequest request) {
-		initialize(request);
-		return description;
 
 	}
 

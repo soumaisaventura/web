@@ -1,5 +1,5 @@
 $(function() {
-	var year = $("#ano").text();
+	var year = $("#year").val();
 
 	$("#race-next-menu-item").addClass("active");
 	$("#race-next-menu-item-" + year).addClass("active");

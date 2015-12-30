@@ -125,6 +125,35 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		return result;
 	}
 
+	public Registration loadForMeta(Long id) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new Registration( ");
+		jpql.append(" 	        re.id, ");
+		jpql.append(" 	        ev.id, ");
+		jpql.append(" 	        ev.name, ");
+		jpql.append(" 	        ev.slug, ");
+		jpql.append(" 	        ev.beginning, ");
+		jpql.append(" 	        ev.end ");
+		jpql.append("        ) ");
+		jpql.append("   from Registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.event ev ");
+		jpql.append("  where re.id = :id");
+
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		query.setParameter("id", id);
+
+		Registration result;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException cause) {
+			result = null;
+		}
+		return result;
+	}
+
 	public List<Registration> findForUpdatePeriod() {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");

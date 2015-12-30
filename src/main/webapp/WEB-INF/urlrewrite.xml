@@ -157,7 +157,7 @@
 
 	<rule>
 		<from>^/inscricao/(\d+)$</from>
-		<to>/inscricao.jsf?id=$1</to>
+		<to>/inscricao.jsf?inscricao_id=$1</to>
 	</rule>
 	<rule>
 		<from>^/registration/(\d+)$</from>

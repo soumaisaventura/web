@@ -60,6 +60,10 @@ public class UserDAO extends JPACrud<User, Integer> {
 			user.setAdmin(false);
 		}
 
+		if (user.getOrganizer() == null) {
+			user.setOrganizer(false);
+		}
+
 		return super.insert(user);
 	}
 
@@ -78,7 +82,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     u.admin, ");
+		jpql.append(" 	     u.organizer ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p ");
 		jpql.append("   join p.user u, ");
@@ -114,7 +119,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     u.admin, ");
+		jpql.append(" 	     u..organizer ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p ");
 		jpql.append("   join p.user u, ");
@@ -227,7 +233,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("        p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     u.admin, ");
+		jpql.append(" 	     u.organizer ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");
@@ -258,7 +265,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     u.admin, ");
+		jpql.append(" 	     u.organizer ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");
@@ -289,7 +297,8 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append(" 	     p.gender, ");
 		jpql.append(" 	     p.pendencies, ");
 		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin ");
+		jpql.append(" 	     u.admin, ");
+		jpql.append(" 	     u.organizer ");
 		jpql.append(" 	     ) ");
 		jpql.append("   from Profile p");
 		jpql.append("   join p.user u, ");

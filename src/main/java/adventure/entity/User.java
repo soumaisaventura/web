@@ -13,8 +13,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -30,30 +28,23 @@ public class User implements Principal {
 
 	private String email;
 
-	@JsonIgnore
 	private String password;
 
-	@JsonIgnore
 	@Column(name = "password_reset_token")
 	private String passwordResetToken;
 
-	@JsonIgnore
 	@Column(name = "password_reset_request")
 	private Date passwordResetRequest;
 
-	@JsonIgnore
 	@Column(name = "facebook_id")
 	private String facebookId;
 
-	@JsonIgnore
 	@Column(name = "facebook_token")
 	private String facebookToken;
 
-	@JsonIgnore
 	@Column(name = "google_id")
 	private String googleId;
 
-	@JsonIgnore
 	@Column(name = "google_token")
 	private String googleToken;
 
@@ -61,14 +52,15 @@ public class User implements Principal {
 
 	private Date activation;
 
-	@JsonIgnore
 	@Column(name = "activation_token")
 	private String activationToken;
 
-	@JsonIgnore
 	private Date deleted;
 
 	private Boolean admin;
+
+	@Column(name = "_organizer")
+	private Boolean organizer;
 
 	@Transient
 	private Profile profile;
@@ -102,10 +94,11 @@ public class User implements Principal {
 	}
 
 	public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,
-			Integer healthPendencies, Boolean admin) {
+			Integer healthPendencies, Boolean admin, Boolean organizer) {
 		setId(id);
 		setEmail(email);
 		setAdmin(admin);
+		setOrganizer(organizer);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
@@ -118,7 +111,7 @@ public class User implements Principal {
 
 	public User(Integer id, String email, String password, Date activation, String activationToken,
 			Date passwordResetRequest, String passwordResetToken, String profileName, GenderType profileGender,
-			Integer profilePendencies, Integer healthPendencies, Boolean admin) throws Exception {
+			Integer profilePendencies, Integer healthPendencies, Boolean admin, Boolean organizer) throws Exception {
 		setId(id);
 		setEmail(email);
 		setPassword(password);
@@ -127,6 +120,7 @@ public class User implements Principal {
 		setPasswordResetRequest(passwordResetRequest);
 		setPasswordResetToken(passwordResetToken);
 		setAdmin(admin);
+		setOrganizer(organizer);
 
 		setProfile(new Profile());
 		getProfile().setName(profileName);
@@ -139,7 +133,6 @@ public class User implements Principal {
 
 	@Override
 	@Transient
-	@JsonIgnore
 	public String getName() {
 		return getProfile() != null ? getProfile().getName() : null;
 	}
@@ -284,6 +277,14 @@ public class User implements Principal {
 
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
+	}
+
+	public Boolean getOrganizer() {
+		return organizer;
+	}
+
+	public void setOrganizer(Boolean organizer) {
+		this.organizer = organizer;
 	}
 
 	public Profile getProfile() {

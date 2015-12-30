@@ -67,10 +67,13 @@ public class Event {
 		this.id = id;
 	}
 
-	public Event(Integer id, String name, String description) {
+	public Event(Integer id, String name, String slug, String description, Date beginning, Date end) {
 		setId(id);
 		setName(name);
+		setSlug(slug);
 		setDescription(description);
+		setBeginning(beginning);
+		setEnd(end);
 	}
 
 	public Event(Integer id, byte[] banner) {
