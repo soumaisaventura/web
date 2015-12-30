@@ -77,6 +77,50 @@ END
 $func$
    LANGUAGE plpgsql;
 
+
+SELECT r.*
+  FROM period p, race r, status s
+ WHERE     r._status_id = s.id
+       AND p.race_id = r.id                              --AND s.name <> 'end'
+       AND now ()::date BETWEEN p.beginning AND p.ending;
+
+DROP FUNCTION IF EXISTS update_statuses ();
+
+CREATE OR REPLACE FUNCTION update_statuses ()
+   RETURNS void
+AS
+$func$
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   today       DATE;
+   l_race      race%ROWTYPE;
+   status_id   status.id%TYPE;
+BEGIN
+   today = now ()::date;
+
+   FOR l_race IN SELECT r.*
+                   FROM race r
+   --    IN SELECT DISTINCT r.*
+   --      FROM period p, race r, status s
+   --     WHERE     r._status_id = s.id
+   --     AND p.race_id = r.id
+   --     AND today BETWEEN p.beginning AND p.ending
+   LOOP
+      status_id = race_status (l_race.id, today);
+
+      IF l_race._status_id <> status_id
+      THEN
+         UPDATE race
+            SET _status_id = status_id
+          WHERE id = l_race.id;
+      END IF;
+   END LOOP;
+END
+$func$
+   LANGUAGE plpgsql;
+
+SELECT update_statuses ();
+
 CREATE OR REPLACE FUNCTION trg_period_after_all ()
    RETURNS trigger
 AS

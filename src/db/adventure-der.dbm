@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1274,42" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="0,0" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -165,7 +165,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1699.41" y="608.667"/>
+	<position x="1772.41" y="682.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -675,7 +675,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1958" y="615"/>
+	<position x="2024" y="609"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -1636,6 +1636,50 @@ END;
 	 table="public.event_organizer">
 		<function signature="public.trg_event_organizer_after_all()"/>
 </trigger>
+
+<function name="update_statuses"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+   # VARIABLE_CONFLICT use_variable
+DECLARE
+   today       DATE;
+   l_race      race%ROWTYPE;
+   status_id   status.id%TYPE;
+BEGIN
+   today = now ()::date;
+
+   FOR l_race IN SELECT r.*
+                   FROM race r
+   --    IN SELECT DISTINCT r.*
+   --      FROM period p, race r, status s
+   --     WHERE     r._status_id = s.id
+   --     AND p.race_id = r.id
+   --     AND today BETWEEN p.beginning AND p.ending
+   LOOP
+      status_id = race_status (l_race.id, today);
+
+      IF l_race._status_id <> status_id
+      THEN
+         UPDATE race
+            SET _status_id = status_id
+          WHERE id = l_race.id;
+      END IF;
+   END LOOP;
+END
+]]></definition>
+</function>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">
