@@ -183,8 +183,6 @@ public class UserProfileREST {
 		if (result == null) {
 			InputStream in = context.getResourceAsStream("/images/foto_anonimo_"
 					+ profile.getGender().toString().toLowerCase() + ".jpg");
-			// InputStream in = Reflections.getResourceAsStream("/images/foto_anonimo_"
-			// + profile.getGender().toString().toLowerCase() + ".jpg");
 			result = IOUtils.toByteArray(in);
 		}
 

@@ -50,7 +50,7 @@
 		</div>
 
 		<div id="info-section" hidden="true">
-			<div id="title-column"></div>
+			<div id="title-column" class="title"></div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<p id="description"></p>
@@ -175,7 +175,7 @@
 												<span class="{{status}} label event-label-{{status_class}} rounded full-width"></span>
 											{{/status_button}}
 									</div>
-									<div class="saiba-mais col-md-12 hidden-md hidden-lg">
+									<div class="see-more col-md-12 hidden-md hidden-lg">
 										<a data-toggle="collapse" href="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}" class="hidden-md hidden-lg">Saiba mais</a>
 									</div>
 								</div>
@@ -185,7 +185,6 @@
 					</div>
 				</div>
 			</div>
-			
 			
 			<div class="collapse row" id="collapse-{{id}}">
 				<div class="col-md-offset-2 col-md-8" style="padding-bottom: 30px;">
@@ -203,7 +202,9 @@
 											<small>à</small>
 											{{period.end}}{{/more_than_one_day}}
 										</li>
+										{{#distance}}
 										<li>Distância: {{distance}} km</li>
+										{{/distance}}
 									</ul>
 								</div>
 							</div>

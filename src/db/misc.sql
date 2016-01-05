@@ -294,27 +294,263 @@ SELECT *
  WHERE id = 30;
 
 
-UPDATE event
-   SET coord_latitude = -9.40527, coord_longitude = -40.4852208
- WHERE id = 11;
 
-UPDATE race
-   SET description =
-          'Corrida de Aventura com orientação por mapa e bússola.'
- WHERE id IN (13, 14);
- 
- UPDATE race
-   SET description =
-          'Corrida de Aventura com trekking, mountain biking e orientação por mapa e bússola.'
- WHERE id IN (26);
- 
- 
-UPDATE race
-   SET description =
-          'Trekking com orientação por mapa e bússola.'
- WHERE id IN (27, 28);
- 
- UPDATE race
-   SET description =
-          'Corrida de Aventura urbana com orientação por mapa e bússola.'
- WHERE id IN (29);
+INSERT INTO city (id, name, state_id)
+     VALUES (5573, 'Chapada Diamantina', 1);
+
+INSERT INTO city (id, name, state_id)
+     VALUES (5574, 'Recôncavo Baiano', 1);
+
+INSERT INTO event (id,
+                   "name",
+                   banner,
+                   site,
+                   payment_type,
+                   payment_info,
+                   payment_account,
+                   payment_token,
+                   slug,
+                   description,
+                   city_id,
+                   coord_latitude,
+                   coord_longitude,
+                   "_status_id",
+                   "_beginning",
+                   "_ending")
+     VALUES (13,
+             'Peleja',
+             NULL,
+             NULL,
+             'MANUAL',
+             NULL,
+             NULL,
+             NULL,
+             'peleja/2016',
+             NULL,
+             5574,
+             NULL,
+             NULL,
+             1,
+             NULL,
+             NULL);
+
+INSERT INTO race (id,
+                  "name",
+                  description,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  slug,
+                  ending,
+                  distance,
+                  "_status_id")
+     VALUES (31,
+             'Corrida de Aventura',
+             NULL,
+             13,
+             1,
+             TO_DATE ('05/14/2016', 'MM/DD/YYYY'),
+             'aventura',
+             TO_DATE ('05/15/2016', 'MM/DD/YYYY'),
+             NULL,
+             1);
+
+INSERT INTO event (id,
+                   "name",
+                   banner,
+                   site,
+                   payment_type,
+                   payment_info,
+                   payment_account,
+                   payment_token,
+                   slug,
+                   description,
+                   city_id,
+                   coord_latitude,
+                   coord_longitude,
+                   "_status_id",
+                   "_beginning",
+                   "_ending")
+     VALUES (14,
+             'Mandacaru',
+             NULL,
+             NULL,
+             'MANUAL',
+             NULL,
+             NULL,
+             NULL,
+             'mandacaru/2016',
+             NULL,
+             411,
+             NULL,
+             NULL,
+             1,
+             NULL,
+             NULL);
+
+INSERT INTO race (id,
+                  "name",
+                  description,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  slug,
+                  ending,
+                  distance,
+                  "_status_id")
+     VALUES (32,
+             'Corrida de Aventura',
+             NULL,
+             14,
+             1,
+             TO_DATE ('08/06/2016', 'MM/DD/YYYY'),
+             'aventura',
+             TO_DATE ('08/07/2016', 'MM/DD/YYYY'),
+             NULL,
+             1);
+
+
+INSERT INTO event (id,
+                   "name",
+                   banner,
+                   site,
+                   payment_type,
+                   payment_info,
+                   payment_account,
+                   payment_token,
+                   slug,
+                   description,
+                   city_id,
+                   coord_latitude,
+                   coord_longitude,
+                   "_status_id",
+                   "_beginning",
+                   "_ending")
+     VALUES (15,
+             'Laskpé',
+             NULL,
+             NULL,
+             'MANUAL',
+             NULL,
+             NULL,
+             NULL,
+             'laskpe/2016',
+             NULL,
+             498,
+             NULL,
+             NULL,
+             1,
+             NULL,
+             NULL);
+
+INSERT INTO race (id,
+                  "name",
+                  description,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  slug,
+                  ending,
+                  distance,
+                  "_status_id")
+     VALUES (33,
+             'Corrida de Aventura',
+             NULL,
+             15,
+             1,
+             TO_DATE ('10/08/2016', 'MM/DD/YYYY'),
+             'aventura',
+             TO_DATE ('10/09/2016', 'MM/DD/YYYY'),
+             NULL,
+             1);
+
+INSERT INTO event (id,
+                   "name",
+                   banner,
+                   site,
+                   payment_type,
+                   payment_info,
+                   payment_account,
+                   payment_token,
+                   slug,
+                   description,
+                   city_id,
+                   coord_latitude,
+                   coord_longitude,
+                   "_status_id",
+                   "_beginning",
+                   "_ending")
+     VALUES (16,
+             'Corrida do CT Gantuá',
+             NULL,
+             NULL,
+             'MANUAL',
+             NULL,
+             NULL,
+             NULL,
+             'corridadoctg/2016',
+             NULL,
+             5573,
+             NULL,
+             NULL,
+             1,
+             NULL,
+             NULL);
+
+INSERT INTO race (id,
+                  "name",
+                  description,
+                  event_id,
+                  sport_id,
+                  beginning,
+                  slug,
+                  ending,
+                  distance,
+                  "_status_id")
+     VALUES (34,
+             'Corrida de Aventura',
+             NULL,
+             16,
+             1,
+             TO_DATE ('11/12/2016', 'MM/DD/YYYY'),
+             'aventura',
+             TO_DATE ('11/15/2016', 'MM/DD/YYYY'),
+             NULL,
+             1);
+
+UPDATE event
+   SET description = 'Em breve, mais informações sobre o evento.'
+ WHERE id >= 13;
+
+INSERT INTO championship (id, name, slug)
+        VALUES (
+                  4,
+                  'Campeonato Baiano de Corrida de Aventura 2016',
+                  'baianoca/2016');
+
+INSERT INTO championship_race (race_id, championship_id)
+     VALUES (31, 4);
+
+INSERT INTO championship_race (race_id, championship_id)
+     VALUES (32, 4);
+
+INSERT INTO championship_race (race_id, championship_id)
+     VALUES (33, 4);
+
+INSERT INTO championship_race (race_id, championship_id)
+     VALUES (34, 4);
+
+UPDATE event
+   SET name = replace (name, ' 2015', '');
+
+
+SELECT *
+  FROM city
+ WHERE name LIKE 'Chapada%';
+
+
+SELECT max (id) FROM city;
+
+
+
+SELECT * FROM city;
