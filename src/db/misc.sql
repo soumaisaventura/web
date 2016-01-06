@@ -272,49 +272,21 @@ ORDER BY e.id, r.id;
 
 ----
 
-UPDATE period
-   SET ending = '2016-01-01'::date
- WHERE id IN (27, 36);
-
-  SELECT racecatego0_.race_id,
-         category1_.id AS col_0_0_,
-         category1_.name AS col_1_0_,
-         category1_.description AS col_2_0_,
-         category1_.team_size AS col_3_0_,
-         category1_.min_male_members AS col_4_0_,
-         category1_.min_female_members AS col_5_0_
-    FROM race_category racecatego0_
-         INNER JOIN category category1_
-            ON racecatego0_.category_id = category1_.id
--- WHERE racecatego0_.race_id = 30
-ORDER BY category1_.team_size DESC, category1_.name;
-
-SELECT *
-  FROM race
- WHERE id = 30;
 
 
-UPDATE event
-   SET coord_latitude = -9.40527, coord_longitude = -40.4852208
- WHERE id = 11;
+---------------------
 
-UPDATE race
-   SET description =
-          'Corrida de Aventura com orientação por mapa e bússola.'
- WHERE id IN (13, 14);
- 
- UPDATE race
-   SET description =
-          'Corrida de Aventura com trekking, mountain biking e orientação por mapa e bússola.'
- WHERE id IN (26);
- 
- 
-UPDATE race
-   SET description =
-          'Trekking com orientação por mapa e bússola.'
- WHERE id IN (27, 28);
- 
- UPDATE race
-   SET description =
-          'Corrida de Aventura urbana com orientação por mapa e bússola.'
- WHERE id IN (29);
+SELECT * FROM tabelao;
+
+SELECT * FROM questao;
+
+DROP TABLE IF EXISTS questao;
+
+
+
+SELECT attname, replace (attname, 'q_', '') AS num
+  FROM pg_attribute
+ WHERE attrelid = 'tabelao'::regclass AND attname LIKE 'q_%';
+
+
+-----
