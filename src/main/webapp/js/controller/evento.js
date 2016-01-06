@@ -81,6 +81,11 @@ function loadEventOk(event) {
 	$("#location-city").text(App.parseCity(event.location.city));
 	$("#date").text(App.parsePeriod(event.period));
 	$("#description").text(event.description);
+
+	if (!event.description) {
+		$("#info-section .row").remove();
+	}
+
 	$("#info-section").show();
 
 	var template;

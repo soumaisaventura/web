@@ -2,9 +2,9 @@ html, body {
 	overflow-x: hidden;
 }
 
-/********** INFO SECTION **********/
+/* Info */
 #info-section {
-	margin-top: 30px;
+	padding-top: 30px;
 }
 
 #title {
@@ -28,7 +28,8 @@ html, body {
 .painel {
 	margin-bottom: 30px;
 }
-/********** RACE SECTION **********/
+
+/* Race */
 #races-section {
 	margin-top: 30px;
 }
@@ -40,6 +41,28 @@ html, body {
 
 .race-border {
 	border-top: 1px solid #eee;
+}
+
+.race-name {
+	margin-top: 0px;
+	line-height: 32px;
+}
+
+.race-description {
+	text-align: justify;
+}
+
+.event-label-danger {
+	font-weight: normal;
+	font-size: 15px;
+	background-color: #fff;
+	color: #d9534f;
+	border: 1px solid #d9534f;
+}
+
+.full-width {
+	display: block;
+	width: 100%;
 }
 
 .calendar {
@@ -56,15 +79,6 @@ html, body {
 	margin-right: 10px;
 }
 
-.race-name {
-	margin-top: 0px;
-	line-height: 32px;
-}
-
-.race-description {
-	text-align: justify;
-}
-
 .calendar div:nth-child(1) {
 	background-color: #d9534f;
 	font-size: 0.9em;
@@ -73,29 +87,16 @@ html, body {
 	border-top-right-radius: 2px;
 }
 
-.event-label-danger {
-	font-weight: normal;
-	font-size: 15px;
-	background-color: #fff;
-	color: #d9534f;
-	border: 1px solid #d9534f;
-}
-
-.full-width {
-	display: block;
-	width: 100%;
-}
-
-.saiba-mais {
+.see-more {
 	margin-top: 10px;
 }
 
-/********** LOCATION SECTION **********/
+/* Location */
 #location-title {
 	border-top: 1px solid #eee;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	padding-top: 30px;
+	padding-top: 23px;
 }
 
 #map {
@@ -104,16 +105,16 @@ html, body {
 	width: auto;
 }
 
-/********** ORGANIZERS SECTION **********/
+/* Organizers */
 #organizers-section {
-	margin-top: 30px;
+	margin-top: 33px;
 }
 
 #organizer-title {
 	border-top: 1px solid #eee;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	padding-top: 30px;
+	padding-top: 23px;
 }
 
 #organizers {

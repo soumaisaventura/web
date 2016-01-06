@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -240,9 +241,21 @@ public class EventREST {
 	@Produces("image/png")
 	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-	public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width) throws Exception {
+	public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width,
+			@Context ServletContext context) throws Exception {
 		Event event = loadEventBanner(slug);
-		return ImageBusiness.getInstance().resize(event.getBanner(), 750, width);
+		return ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
+	}
+
+	private byte[] loadBanner(Event event, ServletContext context) throws Exception {
+		byte[] result = event.getBanner();
+
+		if (result == null) {
+			InputStream in = context.getResourceAsStream("/images/banner_blank.png");
+			result = IOUtils.toByteArray(in);
+		}
+
+		return result;
 	}
 
 	@PUT

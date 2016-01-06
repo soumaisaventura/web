@@ -158,9 +158,9 @@ public class UserDAO extends JPACrud<User, Integer> {
 		jpql.append("           from UserRegistration _tf ");
 		jpql.append("          where _tf.user = u) ");
 		jpql.append("    and not exists ");
-		jpql.append("        (select _r.organizer.id ");
-		jpql.append("           from RaceOrganizer _r ");
-		jpql.append("          where _r.organizer = u) ");
+		jpql.append("        (select _eo.organizer.id ");
+		jpql.append("           from EventOrganizer _eo ");
+		jpql.append("          where _eo.organizer = u) ");
 		jpql.append("  order by p.name, ");
 		jpql.append("        (p.pendencies + h.pendencies) desc, ");
 		jpql.append("        case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end, ");
@@ -169,30 +169,6 @@ public class UserDAO extends JPACrud<User, Integer> {
 		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
 		return query.getResultList();
 	}
-
-	// public List<User> findRaceOrganizers(Race race) {
-	// StringBuffer jpql = new StringBuffer();
-	// jpql.append(" select ");
-	// jpql.append(" 	 new User( ");
-	// jpql.append(" 	     o.id, ");
-	// jpql.append(" 	     case when ro.alternateEmail is null then o.email else ro.alternateEmail end, ");
-	// jpql.append(" 	     case when ro.alternateName is null then p.name else ro.alternateName end, ");
-	// jpql.append(" 	     p.gender, ");
-	// jpql.append(" 	     p.mobile ");
-	// jpql.append(" 	     ) ");
-	// jpql.append("   from RaceOrganizer ro ");
-	// jpql.append("   join ro.organizer o, ");
-	// jpql.append("        Profile p ");
-	// jpql.append("  where o = p.user ");
-	// jpql.append("    and ro.race = :race ");
-	// jpql.append("  order by ");
-	// jpql.append("        p.name ");
-	//
-	// TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
-	// query.setParameter("race", race);
-	//
-	// return query.getResultList();
-	// }
 
 	public List<User> findUserRegistrations(Registration registration) {
 		StringBuffer jpql = new StringBuffer();

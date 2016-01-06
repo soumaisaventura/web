@@ -1,0 +1,3 @@
+--UPDATE period
+--   SET ending = '2016-01-01'::date
+-- WHERE id IN (27, 36);
