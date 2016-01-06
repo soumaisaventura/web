@@ -13,7 +13,6 @@
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>
-<!-- 		<class>adventure.entity.RaceOrganizer</class> -->
 		<class>adventure.entity.RaceFee</class>
 		<class>adventure.entity.Status</class>
 		<class>adventure.entity.Championship</class>
@@ -23,7 +22,6 @@
 		<class>adventure.entity.Modality</class>
 		<class>adventure.entity.RegistrationPeriod</class>
 		<class>adventure.entity.Category</class>
-<!-- 		<class>adventure.entity.Course</class> -->
 		<class>adventure.entity.Registration</class>
 		<class>adventure.entity.Fee</class>
 		<class>adventure.entity.UserRegistration</class>

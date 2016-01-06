@@ -34,7 +34,7 @@ SELECT *
 
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%josilene%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%bandeira%';
 
 UPDATE user_registration
    SET user_id = 302
@@ -542,15 +542,3 @@ INSERT INTO championship_race (race_id, championship_id)
 
 UPDATE event
    SET name = replace (name, ' 2015', '');
-
-
-SELECT *
-  FROM city
- WHERE name LIKE 'Chapada%';
-
-
-SELECT max (id) FROM city;
-
-
-
-SELECT * FROM city;
