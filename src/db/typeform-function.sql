@@ -14,6 +14,8 @@ DECLARE
    aux_count    integer;
 BEGIN
    -- preparando a base
+   DROP VIEW IF EXISTS respostas_count;
+
    DROP VIEW IF EXISTS respostas;
 
    DROP TABLE IF EXISTS questao;
@@ -38,9 +40,10 @@ BEGIN
 
    CREATE TABLE resposta_usuario
    (
-      questao_id    integer,
-      resposta_id   integer,
-      usuario_id    text
+      questao_id        integer,
+      resposta_id       integer,
+      new_resposta_id   integer,
+      usuario_id        text
    );
 
    FOR t_reg IN SELECT * FROM tabelao
@@ -174,18 +177,719 @@ BEGIN
       END LOOP;
    END LOOP;
 
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = resposta_id;
+
+   -- Questão 1
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Colegas', 1);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-1, 'Outros', 1);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-2, 'Código-fonte', 1);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 21;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 18;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 20;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 8;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 1 AND resposta_id = 29;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 19;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 34;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 27;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 28;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 1 AND resposta_id = 25;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 33;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 44
+    WHERE questao_id = 1 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 1 AND resposta_id = 32;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 9;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 5;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 24;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 6;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 1 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 26;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 22;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 1 AND resposta_id = 31;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 1 AND resposta_id = 30;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 1 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 1 AND resposta_id = 23;
+
+   -- Questão 2
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Colegas', 2);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-1, 'Outros', 2);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 2 AND resposta_id = 6;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 2 AND resposta_id = 18;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 2 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 2 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 3
+    WHERE questao_id = 2 AND resposta_id = 2;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 3
+    WHERE questao_id = 2 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 2 AND resposta_id = 7;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 2 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 2 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 3
+    WHERE questao_id = 2 AND resposta_id = 9;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 2 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 3
+    WHERE questao_id = 2 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 2 AND resposta_id = 10;
+
+
+   -- Questão 8
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Não achei bugs', 8);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-1, 'Informo ao colega', 8);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-2, 'Outros', 8);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 18;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 41;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 6;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 23;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 32;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 48;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 50;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 44;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 47;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 31;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 36;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 34;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 39;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 49;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 37;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 45;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 43;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 38;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 9;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 5;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 7;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 27;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 25;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 33;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 26;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 20;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 46;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 24;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 21;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 35;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 19;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 40;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -2
+    WHERE questao_id = 8 AND resposta_id = 28;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 30;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 8 AND resposta_id = 42;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 22;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 8 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 8 AND resposta_id = 29;
+
+   -- Questão 10
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Anti-Demoiselle', 10);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Outros', 10);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 26;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 18;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 29;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 7;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 4;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 23;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 27;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 25;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 8;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 19;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 21;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 30;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 28;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 9;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 10 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 24;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 20;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 10 AND resposta_id = 22;
+
+
+   -- Questão 12
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Colega', 12);
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (-1, 'Outros', 12);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 12 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 12 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 12 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 12 AND resposta_id = 5;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 12 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 12 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = -1
+    WHERE questao_id = 12 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 12 AND resposta_id = 7;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 12 AND resposta_id = 9;
+
+
+   -- Questão 16
+
+   INSERT INTO resposta (id, descricao, questao_id)
+        VALUES (0, 'Outros', 16);
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 25;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 2
+    WHERE questao_id = 16 AND resposta_id = 22;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 11;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 21;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 28;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 9;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 23;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 20;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 6
+    WHERE questao_id = 16 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 4;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 6
+    WHERE questao_id = 16 AND resposta_id = 18;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 8;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 19;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 3
+    WHERE questao_id = 16 AND resposta_id = 5;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 16 AND resposta_id = 26;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 0
+    WHERE questao_id = 16 AND resposta_id = 27;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 7
+    WHERE questao_id = 16 AND resposta_id = 24;
+
+
+   -- Questão 20
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 5
+    WHERE questao_id = 20 AND resposta_id = 13;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 20 AND resposta_id = 3;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 4
+    WHERE questao_id = 20 AND resposta_id = 15;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 5
+    WHERE questao_id = 20 AND resposta_id = 12;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 20 AND resposta_id = 2;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 8
+    WHERE questao_id = 20 AND resposta_id = 6;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 8
+    WHERE questao_id = 20 AND resposta_id = 17;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 5
+    WHERE questao_id = 20 AND resposta_id = 16;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 8
+    WHERE questao_id = 20 AND resposta_id = 10;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 4
+    WHERE questao_id = 20 AND resposta_id = 14;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 1
+    WHERE questao_id = 20 AND resposta_id = 7;
+
+   UPDATE resposta_usuario
+      SET new_resposta_id = 5
+    WHERE questao_id = 20 AND resposta_id = 11;
+
+
    CREATE VIEW respostas
    AS
         SELECT ru.usuario_id,
                ru.questao_id,
                q.titulo AS questao,
                ru.resposta_id,
+               ru.new_resposta_id,
                r.descricao AS resposta
           FROM resposta_usuario ru, questao q, resposta r
          WHERE     ru.questao_id = q.id
                AND ru.questao_id = r.questao_id
-               AND ru.resposta_id = r.id
-      ORDER BY ru.usuario_id, ru.questao_id, ru.resposta_id;
+               AND ru.new_resposta_id = r.id
+      ORDER BY ru.usuario_id, ru.questao_id, ru.new_resposta_id;
+
+   CREATE VIEW respostas_count
+   AS
+        SELECT questao_id,
+               questao,
+               new_resposta_id,
+               resposta,
+               count (*) AS qtd
+          FROM respostas
+      GROUP BY questao_id,
+               questao,
+               new_resposta_id,
+               resposta
+      ORDER BY questao_id, qtd DESC;
 -- RAISE EXCEPTION '%', q_attr;
 END
 $func$

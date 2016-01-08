@@ -27,29 +27,28 @@ public class EventAnalyticsREST {
 	@Path("category")
 	@Produces("application/json")
 	public List<EventAnalytic> getCategories(@PathParam("slug") String slug) throws Exception {
-		Event event = loadRace(slug);
+		Event event = loadEvent(slug);
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().getRegistrationByCategory(event);
 	}
 
-	// @GET
-	// @LoggedIn
-	// @Path("course")
-	// @Produces("application/json")
-	// public List<RaceAnalytic> getCourses(@PathParam("id") Integer id) throws Exception {
-	// Race race = loadRace(id);
-	// checkPermission(race);
-	// return RaceAnalyticDAO.getInstance().getRegistrationByCourse(race);
-	// }
+	@GET
+	@LoggedIn
+	@Path("race")
+	@Produces("application/json")
+	public List<EventAnalytic> getRaces(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+		return EventAnalyticDAO.getInstance().getRegistrationByCourse(event);
+	}
 
 	@GET
 	@LoggedIn
 	@Path("status")
 	@Produces("application/json")
 	public List<EventAnalytic> getStatus(@PathParam("slug") String slug) throws Exception {
-		Event event = loadRace(slug);
+		Event event = loadEvent(slug);
 		checkPermission(event);
-
 		List<EventAnalytic> result = EventAnalyticDAO.getInstance().getRegistrationByStatus(event);
 		for (EventAnalytic analytic : result) {
 			analytic.setLabel(analytic.getLabel().toLowerCase());
@@ -63,7 +62,7 @@ public class EventAnalyticsREST {
 	@Path("location")
 	@Produces("application/json")
 	public List<EventAnalytic> getCities(@PathParam("slug") String slug) throws Exception {
-		Event event = loadRace(slug);
+		Event event = loadEvent(slug);
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().getRegistrationByCity(event);
 	}
@@ -73,12 +72,12 @@ public class EventAnalyticsREST {
 	@Path("tshirt")
 	@Produces("application/json")
 	public List<EventAnalytic> getTshirts(@PathParam("slug") String slug) throws Exception {
-		Event event = loadRace(slug);
+		Event event = loadEvent(slug);
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().getRegistrationByTshirt(event);
 	}
 
-	private Event loadRace(String slug) throws Exception {
+	private Event loadEvent(String slug) throws Exception {
 		Event result = EventDAO.getInstance().load(slug);
 
 		if (result == null) {

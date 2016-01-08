@@ -1,7 +1,8 @@
-<<<<<<< HEAD
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';SELECT *
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
+
+SELECT *
   FROM user_account ua
  WHERE ua.email LIKE '%manoelabb@gmail.com%';
 
@@ -544,3 +545,37 @@ ORDER BY p."name";
 ORDER BY e.id, r.id;
 
 ----
+
+
+SELECT * FROM registration;
+
+
+/*
+  SELECT CASE
+            WHEN profile4_.tshirt IS NULL THEN 'Indefinido'
+            ELSE profile4_.tshirt
+         END
+            AS col_0_0_,
+
+  SELECT profile4_.tshirt AS col_0_0_ ,
+         count (registrati1_.id) AS col_1_0_
+*/
+
+  SELECT profile4_.id, profile4_.tshirt
+    FROM user_registration userregist0_
+         INNER JOIN registration registrati1_
+            ON userregist0_.registration_id = registrati1_.id
+         INNER JOIN race_category racecatego2_
+            ON     registrati1_.category_id = racecatego2_.category_id
+               AND registrati1_.race_id = racecatego2_.race_id
+         INNER JOIN race race3_ ON racecatego2_.race_id = race3_.id
+         CROSS JOIN profile profile4_
+   WHERE     race3_.event_id = 8
+         AND registrati1_.status = 'CONFIRMED'
+         AND userregist0_.user_id = profile4_.id
+ORDER BY profile4_.id;
+
+/*
+GROUP BY profile4_.tshirt
+ORDER BY count (registrati1_.id) DESC;
+*/

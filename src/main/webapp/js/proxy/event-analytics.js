@@ -12,10 +12,10 @@ var EventAnalyticsProxy = {
 		});
 	},
 
-	getByCourses : function(id) {
+	getByRaces : function(id) {
 		return $.ajax({
 			type : "GET",
-			url : this.url + "/" + id + "/analytics/course",
+			url : this.url + "/" + id + "/analytics/race",
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}

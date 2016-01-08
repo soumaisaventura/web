@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(TeamFormationPk.class)
+@IdClass(UserRegistrationPk.class)
 @Table(name = "user_registration")
 public class UserRegistration {
 

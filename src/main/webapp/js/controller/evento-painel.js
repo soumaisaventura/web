@@ -21,11 +21,11 @@ $(function() {
 
 	EventProxy.loadSummary(id).done(loadSummaryOk);
 
-	// EventAnalyticsProxy.getByCategories(id).done(getByCategoriesOk);
-	// EventAnalyticsProxy.getByCourses(id).done(getByCoursesOk);
-	// EventAnalyticsProxy.getByStatus(id).done(getByStatusOk);
-	// EventAnalyticsProxy.getByLocation(id).done(getByLocationOk);
-	// EventAnalyticsProxy.getByTshirt(id).done(getByTshirtOk);
+	EventAnalyticsProxy.getByCategories(id).done(getByCategoriesOk);
+	EventAnalyticsProxy.getByRaces(id).done(getByRacesOk);
+	EventAnalyticsProxy.getByStatus(id).done(getByStatusOk);
+	EventAnalyticsProxy.getByLocation(id).done(getByLocationOk);
+	EventAnalyticsProxy.getByTshirt(id).done(getByTshirtOk);
 });
 
 function loadSummaryOk(event) {
@@ -68,8 +68,8 @@ function getByCategoriesOk(data) {
 	fillChartData(data, $("#category-chart"));
 }
 
-function getByCoursesOk(data) {
-	fillChartData(data, $("#course-chart"));
+function getByRacesOk(data) {
+	fillChartData(data, $("#race-chart"));
 }
 
 function getByLocationOk(data) {

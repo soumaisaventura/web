@@ -27,7 +27,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append(" select ");
 		jpql.append("    new adventure.entity.EventAnalytic( ");
 		jpql.append("        ca.name ");
-		// jpql.append("        || ' ' || co.name ");
+		jpql.append("        || ' ' || ra.name ");
 		jpql.append("        , ");
 		jpql.append("        (select count(_re) ");
 		jpql.append("           from Registration _re ");
@@ -37,42 +37,42 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ) ");
 		jpql.append("   from RaceCategory rc ");
 		jpql.append("   join rc.category ca ");
-		// jpql.append("   join rc.course co ");
-		jpql.append("  where rc.race = :race ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("  where ra.event = :event ");
 		jpql.append("  order by ");
-		// jpql.append("        co.id, ");
+		jpql.append("       ra.id, ");
 		jpql.append("        _count desc ");
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
-		query.setParameter("race", event);
+		query.setParameter("event", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();
 	}
 
-	// public List<EventAnalytic> getRegistrationByCourse(Race race) {
-	// StringBuffer jpql = new StringBuffer();
-	// jpql.append(" select ");
-	// jpql.append("    new adventure.entity.EventAnalytic( ");
-	// jpql.append("        co.name, ");
-	// jpql.append("        (select count(_re) ");
-	// jpql.append("           from Registration _re ");
-	// jpql.append("           join _re.raceCategory _rc ");
-	// jpql.append("          where _rc.course = co ");
-	// jpql.append("            and _re.status = :status ");
-	// jpql.append("        ) as _count ");
-	// jpql.append("        ) ");
-	// jpql.append("   from Course co ");
-	// jpql.append("  where co.race = :race ");
-	// jpql.append("  order by ");
-	// jpql.append("        _count desc ");
-	//
-	// TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
-	// query.setParameter("race", race);
-	// query.setParameter("status", CONFIRMED);
-	//
-	// return query.getResultList();
-	// }
+	public List<EventAnalytic> getRegistrationByCourse(Event event) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
+		jpql.append("        ra.name, ");
+		jpql.append("        (select count(_re) ");
+		jpql.append("           from Registration _re ");
+		jpql.append("           join _re.raceCategory _rc ");
+		jpql.append("          where _rc.race = ra ");
+		jpql.append("            and _re.status = :status ");
+		jpql.append("        ) as _count ");
+		jpql.append("        ) ");
+		jpql.append("   from Race ra ");
+		jpql.append("  where ra.event = :event ");
+		jpql.append("  order by ");
+		jpql.append("        _count desc ");
+
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("event", event);
+		query.setParameter("status", CONFIRMED);
+
+		return query.getResultList();
+	}
 
 	public List<EventAnalytic> getRegistrationByStatus(Event event) {
 		StringBuffer jpql = new StringBuffer();
@@ -83,14 +83,15 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ) ");
 		jpql.append("   from Registration re ");
 		jpql.append("   join re.raceCategory rc ");
-		jpql.append("  where rc.race = :race ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("  where ra.event = :event ");
 		jpql.append("  group by ");
 		jpql.append("        re.status ");
 		jpql.append("  order by ");
 		jpql.append("        count(re) desc ");
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
-		query.setParameter("race", event);
+		query.setParameter("event", event);
 
 		return query.getResultList();
 	}
@@ -104,11 +105,12 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ) ");
 		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.registration re ");
-		jpql.append("   join re.raceCategory rc, ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra, ");
 		jpql.append("        Profile pr ");
 		jpql.append("   join pr.city ci ");
 		jpql.append("   join ci.state st ");
-		jpql.append("  where rc.race = :race ");
+		jpql.append("  where ra.event = :event ");
 		jpql.append("    and re.status = :status ");
 		jpql.append("    and tf.user = pr.user ");
 		jpql.append("  group by ");
@@ -117,7 +119,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        count(re) desc, ci.name ");
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
-		query.setParameter("race", event);
+		query.setParameter("event", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();
@@ -132,9 +134,10 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        ) ");
 		jpql.append("   from UserRegistration tf ");
 		jpql.append("   join tf.registration re ");
-		jpql.append("   join re.raceCategory rc, ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra, ");
 		jpql.append("        Profile pr ");
-		jpql.append("  where rc.race = :race ");
+		jpql.append("  where ra.event = :event ");
 		jpql.append("    and re.status = :status ");
 		jpql.append("    and tf.user = pr.user ");
 		jpql.append("  group by ");
@@ -143,7 +146,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        count(re) desc ");
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
-		query.setParameter("race", event);
+		query.setParameter("event", event);
 		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();

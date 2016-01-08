@@ -2,7 +2,7 @@ package adventure.entity;
 
 import java.io.Serializable;
 
-public class TeamFormationPk implements Serializable {
+public class UserRegistrationPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,10 +27,10 @@ public class TeamFormationPk implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof TeamFormationPk)) {
+		if (!(obj instanceof UserRegistrationPk)) {
 			return false;
 		}
-		TeamFormationPk other = (TeamFormationPk) obj;
+		UserRegistrationPk other = (UserRegistrationPk) obj;
 		if (registration == null) {
 			if (other.registration != null) {
 				return false;
