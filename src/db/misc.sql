@@ -579,3 +579,86 @@ ORDER BY profile4_.id;
 GROUP BY profile4_.tshirt
 ORDER BY count (registrati1_.id) DESC;
 */
+
+--race ra, registration re
+
+
+
+SELECT da.date::date,
+       sum(CASE WHEN re.status = 'PENDENT' THEN 1 ELSE 0 END) AS pendent,
+    sum(CASE WHEN re.status = 'CONFIRMMED' THEN 1 ELSE 0 END) AS confirmmed,
+    sum(CASE WHEN re.status = 'CANCELLED' THEN 1 ELSE 0 END) AS cancelled
+  FROM  generate_series ('01/01/2016'::date, '03/16/2016', '1 day') da(date) LEFT JOIN registration re ON (re.date::date = da.date) LEFT JOIN race ra ON (re.race_id = ra.id)
+  WHERE (ra.event_id = 12 OR ra.event_id IS NULL)
+  GROUP BY da.date::date
+  ORDER BY da.date::date ASC;
+
+
+/*
+SELECT *
+  FROM (SELECT ep.race_id,
+               generate_series (ep.beginning, ep.ending, '1 day') AS date
+          FROM (  
+	*/
+
+
+  SELECT da.event_id,
+         da.date,
+         sum (CASE WHEN re.status = 'PENDENT' THEN 1 ELSE 0 END) AS pendent,
+         sum (CASE WHEN re.status = 'CONFIRMMED' THEN 1 ELSE 0 END)
+            AS confirmmed,
+         sum (CASE WHEN re.status = 'CANCELLED' THEN 1 ELSE 0 END) AS cancelled
+    FROM (SELECT ep.event_id,
+                 ra.id AS race_id,
+                 generate_series (ep.beginning, ep.ending, '1 day')::date
+                    AS date
+            FROM (  SELECT ra.event_id,
+                           min (pe.beginning) AS beginning,
+                           max (pe.ending) AS ending
+                      FROM period pe, race ra
+                     WHERE pe.race_id = ra.id
+                  GROUP BY ra.event_id) ep,
+                 race ra
+           WHERE ep.event_id = ra.event_id) da
+         LEFT JOIN registration re
+            ON (da.race_id = re.race_id AND da.date = re.date::date)
+   WHERE da.event_id = 12
+GROUP BY da.event_id, da.date
+ORDER BY da.event_id, da.date ASC;
+
+SELECT ep.event_id,
+       ra.id AS race_id,
+       generate_series (ep.beginning, ep.ending, '1 day')::date AS date
+  FROM (  SELECT ra.event_id,
+                 min (pe.beginning) AS beginning,
+                 max (pe.ending) AS ending
+            FROM period pe, race ra
+           WHERE pe.race_id = ra.id
+        GROUP BY ra.event_id) ep,
+       race ra
+ WHERE ep.event_id = ra.event_id;
+
+
+
+SELECT *
+  FROM registration re;
+
+
+/*
+				) ep) da
+       LEFT JOIN registration re
+          ON (da.race_id = re.race_id AND da.date = re.date);
+		  */
+
+
+
+SELECT *
+  FROM registration
+ WHERE race_id = 30;
+
+
+--WHERE re.race_id = ra.id AND ra.event_id = 12;
+
+
+SELECT date::date
+  FROM generate_series ('01/01/2016'::date, '01/03/2016', '1 day') da(date);
