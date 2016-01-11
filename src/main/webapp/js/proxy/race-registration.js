@@ -24,12 +24,12 @@ var RaceRegistrationProxy = {
 	// });
 	// },
 
-	formDownload : function(raceId, callback) {
-		this.download(this.url + "/" + raceId + "/registration/form", callback);
+	formDownload : function(eventId, callback) {
+		this.download(this.url + "/" + eventId + "/registration/form", callback);
 	},
 
-	exportDownload : function(raceId, callback) {
-		this.download(this.url + "/" + raceId + "/registration/export", callback);
+	exportDownload : function(eventId, callback) {
+		this.download(this.url + "/" + eventId + "/registration/export", callback);
 	},
 
 	download : function(url, callback) {
@@ -50,5 +50,4 @@ var RaceRegistrationProxy = {
 		App.setHeader(xhr)
 		xhr.send();
 	}
-
 };

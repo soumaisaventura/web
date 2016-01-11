@@ -1,6 +1,6 @@
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%petrolina%';
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%jaguarari%';
 
 SELECT *
   FROM user_account ua

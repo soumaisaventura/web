@@ -10,14 +10,14 @@ $(function() {
 	// });
 	// });
 
-	// $("#registration-export").click(function() {
-	// var $this = $(this);
-	//
-	// $this.button('loading');
-	// RaceRegistrationProxy.exportDownload(id, function() {
-	// $this.button('reset');
-	// });
-	// });
+	$("#registration-export").click(function() {
+		var $this = $(this);
+
+		$this.button('loading');
+		RaceRegistrationProxy.exportDownload(id, function() {
+			$this.button('reset');
+		});
+	});
 
 	EventProxy.loadSummary(id).done(loadSummaryOk);
 

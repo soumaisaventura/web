@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
 
 import java.io.ByteArrayOutputStream;
@@ -32,30 +33,32 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import adventure.entity.Event;
 import adventure.entity.Profile;
-import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.entity.User;
 import adventure.entity.UserRegistration;
+import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
+import adventure.persistence.UserDAO;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.util.Reflections;
 
-//@Path("race/{id}/registration")
+@Path("event/{slug: " + EVENT_SLUG_PATTERN + "}/registration")
 public class RaceRegistrationDownloadREST {
 
 	@GET
 	@LoggedIn
 	@Path("form")
 	@Produces("application/pdf")
-	public byte[] resgistrationForm(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRaceDetails(id);
+	public byte[] resgistrationForm(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEventDetails(slug);
 
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
+		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 
@@ -64,7 +67,7 @@ public class RaceRegistrationDownloadREST {
 		Connection conn = dataSource.getConnection();
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("RACE_ID", race.getId());
+		// params.put("RACE_ID", race.getId());
 
 		InputStream inputStream = Reflections.getResourceAsStream("report/ficha_inscricao.jasper");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, conn);
@@ -83,11 +86,11 @@ public class RaceRegistrationDownloadREST {
 	@LoggedIn
 	@Path("export")
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	public byte[] exportXLSX(@PathParam("id") Integer id) throws Exception {
-		Race race = loadRaceDetails(id);
+	public byte[] exportXLSX(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEventDetails(slug);
 
-		// List<User> organizers = UserDAO.getInstance().findRaceOrganizers(race);
-		if (!User.getLoggedIn().getAdmin() /* && !organizers.contains(User.getLoggedIn()) */) {
+		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
 			throw new ForbiddenException();
 		}
 
@@ -112,7 +115,7 @@ public class RaceRegistrationDownloadREST {
 		rAtletas = sheetAtletas.createRow(rAtletasIdx++);
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Inscrição");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Status");
-		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Percurso");
+		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Prova");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Categoria");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Equipe");
 		createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Nome");
@@ -129,12 +132,12 @@ public class RaceRegistrationDownloadREST {
 		rEquipes = sheetEquipes.createRow(rEquipesIdx++);
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Inscrição");
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Status");
-		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Percurso");
+		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Prova");
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Categoria");
 		createStyleCell(rEquipes, cEquipesIdx++, titleStyle).setCellValue("Equipe");
 		int biggestTeam = 0;
 
-		List<Registration> registrations = RegistrationDAO.getInstance().findToOrganizer(race.getEvent());
+		List<Registration> registrations = RegistrationDAO.getInstance().findToOrganizer(event);
 		Collections.reverse(registrations);
 
 		for (Registration registration : registrations) {
@@ -166,8 +169,8 @@ public class RaceRegistrationDownloadREST {
 			cEquipesIdx = 0;
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getFormattedId());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getStatus().description());
-			// createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
-			// registration.getRaceCategory().getCourse().getName());
+			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
+					registration.getRaceCategory().getRace().getName());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(
 					registration.getRaceCategory().getCategory().getName());
 			createStyleCell(rEquipes, cEquipesIdx++, style).setCellValue(registration.getTeamName());
@@ -182,8 +185,8 @@ public class RaceRegistrationDownloadREST {
 				cAtletasIdx = 0;
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getFormattedId());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getStatus().description());
-				// createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
-				// registration.getRaceCategory().getCourse().getName());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+						registration.getRaceCategory().getRace().getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						registration.getRaceCategory().getCategory().getName());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getTeamName());
@@ -251,9 +254,8 @@ public class RaceRegistrationDownloadREST {
 		return cell;
 	}
 
-	private Race loadRaceDetails(Integer id) throws Exception {
-		// Race result = RaceDAO.getInstance().loadForDetail(id);
-		Race result = null;
+	private Event loadEventDetails(String slug) throws Exception {
+		Event result = EventDAO.getInstance().loadForDetail(slug);
 
 		if (result == null) {
 			throw new NotFoundException();
