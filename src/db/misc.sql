@@ -602,55 +602,15 @@ SELECT *
 	*/
 
 
-  SELECT da.event_id,
-         da.date,
-         sum (CASE WHEN re.status = 'PENDENT' THEN 1 ELSE 0 END) AS pendent,
-         sum (CASE WHEN re.status = 'CONFIRMMED' THEN 1 ELSE 0 END)
-            AS confirmmed,
-         sum (CASE WHEN re.status = 'CANCELLED' THEN 1 ELSE 0 END) AS cancelled
-    FROM (SELECT ep.event_id,
-                 ra.id AS race_id,
-                 generate_series (ep.beginning, ep.ending, '1 day')::date
-                    AS date
-            FROM (  SELECT ra.event_id,
-                           min (pe.beginning) AS beginning,
-                           max (pe.ending) AS ending
-                      FROM period pe, race ra
-                     WHERE pe.race_id = ra.id
-                  GROUP BY ra.event_id) ep,
-                 race ra
-           WHERE ep.event_id = ra.event_id) da
-         LEFT JOIN registration re
-            ON (da.race_id = re.race_id AND da.date = re.date::date)
-   WHERE da.event_id = 12
-GROUP BY da.event_id, da.date
-ORDER BY da.event_id, da.date ASC;
+SELECT DISTINCT status
+  FROM registration;
 
-SELECT ep.event_id,
-       ra.id AS race_id,
-       generate_series (ep.beginning, ep.ending, '1 day')::date AS date
-  FROM (  SELECT ra.event_id,
-                 min (pe.beginning) AS beginning,
-                 max (pe.ending) AS ending
-            FROM period pe, race ra
-           WHERE pe.race_id = ra.id
-        GROUP BY ra.event_id) ep,
-       race ra
- WHERE ep.event_id = ra.event_id;
-
-
+SELECT *
+  FROM registration_status_by_day
+ WHERE event_id = 12;
 
 SELECT *
   FROM registration re;
-
-
-/*
-				) ep) da
-       LEFT JOIN registration re
-          ON (da.race_id = re.race_id AND da.date = re.date);
-		  */
-
-
 
 SELECT *
   FROM registration
@@ -660,5 +620,6 @@ SELECT *
 --WHERE re.race_id = ra.id AND ra.event_id = 12;
 
 
-SELECT date::date
-  FROM generate_series ('01/01/2016'::date, '01/03/2016', '1 day') da(date);
+SELECT *
+  FROM profile p
+ WHERE p.picture IS NOT NULL;
