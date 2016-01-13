@@ -124,9 +124,7 @@ function loadEventOk(event) {
 			race.date = App.moment(race.period.beginning).format("DD [de] MMMM");
 			race.day = App.moment(race.period.beginning).format('DD');
 			race.month = App.moment(race.period.beginning).format('MMM').toUpperCase();
-			race.more_than_one_day = race.period.beginning !== race.period.end;
-			race.period.beginning = App.moment(race.period.beginning).format('L');
-			race.period.end = App.moment(race.period.end).format('L');
+			race.period.date = App.parsePeriod(race.period);
 
 			if (race.current_period) {
 				race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');

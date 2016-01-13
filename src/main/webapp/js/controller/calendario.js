@@ -31,9 +31,10 @@ function findOk(data) {
 	var template = $('#template');
 
 	$.each(data, function(index, event) {
-		var day = moment(event.period.beginning, "YYYY-MM-DD");
+		var day = App.moment(event.period.beginning);
 
-		event.date = day.locale("pt-br").format("DD [de] MMMM");
+		// event.date = day.locale("pt-br").format("DD [de] MMMM");
+		event.date = App.parsePeriod(event.period, true);
 		event.place = event.location.city ? event.location.city.name + "/" + event.location.city.state : "Local não definido";
 		event.corner = (event.status == "open" ? "inscrições abertas" : (event.status == "closed" ? "inscrições encerradas" : ""));
 		event.status = moment().year() !== day.year() && event.status === "end" ? null : event.status;

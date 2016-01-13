@@ -167,18 +167,22 @@ var App = {
 		return moment(date, "YYYY-MM-DD").locale("pt-br");
 	},
 
-	parsePeriod : function(period) {
+	parsePeriod : function(period, excludeYear) {
 		var text = "";
 		if (period.beginning !== period.end) {
 			if (moment(period.beginning).isSame(moment(period.end), 'month')) {
-				text += App.moment(period.beginning).format("DD");
+				text += App.moment(period.beginning).format("D");
 			} else {
-				text += App.moment(period.beginning).format("DD [de] MMMM");
+				text += App.moment(period.beginning).format("D [de] MMMM");
 			}
 
-			text += " à ";
+			if (App.moment(period.end).diff(App.moment(period.beginning), 'days') > 1) {
+				text += " à ";
+			} else {
+				text += " e ";
+			}
 		}
-		text += App.moment(period.end).format("DD [de] MMMM [de] YYYY");
+		text += App.moment(period.end).format("D [de] MMMM" + (excludeYear ? "" : " [de] YYYY"));
 		return text;
 	},
 
