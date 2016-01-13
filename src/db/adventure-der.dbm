@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="0,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="308,78" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -909,7 +909,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1070" y="204.667"/>
+	<position x="1115" y="201.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -934,7 +934,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1063.67" y="369.667"/>
+	<position x="1108.67" y="347.667"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -969,7 +969,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="841" y="212.333"/>
+	<position x="878" y="215.333"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1680,6 +1680,46 @@ BEGIN
 END
 ]]></definition>
 </function>
+
+<view name="registration_status_by_day">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="494" y="373"/>
+	<reference>
+		<expression><![CDATA[ SELECT da.event_id,
+    da.date,
+    (sum(
+        CASE
+            WHEN ((re.status)::text = 'PENDENT'::text) THEN 1
+            ELSE 0
+        END))::integer AS pendent,
+    (sum(
+        CASE
+            WHEN ((re.status)::text = 'CONFIRMED'::text) THEN 1
+            ELSE 0
+        END))::integer AS confirmed,
+    (sum(
+        CASE
+            WHEN ((re.status)::text = 'CANCELLED'::text) THEN 1
+            ELSE 0
+        END))::integer AS cancelled
+   FROM (( SELECT ep.event_id,
+            ra.id AS race_id,
+            (generate_series((ep.beginning)::timestamp without time zone, ep.ending, '1 day'::interval))::date AS date
+           FROM ( SELECT ra_1.event_id,
+                    min(pe.beginning) AS beginning,
+                    GREATEST((max(pe.ending))::timestamp without time zone, max(reg.status_date)) AS ending
+                   FROM period pe,
+                    race ra_1,
+                    registration reg
+                  WHERE ((pe.race_id = ra_1.id) AND (ra_1.id = reg.race_id))
+                  GROUP BY ra_1.event_id) ep,
+            race ra
+          WHERE (ep.event_id = ra.event_id)) da
+     LEFT JOIN registration re ON (((da.race_id = re.race_id) AND (da.date = (re.status_date)::date))))
+  GROUP BY da.event_id, da.date;]]></expression>
+	</reference>
+</view>
 
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">

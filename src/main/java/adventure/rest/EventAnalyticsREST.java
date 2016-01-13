@@ -2,6 +2,8 @@ package adventure.rest;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -11,10 +13,14 @@ import javax.ws.rs.Produces;
 
 import adventure.entity.Event;
 import adventure.entity.EventAnalytic;
+import adventure.entity.EventRegistrationStatusByDay;
 import adventure.entity.User;
 import adventure.persistence.EventAnalyticDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.EventRegistrationStatusByDayData;
+import adventure.rest.data.EventRegistrationStatusByDayData.Count;
+import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -39,7 +45,7 @@ public class EventAnalyticsREST {
 	public List<EventAnalytic> getRaces(@PathParam("slug") String slug) throws Exception {
 		Event event = loadEvent(slug);
 		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getRegistrationByCourse(event);
+		return EventAnalyticDAO.getInstance().getRegistrationByRace(event);
 	}
 
 	@GET
@@ -55,6 +61,42 @@ public class EventAnalyticsREST {
 		}
 
 		return result;
+	}
+
+	@GET
+	@LoggedIn
+	@Path("status/day")
+	@Produces("application/json")
+	public List<EventRegistrationStatusByDayData> getStatusByDay(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+		List<EventRegistrationStatusByDayData> result = new ArrayList<EventRegistrationStatusByDayData>();
+
+		int pendent = 0;
+		int confimed = 0;
+		int cancelled = 0;
+		Date now = new Date();
+
+		for (EventRegistrationStatusByDay persisted : EventAnalyticDAO.getInstance().getEventRegistrationStatusByDay(
+				event)) {
+			pendent += persisted.getPendentCount();
+			confimed += persisted.getConfirmedCount();
+			cancelled += persisted.getCancelledCount();
+
+			EventRegistrationStatusByDayData data = new EventRegistrationStatusByDayData();
+			data.date = persisted.getDate();
+			data.count = new Count();
+
+			if (Dates.beforeOrSame(data.date, now)) {
+				data.count.pendent = pendent;
+				data.count.confirmed = confimed;
+				data.count.cancelled = cancelled;
+			}
+
+			result.add(data);
+		}
+
+		return result.isEmpty() ? null : result;
 	}
 
 	@GET

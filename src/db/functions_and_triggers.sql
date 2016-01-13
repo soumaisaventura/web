@@ -271,9 +271,31 @@ CREATE TRIGGER trg_event_organizer_after_all
    FOR EACH ROW
 EXECUTE PROCEDURE trg_event_organizer_after_all ();
 
-UPDATE event_organizer
-   SET organizer_id = organizer_id;
+DROP VIEW IF EXISTS registration_status_by_day;
 
-UPDATE user_account
-   SET _organizer = FALSE
- WHERE _organizer IS NULL;
+CREATE OR REPLACE VIEW registration_status_by_day
+AS
+     SELECT da.event_id::integer,
+            da.date::date,
+            sum (CASE WHEN re.status = 'PENDENT' THEN 1 ELSE 0 END)::integer
+               AS pendent,
+            sum (CASE WHEN re.status = 'CONFIRMED' THEN 1 ELSE 0 END)::integer
+               AS confirmed,
+            sum (CASE WHEN re.status = 'CANCELLED' THEN 1 ELSE 0 END)::integer
+               AS cancelled
+       FROM (SELECT ep.event_id,
+                    ra.id AS race_id,
+                    generate_series (ep.beginning, ep.ending, '1 day')::date
+                       AS date
+               FROM (  SELECT ra.event_id,
+                              min (pe.beginning) AS beginning,
+                              GREATEST (max (pe.ending), max (reg.status_date))
+                                 AS ending
+                         FROM period pe, race ra, registration reg
+                        WHERE pe.race_id = ra.id AND ra.id = reg.race_id
+                     GROUP BY ra.event_id) ep,
+                    race ra
+              WHERE ep.event_id = ra.event_id) da
+            LEFT JOIN registration re
+               ON (da.race_id = re.race_id AND da.date = re.status_date::date)
+   GROUP BY da.event_id, da.date;

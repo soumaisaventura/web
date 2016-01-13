@@ -32,6 +32,16 @@ var EventAnalyticsProxy = {
 		});
 	},
 
+	getByStatusByDay : function(id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + id + "/analytics/status/day",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
 	getByLocation : function(id) {
 		return $.ajax({
 			type : "GET",

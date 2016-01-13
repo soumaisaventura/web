@@ -2,6 +2,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
+		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/canvasjs.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/jquery.canvasjs.min.js"></script>
 	</ui:define>
@@ -14,6 +15,10 @@
 
 	<ui:define name="controller">
 		<script src="#{request.contextPath}/js/controller/evento-painel.js"></script>
+	</ui:define>
+
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/evento-painel.css" />
 	</ui:define>
 
 	<ui:define name="breadcrumb">
@@ -32,7 +37,7 @@
 		<input id="evento_id" type="hidden" value="#{param.evento_id}" />
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">Resumo das inscrições</div>
 					<div class="panel-body">
@@ -40,25 +45,33 @@
 							<div style="height: 0px;">
 								<h2 class="col-lg-12">Em construção...</h2>
 
-								<h2 id="registration-export-div" class="col-md-6 col-xs-12">
+								<h2 id="registration-export-div" class="col-md-12 col-xs-12">
 									<button id="registration-export" class="btn btn-primary btn-lg col-xs-12" data-loading-text="Aguarde...">
 										<span class="glyphicon glyphicon-download-alt"></span> Exportar Excel
 									</button>
 								</h2>
 
-								<h2 id="registration-forms-div" hidden="true" class="col-md-6 col-xs-12">
+								<h2 id="registration-forms-div" hidden="true" class="col-md-12 col-xs-12">
 									<button id="registration-forms" class="btn btn-primary btn-lg col-xs-12" data-loading-text="Aguarde...">
 										<span class="glyphicon glyphicon-file"></span> Fichas
 									</button>
 								</h2>
 
-								<h2 class="col-md-6 col-xs-12">
+								<h2 class="col-md-12 col-xs-12">
 									<a href="#{request.contextPath}/evento/#{param.evento_id}/painel/inscricoes" class="btn btn-primary btn-lg col-xs-12">
 										<span class="glyphicon glyphicon-menu-hamburger"></span> Inscrições
 									</a>
 								</h2>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">Incrições por status</div>
+					<div class="panel-body">
+						<div id="status-by-day-chart" style="height: 300px; width: 100%;"></div>
 					</div>
 				</div>
 			</div>
@@ -88,17 +101,17 @@
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-default">
-					<div class="panel-heading">Atletas por cidade</div>
+					<div class="panel-heading">Tamanho de camisa</div>
 					<div class="panel-body">
-						<div id="city-chart" style="height: 300px; width: 100%;"></div>
+						<div id="tshirt-chart" style="height: 300px; width: 100%;"></div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-default">
-					<div class="panel-heading">Tamanho de camisa</div>
+					<div class="panel-heading">Atletas por cidade</div>
 					<div class="panel-body">
-						<div id="tshirt-chart" style="height: 300px; width: 100%;"></div>
+						<div id="city-chart" style="height: 400px; width: 100%;"></div>
 					</div>
 				</div>
 			</div>

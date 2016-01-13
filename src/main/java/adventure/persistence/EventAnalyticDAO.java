@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import adventure.entity.Event;
 import adventure.entity.EventAnalytic;
+import adventure.entity.EventRegistrationStatusByDay;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -20,6 +21,31 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 	public static EventAnalyticDAO getInstance() {
 		return Beans.getReference(EventAnalyticDAO.class);
+	}
+
+	public List<EventRegistrationStatusByDay> getEventRegistrationStatusByDay(Event event) {
+		StringBuffer jpql = new StringBuffer();
+
+		jpql.append(" select ");
+		jpql.append("    new EventRegistrationStatusByDay( ");
+		jpql.append("        e.id, ");
+		jpql.append("        e.name, ");
+		jpql.append("        er.date, ");
+		jpql.append("        er.pendentCount, ");
+		jpql.append("        er.confirmedCount, ");
+		jpql.append("        er.cancelledCount ");
+		jpql.append("        ) ");
+		jpql.append("   from EventRegistrationStatusByDay er ");
+		jpql.append("   join er.event e ");
+		jpql.append("  where e = :event ");
+		jpql.append("  order by ");
+		jpql.append("        er.date asc ");
+
+		TypedQuery<EventRegistrationStatusByDay> query = getEntityManager().createQuery(jpql.toString(),
+				EventRegistrationStatusByDay.class);
+		query.setParameter("event", event);
+
+		return query.getResultList();
 	}
 
 	public List<EventAnalytic> getRegistrationByCategory(Event event) {
@@ -50,7 +76,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		return query.getResultList();
 	}
 
-	public List<EventAnalytic> getRegistrationByCourse(Event event) {
+	public List<EventAnalytic> getRegistrationByRace(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
 		jpql.append("    new adventure.entity.EventAnalytic( ");
