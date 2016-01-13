@@ -34,7 +34,7 @@ SELECT *
 
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%josilene%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%bandeira%';
 
 UPDATE user_registration
    SET user_id = 302
@@ -659,6 +659,38 @@ SELECT *
 
 --WHERE re.race_id = ra.id AND ra.event_id = 12;
 
+SELECT * FROM championship;
+
+INSERT INTO event_organizer (event_id, organizer_id, alternate_name)
+   SELECT event_id, organizer_id, alternate_name
+     FROM (SELECT r.event_id
+             FROM race r, championship_race cr
+            WHERE r.id = cr.race_id AND cr.championship_id = 5) a,
+          (SELECT u.id AS organizer_id, u.email AS alternate_name
+             FROM user_account u
+            WHERE id IN (55, 182)) b;
+
+
+
+delete from event_organizer where event_id in (18, 5, 6, 7);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- 55, 182
 
 SELECT date::date
   FROM generate_series ('01/01/2016'::date, '01/03/2016', '1 day') da(date);

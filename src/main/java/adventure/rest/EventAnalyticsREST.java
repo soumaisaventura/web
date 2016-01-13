@@ -19,7 +19,7 @@ import adventure.persistence.EventAnalyticDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.data.EventRegistrationStatusByDayData;
-import adventure.rest.data.EventRegistrationStatusByDayData.Count;
+import adventure.rest.data.EventRegistrationStatusByDayData.Status;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -85,12 +85,12 @@ public class EventAnalyticsREST {
 
 			EventRegistrationStatusByDayData data = new EventRegistrationStatusByDayData();
 			data.date = persisted.getDate();
-			data.count = new Count();
+			data.status = new Status();
 
 			if (Dates.beforeOrSame(data.date, now)) {
-				data.count.pendent = pendent;
-				data.count.confirmed = confimed;
-				data.count.cancelled = cancelled;
+				data.status.pendent = pendent;
+				data.status.confirmed = confimed;
+				data.status.cancelled = cancelled;
 			}
 
 			result.add(data);

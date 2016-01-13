@@ -4,15 +4,15 @@ import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "date", "count" })
+@JsonPropertyOrder({ "date", "status" })
 public class EventRegistrationStatusByDayData {
 
 	public Date date;
 
-	public Count count;
+	public Status status;
 
 	@JsonPropertyOrder({ "pendent", "confirmed", "cancelled" })
-	public static class Count {
+	public static class Status {
 
 		public Integer pendent;
 

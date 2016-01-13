@@ -74,20 +74,20 @@ function getByStatusByDayOk(data) {
 		var dateMoment = App.moment(value.date);
 		var date = new Date(dateMoment.year(), dateMoment.month(), dateMoment.date());
 
-		for ( var count in value.count) {
-			if (!chartData[count]) {
-				chartData[count] = [];
+		for ( var status in value.status) {
+			if (!chartData[status]) {
+				chartData[status] = [];
 			}
 
-			chartData[count].push({
+			chartData[status].push({
 				x : date,
-				y : value.count[count]
+				y : value.status[status]
 			});
 		}
 
-		if ($.isEmptyObject(value.count)) {
-			for ( var count in chartData) {
-				chartData[count].push({
+		if ($.isEmptyObject(value.status)) {
+			for ( var status in chartData) {
+				chartData[status].push({
 					x : date
 				});
 			}
@@ -179,8 +179,8 @@ function getByLocationOk(data) {
 		// labelAutoFit : true
 		},
 		axisY2 : {
-			// minimum : 1
-//			interval : 1
+		// minimum : 1
+		// interval : 1
 		// valueFormatString : "0"
 		// lineThickness : 0
 		},
