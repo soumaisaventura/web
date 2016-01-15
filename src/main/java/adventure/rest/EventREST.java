@@ -68,7 +68,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 public class EventREST {
 
 	@GET
-	@Path("year/{year}")
+	@Path("year/{year : \\d+}")
 	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {

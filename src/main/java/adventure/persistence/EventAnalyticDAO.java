@@ -1,6 +1,7 @@
 package adventure.persistence;
 
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("        (select count(_re) ");
 		jpql.append("           from Registration _re ");
 		jpql.append("          where _re.raceCategory = rc ");
-		jpql.append("            and _re.status = :status ");
+		jpql.append("            and _re.status in (:statusConfirmed, :statusPendent) ");
 		jpql.append("        ) as _count ");
 		jpql.append("        ) ");
 		jpql.append("   from RaceCategory rc ");
@@ -71,7 +72,8 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 		query.setParameter("event", event);
-		query.setParameter("status", CONFIRMED);
+		query.setParameter("statusConfirmed", CONFIRMED);
+		query.setParameter("statusPendent", PENDENT);
 
 		return query.getResultList();
 	}
@@ -85,7 +87,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("           from Registration _re ");
 		jpql.append("           join _re.raceCategory _rc ");
 		jpql.append("          where _rc.race = ra ");
-		jpql.append("            and _re.status = :status ");
+		jpql.append("            and _re.status in (:statusConfirmed, :statusPendent) ");
 		jpql.append("        ) as _count ");
 		jpql.append("        ) ");
 		jpql.append("   from Race ra ");
@@ -95,7 +97,8 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 		query.setParameter("event", event);
-		query.setParameter("status", CONFIRMED);
+		query.setParameter("statusConfirmed", CONFIRMED);
+		query.setParameter("statusPendent", PENDENT);
 
 		return query.getResultList();
 	}
@@ -137,7 +140,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("   join pr.city ci ");
 		jpql.append("   join ci.state st ");
 		jpql.append("  where ra.event = :event ");
-		jpql.append("    and re.status = :status ");
+		jpql.append("    and re.status in (:statusConfirmed, :statusPendent) ");
 		jpql.append("    and tf.user = pr.user ");
 		jpql.append("  group by ");
 		jpql.append("        ci.id, st.id ");
@@ -146,7 +149,8 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 		query.setParameter("event", event);
-		query.setParameter("status", CONFIRMED);
+		query.setParameter("statusConfirmed", CONFIRMED);
+		query.setParameter("statusPendent", PENDENT);
 
 		return query.getResultList();
 	}
@@ -164,7 +168,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("   join rc.race ra, ");
 		jpql.append("        Profile pr ");
 		jpql.append("  where ra.event = :event ");
-		jpql.append("    and re.status = :status ");
+		jpql.append("    and re.status in (:statusConfirmed, :statusPendent) ");
 		jpql.append("    and tf.user = pr.user ");
 		jpql.append("  group by ");
 		jpql.append("        pr.tshirt ");
@@ -173,7 +177,8 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 		query.setParameter("event", event);
-		query.setParameter("status", CONFIRMED);
+		query.setParameter("statusConfirmed", CONFIRMED);
+		query.setParameter("statusPendent", PENDENT);
 
 		return query.getResultList();
 	}
