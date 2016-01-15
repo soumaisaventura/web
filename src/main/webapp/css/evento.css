@@ -107,14 +107,14 @@ html, body {
 
 /* Organizers */
 #organizers-section {
-	margin-top: 33px;
+	margin-top: 30px;
 }
 
 #organizer-title {
 	border-top: 1px solid #eee;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	padding-top: 23px;
+	padding-top: 30px;
 }
 
 #organizers {
