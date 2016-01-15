@@ -17,6 +17,10 @@ public class Constants {
 
 	public static final Integer USER_THUMBNAIL_HEIGHT = USER_THUMBNAIL_WIDTH;
 
+	public static final Integer EVENT_BANNER_WIDTH = 750;
+
+	public static final Integer EVENT_BANNER_HEIGHT = 350;
+
 	public static final int NAME_SIZE = 50;
 
 	public int getNameSize() {

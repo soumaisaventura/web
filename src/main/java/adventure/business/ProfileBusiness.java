@@ -46,11 +46,11 @@ public class ProfileBusiness {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		Thumbnails.of(inputStream).crop(CENTER).size(USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT).keepAspectRatio(true)
 				.toOutputStream(outputStream);
-		byte picture[] = outputStream.toByteArray();
+		byte image[] = outputStream.toByteArray();
 
 		ProfileDAO profileDAO = ProfileDAO.getInstance();
 		Profile profile = profileDAO.load(profileId);
-		profile.setPicture(picture);
+		profile.setPicture(image);
 		profileDAO.update(profile);
 	}
 

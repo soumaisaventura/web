@@ -26,6 +26,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
+import adventure.business.EventBusiness;
 import adventure.business.ImageBusiness;
 import adventure.business.RaceBusiness;
 import adventure.entity.Category;
@@ -281,9 +282,7 @@ public class EventREST {
 		}
 
 		InputStream inputStream = file.getBody(InputStream.class, null);
-		event.setBanner(IOUtils.toByteArray(inputStream));
-
-		EventDAO.getInstance().update(event);
+		EventBusiness.getInstance().updateBanner(event, inputStream);
 	}
 
 	private void checkPermission(Event event) throws ForbiddenException {

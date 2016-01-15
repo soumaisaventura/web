@@ -5,6 +5,7 @@
 
 	<distributable />
 
+	<!--
 	<filter>
 		<filter-name>Cache Filter</filter-name>
 		<filter-class>br.gov.frameworkdemoiselle.util.CacheFilter</filter-class>
@@ -33,6 +34,7 @@
 		<url-pattern>/registration/*</url-pattern>
 		<url-pattern>/race/*</url-pattern>
 	</filter-mapping>
+	-->
 
 	<filter>
 		<filter-name>Demoiselle Servlet Filter</filter-name>

@@ -36,6 +36,9 @@ public class EventRegistrationStatusByDay {
 	@Column(name = "cancelled")
 	private Integer cancelledCount;
 
+	public EventRegistrationStatusByDay() {
+	}
+
 	public EventRegistrationStatusByDay(Integer eventId, String eventName, Date date, Integer pendentCount,
 			Integer confirmedCount, Integer cancelledCount) {
 		setEvent(new Event());
