@@ -10,6 +10,16 @@
 	font-family: 'Lato', sans-serif;
 }
 
+@media screen and (max-width: 768px) {
+	.container {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.page-header {
+		margin-top: 0px;
+	}
+}
+
 .container-fluid {
 	padding: 0px;
 }
