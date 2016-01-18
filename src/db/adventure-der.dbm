@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="836,414" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="835,653" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -863,7 +863,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="character varying" length="20"/>
 	</column>
 	<column name="payment_info">
-		<type name="character varying" length="500"/>
+		<type name="character varying" length="700"/>
 	</column>
 	<column name="payment_account">
 		<type name="character varying" length="255"/>

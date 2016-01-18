@@ -3,6 +3,7 @@ package adventure.rest;
 import static net.fortuna.ical4j.model.property.CalScale.GREGORIAN;
 import static net.fortuna.ical4j.model.property.Method.PUBLISH;
 import static net.fortuna.ical4j.model.property.Version.VERSION_2_0;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILITY;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,6 +22,7 @@ import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.util.CompatibilityHints;
 
 import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
@@ -35,9 +37,10 @@ public class CalendarREST {
 	@Path("{year : \\d+}")
 	@Produces("text/calendar")
 	public String getEventsByYear(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
+		CompatibilityHints.setHintEnabled(KEY_OUTLOOK_COMPATIBILITY, true);
+
 		Calendar calendar = new Calendar();
-		calendar.getProperties().add(
-				new ProdId("-//Sou+ Aventura//Calendário " + year + " v." + new java.util.Date().getTime() + "//PT"));
+		calendar.getProperties().add(new ProdId("-//Sou+ Aventura//Calendário " + year + "//PT"));
 		calendar.getProperties().add(VERSION_2_0);
 		calendar.getProperties().add(GREGORIAN);
 		calendar.getProperties().add(PUBLISH);
