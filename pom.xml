@@ -79,18 +79,6 @@
 			<version>2.0.0</version>
 			<scope>compile</scope>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>br.gov.frameworkdemoiselle</groupId>
-			<artifactId>demoiselle-jdbc</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>br.gov.frameworkdemoiselle</groupId>
-			<artifactId>demoiselle-jta</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		-->
 		
 		<!-- Hibernate  -->
 		<dependency>
