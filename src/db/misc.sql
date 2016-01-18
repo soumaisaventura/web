@@ -1,6 +1,6 @@
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%jaguarari%';
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%aracaju%';
 
 SELECT *
   FROM user_account ua
@@ -1269,6 +1269,15 @@ ORDER BY count (registrati1_.id) DESC;
 
 --race ra, registration re
 
+SELECT count(DISTINCT registration_id) AS inscricoes, sum (race_price) AS arrecadado, count(DISTINCT user_id) AS usuarios FROM user_registration;
+
+SELECT count (*) AS cadastrados,
+       sum (CASE WHEN u.activation IS NOT NULL THEN 1 ELSE 0 END) AS ativos,
+       sum (CASE WHEN u.facebook_id IS NOT NULL THEN 1 ELSE 0 END)
+          AS facebook_login,
+       sum (CASE WHEN u.google_id IS NOT NULL THEN 1 ELSE 0 END)
+          AS google_login
+  FROM user_account u;
 
 
 SELECT da.date::date,
@@ -1310,3 +1319,7 @@ SELECT *
 SELECT *
   FROM profile p
  WHERE p.picture IS NOT NULL;
+
+
+
+SELECT max (id) FROM city;

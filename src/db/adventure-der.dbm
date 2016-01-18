@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="308,78" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="836,414" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -775,7 +775,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="name" not-null="true">
-		<type name="character varying" length="50"/>
+		<type name="character varying" length="60"/>
 	</column>
 	<constraint name="pk_championship" type="pk-constr" table="public.championship">
 		<columns names="id" ref-type="src-columns"/>
@@ -1684,7 +1684,7 @@ END
 <view name="registration_status_by_day">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="494" y="373"/>
+	<position x="648" y="378"/>
 	<reference>
 		<expression><![CDATA[ SELECT da.event_id,
     da.date,
