@@ -119,9 +119,10 @@ public class Registration {
 			String raceDescription, String raceSlug, Integer raceDistance, Integer raceStatusId, String raceStatusName,
 			Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventSlug,
 			EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
-			String eventPaymentToken, BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude, Integer cityId,
-			String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer categoryId,
-			String categoryName) {
+			String eventPaymentToken,
+			// BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude,
+			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
+			Integer categoryId, String categoryName) {
 		setId(id);
 		setDate(date);
 		setTeamName(teamName);
@@ -169,9 +170,9 @@ public class Registration {
 		getRaceCategory().getRace().getEvent().getPayment().setAccount(eventPaymentAccount);
 		getRaceCategory().getRace().getEvent().getPayment().setToken(eventPaymentToken);
 
-		getRaceCategory().getRace().getEvent().setCoords(new Coords());
-		getRaceCategory().getRace().getEvent().getCoords().setLatitude(eventCoordsLatitude);
-		getRaceCategory().getRace().getEvent().getCoords().setLongitude(eventCoordsLongitude);
+		// getRaceCategory().getRace().getEvent().setCoords(new Coords());
+		// getRaceCategory().getRace().getEvent().getCoords().setLatitude(eventCoordsLatitude);
+		// getRaceCategory().getRace().getEvent().getCoords().setLongitude(eventCoordsLongitude);
 
 		getRaceCategory().getRace().getEvent().setCity(new City());
 		getRaceCategory().getRace().getEvent().getCity().setId(cityId);

@@ -11,6 +11,7 @@
 		<class>adventure.entity.Event</class>
 		<class>adventure.entity.EventOrganizer</class>
 		<class>adventure.entity.EventRegistrationStatusByDay</class>
+		<class>adventure.entity.Hotspot</class>
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>

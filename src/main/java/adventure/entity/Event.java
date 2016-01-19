@@ -2,7 +2,6 @@ package adventure.entity;
 
 import static javax.persistence.TemporalType.DATE;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +41,8 @@ public class Event {
 	@JoinColumn(name = "city_id")
 	private City city;
 
-	@Embedded
-	private Coords coords;
+	// @Embedded
+	// private Coords coords;
 
 	@Transient
 	private List<Race> races;
@@ -81,28 +80,29 @@ public class Event {
 		setBanner(banner);
 	}
 
-	public Event(Integer id, String name, String slug, BigDecimal coordLatitude, BigDecimal coordLongitude) {
-		setId(id);
-		setName(name);
-		setSlug(slug);
-
-		setCoords(new Coords());
-		getCoords().setLatitude(coordLatitude);
-		getCoords().setLongitude(coordLongitude);
-	}
+	// public Event(Integer id, String name, String slug, BigDecimal coordLatitude, BigDecimal coordLongitude) {
+	// setId(id);
+	// setName(name);
+	// setSlug(slug);
+	//
+	// setCoords(new Coords());
+	// getCoords().setLatitude(coordLatitude);
+	// getCoords().setLongitude(coordLongitude);
+	// }
 
 	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
-			String cityName, Integer stateId, String stateName, String stateAbbreviation, BigDecimal coordLatitude,
-			BigDecimal coordLongitude, Date beginnig, Date end, Status status) {
+			String cityName, Integer stateId, String stateName, String stateAbbreviation,
+			// BigDecimal coordLatitude, BigDecimal coordLongitude
+			Date beginnig, Date end, Status status) {
 		setId(id);
 		setSlug(slug);
 		setName(name);
 		setDescription(description);
 		setSite(site);
 
-		setCoords(new Coords());
-		getCoords().setLatitude(coordLatitude);
-		getCoords().setLongitude(coordLongitude);
+		// setCoords(new Coords());
+		// getCoords().setLatitude(coordLatitude);
+		// getCoords().setLongitude(coordLongitude);
 
 		setCity(new City());
 		getCity().setId(cityId);
@@ -212,13 +212,13 @@ public class Event {
 		this.city = city;
 	}
 
-	public Coords getCoords() {
-		return coords;
-	}
-
-	public void setCoords(Coords coords) {
-		this.coords = coords;
-	}
+	// public Coords getCoords() {
+	// return coords;
+	// }
+	//
+	// public void setCoords(Coords coords) {
+	// this.coords = coords;
+	// }
 
 	public List<Race> getRaces() {
 		return races;

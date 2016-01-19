@@ -105,9 +105,14 @@ html, body {
 	width: auto;
 }
 
-/* Organizers */
-#organizers-section {
-	margin-top: 30px;
+#map-legend {
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+#map-legend img, a {
+	padding-right: 6px;
+	margin-top: 12px;
 }
 
 #organizer-title {

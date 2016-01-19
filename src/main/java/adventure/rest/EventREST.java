@@ -33,6 +33,7 @@ import adventure.entity.Category;
 import adventure.entity.Championship;
 import adventure.entity.Event;
 import adventure.entity.Fee;
+import adventure.entity.Hotspot;
 import adventure.entity.Modality;
 import adventure.entity.Race;
 import adventure.entity.RegistrationPeriod;
@@ -41,6 +42,7 @@ import adventure.persistence.CategoryDAO;
 import adventure.persistence.ChampionshipDAO;
 import adventure.persistence.EventDAO;
 import adventure.persistence.FeeDAO;
+import adventure.persistence.HotspotDAO;
 import adventure.persistence.ModalityDAO;
 import adventure.persistence.PeriodDAO;
 import adventure.persistence.RaceDAO;
@@ -48,8 +50,9 @@ import adventure.persistence.UserDAO;
 import adventure.rest.data.CategoryData;
 import adventure.rest.data.ChampionshipData;
 import adventure.rest.data.CityData;
-import adventure.rest.data.CoordsData;
+import adventure.rest.data.CoordData;
 import adventure.rest.data.EventData;
+import adventure.rest.data.HotspotData;
 import adventure.rest.data.LocationData;
 import adventure.rest.data.ModalityData;
 import adventure.rest.data.PeriodData;
@@ -129,10 +132,24 @@ public class EventREST {
 		eventData.location.city.name = event.getCity().getName();
 		eventData.location.city.state = event.getCity().getState().getAbbreviation();
 
-		if (!event.getCoords().isEmpty()) {
-			eventData.location.coords = new CoordsData();
-			eventData.location.coords.latitude = event.getCoords().getLatitude();
-			eventData.location.coords.longitude = event.getCoords().getLongitude();
+		// Hotspot
+
+		eventData.location.hotspots = new ArrayList<HotspotData>();
+		for (Hotspot hotspot : HotspotDAO.getInstance().find(event)) {
+			HotspotData hotspotData = new HotspotData();
+			hotspotData.id = hotspot.getId();
+			hotspotData.name = hotspot.getName();
+			hotspotData.description = hotspot.getDescription();
+			hotspotData.main = hotspot.getMain();
+			hotspotData.coord = new CoordData();
+			hotspotData.coord.latitude = hotspot.getCoord().getLatitude();
+			hotspotData.coord.longitude = hotspot.getCoord().getLongitude();
+			hotspotData.order = hotspot.getOrder();
+			eventData.location.hotspots.add(hotspotData);
+		}
+
+		if (eventData.location.hotspots.isEmpty()) {
+			eventData.location.hotspots = null;
 		}
 
 		if (!summary) {

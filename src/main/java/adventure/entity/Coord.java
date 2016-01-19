@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 import br.gov.frameworkdemoiselle.util.Reflections;
 
 @Embeddable
-public class Coords {
+public class Coord {
 
 	@Column(name = "coord_latitude")
 	private BigDecimal latitude;
@@ -44,10 +44,10 @@ public class Coords {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Coords)) {
+		if (!(obj instanceof Coord)) {
 			return false;
 		}
-		Coords other = (Coords) obj;
+		Coord other = (Coord) obj;
 		if (latitude == null) {
 			if (other.latitude != null) {
 				return false;

@@ -11,40 +11,65 @@ $(function() {
 });
 
 function loadMap(event) {
-	if (event.location.coords) {
+	if (event.location.hotspots) {
 		var map = initMap();
-		var coord = new google.maps.LatLng(event.location.coords.latitude, event.location.coords.longitude);
-		var marker = new google.maps.Marker({
-			map : map,
-			animation : google.maps.Animation.BOUNCE,
-			position : coord,
-			title : event.name
+		var bounds = new google.maps.LatLngBounds();
+
+		var labels = "ABCDEFGHIJKL";
+		var legend = "";
+
+		var template = $('#map-legend-template');
+
+		$.each(event.location.hotspots, function(i, value) {
+			// Exemplo de ícones: http://jsfiddle.net/doktormolle/LS7Wj/show/
+			value.icon = 'http://maps.gstatic.com/mapfiles/markers2/marker' + labels[value.order - 1] + '.png';
+			value.icon_legend = 'http://maps.gstatic.com/mapfiles/markers2/circle' + labels[value.order - 1] + '.png';
+			value.link = "https://maps.google.com/?q=" + value.coord.latitude + "," + value.coord.longitude;
+
+			var marker = new google.maps.Marker({
+				map : map,
+				position : {
+					lat : value.coord.latitude,
+					lng : value.coord.longitude
+				},
+				title : value.name,
+				icon : value.icon
+			});
+
+			google.maps.event.addListener(marker, 'click', function() {
+				window.open(value.link, "_blank");
+			});
+
+			bounds.extend(marker.getPosition());
+			// legend += "<img src='" + icon + "'>" + value.name + "<br />"
+
+			var rendered = Mustache.render(template.html(), value);
+			$('#map-legend').append(rendered);
 		});
 
-		google.maps.event.addListener(marker, 'click', function() {
-			var lat = this.getPosition().lat();
-			var lng = this.getPosition().lng();
-			window.open("https://maps.google.com/?q=" + lat + "," + lng, "_blank");
-		});
+		template.remove();
 
-		google.maps.event.addDomListener(window, "resize", function(event) {
-			map.setCenter(coord);
-		});
-		google.maps.event.addDomListener(window, "orientationchange", function(event) {
-			map.setCenter(coord);
-		});
-
-		map.setCenter(coord);
+		centerMap(map, bounds);
 		$("#location-section").show();
-	} else {
-		$("#organizers-section").css("margin-top", 0);
-		$("#location-section").remove();
 	}
+}
+
+function centerMap(map, bounds) {
+	map.fitBounds(bounds);
+
+	google.maps.event.addDomListener(window, "resize", function(event) {
+		map.fitBounds(bounds);
+	});
+
+	google.maps.event.addDomListener(window, "orientationchange", function(event) {
+		map.fitBounds(bounds);
+	});
 }
 
 function initMap() {
 	var options = {
 		zoom : 14,
+		maxZoom : 14,
 		disableDefaultUI : true,
 		draggable : false,
 		scrollwheel : false,
@@ -169,7 +194,6 @@ function loadEventOk(event) {
 
 			var rendered = Mustache.render(template.html(), race);
 			$('#races-section').append(rendered);
-
 		});
 
 		// $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");

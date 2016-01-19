@@ -57,8 +57,6 @@ function loadOk(data) {
 function getColor(status) {
 	var color;
 
-	console.log('xxx' + status);
-
 	switch (status) {
 		case 'soon':
 			color = 'b5bbff';

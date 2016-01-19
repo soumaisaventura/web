@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="835,653" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1046,611" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -165,7 +165,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1772.41" y="682.667"/>
+	<position x="1767.41" y="618.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -840,7 +840,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1402.33" y="848"/>
+	<position x="1406.33" y="846"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -873,12 +873,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="city_id" not-null="true">
 		<type name="integer"/>
-	</column>
-	<column name="coord_latitude">
-		<type name="numeric" length="9" precision="7"/>
-	</column>
-	<column name="coord_longitude">
-		<type name="numeric" length="10" precision="7"/>
 	</column>
 	<column name="_beginning">
 		<type name="date"/>
@@ -1262,7 +1256,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1409.85" y="614"/>
+	<position x="1358.85" y="605"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1721,6 +1715,55 @@ END
 	</reference>
 </view>
 
+<table name="hotspot">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1765" y="836"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="event_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="30"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="coord_latitude" not-null="true">
+		<type name="numeric" length="9" precision="7"/>
+	</column>
+	<column name="coord_longitude" not-null="true">
+		<type name="numeric" length="10" precision="7"/>
+	</column>
+	<column name="sequence" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="main" not-null="true">
+		<type name="boolean"/>
+	</column>
+	<constraint name="pk_hotspot" type="pk-constr" table="public.hotspot">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_hotspot_event" table="public.hotspot"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="event_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_hotspot_main" table="public.hotspot"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="main"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_category_sport" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sport" table="public.category">
 	<columns names="sport_id" ref-type="src-columns"/>
@@ -1934,6 +1977,12 @@ END
 <constraint name="fk_race_organizer_organizer" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.user_account" table="public.event_organizer">
 	<columns names="organizer_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_hotspot_event" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.event" table="public.hotspot">
+	<columns names="event_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -2180,6 +2229,11 @@ END
 	 custom-color="#965500"
 	 src-table="public.registration"
 	 dst-table="public.race_category"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_hotspot_event" type="relfk"
+	 src-table="public.hotspot"
+	 dst-table="public.event"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

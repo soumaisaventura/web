@@ -48,7 +48,6 @@ import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
 import adventure.rest.data.CategoryData;
 import adventure.rest.data.CityData;
-import adventure.rest.data.CoordsData;
 import adventure.rest.data.EventData;
 import adventure.rest.data.EventPaymentData;
 import adventure.rest.data.LocationData;
@@ -165,12 +164,11 @@ public class RegistrationREST {
 		data.race.event.payment.info = registration.getRaceCategory().getRace().getEvent().getPayment().getInfo();
 
 		data.race.event.location = new LocationData();
-		data.race.event.location.coords = new CoordsData();
-		data.race.event.location.coords.latitude = registration.getRaceCategory().getRace().getEvent().getCoords()
-				.getLatitude();
-		data.race.event.location.coords.longitude = registration.getRaceCategory().getRace().getEvent().getCoords()
-				.getLongitude();
-
+		// data.race.event.location.coords = new CoordsData();
+		// data.race.event.location.coords.latitude = registration.getRaceCategory().getRace().getEvent().getCoords()
+		// .getLatitude();
+		// data.race.event.location.coords.longitude = registration.getRaceCategory().getRace().getEvent().getCoords()
+		// .getLongitude();
 		data.race.event.location.city = new CityData();
 		data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
 		data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity().getName();
@@ -184,7 +182,7 @@ public class RegistrationREST {
 				registration.getRaceCategory().getRace().getEvent());
 		User loggedInUser = User.getLoggedIn();
 		List<UserRegistration> userRegistrations = UserRegistrationDAO.getInstance().find(registration);
-		//
+
 		if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
 				&& !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
 				&& !organizers.contains(loggedInUser)) {
