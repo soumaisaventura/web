@@ -24,6 +24,14 @@ import adventure.util.PendencyCount;
 @SuppressWarnings("serial")
 public class Profile implements Serializable {
 
+	public static final String TEST_MOBILE = "(te) stest-este";
+
+	public static final Date TEST_BIRTHDAY = new Date(0);
+
+	public static final String TEST_RG = "testeste-st";
+
+	public static final String TEST_CPF = "tes.tes.tes-te";
+
 	@Id
 	@OneToOne
 	@ManyToOne(fetch = LAZY)

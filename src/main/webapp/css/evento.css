@@ -106,15 +106,19 @@ html, body {
 }
 
 #map-legend {
-	padding-top: 30px;
+	padding-top: 28px;
 	padding-bottom: 35px;
+}
+
+#map-legend .row {
+	margin-top: 4px;
 }
 
 .map-legend-label {
 	display: inline;
 	padding: .2em .6em .3em;
 	font-size: 75%;
-	font-weight: 700;
+	font-weight: 550;
 	line-height: 1;
 	text-align: center;
 	white-space: nowrap;
@@ -131,6 +135,7 @@ html, body {
 	margin-right: 6px;
 }
 
+/* Organizer */
 #organizer-title {
 	border-top: 1px solid #eee;
 	margin-top: 0px;

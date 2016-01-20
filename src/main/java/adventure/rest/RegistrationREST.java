@@ -1,5 +1,6 @@
 package adventure.rest;
 
+import static adventure.entity.Profile.TEST_MOBILE;
 import static adventure.entity.RegistrationStatusType.CANCELLED;
 import static adventure.entity.RegistrationStatusType.CONFIRMED;
 import static adventure.entity.RegistrationStatusType.PENDENT;
@@ -122,6 +123,7 @@ public class RegistrationREST {
 	@Produces("application/json")
 	public RegistrationData load(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
 		Registration registration = loadRegistrationForDetails(id);
+		boolean test = registration.getRaceCategory().getRace().getEvent().isTest();
 
 		RegistrationData data = new RegistrationData();
 		data.id = registration.getId();
@@ -137,7 +139,7 @@ public class RegistrationREST {
 		data.submitter.id = registration.getSubmitter().getId();
 		data.submitter.email = registration.getSubmitter().getEmail();
 		data.submitter.name = registration.getSubmitter().getProfile().getName();
-		data.submitter.mobile = registration.getSubmitter().getProfile().getMobile();
+		data.submitter.mobile = test ? TEST_MOBILE : registration.getSubmitter().getProfile().getMobile();
 
 		data.team = new TeamData();
 		data.team.name = registration.getTeamName();
@@ -205,7 +207,7 @@ public class RegistrationREST {
 			userData.id = userRegistration.getUser().getId();
 			userData.email = userRegistration.getUser().getEmail();
 			userData.name = userRegistration.getUser().getProfile().getName();
-			userData.mobile = userRegistration.getUser().getProfile().getMobile();
+			userData.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
 			userData.racePrice = userRegistration.getRacePrice();
 			data.team.members.add(userData);
 		}

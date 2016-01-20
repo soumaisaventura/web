@@ -1,5 +1,9 @@
 package adventure.rest;
 
+import static adventure.entity.Profile.TEST_BIRTHDAY;
+import static adventure.entity.Profile.TEST_CPF;
+import static adventure.entity.Profile.TEST_MOBILE;
+import static adventure.entity.Profile.TEST_RG;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
 
@@ -88,6 +92,7 @@ public class RaceRegistrationDownloadREST {
 	@Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	public byte[] exportXLSX(@PathParam("slug") String slug) throws Exception {
 		Event event = loadEventDetails(slug);
+		boolean test = event.isTest();
 
 		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
 		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
@@ -194,11 +199,12 @@ public class RaceRegistrationDownloadREST {
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(user.getEmail());
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						profile.getTshirt() == null ? "" : profile.getTshirt().name());
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getMobile());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_MOBILE : profile.getMobile());
 
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(Dates.parse(profile.getBirthday()));
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getRg());
-				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getCpf());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
+						Dates.parse(test ? TEST_BIRTHDAY : profile.getBirthday()));
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_RG : profile.getRg());
+				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_CPF : profile.getCpf());
 
 				createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
 						profile.getCity().getState().getAbbreviation());
