@@ -1,6 +1,6 @@
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%aracaju%';
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%salvador%';
 
 SELECT *
   FROM user_account ua
@@ -34,7 +34,11 @@ SELECT *
 
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%bandeira%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%cledison%';
+
+SELECT *
+  FROM profile p
+ WHERE lower (p.name) LIKE '%cledison%';
 
 UPDATE user_registration
    SET user_id = 302

@@ -106,13 +106,26 @@ html, body {
 }
 
 #map-legend {
-	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-top: 30px;
+	padding-bottom: 35px;
 }
 
-#map-legend img, a {
-	padding-right: 6px;
+.map-legend-label {
+	display: inline;
+	padding: .2em .6em .3em;
+	font-size: 75%;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em;
+	background-color: #F7534B;
+}
+
+#map-legend .map-legend-label, a {
 	margin-top: 12px;
+	margin-right: 6px;
 }
 
 #organizer-title {

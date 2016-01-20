@@ -22,9 +22,13 @@ function loadMap(event) {
 
 		$.each(event.location.hotspots, function(i, value) {
 			// Exemplo de ícones: http://jsfiddle.net/doktormolle/LS7Wj/show/
-			value.icon = 'http://maps.gstatic.com/mapfiles/markers2/marker' + labels[value.order - 1] + '.png';
-			value.icon_legend = 'http://maps.gstatic.com/mapfiles/markers2/circle' + labels[value.order - 1] + '.png';
+			// value.icon = 'http://maps.gstatic.com/mapfiles/markers2/marker' +
+			// labels[value.order - 1] + '.png';
+			// value.icon_legend =
+			// 'http://maps.gstatic.com/mapfiles/markers2/circle' +
+			// labels[value.order - 1] + '.png';
 			value.link = "https://maps.google.com/?q=" + value.coord.latitude + "," + value.coord.longitude;
+			value.label = labels[value.order - 1];
 
 			var marker = new google.maps.Marker({
 				map : map,
@@ -33,7 +37,8 @@ function loadMap(event) {
 					lng : value.coord.longitude
 				},
 				title : value.name,
-				icon : value.icon
+				label : labels[value.order - 1]
+			// icon : value.icon
 			});
 
 			google.maps.event.addListener(marker, 'click', function() {

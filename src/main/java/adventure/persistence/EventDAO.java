@@ -41,8 +41,7 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append("   from Event e ");
 		jpql.append("   left join e.city c ");
 		jpql.append("   left join c.state s ");
-		jpql.append("  where e.id > 0 ");
-		jpql.append("   and year(e.beginning) = :year ");
+		jpql.append("  where year(e.beginning) = :year ");
 		jpql.append("  order by ");
 		jpql.append("        e.beginning ");
 
