@@ -123,8 +123,11 @@ html, body {
 	background-color: #F7534B;
 }
 
-#map-legend .map-legend-label, a {
-	margin-top: 12px;
+#map-legend .map-legend-label {
+	margin-right: 6px;
+}
+
+#map-legend a {
 	margin-right: 6px;
 }
 
