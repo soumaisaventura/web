@@ -97,7 +97,7 @@
 										<td></td>
 										<td>
 											<input type="hidden" id="memberId" />
-											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
+											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" autocomplete="off"/>
 										</td>
 										<td></td>
 									</tr>
@@ -119,25 +119,10 @@
 						<div id="members_ids-message" class="alert alert-danger" hidden="true"></div>
 					</div>
 				</div>
-
-<!-- 				<div id="pesquisa-atleta" class="row"> -->
-<!-- 					<div class="form-group col-md-offset-3 col-md-6"> -->
-<!-- 						<label>Pesquisa por atleta cadastrado</label> -->
-<!-- 						<input type="hidden" id="members-id" /> -->
-<!-- 						<div class="input-group"> -->
-<!-- 							<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" /> -->
-<!-- 							<span class="input-group-btn"> -->
-<!-- 								<button id="bt-add-athlete" class="btn btn-primary" type="button"> -->
-<!-- 									<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir <span class="hidden-xs">na equipe</span> -->
-<!-- 								</button> -->
-<!-- 							</span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
 			</div>
 
 			<div id="submit-button-section" hidden="true">
-				<div class="row" style="padding-top: 20px; padding-bottom: 20px">
+				<div class="row">
 					<div class="form-group col-md-offset-3 col-md-6">
 						<p class="text-justify">* Campos de preenchimento obrigatório.</p>
 					</div>
@@ -156,7 +141,7 @@
 
 		<script id="member-template" type="text/template">
 			<tr id='member-{{id}}' data-raceprice='{{race_price}}'>
-				<td>
+				<td style='vertical-align: middle;'>
 					{{#deletable}}
 					<a href='#' class='remove' data-id='{{id}}'>
 						<span class='glyphicon glyphicon-trash' />
