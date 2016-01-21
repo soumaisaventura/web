@@ -5,9 +5,9 @@ import javax.inject.Named;
 @Named
 public class Constants {
 
-	public static final String EVENT_SLUG_PATTERN = "[\\w\\d_\\-/]+";
+	public static final String EVENT_SLUG_PATTERN = "[a-zA-Z][\\w_\\-/]+";
 
-	public static final String RACE_SLUG_PATTERN = "[\\w\\d\\-_]+";
+	public static final String RACE_SLUG_PATTERN = "[a-zA-Z][\\w\\-_]+";
 
 	public static final Integer USER_PHOTO_WIDTH = 250;
 
