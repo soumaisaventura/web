@@ -39,12 +39,8 @@
 
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
-			<li>
-				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
-			</li>
-			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
-			</li>
+			<li><a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a></li>
+			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a></li>
 			<li class="active">Inscrição</li>
 		</ol>
 	</ui:define>
@@ -71,8 +67,7 @@
 						<label for="categoryId">Categoria *</label>
 						<select id="categoryId" class="form-control">
 							<option disabled="disabled" selected="selected">Escolha a categoria</option>
-						</select>
-						<span id="categoryId-message" hidden="true" class="label label-danger" />
+						</select> <span id="categoryId-message" hidden="true" class="label label-danger" />
 					</div>
 				</div>
 			</div>
@@ -93,24 +88,27 @@
 								<thead>
 									<tr class="info text-primary">
 										<th style="width: 30px;"></th>
-										<th class="col-md-9">
-											<small>atleta</small>
-										</th>
-										<th class="text-right col-md-2">
-											<small>inscrição</small>
-										</th>
+										<th class="col-md-9"><small>atleta</small></th>
+										<th class="text-right col-md-2"><small>inscrição</small></th>
 									</tr>
 								</thead>
 								<tfoot>
+									<tr id='pesquisa-atleta'>
+										<td></td>
+										<td>
+											<input type="hidden" id="memberId" />
+											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
+										</td>
+										<td></td>
+									</tr>
 									<tr>
 										<th></th>
-										<th class="text-right" nowrap='nowrap'>
-											<span class="hidden-xs">total a pagar</span>
-										</th>
+										<th class="text-right" nowrap='nowrap'><span class="hidden-xs">total a pagar</span></th>
 										<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
 									</tr>
 								</tfoot>
-								<tbody></tbody>
+								<tbody>
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -122,20 +120,20 @@
 					</div>
 				</div>
 
-				<div id="pesquisa-atleta" class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<label>Pesquisa por atleta cadastrado</label>
-						<input type="hidden" id="members-id" />
-						<div class="input-group">
-							<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" />
-							<span class="input-group-btn">
-								<button id="bt-add-athlete" class="btn btn-primary" type="button">
-									<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir <span class="hidden-xs">na equipe</span>
-								</button>
-							</span>
-						</div>
-					</div>
-				</div>
+<!-- 				<div id="pesquisa-atleta" class="row"> -->
+<!-- 					<div class="form-group col-md-offset-3 col-md-6"> -->
+<!-- 						<label>Pesquisa por atleta cadastrado</label> -->
+<!-- 						<input type="hidden" id="members-id" /> -->
+<!-- 						<div class="input-group"> -->
+<!-- 							<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" /> -->
+<!-- 							<span class="input-group-btn"> -->
+<!-- 								<button id="bt-add-athlete" class="btn btn-primary" type="button"> -->
+<!-- 									<span class="glyphicon glyphicon-plus" aria-hidden='true' style="font-size: 0.8em;"></span> Incluir <span class="hidden-xs">na equipe</span> -->
+<!-- 								</button> -->
+<!-- 							</span> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 			</div>
 
 			<div id="submit-button-section" hidden="true">
