@@ -14,16 +14,6 @@ var RaceRegistrationProxy = {
 		});
 	},
 
-	// find : function(eventId) {
-	// return $.ajax({
-	// type : "GET",
-	// url : this.url + "/" + eventId + "/registration/list",
-	// beforeSend : function(request) {
-	// App.setHeader(request)
-	// }
-	// });
-	// },
-
 	formDownload : function(eventId, callback) {
 		this.download(this.url + "/" + eventId + "/registration/form", callback);
 	},
