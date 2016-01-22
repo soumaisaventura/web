@@ -1,0 +1,32 @@
+#button-row {
+	margin-bottom: 15px;
+}
+
+#members-list {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+#total {
+	font-style: italic;
+}
+
+#summary-section>row:first {
+	padding-bottom: 20px
+}
+
+.ammount, .first-column {
+	vertical-align: middle !important;
+}
+
+.footable-row-detail-name {
+	padding-left: 46px;
+}
+
+.glyphicon {
+	font-size: 0.8em
+}
+
+.remove {
+	padding-left: 5px;
+}
