@@ -37,16 +37,10 @@ $(function() {
 		App.handle401();
 	}
 
-	console.log('--------------- user --------------- ');
-	console.log(user);
-
 	/**
 	 * Coloca o usuário logado na lista de membros da equipe
 	 */
 	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
-		console.log('--------------- order --------------- ');
-		console.log(order);
-		console.log(memberIds);
 		getOrderOk(order, memberIds, false);
 	});
 
@@ -66,9 +60,6 @@ $(function() {
 	$("#categoryId").focus();
 	$("#categoryId").on("change", function() {
 		var teamsize = $(this).find('option:selected').data("teamsize");
-
-		console.log('teamsize = ' + teamsize);
-
 		if (teamsize === 1) {
 			$("#pesquisa-atleta").hide();
 		} else {
@@ -110,7 +101,6 @@ $(function() {
 	$("#members-list").on("click", ".remove", function(e) {
 		e.preventDefault();
 		var teamId = $(this).data("id");
-		console.log('Removendo atleta = ' + teamId);
 		memberIds.splice($.inArray(teamId, memberIds), 1);
 		var row = $(this).parents('tr:first');
 		$('#members-list').data('footable').removeRow(row);
@@ -124,10 +114,6 @@ $(function() {
 	$("form").submit(function(event) {
 		event.preventDefault();
 		$("[id$='-message']").hide();
-
-		console.log('memberIds');
-		console.log(memberIds);
-
 		var data = {
 			'team_name' : $("#teamName").val(),
 			'category_id' : $("#categoryId").val(),
@@ -140,12 +126,10 @@ $(function() {
 /* ============================CALLBACK============================ */
 
 function getOAuthAppIdsOk(data) {
-	console.log('1: getOAuthAppIdsOk');
 	$("#facebook-appid").val(data.facebook);
 }
 
 function loadSummaryOk(race) {
-	console.log('2: loadSummaryOk');
 	$("#race-name").text(race.event.name)
 	$("#race-description").text(race.description)
 	$("#race-date").text(App.parsePeriod(race.period));
@@ -153,7 +137,6 @@ function loadSummaryOk(race) {
 }
 
 function loadCategoriesOk(categories) {
-	console.log('3: loadCategoriesOk');
 	if (categories) {
 		$.each(categories, function(i, category) {
 			var option = new Option(category.name, category.id);
@@ -170,25 +153,18 @@ function loadCategoriesOk(categories) {
 }
 
 function getOrderOk(order, memberIds, deletable) {
-	console.log('4: getOrderOk');
-	console.log('--- antes ---');
-	console.log(memberIds);
 	if (order) {
 		memberIds.push(order[0].id);
 		addRowOnMemberList(order[0], deletable);
 		updateTotal();
 		$("#summary-section, #submit-button-section, #members-section").show();
 	} else {
-		console.log("Fora do período de inscrição!");
 		var url = $("#event_link").attr("href");
 		window.location.href = url;
 	}
-	console.log('--- depois--');
-	console.log(memberIds);
 }
 
 function addRowOnMemberList(athlete, deletable) {
-	console.log('5: addRowOnMemberList');
 	athlete.deletable = deletable;
 	athlete.formmated_race_price = numeral(athlete.race_price).format();
 
@@ -198,7 +174,6 @@ function addRowOnMemberList(athlete, deletable) {
 }
 
 function updateTotal() {
-	console.log('6: updateTotal');
 	var total = 0;
 	$(".ammount").each(function() {
 		total += $(this).data("ammount");
@@ -207,7 +182,6 @@ function updateTotal() {
 }
 
 function convertToLabelValueStructureFromUser(data) {
-	console.log('7: convertToLabelValueStructureFromUser');
 	var newData = [];
 	$.each(data, function() {
 		newData.push({
@@ -220,7 +194,6 @@ function convertToLabelValueStructureFromUser(data) {
 }
 
 function addAthlete(raceId, eventId, memberIds) {
-	console.log('8: addAthlete');
 	var memberId = $("#memberId");
 	var members_ids = $("#members_ids");
 	$("#members_ids-message").hide();
@@ -238,7 +211,6 @@ function addAthlete(raceId, eventId, memberIds) {
 }
 
 function registrationOk(data) {
-	console.log('9: registrationOk');
 	$("[id$='-message']").hide();
 	var url = App.getContextPath() + "/inscricao/" + data;
 
@@ -263,7 +235,6 @@ function registrationOk(data) {
 }
 
 function shareOnFacebook() {
-	console.log('10: shareOnFacebook');
 	var raceUrl = App.getBaseUrl() + "/prova/" + $("#id").val();
 	var url = "";
 	url += "http://www.facebook.com/dialog/feed";

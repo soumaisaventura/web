@@ -39,8 +39,12 @@
 
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
-			<li><a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a></li>
-			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a></li>
+			<li>
+				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
+			</li>
 			<li class="active">Inscrição</li>
 		</ol>
 	</ui:define>
@@ -67,7 +71,8 @@
 						<label for="categoryId">Categoria *</label>
 						<select id="categoryId" class="form-control">
 							<option disabled="disabled" selected="selected">Escolha a categoria</option>
-						</select> <span id="categoryId-message" hidden="true" class="label label-danger" />
+						</select>
+						<span id="categoryId-message" hidden="true" class="label label-danger" />
 					</div>
 				</div>
 			</div>
@@ -87,23 +92,26 @@
 							<table id="members-list" class="table footable toggle-arrow-small toggle-medium" style="margin-top: 0px; margin-bottom: 5px">
 								<thead>
 									<tr class="info text-primary">
-										<th style="width: 30px;"></th>
-										<th class="col-md-9"><small>atleta</small></th>
-										<th class="text-right col-md-2"><small>inscrição</small></th>
+										<th class="col-md-10">
+											<small>atleta</small>
+										</th>
+										<th class="text-right col-md-2">
+											<small>inscrição</small>
+										</th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr id='pesquisa-atleta'>
-										<td></td>
-										<td>
+										<td colspan="2">
 											<input type="hidden" id="memberId" />
-											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}" autocomplete="off"/>
+											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}"
+												autocomplete="off" />
 										</td>
-										<td></td>
 									</tr>
 									<tr>
-										<th></th>
-										<th class="text-right" nowrap='nowrap'><span class="hidden-xs">total a pagar</span></th>
+										<th class="text-right" nowrap='nowrap'>
+											<span class="hidden-xs">total a pagar</span>
+										</th>
 										<th id="total" class="text-right" style="font-style: italic;" nowrap='nowrap'></th>
 									</tr>
 								</tfoot>
@@ -141,16 +149,16 @@
 
 		<script id="member-template" type="text/template">
 			<tr id='member-{{id}}' data-raceprice='{{race_price}}'>
-				<td style='vertical-align: middle;'>
+				<td class='footable-first-column' style='vertical-align: middle;'>
+					<img class='img-rounded' src='{{picture.thumbnail}}' />
+					&#160;&#160;&#160;{{name}}
+
 					{{#deletable}}
 					<a href='#' class='remove' data-id='{{id}}'>
 						<span class='glyphicon glyphicon-trash' />
 					</a>
 					{{/deletable}}
-				</td>
-				<td class='footable-first-column' style='vertical-align: middle;'>
-					<img class='img-rounded' src='{{picture.thumbnail}}' />
-					&#160;&#160;&#160;{{name}}
+
 				</td>
 				<td class='ammount text-right' nowrap='nowrap' style='vertical-align: middle;' data-ammount='{{race_price}}'>{{formmated_race_price}}</td>
 			</tr>
