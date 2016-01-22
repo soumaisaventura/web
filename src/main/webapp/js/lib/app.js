@@ -28,6 +28,11 @@ var App = {
 		return user ? user.roles.admin : false;
 	},
 
+	getGlobalMessage : function(request) {
+		var json = JSON.parse(request.responseText);
+		return json && json.length == 1 && !json[0].property ? json[0].message : null;
+	},
+
 	getLoggedInUser : function() {
 		return JSON.parse(sessionStorage.getItem(this.userKey));
 	},
@@ -47,6 +52,35 @@ var App = {
 
 	isLoggedIn : function() {
 		return App.getToken() != null;
+	},
+
+	loginOk : function(data, status, request) {
+		App.setToken(request.getResponseHeader('Set-Token'));
+		App.setLoggedInUser(data);
+
+		var url;
+		var pendencies = false;
+
+		if (data.pendencies.profile > 0) {
+			url = App.getContextPath() + "/user/profile";
+			pendencies = true;
+
+		} else if (data.health && data.pendencies.health > 0) {
+			url = App.getContextPath() + "/user/health";
+			pendencies = true;
+		}
+
+		if (pendencies) {
+			swal({
+				title : "Dados cadastrais incompletos",
+				text : "Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
+				type : "warning"
+			}, function() {
+				window.location.href = url;
+			});
+		} else {
+			App.restoreSavedLocation();
+		}
 	},
 
 	setHeader : function(request) {

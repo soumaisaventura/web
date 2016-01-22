@@ -2,24 +2,13 @@ var UserProxy = {
 
 	url : App.getContextPath() + "/api/user",
 
-	// getLoggedInUser : function() {
-	// return $.ajax({
-	// url : this.url,
-	// type : "GET",
-	// error : function() {},
-	// beforeSend : function(request) {
-	// App.setHeader(request);
-	// }
-	// });
-	// },
-
-	search : function($filter, $excludes) {
+	search : function(filter, excludes) {
 		return $.ajax({
 			url : this.url + "/search",
 			dataType : "json",
 			data : {
-				q : $filter,
-				excludes : $excludes
+				q : filter,
+				excludes : excludes
 			},
 			beforeSend : function(request) {
 				App.setHeader(request);
@@ -27,11 +16,11 @@ var UserProxy = {
 		});
 	},
 
-	activate : function($data, $token) {
+	activate : function(data, token) {
 		return $.ajax({
 			type : "POST",
-			url : this.url + "/activation/" + $token,
-			data : JSON.stringify($data),
+			url : this.url + "/activation/" + token,
+			data : JSON.stringify(data),
 			contentType : "application/json"
 		});
 	}
