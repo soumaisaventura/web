@@ -3,14 +3,14 @@ $(function() {
 
 	var id = $("#evento_id").val();
 
-	// $("#registration-forms").click(function() {
-	// var $this = $(this);
-	// $this.button('loading');
-	//
-	// RaceRegistrationProxy.formDownload(id, function() {
-	// $this.button('reset');
-	// });
-	// });
+	$("#registration-forms").click(function() {
+		var $this = $(this);
+		$this.button('loading');
+
+		RaceRegistrationProxy.formDownload(id, function() {
+			$this.button('reset');
+		});
+	});
 
 	$("#registration-export").click(function() {
 		var $this = $(this);

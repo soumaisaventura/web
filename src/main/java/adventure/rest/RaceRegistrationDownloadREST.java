@@ -71,7 +71,7 @@ public class RaceRegistrationDownloadREST {
 		Connection conn = dataSource.getConnection();
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		// params.put("RACE_ID", race.getId());
+		params.put("RACE_ID", event.getId());
 
 		InputStream inputStream = Reflections.getResourceAsStream("report/ficha_inscricao.jasper");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, params, conn);
@@ -79,9 +79,6 @@ public class RaceRegistrationDownloadREST {
 
 		ByteArrayOutputStream oututStream = new ByteArrayOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, oututStream);
-
-		// Calendar calendar = Calendar.getInstance();
-		// calendar.setTime(race.getDate());
 
 		return oututStream.toByteArray();
 	}

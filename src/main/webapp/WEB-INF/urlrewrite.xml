@@ -16,17 +16,17 @@
 	<rule>
 		<from>^/inicio$</from>
 		<to>/home.jsf</to>
-		<set type="response-header" name="Cache-Control">no-cache</set>
+		<set type="response-header" name="Cache-Control">max-age=86400</set>
 	</rule>
 	<rule>
 		<from>^/login$</from>
 		<to>/login.jsf</to>
-		<set type="response-header" name="Cache-Control">no-cache</set>
+		<set type="response-header" name="Cache-Control">max-age=86400</set>
 	</rule>
 	<rule>
 		<from>^/registro$</from>
 		<to>/signup.jsf</to>
-		<set type="response-header" name="Cache-Control">no-cache</set>
+		<set type="response-header" name="Cache-Control">max-age=86400</set>
 	</rule>
 
 	<!-- /calendario -->
