@@ -32,8 +32,4 @@ function signupOk(data, status, request) {
 	}, function() {
 		window.location.href = App.getContextPath() + "/login";
 	});
-
-	// alert("Cadastro efetuado. Siga as instruções no seu e-mail para ativar a
-	// sua conta.");
-	// window.location.href = App.getContextPath() + "/login";
 }

@@ -21,7 +21,6 @@ import adventure.persistence.UserDAO;
 import adventure.rest.SignUpREST.ActivationData;
 import adventure.rest.data.UserData;
 import adventure.security.ActivationSession;
-import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -81,8 +80,7 @@ public class UserREST {
 	}
 
 	private void validate(String token, User user) throws Exception {
-		if (user == null || user.getActivationToken() == null
-				|| !user.getActivationToken().equals(Passwords.hash(token, user.getEmail()))) {
+		if (user == null || user.getActivationToken() == null || !user.getActivationToken().equals(token)) {
 			throw new UnprocessableEntityException().addViolation("Solicitação inválida");
 		}
 	}

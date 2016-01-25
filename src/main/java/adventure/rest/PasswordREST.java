@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import adventure.business.MailBusiness;
 import adventure.entity.User;
 import adventure.persistence.UserDAO;
+import adventure.rest.data.UserData;
 import adventure.security.Passwords;
 import adventure.validator.ExistentUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -44,12 +45,12 @@ public class PasswordREST {
 	@Path("reset/{token}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public User reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+	public UserData reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
 			throws Exception {
 		UserDAO dao = UserDAO.getInstance();
 		User persisted = dao.load(data.email.trim().toLowerCase());
 
-		if (persisted == null || !Passwords.hash(token, persisted.getEmail()).equals(persisted.getPasswordResetToken())) {
+		if (persisted == null || !token.equals(persisted.getPasswordResetToken())) {
 			throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
 
 		} else {
@@ -73,7 +74,7 @@ public class PasswordREST {
 			}
 		}
 
-		return User.getLoggedIn();
+		return new UserData(User.getLoggedIn(), uriInfo);
 	}
 
 	private void login(String email, String password) {

@@ -2,22 +2,26 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
+		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/user.js"></script>
+		<script src="#{request.contextPath}/js/proxy/password.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/user-activation.js"></script>
+		<script src="#{request.contextPath}/js/controller/senha-recuperacao.js"></script>
+	</ui:define>
+
+	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
 	</ui:define>
 
 	<ui:define name="body">
 		<div class="col-md-6 col-md-offset-4">
 			<div class="row" style="padding-bottom: 20px">
-				<h1>Confirmação</h1>
-				<h4>Para fazer login, confirme seu e-mail</h4>
+				<h1>Recuperação de senha</h1>
+				<h4>Para recuperar sua senha informe seu e-mail</h4>
 			</div>
 		</div>
 
@@ -34,11 +38,13 @@
 				<div class="row">
 					<div class="form-group">
 						<input id="global" type="hidden" />
-						<button type="submit" class="btn btn-success">Confirmar</button>
+						<button type="submit" class="btn btn-lg btn-success">
+							<span class="glyphicon glyphicon-repeat" aria-hidden="true"> Recuperar senha 
+						</button>
 					</div>
 				</div>
 				<div class="row">
-					<div id="global-message" hidden="true" class="alert alert-danger" />
+					<div id="global-message" hidden="true" class="alert" />
 				</div>
 			</form>
 		</div>

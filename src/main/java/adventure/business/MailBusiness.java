@@ -54,7 +54,7 @@ public class MailBusiness implements Serializable {
 		if (user.getActivationToken() == null) {
 			token = Passwords.randomToken();
 			User persisted = userDAO.load(user.getId());
-			persisted.setActivationToken(Passwords.hash(token, persisted.getEmail()));
+			persisted.setActivationToken(token);
 			userDAO.update(persisted);
 		} else {
 			token = user.getActivationToken();
@@ -124,7 +124,7 @@ public class MailBusiness implements Serializable {
 		if (user.getPasswordResetToken() == null) {
 			token = Passwords.randomToken();
 			User persisted = userDAO.load(user.getId());
-			persisted.setPasswordResetToken(Passwords.hash(token, persisted.getEmail()));
+			persisted.setPasswordResetToken(token);
 			persisted.setPasswordResetRequest(new Date());
 			userDAO.update(persisted);
 		} else {

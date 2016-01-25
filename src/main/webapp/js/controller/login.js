@@ -13,7 +13,7 @@ $(function() {
 			'password' : $("#password").val()
 		};
 
-		LogonProxy.login(data).done(loginOk).fail(loginFailed);
+		LogonProxy.login(data).done(App.loginOk).fail(loginFailed);
 	});
 
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
@@ -101,55 +101,6 @@ function loadGoogleOk() {
 
 // Regular login process
 
-function loginOk(data, status, request) {
-	App.setToken(request.getResponseHeader('Set-Token'));
-	App.setLoggedInUser(data);
-
-	var url;
-	var pendencies = false;
-
-	if (data.pendencies.profile > 0) {
-		url = App.getContextPath() + "/user/profile";
-		pendencies = true;
-
-	} else if (data.health && data.pendencies.health > 0) {
-		url = App.getContextPath() + "/user/health";
-		pendencies = true;
-	}
-
-	if (pendencies) {
-		swal({
-			title : "Dados cadastrais incompletos",
-			text : "Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
-			type : "warning"
-		}, function() {
-			window.location.href = url;
-		});
-
-		// bootbox.dialog({
-		// title : "Atenção!",
-		// message : "Seus dados cadastrais estão incompletos. Para se inscrever
-		// nas provas você precisa resolver isso. É fácil e rápido!",
-		// buttons : {
-		// main : {
-		// label : "<span class='glyphicon glyphicon-edit' aria-hidden='true'
-		// style='font-size: 0.8em;'></span> Resolver agora",
-		// className : "btn-success",
-		// callback : function() {
-		// location.href = url;
-		// }
-		// }
-		// },
-		// onEscape : function() {
-		// App.restoreSavedLocation();
-		// }
-		// });
-
-	} else {
-		App.restoreSavedLocation();
-	}
-}
-
 function loginFailed(request) {
 	switch (request.status) {
 		case 422:
@@ -157,7 +108,6 @@ function loginFailed(request) {
 			break;
 
 		case 401:
-			// $("#global-message").html(request.responseText).show();
 			swal({
 				title : "",
 				text : request.responseText,

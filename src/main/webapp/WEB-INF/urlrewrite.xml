@@ -93,7 +93,7 @@
 	</rule>
 	<rule>
 		<from>^/atleta/ativacao$</from>
-		<to>/user-activation.jsf</to>
+		<to>/atleta-ativacao.jsf</to>
 	</rule>
 	<rule>
 		<from>^/atleta/pessoal$</from>
@@ -116,11 +116,11 @@
 	</rule>
 	<rule>
 		<from>^/senha/recuperacao$</from>
-		<to>/password-recovery.jsf</to>
+		<to>/senha-recuperacao.jsf</to>
 	</rule>
 	<rule>
 		<from>^/senha/redefinicao$</from>
-		<to>/password-reset.jsf</to>
+		<to>/senha-redefinicao.jsf</to>
 	</rule>
 	
 	
