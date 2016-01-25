@@ -119,7 +119,7 @@ $(function() {
 			'category_id' : $("#categoryId").val(),
 			'members_ids' : memberIds
 		};
-		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk);
+		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk).fail(App.handle422Global);
 	});
 });
 

@@ -11,25 +11,6 @@ $(function() {
 		};
 
 		var token = App.getUrlParameterByName('token');
-		PasswordProxy.reset(data, token).done(App.loginOk).fail(resetFail);
+		PasswordProxy.reset(data, token).done(App.loginOk).fail(App.handle422Global);
 	});
 });
-
-function resetFail(request) {
-	switch (request.status) {
-		case 422:
-			var message = App.getGlobalMessage(request);
-
-			if (message) {
-				swal({
-					title : "",
-					text : message,
-					confirmButtonClass : "btn-danger",
-					type : "error"
-				});
-			} else {
-				App.handle422(request);
-			}
-			break;
-	}
-}

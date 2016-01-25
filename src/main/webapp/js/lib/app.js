@@ -116,47 +116,67 @@ var App = {
 		location.href = App.getContextPath() + "/login";
 	},
 
-	handle422 : function(request) {
-		var elements = $("form input, form select, form textarea").get().reverse();
-
-		$(elements).each(function() {
-			var id = $(this).attr('id');
-			var messages = [];
-
+	handle422Global : function(request) {
+		var messages = "";
+		if (request.status == 422) {
 			$.each(request.responseJSON, function(i, value) {
-				var aux = value.property ? value.property : "global";
-
-				if (id == aux) {
-					messages.push(value.message);
-					return;
+				if (!value.property) {
+					messages += value.message + "\r\n";
 				}
 			});
 
-			if (!id) {
-				return;
+			if (messages) {
+				swal({
+					title : "Ops!",
+					text : messages,
+					type : "error",
+					html : true
+				});
 			}
+		}
+	},
 
-			var message = $("#" + id.replace(".", "\\.") + "-message");
+	handle422 : function(request) {
+		if (request.status == 422) {
+			var elements = $("form input, form select, form textarea").get().reverse();
 
-			if (messages.length > 1) {
-				message.empty();
-				var ul = message.append("<ul></ul>")
+			$(elements).each(function() {
+				var id = $(this).attr('id');
+				var messages = [];
 
-				while (messages.length > 0) {
-					ul.append("<li>" + messages.pop() + "</li>");
+				$.each(request.responseJSON, function(i, value) {
+					if (id == value.property) {
+						messages.push(value.message);
+						return;
+					}
+				});
+
+				if (!id) {
+					return;
 				}
 
-				message.show();
-				$(this).focus();
+				var message = $("#" + id.replace(".", "\\.") + "-message");
 
-			} else if (messages.length == 1) {
-				message.html(messages.pop()).show();
-				$(this).focus();
+				if (messages.length > 1) {
+					message.empty();
+					var ul = message.append("<ul></ul>")
 
-			} else {
-				message.hide();
-			}
-		});
+					while (messages.length > 0) {
+						ul.append("<li>" + messages.pop() + "</li>");
+					}
+
+					message.show();
+					$(this).focus();
+
+				} else if (messages.length == 1) {
+					message.html(messages.pop()).show();
+					$(this).focus();
+
+				} else {
+					message.hide();
+				}
+			});
+		}
 	},
 
 	handle500 : function(request) {
@@ -227,13 +247,11 @@ var App = {
 
 $.ajaxSetup({
 	error : function(request) {
+		App.handle422(request);
+
 		switch (request.status) {
 			case 401:
 				App.handle401(request);
-				break;
-
-			case 422:
-				App.handle422(request);
 				break;
 
 			case 500:

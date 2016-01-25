@@ -159,7 +159,7 @@ function googleLogin(authResult) {
 
 function googleLoginOk(data, status, request) {
 	gapi.auth.signOut();
-	loginOk(data, status, request);
+	App.loginOk(data, status, request);
 }
 
 function showModal() {

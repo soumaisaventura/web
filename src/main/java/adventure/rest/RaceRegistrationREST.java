@@ -124,9 +124,9 @@ public class RaceRegistrationREST {
 			User user = UserDAO.getInstance().loadBasics(id);
 
 			if (user == null) {
-				exception.addViolation("members_ids", "Usuário " + id + " inválido.");
+				exception.addViolation("Usuário " + id + " inválido.");
 			} else if (result.contains(user)) {
-				exception.addViolation("members_ids", "Usuário " + id + " duplicado.");
+				exception.addViolation("Usuário " + id + " duplicado.");
 			} else {
 				result.add(user);
 			}
@@ -161,19 +161,19 @@ public class RaceRegistrationREST {
 		Category category = raceCategory.getCategory();
 
 		if (total > category.getTeamSize()) {
-			exception.addViolation("members_ids", "Tem muita gente na equipe.");
+			exception.addViolation("Tem muita gente na equipe.");
 		} else if (total < category.getTeamSize()) {
-			exception.addViolation("members_ids", "A equipe está incompleta.");
+			exception.addViolation("A equipe está incompleta.");
 		}
 
 		int male = count(members, MALE);
 		if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-			exception.addViolation("members_ids", "Falta atleta do sexo masculino.");
+			exception.addViolation("Falta atleta do sexo masculino.");
 		}
 
 		int female = count(members, FEMALE);
 		if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-			exception.addViolation("members_ids", "Falta atleta do sexo feminino.");
+			exception.addViolation("Falta atleta do sexo feminino.");
 		}
 
 		for (User member : members) {
@@ -181,12 +181,12 @@ public class RaceRegistrationREST {
 					raceCategory.getRace(), member);
 
 			if (formation != null) {
-				exception.addViolation("members_ids", parse(member) + " já faz parte da equipe "
+				exception.addViolation(parse(member) + " já faz parte da equipe "
 						+ formation.getRegistration().getTeamName() + ".");
 			}
 
 			if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
-				exception.addViolation("members_ids", parse(member) + " possui pendências cadastrais.");
+				exception.addViolation(parse(member) + " possui pendências cadastrais.");
 				MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
 			}
 		}
