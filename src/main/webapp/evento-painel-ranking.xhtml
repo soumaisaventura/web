@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="css">
+	</ui:define>
+
+	<ui:define name="lib">
+	</ui:define>
+
+	<ui:define name="proxy">
+	</ui:define>
+
+	<ui:define name="controller">
+		<script src="#{request.contextPath}/js/controller/evento-painel-ranking.js"></script>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<ol class="breadcrumb">
+			<li>
+				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
+			</li>
+			<li>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}/painel">Painel</a>
+			</li>
+			<li class="active">Ranking</li>
+		</ol>
+	</ui:define>
+
+	<ui:define name="body">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				evento_id = #{param.evento_id}
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
