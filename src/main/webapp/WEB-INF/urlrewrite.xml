@@ -4,13 +4,13 @@
     "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
-	<!-- /	-->
+	<!-- / -->
 
 	<rule>
 		<from>^/$</from>
 		<to type="permanent-redirect">%{context-path}/inicio</to>
 	</rule>
-	
+
 	<!-- /* -->
 
 	<rule>
@@ -42,7 +42,7 @@
 		<to>/calendario.jsf?ano=$1</to>
 		<set type="response-header" name="Cache-Control">max-age=86400</set>
 	</rule>
-	
+
 	<!-- /evento -->
 
 	<rule>
@@ -69,7 +69,7 @@
 		<from>^/evento/([\w\d_\-/]+)$</from>
 		<to>/evento.jsf?evento_id=$1</to>
 	</rule>
-	
+
 	<!-- /usuario -->
 
 	<rule>
@@ -84,7 +84,7 @@
 		<from>^/usuario/(\d+)/minifoto.jpg$</from>
 		<to>/api/user/profile/$1/thumbnail</to>
 	</rule>
-	
+
 	<!-- /atleta -->
 
 	<rule>
@@ -122,76 +122,84 @@
 		<from>^/senha/redefinicao$</from>
 		<to>/senha-redefinicao.jsf</to>
 	</rule>
-	
-	
+
+
 	<!-- Experimentos -->
 	<rule>
 		<from>^/map$</from>
 		<to>/map.jsf</to>
 	</rule>
-	
-	
+
+
 	<!-- Antigo -->
 	<rule>
 		<from>^/teste$</from>
 		<to>/teste.jsf</to>
 	</rule>
+
 	<rule>
 		<from>^/home$</from>
 		<to>/home.jsf</to>
 	</rule>
+
 	<rule>
 		<from>^/registre-se$</from>
 		<to type="permanent-redirect">%{context-path}/registro</to>
 	</rule>
+
 	<rule>
 		<from>^/signup$</from>
 		<to type="permanent-redirect">%{context-path}/registro</to>
 	</rule>
+
 	<rule>
 		<from>^/recupera-senha$</from>
 		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
 	</rule>
+
 	<rule>
 		<from>^/password/recovery$</from>
 		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
 	</rule>
+
 	<rule>
 		<from>^/password/reset$</from>
 		<to type="permanent-redirect" qsappend="true">%{context-path}/senha/redefinicao?</to>
 	</rule>
+
 	<rule>
 		<from>^/user/activation$</from>
 		<to type="permanent-redirect" qsappend="true">%{context-path}/atleta/ativacao?</to>
 	</rule>
+
 	<rule>
 		<from>^/user/profile$</from>
 		<to type="permanent-redirect">%{context-path}/atleta/pessoal</to>
 	</rule>
+
 	<rule>
 		<from>^/user/health$</from>
 		<to type="permanent-redirect">%{context-path}/atleta/saude</to>
 	</rule>
+
 	<rule>
 		<from>^/minhas-inscricoes$</from>
 		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
 	</rule>
+
 	<rule>
 		<from>^/registration/list$</from>
 		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
 	</rule>
 
-	<!--
-	<rule>
-		<from>^/registration/(\d+)/public$</from>
-		<to>/registration-public.jsf?registration=$1</to>
-	</rule>
-	-->
+	<!-- <rule> <from>^/registration/(\d+)/public$</from> <to>/registration-public.jsf?registration=$1</to> 
+		</rule> -->
 
 	<rule>
 		<from>^/inscricao/(\d+)$</from>
 		<to>/inscricao.jsf?inscricao_id=$1</to>
 	</rule>
+
 	<rule>
 		<from>^/registration/(\d+)$</from>
 		<to type="permanent-redirect">%{context-path}/inscricao/$1</to>
@@ -201,6 +209,7 @@
 		<from>^/race/next$</from>
 		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
 	</rule>
+
 	<rule>
 		<from>^/provas$</from>
 		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
@@ -215,6 +224,7 @@
 		<from>^/prova/(\d+)/painel/inscricoes$</from>
 		<to>/prova-painel-inscricoes.jsf?race=$1</to>
 	</rule>
+
 	<rule>
 		<from>^/race/(\d+)/registration/list$</from>
 		<to type="permanent-redirect">%{context-path}/prova/$1/painel/inscricoes</to>
@@ -224,6 +234,7 @@
 		<from>^/prova/(\d+)/inscricao$</from>
 		<to>/prova-inscricao.jsf?id=$1</to>
 	</rule>
+
 	<rule>
 		<from>^/race/(\d+)/registration$</from>
 		<to type="permanent-redirect">%{context-path}/prova/$1/inscricao</to>
@@ -233,6 +244,7 @@
 		<from>^/prova/(\d+)$</from>
 		<to>/prova.jsf?id=$1</to>
 	</rule>
+
 	<rule>
 		<from>^/race/(\d+)$</from>
 		<to type="permanent-redirect">%{context-path}/prova/$1</to>
@@ -243,56 +255,12 @@
 		<to>/close.html</to>
 	</rule>
 
-	<!-- V2 Init -->
-	<rule>
-		<from>^/_v2$</from>
-		<to>/v2/index.jsf</to>
-	</rule>
-
-	<rule>
-		<from>^/_v2/registro$</from>
-		<to>/v2/registro.jsf</to>
-	</rule>
-
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/login$</from> -->
-<!-- 		<to>/v2/login.jsf</to> -->
-<!-- 	</rule> -->
-
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/recupera-senha$</from> -->
-<!-- 		<to>/v2/senha-recuperacao.jsf</to> -->
-<!-- 	</rule> -->
-
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/registre-se$</from> -->
-<!-- 		<to>/v2/registro.jsf</to> -->
-<!-- 	</rule> -->
-
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/calendario/(\d+)$</from> -->
-<!-- 		<to>/v2/calendario.jsf?ano=$1</to> -->
-<!-- 	</rule> -->
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/race/next$</from> -->
-<!-- 		<to type="permanent-redirect">/v2/calendario/2015</to> -->
-<!-- 	</rule> -->
-<!-- 	<rule> -->
-<!-- 		<from>^/v2/provas$</from> -->
-<!-- 		<to type="permanent-redirect">/v2/calendario/2015</to> -->
-<!-- 	</rule> -->
-	<!-- V2 End -->
-
 	<rule>
 		<from>^/(.+)/$</from>
 		<to type="permanent-redirect">%{context-path}/$1</to>
 	</rule>
-		
-	<!--
-	<rule>
-		<from>^/(.+^/)/$</from>
-		<to type="permanent-redirect">%{context-path}/$1/</to>
-	</rule>
-	-->
+
+	<!-- <rule> <from>^/(.+^/)/$</from> <to type="permanent-redirect">%{context-path}/$1/</to> 
+		</rule> -->
 
 </urlrewrite>
