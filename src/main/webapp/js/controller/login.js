@@ -136,7 +136,7 @@ function facebookLogin(response) {
 
 function facebookLoginOk(data, status, request) {
 	// FB.logout();
-	loginOk(data, status, request);
+	App.loginOk(data, status, request);
 }
 
 function facebookLoginFailed(request) {
