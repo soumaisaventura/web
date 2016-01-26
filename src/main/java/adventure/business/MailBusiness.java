@@ -187,7 +187,7 @@ public class MailBusiness implements Serializable {
 
 		String subject = "Pedido de inscrição";
 		subject += " #" + registration.getFormattedId();
-		subject += " – " + race.getName();
+		subject += " – " + race.getEvent().getName();
 
 		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
@@ -217,7 +217,7 @@ public class MailBusiness implements Serializable {
 				"$1" + baseUri.resolve("atleta/" + pendency + "$2"));
 
 		String subject = "Tentativa de inscrição";
-		subject += " – " + race.getName();
+		subject += " – " + race.getEvent().getName();
 
 		send(subject, content, "text/html", member.getEmail());
 	}
@@ -246,7 +246,7 @@ public class MailBusiness implements Serializable {
 
 		String subject = "Reajuste no pedido";
 		subject += " #" + registration.getFormattedId();
-		subject += " – " + race.getName();
+		subject += " – " + race.getEvent().getName();
 
 		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
@@ -277,7 +277,7 @@ public class MailBusiness implements Serializable {
 
 		String subject = "Cancelamento da inscrição";
 		subject += " #" + registration.getFormattedId();
-		subject += " – " + race.getName();
+		subject += " – " + race.getEvent().getName();
 
 		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
@@ -321,7 +321,7 @@ public class MailBusiness implements Serializable {
 
 		String subject = "Confirmação da inscrição";
 		subject += " #" + registration.getFormattedId();
-		subject += " – " + race.getName();
+		subject += " – " + race.getEvent().getName();
 
 		for (UserRegistration member : members) {
 			send(subject, content, "text/html", member.getUser().getEmail());
