@@ -103,6 +103,8 @@ function getByStatusByDayOk(data) {
 				},
 				toolTip : {
 					content : function(e) {
+						e.entries[0].dataPoint.y = e.entries[0].dataPoint.y ? e.entries[0].dataPoint.y : 0;
+
 						return moment(e.entries[0].dataPoint.x).format("dddd, DD [de] MMMM [de] YYYY") + "<br/> <span style =' color:"
 								+ e.entries[0].dataSeries.color + "';>" + e.entries[0].dataSeries.name + "</span>: <strong>"
 								+ e.entries[0].dataPoint.y + " inscriçoes</strong> <br/>";
