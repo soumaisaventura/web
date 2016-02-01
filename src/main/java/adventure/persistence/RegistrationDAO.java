@@ -2,6 +2,7 @@ package adventure.persistence;
 
 import static adventure.entity.EventPaymentType.AUTO;
 import static adventure.entity.RegistrationStatusType.PENDENT;
+import static adventure.entity.Status.OPEN_ID;
 import static javax.persistence.TemporalType.DATE;
 
 import java.util.ArrayList;
@@ -186,8 +187,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("        ev.payment.info, ");
 		jpql.append("        ev.payment.account, ");
 		jpql.append("        ev.payment.token, ");
-		// jpql.append("        ev.coords.latitude, ");
-		// jpql.append("        ev.coords.longitude, ");
 		jpql.append("        ci.id, ");
 		jpql.append("        ci.name, ");
 		jpql.append("        st.id, ");
@@ -201,7 +200,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("   join re.raceCategory rc ");
 		jpql.append("   join re.period pe ");
 		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.period pe2 ");
 		jpql.append("   join ra.status sa ");
 		jpql.append("   join rc.category ca ");
 		jpql.append("   join ra.event ev ");
@@ -211,7 +209,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql.append("  where su.id = pr.id ");
 		jpql.append("    and ev.payment.type = :paymentType ");
 		jpql.append("    and not :date between pe.beginning and pe.end ");
-		jpql.append("    and :date between pe2.beginning and pe2.end ");
+		jpql.append("    and ra.status.id = :raceOpen ");
 		jpql.append("    and re.status = :status ");
 		jpql.append("    and re.payment.transaction is null ");
 
@@ -219,6 +217,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		query.setParameter("date", new Date(), DATE);
 		query.setParameter("paymentType", AUTO);
 		query.setParameter("status", PENDENT);
+		query.setParameter("raceOpen", OPEN_ID);
 
 		return query.getResultList();
 	}

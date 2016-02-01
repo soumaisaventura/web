@@ -48,9 +48,12 @@ public class RegistrationJobREST {
 
 			Registration persisted = registrationDAO.load(registration.getId());
 			persisted.setPeriod(period);
-			persisted.getPayment().setCode(null);
-			registrationDAO.update(persisted);
 
+			if (persisted.getPayment() != null) {
+				persisted.getPayment().setCode(null);
+			}
+
+			registrationDAO.update(persisted);
 			getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");
 
 			URI baseUri = uriInfo.getBaseUri().resolve("..");

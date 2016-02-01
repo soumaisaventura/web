@@ -242,7 +242,8 @@ public class MailBusiness implements Serializable {
 		content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
 		content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
 		content = content.replace("{newPeriodEnd}", Dates.parse(newPeriodEnd));
-		// content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race)));
+		content = content
+				.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race.getEvent())));
 
 		String subject = "Reajuste no pedido";
 		subject += " #" + registration.getFormattedId();
