@@ -2,12 +2,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="css">
+		<link rel="stylesheet" href="#{request.contextPath}/css/evento-painel-ranking.css" />
 	</ui:define>
 
 	<ui:define name="lib">
+		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/mustache.min.js"></script>
 	</ui:define>
 
 	<ui:define name="proxy">
+		<script src="#{request.contextPath}/js/proxy/event.js"></script>
+		<script src="#{request.contextPath}/js/proxy/race.js"></script>
+		<script src="#{request.contextPath}/js/proxy/registration.js"></script>
 	</ui:define>
 
 	<ui:define name="controller">
@@ -16,24 +22,51 @@
 
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
-			<li>
-				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
-			</li>
-			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
-			</li>
-			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}/painel">Painel</a>
-			</li>
+			<li><a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a></li>
+			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a></li>
+			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}/painel">Painel</a></li>
 			<li class="active">Ranking</li>
 		</ol>
 	</ui:define>
 
 	<ui:define name="body">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				evento_id = #{param.evento_id}
+		<form>
+			<input id="event_id" type="hidden" value="#{param.evento_id}" />
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<h1 id="event-name"></h1>
+					<span class="info-icon"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span id="location-city"></span>
+					</span>&#160;&#160; <br class="visible-xs-block" /> <span class="info-icon"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+						<span id="date"></span>
+					</span>
+				</div>
 			</div>
-		</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="form-group">
+						<label for="raceId">Prova</label>
+						<select id="raceId" class="form-control">
+							<option disabled="disabled" selected="selected">Escolha a prova</option>
+						</select> <span id="raceId-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="form-group">
+						<label for="categoryId">Categoria</label>
+						<select id="categoryId" class="form-control">
+							<option disabled="disabled" selected="selected">Escolha a categoria</option>
+						</select> <span id="categoryId-message" hidden="true" class="label label-danger" />
+					</div>
+				</div>
+				<div id="rank" class="col-md-6 col-md-offset-3"></div>
+			</div>
+		</form>
+
+		<script id="rank-template" type="text/template">
+			<div id="teamName">{{team.name}}</div>
+		</script>
+
 	</ui:define>
 </ui:composition>

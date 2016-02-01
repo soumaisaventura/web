@@ -130,8 +130,8 @@ function getOAuthAppIdsOk(data) {
 }
 
 function loadSummaryOk(race) {
-	$("#race-name").text(race.event.name)
-	$("#race-description").text(race.description)
+	$("#race-name").text(race.event.name);
+	$("#race-description").text(race.description);
 	$("#race-date").text(App.parsePeriod(race.period));
 	$("#race-city").text(App.parseCity(race.event.location.city));
 }
