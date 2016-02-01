@@ -1,11 +1,15 @@
 package adventure.rest.data;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name" })
+@JsonPropertyOrder({ "id", "internalId", "name" })
 public class SportData {
 
 	public String id;
+
+	@JsonProperty("internal_id")
+	public Integer internalId;
 
 	public String name;
 }

@@ -171,6 +171,7 @@ public class EventREST {
 
 				raceData.sport = new SportData();
 				raceData.sport.id = race.getSport().getAcronym();
+				raceData.sport.internalId = race.getSport().getId();
 				raceData.sport.name = race.getSport().getName();
 
 				// Period
