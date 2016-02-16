@@ -1,6 +1,6 @@
 SELECT *
   FROM city c, state s
- WHERE c.state_id = s.id AND lower (c.name) LIKE '%missões%';
+ WHERE c.state_id = s.id AND lower (c.name) LIKE '%fortaleza%';
 
 SELECT *
   FROM profile p, city c
@@ -8,15 +8,15 @@ SELECT *
 
 SELECT *
   FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%cledison%';
+ WHERE p.city_id = c.id AND lower (p.name) LIKE '%migliari%';
 
 SELECT *
   FROM profile p
- WHERE lower (p.name) LIKE '%cledison%';
+ WHERE lower (p.name) LIKE '%cadu%';
 
 SELECT *
   FROM user_account ua
- WHERE ua.email LIKE '%manoelabb@gmail.com%';
+ WHERE ua.email LIKE '%scientiasilva@gmail.com%';
 
 SELECT *
   FROM user_account ua
@@ -24,7 +24,7 @@ SELECT *
 
 SELECT *
   FROM profile p
- WHERE p.id IN (116, 284);
+ WHERE p.id IN (998);
 
 SELECT *
   FROM health h

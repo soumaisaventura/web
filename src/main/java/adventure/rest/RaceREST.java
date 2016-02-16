@@ -6,7 +6,9 @@ import static adventure.util.Constants.RACE_SLUG_PATTERN;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,6 +30,7 @@ import adventure.rest.data.EventData;
 import adventure.rest.data.LocationData;
 import adventure.rest.data.PeriodData;
 import adventure.rest.data.RaceData;
+import adventure.rest.data.RankingData;
 import adventure.rest.data.UserData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -38,7 +41,6 @@ public class RaceREST {
 
 	@GET
 	@Path("summary")
-	@Cache("max-age=28800")
 	@Produces("application/json")
 	public RaceData loadSummary(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
 			@Context UriInfo uriInfo) throws Exception {
@@ -72,7 +74,6 @@ public class RaceREST {
 
 	@GET
 	@Path("categories")
-	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<CategoryData> findCategories(@PathParam("raceSlug") String raceSlug,
 			@PathParam("eventSlug") String eventSlug) throws Exception {
@@ -95,7 +96,6 @@ public class RaceREST {
 
 	@GET
 	@Path("order")
-	@Cache("max-age=28800")
 	@Produces("application/json")
 	public List<UserData> getOrder(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
 			@QueryParam("users_ids") List<Integer> users, @Context UriInfo uriInfo) throws Exception {
@@ -126,6 +126,28 @@ public class RaceREST {
 		}
 
 		return result.isEmpty() ? null : result;
+	}
+
+	@GET
+	@Path("ranking")
+	@Cache("max-age=28800")
+	@Produces("application/json")
+	public List<RankingData> getRanking() {
+		return null;
+	}
+
+	@GET
+	@Path("ranking/category")
+	@Cache("max-age=28800")
+	@Produces("application/json")
+	public List<RankingData> getRankingCatgegory() {
+		return null;
+	}
+
+	@POST
+	@Path("ranking")
+	@Consumes("application/json")
+	public void setRanking(List<RankingData> datas) {
 	}
 
 	private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {
