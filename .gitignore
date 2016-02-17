@@ -1,5 +1,5 @@
 /bin
-/*.log
+/target/
 /.project
 /.idea
 /.classpath
@@ -10,5 +10,5 @@
 /src/main/webapp/WEB-INF/lib
 /src/main/webapp/WEB-INF/.faces-config.xml.jsfdia
 /**/.DS_Store
-/target/
 /web.iml
+/*.log
