@@ -30,6 +30,16 @@ public class EventAnalyticsREST {
 
 	@GET
 	@LoggedIn
+	@Path("gender")
+	@Produces("application/json")
+	public List<EventAnalytic> getGenders(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+		return EventAnalyticDAO.getInstance().getGenderQuantity(event);
+	}
+	
+	@GET
+	@LoggedIn
 	@Path("category")
 	@Produces("application/json")
 	public List<EventAnalytic> getCategories(@PathParam("slug") String slug) throws Exception {
