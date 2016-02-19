@@ -103,7 +103,7 @@ public class EventREST {
 	@Produces("application/json")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
 	public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary,
-			@Context UriInfo uriInfo) throws NotFoundException {
+	                      @Context UriInfo uriInfo) throws NotFoundException {
 		RaceBusiness raceBusiness = RaceBusiness.getInstance();
 		FeeDAO feeDAO = FeeDAO.getInstance();
 		RaceDAO raceDAO = RaceDAO.getInstance();
@@ -124,6 +124,7 @@ public class EventREST {
 		eventData.period = new PeriodData();
 		eventData.period.beginning = event.getBeginning();
 		eventData.period.end = event.getEnd();
+		eventData.status = event.getStatus().getName();
 
 		// Location
 
@@ -261,7 +262,7 @@ public class EventREST {
 	@Cache("max-age=604800000")
 	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
 	public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width,
-			@Context ServletContext context) throws Exception {
+	                        @Context ServletContext context) throws Exception {
 		Event event = loadEventBanner(slug);
 		return ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
 	}
