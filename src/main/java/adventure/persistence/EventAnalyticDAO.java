@@ -48,7 +48,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
-
+	
 	public List<EventAnalytic> getRegistrationByCategory(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
@@ -151,6 +151,32 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		query.setParameter("event", event);
 		query.setParameter("statusConfirmed", CONFIRMED);
 		query.setParameter("statusPendent", PENDENT);
+
+		return query.getResultList();
+	}
+
+	public List<EventAnalytic> getGenderQuantity(Event event) {
+		
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
+		jpql.append("          case when pr.gender = 'FEMALE' then 'F' else 'M' end, ");
+		jpql.append("          count(ur)");
+		jpql.append("        ) ");
+		jpql.append("   from UserRegistration ur ");
+		jpql.append("   join ur.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.event ev, ");
+		jpql.append("        Profile pr ");
+		jpql.append("  where ur.user = pr.user ");
+		jpql.append("    and ev = :event ");
+		jpql.append("    and re.status = :status ");
+		jpql.append("  group by pr.gender ");
+
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("event", event);
+		query.setParameter("status", CONFIRMED);
 
 		return query.getResultList();
 	}
