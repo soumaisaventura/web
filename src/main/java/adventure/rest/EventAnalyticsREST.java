@@ -48,6 +48,16 @@ public class EventAnalyticsREST {
 		return EventAnalyticDAO.getInstance().getAmountRaised(event);
 	}
 	
+	@GET
+	@LoggedIn
+	@Path("discount")
+	@Produces("application/json")
+	public List<EventAnalytic> getAmountDiscounted(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+		return EventAnalyticDAO.getInstance().getAmountDiscounted(event);
+	}
+	
 	
 	@GET
 	@LoggedIn

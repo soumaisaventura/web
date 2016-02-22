@@ -176,6 +176,29 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
+	
+	public List<EventAnalytic> getAmountDiscounted(Event event) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
+		jpql.append("          'amount_discounted', ");
+		jpql.append("           sum(cast(pe.price as integer)) - sum(cast(ur.racePrice as integer)) ");
+		jpql.append("        ) ");
+		jpql.append("   from UserRegistration ur ");
+		jpql.append("   join ur.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.event ev ");
+		jpql.append("   join re.period pe ");
+		jpql.append("  where ev = :event ");
+		jpql.append("    and re.status = :status ");
+		
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("event", event);
+		query.setParameter("status", CONFIRMED);
+		
+		return query.getResultList();
+	}
 
 	public List<EventAnalytic> getGenderQuantity(Event event) {
 
