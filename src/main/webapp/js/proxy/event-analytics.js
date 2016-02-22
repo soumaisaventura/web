@@ -60,5 +60,35 @@ var EventAnalyticsProxy = {
 				App.setHeader(request)
 			}
 		});
+	},
+
+	getGenders : function(id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + id + "/analytics/gender",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
+	getAmountRaised : function(id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + id + "/analytics/amountraised",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
+	},
+
+	getAmountDiscounted : function(id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + id + "/analytics/discount",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
 	}
 };

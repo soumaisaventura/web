@@ -29,7 +29,26 @@ $(function() {
 	EventAnalyticsProxy.getByStatusByDay(id).done(getByStatusByDayOk);
 	EventAnalyticsProxy.getByLocation(id).done(getByLocationOk);
 	EventAnalyticsProxy.getByTshirt(id).done(getByTshirtOk);
+
+	EventAnalyticsProxy.getGenders(id).done(getGendersOk);
+	EventAnalyticsProxy.getAmountRaised(id).done(getAmountRaisedOk);
+	EventAnalyticsProxy.getAmountDiscounted(id).done(getAmountDiscountedOk);
 });
+
+function getGendersOk(data) {
+	console.log('getGendersOk');
+	console.log(data);
+}
+
+function getAmountRaisedOk(data) {
+	console.log('getAmountRaisedOk');
+	console.log(data);
+}
+
+function getAmountDiscountedOk(data) {
+	console.log('getAmountDiscountedOk');
+	console.log(data);
+}
 
 function loadSummaryOk(event) {
 	$(".race-name").text(event.name);
