@@ -37,7 +37,6 @@ $(function() {
 });
 
 function getGendersOk(data) {
-	console.log('getGendersOk');
 	$.each(data, function(index, gender) {
 		switch(gender.label){
 			case 'F': $("#female").text(gender.value); break;
@@ -47,14 +46,10 @@ function getGendersOk(data) {
 }
 
 function getAmountRaisedOk(data) {
-	console.log('getAmountRaisedOk');
-	console.log(data[0]);
 	$("#" + data[0].label).text(numeral(data[0].value).format());
 }
 
 function getAmountDiscountedOk(data) {
-	console.log('getAmountDiscountedOk');
-	console.log(data[0]);
 	$("#" + data[0].label).text(numeral(data[0].value).format());
 }
 
