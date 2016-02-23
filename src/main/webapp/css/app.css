@@ -24,7 +24,7 @@
 	padding: 0px;
 }
 
-html, body {
+html,body {
 	height: 100%;
 }
 
@@ -32,7 +32,7 @@ body {
 	padding-top: 70px;
 }
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button
 	{
 	-webkit-appearance: none;
 	margin: 0;
@@ -124,4 +124,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .footer>.row {
 	height: 200px;
+}
+
+/* Painel */
+
+.huge {
+    font-size: 40px;
 }

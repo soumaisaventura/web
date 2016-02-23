@@ -1,8 +1,13 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
 
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/canvasjs.min.js"></script>
 		<script src="#{request.contextPath}/js/lib/jquery.canvasjs.min.js"></script>
 	</ui:define>
@@ -18,16 +23,17 @@
 	</ui:define>
 
 	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/evento-painel.css" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/css/evento-painel.css" />
 	</ui:define>
 
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
-			<li>
-				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
-			</li>
-			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
+			<li><a
+				href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
+					#{eventHelper.getYear(request)}</a></li>
+			<li><a
+				href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
 			</li>
 			<li class="active">Painel</li>
 		</ol>
@@ -46,20 +52,28 @@
 								<h2 class="col-lg-12">Em construção...</h2>
 
 								<h2 id="registration-export-div" class="col-md-12 col-xs-12">
-									<button id="registration-export" class="btn btn-primary btn-lg col-xs-12" data-loading-text="Aguarde...">
-										<span class="glyphicon glyphicon-download-alt"></span> Exportar Excel
+									<button id="registration-export"
+										class="btn btn-primary btn-lg col-xs-12"
+										data-loading-text="Aguarde...">
+										<span class="glyphicon glyphicon-download-alt"></span>
+										Exportar Excel
 									</button>
 								</h2>
 
-								<h2 id="registration-forms-div" hidden="true" class="col-md-12 col-xs-12">
-									<button id="registration-forms" class="btn btn-primary btn-lg col-xs-12" data-loading-text="Aguarde...">
+								<h2 id="registration-forms-div" hidden="true"
+									class="col-md-12 col-xs-12">
+									<button id="registration-forms"
+										class="btn btn-primary btn-lg col-xs-12"
+										data-loading-text="Aguarde...">
 										<span class="glyphicon glyphicon-file"></span> Fichas
 									</button>
 								</h2>
 
 								<h2 class="col-md-12 col-xs-12">
-									<a href="#{request.contextPath}/evento/#{param.evento_id}/painel/inscricoes" class="btn btn-primary btn-lg col-xs-12">
-										<span class="glyphicon glyphicon-menu-hamburger"></span> Inscrições
+									<a
+										href="#{request.contextPath}/evento/#{param.evento_id}/painel/inscricoes"
+										class="btn btn-primary btn-lg col-xs-12"> <span
+										class="glyphicon glyphicon-menu-hamburger"></span> Inscrições
 									</a>
 								</h2>
 							</div>
@@ -68,6 +82,80 @@
 				</div>
 			</div>
 			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-4 col-md-6">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-mars fa-4x"></i>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div id="male" class="huge"></div>
+												<div>homens</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-6">
+								<div class="panel panel-danger">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-venus fa-4x"></i>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div id="female" class="huge"></div>
+												<div>mulheres</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4 col-md-6">
+								<div class="panel panel-success">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<span class="huge"><sup>R$</sup></span>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div id="amount_raised" class="huge"></div>
+												<div>arrecadado</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-6">
+								<div class="panel panel-warning">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<span class="huge"><sup>R$</sup></span>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div id="amount_discounted" class="huge"></div>
+												<div>desconto</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">Incrições por dia</div>
 					<div class="panel-body">
