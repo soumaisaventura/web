@@ -55,7 +55,6 @@ function getAmountDiscountedOk(data) {
 
 function loadSummaryOk(event) {
 	$(".race-name").text(event.name);
-
 	if (event.status === 'closed' || event.status === 'end') {
 		$("#registration-forms-div").show();
 	}
