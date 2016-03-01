@@ -137,6 +137,7 @@ function loadSummaryOk(race) {
 }
 
 function loadCategoriesOk(categories) {
+	console.log(categories);
 	if (categories) {
 		$.each(categories, function(i, category) {
 			var option = new Option(category.name, category.id);
@@ -145,9 +146,9 @@ function loadCategoriesOk(categories) {
 			$("#categoryId").append(option);
 		});
 
-		if (categories.length === 1) {
+		if (categories.length === 1 && categories[0].team_size !== 1) {
 			$("#categoryId").val(categories[0].id);
-			$("#pesquisa-atleta").hide();
+			$("#pesquisa-atleta").show();
 		}
 	}
 }
