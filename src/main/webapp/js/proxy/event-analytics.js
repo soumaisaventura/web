@@ -90,5 +90,15 @@ var EventAnalyticsProxy = {
 				App.setHeader(request)
 			}
 		});
+	},
+
+	gerRegistrationByAgeGroup : function(id) {
+		return $.ajax({
+			type : "GET",
+			url : this.url + "/" + id + "/analytics/agegroup",
+			beforeSend : function(request) {
+				App.setHeader(request)
+			}
+		});
 	}
 };

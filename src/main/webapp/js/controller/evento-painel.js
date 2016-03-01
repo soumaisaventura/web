@@ -34,6 +34,7 @@ $(function() {
 	EventAnalyticsProxy.getGenders(id).done(getGendersOk);
 	EventAnalyticsProxy.getAmountRaised(id).done(getAmountRaisedOk);
 	EventAnalyticsProxy.getAmountDiscounted(id).done(getAmountDiscountedOk);
+	EventAnalyticsProxy.gerRegistrationByAgeGroup(id).done(gerRegistrationByAgeGroupOk);
 });
 
 function getGendersOk(data) {
@@ -86,6 +87,18 @@ function getByStatusOk(data) {
 	});
 
 	showChart($("#status-chart"), chartData);
+}
+
+function gerRegistrationByAgeGroupOk(data) {
+	var chartData = [];
+	$.each(data, function(index, value) {
+		chartData.push({
+			label : "(" + value.label + ")",
+			y : value.value
+		});
+	});
+	
+	showChart($("#age-chart"), chartData);
 }
 
 function getByStatusByDayOk(data) {

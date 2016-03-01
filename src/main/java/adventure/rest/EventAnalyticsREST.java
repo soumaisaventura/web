@@ -58,6 +58,16 @@ public class EventAnalyticsREST {
 		return EventAnalyticDAO.getInstance().getAmountDiscounted(event);
 	}
 	
+	@GET
+	@LoggedIn
+	@Path("agegroup")
+	@Produces("application/json")
+	public List<EventAnalytic> gerRegistrationByAgeGroup(@PathParam("slug") String slug) throws Exception {
+		Event event = loadEvent(slug);
+		checkPermission(event);
+		return EventAnalyticDAO.getInstance().gerRegistrationByAgeGroup(event);
+	}
+	
 	
 	@GET
 	@LoggedIn

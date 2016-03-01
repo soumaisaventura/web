@@ -176,7 +176,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
-	
+
 	public List<EventAnalytic> getAmountDiscounted(Event event) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select ");
@@ -192,11 +192,11 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql.append("   join re.period pe ");
 		jpql.append("  where ev = :event ");
 		jpql.append("    and re.status = :status ");
-		
+
 		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
 		query.setParameter("event", event);
 		query.setParameter("status", CONFIRMED);
-		
+
 		return query.getResultList();
 	}
 
@@ -225,6 +225,44 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
+	
+	
+
+	public List<EventAnalytic> gerRegistrationByAgeGroup(Event event) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append(" select ");
+		jpql.append("    new adventure.entity.EventAnalytic( ");
+		jpql.append("        case ");
+		jpql.append("          when extract(year from age(pr.birthday)) < 18 then '<18' ");
+		jpql.append("          when extract(year from age(pr.birthday)) < 25 then '<18-24' ");
+		jpql.append("          when extract(year from age(pr.birthday)) < 35 then '<25-34' ");
+		jpql.append("          when extract(year from age(pr.birthday)) < 45 then '<35-44' ");
+		jpql.append("          when extract(year from age(pr.birthday)) < 55 then '<45-54' ");
+		jpql.append("          else '>55' ");
+		jpql.append("        end as age_group");
+		jpql.append("        , ");
+		jpql.append("        count(pr) ");
+		jpql.append("        ) ");
+		jpql.append("   from UserRegistration ur ");
+		jpql.append("   join ur.registration re ");
+		jpql.append("   join re.raceCategory rc ");
+		jpql.append("   join rc.race ra ");
+		jpql.append("   join ra.event ev, ");
+		jpql.append("        Profile pr ");
+		jpql.append("  where ur.user = pr.user ");
+		jpql.append("    and ev = :event ");
+		jpql.append("    and re.status = :status ");
+		jpql.append("  group by 1 ");
+		jpql.append("  order by 1 ");
+
+		TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql.toString(), EventAnalytic.class);
+		query.setParameter("event", event);
+		query.setParameter("status", CONFIRMED);
+
+		return query.getResultList();
+
+	}
+
 
 	public List<EventAnalytic> getRegistrationByTshirt(Event event) {
 		StringBuffer jpql = new StringBuffer();
