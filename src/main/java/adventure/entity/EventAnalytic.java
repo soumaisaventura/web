@@ -4,16 +4,16 @@ public class EventAnalytic {
 
 	private String label;
 
-	private Integer value;
+	private Long value;
 
 	public EventAnalytic(String label, Long value) {
 		setLabel(label);
-		setValue(value.intValue());
+		setValue(value);
 	}
 
 	public EventAnalytic(RegistrationStatusType status, Long value) {
 		setLabel(status.name());
-		setValue(value.intValue());
+		setValue(value);
 	}
 
 	@Override
@@ -54,11 +54,11 @@ public class EventAnalytic {
 		this.label = label;
 	}
 
-	public Integer getValue() {
+	public Long getValue() {
 		return value;
 	}
 
-	public void setValue(Integer value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 }

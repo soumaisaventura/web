@@ -1,7 +1,7 @@
 $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
-	
+
 	var id = $("#evento_id").val();
 
 	$("#registration-forms").click(function() {
@@ -42,6 +42,9 @@ function getGendersOk(data) {
 		switch(gender.label){
 			case 'F': $("#female").text(gender.value); break;
 			case 'M': $("#male").text(gender.value); break;
+			default :
+				$("#female").text(0);
+				$("#male").text(0);
 		}
 	});
 }
