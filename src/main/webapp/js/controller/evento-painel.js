@@ -37,14 +37,18 @@ $(function() {
 	EventAnalyticsProxy.gerRegistrationByAgeGroup(id).done(gerRegistrationByAgeGroupOk);
 });
 
-function getGendersOk(data) {
+function getGendersOk(data, textStatus) {
+	
+	if (textStatus === "nocontent") {
+		$("#female").text("0");
+		$("#male").text("0");
+		return false;
+	}
+	
 	$.each(data, function(index, gender) {
 		switch(gender.label){
 			case 'F': $("#female").text(gender.value); break;
 			case 'M': $("#male").text(gender.value); break;
-			default :
-				$("#female").text(0);
-				$("#male").text(0);
 		}
 	});
 }

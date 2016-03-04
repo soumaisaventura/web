@@ -35,9 +35,13 @@ public class EventAnalyticsREST {
 	public List<EventAnalytic> getGenders(@PathParam("slug") String slug) throws Exception {
 		Event event = loadEvent(slug);
 		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getGenderQuantity(event);
+		
+		List<EventAnalytic> result = new ArrayList<EventAnalytic>();
+		result = EventAnalyticDAO.getInstance().getGenderQuantity(event);
+		
+		return result.isEmpty() ? null : result;
 	}
-	
+
 	@GET
 	@LoggedIn
 	@Path("amountraised")
@@ -47,7 +51,7 @@ public class EventAnalyticsREST {
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().getAmountRaised(event);
 	}
-	
+
 	@GET
 	@LoggedIn
 	@Path("discount")
@@ -57,7 +61,7 @@ public class EventAnalyticsREST {
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().getAmountDiscounted(event);
 	}
-	
+
 	@GET
 	@LoggedIn
 	@Path("agegroup")
@@ -67,8 +71,7 @@ public class EventAnalyticsREST {
 		checkPermission(event);
 		return EventAnalyticDAO.getInstance().gerRegistrationByAgeGroup(event);
 	}
-	
-	
+
 	@GET
 	@LoggedIn
 	@Path("category")
