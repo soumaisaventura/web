@@ -40,9 +40,9 @@ $(function() {
 	/**
 	 * Coloca o usuário logado na lista de membros da equipe
 	 */
-	var authorized = user ? user.roles.admin : false;
+	var organizer = user ? user.roles.organizer : false;
 	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
-		getOrderOk(order, memberIds, authorized);
+		getOrderOk(order, memberIds, organizer);
 	});
 
 	/**
