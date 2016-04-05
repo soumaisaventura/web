@@ -40,8 +40,9 @@ $(function() {
 	/**
 	 * Coloca o usuário logado na lista de membros da equipe
 	 */
+	var authorized = user ? user.roles.admin : false;
 	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
-		getOrderOk(order, memberIds, false);
+		getOrderOk(order, memberIds, authorized);
 	});
 
 	/**
@@ -59,13 +60,7 @@ $(function() {
 	 */
 	$("#categoryId").focus();
 	$("#categoryId").on("change", function() {
-		var teamsize = $(this).find('option:selected').data("teamsize");
-		if (teamsize === 1) {
-			$("#pesquisa-atleta").hide();
-		} else {
-			$("#pesquisa-atleta").show();
-		}
-		updateTotal();
+		updateTable();
 	});
 
 	/**
@@ -104,7 +99,7 @@ $(function() {
 		memberIds.splice($.inArray(teamId, memberIds), 1);
 		var row = $(this).parents('tr:first');
 		$('#members-list').data('footable').removeRow(row);
-		updateTotal();
+		updateTable();
 	});
 
 	/**
@@ -137,7 +132,6 @@ function loadSummaryOk(race) {
 }
 
 function loadCategoriesOk(categories) {
-	console.log(categories);
 	if (categories) {
 		$.each(categories, function(i, category) {
 			var option = new Option(category.name, category.id);
@@ -157,7 +151,9 @@ function getOrderOk(order, memberIds, deletable) {
 	if (order) {
 		memberIds.push(order[0].id);
 		addRowOnMemberList(order[0], deletable);
-		updateTotal();
+		
+		updateTable();
+		
 		$("#summary-section, #submit-button-section, #members-section").show();
 	} else {
 		var url = $("#event_link").attr("href");
@@ -172,6 +168,21 @@ function addRowOnMemberList(athlete, deletable) {
 	var template = $("#member-template");
 	var rendered = Mustache.render(template.html(), athlete);
 	$('#members-list').data('footable').appendRow(rendered);
+}
+
+function updateTable(){
+	var rowCount = $('#members-list tbody tr').length;
+	var teamsize = $('#categoryId').find('option:selected').data("teamsize");
+	if(!rowCount) {
+		$("#pesquisa-atleta").show();
+	} else {
+		if (teamsize > 1 && rowCount < teamsize) {
+			$("#pesquisa-atleta").show();
+		} else {
+			$("#pesquisa-atleta").hide();
+		}
+	}
+	updateTotal();
 }
 
 function updateTotal() {
