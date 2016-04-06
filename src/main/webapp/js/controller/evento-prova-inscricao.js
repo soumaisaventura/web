@@ -14,6 +14,7 @@ $(function() {
 	var memberIds = [];
 	var eventId = $("#event_id").val();
 	var raceId = $("#race_id").val();
+	var isOrganizer = false;
 
 	/**
 	 * Carrega o id do facebook para poder compartilhar a inscrição
@@ -38,11 +39,20 @@ $(function() {
 	}
 
 	/**
-	 * Coloca o usuário logado na lista de membros da equipe
+	 * Verifica se o usuário logado é organizador da prova 
 	 */
-	var organizer = user ? user.roles.organizer : false;
-	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
-		getOrderOk(order, memberIds, organizer);
+	EventProxy.load(eventId).done(function(event) {
+		if (user && user.roles && user.roles.organizer && event.organizers && event.organizers.length > 0) {
+			$.each(event.organizers, function(index, value) {
+				if (value.id == user.id) {
+					isOrganizer = true;
+					return false;
+				}
+			});
+		}
+		RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
+			getOrderOk(order, memberIds, isOrganizer);
+		});
 	});
 
 	/**
