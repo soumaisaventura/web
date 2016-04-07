@@ -32,8 +32,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	        e.coords.latitude, ");
-		// jpql.append(" 	        e.coords.longitude, ");
 		jpql.append(" 	        e.beginning, ");
 		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");
@@ -42,6 +40,7 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append("   left join e.city c ");
 		jpql.append("   left join c.state s ");
 		jpql.append("  where year(e.beginning) = :year ");
+		jpql.append("    and e.id > 0 ");
 		jpql.append("  order by ");
 		jpql.append("        e.beginning ");
 
@@ -107,8 +106,6 @@ public class EventDAO extends JPACrud<Event, Integer> {
 		jpql.append(" 	        s.id, ");
 		jpql.append(" 	        s.name, ");
 		jpql.append(" 	        s.abbreviation, ");
-		// jpql.append(" 	        e.coords.latitude, ");
-		// jpql.append(" 	        e.coords.longitude, ");
 		jpql.append(" 	        e.beginning, ");
 		jpql.append(" 	        e.end, ");
 		jpql.append(" 	        e.status ");

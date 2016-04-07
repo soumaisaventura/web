@@ -25,9 +25,9 @@ INSERT INTO event (id,
         VALUES (
                   (SELECT max (id) + 1
                      FROM event),
-                  'circuitoterrabrasilis/2016/etapa4',
-                  'Circuito Terra Brasilis de CA – Etapa 4',
-                  'https://www.facebook.com/terrabrasilisadventure',
+                  'copaamerica/2016',
+                  'Copa América de Corrida de Aventura 2016',
+                  'http://cbcaventura.org.br',
                   756,
                   'MANUAL',
                   NULL,
@@ -101,10 +101,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-     VALUES (58,
-             65.00,
-             TO_DATE ('09/02/2016', 'DD/MM/YYYY'),
-             TO_DATE ('30/09/2016', 'DD/MM/YYYY'),
+     VALUES (50,
+             50.00,
+             TO_DATE ('16/02/2016', 'DD/MM/YYYY'),
+             TO_DATE ('31/03/2016', 'DD/MM/YYYY'),
              (SELECT max (id) + 1
                 FROM period));
 
@@ -113,9 +113,9 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-     VALUES (58,
-             75.00,
-             TO_DATE ('01/10/2016', 'DD/MM/YYYY'),
-             TO_DATE ('24/10/2016', 'DD/MM/YYYY'),
+     VALUES (50,
+             60.00,
+             TO_DATE ('01/04/2016', 'DD/MM/YYYY'),
+             TO_DATE ('31/05/2016', 'DD/MM/YYYY'),
              (SELECT max (id) + 1
                 FROM period));
