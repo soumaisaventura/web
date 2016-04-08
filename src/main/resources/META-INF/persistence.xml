@@ -16,6 +16,7 @@
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>
 		<class>adventure.entity.RaceFee</class>
+		<class>adventure.entity.Kit</class>
 		<class>adventure.entity.Status</class>
 		<class>adventure.entity.Championship</class>
 		<class>adventure.entity.ChampionshipFee</class>

@@ -1,14 +1,5 @@
 package adventure.rest;
 
-import java.net.URI;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
 import adventure.business.MailBusiness;
 import adventure.entity.Registration;
 import adventure.entity.RegistrationPeriod;
@@ -19,6 +10,14 @@ import adventure.persistence.UserRegistrationDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Path("registration")
 public class RegistrationJobREST {

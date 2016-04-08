@@ -1,15 +1,5 @@
 package adventure.rest;
 
-import static java.util.logging.Level.SEVERE;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
 import adventure.business.MailBusiness;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
@@ -18,6 +8,15 @@ import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.transaction.TransactionContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.SEVERE;
 
 @Path("user")
 public class UserJobREST {

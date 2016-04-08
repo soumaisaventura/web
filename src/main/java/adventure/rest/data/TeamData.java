@@ -1,9 +1,9 @@
 package adventure.rest.data;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 @JsonPropertyOrder({ "name", "members" })
 public class TeamData {

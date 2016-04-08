@@ -1,17 +1,7 @@
 package adventure.rest;
 
-import static net.fortuna.ical4j.model.property.CalScale.GREGORIAN;
-import static net.fortuna.ical4j.model.property.Method.PUBLISH;
-import static net.fortuna.ical4j.model.property.Version.VERSION_2_0;
-import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILITY;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
+import adventure.entity.Event;
+import adventure.persistence.EventDAO;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.TimeZoneRegistry;
@@ -23,12 +13,20 @@ import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.util.CompatibilityHints;
-
 import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
 
-import adventure.entity.Event;
-import adventure.persistence.EventDAO;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+
+import static net.fortuna.ical4j.model.property.CalScale.GREGORIAN;
+import static net.fortuna.ical4j.model.property.Method.PUBLISH;
+import static net.fortuna.ical4j.model.property.Version.VERSION_2_0;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILITY;
 
 @Path("calendar")
 public class CalendarREST {

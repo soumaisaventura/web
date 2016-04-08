@@ -1,15 +1,20 @@
 package adventure.rest;
 
-import static adventure.entity.RegistrationStatusType.CONFIRMED;
-import static adventure.entity.RegistrationStatusType.PENDENT;
-import static javax.xml.bind.annotation.XmlAccessType.FIELD;
-
-import java.io.StringReader;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
+import adventure.business.MailBusiness;
+import adventure.entity.Race;
+import adventure.entity.Registration;
+import adventure.persistence.RaceDAO;
+import adventure.persistence.RegistrationDAO;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
+import br.gov.frameworkdemoiselle.util.Strings;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -22,23 +27,16 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.StringReader;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import adventure.business.MailBusiness;
-import adventure.entity.Race;
-import adventure.entity.Registration;
-import adventure.persistence.RaceDAO;
-import adventure.persistence.RegistrationDAO;
-import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.NameQualifier;
-import br.gov.frameworkdemoiselle.util.Strings;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
 /*
  * http://www.soumaisaventura.com.br/api/registration/notification

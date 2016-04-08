@@ -1,8 +1,8 @@
 package adventure.rest.data;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+import java.util.List;
 
 @JsonPropertyOrder({ "city", "coords" })
 public class LocationData {

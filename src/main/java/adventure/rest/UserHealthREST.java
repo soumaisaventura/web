@@ -1,20 +1,5 @@
 package adventure.rest;
 
-import static adventure.util.Constants.GENERIC_ID_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.TELEPHONE_SIZE;
-import static adventure.util.Constants.TEXT_SIZE;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import adventure.entity.BloodType;
 import adventure.entity.Health;
 import adventure.entity.User;
@@ -23,6 +8,13 @@ import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.ws.rs.*;
+
+import static adventure.util.Constants.*;
 
 @Path("user/health")
 public class UserHealthREST {

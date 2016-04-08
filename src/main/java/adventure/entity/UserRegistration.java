@@ -16,155 +16,167 @@ import javax.persistence.Table;
 @Table(name = "user_registration")
 public class UserRegistration {
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "registration_id")
-	private Registration registration;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "registration_id")
+    private Registration registration;
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	@Column(name = "race_price")
-	private BigDecimal racePrice;
+    @Column(name = "race_price")
+    private BigDecimal racePrice;
 
-	public UserRegistration() {
-	}
+    @ManyToOne
+    @JoinColumn(name = "kit_id")
+    private Kit kit;
 
-	public UserRegistration(Registration registration, User user) {
-		setRegistration(registration);
-		setUser(user);
-	}
+    public UserRegistration() {
+    }
 
-	public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
-			TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
-			String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
-			RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
-			Integer raceId, String raceSlug, String raceName, Integer categoryId, String categoryName) {
-		setUser(new User());
-		getUser().setId(userId);
-		getUser().setEmail(userEmail);
+    public UserRegistration(Registration registration, User user) {
+        setRegistration(registration);
+        setUser(user);
+    }
 
-		getUser().setProfile(new Profile());
-		getUser().getProfile().setName(profileName);
-		getUser().getProfile().setMobile(profileMobile);
-		getUser().getProfile().setTshirt(profileTshirt);
-		getUser().getProfile().setBirthday(profileBirthday);
-		getUser().getProfile().setRg(profileRg);
-		getUser().getProfile().setCpf(profileCpf);
+    public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
+                            TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
+                            String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
+                            RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
+                            Integer raceId, String raceSlug, String raceName, Integer categoryId, String categoryName) {
+        setUser(new User());
+        getUser().setId(userId);
+        getUser().setEmail(userEmail);
 
-		getUser().getProfile().setCity(new City());
-		getUser().getProfile().getCity().setId(cityId);
-		getUser().getProfile().getCity().setName(cityName);
-		getUser().getProfile().getCity().setState(new State());
-		getUser().getProfile().getCity().getState().setId(stateId);
-		getUser().getProfile().getCity().getState().setAbbreviation(stateAbbreviation);
+        getUser().setProfile(new Profile());
+        getUser().getProfile().setName(profileName);
+        getUser().getProfile().setMobile(profileMobile);
+        getUser().getProfile().setTshirt(profileTshirt);
+        getUser().getProfile().setBirthday(profileBirthday);
+        getUser().getProfile().setRg(profileRg);
+        getUser().getProfile().setCpf(profileCpf);
 
-		setRacePrice(racePrice);
+        getUser().getProfile().setCity(new City());
+        getUser().getProfile().getCity().setId(cityId);
+        getUser().getProfile().getCity().setName(cityName);
+        getUser().getProfile().getCity().setState(new State());
+        getUser().getProfile().getCity().getState().setId(stateId);
+        getUser().getProfile().getCity().getState().setAbbreviation(stateAbbreviation);
 
-		setRegistration(new Registration());
-		getRegistration().setId(registrationId);
-		getRegistration().setStatus(registrationStatus);
-		getRegistration().setTeamName(registrationTeamName);
-		getRegistration().setDate(registrationDate);
+        setRacePrice(racePrice);
 
-		getRegistration().setRaceCategory(new RaceCategory());
-		getRegistration().getRaceCategory().setRace(new Race());
-		getRegistration().getRaceCategory().getRace().setId(raceId);
-		getRegistration().getRaceCategory().getRace().setSlug(raceSlug);
-		getRegistration().getRaceCategory().getRace().setName(raceName);
+        setRegistration(new Registration());
+        getRegistration().setId(registrationId);
+        getRegistration().setStatus(registrationStatus);
+        getRegistration().setTeamName(registrationTeamName);
+        getRegistration().setDate(registrationDate);
 
-		getRegistration().getRaceCategory().setCategory(new Category());
-		getRegistration().getRaceCategory().getCategory().setId(categoryId);
-		getRegistration().getRaceCategory().getCategory().setName(categoryName);
-	}
+        getRegistration().setRaceCategory(new RaceCategory());
+        getRegistration().getRaceCategory().setRace(new Race());
+        getRegistration().getRaceCategory().getRace().setId(raceId);
+        getRegistration().getRaceCategory().getRace().setSlug(raceSlug);
+        getRegistration().getRaceCategory().getRace().setName(raceName);
 
-	public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,
-			GenderType profileGender, String profileMobile, BigDecimal racePrice) {
-		setRegistration(new Registration());
-		getRegistration().setId(registrationId);
+        getRegistration().getRaceCategory().setCategory(new Category());
+        getRegistration().getRaceCategory().getCategory().setId(categoryId);
+        getRegistration().getRaceCategory().getCategory().setName(categoryName);
+    }
 
-		setUser(new User());
-		getUser().setId(userId);
-		getUser().setEmail(userEmail);
+    public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,
+                            GenderType profileGender, String profileMobile, BigDecimal racePrice) {
+        setRegistration(new Registration());
+        getRegistration().setId(registrationId);
 
-		getUser().setProfile(new Profile());
-		getUser().getProfile().setName(profileName);
-		getUser().getProfile().setGender(profileGender);
-		getUser().getProfile().setMobile(profileMobile);
+        setUser(new User());
+        getUser().setId(userId);
+        getUser().setEmail(userEmail);
 
-		setRacePrice(racePrice);
-	}
+        getUser().setProfile(new Profile());
+        getUser().getProfile().setName(profileName);
+        getUser().getProfile().setGender(profileGender);
+        getUser().getProfile().setMobile(profileMobile);
 
-	public UserRegistration(Integer userId, Long registrationId, String registrationTeamName) {
-		setUser(new User());
-		getUser().setId(userId);
+        setRacePrice(racePrice);
+    }
 
-		setRegistration(new Registration());
-		getRegistration().setId(registrationId);
-		getRegistration().setTeamName(registrationTeamName);
-	}
+    public UserRegistration(Integer userId, Long registrationId, String registrationTeamName) {
+        setUser(new User());
+        getUser().setId(userId);
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
-		result = prime * result + ((registration == null) ? 0 : registration.hashCode());
-		return result;
-	}
+        setRegistration(new Registration());
+        getRegistration().setId(registrationId);
+        getRegistration().setTeamName(registrationTeamName);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof UserRegistration)) {
-			return false;
-		}
-		UserRegistration other = (UserRegistration) obj;
-		if (user == null) {
-			if (other.user != null) {
-				return false;
-			}
-		} else if (!user.equals(other.user)) {
-			return false;
-		}
-		if (registration == null) {
-			if (other.registration != null) {
-				return false;
-			}
-		} else if (!registration.equals(other.registration)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + ((registration == null) ? 0 : registration.hashCode());
+        return result;
+    }
 
-	public Registration getRegistration() {
-		return registration;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof UserRegistration)) {
+            return false;
+        }
+        UserRegistration other = (UserRegistration) obj;
+        if (user == null) {
+            if (other.user != null) {
+                return false;
+            }
+        } else if (!user.equals(other.user)) {
+            return false;
+        }
+        if (registration == null) {
+            if (other.registration != null) {
+                return false;
+            }
+        } else if (!registration.equals(other.registration)) {
+            return false;
+        }
+        return true;
+    }
 
-	public void setRegistration(Registration registration) {
-		this.registration = registration;
-	}
+    public Registration getRegistration() {
+        return registration;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setRegistration(Registration registration) {
+        this.registration = registration;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public BigDecimal getRacePrice() {
-		return racePrice;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setRacePrice(BigDecimal racePrice) {
-		this.racePrice = racePrice;
-	}
+    public BigDecimal getRacePrice() {
+        return racePrice;
+    }
+
+    public void setRacePrice(BigDecimal racePrice) {
+        this.racePrice = racePrice;
+    }
+
+    public Kit getKit() {
+        return kit;
+    }
+
+    public void setKit(Kit kit) {
+        this.kit = kit;
+    }
 }

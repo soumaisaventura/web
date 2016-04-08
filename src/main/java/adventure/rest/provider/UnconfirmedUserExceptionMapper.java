@@ -1,14 +1,13 @@
 package adventure.rest.provider;
 
-import java.net.URI;
+import adventure.business.MailBusiness;
+import adventure.security.UnconfirmedUserException;
+import br.gov.frameworkdemoiselle.security.Credentials;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-
-import adventure.business.MailBusiness;
-import adventure.security.UnconfirmedUserException;
-import br.gov.frameworkdemoiselle.security.Credentials;
+import java.net.URI;
 
 @Provider
 public class UnconfirmedUserExceptionMapper extends SendMailExceptionMapperHelper implements

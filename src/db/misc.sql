@@ -7,12 +7,8 @@ SELECT *
  WHERE p.city_id = c.id AND lower (p.name) LIKE '%bandeira%';
 
 SELECT *
-  FROM profile p, city c
- WHERE p.city_id = c.id AND lower (p.name) LIKE '%migliari%';
-
-SELECT *
   FROM profile p
- WHERE lower (p.name) LIKE '%cadu%';
+ WHERE lower (p.name) LIKE '%arnaldo%';
 
 SELECT *
   FROM user_account ua

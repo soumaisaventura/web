@@ -18,153 +18,153 @@ import br.gov.frameworkdemoiselle.util.Beans;
 @Transactional
 public class RaceDAO extends JPACrud<Race, Integer> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static RaceDAO getInstance() {
-		return Beans.getReference(RaceDAO.class);
-	}
+    public static RaceDAO getInstance() {
+        return Beans.getReference(RaceDAO.class);
+    }
 
-	public List<Race> findForEvent(Event event) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.description, ");
-		jpql.append(" 	        r.distance, ");
-		jpql.append(" 	        o.id, ");
-		jpql.append(" 	        o.name, ");
-		jpql.append(" 	        o.acronym, ");
-		jpql.append(" 	        r.period.beginning, ");
-		jpql.append(" 	        r.period.end, ");
-		jpql.append(" 	        r.status ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		jpql.append("        join r.sport o ");
-		jpql.append("  where r.event = :event ");
-		jpql.append("  order by ");
-		jpql.append("        r.period.beginning, ");
-		jpql.append("        o.id, ");
-		jpql.append("        r.distance desc ");
+    public List<Race> findForEvent(Event event) {
+        String jpql = "";
+        jpql += " select new Race( ";
+        jpql += " 	        r.id, ";
+        jpql += " 	        r.slug, ";
+        jpql += " 	        r.name, ";
+        jpql += " 	        r.description, ";
+        jpql += " 	        r.distance, ";
+        jpql += " 	        o.id, ";
+        jpql += " 	        o.name, ";
+        jpql += " 	        o.acronym, ";
+        jpql += " 	        r.period.beginning, ";
+        jpql += " 	        r.period.end, ";
+        jpql += " 	        r.status ";
+        jpql += " 	     ) ";
+        jpql += "   from Race r ";
+        jpql += "        join r.sport o ";
+        jpql += "  where r.event = :event ";
+        jpql += "  order by ";
+        jpql += "        r.period.beginning, ";
+        jpql += "        o.id, ";
+        jpql += "        r.distance desc ";
 
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("event", event);
+        TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+        query.setParameter("event", event);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	public Race loadMetaOgg(String raceSlug, String eventSlug) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.description, ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.description ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		jpql.append("   join r.event e ");
-		jpql.append("  where r.slug = :raceSlug ");
-		jpql.append("    and e.slug = :eventSlug ");
+    public Race loadMetaOgg(String raceSlug, String eventSlug) {
+        String jpql = "";
+        jpql += " select new Race( ";
+        jpql += " 	        r.id, ";
+        jpql += " 	        r.name, ";
+        jpql += " 	        r.slug, ";
+        jpql += " 	        r.description, ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.description ";
+        jpql += " 	     ) ";
+        jpql += "   from Race r ";
+        jpql += "   join r.event e ";
+        jpql += "  where r.slug = :raceSlug ";
+        jpql += "    and e.slug = :eventSlug ";
 
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("raceSlug", raceSlug);
-		query.setParameter("eventSlug", eventSlug);
+        TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+        query.setParameter("raceSlug", raceSlug);
+        query.setParameter("eventSlug", eventSlug);
 
-		Race result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Race result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	public Race loadForDetail(String raceSlug, String eventSlug) throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.description, ");
-		jpql.append(" 	        r.period.beginning, ");
-		jpql.append(" 	        r.period.end, ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.site, ");
-		jpql.append(" 	        e.payment.account, ");
-		jpql.append(" 	        e.payment.token, ");
-		jpql.append(" 	        c.id, ");
-		jpql.append(" 	        c.name, ");
-		jpql.append(" 	        s.id, ");
-		jpql.append(" 	        s.name, ");
-		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	        a.id, ");
-		jpql.append(" 	        a.name ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		jpql.append("   join r.event e ");
-		jpql.append("   join r.status a ");
-		jpql.append("   join e.city c ");
-		jpql.append("   join c.state s ");
-		jpql.append("  where r.slug = :raceSlug ");
-		jpql.append("    and e.slug = :eventSlug ");
+    public Race loadForDetail(String raceSlug, String eventSlug) throws Exception {
+        String jpql = "";
+        jpql += " select new Race( ";
+        jpql += " 	        r.id, ";
+        jpql += " 	        r.name, ";
+        jpql += " 	        r.slug, ";
+        jpql += " 	        r.description, ";
+        jpql += " 	        r.period.beginning, ";
+        jpql += " 	        r.period.end, ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.description, ";
+        jpql += " 	        e.site, ";
+        jpql += " 	        e.payment.account, ";
+        jpql += " 	        e.payment.token, ";
+        jpql += " 	        c.id, ";
+        jpql += " 	        c.name, ";
+        jpql += " 	        s.id, ";
+        jpql += " 	        s.name, ";
+        jpql += " 	        s.abbreviation, ";
+        jpql += " 	        a.id, ";
+        jpql += " 	        a.name ";
+        jpql += " 	     ) ";
+        jpql += "   from Race r ";
+        jpql += "   join r.event e ";
+        jpql += "   join r.status a ";
+        jpql += "   join e.city c ";
+        jpql += "   join c.state s ";
+        jpql += "  where r.slug = :raceSlug ";
+        jpql += "    and e.slug = :eventSlug ";
 
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("raceSlug", raceSlug);
-		query.setParameter("eventSlug", eventSlug);
+        TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+        query.setParameter("raceSlug", raceSlug);
+        query.setParameter("eventSlug", eventSlug);
 
-		Race result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Race result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	public List<Race> findOpenAutoPayment() throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Race( ");
-		jpql.append(" 	        r.id, ");
-		jpql.append(" 	        r.name, ");
-		jpql.append(" 	        r.slug, ");
-		jpql.append(" 	        r.description, ");
-		jpql.append(" 	        r.period.beginning, ");
-		jpql.append(" 	        r.period.end, ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.site, ");
-		jpql.append(" 	        e.payment.account, ");
-		jpql.append(" 	        e.payment.token, ");
-		jpql.append(" 	        c.id, ");
-		jpql.append(" 	        c.name, ");
-		jpql.append(" 	        s.id, ");
-		jpql.append(" 	        s.name, ");
-		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	        a.id, ");
-		jpql.append(" 	        a.name ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Race r ");
-		jpql.append("   join r.event e ");
-		jpql.append("   join r.status a ");
-		jpql.append("   join e.city c ");
-		jpql.append("   join c.state s ");
-		jpql.append("  where e.payment.type = :eventPaymentType ");
-		jpql.append("    and a.id in (:raceOpenStatusId, :raceClosedStatusId) ");
+    public List<Race> findOpenAutoPayment() throws Exception {
+        String jpql = "";
+        jpql += " select new Race( ";
+        jpql += " 	        r.id, ";
+        jpql += " 	        r.name, ";
+        jpql += " 	        r.slug, ";
+        jpql += " 	        r.description, ";
+        jpql += " 	        r.period.beginning, ";
+        jpql += " 	        r.period.end, ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.description, ";
+        jpql += " 	        e.site, ";
+        jpql += " 	        e.payment.account, ";
+        jpql += " 	        e.payment.token, ";
+        jpql += " 	        c.id, ";
+        jpql += " 	        c.name, ";
+        jpql += " 	        s.id, ";
+        jpql += " 	        s.name, ";
+        jpql += " 	        s.abbreviation, ";
+        jpql += " 	        a.id, ";
+        jpql += " 	        a.name ";
+        jpql += " 	     ) ";
+        jpql += "   from Race r ";
+        jpql += "   join r.event e ";
+        jpql += "   join r.status a ";
+        jpql += "   join e.city c ";
+        jpql += "   join c.state s ";
+        jpql += "  where e.payment.type = :eventPaymentType ";
+        jpql += "    and a.id in (:raceOpenStatusId, :raceClosedStatusId) ";
 
-		TypedQuery<Race> query = getEntityManager().createQuery(jpql.toString(), Race.class);
-		query.setParameter("eventPaymentType", AUTO);
-		query.setParameter("raceOpenStatusId", OPEN_ID);
-		query.setParameter("raceClosedStatusId", CLOSED_ID);
+        TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
+        query.setParameter("eventPaymentType", AUTO);
+        query.setParameter("raceOpenStatusId", OPEN_ID);
+        query.setParameter("raceClosedStatusId", CLOSED_ID);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 }

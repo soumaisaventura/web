@@ -1,10 +1,9 @@
 package adventure.rest.data;
 
-import java.util.Date;
-
+import adventure.entity.RegistrationStatusType;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import adventure.entity.RegistrationStatusType;
+import java.util.Date;
 
 @JsonPropertyOrder({ "id", "number", "status", "date", "payment", "submitter", "race", "category", "team" })
 public class RegistrationData {

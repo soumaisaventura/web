@@ -1,45 +1,28 @@
 package adventure.rest;
 
-import static adventure.entity.GenderType.FEMALE;
-import static adventure.entity.GenderType.MALE;
-import static adventure.entity.RegistrationStatusType.PENDENT;
-import static adventure.util.Constants.EVENT_SLUG_PATTERN;
-import static adventure.util.Constants.RACE_SLUG_PATTERN;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
 import adventure.business.MailBusiness;
-import adventure.entity.Category;
-import adventure.entity.GenderType;
-import adventure.entity.Race;
-import adventure.entity.RaceCategory;
-import adventure.entity.Registration;
-import adventure.entity.RegistrationPeriod;
-import adventure.entity.User;
-import adventure.entity.UserRegistration;
-import adventure.persistence.PeriodDAO;
-import adventure.persistence.RaceCategoryDAO;
-import adventure.persistence.RaceDAO;
-import adventure.persistence.RegistrationDAO;
-import adventure.persistence.UserDAO;
-import adventure.persistence.UserRegistrationDAO;
+import adventure.entity.*;
+import adventure.persistence.*;
 import adventure.rest.data.RaceRegistrationData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static adventure.entity.GenderType.FEMALE;
+import static adventure.entity.GenderType.MALE;
+import static adventure.entity.RegistrationStatusType.PENDENT;
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
+import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
 @Path("event/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/registration")
 public class RaceRegistrationREST {

@@ -1,16 +1,5 @@
 package adventure.rest;
 
-import static adventure.util.Constants.EVENT_SLUG_PATTERN;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
 import adventure.entity.Event;
 import adventure.entity.EventAnalytic;
 import adventure.entity.EventRegistrationStatusByDay;
@@ -24,6 +13,16 @@ import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
 @Path("event/{slug: " + EVENT_SLUG_PATTERN + "}/analytics")
 public class EventAnalyticsREST {

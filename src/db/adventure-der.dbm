@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1414,250" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1115,474" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -165,7 +165,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1735.41" y="731.667"/>
+	<position x="1735.41" y="740.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -803,7 +803,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1059.67" y="711.333"/>
+	<position x="1060.67" y="739.333"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -843,7 +843,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1405.33" y="884"/>
+	<position x="1384.33" y="885"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1772,12 +1772,15 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1730" y="608"/>
+	<position x="1728" y="598"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="slug" not-null="true">
+		<type name="character varying" length="20"/>
 	</column>
 	<column name="name" not-null="true">
 		<type name="character varying" length="30"/>
@@ -1794,6 +1797,9 @@ END
 	<constraint name="uk_kit_race_name" type="uq-constr" table="public.kit">
 		<columns names="race_id,name" ref-type="src-columns"/>
 	</constraint>
+	<constraint name="uk_kit_race_slug" type="uq-constr" table="public.kit">
+		<columns names="race_id,slug" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <index name="idx_user_registration_kit" table="public.user_registration"
@@ -1809,6 +1815,17 @@ END
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="race_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_kit_price" table="public.kit"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="price"/>
 		</idxelement>
 </index>
 

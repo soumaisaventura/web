@@ -1,10 +1,8 @@
 package adventure.rest;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import javax.ws.rs.Path;
-
+import adventure.entity.GenderType;
+import adventure.entity.Profile;
+import adventure.entity.User;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -14,9 +12,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import adventure.entity.GenderType;
-import adventure.entity.Profile;
-import adventure.entity.User;
+import javax.ws.rs.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Path("logon/oauth/facebook")
 public class FacebookLogonREST extends OAuthLogon {

@@ -1,13 +1,12 @@
 package adventure.rest.provider;
 
-import java.io.IOException;
-
+import br.gov.frameworkdemoiselle.util.Strings;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 
-import br.gov.frameworkdemoiselle.util.Strings;
+import java.io.IOException;
 
 public class EmptyStringAsNull extends JsonDeserializer<String> {
 

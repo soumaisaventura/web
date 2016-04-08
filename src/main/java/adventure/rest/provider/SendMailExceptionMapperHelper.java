@@ -1,18 +1,17 @@
 package adventure.rest.provider;
 
-import static java.util.logging.Level.FINE;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-
-import java.net.URI;
-import java.util.logging.Logger;
+import br.gov.frameworkdemoiselle.security.Credentials;
+import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.logging.Logger;
 
-import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.NameQualifier;
+import static java.util.logging.Level.FINE;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public abstract class SendMailExceptionMapperHelper {
 

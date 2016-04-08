@@ -1,15 +1,13 @@
 package adventure.rest.data;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.core.UriInfo;
-
+import adventure.entity.GenderType;
+import adventure.entity.User;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import adventure.entity.GenderType;
-import adventure.entity.User;
+import javax.ws.rs.core.UriInfo;
+import java.math.BigDecimal;
 
 @JsonPropertyOrder({ "id", "name", "gender", "email", "picture", "mobile", "racePrice", "city", "roles", "pendencies" })
 public class UserData {

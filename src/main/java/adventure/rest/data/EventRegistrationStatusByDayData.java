@@ -1,8 +1,8 @@
 package adventure.rest.data;
 
-import java.util.Date;
-
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+import java.util.Date;
 
 @JsonPropertyOrder({ "date", "status" })
 public class EventRegistrationStatusByDayData {

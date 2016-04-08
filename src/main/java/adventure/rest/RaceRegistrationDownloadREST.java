@@ -1,47 +1,6 @@
 package adventure.rest;
 
-import static adventure.entity.Profile.TEST_BIRTHDAY;
-import static adventure.entity.Profile.TEST_CPF;
-import static adventure.entity.Profile.TEST_MOBILE;
-import static adventure.entity.Profile.TEST_RG;
-import static adventure.util.Constants.EVENT_SLUG_PATTERN;
-import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import adventure.entity.Event;
-import adventure.entity.Profile;
-import adventure.entity.Registration;
-import adventure.entity.User;
-import adventure.entity.UserRegistration;
+import adventure.entity.*;
 import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
@@ -50,6 +9,31 @@ import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.util.Reflections;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static adventure.entity.Profile.*;
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
+import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
 
 @Path("event/{slug: " + EVENT_SLUG_PATTERN + "}/registration")
 public class RaceRegistrationDownloadREST {

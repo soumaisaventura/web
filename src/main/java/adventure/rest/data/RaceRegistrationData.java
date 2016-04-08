@@ -1,14 +1,13 @@
 package adventure.rest.data;
 
-import static adventure.util.Constants.NAME_SIZE;
-
-import java.util.List;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
+import static adventure.util.Constants.NAME_SIZE;
 
 public class RaceRegistrationData {
 

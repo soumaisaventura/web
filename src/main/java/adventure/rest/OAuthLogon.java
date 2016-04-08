@@ -1,16 +1,5 @@
 package adventure.rest;
 
-import java.net.URI;
-import java.util.Date;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import adventure.business.MailBusiness;
 import adventure.business.ProfileBusiness;
 import adventure.entity.Health;
@@ -26,6 +15,15 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.Date;
 
 public abstract class OAuthLogon {
 

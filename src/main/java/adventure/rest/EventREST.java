@@ -1,64 +1,11 @@
 package adventure.rest;
 
-import static adventure.util.Constants.EVENT_SLUG_PATTERN;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-
-import org.apache.commons.io.IOUtils;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import org.joda.time.Days;
-import org.joda.time.LocalDate;
-
 import adventure.business.EventBusiness;
 import adventure.business.ImageBusiness;
 import adventure.business.RaceBusiness;
-import adventure.entity.Category;
-import adventure.entity.Championship;
-import adventure.entity.Event;
-import adventure.entity.Fee;
-import adventure.entity.Hotspot;
-import adventure.entity.Modality;
-import adventure.entity.Race;
-import adventure.entity.RegistrationPeriod;
-import adventure.entity.User;
-import adventure.persistence.CategoryDAO;
-import adventure.persistence.ChampionshipDAO;
-import adventure.persistence.EventDAO;
-import adventure.persistence.FeeDAO;
-import adventure.persistence.HotspotDAO;
-import adventure.persistence.ModalityDAO;
-import adventure.persistence.PeriodDAO;
-import adventure.persistence.RaceDAO;
-import adventure.persistence.UserDAO;
-import adventure.rest.data.CategoryData;
-import adventure.rest.data.ChampionshipData;
-import adventure.rest.data.CityData;
-import adventure.rest.data.CoordData;
-import adventure.rest.data.EventData;
-import adventure.rest.data.HotspotData;
-import adventure.rest.data.LocationData;
-import adventure.rest.data.ModalityData;
-import adventure.rest.data.PeriodData;
-import adventure.rest.data.RaceData;
-import adventure.rest.data.SportData;
-import adventure.rest.data.UserData;
+import adventure.entity.*;
+import adventure.persistence.*;
+import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -66,6 +13,24 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
 @Path("event")
 public class EventREST {

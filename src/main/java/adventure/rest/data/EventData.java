@@ -1,13 +1,12 @@
 package adventure.rest.data;
 
-import java.net.URI;
-import java.util.List;
-
-import javax.ws.rs.core.UriInfo;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.List;
 
 @JsonPropertyOrder({ "id", "internal_id", "status", "name", "description", "banner", "site", "period", "location",
 		"payment", "races", "organizers" })

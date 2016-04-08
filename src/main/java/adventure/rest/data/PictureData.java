@@ -1,11 +1,10 @@
 package adventure.rest.data;
 
-import java.net.URI;
-
-import javax.ws.rs.core.UriInfo;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 
 @JsonPropertyOrder({ "photo", "thumbnail" })
 public class PictureData {

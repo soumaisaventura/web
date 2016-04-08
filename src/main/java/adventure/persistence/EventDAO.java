@@ -13,138 +13,138 @@ import br.gov.frameworkdemoiselle.util.Beans;
 @Transactional
 public class EventDAO extends JPACrud<Event, Integer> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static EventDAO getInstance() {
-		return Beans.getReference(EventDAO.class);
-	}
+    public static EventDAO getInstance() {
+        return Beans.getReference(EventDAO.class);
+    }
 
-	public List<Event> findByYear(Integer year) throws Exception {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Event( ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.site, ");
-		jpql.append(" 	        c.id, ");
-		jpql.append(" 	        c.name, ");
-		jpql.append(" 	        s.id, ");
-		jpql.append(" 	        s.name, ");
-		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	        e.beginning, ");
-		jpql.append(" 	        e.end, ");
-		jpql.append(" 	        e.status ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Event e ");
-		jpql.append("   left join e.city c ");
-		jpql.append("   left join c.state s ");
-		jpql.append("  where year(e.beginning) = :year ");
-		jpql.append("    and e.id > 0 ");
-		jpql.append("  order by ");
-		jpql.append("        e.beginning ");
+    public List<Event> findByYear(Integer year) throws Exception {
+        String jpql = "";
+        jpql += " select new Event( ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.description, ";
+        jpql += " 	        e.site, ";
+        jpql += " 	        c.id, ";
+        jpql += " 	        c.name, ";
+        jpql += " 	        s.id, ";
+        jpql += " 	        s.name, ";
+        jpql += " 	        s.abbreviation, ";
+        jpql += " 	        e.beginning, ";
+        jpql += " 	        e.end, ";
+        jpql += " 	        e.status ";
+        jpql += " 	     ) ";
+        jpql += "   from Event e ";
+        jpql += "   left join e.city c ";
+        jpql += "   left join c.state s ";
+        jpql += "  where year(e.beginning) = :year ";
+        jpql += "    and e.id > 0 ";
+        jpql += "  order by ";
+        jpql += "        e.beginning ";
 
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		query.setParameter("year", year);
+        TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
+        query.setParameter("year", year);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	public Event loadForMeta(String slug) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Event( ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.beginning, ");
-		jpql.append(" 	        e.end ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Event e ");
-		jpql.append("  where e.slug = :slug ");
+    public Event loadForMeta(String slug) {
+        String jpql = "";
+        jpql += " select new Event( ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.description, ";
+        jpql += " 	        e.beginning, ";
+        jpql += " 	        e.end ";
+        jpql += " 	     ) ";
+        jpql += "   from Event e ";
+        jpql += "  where e.slug = :slug ";
 
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		query.setParameter("slug", slug);
+        TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
+        query.setParameter("slug", slug);
 
-		Event result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Event result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	public Event load(String slug) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select e ");
-		jpql.append("   from Event e ");
-		jpql.append("  where e.slug = :slug ");
+    public Event load(String slug) {
+        String jpql = "";
+        jpql += " select e ";
+        jpql += "   from Event e ";
+        jpql += "  where e.slug = :slug ";
 
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		query.setParameter("slug", slug);
+        TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
+        query.setParameter("slug", slug);
 
-		Event result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Event result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	public Event loadForDetail(String slug) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Event( ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.slug, ");
-		jpql.append(" 	        e.name, ");
-		jpql.append(" 	        e.description, ");
-		jpql.append(" 	        e.site, ");
-		jpql.append(" 	        c.id, ");
-		jpql.append(" 	        c.name, ");
-		jpql.append(" 	        s.id, ");
-		jpql.append(" 	        s.name, ");
-		jpql.append(" 	        s.abbreviation, ");
-		jpql.append(" 	        e.beginning, ");
-		jpql.append(" 	        e.end, ");
-		jpql.append(" 	        e.status ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Event e ");
-		jpql.append("   left join e.city c ");
-		jpql.append("   left join c.state s ");
-		jpql.append("  where e.slug = :slug ");
+    public Event loadForDetail(String slug) {
+        String jpql = "";
+        jpql += " select new Event( ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.slug, ";
+        jpql += " 	        e.name, ";
+        jpql += " 	        e.description, ";
+        jpql += " 	        e.site, ";
+        jpql += " 	        c.id, ";
+        jpql += " 	        c.name, ";
+        jpql += " 	        s.id, ";
+        jpql += " 	        s.name, ";
+        jpql += " 	        s.abbreviation, ";
+        jpql += " 	        e.beginning, ";
+        jpql += " 	        e.end, ";
+        jpql += " 	        e.status ";
+        jpql += " 	     ) ";
+        jpql += "   from Event e ";
+        jpql += "   left join e.city c ";
+        jpql += "   left join c.state s ";
+        jpql += "  where e.slug = :slug ";
 
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		query.setParameter("slug", slug);
+        TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
+        query.setParameter("slug", slug);
 
-		Event result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Event result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	public Event loadForBanner(String slug) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new Event( ");
-		jpql.append(" 	        e.id, ");
-		jpql.append(" 	        e.banner ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Event e ");
-		jpql.append("  where e.slug = :slug ");
+    public Event loadForBanner(String slug) {
+        String jpql = "";
+        jpql += " select new Event( ";
+        jpql += " 	        e.id, ";
+        jpql += " 	        e.banner ";
+        jpql += " 	     ) ";
+        jpql += "   from Event e ";
+        jpql += "  where e.slug = :slug ";
 
-		TypedQuery<Event> query = getEntityManager().createQuery(jpql.toString(), Event.class);
-		query.setParameter("slug", slug);
+        TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
+        query.setParameter("slug", slug);
 
-		Event result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        Event result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 }

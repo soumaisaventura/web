@@ -1,12 +1,12 @@
 package adventure.rest.provider;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import org.codehaus.jackson.JsonProcessingException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.JsonProcessingException;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 @Provider
 public class JsonProcessingExceptionMapper implements ExceptionMapper<JsonProcessingException> {

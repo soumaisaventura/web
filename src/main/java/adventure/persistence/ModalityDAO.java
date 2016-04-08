@@ -15,34 +15,34 @@ import br.gov.frameworkdemoiselle.util.Beans;
 @Transactional
 public class ModalityDAO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-	public static ModalityDAO getInstance() {
-		return Beans.getReference(ModalityDAO.class);
-	}
+    public static ModalityDAO getInstance() {
+        return Beans.getReference(ModalityDAO.class);
+    }
 
-	public List<Modality> findForEvent(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Modality ( ");
-		jpql.append("        m.id, ");
-		jpql.append("        m.name, ");
-		jpql.append("        m.acronym ");
-		jpql.append("        ) ");
-		jpql.append("   from RaceModality rm ");
-		jpql.append("   join rm.modality m ");
-		jpql.append("  where rm.race = :race ");
-		jpql.append("  order by ");
-		jpql.append("        m.id ");
+    public List<Modality> findForEvent(Race race) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new Modality ( ";
+        jpql += "        m.id, ";
+        jpql += "        m.name, ";
+        jpql += "        m.acronym ";
+        jpql += "        ) ";
+        jpql += "   from RaceModality rm ";
+        jpql += "   join rm.modality m ";
+        jpql += "  where rm.race = :race ";
+        jpql += "  order by ";
+        jpql += "        m.id ";
 
-		TypedQuery<Modality> query = em.createQuery(jpql.toString(), Modality.class);
-		query.setParameter("race", race);
+        TypedQuery<Modality> query = em.createQuery(jpql, Modality.class);
+        query.setParameter("race", race);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	// TODO: OLD
+    // TODO: OLD
 }

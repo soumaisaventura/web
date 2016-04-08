@@ -1,36 +1,5 @@
 package adventure.rest;
 
-import static adventure.util.Constants.CPF_SIZE;
-import static adventure.util.Constants.NAME_SIZE;
-import static adventure.util.Constants.RG_SIZE;
-import static adventure.util.Constants.TELEPHONE_SIZE;
-import static adventure.util.Constants.USER_PHOTO_WIDTH;
-import static adventure.util.Constants.USER_THUMBNAIL_WIDTH;
-
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-
-import org.apache.commons.io.IOUtils;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
 import adventure.business.ImageBusiness;
 import adventure.business.ProfileBusiness;
 import adventure.entity.GenderType;
@@ -49,6 +18,25 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import br.gov.frameworkdemoiselle.validation.annotation.Cpf;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import javax.servlet.ServletContext;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static adventure.util.Constants.*;
 
 @Path("user/profile")
 public class UserProfileREST {
