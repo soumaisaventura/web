@@ -4,10 +4,10 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import java.util.List;
 
-@JsonPropertyOrder({ "city", "coords" })
+@JsonPropertyOrder({"city", "coords"})
 public class LocationData {
 
-	public CityData city;
+    public CityData city;
 
-	public List<HotspotData> hotspots;
+    public List<HotspotData> hotspots;
 }

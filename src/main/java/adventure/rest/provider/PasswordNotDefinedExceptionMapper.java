@@ -11,15 +11,15 @@ import java.net.URI;
 
 @Provider
 public class PasswordNotDefinedExceptionMapper extends SendMailExceptionMapperHelper implements
-		ExceptionMapper<PasswordNotDefinedException> {
+        ExceptionMapper<PasswordNotDefinedException> {
 
-	@Override
-	public Response toResponse(PasswordNotDefinedException exception) {
-		return super.toResponse(exception);
-	}
+    @Override
+    public Response toResponse(PasswordNotDefinedException exception) {
+        return super.toResponse(exception);
+    }
 
-	@Override
-	protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
-		MailBusiness.getInstance().sendPasswordCreationMail(credentials.getUsername(), baseUri);
-	}
+    @Override
+    protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
+        MailBusiness.getInstance().sendPasswordCreationMail(credentials.getUsername(), baseUri);
+    }
 }

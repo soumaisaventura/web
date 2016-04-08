@@ -44,118 +44,118 @@ import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 @Path("registration")
 public class RegistrationNotificationREST {
 
-	private transient Logger logger;
+    private transient Logger logger;
 
-	@POST
-	@Transactional
-	@Path("notification")
-	@Consumes("application/x-www-form-urlencoded")
-	public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type,
-			@Context UriInfo uriInfo) throws Exception {
+    @POST
+    @Transactional
+    @Path("notification")
+    @Consumes("application/x-www-form-urlencoded")
+    public void confirm(@FormParam("notificationCode") String code, @FormParam("notificationType") String type,
+                        @Context UriInfo uriInfo) throws Exception {
 
-		getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
+        getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
 
-		if ("transaction".equalsIgnoreCase(type)) {
-			for (Race race : RaceDAO.getInstance().findOpenAutoPayment()) {
-				Transaction transaction = getBody(code, race);
+        if ("transaction".equalsIgnoreCase(type)) {
+            for (Race race : RaceDAO.getInstance().findOpenAutoPayment()) {
+                Transaction transaction = getBody(code, race);
 
-				if (transaction != null) {
-					update(race, transaction, uriInfo);
-				}
-			}
-		}
-	}
+                if (transaction != null) {
+                    update(race, transaction, uriInfo);
+                }
+            }
+        }
+    }
 
-	private void update(Race race, Transaction transaction, UriInfo uriInfo) throws Exception {
-		RegistrationDAO dao = RegistrationDAO.getInstance();
-		Registration registration = dao.loadForDetails(transaction.reference);
+    private void update(Race race, Transaction transaction, UriInfo uriInfo) throws Exception {
+        RegistrationDAO dao = RegistrationDAO.getInstance();
+        Registration registration = dao.loadForDetails(transaction.reference);
 
-		if (registration != null && registration.getStatus() == PENDENT
-				&& race.equals(registration.getRaceCategory().getRace())) {
-			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			Registration persistedRegistration = dao.load(transaction.reference);
+        if (registration != null && registration.getStatus() == PENDENT
+                && race.equals(registration.getRaceCategory().getRace())) {
+            URI baseUri = uriInfo.getBaseUri().resolve("..");
+            Registration persistedRegistration = dao.load(transaction.reference);
 
-			switch (transaction.status) {
-				case 1: // iniciada
-					persistedRegistration.getPayment().setTransaction(transaction.code);
-					dao.update(persistedRegistration);
-					break;
+            switch (transaction.status) {
+                case 1: // iniciada
+                    persistedRegistration.getPayment().setTransaction(transaction.code);
+                    dao.update(persistedRegistration);
+                    break;
 
-				case 3: // paga
-					persistedRegistration.getPayment().setTransaction(transaction.code);
-					persistedRegistration.setStatus(CONFIRMED);
-					persistedRegistration.setDate(new Date());
-					dao.update(persistedRegistration);
+                case 3: // paga
+                    persistedRegistration.getPayment().setTransaction(transaction.code);
+                    persistedRegistration.setStatus(CONFIRMED);
+                    persistedRegistration.setDate(new Date());
+                    dao.update(persistedRegistration);
 
-					MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
-					break;
+                    MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
+                    break;
 
-				case 7: // cancelada
-					persistedRegistration.getPayment().setTransaction(null);
-					dao.update(persistedRegistration);
-			}
-		}
-	}
+                case 7: // cancelada
+                    persistedRegistration.getPayment().setTransaction(null);
+                    dao.update(persistedRegistration);
+            }
+        }
+    }
 
-	private Transaction getBody(String code, Race race) throws Exception {
-		Transaction result = null;
+    private Transaction getBody(String code, Race race) throws Exception {
+        Transaction result = null;
 
-		if (code != null) {
-			List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
-			payload.add(new BasicNameValuePair("email", race.getEvent().getPayment().getAccount()));
-			payload.add(new BasicNameValuePair("token", race.getEvent().getPayment().getToken()));
+        if (code != null) {
+            List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+            payload.add(new BasicNameValuePair("email", race.getEvent().getPayment().getAccount()));
+            payload.add(new BasicNameValuePair("token", race.getEvent().getPayment().getToken()));
 
-			String url = "";
-			url += "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + code;
-			url += "?" + URLEncodedUtils.format(payload, "UTF-8");
+            String url = "";
+            url += "https://ws.pagseguro.uol.com.br/v2/transactions/notifications/" + code;
+            url += "?" + URLEncodedUtils.format(payload, "UTF-8");
 
-			getLogger().info("Invocando [" + url + "]");
+            getLogger().info("Invocando [" + url + "]");
 
-			HttpGet request = new HttpGet(url);
-			HttpClient client = new DefaultHttpClient();
-			HttpResponse response = client.execute(request);
+            HttpGet request = new HttpGet(url);
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response = client.execute(request);
 
-			getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
+            getLogger().info("Status recebido [" + response.getStatusLine().getStatusCode() + "]");
 
-			if (response.getStatusLine().getStatusCode() == 200) {
-				String body = Strings.parse(response.getEntity().getContent());
-				getLogger().fine("Body recebido [" + body + "]");
-				result = parse(body);
-			}
-		}
+            if (response.getStatusLine().getStatusCode() == 200) {
+                String body = Strings.parse(response.getEntity().getContent());
+                getLogger().fine("Body recebido [" + body + "]");
+                result = parse(body);
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private Transaction parse(String body) throws Exception {
-		JAXBContext jc = JAXBContext.newInstance(Transaction.class);
-		Unmarshaller unmarshaller = jc.createUnmarshaller();
-		StringReader reader = new StringReader(body);
-		Transaction transaction = (Transaction) unmarshaller.unmarshal(reader);
+    private Transaction parse(String body) throws Exception {
+        JAXBContext jc = JAXBContext.newInstance(Transaction.class);
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        StringReader reader = new StringReader(body);
+        Transaction transaction = (Transaction) unmarshaller.unmarshal(reader);
 
-		return transaction;
-	}
+        return transaction;
+    }
 
-	private Logger getLogger() {
-		if (this.logger == null) {
-			this.logger = Beans.getReference(Logger.class,
-					new NameQualifier(RegistrationNotificationREST.class.getName()));
-		}
+    private Logger getLogger() {
+        if (this.logger == null) {
+            this.logger = Beans.getReference(Logger.class,
+                    new NameQualifier(RegistrationNotificationREST.class.getName()));
+        }
 
-		return this.logger;
-	}
+        return this.logger;
+    }
 
-	@XmlAccessorType(FIELD)
-	@XmlRootElement(name = "transaction")
-	static class Transaction {
+    @XmlAccessorType(FIELD)
+    @XmlRootElement(name = "transaction")
+    static class Transaction {
 
-		@XmlElement(name = "code")
-		String code;
+        @XmlElement(name = "code")
+        String code;
 
-		@XmlElement(name = "status")
-		int status;
+        @XmlElement(name = "status")
+        int status;
 
-		@XmlElement(name = "reference")
-		Long reference;
-	}
+        @XmlElement(name = "reference")
+        Long reference;
+    }
 }

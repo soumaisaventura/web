@@ -24,76 +24,76 @@ import java.util.Date;
 @Path("password")
 public class PasswordREST {
 
-	@POST
-	@ValidatePayload
-	@Path("recovery")
-	@Consumes("application/json")
-	public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailBusiness.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
-	}
+    @POST
+    @ValidatePayload
+    @Path("recovery")
+    @Consumes("application/json")
+    public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
+        URI baseUri = uriInfo.getBaseUri().resolve("..");
+        MailBusiness.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
+    }
 
-	@POST
-	@Transactional
-	@ValidatePayload
-	@Path("reset/{token}")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public UserData reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
-			throws Exception {
-		UserDAO dao = UserDAO.getInstance();
-		User persisted = dao.load(data.email.trim().toLowerCase());
+    @POST
+    @Transactional
+    @ValidatePayload
+    @Path("reset/{token}")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public UserData reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+            throws Exception {
+        UserDAO dao = UserDAO.getInstance();
+        User persisted = dao.load(data.email.trim().toLowerCase());
 
-		if (persisted == null || !token.equals(persisted.getPasswordResetToken())) {
-			throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
+        if (persisted == null || !token.equals(persisted.getPasswordResetToken())) {
+            throw new UnprocessableEntityException().addViolation("Esta solicitação não é mais válida.");
 
-		} else {
-			persisted.setPasswordResetToken(null);
-			persisted.setPasswordResetRequest(null);
-			persisted.setPassword(Passwords.hash(data.newPassword.trim(), persisted.getEmail()));
+        } else {
+            persisted.setPasswordResetToken(null);
+            persisted.setPasswordResetRequest(null);
+            persisted.setPassword(Passwords.hash(data.newPassword.trim(), persisted.getEmail()));
 
-			boolean wasActivated = false;
-			if (persisted.getActivation() == null) {
-				persisted.setActivation(new Date());
-				persisted.setActivationToken(null);
-				wasActivated = true;
-			}
+            boolean wasActivated = false;
+            if (persisted.getActivation() == null) {
+                persisted.setActivation(new Date());
+                persisted.setActivationToken(null);
+                wasActivated = true;
+            }
 
-			dao.update(persisted);
-			login(persisted.getEmail(), data.newPassword.trim());
+            dao.update(persisted);
+            login(persisted.getEmail(), data.newPassword.trim());
 
-			if (wasActivated) {
-				URI baseUri = uriInfo.getBaseUri().resolve("..");
-				MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
-			}
-		}
+            if (wasActivated) {
+                URI baseUri = uriInfo.getBaseUri().resolve("..");
+                MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+            }
+        }
 
-		return new UserData(User.getLoggedIn(), uriInfo);
-	}
+        return new UserData(User.getLoggedIn(), uriInfo);
+    }
 
-	private void login(String email, String password) {
-		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(email);
-		credentials.setPassword(password);
+    private void login(String email, String password) {
+        Credentials credentials = Beans.getReference(Credentials.class);
+        credentials.setUsername(email);
+        credentials.setPassword(password);
 
-		Beans.getReference(SecurityContext.class).login();
-	}
+        Beans.getReference(SecurityContext.class).login();
+    }
 
-	public static class RecoveryData {
+    public static class RecoveryData {
 
-		@Email
-		@NotEmpty
-		@ExistentUserEmail
-		public String email;
-	}
+        @Email
+        @NotEmpty
+        @ExistentUserEmail
+        public String email;
+    }
 
-	public static class PerformResetData {
+    public static class PerformResetData {
 
-		@Email
-		@NotEmpty
-		public String email;
+        @Email
+        @NotEmpty
+        public String email;
 
-		@NotEmpty
-		public String newPassword;
-	}
+        @NotEmpty
+        public String newPassword;
+    }
 }

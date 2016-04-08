@@ -3,13 +3,13 @@ package adventure.rest.data;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "internalId", "name" })
+@JsonPropertyOrder({"id", "internalId", "name"})
 public class SportData {
 
-	public String id;
+    public String id;
 
-	@JsonProperty("internal_id")
-	public Integer internalId;
+    @JsonProperty("internal_id")
+    public Integer internalId;
 
-	public String name;
+    public String name;
 }

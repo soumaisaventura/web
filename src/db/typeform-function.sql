@@ -20,6 +20,8 @@ BEGIN
 
    DROP TABLE IF EXISTS questao;
 
+   DROP TABLE IF EXISTS lista_negra;
+
    CREATE TABLE questao
    (
       id          integer,
@@ -566,7 +568,7 @@ BEGIN
         VALUES (0, 'Anti-Demoiselle', 10);
 
    INSERT INTO resposta (id, descricao, questao_id)
-        VALUES (0, 'Outros', 10);
+        VALUES (-1, 'Outros', 10);
 
    UPDATE resposta_usuario
       SET new_resposta_id = 0
@@ -862,6 +864,33 @@ BEGIN
       SET new_resposta_id = 5
     WHERE questao_id = 20 AND resposta_id = 11;
 
+   CREATE TABLE lista_negra
+   AS
+      SELECT DISTINCT _ru2.usuario_id
+        FROM resposta_usuario _ru2
+       WHERE     _ru2.usuario_id IN
+                    (SELECT _ru.usuario_id
+                       FROM resposta_usuario _ru
+                      WHERE _ru.questao_id = 1 AND _ru.new_resposta_id = 1)
+             AND _ru2.questao_id = 3
+             AND _ru2.new_resposta_id = 2
+      UNION
+      SELECT _ru.usuario_id
+        FROM resposta_usuario _ru
+       WHERE _ru.questao_id = 18 AND _ru.new_resposta_id = 6
+      UNION
+      SELECT _ru.usuario_id
+        FROM resposta_usuario _ru
+       WHERE _ru.questao_id = 17 AND _ru.new_resposta_id = 5
+      UNION
+      SELECT _ru2.usuario_id
+        FROM resposta_usuario _ru2
+       WHERE     _ru2.usuario_id IN
+                    (SELECT _ru.usuario_id
+                       FROM resposta_usuario _ru
+                      WHERE _ru.questao_id = 4 AND _ru.new_resposta_id = 2)
+             AND _ru2.questao_id = 4
+             AND _ru2.new_resposta_id <> 2;
 
    CREATE VIEW respostas
    AS
@@ -870,7 +899,11 @@ BEGIN
                q.titulo AS questao,
                ru.resposta_id,
                ru.new_resposta_id,
-               r.descricao AS resposta
+               r.descricao AS resposta,
+               (SELECT count (*)
+                  FROM lista_negra _ln
+                 WHERE _ln.usuario_id = ru.usuario_id) > 0
+                  AS lista_negra
           FROM resposta_usuario ru, questao q, resposta r
          WHERE     ru.questao_id = q.id
                AND ru.questao_id = r.questao_id
@@ -883,7 +916,10 @@ BEGIN
                questao,
                new_resposta_id,
                resposta,
-               count (*) AS qtd
+               sum (CASE WHEN lista_negra = TRUE THEN 0 ELSE 1 END) AS qtd,
+               count (*) AS qtd_total,
+               count (*) - sum (CASE WHEN lista_negra = TRUE THEN 0 ELSE 1 END)
+                  AS diff
           FROM respostas
       GROUP BY questao_id,
                questao,

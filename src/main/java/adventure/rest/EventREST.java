@@ -35,268 +35,339 @@ import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 @Path("event")
 public class EventREST {
 
-	@GET
-	@Path("year/{year : \\d+}")
-	@Cache("max-age=28800")
-	@Produces("application/json")
-	public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
-		List<EventData> result = new ArrayList<EventData>();
+    @GET
+    @Path("year/{year : \\d+}")
+    @Cache("max-age=28800")
+    @Produces("application/json")
+    public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
+        List<EventData> result = new ArrayList<EventData>();
 
-		for (Event event : EventDAO.getInstance().findByYear(year)) {
-			EventData eventData = new EventData(uriInfo);
+        for (Event event : EventDAO.getInstance().findByYear(year)) {
+            EventData eventData = new EventData(uriInfo);
 
-			eventData.id = event.getSlug();
-			eventData.name = event.getName();
-			eventData.period = new PeriodData();
-			eventData.period.beginning = event.getBeginning();
-			eventData.period.end = event.getEnd();
-			eventData.status = event.getStatus().getName();
+            eventData.id = event.getSlug();
+            eventData.name = event.getName();
+            eventData.period = new PeriodData();
+            eventData.period.beginning = event.getBeginning();
+            eventData.period.end = event.getEnd();
+            eventData.status = event.getStatus().getName();
 
-			eventData.location = new LocationData();
-			eventData.location.city = new CityData();
-			eventData.location.city.name = event.getCity().getName();
-			eventData.location.city.state = event.getCity().getState().getAbbreviation();
+            eventData.location = new LocationData();
+            eventData.location.city = new CityData();
+            eventData.location.city.name = event.getCity().getName();
+            eventData.location.city.state = event.getCity().getState().getAbbreviation();
 
-			result.add(eventData);
-		}
+            result.add(eventData);
+        }
 
-		return result.isEmpty() ? null : result;
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	@GET
-	@Cache("max-age=28800")
-	@Produces("application/json")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}")
-	public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary,
-	                      @Context UriInfo uriInfo) throws NotFoundException {
-		RaceBusiness raceBusiness = RaceBusiness.getInstance();
-		FeeDAO feeDAO = FeeDAO.getInstance();
-		RaceDAO raceDAO = RaceDAO.getInstance();
-		ChampionshipDAO championshipDAO = ChampionshipDAO.getInstance();
-		CategoryDAO categoryDAO = CategoryDAO.getInstance();
-		ModalityDAO modalityDAO = ModalityDAO.getInstance();
-		PeriodDAO periodDAO = PeriodDAO.getInstance();
+    @GET
+    @Cache("max-age=28800")
+    @Produces("application/json")
+    @Path("{slug: " + EVENT_SLUG_PATTERN + "}")
+    public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary,
+                          @Context UriInfo uriInfo) throws NotFoundException {
+        RaceBusiness raceBusiness = RaceBusiness.getInstance();
+        RaceDAO raceDAO = RaceDAO.getInstance();
 
-		EventData eventData = new EventData(uriInfo);
-		Event event = loadEventDetails(slug);
-		Date now = new Date();
+        EventData eventData = new EventData(uriInfo);
+        Event event = loadEventDetails(slug);
+        Date now = new Date();
 
-		eventData.id = event.getSlug();
-		eventData.internalId = event.getId();
-		eventData.name = event.getName();
-		eventData.description = event.getDescription();
-		eventData.site = event.getSite();
-		eventData.period = new PeriodData();
-		eventData.period.beginning = event.getBeginning();
-		eventData.period.end = event.getEnd();
-		eventData.status = event.getStatus().getName();
+        eventData.id = event.getSlug();
+        eventData.internalId = event.getId();
+        eventData.name = event.getName();
+        eventData.description = event.getDescription();
+        eventData.site = event.getSite();
+        eventData.period = new PeriodData();
+        eventData.period.beginning = event.getBeginning();
+        eventData.period.end = event.getEnd();
+        eventData.status = event.getStatus().getName();
 
-		// Location
+        // Location
 
-		eventData.location = new LocationData();
-		eventData.location.city = new CityData();
-		eventData.location.city.name = event.getCity().getName();
-		eventData.location.city.state = event.getCity().getState().getAbbreviation();
+        eventData.location = new LocationData();
+        eventData.location.city = new CityData();
+        eventData.location.city.name = event.getCity().getName();
+        eventData.location.city.state = event.getCity().getState().getAbbreviation();
 
-		// Hotspot
+        // Hotspot
 
-		eventData.location.hotspots = new ArrayList<HotspotData>();
-		for (Hotspot hotspot : HotspotDAO.getInstance().find(event)) {
-			HotspotData hotspotData = new HotspotData();
-			hotspotData.id = hotspot.getId();
-			hotspotData.name = hotspot.getName();
-			hotspotData.description = hotspot.getDescription();
-			hotspotData.main = hotspot.getMain();
-			hotspotData.coord = new CoordData();
-			hotspotData.coord.latitude = hotspot.getCoord().getLatitude();
-			hotspotData.coord.longitude = hotspot.getCoord().getLongitude();
-			hotspotData.order = hotspot.getOrder();
-			eventData.location.hotspots.add(hotspotData);
-		}
+        eventData.location.hotspots = new ArrayList<HotspotData>();
+        for (Hotspot hotspot : HotspotDAO.getInstance().find(event)) {
+            HotspotData hotspotData = new HotspotData();
+            hotspotData.id = hotspot.getId();
+            hotspotData.name = hotspot.getName();
+            hotspotData.description = hotspot.getDescription();
+            hotspotData.main = hotspot.getMain();
+            hotspotData.coord = new CoordData();
+            hotspotData.coord.latitude = hotspot.getCoord().getLatitude();
+            hotspotData.coord.longitude = hotspot.getCoord().getLongitude();
+            hotspotData.order = hotspot.getOrder();
+            eventData.location.hotspots.add(hotspotData);
+        }
 
-		if (eventData.location.hotspots.isEmpty()) {
-			eventData.location.hotspots = null;
-		}
+        if (eventData.location.hotspots.isEmpty()) {
+            eventData.location.hotspots = null;
+        }
 
-		if (!summary) {
-			// Races
+        if (!summary) {
+            // Races
 
-			eventData.races = new ArrayList<RaceData>();
-			for (Race race : raceDAO.findForEvent(event)) {
-				List<Fee> championshipFees = new ArrayList<Fee>();
+            ChampionshipDAO championshipDAO = ChampionshipDAO.getInstance();
+            PeriodDAO periodDAO = PeriodDAO.getInstance();
+            ModalityDAO modalityDAO = ModalityDAO.getInstance();
+            CategoryDAO categoryDAO = CategoryDAO.getInstance();
+            KitDAO kitDAO = KitDAO.getInstance();
 
-				RaceData raceData = new RaceData();
-				raceData.id = race.getSlug();
-				raceData.internalId = race.getId();
-				raceData.name = race.getName();
-				raceData.description = race.getDescription();
-				raceData.distance = race.getDistance();
-				raceData.status = race.getStatus().getName();
+            eventData.races = new ArrayList<RaceData>();
+            for (Race race : raceDAO.findForEvent(event)) {
+                RaceData raceData = new RaceData();
+                raceData.id = race.getSlug();
+                raceData.internalId = race.getId();
+                raceData.name = race.getName();
+                raceData.description = race.getDescription();
+                raceData.distance = race.getDistance();
+                raceData.status = race.getStatus().getName();
 
-				// Sport
+                // Sport
 
-				raceData.sport = new SportData();
-				raceData.sport.id = race.getSport().getAcronym();
-				raceData.sport.internalId = race.getSport().getId();
-				raceData.sport.name = race.getSport().getName();
+                raceData.sport = new SportData();
+                raceData.sport.id = race.getSport().getAcronym();
+                raceData.sport.internalId = race.getSport().getId();
+                raceData.sport.name = race.getSport().getName();
 
-				// Period
+                // Period
 
-				raceData.period = new PeriodData();
-				raceData.period.beginning = race.getPeriod().getBeginning();
-				raceData.period.end = race.getPeriod().getEnd();
+                raceData.period = new PeriodData();
+                raceData.period.beginning = race.getPeriod().getBeginning();
+                raceData.period.end = race.getPeriod().getEnd();
 
-				raceData.championships = new ArrayList<ChampionshipData>();
-				for (Championship championship : championshipDAO.findForEvent(race)) {
-					ChampionshipData championshipData = new ChampionshipData();
-					championshipData.id = championship.getSlug();
-					championshipData.name = championship.getName();
-					raceData.championships.add(championshipData);
-					championshipFees.addAll(feeDAO.findForEvent(championship));
-				}
+                raceData.championships = new ArrayList<ChampionshipData>();
+                for (Championship championship : championshipDAO.findForEvent(race)) {
+                    ChampionshipData championshipData = new ChampionshipData();
+                    championshipData.id = championship.getSlug();
+                    championshipData.internalId = championship.getId();
+                    championshipData.name = championship.getName();
+                    raceData.championships.add(championshipData);
+                }
 
-				// Categories
+                // Categories
 
-				raceData.categories = new ArrayList<CategoryData>();
-				for (Category category : categoryDAO.find(race)) {
-					CategoryData categoryData = new CategoryData();
-					categoryData.name = category.getName();
-					categoryData.description = category.getDescription();
-					raceData.categories.add(categoryData);
-				}
+                raceData.categories = new ArrayList<CategoryData>();
+                for (Category category : categoryDAO.find(race)) {
+                    CategoryData categoryData = new CategoryData();
+                    categoryData.id = category.getId();
+                    categoryData.name = category.getName();
+                    categoryData.description = category.getDescription();
+                    raceData.categories.add(categoryData);
+                }
 
-				// Registration Period + Prices
+                // Kits
 
-				List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
-				raceData.prices = new ArrayList<PeriodData>();
-				for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
-					PeriodData periodData = new PeriodData();
-					periodData.internalId = period.getId();
-					periodData.beginning = period.getBeginning();
-					periodData.end = period.getEnd();
-					periodData.price = period.getPrice();
-					raceData.prices.add(periodData);
-				}
+                raceData.kits = new ArrayList<KitData>();
+                for (Kit kit : kitDAO.findForRegistration(race)) {
+                    KitData kitData = new KitData();
+                    kitData.id = kit.getSlug();
+                    kitData.internalId = kit.getId();
+                    kitData.name = kit.getName();
+                    kitData.description = kit.getDescription();
+                    kitData.price = kit.getPrice();
+                    raceData.kits.add(kitData);
+                }
 
-				// Current Period
+                // Registration Period + Prices
 
-				RegistrationPeriod currentPeriod = raceBusiness.getPeriod(now, periods);
-				if (currentPeriod != null) {
-					raceData.currentPeriod = new PeriodData();
-					raceData.currentPeriod.beginning = currentPeriod.getBeginning();
-					raceData.currentPeriod.end = currentPeriod.getEnd();
-					raceData.currentPeriod.price = currentPeriod.getPrice();
-				}
+                List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
+                raceData.prices = new ArrayList<PeriodData>();
+                for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
+                    PeriodData periodData = new PeriodData();
+                    periodData.id = period.getId();
+                    periodData.beginning = period.getBeginning();
+                    periodData.end = period.getEnd();
+                    periodData.price = period.getPrice();
+                    raceData.prices.add(periodData);
+                }
 
-				// Modalities
+                // Current Period
 
-				raceData.modalities = new ArrayList<ModalityData>();
-				for (Modality modality : modalityDAO.findForEvent(race)) {
-					ModalityData modalityData = new ModalityData();
-					modalityData.id = modality.getAcronym();
-					modalityData.name = modality.getName();
-					raceData.modalities.add(modalityData);
-				}
+                RegistrationPeriod currentPeriod = raceBusiness.getPeriod(now, periods);
+                if (currentPeriod != null) {
+                    raceData.currentPeriod = new PeriodData();
+                    raceData.currentPeriod.beginning = currentPeriod.getBeginning();
+                    raceData.currentPeriod.end = currentPeriod.getEnd();
+                    raceData.currentPeriod.price = currentPeriod.getPrice();
+                }
 
-				eventData.races.add(raceData);
-			}
+                // Modalities
 
-			// Countdown
+                raceData.modalities = new ArrayList<ModalityData>();
+                for (Modality modality : modalityDAO.findForEvent(race)) {
+                    ModalityData modalityData = new ModalityData();
+                    modalityData.id = modality.getAcronym();
+                    modalityData.internalId = modality.getId();
+                    modalityData.name = modality.getName();
+                    raceData.modalities.add(modalityData);
+                }
 
-			int days = Days.daysBetween(new LocalDate(now), new LocalDate(eventData.period.beginning)).getDays();
-			eventData.period.countdown = days >= 0 ? days : -1;
-		}
+                eventData.races.add(raceData);
+            }
 
-		// Organizers
+            // Countdown
 
-		eventData.organizers = new ArrayList<UserData>();
-		for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
-			UserData organizerData = new UserData(uriInfo);
-			organizerData.id = organizer.getId();
-			organizerData.name = organizer.getProfile().getName();
-			organizerData.email = organizer.getEmail();
-			organizerData.mobile = organizer.getProfile().getMobile();
-			eventData.organizers.add(organizerData);
-		}
+            int days = Days.daysBetween(new LocalDate(now), new LocalDate(eventData.period.beginning)).getDays();
+            eventData.period.countdown = days >= 0 ? days : -1;
+        }
 
-		return eventData;
-	}
+        // Organizers
 
-	@GET
-	@Produces("image/png")
-	@Cache("max-age=604800000")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-	public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width,
-	                        @Context ServletContext context) throws Exception {
-		Event event = loadEventBanner(slug);
-		return ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
-	}
+        eventData.organizers = new ArrayList<UserData>();
+        for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
+            UserData organizerData = new UserData(uriInfo);
+            organizerData.id = organizer.getId();
+            organizerData.name = organizer.getProfile().getName();
+            organizerData.email = organizer.getEmail();
+            organizerData.mobile = organizer.getProfile().getMobile();
+            eventData.organizers.add(organizerData);
+        }
 
-	private byte[] loadBanner(Event event, ServletContext context) throws Exception {
-		byte[] result = event.getBanner();
+        return eventData;
+    }
 
-		if (result == null) {
-			InputStream in = context.getResourceAsStream("/images/banner_blank.png");
-			result = IOUtils.toByteArray(in);
-		}
+    @GET
+    @LoggedIn
+    @Transactional
+    @Produces("application/json")
+    @Path("{slug: " + EVENT_SLUG_PATTERN + "}/registrations")
+    public List<RegistrationData> getRegistrations(@PathParam("slug") String slug, @Context UriInfo uriInfo) throws Exception {
+        List<RegistrationData> result = new ArrayList<RegistrationData>();
+        Event event = loadEventDetails(slug);
 
-		return result;
-	}
+        List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+        if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+            throw new ForbiddenException();
+        }
 
-	@PUT
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Consumes("multipart/form-data")
-	@Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-	public void setBanner(@PathParam("slug") String slug, @NotEmpty MultipartFormDataInput input) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
+        for (Registration registration : RegistrationDAO.getInstance().findToOrganizer(event)) {
+            RegistrationData data = new RegistrationData();
+            data.id = registration.getId();
+            data.number = registration.getFormattedId();
+            data.date = registration.getDate();
+            data.status = registration.getStatus();
 
-		InputPart file = null;
-		Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
+            data.team = new TeamData();
+            data.team.name = registration.getTeamName();
 
-		for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
-			file = entry.getValue().get(0);
-			break;
-		}
+            data.category = new CategoryData();
+            data.category.id = registration.getRaceCategory().getCategory().getId();
+            data.category.name = registration.getRaceCategory().getCategory().getName();
 
-		if (file == null) {
-			throw new UnprocessableEntityException().addViolation("banner", "campo obrigatório");
-		}
+            data.race = new RaceData();
+            data.race.id = registration.getRaceCategory().getRace().getSlug();
+            data.race.internalId = registration.getRaceCategory().getRace().getId();
+            data.race.name = registration.getRaceCategory().getRace().getName();
 
-		InputStream inputStream = file.getBody(InputStream.class, null);
-		EventBusiness.getInstance().updateBanner(event, inputStream);
-	}
+            data.team.members = new ArrayList<UserData>();
+            for (UserRegistration teamFormation : registration.getUserRegistrations()) {
+                UserData userData = new UserData(uriInfo);
+                userData.id = teamFormation.getUser().getId();
+                userData.email = teamFormation.getUser().getEmail();
+                userData.name = teamFormation.getUser().getProfile().getName();
+                userData.mobile = teamFormation.getUser().getProfile().getMobile();
 
-	private void checkPermission(Event event) throws ForbiddenException {
-		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-	}
+                userData.city = new CityData();
+                userData.city.name = teamFormation.getUser().getProfile().getCity().getName();
+                userData.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
 
-	private Event loadEvent(String slug) throws NotFoundException {
-		Event result = EventDAO.getInstance().load(slug);
-		if (result == null) {
-			throw new NotFoundException();
-		}
-		return result;
-	}
+                userData.racePrice = teamFormation.getRacePrice();
+                data.team.members.add(userData);
+            }
 
-	private Event loadEventDetails(String slug) throws NotFoundException {
-		Event result = EventDAO.getInstance().loadForDetail(slug);
-		if (result == null) {
-			throw new NotFoundException();
-		}
-		return result;
-	}
+            result.add(data);
+        }
 
-	private Event loadEventBanner(String slug) throws NotFoundException {
-		Event result = EventDAO.getInstance().loadForBanner(slug);
-		if (result == null) {
-			throw new NotFoundException();
-		}
-		return result;
-	}
+        return result.isEmpty() ? null : result;
+    }
+
+
+
+    @GET
+    @Produces("image/png")
+    @Cache("max-age=604800000")
+    @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
+    public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width,
+                            @Context ServletContext context) throws Exception {
+        Event event = loadEventBanner(slug);
+        return ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
+    }
+
+    private byte[] loadBanner(Event event, ServletContext context) throws Exception {
+        byte[] result = event.getBanner();
+
+        if (result == null) {
+            InputStream in = context.getResourceAsStream("/images/banner_blank.png");
+            result = IOUtils.toByteArray(in);
+        }
+
+        return result;
+    }
+
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Consumes("multipart/form-data")
+    @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
+    public void setBanner(@PathParam("slug") String slug, @NotEmpty MultipartFormDataInput input) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+
+        InputPart file = null;
+        Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
+
+        for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
+            file = entry.getValue().get(0);
+            break;
+        }
+
+        if (file == null) {
+            throw new UnprocessableEntityException().addViolation("banner", "campo obrigatório");
+        }
+
+        InputStream inputStream = file.getBody(InputStream.class, null);
+        EventBusiness.getInstance().updateBanner(event, inputStream);
+    }
+
+    private void checkPermission(Event event) throws ForbiddenException {
+        List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+        if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+            throw new ForbiddenException();
+        }
+    }
+
+    private Event loadEvent(String slug) throws NotFoundException {
+        Event result = EventDAO.getInstance().load(slug);
+        if (result == null) {
+            throw new NotFoundException();
+        }
+        return result;
+    }
+
+    private Event loadEventDetails(String slug) throws NotFoundException {
+        Event result = EventDAO.getInstance().loadForDetail(slug);
+        if (result == null) {
+            throw new NotFoundException();
+        }
+        return result;
+    }
+
+    private Event loadEventBanner(String slug) throws NotFoundException {
+        Event result = EventDAO.getInstance().loadForBanner(slug);
+        if (result == null) {
+            throw new NotFoundException();
+        }
+        return result;
+    }
 }

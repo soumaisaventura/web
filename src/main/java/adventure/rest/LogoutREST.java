@@ -10,9 +10,9 @@ import javax.ws.rs.Path;
 @Path("logout")
 public class LogoutREST {
 
-	@POST
-	@LoggedIn
-	public void logout() {
-		Beans.getReference(SecurityContext.class).logout();
-	}
+    @POST
+    @LoggedIn
+    public void logout() {
+        Beans.getReference(SecurityContext.class).logout();
+    }
 }

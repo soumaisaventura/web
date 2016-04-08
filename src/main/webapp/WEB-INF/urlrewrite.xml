@@ -1,270 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE urlrewrite
-    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
-    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+        PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
-	<!-- / -->
+    <!-- / -->
 
-	<rule>
-		<from>^/$</from>
-		<to type="permanent-redirect">%{context-path}/inicio</to>
-	</rule>
+    <rule>
+        <from>^/$</from>
+        <to type="permanent-redirect">%{context-path}/inicio</to>
+    </rule>
 
-	<!-- /* -->
+    <!-- /* -->
 
-	<rule>
-		<from>^/inicio$</from>
-		<to>/home.jsf</to>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/login$</from>
-		<to>/login.jsf</to>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/registro$</from>
-		<to>/signup.jsf</to>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
+    <rule>
+        <from>^/inicio$</from>
+        <to>/home.jsf</to>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/login$</from>
+        <to>/login.jsf</to>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/registro$</from>
+        <to>/signup.jsf</to>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
 
-	<!-- /calendario -->
+    <!-- /calendario -->
 
-	<rule>
-		<from>^/calendario/(\d+).ics$</from>
-		<to>/api/calendar/$1</to>
-		<set type="response-header" name="Cache-Control">no-cache, must-revalidate</set>
-		<set type="response-header" name="Expires">Sat, 01 Jan 2014 00:00:00 GMT</set>
-	</rule>
-	<rule>
-		<from>^/calendario/(\d+)$</from>
-		<to>/calendario.jsf?ano=$1</to>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
+    <rule>
+        <from>^/calendario/(\d+).ics$</from>
+        <to>/api/calendar/$1</to>
+        <set type="response-header" name="Cache-Control">no-cache, must-revalidate</set>
+        <set type="response-header" name="Expires">Sat, 01 Jan 2014 00:00:00 GMT</set>
+    </rule>
+    <rule>
+        <from>^/calendario/(\d+)$</from>
+        <to>/calendario.jsf?ano=$1</to>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
 
-	<!-- /evento -->
+    <!-- /evento -->
 
-	<rule>
-		<from>^/evento/.+$</from>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)/painel/ranking$</from>
-		<to>/evento-painel-ranking.jsf?evento_id=$1</to>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)/painel/inscricoes$</from>
-		<to>/evento-painel-inscricoes.jsf?evento_id=$1</to>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)/painel$</from>
-		<to>/evento-painel.jsf?evento_id=$1</to>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
-		<to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)/banner.png$</from>
-		<to>/api/event/$1/banner</to>
-	</rule>
-	<rule>
-		<from>^/evento/([\w\d_\-/]+)$</from>
-		<to>/evento.jsf?evento_id=$1</to>
-	</rule>
+    <rule>
+        <from>^/evento/.+$</from>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)/painel/ranking$</from>
+        <to>/evento-painel-ranking.jsf?evento_id=$1</to>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)/painel/inscricoes$</from>
+        <to>/evento-painel-inscricoes.jsf?evento_id=$1</to>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)/painel$</from>
+        <to>/evento-painel.jsf?evento_id=$1</to>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
+        <to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)/banner.png$</from>
+        <to>/api/event/$1/banner</to>
+    </rule>
+    <rule>
+        <from>^/evento/([\w\d_\-/]+)$</from>
+        <to>/evento.jsf?evento_id=$1</to>
+    </rule>
 
-	<!-- /usuario -->
+    <!-- /usuario -->
 
-	<rule>
-		<from>^/usuario/(.)$</from>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/usuario/(\d+)/foto.jpg$</from>
-		<to>/api/user/profile/$1/picture</to>
-	</rule>
-	<rule>
-		<from>^/usuario/(\d+)/minifoto.jpg$</from>
-		<to>/api/user/profile/$1/thumbnail</to>
-	</rule>
+    <rule>
+        <from>^/usuario/(.)$</from>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/usuario/(\d+)/foto.jpg$</from>
+        <to>/api/user/profile/$1/picture</to>
+    </rule>
+    <rule>
+        <from>^/usuario/(\d+)/minifoto.jpg$</from>
+        <to>/api/user/profile/$1/thumbnail</to>
+    </rule>
 
-	<!-- /atleta -->
+    <!-- /atleta -->
 
-	<rule>
-		<from>^/atleta/.+$</from>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/atleta/ativacao$</from>
-		<to>/atleta-ativacao.jsf</to>
-	</rule>
-	<rule>
-		<from>^/atleta/pessoal$</from>
-		<to>/atleta-pessoal.jsf</to>
-	</rule>
-	<rule>
-		<from>^/atleta/saude$</from>
-		<to>/atleta-saude.jsf</to>
-	</rule>
-	<rule>
-		<from>^/atleta/inscricoes$</from>
-		<to>/atleta-inscricoes.jsf</to>
-	</rule>
+    <rule>
+        <from>^/atleta/.+$</from>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/atleta/ativacao$</from>
+        <to>/atleta-ativacao.jsf</to>
+    </rule>
+    <rule>
+        <from>^/atleta/pessoal$</from>
+        <to>/atleta-pessoal.jsf</to>
+    </rule>
+    <rule>
+        <from>^/atleta/saude$</from>
+        <to>/atleta-saude.jsf</to>
+    </rule>
+    <rule>
+        <from>^/atleta/inscricoes$</from>
+        <to>/atleta-inscricoes.jsf</to>
+    </rule>
 
-	<!-- /senha -->
+    <!-- /senha -->
 
-	<rule>
-		<from>^/senha/.+$</from>
-		<set type="response-header" name="Cache-Control">max-age=86400</set>
-	</rule>
-	<rule>
-		<from>^/senha/recuperacao$</from>
-		<to>/senha-recuperacao.jsf</to>
-	</rule>
-	<rule>
-		<from>^/senha/redefinicao$</from>
-		<to>/senha-redefinicao.jsf</to>
-	</rule>
+    <rule>
+        <from>^/senha/.+$</from>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
+    <rule>
+        <from>^/senha/recuperacao$</from>
+        <to>/senha-recuperacao.jsf</to>
+    </rule>
+    <rule>
+        <from>^/senha/redefinicao$</from>
+        <to>/senha-redefinicao.jsf</to>
+    </rule>
+
+    <!-- /inscricao -->
+
+    <rule>
+        <from>^/inscricao/(\d+)$</from>
+        <to>/inscricao.jsf?inscricao_id=$1</to>
+    </rule>
 
 
-	<!-- Experimentos -->
-	<rule>
-		<from>^/map$</from>
-		<to>/map.jsf</to>
-	</rule>
+    <!-- Experimentos -->
+    <rule>
+        <from>^/map$</from>
+        <to>/map.jsf</to>
+    </rule>
 
 
-	<!-- Antigo -->
-	<rule>
-		<from>^/teste$</from>
-		<to>/teste.jsf</to>
-	</rule>
+    <!-- Antigo -->
+    <rule>
+        <from>^/teste$</from>
+        <to>/teste.jsf</to>
+    </rule>
 
-	<rule>
-		<from>^/home$</from>
-		<to>/home.jsf</to>
-	</rule>
+    <rule>
+        <from>^/home$</from>
+        <to>/home.jsf</to>
+    </rule>
 
-	<rule>
-		<from>^/registre-se$</from>
-		<to type="permanent-redirect">%{context-path}/registro</to>
-	</rule>
+    <rule>
+        <from>^/registre-se$</from>
+        <to type="permanent-redirect">%{context-path}/registro</to>
+    </rule>
 
-	<rule>
-		<from>^/signup$</from>
-		<to type="permanent-redirect">%{context-path}/registro</to>
-	</rule>
+    <rule>
+        <from>^/signup$</from>
+        <to type="permanent-redirect">%{context-path}/registro</to>
+    </rule>
 
-	<rule>
-		<from>^/recupera-senha$</from>
-		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
-	</rule>
+    <rule>
+        <from>^/recupera-senha$</from>
+        <to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
+    </rule>
 
-	<rule>
-		<from>^/password/recovery$</from>
-		<to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
-	</rule>
+    <rule>
+        <from>^/password/recovery$</from>
+        <to type="permanent-redirect">%{context-path}/senha/recuperacao</to>
+    </rule>
 
-	<rule>
-		<from>^/password/reset$</from>
-		<to type="permanent-redirect" qsappend="true">%{context-path}/senha/redefinicao?</to>
-	</rule>
+    <rule>
+        <from>^/password/reset$</from>
+        <to type="permanent-redirect" qsappend="true">%{context-path}/senha/redefinicao?</to>
+    </rule>
 
-	<rule>
-		<from>^/user/activation$</from>
-		<to type="permanent-redirect" qsappend="true">%{context-path}/atleta/ativacao?</to>
-	</rule>
+    <rule>
+        <from>^/user/activation$</from>
+        <to type="permanent-redirect" qsappend="true">%{context-path}/atleta/ativacao?</to>
+    </rule>
 
-	<rule>
-		<from>^/user/profile$</from>
-		<to type="permanent-redirect">%{context-path}/atleta/pessoal</to>
-	</rule>
+    <rule>
+        <from>^/user/profile$</from>
+        <to type="permanent-redirect">%{context-path}/atleta/pessoal</to>
+    </rule>
 
-	<rule>
-		<from>^/user/health$</from>
-		<to type="permanent-redirect">%{context-path}/atleta/saude</to>
-	</rule>
+    <rule>
+        <from>^/user/health$</from>
+        <to type="permanent-redirect">%{context-path}/atleta/saude</to>
+    </rule>
 
-	<rule>
-		<from>^/minhas-inscricoes$</from>
-		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
-	</rule>
+    <rule>
+        <from>^/minhas-inscricoes$</from>
+        <to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
+    </rule>
 
-	<rule>
-		<from>^/registration/list$</from>
-		<to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
-	</rule>
+    <rule>
+        <from>^/registration/list$</from>
+        <to type="permanent-redirect">%{context-path}/atleta/inscricoes</to>
+    </rule>
 
-	<!-- <rule> <from>^/registration/(\d+)/public$</from> <to>/registration-public.jsf?registration=$1</to> 
-		</rule> -->
+    <rule>
+        <from>^/registration/(\d+)$</from>
+        <to type="permanent-redirect">%{context-path}/inscricao/$1</to>
+    </rule>
 
-	<rule>
-		<from>^/inscricao/(\d+)$</from>
-		<to>/inscricao.jsf?inscricao_id=$1</to>
-	</rule>
+    <rule>
+        <from>^/race/(.+)$</from>
+        <to type="permanent-redirect">%{context-path}/inicio</to>
+    </rule>
 
-	<rule>
-		<from>^/registration/(\d+)$</from>
-		<to type="permanent-redirect">%{context-path}/inscricao/$1</to>
-	</rule>
+    <rule>
+        <from>^/prova/(.+)$</from>
+        <to type="permanent-redirect">%{context-path}/inicio</to>
+    </rule>
 
-	<rule>
-		<from>^/race/next$</from>
-		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
-	</rule>
+    <rule>
+        <from>^/close$</from>
+        <to>/close.html</to>
+    </rule>
 
-	<rule>
-		<from>^/provas$</from>
-		<to type="permanent-redirect">%{context-path}/calendario/2015</to>
-	</rule>
+    <rule>
+        <from>^/(.+)/$</from>
+        <to type="permanent-redirect">%{context-path}/$1</to>
+    </rule>
 
-	<rule>
-		<from>^/prova/(\d+)/painel$</from>
-		<to>/prova-painel.jsf?id=$1</to>
-	</rule>
-
-	<rule>
-		<from>^/prova/(\d+)/painel/inscricoes$</from>
-		<to>/prova-painel-inscricoes.jsf?race=$1</to>
-	</rule>
-
-	<rule>
-		<from>^/race/(\d+)/registration/list$</from>
-		<to type="permanent-redirect">%{context-path}/prova/$1/painel/inscricoes</to>
-	</rule>
-
-	<rule>
-		<from>^/prova/(\d+)/inscricao$</from>
-		<to>/prova-inscricao.jsf?id=$1</to>
-	</rule>
-
-	<rule>
-		<from>^/race/(\d+)/registration$</from>
-		<to type="permanent-redirect">%{context-path}/prova/$1/inscricao</to>
-	</rule>
-
-	<rule>
-		<from>^/prova/(\d+)$</from>
-		<to>/prova.jsf?id=$1</to>
-	</rule>
-
-	<rule>
-		<from>^/race/(\d+)$</from>
-		<to type="permanent-redirect">%{context-path}/prova/$1</to>
-	</rule>
-
-	<rule>
-		<from>^/close$</from>
-		<to>/close.html</to>
-	</rule>
-
-	<rule>
-		<from>^/(.+)/$</from>
-		<to type="permanent-redirect">%{context-path}/$1</to>
-	</rule>
-
-	<!-- <rule> <from>^/(.+^/)/$</from> <to type="permanent-redirect">%{context-path}/$1/</to> 
-		</rule> -->
+    <!--
+    <rule>
+        <from>^/(.+^/)/$</from>
+        <to type="permanent-redirect">%{context-path}/$1/</to>
+    </rule>
+    -->
 
 </urlrewrite>

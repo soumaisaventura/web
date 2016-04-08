@@ -12,16 +12,6 @@ var RegistrationProxy = {
 		});
 	},
 
-	find : function(eventId) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + (eventId ? "/" + eventId : ""),
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
-
 	load : function(id) {
 		return $.ajax({
 			type : "GET",
@@ -29,13 +19,6 @@ var RegistrationProxy = {
 			beforeSend : function(request) {
 				App.setHeader(request)
 			}
-		});
-	},
-
-	loadPublic : function(id) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + id + "/public"
 		});
 	},
 

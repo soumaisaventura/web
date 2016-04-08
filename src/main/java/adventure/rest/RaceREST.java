@@ -137,18 +137,18 @@ public class RaceREST {
         return null;
     }
 
+    @POST
+    @Path("ranking")
+    @Consumes("application/json")
+    public void setRanking(List<RankingData> datas) {
+    }
+
     @GET
     @Path("ranking/category")
     @Cache("max-age=28800")
     @Produces("application/json")
     public List<RankingData> getRankingCatgegory() {
         return null;
-    }
-
-    @POST
-    @Path("ranking")
-    @Consumes("application/json")
-    public void setRanking(List<RankingData> datas) {
     }
 
     private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {

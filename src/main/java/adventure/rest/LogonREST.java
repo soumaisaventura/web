@@ -17,48 +17,48 @@ import javax.ws.rs.core.UriInfo;
 @Path("logon")
 public class LogonREST {
 
-	@POST
-	@ValidatePayload
-	@Consumes("application/json")
-	@Produces("application/json")
-	public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-		Credentials credentials = Beans.getReference(Credentials.class);
-		credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
-		credentials.setPassword(data.password != null ? data.password.trim() : null);
+    @POST
+    @ValidatePayload
+    @Consumes("application/json")
+    @Produces("application/json")
+    public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+        Credentials credentials = Beans.getReference(Credentials.class);
+        credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
+        credentials.setPassword(data.password != null ? data.password.trim() : null);
 
-		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		securityContext.login();
+        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
+        securityContext.login();
 
-		return new UserData(User.getLoggedIn(), uriInfo);
-	}
+        return new UserData(User.getLoggedIn(), uriInfo);
+    }
 
-	@GET
-	@Path("oauth")
-	@Produces("application/json")
-	public AppIdData getAppIds() {
-		ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
+    @GET
+    @Path("oauth")
+    @Produces("application/json")
+    public AppIdData getAppIds() {
+        ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
 
-		AppIdData data = new AppIdData();
-		data.facebook = config.getOAuthFacebookId();
-		data.google = config.getOAuthGoogleId();
+        AppIdData data = new AppIdData();
+        data.facebook = config.getOAuthFacebookId();
+        data.google = config.getOAuthGoogleId();
 
-		return data;
-	}
+        return data;
+    }
 
-	public static class CredentialsData {
+    public static class CredentialsData {
 
-		@Email
-		@NotEmpty
-		public String username;
+        @Email
+        @NotEmpty
+        public String username;
 
-		@NotEmpty
-		public String password;
-	}
+        @NotEmpty
+        public String password;
+    }
 
-	public static class AppIdData {
+    public static class AppIdData {
 
-		public String facebook;
+        public String facebook;
 
-		public String google;
-	}
+        public String google;
+    }
 }

@@ -16,89 +16,89 @@ import java.util.List;
 @Path("location")
 public class LocationREST {
 
-	/*
-	 * TODO Apagar na v2
-	 */
-	@Deprecated
-	@GET
-	@Path("city")
-	@Produces("application/json")
-	public List<CityData> searchCityOLD(@QueryParam("q") String q) throws Exception {
-		validateOLD(q);
-		List<CityData> result = new ArrayList<CityData>();
-		CityData data;
+    /*
+     * TODO Apagar na v2
+     */
+    @Deprecated
+    @GET
+    @Path("city")
+    @Produces("application/json")
+    public List<CityData> searchCityOLD(@QueryParam("q") String q) throws Exception {
+        validateOLD(q);
+        List<CityData> result = new ArrayList<CityData>();
+        CityData data;
 
-		for (City city : CityDAO.getInstance().search(q)) {
-			data = new CityData();
-			data.id = city.getId();
-			data.name = city.getName();
-			data.state = city.getState().getAbbreviation();
+        for (City city : CityDAO.getInstance().search(q)) {
+            data = new CityData();
+            data.id = city.getId();
+            data.name = city.getName();
+            data.state = city.getState().getAbbreviation();
 
-			// if (!"brasil".equals(city.getState().getCountry().getName().toLowerCase())) {
-			data.country = city.getState().getCountry().getName();
-			// }
+            // if (!"brasil".equals(city.getState().getCountry().getName().toLowerCase())) {
+            data.country = city.getState().getCountry().getName();
+            // }
 
-			result.add(data);
-		}
+            result.add(data);
+        }
 
-		return result.isEmpty() ? null : result;
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	private void validateOLD(String q) throws Exception {
-		if (Strings.isEmpty(q)) {
-			throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
-		} else if (q.length() < 3) {
-			throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
-		}
-	}
+    private void validateOLD(String q) throws Exception {
+        if (Strings.isEmpty(q)) {
+            throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
+        } else if (q.length() < 3) {
+            throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
+        }
+    }
 
-	@GET
-	@Path("uf")
-	@Produces("application/json")
-	public List<State> loadStates() throws Exception {
-		return StateDAO.getInstance().findAll();
-	}
+    @GET
+    @Path("uf")
+    @Produces("application/json")
+    public List<State> loadStates() throws Exception {
+        return StateDAO.getInstance().findAll();
+    }
 
-	@GET
-	@Path("uf/{abbreviation}/cities")
-	@Produces("application/json")
-	public List<CityData> searchCity(@PathParam("abbreviation") String abbreviation) throws Exception {
-		List<CityData> result = new ArrayList<CityData>();
-		CityData data;
+    @GET
+    @Path("uf/{abbreviation}/cities")
+    @Produces("application/json")
+    public List<CityData> searchCity(@PathParam("abbreviation") String abbreviation) throws Exception {
+        List<CityData> result = new ArrayList<CityData>();
+        CityData data;
 
-		State state = loadState(abbreviation);
+        State state = loadState(abbreviation);
 
-		for (City city : CityDAO.getInstance().find(state)) {
-			data = new CityData();
-			data.id = city.getId();
-			data.name = city.getName();
-			data.state = null;
+        for (City city : CityDAO.getInstance().find(state)) {
+            data = new CityData();
+            data.id = city.getId();
+            data.name = city.getName();
+            data.state = null;
 
-			result.add(data);
-		}
+            result.add(data);
+        }
 
-		return result.isEmpty() ? null : result;
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	private State loadState(String abbreviation) throws Exception {
-		State result = StateDAO.getInstance().load(abbreviation);
+    private State loadState(String abbreviation) throws Exception {
+        State result = StateDAO.getInstance().load(abbreviation);
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public static class CityData {
+    public static class CityData {
 
-		@NotNull(message = "{adventure.validation.constraints.NotNullCityId.message}")
-		public Integer id;
+        @NotNull(message = "{adventure.validation.constraints.NotNullCityId.message}")
+        public Integer id;
 
-		public String name;
+        public String name;
 
-		public String state;
+        public String state;
 
-		public String country;
-	}
+        public String country;
+    }
 }

@@ -6,17 +6,16 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@JsonPropertyOrder({ "internal_id", "countdown", "beginning", "end", "price" })
+@JsonPropertyOrder({"id", "countdown", "beginning", "end", "price"})
 public class PeriodData {
 
-	@JsonProperty("internal_id")
-	public Integer internalId;
+    public Integer id;
 
-	public Integer countdown;
+    public Integer countdown;
 
-	public Date beginning;
+    public Date beginning;
 
-	public Date end;
+    public Date end;
 
-	public BigDecimal price;
+    public BigDecimal price;
 }
