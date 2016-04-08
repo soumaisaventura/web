@@ -15,8 +15,14 @@
 	padding-bottom: 20px
 }
 
-.ammount, .first-column {
+.ammount, .first-column, .kit {
 	vertical-align: middle !important;
+}
+
+.kit, .kit:hover {
+	margin-left: 10px;
+	text-decoration: none;
+	border-bottom: dashed 1px #0088cc;
 }
 
 .footable-row-detail-name {

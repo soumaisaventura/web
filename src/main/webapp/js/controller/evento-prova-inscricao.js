@@ -30,7 +30,7 @@ $(function() {
 	 * Carrega a combo de categorias
 	 */
 	RaceProxy.findCategories(raceId, eventId).done(loadCategoriesOk);
-
+	
 	/**
 	 * Carrega o usuário que está logado
 	 */
@@ -126,10 +126,16 @@ $(function() {
 		};
 		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk).fail(App.handle422Global);
 	});
+	
+	
+	$("#members-list").on("click", ".kit", function(e) {
+		e.preventDefault();
+		RaceProxy.findKits(raceId, eventId).done(findKitsOk);
+	});
+	
 });
 
 /* ============================CALLBACK============================ */
-
 function getOAuthAppIdsOk(data) {
 	$("#facebook-appid").val(data.facebook);
 }
@@ -139,6 +145,14 @@ function loadSummaryOk(race) {
 	$("#race-description").text(race.description);
 	$("#race-date").text(App.parsePeriod(race.period));
 	$("#race-city").text(App.parseCity(race.event.location.city));
+}
+
+function findKitsOk(kits){
+	var template = $("#kits-template");
+	var rendered = Mustache.render(template.html(), { "kits" : kits });
+
+	swal({  "title": 'HTML example', "html": rendered });
+	//console.log(kits);
 }
 
 function loadCategoriesOk(categories) {

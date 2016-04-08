@@ -145,6 +145,15 @@
 				</div>
 			</div>
 		</form>
+		
+		
+		<script id="kits-template" type="text/template">
+			{{#kits}}
+				<ul>
+					<li>{{name}} / {{description}} / {{price}}</li>
+				</ul>
+			{{/kits}}
+ 		</script>
 
 		<script id="member-template" type="text/template">
 			<tr id='member-{{id}}' data-raceprice='{{race_price}}'>
@@ -157,7 +166,8 @@
 						<span class='glyphicon glyphicon-trash' />
 					</a>
 					{{/deletable}}
-
+					
+					<a href='#' class='kit' data-id='{{id}}'>escolher kit</a>
 				</td>
 				<td class='ammount text-right' nowrap='nowrap' data-ammount='{{race_price}}'>{{formmated_race_price}}</td>
 			</tr>
