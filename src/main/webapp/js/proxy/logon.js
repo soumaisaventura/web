@@ -1,41 +1,42 @@
 var LogonProxy = {
 
-	url : App.getContextPath() + "/api/logon",
+    url: App.getContextPath() + "/api/logon",
 
-	login : function($data) {
-		return $.ajax({
-			type : "POST",
-			url : this.url,
-			data : JSON.stringify($data),
-			contentType : "application/json",
-			error : function() {}
-		});
-	},
+    login: function ($data) {
+        return $.ajax({
+            type: "POST",
+            url: this.url,
+            data: JSON.stringify($data),
+            contentType: "application/json",
+            error: function () {
+            }
+        });
+    },
 
-	getOAuthAppIds : function() {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/oauth"
-		});
-	},
+    getOAuthAppIds: function () {
+        return $.ajax({
+            type: "GET",
+            url: this.url + "/oauth"
+        });
+    },
 
-	facebookLogin : function($data) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/oauth/facebook",
-			data : JSON.stringify($data),
-			contentType : "application/json",
-			processData : false,
-		});
-	},
+    facebookLogin: function ($data) {
+        return $.ajax({
+            type: "POST",
+            url: this.url + "/oauth/facebook",
+            data: JSON.stringify($data),
+            contentType: "application/json",
+            processData: false,
+        });
+    },
 
-	googleLogin : function($data) {
-		return $.ajax({
-			type : "POST",
-			url : this.url + "/oauth/google",
-			data : JSON.stringify($data),
-			contentType : "application/json",
-			processData : false,
-		});
-	},
+    googleLogin: function ($data) {
+        return $.ajax({
+            type: "POST",
+            url: this.url + "/oauth/google",
+            data: JSON.stringify($data),
+            contentType: "application/json",
+            processData: false,
+        });
+    },
 };

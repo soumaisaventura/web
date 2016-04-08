@@ -1,46 +1,22 @@
 $(function() {
-
-	/**
-	 * Configurações iniciais
-	 */
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('0.00');
 
-	/**
-	 * Variáveis
-	 */
 	var user;
 	var memberIds = [];
 	var eventId = $("#event_id").val();
 	var raceId = $("#race_id").val();
 	var isOrganizer = false;
 
-	/**
-	 * Carrega o id do facebook para poder compartilhar a inscrição
-	 */
 	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
-
-	/**
-	 * Carrega os dados da corrida
-	 */
 	RaceProxy.loadSummary(raceId, eventId).done(loadSummaryOk);
-
-	/**
-	 * Carrega a combo de categorias
-	 */
 	RaceProxy.findCategories(raceId, eventId).done(loadCategoriesOk);
 
-	/**
-	 * Carrega o usuário que está logado
-	 */
 	if (!(user = App.getLoggedInUser())) {
 		App.handle401();
 	}
 
-	/**
-	 * Verifica se o usuário logado é organizador da prova 
-	 */
 	EventProxy.load(eventId).done(function(event) {
 		if (user && user.roles && user.roles.organizer && event.organizers && event.organizers.length > 0) {
 			$.each(event.organizers, function(index, value) {
@@ -55,28 +31,17 @@ $(function() {
 		});
 	});
 
-	/**
-	 * Ajusta a tabela para quando for visualizada em celulares
-	 */
 	$('#members-list').footable({
 		breakpoints : {
 			phone : 450
 		}
 	});
 
-	/**
-	 * Coloca o foco na combo de categoria Trigger que verifica se o tamanho da
-	 * equipe é igual a 1
-	 */
 	$("#categoryId").focus();
 	$("#categoryId").on("change", function() {
 		updateTable();
 	});
 
-	/**
-	 * Transforma o campo para inserir membro para o tipo autocomplete A função
-	 * _renderItem está sendo usada para mostrar a imagem do atleta na busca
-	 */
 	$("#members_ids").autocomplete({
 		source : function(request, response) {
 			UserProxy.search(request.term, memberIds).done(function(data) {
@@ -100,9 +65,6 @@ $(function() {
 		return $("<li></li>").data("data-value", item).append("<img src='" + item.thumbnail + "'> " + item.label).appendTo(ul);
 	};
 
-	/**
-	 * Remove um membro da equipe
-	 */
 	$("#members-list").on("click", ".remove", function(e) {
 		e.preventDefault();
 		var teamId = $(this).data("id");
@@ -111,10 +73,6 @@ $(function() {
 		$('#members-list').data('footable').removeRow(row);
 		updateTable();
 	});
-
-	/**
-	 * Confirma a inscrição
-	 */
 
 	$("form").submit(function(event) {
 		event.preventDefault();

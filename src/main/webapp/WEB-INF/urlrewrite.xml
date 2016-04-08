@@ -67,7 +67,7 @@
     </rule>
     <rule>
         <from>^/evento/([\w\d_\-/]+)/banner.png$</from>
-        <to>/api/event/$1/banner</to>
+        <to>/api/events/$1/banner</to>
     </rule>
     <rule>
         <from>^/evento/([\w\d_\-/]+)$</from>

@@ -32,7 +32,7 @@ import java.util.Map;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
-@Path("event")
+@Path("events")
 public class EventREST {
 
     @GET
@@ -90,6 +90,7 @@ public class EventREST {
 
         eventData.location = new LocationData();
         eventData.location.city = new CityData();
+        eventData.location.city.id = event.getCity().getId();
         eventData.location.city.name = event.getCity().getName();
         eventData.location.city.state = event.getCity().getState().getAbbreviation();
 

@@ -43,7 +43,7 @@ import static adventure.entity.RegistrationStatusType.*;
 import static adventure.entity.Status.OPEN_ID;
 import static java.util.Locale.US;
 
-@Path("registration")
+@Path("registrations")
 public class RegistrationREST {
 
     @GET

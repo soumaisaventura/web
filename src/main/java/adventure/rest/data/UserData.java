@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "racePrice", "city", "roles", "pendencies"})
+@JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "racePrice", "kit", "city", "roles", "pendencies"})
 public class UserData {
 
     public Integer id;
@@ -24,6 +24,8 @@ public class UserData {
 
     @JsonProperty("race_price")
     public BigDecimal racePrice;
+
+    public KitData kit;
 
     public CityData city;
 

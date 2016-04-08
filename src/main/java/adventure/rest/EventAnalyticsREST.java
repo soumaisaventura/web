@@ -24,7 +24,7 @@ import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
-@Path("event/{slug: " + EVENT_SLUG_PATTERN + "}/analytics")
+@Path("events/{slug: " + EVENT_SLUG_PATTERN + "}/analytics")
 public class EventAnalyticsREST {
 
     @GET

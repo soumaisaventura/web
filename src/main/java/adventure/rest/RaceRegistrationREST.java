@@ -24,7 +24,7 @@ import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
-@Path("event/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/registration")
+@Path("events/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/registrations")
 public class RaceRegistrationREST {
 
     @POST
