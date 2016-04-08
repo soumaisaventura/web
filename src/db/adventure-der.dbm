@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1046,611" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1414,250" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -165,7 +165,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1767.41" y="618.667"/>
+	<position x="1735.41" y="731.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -196,7 +196,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1758.79" y="202.667"/>
+	<position x="1769.79" y="204.667"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -301,7 +301,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2140" y="739"/>
+	<position x="2140" y="757"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -645,7 +645,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2157.67" y="1062"/>
+	<position x="2153.67" y="1063"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -675,11 +675,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2024" y="609"/>
+	<position x="2038" y="599"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
 	<column name="user_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="kit_id">
 		<type name="integer"/>
 	</column>
 	<column name="race_price" not-null="true">
@@ -840,7 +843,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1406.33" y="846"/>
+	<position x="1405.33" y="884"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -928,7 +931,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="1108.67" y="347.667"/>
+	<position x="1112.67" y="356.667"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -963,7 +966,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Fee"/>
-	<position x="878" y="215.333"/>
+	<position x="911" y="215.333"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1036,7 +1039,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1030" y="1366"/>
+	<position x="978" y="1373"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1064,7 +1067,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="983" y="1226"/>
+	<position x="996" y="1214"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1216,7 +1219,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="1045" y="1521"/>
+	<position x="995" y="1528"/>
 	<column name="sport_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1347,7 +1350,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="1194" y="1226"/>
+	<position x="1208" y="1216"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1718,7 +1721,8 @@ END
 <table name="hotspot">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1765" y="836"/>
+	<tag name="Registration"/>
+	<position x="1729" y="884"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1761,6 +1765,50 @@ END
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="main"/>
+		</idxelement>
+</index>
+
+<table name="kit">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<tag name="Registration"/>
+	<position x="1730" y="608"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="race_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="30"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="price" not-null="true">
+		<type name="numeric" length="7" precision="2"/>
+	</column>
+	<constraint name="pk_kit" type="pk-constr" table="public.kit">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_kit_race_name" type="uq-constr" table="public.kit">
+		<columns names="race_id,name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_user_registration_kit" table="public.user_registration"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="kit_id"/>
+		</idxelement>
+</index>
+
+<index name="idx_kit_race" table="public.kit"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
 		</idxelement>
 </index>
 
@@ -1884,6 +1932,12 @@ END
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_user_registration_kit" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.kit" table="public.user_registration">
+	<columns names="kit_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk_championship_race_championship" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.championship" table="public.championship_race">
 	<columns names="championship_id" ref-type="src-columns"/>
@@ -1983,6 +2037,12 @@ END
 <constraint name="fk_hotspot_event" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.event" table="public.hotspot">
 	<columns names="event_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_kit_race" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.race" table="public.kit">
+	<columns names="race_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -2232,8 +2292,21 @@ END
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_hotspot_event" type="relfk"
+	 custom-color="#965500"
 	 src-table="public.hotspot"
 	 dst-table="public.event"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_kit_race" type="relfk"
+	 custom-color="#965500"
+	 src-table="public.kit"
+	 dst-table="public.race"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_user_registration_kit" type="relfk"
+	 custom-color="#102960"
+	 src-table="public.user_registration"
+	 dst-table="public.kit"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
