@@ -16,7 +16,7 @@ import java.util.List;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
-@Path("event/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}")
+@Path("events/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}")
 public class RaceREST {
 
     @GET
@@ -137,18 +137,18 @@ public class RaceREST {
         return null;
     }
 
+    @POST
+    @Path("ranking")
+    @Consumes("application/json")
+    public void setRanking(List<RankingData> datas) {
+    }
+
     @GET
     @Path("ranking/category")
     @Cache("max-age=28800")
     @Produces("application/json")
     public List<RankingData> getRankingCatgegory() {
         return null;
-    }
-
-    @POST
-    @Path("ranking")
-    @Consumes("application/json")
-    public void setRanking(List<RankingData> datas) {
     }
 
     private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {

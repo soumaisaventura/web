@@ -2,18 +2,18 @@ package adventure.rest.data;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "description", "main", "coord", "order" })
+@JsonPropertyOrder({"id", "description", "main", "coord", "order"})
 public class HotspotData {
 
-	public Integer id;
+    public Integer id;
 
-	public String name;
-	
-	public String description;
+    public String name;
 
-	public Boolean main;
+    public String description;
 
-	public CoordData coord;
+    public Boolean main;
 
-	public Integer order;
+    public CoordData coord;
+
+    public Integer order;
 }

@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({"id", "internal_id", "name", "description", "period", "price"})
+@JsonPropertyOrder({"id", "internalId", "name", "description", "period", "price"})
 public class KitData {
 
     public String id;

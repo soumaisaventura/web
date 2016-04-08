@@ -22,49 +22,49 @@ import java.util.logging.Logger;
 @Path("registration")
 public class RegistrationJobREST {
 
-	private transient Logger logger;
+    private transient Logger logger;
 
-	@POST
-	@Transactional
-	@Path("period/update")
-	public void updatePeriod(@Context UriInfo uriInfo) throws Exception {
-		getLogger().info("Iniciando a busca por inscrições expiradas...");
+    @POST
+    @Transactional
+    @Path("period/update")
+    public void updatePeriod(@Context UriInfo uriInfo) throws Exception {
+        getLogger().info("Iniciando a busca por inscrições expiradas...");
 
-		RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
-		List<Registration> expired = registrationDAO.findForUpdatePeriod();
-		UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
-		PeriodDAO periodDAO = PeriodDAO.getInstance();
-		MailBusiness mailBusiness = MailBusiness.getInstance();
+        RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+        List<Registration> expired = registrationDAO.findForUpdatePeriod();
+        UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
+        PeriodDAO periodDAO = PeriodDAO.getInstance();
+        MailBusiness mailBusiness = MailBusiness.getInstance();
 
-		for (Registration registration : expired) {
-			RegistrationPeriod period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
+        for (Registration registration : expired) {
+            RegistrationPeriod period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
 
-			for (UserRegistration teamFormation : userRegistrationDAO.find(registration)) {
-				UserRegistration persisted = userRegistrationDAO.load(registration, teamFormation.getUser());
-				persisted.setRacePrice(period.getPrice());
-				userRegistrationDAO.update(persisted);
-			}
+            for (UserRegistration teamFormation : userRegistrationDAO.find(registration)) {
+                UserRegistration persisted = userRegistrationDAO.load(registration, teamFormation.getUser());
+                persisted.setRacePrice(period.getPrice());
+                userRegistrationDAO.update(persisted);
+            }
 
-			Registration persisted = registrationDAO.load(registration.getId());
-			persisted.setPeriod(period);
+            Registration persisted = registrationDAO.load(registration.getId());
+            persisted.setPeriod(period);
 
-			if (persisted.getPayment() != null) {
-				persisted.getPayment().setCode(null);
-			}
+            if (persisted.getPayment() != null) {
+                persisted.getPayment().setCode(null);
+            }
 
-			registrationDAO.update(persisted);
-			getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");
+            registrationDAO.update(persisted);
+            getLogger().info("Os valores da inscrição #" + registration.getFormattedId() + " foram atualizados.");
 
-			URI baseUri = uriInfo.getBaseUri().resolve("..");
-			mailBusiness.sendRegistrationPeriodChanging(registration, period.getBeginning(), period.getEnd(), baseUri);
-		}
-	}
+            URI baseUri = uriInfo.getBaseUri().resolve("..");
+            mailBusiness.sendRegistrationPeriodChanging(registration, period.getBeginning(), period.getEnd(), baseUri);
+        }
+    }
 
-	private Logger getLogger() {
-		if (this.logger == null) {
-			this.logger = Beans.getReference(Logger.class, new NameQualifier(RegistrationJobREST.class.getName()));
-		}
+    private Logger getLogger() {
+        if (this.logger == null) {
+            this.logger = Beans.getReference(Logger.class, new NameQualifier(RegistrationJobREST.class.getName()));
+        }
 
-		return this.logger;
-	}
+        return this.logger;
+    }
 }

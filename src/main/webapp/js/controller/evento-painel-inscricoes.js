@@ -61,8 +61,7 @@ $(function() {
 			});
 
 	EventProxy.loadSummary(evento_id).done(loadSummaryOk);
-	RegistrationProxy.find(evento_id).done(findOk);
-
+	EventProxy.getRegistrarions(evento_id).done(getRegistrarionsOk);
 });
 
 function confirmOk() {
@@ -92,7 +91,7 @@ function loadSummaryOk(event) {
 	$("#race-city").text(App.parseCity(event.location.city));
 }
 
-function findOk(data, status, request) {
+function getRegistrarionsOk(data, status, request) {
 	switch (request.status) {
 		case 204:
 			var message = "Nenhuma equipe se inscreveu ainda."

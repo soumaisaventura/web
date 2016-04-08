@@ -32,62 +32,62 @@ import java.util.Date;
 @Path("signup")
 public class SignUpREST {
 
-	@POST
-	@Transactional
-	@ValidatePayload
-	@Consumes("application/json")
-	public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
-		User user = new User();
-		user.setEmail(data.email);
-		user.setPassword(Passwords.hash(data.password.trim(), data.email.trim().toLowerCase()));
-		user.setCreation(new Date());
-		UserDAO.getInstance().insert(user);
+    @POST
+    @Transactional
+    @ValidatePayload
+    @Consumes("application/json")
+    public void signUp(SignUpData data, @Context UriInfo uriInfo) throws Exception {
+        User user = new User();
+        user.setEmail(data.email);
+        user.setPassword(Passwords.hash(data.password.trim(), data.email.trim().toLowerCase()));
+        user.setCreation(new Date());
+        UserDAO.getInstance().insert(user);
 
-		Profile profile = new Profile(user);
-		profile.setName(data.name);
-		profile.setBirthday(data.birthday);
-		profile.setGender(data.gender);
-		ProfileDAO.getInstance().insert(profile);
-		HealthDAO.getInstance().insert(new Health(user));
+        Profile profile = new Profile(user);
+        profile.setName(data.name);
+        profile.setBirthday(data.birthday);
+        profile.setGender(data.gender);
+        ProfileDAO.getInstance().insert(profile);
+        HealthDAO.getInstance().insert(new Health(user));
 
-		URI baseUri = uriInfo.getBaseUri().resolve("..");
-		MailBusiness.getInstance().sendUserActivation(user.getEmail(), baseUri);
-	}
+        URI baseUri = uriInfo.getBaseUri().resolve("..");
+        MailBusiness.getInstance().sendUserActivation(user.getEmail(), baseUri);
+    }
 
-	@DELETE
-	@LoggedIn
-	@Transactional
-	public void quit() {
-		SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-		User user = (User) securityContext.getUser();
-		UserDAO.getInstance().delete(user.getId());
-	}
+    @DELETE
+    @LoggedIn
+    @Transactional
+    public void quit() {
+        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
+        User user = (User) securityContext.getUser();
+        UserDAO.getInstance().delete(user.getId());
+    }
 
-	public static class SignUpData {
+    public static class SignUpData {
 
-		@NotEmpty
-		public String name;
+        @NotEmpty
+        public String name;
 
-		@Email
-		@NotEmpty
-		@UniqueUserEmail
-		public String email;
+        @Email
+        @NotEmpty
+        @UniqueUserEmail
+        public String email;
 
-		@NotEmpty
-		public String password;
+        @NotEmpty
+        public String password;
 
-		@Past
-		@NotNull
-		public Date birthday;
+        @Past
+        @NotNull
+        public Date birthday;
 
-		@NotNull
-		public GenderType gender;
-	}
+        @NotNull
+        public GenderType gender;
+    }
 
-	public static class ActivationData {
+    public static class ActivationData {
 
-		@Email
-		@NotEmpty
-		public String email;
-	}
+        @Email
+        @NotEmpty
+        public String email;
+    }
 }

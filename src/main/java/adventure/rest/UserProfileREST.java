@@ -41,179 +41,179 @@ import static adventure.util.Constants.*;
 @Path("user/profile")
 public class UserProfileREST {
 
-	@GET
-	@LoggedIn
-	@Produces("application/json")
-	public ProfileData load() throws Exception {
-		Profile profile = loadProfileDetails(User.getLoggedIn());
+    @GET
+    @LoggedIn
+    @Produces("application/json")
+    public ProfileData load() throws Exception {
+        Profile profile = loadProfileDetails(User.getLoggedIn());
 
-		ProfileData data = new ProfileData();
-		data.name = profile.getName();
-		data.rg = profile.getRg();
-		data.cpf = profile.getCpf();
-		data.birthday = profile.getBirthday();
-		data.mobile = profile.getMobile();
-		data.gender = profile.getGender();
-		data.tshirt = profile.getTshirt();
-		data.pendencies = profile.getPendencies();
-		data.city = new CityData();
-		data.city.id = profile.getCity().getId();
-		data.city.name = profile.getCity().getName();
-		data.city.state = profile.getCity().getState().getAbbreviation();
+        ProfileData data = new ProfileData();
+        data.name = profile.getName();
+        data.rg = profile.getRg();
+        data.cpf = profile.getCpf();
+        data.birthday = profile.getBirthday();
+        data.mobile = profile.getMobile();
+        data.gender = profile.getGender();
+        data.tshirt = profile.getTshirt();
+        data.pendencies = profile.getPendencies();
+        data.city = new CityData();
+        data.city.id = profile.getCity().getId();
+        data.city.name = profile.getCity().getName();
+        data.city.state = profile.getCity().getState().getAbbreviation();
 
-		return data;
-	}
+        return data;
+    }
 
-	@GET
-	@Path("{id: \\d+}/picture")
-	@Produces("image/jpeg")
-	@Cache("max-age=604800000")
-	public byte[] getPicture(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
-		Profile profile = loadProfile(id);
-		return loadPicture(profile, context);
-	}
+    @GET
+    @Path("{id: \\d+}/picture")
+    @Produces("image/jpeg")
+    @Cache("max-age=604800000")
+    public byte[] getPicture(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
+        Profile profile = loadProfile(id);
+        return loadPicture(profile, context);
+    }
 
-	@GET
-	@Path("{id: \\d+}/thumbnail")
-	@Produces("image/jpeg")
-	@Cache("max-age=604800000")
-	public byte[] getThumbnail(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
-		Profile profile = loadProfile(id);
-		return ImageBusiness.getInstance()
-				.resize(loadPicture(profile, context), USER_PHOTO_WIDTH, USER_THUMBNAIL_WIDTH);
-	}
+    @GET
+    @Path("{id: \\d+}/thumbnail")
+    @Produces("image/jpeg")
+    @Cache("max-age=604800000")
+    public byte[] getThumbnail(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
+        Profile profile = loadProfile(id);
+        return ImageBusiness.getInstance()
+                .resize(loadPicture(profile, context), USER_PHOTO_WIDTH, USER_THUMBNAIL_WIDTH);
+    }
 
-	@PUT
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Path("{id: \\d+}/picture")
-	@Consumes("multipart/form-data")
-	public void setPicture(@PathParam("id") Integer id, @NotEmpty MultipartFormDataInput input) throws Exception {
-		Profile profile = loadProfile(id);
-		checkPermission(profile);
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Path("{id: \\d+}/picture")
+    @Consumes("multipart/form-data")
+    public void setPicture(@PathParam("id") Integer id, @NotEmpty MultipartFormDataInput input) throws Exception {
+        Profile profile = loadProfile(id);
+        checkPermission(profile);
 
-		InputPart file = null;
-		Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
+        InputPart file = null;
+        Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
 
-		for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
-			file = entry.getValue().get(0);
-			break;
-		}
+        for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
+            file = entry.getValue().get(0);
+            break;
+        }
 
-		if (file == null) {
-			throw new UnprocessableEntityException().addViolation("file", "campo obrigatório");
-		}
+        if (file == null) {
+            throw new UnprocessableEntityException().addViolation("file", "campo obrigatório");
+        }
 
-		InputStream inputStream = file.getBody(InputStream.class, null);
-		ProfileBusiness.getInstance().updatePicture(id, inputStream);
-	}
+        InputStream inputStream = file.getBody(InputStream.class, null);
+        ProfileBusiness.getInstance().updatePicture(id, inputStream);
+    }
 
-	private void checkPermission(Profile profile) throws ForbiddenException {
-		if (!User.getLoggedIn().getAdmin() && !profile.getUser().getId().equals(User.getLoggedIn().getId())) {
-			throw new ForbiddenException();
-		}
-	}
+    private void checkPermission(Profile profile) throws ForbiddenException {
+        if (!User.getLoggedIn().getAdmin() && !profile.getUser().getId().equals(User.getLoggedIn().getId())) {
+            throw new ForbiddenException();
+        }
+    }
 
-	@PUT
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Consumes("application/json")
-	public void update(ProfileData data) throws Exception {
-		Profile persisted = loadProfile(User.getLoggedIn());
-		persisted.setName(data.name);
-		persisted.setRg(data.rg);
-		persisted.setCpf(data.cpf);
-		persisted.setBirthday(data.birthday);
-		persisted.setMobile(data.mobile);
-		persisted.setGender(data.gender);
-		persisted.setTshirt(data.tshirt);
-		persisted.setCity(CityDAO.getInstance().load(data.city.id));
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Consumes("application/json")
+    public void update(ProfileData data) throws Exception {
+        Profile persisted = loadProfile(User.getLoggedIn());
+        persisted.setName(data.name);
+        persisted.setRg(data.rg);
+        persisted.setCpf(data.cpf);
+        persisted.setBirthday(data.birthday);
+        persisted.setMobile(data.mobile);
+        persisted.setGender(data.gender);
+        persisted.setTshirt(data.tshirt);
+        persisted.setCity(CityDAO.getInstance().load(data.city.id));
 
-		ProfileDAO.getInstance().update(persisted);
-		User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
-	}
+        ProfileDAO.getInstance().update(persisted);
+        User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
+    }
 
-	private Profile loadProfile(Integer id) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().load(id);
+    private Profile loadProfile(Integer id) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().load(id);
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private Profile loadProfile(User user) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().load(user);
+    private Profile loadProfile(User user) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().load(user);
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private Profile loadProfileDetails(User user) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().loadDetails(user);
+    private Profile loadProfileDetails(User user) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().loadDetails(user);
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private byte[] loadPicture(Profile profile, ServletContext context) throws Exception {
-		byte[] result = profile.getPicture();
+    private byte[] loadPicture(Profile profile, ServletContext context) throws Exception {
+        byte[] result = profile.getPicture();
 
-		if (result == null) {
-			InputStream in = context.getResourceAsStream("/images/foto_anonimo_"
-					+ profile.getGender().toString().toLowerCase() + ".jpg");
-			result = IOUtils.toByteArray(in);
-		}
+        if (result == null) {
+            InputStream in = context.getResourceAsStream("/images/foto_anonimo_"
+                    + profile.getGender().toString().toLowerCase() + ".jpg");
+            result = IOUtils.toByteArray(in);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public static class ProfileData {
+    public static class ProfileData {
 
-		@NotEmpty
-		@Size(max = NAME_SIZE)
-		public String name;
+        @NotEmpty
+        @Size(max = NAME_SIZE)
+        public String name;
 
-		@NotEmpty
-		@Length(max = RG_SIZE)
-		public String rg;
+        @NotEmpty
+        @Length(max = RG_SIZE)
+        public String rg;
 
-		@Cpf
-		@NotEmpty
-		@Length(max = CPF_SIZE)
-		public String cpf;
+        @Cpf
+        @NotEmpty
+        @Length(max = CPF_SIZE)
+        public String cpf;
 
-		@Past
-		@NotNull
-		public Date birthday;
+        @Past
+        @NotNull
+        public Date birthday;
 
-		@NotEmpty
-		@Length(max = TELEPHONE_SIZE)
-		public String mobile;
+        @NotEmpty
+        @Length(max = TELEPHONE_SIZE)
+        public String mobile;
 
-		@NotNull
-		public TshirtType tshirt;
+        @NotNull
+        public TshirtType tshirt;
 
-		@NotNull
-		public GenderType gender;
+        @NotNull
+        public GenderType gender;
 
-		@Valid
-		@NotNull
-		public CityData city;
+        @Valid
+        @NotNull
+        public CityData city;
 
-		private Integer pendencies;
+        private Integer pendencies;
 
-		public Integer getPendencies() {
-			return pendencies;
-		}
-	}
+        public Integer getPendencies() {
+            return pendencies;
+        }
+    }
 }

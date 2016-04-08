@@ -24,158 +24,158 @@ import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
-@Path("event/{slug: " + EVENT_SLUG_PATTERN + "}/analytics")
+@Path("events/{slug: " + EVENT_SLUG_PATTERN + "}/analytics")
 public class EventAnalyticsREST {
 
-	@GET
-	@LoggedIn
-	@Path("gender")
-	@Produces("application/json")
-	public List<EventAnalytic> getGenders(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		
-		List<EventAnalytic> result = new ArrayList<EventAnalytic>();
-		result = EventAnalyticDAO.getInstance().getGenderQuantity(event);
-		
-		return result.isEmpty() ? null : result;
-	}
+    @GET
+    @LoggedIn
+    @Path("gender")
+    @Produces("application/json")
+    public List<EventAnalytic> getGenders(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
 
-	@GET
-	@LoggedIn
-	@Path("amountraised")
-	@Produces("application/json")
-	public List<EventAnalytic> getAmountRaised(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getAmountRaised(event);
-	}
+        List<EventAnalytic> result = new ArrayList<EventAnalytic>();
+        result = EventAnalyticDAO.getInstance().getGenderQuantity(event);
 
-	@GET
-	@LoggedIn
-	@Path("discount")
-	@Produces("application/json")
-	public List<EventAnalytic> getAmountDiscounted(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getAmountDiscounted(event);
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	@GET
-	@LoggedIn
-	@Path("agegroup")
-	@Produces("application/json")
-	public List<EventAnalytic> gerRegistrationByAgeGroup(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().gerRegistrationByAgeGroup(event);
-	}
+    @GET
+    @LoggedIn
+    @Path("amountraised")
+    @Produces("application/json")
+    public List<EventAnalytic> getAmountRaised(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getAmountRaised(event);
+    }
 
-	@GET
-	@LoggedIn
-	@Path("category")
-	@Produces("application/json")
-	public List<EventAnalytic> getCategories(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getRegistrationByCategory(event);
-	}
+    @GET
+    @LoggedIn
+    @Path("discount")
+    @Produces("application/json")
+    public List<EventAnalytic> getAmountDiscounted(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getAmountDiscounted(event);
+    }
 
-	@GET
-	@LoggedIn
-	@Path("race")
-	@Produces("application/json")
-	public List<EventAnalytic> getRaces(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getRegistrationByRace(event);
-	}
+    @GET
+    @LoggedIn
+    @Path("agegroup")
+    @Produces("application/json")
+    public List<EventAnalytic> gerRegistrationByAgeGroup(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().gerRegistrationByAgeGroup(event);
+    }
 
-	@GET
-	@LoggedIn
-	@Path("status")
-	@Produces("application/json")
-	public List<EventAnalytic> getStatus(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		List<EventAnalytic> result = EventAnalyticDAO.getInstance().getRegistrationByStatus(event);
-		for (EventAnalytic analytic : result) {
-			analytic.setLabel(analytic.getLabel().toLowerCase());
-		}
+    @GET
+    @LoggedIn
+    @Path("category")
+    @Produces("application/json")
+    public List<EventAnalytic> getCategories(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getRegistrationByCategory(event);
+    }
 
-		return result;
-	}
+    @GET
+    @LoggedIn
+    @Path("race")
+    @Produces("application/json")
+    public List<EventAnalytic> getRaces(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getRegistrationByRace(event);
+    }
 
-	@GET
-	@LoggedIn
-	@Path("status/day")
-	@Produces("application/json")
-	public List<EventRegistrationStatusByDayData> getStatusByDay(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		List<EventRegistrationStatusByDayData> result = new ArrayList<EventRegistrationStatusByDayData>();
+    @GET
+    @LoggedIn
+    @Path("status")
+    @Produces("application/json")
+    public List<EventAnalytic> getStatus(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        List<EventAnalytic> result = EventAnalyticDAO.getInstance().getRegistrationByStatus(event);
+        for (EventAnalytic analytic : result) {
+            analytic.setLabel(analytic.getLabel().toLowerCase());
+        }
 
-		int pendent = 0;
-		int confimed = 0;
-		int cancelled = 0;
-		Date now = new Date();
+        return result;
+    }
 
-		for (EventRegistrationStatusByDay persisted : EventAnalyticDAO.getInstance().getEventRegistrationStatusByDay(
-				event)) {
-			pendent += persisted.getPendentCount();
-			confimed += persisted.getConfirmedCount();
-			cancelled += persisted.getCancelledCount();
+    @GET
+    @LoggedIn
+    @Path("status/day")
+    @Produces("application/json")
+    public List<EventRegistrationStatusByDayData> getStatusByDay(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        List<EventRegistrationStatusByDayData> result = new ArrayList<EventRegistrationStatusByDayData>();
 
-			EventRegistrationStatusByDayData data = new EventRegistrationStatusByDayData();
-			data.date = persisted.getDate();
-			data.status = new Status();
+        int pendent = 0;
+        int confimed = 0;
+        int cancelled = 0;
+        Date now = new Date();
 
-			if (Dates.beforeOrSame(data.date, now)) {
-				data.status.pendent = pendent;
-				data.status.confirmed = confimed;
-				data.status.cancelled = cancelled;
-			}
+        for (EventRegistrationStatusByDay persisted : EventAnalyticDAO.getInstance().getEventRegistrationStatusByDay(
+                event)) {
+            pendent += persisted.getPendentCount();
+            confimed += persisted.getConfirmedCount();
+            cancelled += persisted.getCancelledCount();
 
-			result.add(data);
-		}
+            EventRegistrationStatusByDayData data = new EventRegistrationStatusByDayData();
+            data.date = persisted.getDate();
+            data.status = new Status();
 
-		return result.isEmpty() ? null : result;
-	}
+            if (Dates.beforeOrSame(data.date, now)) {
+                data.status.pendent = pendent;
+                data.status.confirmed = confimed;
+                data.status.cancelled = cancelled;
+            }
 
-	@GET
-	@LoggedIn
-	@Path("location")
-	@Produces("application/json")
-	public List<EventAnalytic> getCities(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getRegistrationByCity(event);
-	}
+            result.add(data);
+        }
 
-	@GET
-	@LoggedIn
-	@Path("tshirt")
-	@Produces("application/json")
-	public List<EventAnalytic> getTshirts(@PathParam("slug") String slug) throws Exception {
-		Event event = loadEvent(slug);
-		checkPermission(event);
-		return EventAnalyticDAO.getInstance().getRegistrationByTshirt(event);
-	}
+        return result.isEmpty() ? null : result;
+    }
 
-	private Event loadEvent(String slug) throws Exception {
-		Event result = EventDAO.getInstance().load(slug);
+    @GET
+    @LoggedIn
+    @Path("location")
+    @Produces("application/json")
+    public List<EventAnalytic> getCities(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getRegistrationByCity(event);
+    }
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+    @GET
+    @LoggedIn
+    @Path("tshirt")
+    @Produces("application/json")
+    public List<EventAnalytic> getTshirts(@PathParam("slug") String slug) throws Exception {
+        Event event = loadEvent(slug);
+        checkPermission(event);
+        return EventAnalyticDAO.getInstance().getRegistrationByTshirt(event);
+    }
 
-		return result;
-	}
+    private Event loadEvent(String slug) throws Exception {
+        Event result = EventDAO.getInstance().load(slug);
 
-	private void checkPermission(Event event) throws ForbiddenException {
-		List<User> organizers = UserDAO.getInstance().findOrganizers(event);
-		if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
-			throw new ForbiddenException();
-		}
-	}
+        if (result == null) {
+            throw new NotFoundException();
+        }
+
+        return result;
+    }
+
+    private void checkPermission(Event event) throws ForbiddenException {
+        List<User> organizers = UserDAO.getInstance().findOrganizers(event);
+        if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
+            throw new ForbiddenException();
+        }
+    }
 }

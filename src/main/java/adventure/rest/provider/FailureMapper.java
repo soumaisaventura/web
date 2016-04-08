@@ -9,9 +9,9 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class FailureMapper implements ExceptionMapper<Failure> {
 
-	@Override
-	public Response toResponse(Failure exception) {
-		int status = exception.getResponse() != null ? exception.getResponse().getStatus() : exception.getErrorCode();
-		return Response.status(status).build();
-	}
+    @Override
+    public Response toResponse(Failure exception) {
+        int status = exception.getResponse() != null ? exception.getResponse().getStatus() : exception.getErrorCode();
+        return Response.status(status).build();
+    }
 }

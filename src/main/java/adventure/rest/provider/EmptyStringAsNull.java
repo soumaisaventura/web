@@ -10,10 +10,10 @@ import java.io.IOException;
 
 public class EmptyStringAsNull extends JsonDeserializer<String> {
 
-	@Override
-	public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		String string = jp.getText();
+    @Override
+    public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        String string = jp.getText();
 
-		return Strings.isEmpty(string) ? null : string;
-	}
+        return Strings.isEmpty(string) ? null : string;
+    }
 }

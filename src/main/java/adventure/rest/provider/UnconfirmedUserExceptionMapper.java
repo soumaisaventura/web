@@ -11,15 +11,15 @@ import java.net.URI;
 
 @Provider
 public class UnconfirmedUserExceptionMapper extends SendMailExceptionMapperHelper implements
-		ExceptionMapper<UnconfirmedUserException> {
+        ExceptionMapper<UnconfirmedUserException> {
 
-	@Override
-	public Response toResponse(UnconfirmedUserException exception) {
-		return super.toResponse(exception);
-	}
+    @Override
+    public Response toResponse(UnconfirmedUserException exception) {
+        return super.toResponse(exception);
+    }
 
-	@Override
-	protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
-		MailBusiness.getInstance().sendUserActivation(credentials.getUsername(), baseUri);
-	}
+    @Override
+    protected void sendMail(Credentials credentials, URI baseUri) throws Exception {
+        MailBusiness.getInstance().sendUserActivation(credentials.getUsername(), baseUri);
+    }
 }

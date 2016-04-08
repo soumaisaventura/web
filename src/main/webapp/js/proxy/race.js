@@ -1,16 +1,16 @@
 var RaceProxy = {
 
-	url : App.getContextPath() + "/api/event",
+    url: App.getContextPath() + "/api/events",
 
-	loadSummary : function(raceId, eventId) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + eventId + "/" + raceId + "/summary",
-			beforeSend : function(request) {
-				App.setHeader(request)
-			}
-		});
-	},
+    loadSummary: function (raceId, eventId) {
+        return $.ajax({
+            type: "GET",
+            url: this.url + "/" + eventId + "/" + raceId + "/summary",
+            beforeSend: function (request) {
+                App.setHeader(request)
+            }
+        });
+    },
 
 	findKits : function(raceId, eventId) {
 		return $.ajax({
@@ -19,17 +19,17 @@ var RaceProxy = {
 		});
 	},
 	
-	findCategories : function(raceId, eventId) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + eventId + "/" + raceId + "/categories"
-		});
-	},
+    findCategories: function (raceId, eventId) {
+        return $.ajax({
+            type: "GET",
+            url: this.url + "/" + eventId + "/" + raceId + "/categories"
+        });
+    },
 
-	getOrder : function(raceId, eventId, users) {
-		return $.ajax({
-			type : "GET",
-			url : this.url + "/" + eventId + "/" + raceId + "/order?users_ids=" + users
-		});
-	}
+    getOrder: function (raceId, eventId, users) {
+        return $.ajax({
+            type: "GET",
+            url: this.url + "/" + eventId + "/" + raceId + "/order?users_ids=" + users
+        });
+    }
 };

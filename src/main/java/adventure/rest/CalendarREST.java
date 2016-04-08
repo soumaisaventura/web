@@ -31,42 +31,42 @@ import static net.fortuna.ical4j.util.CompatibilityHints.KEY_OUTLOOK_COMPATIBILI
 @Path("calendar")
 public class CalendarREST {
 
-	@GET
-	@Path("{year : \\d+}")
-	@Produces("text/calendar")
-	public String getEventsByYear(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
-		CompatibilityHints.setHintEnabled(KEY_OUTLOOK_COMPATIBILITY, true);
+    @GET
+    @Path("{year : \\d+}")
+    @Produces("text/calendar")
+    public String getEventsByYear(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
+        CompatibilityHints.setHintEnabled(KEY_OUTLOOK_COMPATIBILITY, true);
 
-		Calendar calendar = new Calendar();
-		calendar.getProperties().add(new ProdId("-//Sou+ Aventura//Calendário " + year + "//PT"));
-		calendar.getProperties().add(VERSION_2_0);
-		calendar.getProperties().add(GREGORIAN);
-		calendar.getProperties().add(PUBLISH);
+        Calendar calendar = new Calendar();
+        calendar.getProperties().add(new ProdId("-//Sou+ Aventura//Calendário " + year + "//PT"));
+        calendar.getProperties().add(VERSION_2_0);
+        calendar.getProperties().add(GREGORIAN);
+        calendar.getProperties().add(PUBLISH);
 
-		TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-		VTimeZone tz = registry.getTimeZone("America/Bahia").getVTimeZone();
-		calendar.getComponents().add(tz);
+        TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+        VTimeZone tz = registry.getTimeZone("America/Bahia").getVTimeZone();
+        calendar.getComponents().add(tz);
 
-		for (Event event : EventDAO.getInstance().findByYear(year)) {
-			Date start = new Date(event.getBeginning());
-			Date end = new Date(new DateTime(event.getEnd()).plusDays(1).toDate());
+        for (Event event : EventDAO.getInstance().findByYear(year)) {
+            Date start = new Date(event.getBeginning());
+            Date end = new Date(new DateTime(event.getEnd()).plusDays(1).toDate());
 
-			VEvent vEvent = new VEvent(start, end, event.getName());
-			vEvent.getProperties().add(getUid(event, uriInfo));
-			vEvent.getProperties().add(new Description(event.getDescription()));
+            VEvent vEvent = new VEvent(start, end, event.getName());
+            vEvent.getProperties().add(getUid(event, uriInfo));
+            vEvent.getProperties().add(new Description(event.getDescription()));
 
-			String location = event.getCity().getName() + ", " + event.getCity().getState().getName();
-			vEvent.getProperties().add(new Location(location));
+            String location = event.getCity().getName() + ", " + event.getCity().getState().getName();
+            vEvent.getProperties().add(new Location(location));
 
-			calendar.getComponents().add(vEvent);
-		}
+            calendar.getComponents().add(vEvent);
+        }
 
-		return calendar.toString();
-	}
+        return calendar.toString();
+    }
 
-	private Uid getUid(Event event, UriInfo uriInfo) {
-		String prefix = Hex.encodeHexString((event.getId() + "-" + uriInfo.getPath()).getBytes());
-		String sufix = uriInfo.getRequestUri().getHost();
-		return new Uid(prefix + "@" + sufix);
-	}
+    private Uid getUid(Event event, UriInfo uriInfo) {
+        String prefix = Hex.encodeHexString((event.getId() + "-" + uriInfo.getPath()).getBytes());
+        String sufix = uriInfo.getRequestUri().getHost();
+        return new Uid(prefix + "@" + sufix);
+    }
 }
