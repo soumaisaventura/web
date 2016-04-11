@@ -3,6 +3,8 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('0.00');
 
+	var registration = new Object();
+	
 	var user;
 	var memberIds = [];
 	var eventId = $("#event_id").val();
@@ -77,18 +79,45 @@ $(function() {
 	$("form").submit(function(event) {
 		event.preventDefault();
 		$("[id$='-message']").hide();
-		var data = {
-			'team_name' : $("#teamName").val(),
-			'category_id' : $("#categoryId").val(),
-			'members_ids' : memberIds
-		};
+		
+		registration.category.id = $("#categoryId").val();
+		registration.team.name = $("#teamName").val();
+		registration.team.members = memberIds; 
+		
 		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk).fail(App.handle422Global);
 	});
 	
 	
-	$("#members-list").on("click", ".kit", function(e) {
-		e.preventDefault();
-		RaceProxy.findKits(raceId, eventId).done(findKitsOk);
+	$("#kits-modal").on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+	    var memberId = button.data('id');
+	    var memberName = button.data('name');
+	    var modal = $(this);
+	    var template = $("#kits-template");
+	    modal.find('.modal-title').text('Escolha o kit de ' + memberName);
+		RaceProxy.findKits(raceId, eventId).done(function(kits){
+			$.each(kits, function(index, kit){
+				kit.memberId = memberId;
+			});
+			console.log(kits);
+			var rendered = Mustache.render(template.html(), { "kits" : kits });
+			modal.find('.modal-body > .row').html(rendered);
+		});
+	});
+	
+	
+	$(document).on("click",".kit-choice",function(){
+		var kitChoice = $(this).data("kit-id");
+		var kitName = $(this).data("kit-name");
+		var memberId = $(this).data("member-id");
+		
+		console.log("kitChoice: " + kitChoice);
+		console.log("kitName: " + kitName);
+		console.log("memberId: " + memberId);
+		
+		$("#kit-" + memberId).html(kitName);
+		$('#kits-modal').modal('hide');
+		
 	});
 	
 });
@@ -103,14 +132,6 @@ function loadSummaryOk(race) {
 	$("#race-description").text(race.description);
 	$("#race-date").text(App.parsePeriod(race.period));
 	$("#race-city").text(App.parseCity(race.event.location.city));
-}
-
-function findKitsOk(kits){
-	var template = $("#kits-template");
-	var rendered = Mustache.render(template.html(), { "kits" : kits });
-
-	swal({  "title": 'HTML example', "html": rendered });
-	//console.log(kits);
 }
 
 function loadCategoriesOk(categories) {
