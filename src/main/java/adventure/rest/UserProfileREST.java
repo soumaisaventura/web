@@ -2,13 +2,12 @@ package adventure.rest;
 
 import adventure.business.ImageBusiness;
 import adventure.business.ProfileBusiness;
-import adventure.entity.GenderType;
 import adventure.entity.Profile;
-import adventure.entity.TshirtType;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
 import adventure.persistence.ProfileDAO;
-import adventure.rest.LocationREST.CityData;
+import adventure.rest.data.CityData;
+import adventure.rest.data.ProfileData;
 import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -17,26 +16,20 @@ import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
-import br.gov.frameworkdemoiselle.validation.annotation.Cpf;
 import org.apache.commons.io.IOUtils;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.servlet.ServletContext;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static adventure.util.Constants.*;
+import static adventure.util.Constants.USER_PHOTO_WIDTH;
+import static adventure.util.Constants.USER_THUMBNAIL_WIDTH;
 
 @Path("user/profile")
 public class UserProfileREST {
@@ -175,45 +168,5 @@ public class UserProfileREST {
         }
 
         return result;
-    }
-
-    public static class ProfileData {
-
-        @NotEmpty
-        @Size(max = NAME_SIZE)
-        public String name;
-
-        @NotEmpty
-        @Length(max = RG_SIZE)
-        public String rg;
-
-        @Cpf
-        @NotEmpty
-        @Length(max = CPF_SIZE)
-        public String cpf;
-
-        @Past
-        @NotNull
-        public Date birthday;
-
-        @NotEmpty
-        @Length(max = TELEPHONE_SIZE)
-        public String mobile;
-
-        @NotNull
-        public TshirtType tshirt;
-
-        @NotNull
-        public GenderType gender;
-
-        @Valid
-        @NotNull
-        public CityData city;
-
-        private Integer pendencies;
-
-        public Integer getPendencies() {
-            return pendencies;
-        }
     }
 }

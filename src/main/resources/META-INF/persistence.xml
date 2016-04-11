@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+			 xmlns="http://java.sun.com/xml/ns/persistence"
+			 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
 	<persistence-unit name="pu" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
@@ -15,18 +16,15 @@
 		<class>adventure.entity.Race</class>
 		<class>adventure.entity.RaceModality</class>
 		<class>adventure.entity.RaceCategory</class>
-		<class>adventure.entity.RaceFee</class>
 		<class>adventure.entity.Kit</class>
 		<class>adventure.entity.Status</class>
 		<class>adventure.entity.Championship</class>
-		<class>adventure.entity.ChampionshipFee</class>
 		<class>adventure.entity.ChampionshipRace</class>
 		<class>adventure.entity.Sport</class>
 		<class>adventure.entity.Modality</class>
 		<class>adventure.entity.RegistrationPeriod</class>
 		<class>adventure.entity.Category</class>
 		<class>adventure.entity.Registration</class>
-		<class>adventure.entity.Fee</class>
 		<class>adventure.entity.UserRegistration</class>
 		<class>adventure.entity.Country</class>
 		<class>adventure.entity.State</class>

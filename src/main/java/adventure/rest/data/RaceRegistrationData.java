@@ -1,26 +1,31 @@
 package adventure.rest.data;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
 
-import static adventure.util.Constants.NAME_SIZE;
-
+@JsonPropertyOrder({"category", "team"})
 public class RaceRegistrationData {
 
-    @NotEmpty
-    @Size(max = NAME_SIZE)
-    @JsonProperty("team_name")
-    public String teamName;
+//    @NotEmpty
+//    @Size(max = NAME_SIZE)
+//    @JsonProperty("team_name")
+//    public String teamName;
+//
+//    @NotNull
+//    @JsonProperty("category_id")
+//    public Integer categoryId;
+//
+//    @NotEmpty
+//    @JsonProperty("members_ids")
+//    public List<Integer> membersIds;
 
+    @Valid
     @NotNull
-    @JsonProperty("category_id")
-    public Integer categoryId;
+    public CategoryData category;
 
-    @NotEmpty
-    @JsonProperty("members_ids")
-    public List<Integer> membersIds;
+    @Valid
+    @NotNull
+    public TeamData team;
 }
