@@ -36,7 +36,7 @@ import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
 
 @Path("events/{slug: " + EVENT_SLUG_PATTERN + "}/registration")
-public class RaceRegistrationDownloadREST {
+public class EventDownloadREST {
 
     @GET
     @LoggedIn

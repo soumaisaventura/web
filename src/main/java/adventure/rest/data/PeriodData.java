@@ -1,6 +1,5 @@
 package adventure.rest.data;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import java.math.BigDecimal;

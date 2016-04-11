@@ -4,11 +4,11 @@ import adventure.entity.City;
 import adventure.entity.State;
 import adventure.persistence.CityDAO;
 import adventure.persistence.StateDAO;
+import adventure.rest.data.CityData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Strings;
 
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,17 +88,5 @@ public class LocationREST {
         }
 
         return result;
-    }
-
-    public static class CityData {
-
-        @NotNull(message = "{adventure.validation.constraints.NotNullCityId.message}")
-        public Integer id;
-
-        public String name;
-
-        public String state;
-
-        public String country;
     }
 }

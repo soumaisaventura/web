@@ -4,6 +4,7 @@ import adventure.business.MailBusiness;
 import adventure.entity.*;
 import adventure.persistence.*;
 import adventure.rest.data.RaceRegistrationData;
+import adventure.rest.data.UserData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -40,10 +41,10 @@ public class RaceRegistrationREST {
         URI baseUri = uriInfo.getBaseUri().resolve("..");
 
         User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
-        RaceCategory raceCategory = loadRaceCategory(race.getId(), data.categoryId);
-        List<User> membersIds = loadMembers(data.membersIds);
+        RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
+        List<User> membersIds = loadMembers(data.team.members);
         RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
-        validate(raceCategory, membersIds, submitter, data.teamName, baseUri);
+        validate(raceCategory, membersIds, submitter, data.team.name, baseUri);
 
         Registration result = submit(data, raceCategory, membersIds, date, period, submitter);
 
@@ -55,7 +56,7 @@ public class RaceRegistrationREST {
                                 RegistrationPeriod period, User submitter) {
         Registration result = null;
         Registration registration = new Registration();
-        registration.setTeamName(data.teamName);
+        registration.setTeamName(data.team.name);
         registration.setRaceCategory(raceCategory);
         registration.setSubmitter(submitter);
         registration.setStatus(PENDENT);
@@ -99,17 +100,17 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private List<User> loadMembers(List<Integer> ids) throws Exception {
+    private List<User> loadMembers(List<UserData> members) throws Exception {
         List<User> result = new ArrayList<User>();
         UnprocessableEntityException exception = new UnprocessableEntityException();
 
-        for (Integer id : ids) {
-            User user = UserDAO.getInstance().loadBasics(id);
+        for (UserData member : members) {
+            User user = UserDAO.getInstance().loadBasics(member.id);
 
             if (user == null) {
-                exception.addViolation("Usuário " + id + " inválido.");
+                exception.addViolation("Usuário " + member.id + " inválido.");
             } else if (result.contains(user)) {
-                exception.addViolation("Usuário " + id + " duplicado.");
+                exception.addViolation("Usuário " + member.id + " duplicado.");
             } else {
                 result.add(user);
             }
