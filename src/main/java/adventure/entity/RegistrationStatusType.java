@@ -5,38 +5,38 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum RegistrationStatusType {
 
-	PENDENT("pendent", "Pendente"), CONFIRMED("confirmed", "Confirmada"), CANCELLED("cancelled",
-			"Cancelada");
+    PENDENT("pendent", "Pendente"), CONFIRMED("confirmed", "Confirmada"), CANCELLED("cancelled",
+            "Cancelada");
 
-	private final String value;
+    private final String value;
 
-	private final String description;
+    private final String description;
 
-	RegistrationStatusType(String value, String description) {
-		this.value = value;
-		this.description = description;
-	}
+    RegistrationStatusType(String value, String description) {
+        this.value = value;
+        this.description = description;
+    }
 
-	@JsonValue
-	public String toString() {
-		return this.value;
-	}
+    @JsonCreator
+    public static RegistrationStatusType fromValue(String value) {
+        RegistrationStatusType result = null;
 
-	public String description() {
-		return this.description;
-	}
+        for (RegistrationStatusType statusType : values()) {
+            if (statusType.toString().equalsIgnoreCase(value)) {
+                result = statusType;
+                break;
+            }
+        }
 
-	@JsonCreator
-	public static RegistrationStatusType fromValue(String value) {
-		RegistrationStatusType result = null;
+        return result;
+    }
 
-		for (RegistrationStatusType statusType : values()) {
-			if (statusType.toString().equalsIgnoreCase(value)) {
-				result = statusType;
-				break;
-			}
-		}
+    @JsonValue
+    public String toString() {
+        return this.value;
+    }
 
-		return result;
-	}
+    public String description() {
+        return this.description;
+    }
 }

@@ -5,30 +5,30 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum GenderType {
 
-	MALE("M"), FEMALE("F");
+    MALE("M"), FEMALE("F");
 
-	private final String value;
+    private final String value;
 
-	GenderType(String value) {
-		this.value = value;
-	}
+    GenderType(String value) {
+        this.value = value;
+    }
 
-	@JsonValue
-	public String toString() {
-		return this.value;
-	}
+    @JsonCreator
+    public static GenderType fromValue(String value) {
+        GenderType result = null;
 
-	@JsonCreator
-	public static GenderType fromValue(String value) {
-		GenderType result = null;
+        for (GenderType type : values()) {
+            if (type.toString().equalsIgnoreCase(value)) {
+                result = type;
+                break;
+            }
+        }
 
-		for (GenderType type : values()) {
-			if (type.toString().equalsIgnoreCase(value)) {
-				result = type;
-				break;
-			}
-		}
+        return result;
+    }
 
-		return result;
-	}
+    @JsonValue
+    public String toString() {
+        return this.value;
+    }
 }

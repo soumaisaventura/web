@@ -18,70 +18,70 @@ import static javax.persistence.TemporalType.DATE;
 @Transactional
 public class PeriodDAO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-	public static PeriodDAO getInstance() {
-		return Beans.getReference(PeriodDAO.class);
-	}
+    public static PeriodDAO getInstance() {
+        return Beans.getReference(PeriodDAO.class);
+    }
 
-	public List<RegistrationPeriod> findForEvent(Race race) {
-		String jpql = "";
-		jpql += " select p ";
-		jpql += "   from RegistrationPeriod p ";
-		jpql += "  where p.race = :race ";
-		jpql += "  order by ";
-		jpql += "        p.beginning ";
+    public List<RegistrationPeriod> findForEvent(Race race) {
+        String jpql = "";
+        jpql += " select p ";
+        jpql += "   from RegistrationPeriod p ";
+        jpql += "  where p.race = :race ";
+        jpql += "  order by ";
+        jpql += "        p.beginning ";
 
-		TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
-		query.setParameter("race", race);
+        TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
+        query.setParameter("race", race);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	// TODO: OLD
+    // TODO: OLD
 
-	public RegistrationPeriod loadCurrent(Race race) throws Exception {
-		return load(race, new Date());
-	}
+    public RegistrationPeriod loadCurrent(Race race) throws Exception {
+        return load(race, new Date());
+    }
 
-	public RegistrationPeriod load(Race race, Date date) throws Exception {
-		String jpql = "";
-		jpql += " select p ";
-		jpql += "   from RegistrationPeriod p ";
-		jpql += "   join p.race r ";
-		jpql += "  where r = :race ";
-		jpql += " 	 and :date between p.beginning and p.end ";
-		jpql += "  order by ";
-		jpql += "        p.beginning ";
+    public RegistrationPeriod load(Race race, Date date) throws Exception {
+        String jpql = "";
+        jpql += " select p ";
+        jpql += "   from RegistrationPeriod p ";
+        jpql += "   join p.race r ";
+        jpql += "  where r = :race ";
+        jpql += " 	 and :date between p.beginning and p.end ";
+        jpql += "  order by ";
+        jpql += "        p.beginning ";
 
-		TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
-		query.setParameter("race", race);
-		query.setParameter("date", date, DATE);
+        TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
+        query.setParameter("race", race);
+        query.setParameter("date", date, DATE);
 
-		RegistrationPeriod result;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException cause) {
-			result = null;
-		}
-		return result;
-	}
+        RegistrationPeriod result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
 
-	// public List<RegistrationPeriod> find(Race race) throws Exception {
-	// String jpql = "";
-	// jpql += " select p ";
-	// jpql += "   from RegistrationPeriod p ";
-	// jpql += "   join p.race r ";
-	// jpql += "  where r = :race ";
-	// jpql += "  order by ";
-	// jpql += "        p.beginning ";
-	//
-	// TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
-	// query.setParameter("race", race);
-	//
-	// return query.getResultList();
-	// }
+    // public List<RegistrationPeriod> find(Race race) throws Exception {
+    // String jpql = "";
+    // jpql += " select p ";
+    // jpql += "   from RegistrationPeriod p ";
+    // jpql += "   join p.race r ";
+    // jpql += "  where r = :race ";
+    // jpql += "  order by ";
+    // jpql += "        p.beginning ";
+    //
+    // TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
+    // query.setParameter("race", race);
+    //
+    // return query.getResultList();
+    // }
 }

@@ -10,213 +10,213 @@ import static javax.persistence.TemporalType.DATE;
 @Table(name = "event")
 public class Event {
 
-	@Id
-	private Integer id;
+    @Id
+    private Integer id;
 
-	private String alias;
+    private String alias;
 
-	private String name;
+    private String name;
 
-	private String description;
+    private String description;
 
-	@Lob
-	private byte[] banner;
+    @Lob
+    private byte[] banner;
 
-	private String site;
+    private String site;
 
-	@Embedded
-	private EventPayment payment;
+    @Embedded
+    private EventPayment payment;
 
-	@ManyToOne
-	@JoinColumn(name = "city_id")
-	private City city;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
-	@Transient
-	private List<Race> races;
+    @Transient
+    private List<Race> races;
 
-	@Temporal(DATE)
-	@Column(name = "_beginning")
-	private Date beginning;
+    @Temporal(DATE)
+    @Column(name = "_beginning")
+    private Date beginning;
 
-	@Temporal(DATE)
-	@Column(name = "_ending")
-	private Date end;
+    @Temporal(DATE)
+    @Column(name = "_ending")
+    private Date end;
 
-	@ManyToOne
-	@JoinColumn(name = "_status_id")
-	private Status status;
+    @ManyToOne
+    @JoinColumn(name = "_status_id")
+    private Status status;
 
-	public Event() {
-	}
+    public Event() {
+    }
 
-	public Event(Integer id) {
-		this.id = id;
-	}
+    public Event(Integer id) {
+        this.id = id;
+    }
 
-	public Event(Integer id, String name, String alias, String description, Date beginning, Date end) {
-		setId(id);
-		setName(name);
-		setAlias(alias);
-		setDescription(description);
-		setBeginning(beginning);
-		setEnd(end);
-	}
+    public Event(Integer id, String name, String alias, String description, Date beginning, Date end) {
+        setId(id);
+        setName(name);
+        setAlias(alias);
+        setDescription(description);
+        setBeginning(beginning);
+        setEnd(end);
+    }
 
-	public Event(Integer id, byte[] banner) {
-		setId(id);
-		setBanner(banner);
-	}
+    public Event(Integer id, byte[] banner) {
+        setId(id);
+        setBanner(banner);
+    }
 
-	public Event(Integer id, String alias, String name, String description, String site, Integer cityId,
-				 String cityName, Integer stateId, String stateName, String stateAbbreviation, Date beginnig, Date end,
-				 Status status) {
-		setId(id);
-		setAlias(alias);
-		setName(name);
-		setDescription(description);
-		setSite(site);
+    public Event(Integer id, String alias, String name, String description, String site, Integer cityId,
+                 String cityName, Integer stateId, String stateName, String stateAbbreviation, Date beginnig, Date end,
+                 Status status) {
+        setId(id);
+        setAlias(alias);
+        setName(name);
+        setDescription(description);
+        setSite(site);
 
-		setCity(new City());
-		getCity().setId(cityId);
-		getCity().setName(cityName);
-		getCity().setState(new State());
-		getCity().getState().setId(stateId);
-		getCity().getState().setName(stateName);
-		getCity().getState().setAbbreviation(stateAbbreviation);
+        setCity(new City());
+        getCity().setId(cityId);
+        getCity().setName(cityName);
+        getCity().setState(new State());
+        getCity().getState().setId(stateId);
+        getCity().getState().setName(stateName);
+        getCity().getState().setAbbreviation(stateAbbreviation);
 
-		setBeginning(beginnig);
-		setEnd(end);
+        setBeginning(beginnig);
+        setEnd(end);
 
-		setStatus(status);
-	}
+        setStatus(status);
+    }
 
-	public boolean isTest() {
-		return id < 1;
-	}
+    public boolean isTest() {
+        return id < 1;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Event)) {
-			return false;
-		}
-		Event other = (Event) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Event)) {
+            return false;
+        }
+        Event other = (Event) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getAlias() {
-		return alias;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public byte[] getBanner() {
-		return banner;
-	}
+    public byte[] getBanner() {
+        return banner;
+    }
 
-	public void setBanner(byte[] banner) {
-		this.banner = banner;
-	}
+    public void setBanner(byte[] banner) {
+        this.banner = banner;
+    }
 
-	public String getSite() {
-		return site;
-	}
+    public String getSite() {
+        return site;
+    }
 
-	public void setSite(String site) {
-		this.site = site;
-	}
+    public void setSite(String site) {
+        this.site = site;
+    }
 
-	public EventPayment getPayment() {
-		return payment;
-	}
+    public EventPayment getPayment() {
+        return payment;
+    }
 
-	public void setPayment(EventPayment payment) {
-		this.payment = payment;
-	}
+    public void setPayment(EventPayment payment) {
+        this.payment = payment;
+    }
 
-	public City getCity() {
-		return city;
-	}
+    public City getCity() {
+        return city;
+    }
 
-	public void setCity(City city) {
-		this.city = city;
-	}
+    public void setCity(City city) {
+        this.city = city;
+    }
 
-	public List<Race> getRaces() {
-		return races;
-	}
+    public List<Race> getRaces() {
+        return races;
+    }
 
-	public void setRaces(List<Race> races) {
-		this.races = races;
-	}
+    public void setRaces(List<Race> races) {
+        this.races = races;
+    }
 
-	public Date getBeginning() {
-		return beginning;
-	}
+    public Date getBeginning() {
+        return beginning;
+    }
 
-	public void setBeginning(Date beginning) {
-		this.beginning = beginning;
-	}
+    public void setBeginning(Date beginning) {
+        this.beginning = beginning;
+    }
 
-	public Date getEnd() {
-		return end;
-	}
+    public Date getEnd() {
+        return end;
+    }
 
-	public void setEnd(Date end) {
-		this.end = end;
-	}
+    public void setEnd(Date end) {
+        this.end = end;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
