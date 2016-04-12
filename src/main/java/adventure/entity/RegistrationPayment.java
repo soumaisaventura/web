@@ -1,5 +1,7 @@
 package adventure.entity;
 
+import adventure.util.Misc;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -13,7 +15,7 @@ public class RegistrationPayment {
     private String transactionCode;
 
     public boolean isEmpty() {
-        return checkoutCode == null && transactionCode == null;
+        return Misc.isEmpty(this);
     }
 
     @Override

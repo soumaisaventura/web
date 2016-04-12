@@ -21,12 +21,6 @@ public class RaceCategory {
     public RaceCategory() {
     }
 
-    public RaceCategory(Race race, /* Course course, */Category category) {
-        this.race = race;
-        // this.course = course;
-        this.category = category;
-    }
-
     public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
                         Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer raceId, String raceName,
                         Date racePeriodBeginning, Date racePeriodEnd) {

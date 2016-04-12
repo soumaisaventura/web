@@ -1,10 +1,9 @@
 package adventure.entity;
 
-import br.gov.frameworkdemoiselle.util.Reflections;
+import adventure.util.Misc;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
 @Embeddable
@@ -17,13 +16,7 @@ public class Coord {
     private BigDecimal longitude;
 
     public boolean isEmpty() {
-        boolean resut = true;
-
-        for (Field field : Reflections.getNonStaticDeclaredFields(this.getClass())) {
-            resut &= Reflections.getFieldValue(field, this) == null;
-        }
-
-        return resut;
+        return Misc.isEmpty(this);
     }
 
     @Override
