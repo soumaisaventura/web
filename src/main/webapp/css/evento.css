@@ -2,6 +2,10 @@ html, body {
 	overflow-x: hidden;
 }
 
+#banner {
+	border: solid 1px #eee;
+}
+
 /* Info */
 #info-section {
 	padding-top: 30px;
