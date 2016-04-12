@@ -1,11 +1,14 @@
 package adventure.rest.data;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({"code", "transaction"})
+@JsonPropertyOrder({"checkoutCode", "transactionCode"})
 public class RegistrationPaymentData {
 
-    public String code;
+    @JsonProperty("checkout_code")
+    public String checkoutCode;
 
-    public String transaction;
+    @JsonProperty("transaction_code")
+    public String transactionCode;
 }

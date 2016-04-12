@@ -1,22 +1,22 @@
-$(function() {
-	$("#email").focus();
+$(function () {
+    $("#email").focus();
 
-	$("form").submit(function(event) {
-		event.preventDefault();
-		$("[id$='-message']").hide();
+    $("form").submit(function (event) {
+        event.preventDefault();
+        $("[id$='-message']").hide();
 
-		var data = {
-			'email' : $("#email").val()
-		};
+        var data = {
+            'email': $("#email").val()
+        };
 
-		PasswordProxy.recovery(data).done(resetOk);
-	});
+        PasswordProxy.recovery(data).done(resetOk);
+    });
 });
 
 function resetOk(data) {
-	swal({
-		title : "Recuperação de senha",
-		text : "Acesse seu e-mail e siga as instruções para redefinir sua senha.",
-		type : "success"
-	});
+    swal({
+        title: "Recuperação de senha",
+        text: "Acesse seu e-mail e siga as instruções para redefinir sua senha.",
+        type: "success"
+    });
 }

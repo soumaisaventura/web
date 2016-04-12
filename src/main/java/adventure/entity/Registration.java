@@ -101,8 +101,8 @@ public class Registration {
         getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
     }
 
-    public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCode,
-                        String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
+    public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCheckoutCode,
+                        String paymentTransactionCode, Integer periodId, BigDecimal periodPrice, Integer submitterId,
                         String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
                         String raceDescription, String raceAlias, Integer raceDistance, Integer raceStatusId, String raceStatusName,
                         Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
@@ -115,8 +115,8 @@ public class Registration {
         setStatus(status);
 
         setPayment(new RegistrationPayment());
-        getPayment().setCode(paymentCode);
-        getPayment().setTransaction(paymentTransaction);
+        getPayment().setCheckoutCode(paymentCheckoutCode);
+        getPayment().setTransactionCode(paymentTransactionCode);
 
         setPeriod(new RegistrationPeriod());
         getPeriod().setId(periodId);
