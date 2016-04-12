@@ -9,3 +9,5 @@ ALTER TABLE public.race RENAME COLUMN slug TO alias;
 ALTER TABLE public.event RENAME COLUMN slug TO alias;
 
 ALTER TABLE public.kit RENAME COLUMN slug TO alias;
+
+COMMIT;

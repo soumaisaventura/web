@@ -46,7 +46,7 @@ public class EventHelper {
 		return title;
 	}
 
-	public String getSlug(HttpServletRequest request) {
+	public String getAlias(HttpServletRequest request) {
 		initialize(request);
 		return slug;
 

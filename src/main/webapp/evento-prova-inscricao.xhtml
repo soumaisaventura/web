@@ -1,10 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
 	<ui:define name="meta-ogg">
 		<meta property="og:title" content="Inscreva-se! #{raceHelper.getTitle(request)}" />
 		<meta property="og:description" content="#{raceHelper.getDescription(request)}" />
-		<meta property="og:image" content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.slug}/banner" />
+		<meta property="og:image"
+			  content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.alias}/banner"/>
 	</ui:define>
 
 	<ui:define name="css">
@@ -42,7 +43,7 @@
 				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
+				<a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
 			</li>
 			<li class="active">Inscrição</li>
 		</ol>

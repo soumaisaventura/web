@@ -52,7 +52,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         return query.getResultList();
     }
 
-    public Race loadMetaOgg(String raceSlug, String eventSlug) {
+    public Race loadMetaOgg(String raceAlias, String eventAlias) {
         String jpql = "";
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
@@ -66,12 +66,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += " 	     ) ";
         jpql += "   from Race r ";
         jpql += "   join r.event e ";
-        jpql += "  where r.alias = :raceSlug ";
-        jpql += "    and e.alias = :eventSlug ";
+        jpql += "  where r.alias = :raceAlias ";
+        jpql += "    and e.alias = :eventAlias ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
-        query.setParameter("raceSlug", raceSlug);
-        query.setParameter("eventSlug", eventSlug);
+        query.setParameter("raceAlias", raceAlias);
+        query.setParameter("eventAlias", eventAlias);
 
         Race result;
         try {
@@ -82,7 +82,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         return result;
     }
 
-    public Race loadForDetail(String raceSlug, String eventSlug) throws Exception {
+    public Race loadForDetail(String raceAlias, String eventAlias) throws Exception {
         String jpql = "";
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
@@ -111,12 +111,12 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += "   join r.status a ";
         jpql += "   join e.city c ";
         jpql += "   join c.state s ";
-        jpql += "  where r.alias = :raceSlug ";
-        jpql += "    and e.alias = :eventSlug ";
+        jpql += "  where r.alias = :raceAlias ";
+        jpql += "    and e.alias = :eventAlias ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
-        query.setParameter("raceSlug", raceSlug);
-        query.setParameter("eventSlug", eventSlug);
+        query.setParameter("raceAlias", raceAlias);
+        query.setParameter("eventAlias", eventAlias);
 
         Race result;
         try {
