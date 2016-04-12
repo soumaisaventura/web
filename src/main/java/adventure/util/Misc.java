@@ -1,13 +1,13 @@
 package adventure.util;
 
+import adventure.entity.UserRegistration;
+import br.gov.frameworkdemoiselle.util.Reflections;
+import br.gov.frameworkdemoiselle.util.Strings;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import adventure.entity.UserRegistration;
-import br.gov.frameworkdemoiselle.util.Reflections;
-import br.gov.frameworkdemoiselle.util.Strings;
 
 public final class Misc {
 
@@ -45,7 +45,7 @@ public final class Misc {
 	}
 
 	public static String stringfyTeamFormation(List<UserRegistration> members) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList();
 		for (UserRegistration teamFormation : members) {
 			result.add(teamFormation.getUser().getProfile().getName());
 		}

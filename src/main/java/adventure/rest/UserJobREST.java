@@ -27,7 +27,7 @@ public class UserJobREST {
     @Path("duplicates/removal")
     @Produces("application/json")
     public List<User> remove() throws Exception {
-        List<User> result = new ArrayList<User>();
+        List<User> result = new ArrayList();
 
         ProfileDAO profileDAO = ProfileDAO.getInstance();
         HealthDAO healthDAO = HealthDAO.getInstance();
@@ -37,7 +37,7 @@ public class UserJobREST {
         TransactionContext context = Beans.getReference(TransactionContext.class);
         User previous = null;
 
-        List<String> dups = new ArrayList<String>();
+        List<String> dups = new ArrayList();
 
         for (User user : userDAO.findDuplicatesByName()) {
             if (previous == null || !user.getProfile().getName().equals(previous.getProfile().getName())) {

@@ -2,10 +2,7 @@ package adventure.rest;
 
 import adventure.business.MailBusiness;
 import adventure.entity.*;
-import adventure.persistence.EventDAO;
-import adventure.persistence.RegistrationDAO;
-import adventure.persistence.UserDAO;
-import adventure.persistence.UserRegistrationDAO;
+import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
@@ -51,7 +48,7 @@ public class RegistrationREST {
     @Transactional
     @Produces("application/json")
     public List<RegistrationData> find(@Context UriInfo uriInfo) throws Exception {
-        List<RegistrationData> result = new ArrayList<RegistrationData>();
+        List<RegistrationData> result = new ArrayList();
         User loggedInUser = User.getLoggedIn();
 
         for (Registration registration : RegistrationDAO.getInstance().find(loggedInUser)) {
@@ -97,6 +94,10 @@ public class RegistrationREST {
     @Path("{id: \\d+}")
     @Produces("application/json")
     public RegistrationData load(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+        UserDAO userDAO = UserDAO.getInstance();
+        UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
+        KitDAO kitDAO = KitDAO.getInstance();
+
         Registration registration = loadRegistrationForDetails(id);
         boolean test = registration.getRaceCategory().getRace().getEvent().isTest();
 
@@ -153,12 +154,14 @@ public class RegistrationREST {
                 .getAbbreviation();
 
         data.category = new CategoryData();
+        data.category.id = registration.getRaceCategory().getCategory().getAlias();
+        data.category.internalId = registration.getRaceCategory().getCategory().getId();
         data.category.name = registration.getRaceCategory().getCategory().getName();
 
-        List<User> organizers = UserDAO.getInstance().findOrganizers(
+        List<User> organizers = userDAO.findOrganizers(
                 registration.getRaceCategory().getRace().getEvent());
         User loggedInUser = User.getLoggedIn();
-        List<UserRegistration> userRegistrations = UserRegistrationDAO.getInstance().find(registration);
+        List<UserRegistration> userRegistrations = userRegistrationDAO.find(registration);
 
         if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
                 && !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
@@ -166,8 +169,8 @@ public class RegistrationREST {
             throw new ForbiddenException();
         }
 
-        data.race.event.organizers = new ArrayList<UserData>();
-        for (User organizer : UserDAO.getInstance().findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
+        data.race.event.organizers = new ArrayList();
+        for (User organizer : userDAO.findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
             UserData userData = new UserData(uriInfo);
             userData.id = organizer.getId();
             userData.email = organizer.getEmail();
@@ -176,7 +179,7 @@ public class RegistrationREST {
             data.race.event.organizers.add(userData);
         }
 
-        data.team.members = new ArrayList<UserData>();
+        data.team.members = new ArrayList();
         for (UserRegistration userRegistration : userRegistrations) {
             UserData userData = new UserData(uriInfo);
             userData.id = userRegistration.getUser().getId();
@@ -184,6 +187,17 @@ public class RegistrationREST {
             userData.name = userRegistration.getUser().getProfile().getName();
             userData.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
             userData.amount = userRegistration.getAmount();
+
+            Kit kit = kitDAO.loadForRegistration(userRegistration);
+            if (kit != null) {
+                userData.kit = new KitData();
+                userData.kit.id = kit.getAlias();
+                userData.kit.internalId = kit.getId();
+                userData.kit.name = kit.getName();
+                userData.kit.description = kit.getDescription();
+                userData.kit.price = kit.getPrice();
+            }
+
             data.team.members.add(userData);
         }
 
@@ -355,7 +369,7 @@ public class RegistrationREST {
     }
 
     private String createCode(Registration registration, URI baseUri) throws Exception {
-        List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+        List<BasicNameValuePair> payload = new ArrayList();
         payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getEvent().getPayment()
                 .getAccount()));
         payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getEvent().getPayment()

@@ -13,5 +13,5 @@ public class TeamData {
     public String name;
 
     @NotEmpty
-    public List<UserData> members = new ArrayList<UserData>();
+    public List<UserData> members = new ArrayList();
 }

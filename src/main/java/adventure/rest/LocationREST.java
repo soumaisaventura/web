@@ -25,7 +25,7 @@ public class LocationREST {
     @Produces("application/json")
     public List<CityData> searchCityOLD(@QueryParam("q") String q) throws Exception {
         validateOLD(q);
-        List<CityData> result = new ArrayList<CityData>();
+        List<CityData> result = new ArrayList();
         CityData data;
 
         for (City city : CityDAO.getInstance().search(q)) {
@@ -63,7 +63,7 @@ public class LocationREST {
     @Path("uf/{abbreviation}/cities")
     @Produces("application/json")
     public List<CityData> searchCity(@PathParam("abbreviation") String abbreviation) throws Exception {
-        List<CityData> result = new ArrayList<CityData>();
+        List<CityData> result = new ArrayList();
         CityData data;
 
         State state = loadState(abbreviation);

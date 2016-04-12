@@ -101,7 +101,7 @@ public class RegistrationNotificationREST {
         Transaction result = null;
 
         if (code != null) {
-            List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+            List<BasicNameValuePair> payload = new ArrayList();
             payload.add(new BasicNameValuePair("email", race.getEvent().getPayment().getAccount()));
             payload.add(new BasicNameValuePair("token", race.getEvent().getPayment().getToken()));
 
