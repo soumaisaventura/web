@@ -232,7 +232,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += " 	     ci.name, ";
 		jpql += " 	     st.id, ";
 		jpql += " 	     st.abbreviation, ";
-		jpql += " 	     tf.racePrice, ";
+		jpql += " 	     tf.amount, ";
 		jpql += " 	     re.id, ";
 		jpql += " 	     re.status, ";
 		jpql += " 	     re.teamName, ";

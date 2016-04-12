@@ -7,6 +7,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.List;
@@ -45,5 +46,36 @@ public class KitDAO implements Serializable {
         query.setParameter("race", race);
 
         return query.getResultList();
+    }
+
+    public Kit loadForRegistration(Race race, String alias) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new Kit ( ";
+        jpql += "        k.id, ";
+        jpql += "        k.alias, ";
+        jpql += "        k.name, ";
+        jpql += "        k.description, ";
+        jpql += "        k.price, ";
+        jpql += "        r.id ";
+        jpql += "        ) ";
+        jpql += "   from Kit k ";
+        jpql += "   join k.race r ";
+        jpql += "  where r = :race ";
+        jpql += "    and = :kitAlias ";
+        jpql += "  order by ";
+        jpql += "        r.id, ";
+        jpql += "        k.price ";
+
+        TypedQuery<Kit> query = em.createQuery(jpql, Kit.class);
+        query.setParameter("kitAlias", alias);
+
+        Kit result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
     }
 }

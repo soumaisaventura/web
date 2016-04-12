@@ -284,7 +284,7 @@ public class EventREST {
                 userData.city.name = teamFormation.getUser().getProfile().getCity().getName();
                 userData.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
 
-                userData.racePrice = teamFormation.getRacePrice();
+                userData.amount = teamFormation.getAmount();
                 data.team.members.add(userData);
             }
 

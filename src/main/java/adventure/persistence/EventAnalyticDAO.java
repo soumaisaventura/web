@@ -158,7 +158,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql += " select ";
 		jpql += "    new adventure.entity.EventAnalytic( ";
 		jpql += "          'amount_raised', ";
-		jpql += "           sum(cast(ur.racePrice as integer)) ";
+		jpql += "           sum(cast(ur.amount as integer)) ";
 		jpql += "        ) ";
 		jpql += "   from UserRegistration ur ";
 		jpql += "   join ur.registration re ";
@@ -180,7 +180,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 		jpql += " select ";
 		jpql += "    new adventure.entity.EventAnalytic( ";
 		jpql += "          'amount_discounted', ";
-		jpql += "           sum(cast(pe.price as integer)) - sum(cast(ur.racePrice as integer)) ";
+		jpql += "           sum(cast(pe.price as integer)) - sum(cast(ur.amount as integer)) ";
 		jpql += "        ) ";
 		jpql += "   from UserRegistration ur ";
 		jpql += "   join ur.registration re ";

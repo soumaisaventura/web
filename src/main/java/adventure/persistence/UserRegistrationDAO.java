@@ -47,7 +47,7 @@ public class UserRegistrationDAO implements Serializable {
 		jpql += " 	     pr.name, ";
 		jpql += " 	     pr.gender, ";
 		jpql += " 	     pr.mobile, ";
-		jpql += " 	     tf.racePrice ";
+		jpql += " 	     tf.amount ";
 		jpql += " 	     ) ";
 		jpql += "   from UserRegistration tf ";
 		jpql += "   join tf.user u ";

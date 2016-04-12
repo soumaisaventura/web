@@ -21,26 +21,26 @@ AS
           ra.id AS race_id,
           ra.name AS race_name,
           ra.date AS race_date,
-          extract (MONTH FROM ra.date)::integer AS race_date_month,
-          extract (YEAR FROM ra.date)::integer AS race_date_year,
-          rac.id AS race_city_id,
-          rac.name AS race_city_name,
-          ras.id AS race_state_id,
-          ras.name AS race_state_name,
-          ras.abbreviation AS race_state_abbreviation,
-          co.id AS course_id,
-          co.name AS course_name,
-          ct.id AS category_id,
-          ct.name AS category_name,
-          ct.team_size AS category_team_size,
-          ur.race_price AS race_price,
-          pe.price AS period_price,
+     extract (MONTH FROM ra.date)::integer AS race_date_month,
+     extract (YEAR FROM ra.date)::integer  AS race_date_year,
+     rac.id                                AS race_city_id,
+     rac.name                              AS race_city_name,
+     ras.id                                AS race_state_id,
+     ras.name                              AS race_state_name,
+     ras.abbreviation                      AS race_state_abbreviation,
+     co.id                                 AS course_id,
+     co.name                               AS course_name,
+     ct.id                                 AS category_id,
+     ct.name                               AS category_name,
+     ct.team_size                          AS category_team_size,
+     ur.amount                             AS amount,
+     pe.price                              AS period_price,
           r.id IN (1,
                    3,
                    6,
                    7,
                    9)
-             AS baiano
+                                           AS baiano
      FROM user_registration ur,
           user_account u,
           profile p,
@@ -147,7 +147,7 @@ ORDER BY qtd DESC;
 /* Valor arrecadado com inscrições por cidade da provas */
 
   SELECT v.race_city_name || '/' || v.race_state_abbreviation AS cidade,
-         sum (v.race_price) AS arrecadado
+         sum(v.amount)                                        AS arrecadado
     FROM vw_user_registration v
 GROUP BY v.race_city_name, v.race_state_abbreviation
 ORDER BY arrecadado DESC;
@@ -195,17 +195,21 @@ SELECT count(DISTINCT v.user_id)
 SELECT sum (aux1.desconto) / 110.0 * 100 AS desconto,
        sum (aux1.Isencao) / 110.0 * 100 AS Isencao,
        sum (aux1.integral) / 110.0 * 100 AS integral
-  FROM (SELECT CASE
-                  WHEN v.race_price > 0 AND v.race_price <> v.period_price
+  FROM (SELECTCASE
+              WHEN v.amount > 0 AND v.amount <> v.period_price
                   THEN
                      1
-                  ELSE
+              ELSE
                      0
-               END
-                  AS Desconto,
-               CASE WHEN v.race_price = 0 THEN 1 ELSE 0 END AS Isencao,
-               CASE WHEN v.race_price = v.period_price THEN 1 ELSE 0 END
-                  AS integral
+              END
+                         AS Desconto,
+              CASE WHEN v.amount = 0
+                THEN 1
+              ELSE 0 END AS Isencao,
+              CASE WHEN v.amount = v.period_price
+                THEN 1
+              ELSE 0 END
+                         AS integral
           FROM vw_user_registration v
          WHERE v.race_id = 1) aux1;
 

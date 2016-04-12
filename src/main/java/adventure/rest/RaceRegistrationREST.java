@@ -14,6 +14,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,7 @@ import static adventure.entity.GenderType.MALE;
 import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
+import static java.math.BigDecimal.ZERO;
 
 @Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/{raceAlias: " + RACE_SLUG_PATTERN + "}/registrations")
 public class RaceRegistrationREST {
@@ -42,11 +44,11 @@ public class RaceRegistrationREST {
 
         User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
         RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
-        List<User> membersIds = loadMembers(data.team.members);
+        List<User> members = loadMembers(raceCategory.getRace(), data.team.members);
         RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
-        validate(raceCategory, membersIds, submitter, data.team.name, baseUri);
+        validate(raceCategory, members, submitter, data.team.name, baseUri);
 
-        Registration result = submit(data, raceCategory, membersIds, date, period, submitter);
+        Registration result = submit(data, raceCategory, members, date, period, submitter);
 
         MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
         return result.getFormattedId();
@@ -54,7 +56,6 @@ public class RaceRegistrationREST {
 
     private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
                                 RegistrationPeriod period, User submitter) {
-        Registration result = null;
         Registration registration = new Registration();
         registration.setTeamName(data.team.name);
         registration.setRaceCategory(raceCategory);
@@ -63,18 +64,23 @@ public class RaceRegistrationREST {
         registration.setStatusDate(date);
         registration.setDate(date);
         registration.setPeriod(period);
-        result = RegistrationDAO.getInstance().insert(registration);
 
+        Registration result = RegistrationDAO.getInstance().insert(registration);
         result.setUserRegistrations(new ArrayList<UserRegistration>());
-        for (User member : members) {
-            User atachedMember = UserDAO.getInstance().load(member.getId());
-            UserRegistration teamFormation = new UserRegistration();
-            teamFormation.setRegistration(registration);
-            teamFormation.setUser(atachedMember);
-            teamFormation.setRacePrice(period.getPrice());
 
-            UserRegistrationDAO.getInstance().insert(teamFormation);
-            result.getUserRegistrations().add(teamFormation);
+        for (User member : members) {
+            User attachedMember = UserDAO.getInstance().load(member.getId());
+            UserRegistration userRegistration = new UserRegistration();
+            userRegistration.setRegistration(registration);
+            userRegistration.setUser(attachedMember);
+            userRegistration.setKit(member.getKit());
+
+            BigDecimal registrationPrice = period.getPrice();
+            BigDecimal kitPrice = member.getKit() == null ? ZERO : member.getKit().getPrice();
+            userRegistration.setAmount(registrationPrice.add(kitPrice));
+
+            UserRegistrationDAO.getInstance().insert(userRegistration);
+            result.getUserRegistrations().add(userRegistration);
         }
 
         return result;
@@ -100,18 +106,31 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private List<User> loadMembers(List<UserData> members) throws Exception {
+    private List<User> loadMembers(Race race, List<UserData> members) throws Exception {
+        UserDAO userDAO = UserDAO.getInstance();
+        KitDAO kitDAO = KitDAO.getInstance();
+
         List<User> result = new ArrayList<User>();
         UnprocessableEntityException exception = new UnprocessableEntityException();
 
         for (UserData member : members) {
-            User user = UserDAO.getInstance().loadBasics(member.id);
+            User user = userDAO.loadBasics(member.id);
+            Kit kit = null;
 
             if (user == null) {
                 exception.addViolation("Usuário " + member.id + " inválido.");
             } else if (result.contains(user)) {
                 exception.addViolation("Usuário " + member.id + " duplicado.");
             } else {
+                if (member.kit != null) {
+                    kit = kitDAO.loadForRegistration(race, member.kit.id);
+
+                    if (kit == null) {
+                        exception.addViolation("Kit " + member.kit.id + " inválido.");
+                    }
+                }
+
+                user.setKit(kit);
                 result.add(user);
             }
         }
@@ -121,6 +140,11 @@ public class RaceRegistrationREST {
         }
 
         return result;
+    }
+
+
+    private List<Kit> loadKits(Race race) throws Exception {
+        return KitDAO.getInstance().findForRegistration(race);
     }
 
     private RegistrationPeriod loadPeriod(Race race, Date date) throws Exception {
@@ -143,6 +167,7 @@ public class RaceRegistrationREST {
         int total = members.size();
         UnprocessableEntityException exception = new UnprocessableEntityException();
         Category category = raceCategory.getCategory();
+        List<Kit> kits = loadKits(raceCategory.getRace());
 
         if (total > category.getTeamSize()) {
             exception.addViolation("Tem muita gente na equipe.");
@@ -173,6 +198,10 @@ public class RaceRegistrationREST {
                 exception.addViolation(parse(member) + " possui pendências cadastrais.");
                 MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
             }
+
+            if (member.getKit() == null && !kits.isEmpty()) {
+                exception.addViolation("Escolha o kit de " + parse(member) + ".");
+            }
         }
 
         if (!exception.getViolations().isEmpty()) {
@@ -186,7 +215,6 @@ public class RaceRegistrationREST {
         if (user.equals(User.getLoggedIn())) {
             result = "Você";
         } else {
-            // result = Strings.firstToUpper(user.getName().split(" +")[0].toLowerCase());
             result = user.getName();
         }
 

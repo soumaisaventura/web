@@ -10,4 +10,6 @@ ALTER TABLE public.event RENAME COLUMN slug TO alias;
 
 ALTER TABLE public.kit RENAME COLUMN slug TO alias;
 
+ALTER TABLE public.user_registration RENAME COLUMN race_price TO amount;
+
 COMMIT;

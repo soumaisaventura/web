@@ -86,7 +86,7 @@ function applyFilter() {
 }
 
 function loadSummaryOk(event) {
-	$(".race-name").text(event.name)
+	$(".race-name").text(event.name);
 	$("#race-date").text(App.parsePeriod(event.period));
 	$("#race-city").text(App.parseCity(event.location.city));
 }
@@ -94,7 +94,7 @@ function loadSummaryOk(event) {
 function getRegistrarionsOk(data, status, request) {
 	switch (request.status) {
 		case 204:
-			var message = "Nenhuma equipe se inscreveu ainda."
+			var message = "Nenhuma equipe se inscreveu ainda.";
 			$('#resultTable > tbody:last').append('<tr><td colspan="6">' + message + '</td></tr>');
 
 			break;
@@ -115,7 +115,7 @@ function getRegistrarionsOk(data, status, request) {
 				tr = tr.concat("<h6 style='margin: 5px'>");
 
 				registration.team.members.forEach(function(member, i) {
-					amount += member.race_price;
+					amount += member.amount;
 					if (i === 0) {
 						tr = tr.concat(member.name);
 					} else {
