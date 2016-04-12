@@ -41,7 +41,7 @@ public class RegistrationJobREST {
 
             for (UserRegistration teamFormation : userRegistrationDAO.find(registration)) {
                 UserRegistration persisted = userRegistrationDAO.load(registration, teamFormation.getUser());
-                persisted.setRacePrice(period.getPrice());
+                persisted.setAmount(period.getPrice());
                 userRegistrationDAO.update(persisted);
             }
 

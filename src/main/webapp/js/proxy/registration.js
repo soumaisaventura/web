@@ -32,7 +32,7 @@ var RegistrationProxy = {
         });
     },
 
-    updateRacePrice: function (id, member, price) {
+    updateAmount: function (id, member, price) {
         return $.ajax({
             type: "PUT",
             url: this.url + "/" + id + "/member/" + member + "/price",

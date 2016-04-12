@@ -194,7 +194,7 @@ public class EventDownloadREST {
                 short dataFormat;
                 dataFormat = style.getDataFormat();
                 style.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
-                createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getRacePrice().floatValue());
+                createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(teamFormation.getAmount().floatValue());
                 style.setDataFormat(dataFormat);
             }
 

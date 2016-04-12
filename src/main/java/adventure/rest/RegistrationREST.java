@@ -183,7 +183,7 @@ public class RegistrationREST {
             userData.email = userRegistration.getUser().getEmail();
             userData.name = userRegistration.getUser().getProfile().getName();
             userData.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
-            userData.racePrice = userRegistration.getRacePrice();
+            userData.amount = userRegistration.getAmount();
             data.team.members.add(userData);
         }
 
@@ -286,7 +286,7 @@ public class RegistrationREST {
     @Transactional
     @Produces("application/json")
     @Path("{id}/member/{memberId}/price")
-    public void updateRacePrice(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal price)
+    public void updateAmount(@PathParam("id") Long id, @PathParam("memberId") Integer memberId, BigDecimal price)
             throws Exception {
         Registration registration = loadRegistrationForDetails(id);
         Race race = registration.getRaceCategory().getRace();
@@ -312,7 +312,7 @@ public class RegistrationREST {
             throw new UnprocessableEntityException().addViolation("price", "Valor inválido");
         }
 
-        teamFormation.setRacePrice(price);
+        teamFormation.setAmount(price);
         UserRegistrationDAO.getInstance().update(teamFormation);
 
         RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
@@ -372,12 +372,12 @@ public class RegistrationREST {
         int i = 0;
         List<UserRegistration> teamFormations = UserRegistrationDAO.getInstance().find(registration);
         for (UserRegistration teamFormation : teamFormations) {
-            if (teamFormation.getRacePrice().doubleValue() > 0) {
+            if (teamFormation.getAmount().doubleValue() > 0) {
                 i++;
                 payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
                 payload.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
                         + teamFormation.getUser().getName()));
-                payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getRacePrice())));
+                payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAmount())));
                 payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
             }
         }

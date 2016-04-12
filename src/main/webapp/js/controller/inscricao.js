@@ -30,7 +30,7 @@ function updateBreadcrumb(data) {
 		$.each(data.race.event.organizers, function(i, value) {
 			if (user.id === value.id) {
 				authorized = true;
-				return;
+
 			}
 		});
 	}
@@ -77,8 +77,8 @@ function loadOk(registration) {
 		row = row.concat(member.mobile);
 		row = row.concat("</td>");
 		row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-		row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"racePrice\"}' class='partial editable currency'>"
-				+ numeral(member.race_price).format() + "</a>");
+		row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"amount\"}' class='partial editable currency'>"
+			+ numeral(member.amount).format() + "</a>");
 		row = row.concat("</td>");
 		row = row.concat("</tr>");
 		$("#team-formation > tbody:last").append(row);
@@ -162,8 +162,8 @@ function loadEditableCurrency(registrationId, enabled) {
 				d.reject(message);
 			};
 
-			if (params.property === 'racePrice') {
-				RegistrationProxy.updateRacePrice(registrationId, params.pk, value).done(updateValuesOk).fail(updateValuesFailed);
+			if (params.property === 'amount') {
+				RegistrationProxy.updateAmount(registrationId, params.pk, value).done(updateValuesOk).fail(updateValuesFailed);
 			}
 
 			return d.promise();

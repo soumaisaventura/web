@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="641,820" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1190,382" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -168,7 +168,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1733" y="748"/>
+	<position x="1739" y="760"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -688,7 +688,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="kit_id">
 		<type name="integer"/>
 	</column>
-	<column name="race_price" not-null="true">
+	<column name="amount" not-null="true">
 		<type name="numeric" length="7" precision="2"/>
 	</column>
 	<constraint name="pk_user_registration" type="pk-constr" table="public.user_registration">
@@ -1576,7 +1576,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1926" y="882"/>
+	<position x="1926" y="896"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1692,6 +1692,17 @@ END
 <index name="idx_category_alias" table="public.category"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="alias"/>
+		</idxelement>
+</index>
+
+<index name="idx_kit_alias" table="public.kit"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="race_id"/>
+		</idxelement>
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="alias"/>
 		</idxelement>

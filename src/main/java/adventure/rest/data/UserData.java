@@ -3,13 +3,12 @@ package adventure.rest.data;
 import adventure.entity.GenderType;
 import adventure.entity.User;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "racePrice", "kit", "city", "roles", "pendencies"})
+@JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "amount", "kit", "city", "roles", "pendencies"})
 public class UserData {
 
     public Integer id;
@@ -22,8 +21,7 @@ public class UserData {
 
     public String mobile;
 
-    @JsonProperty("race_price")
-    public BigDecimal racePrice;
+    public BigDecimal amount;
 
     public KitData kit;
 

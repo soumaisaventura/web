@@ -19,8 +19,7 @@ public class UserRegistration {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "race_price")
-    private BigDecimal racePrice;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "kit_id")
@@ -36,7 +35,7 @@ public class UserRegistration {
 
     public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
                             TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
-                            String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
+                            String cityName, Integer stateId, String stateAbbreviation, BigDecimal amount, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
                             Integer raceId, String raceAlias, String raceName, Integer categoryId, String categoryAlias, String categoryName) {
         setUser(new User());
@@ -58,7 +57,7 @@ public class UserRegistration {
         getUser().getProfile().getCity().getState().setId(stateId);
         getUser().getProfile().getCity().getState().setAbbreviation(stateAbbreviation);
 
-        setRacePrice(racePrice);
+        setAmount(amount);
 
         setRegistration(new Registration());
         getRegistration().setId(registrationId);
@@ -79,7 +78,7 @@ public class UserRegistration {
     }
 
     public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,
-                            GenderType profileGender, String profileMobile, BigDecimal racePrice) {
+                            GenderType profileGender, String profileMobile, BigDecimal amount) {
         setRegistration(new Registration());
         getRegistration().setId(registrationId);
 
@@ -92,7 +91,7 @@ public class UserRegistration {
         getUser().getProfile().setGender(profileGender);
         getUser().getProfile().setMobile(profileMobile);
 
-        setRacePrice(racePrice);
+        setAmount(amount);
     }
 
     public UserRegistration(Integer userId, Long registrationId, String registrationTeamName) {
@@ -158,12 +157,12 @@ public class UserRegistration {
         this.user = user;
     }
 
-    public BigDecimal getRacePrice() {
-        return racePrice;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setRacePrice(BigDecimal racePrice) {
-        this.racePrice = racePrice;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public Kit getKit() {
