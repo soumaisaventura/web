@@ -1,26 +1,14 @@
 package adventure.entity;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.SEQUENCE;
+import br.gov.frameworkdemoiselle.util.Strings;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import br.gov.frameworkdemoiselle.util.Strings;
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "registration")
@@ -68,7 +56,7 @@ public class Registration {
 	public Registration() {
 	}
 
-	public Registration(Long id, Integer eventId, String eventName, String eventSlug, Date eventBeginning, Date eventEnd) {
+	public Registration(Long id, Integer eventId, String eventName, String eventAlias, Date eventBeginning, Date eventEnd) {
 		setId(id);
 
 		setRaceCategory(new RaceCategory());
@@ -76,15 +64,15 @@ public class Registration {
 		getRaceCategory().getRace().setEvent(new Event());
 		getRaceCategory().getRace().getEvent().setId(eventId);
 		getRaceCategory().getRace().getEvent().setName(eventName);
-		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+		getRaceCategory().getRace().getEvent().setAlias(eventAlias);
 		getRaceCategory().getRace().getEvent().setBeginning(eventBeginning);
 		getRaceCategory().getRace().getEvent().setEnd(eventEnd);
 	}
 
 	public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
-			Integer raceId, String raceName, String raceDescription, String raceSlug, Date racePeriodBeginning,
-			Date racePeriodEnd, Integer eventId, String eventName, String eventSlug, Integer cityId, String cityName,
-			String stateAbbreviation) {
+						Integer raceId, String raceName, String raceDescription, String raceAlias, Date racePeriodBeginning,
+						Date racePeriodEnd, Integer eventId, String eventName, String eventAlias, Integer cityId, String cityName,
+						String stateAbbreviation) {
 
 		setId(registrationId);
 		setStatus(registrationStatus);
@@ -95,7 +83,7 @@ public class Registration {
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDescription(raceDescription);
-		getRaceCategory().getRace().setSlug(raceSlug);
+		getRaceCategory().getRace().setAlias(raceAlias);
 
 		getRaceCategory().getRace().setPeriod(new Period());
 		getRaceCategory().getRace().getPeriod().setBeginning(racePeriodBeginning);
@@ -104,7 +92,7 @@ public class Registration {
 		getRaceCategory().getRace().setEvent(new Event());
 		getRaceCategory().getRace().getEvent().setId(eventId);
 		getRaceCategory().getRace().getEvent().setName(eventName);
-		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+		getRaceCategory().getRace().getEvent().setAlias(eventAlias);
 
 		getRaceCategory().getRace().getEvent().setCity(new City());
 		getRaceCategory().getRace().getEvent().getCity().setId(cityId);
@@ -114,15 +102,15 @@ public class Registration {
 	}
 
 	public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCode,
-			String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
-			String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
-			String raceDescription, String raceSlug, Integer raceDistance, Integer raceStatusId, String raceStatusName,
-			Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventSlug,
-			EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
-			String eventPaymentToken,
-			// BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude,
-			Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-			Integer categoryId, String categoryName) {
+						String paymentTransaction, Integer periodId, BigDecimal periodPrice, Integer submitterId,
+						String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
+						String raceDescription, String raceAlias, Integer raceDistance, Integer raceStatusId, String raceStatusName,
+						Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
+						EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
+						String eventPaymentToken,
+						// BigDecimal eventCoordsLatitude, BigDecimal eventCoordsLongitude,
+						Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
+						Integer categoryId, String categoryName) {
 		setId(id);
 		setDate(date);
 		setTeamName(teamName);
@@ -148,7 +136,7 @@ public class Registration {
 		getRaceCategory().getRace().setId(raceId);
 		getRaceCategory().getRace().setName(raceName);
 		getRaceCategory().getRace().setDescription(raceDescription);
-		getRaceCategory().getRace().setSlug(raceSlug);
+		getRaceCategory().getRace().setAlias(raceAlias);
 		getRaceCategory().getRace().setDistance(raceDistance);
 
 		getRaceCategory().getRace().setStatus(new Status());
@@ -162,7 +150,7 @@ public class Registration {
 		getRaceCategory().getRace().setEvent(new Event());
 		getRaceCategory().getRace().getEvent().setId(eventId);
 		getRaceCategory().getRace().getEvent().setName(eventName);
-		getRaceCategory().getRace().getEvent().setSlug(eventSlug);
+		getRaceCategory().getRace().getEvent().setAlias(eventAlias);
 
 		getRaceCategory().getRace().getEvent().setPayment(new EventPayment());
 		getRaceCategory().getRace().getEvent().getPayment().setType(eventPaymentType);

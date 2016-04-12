@@ -1,19 +1,18 @@
 package adventure.persistence;
 
-import static adventure.entity.EventPaymentType.AUTO;
-import static adventure.entity.Status.CLOSED_ID;
-import static adventure.entity.Status.OPEN_ID;
-
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Event;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.List;
+
+import static adventure.entity.EventPaymentType.AUTO;
+import static adventure.entity.Status.CLOSED_ID;
+import static adventure.entity.Status.OPEN_ID;
 
 @Transactional
 public class RaceDAO extends JPACrud<Race, Integer> {
@@ -28,13 +27,13 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         String jpql = "";
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
-        jpql += " 	        r.slug, ";
+        jpql += " 	        r.alias, ";
         jpql += " 	        r.name, ";
         jpql += " 	        r.description, ";
         jpql += " 	        r.distance, ";
         jpql += " 	        o.id, ";
         jpql += " 	        o.name, ";
-        jpql += " 	        o.acronym, ";
+        jpql += " 	        o.alias, ";
         jpql += " 	        r.period.beginning, ";
         jpql += " 	        r.period.end, ";
         jpql += " 	        r.status ";
@@ -58,17 +57,17 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
         jpql += " 	        r.name, ";
-        jpql += " 	        r.slug, ";
+        jpql += " 	        r.alias, ";
         jpql += " 	        r.description, ";
         jpql += " 	        e.id, ";
         jpql += " 	        e.name, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.description ";
         jpql += " 	     ) ";
         jpql += "   from Race r ";
         jpql += "   join r.event e ";
-        jpql += "  where r.slug = :raceSlug ";
-        jpql += "    and e.slug = :eventSlug ";
+        jpql += "  where r.alias = :raceSlug ";
+        jpql += "    and e.alias = :eventSlug ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
         query.setParameter("raceSlug", raceSlug);
@@ -88,13 +87,13 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
         jpql += " 	        r.name, ";
-        jpql += " 	        r.slug, ";
+        jpql += " 	        r.alias, ";
         jpql += " 	        r.description, ";
         jpql += " 	        r.period.beginning, ";
         jpql += " 	        r.period.end, ";
         jpql += " 	        e.id, ";
         jpql += " 	        e.name, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.description, ";
         jpql += " 	        e.site, ";
         jpql += " 	        e.payment.account, ";
@@ -112,8 +111,8 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += "   join r.status a ";
         jpql += "   join e.city c ";
         jpql += "   join c.state s ";
-        jpql += "  where r.slug = :raceSlug ";
-        jpql += "    and e.slug = :eventSlug ";
+        jpql += "  where r.alias = :raceSlug ";
+        jpql += "    and e.alias = :eventSlug ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
         query.setParameter("raceSlug", raceSlug);
@@ -133,13 +132,13 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += " select new Race( ";
         jpql += " 	        r.id, ";
         jpql += " 	        r.name, ";
-        jpql += " 	        r.slug, ";
+        jpql += " 	        r.alias, ";
         jpql += " 	        r.description, ";
         jpql += " 	        r.period.beginning, ";
         jpql += " 	        r.period.end, ";
         jpql += " 	        e.id, ";
         jpql += " 	        e.name, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.description, ";
         jpql += " 	        e.site, ";
         jpql += " 	        e.payment.account, ";

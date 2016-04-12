@@ -64,7 +64,7 @@ public class RegistrationREST {
 
             data.race = new RaceData();
             data.race.internalId = registration.getRaceCategory().getRace().getId();
-            data.race.id = registration.getRaceCategory().getRace().getSlug();
+            data.race.id = registration.getRaceCategory().getRace().getAlias();
             data.race.name = registration.getRaceCategory().getRace().getName();
             data.race.description = registration.getRaceCategory().getRace().getDescription();
 
@@ -74,7 +74,7 @@ public class RegistrationREST {
 
             data.race.event = new EventData(uriInfo);
             data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
-            data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
+            data.race.event.id = registration.getRaceCategory().getRace().getEvent().getAlias();
             data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
 
             data.race.event.location = new LocationData();
@@ -120,7 +120,7 @@ public class RegistrationREST {
         data.team.name = registration.getTeamName();
 
         data.race = new RaceData();
-        data.race.id = registration.getRaceCategory().getRace().getSlug();
+        data.race.id = registration.getRaceCategory().getRace().getAlias();
         data.race.internalId = registration.getRaceCategory().getRace().getId();
         data.race.name = registration.getRaceCategory().getRace().getName();
         data.race.description = registration.getRaceCategory().getRace().getDescription();
@@ -132,7 +132,7 @@ public class RegistrationREST {
         data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
 
         data.race.event = new EventData(uriInfo);
-        data.race.event.id = registration.getRaceCategory().getRace().getEvent().getSlug();
+        data.race.event.id = registration.getRaceCategory().getRace().getEvent().getAlias();
         data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
         data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
 

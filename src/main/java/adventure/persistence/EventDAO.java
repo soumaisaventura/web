@@ -1,14 +1,13 @@
 package adventure.persistence;
 
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Event;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class EventDAO extends JPACrud<Event, Integer> {
@@ -23,7 +22,7 @@ public class EventDAO extends JPACrud<Event, Integer> {
         String jpql = "";
         jpql += " select new Event( ";
         jpql += " 	        e.id, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.name, ";
         jpql += " 	        e.description, ";
         jpql += " 	        e.site, ";
@@ -50,21 +49,21 @@ public class EventDAO extends JPACrud<Event, Integer> {
         return query.getResultList();
     }
 
-    public Event loadForMeta(String slug) {
+    public Event loadForMeta(String alias) {
         String jpql = "";
         jpql += " select new Event( ";
         jpql += " 	        e.id, ";
         jpql += " 	        e.name, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.description, ";
         jpql += " 	        e.beginning, ";
         jpql += " 	        e.end ";
         jpql += " 	     ) ";
         jpql += "   from Event e ";
-        jpql += "  where e.slug = :slug ";
+        jpql += "  where e.alias = :alias ";
 
         TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
-        query.setParameter("slug", slug);
+        query.setParameter("alias", alias);
 
         Event result;
         try {
@@ -75,14 +74,14 @@ public class EventDAO extends JPACrud<Event, Integer> {
         return result;
     }
 
-    public Event load(String slug) {
+    public Event load(String alias) {
         String jpql = "";
         jpql += " select e ";
         jpql += "   from Event e ";
-        jpql += "  where e.slug = :slug ";
+        jpql += "  where e.alias = :alias ";
 
         TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
-        query.setParameter("slug", slug);
+        query.setParameter("alias", alias);
 
         Event result;
         try {
@@ -93,11 +92,11 @@ public class EventDAO extends JPACrud<Event, Integer> {
         return result;
     }
 
-    public Event loadForDetail(String slug) {
+    public Event loadForDetail(String alias) {
         String jpql = "";
         jpql += " select new Event( ";
         jpql += " 	        e.id, ";
-        jpql += " 	        e.slug, ";
+        jpql += " 	        e.alias, ";
         jpql += " 	        e.name, ";
         jpql += " 	        e.description, ";
         jpql += " 	        e.site, ";
@@ -113,10 +112,10 @@ public class EventDAO extends JPACrud<Event, Integer> {
         jpql += "   from Event e ";
         jpql += "   left join e.city c ";
         jpql += "   left join c.state s ";
-        jpql += "  where e.slug = :slug ";
+        jpql += "  where e.alias = :alias ";
 
         TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
-        query.setParameter("slug", slug);
+        query.setParameter("alias", alias);
 
         Event result;
         try {
@@ -127,17 +126,17 @@ public class EventDAO extends JPACrud<Event, Integer> {
         return result;
     }
 
-    public Event loadForBanner(String slug) {
+    public Event loadForBanner(String alias) {
         String jpql = "";
         jpql += " select new Event( ";
         jpql += " 	        e.id, ";
         jpql += " 	        e.banner ";
         jpql += " 	     ) ";
         jpql += "   from Event e ";
-        jpql += "  where e.slug = :slug ";
+        jpql += "  where e.alias = :alias ";
 
         TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
-        query.setParameter("slug", slug);
+        query.setParameter("alias", alias);
 
         Event result;
         try {

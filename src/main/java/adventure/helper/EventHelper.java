@@ -1,13 +1,12 @@
 package adventure.helper;
 
-import java.util.Calendar;
+import adventure.entity.Event;
+import adventure.persistence.EventDAO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-
-import adventure.entity.Event;
-import adventure.persistence.EventDAO;
+import java.util.Calendar;
 
 @Named
 @RequestScoped
@@ -32,7 +31,7 @@ public class EventHelper {
 
 			if (event != null) {
 				this.title = event.getName();
-				slug = event.getSlug();
+				slug = event.getAlias();
 				this.description = event.getDescription();
 
 				Calendar calendar = Calendar.getInstance();

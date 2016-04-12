@@ -1,16 +1,15 @@
 package adventure.persistence;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Championship;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.io.Serializable;
+import java.util.List;
 
 @Transactional
 public class ChampionshipDAO implements Serializable {
@@ -25,20 +24,20 @@ public class ChampionshipDAO implements Serializable {
 	}
 
 	public List<Championship> findForEvent(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Championship ( ");
-		jpql.append("        c.id, ");
-		jpql.append("        c.name, ");
-		jpql.append("        c.slug ");
-		jpql.append("        ) ");
-		jpql.append("   from ChampionshipRace cr ");
-		jpql.append("   join cr.championship c ");
-		jpql.append("  where cr.race = :race ");
-		jpql.append("  order by ");
-		jpql.append("        c.id ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new Championship ( ";
+		jpql += "        c.id, ";
+		jpql += "        c.name, ";
+		jpql += "        c.alias ";
+		jpql += "        ) ";
+		jpql += "   from ChampionshipRace cr ";
+		jpql += "   join cr.championship c ";
+		jpql += "  where cr.race = :race ";
+		jpql += "  order by ";
+		jpql += "        c.id ";
 
-		TypedQuery<Championship> query = em.createQuery(jpql.toString(), Championship.class);
+		TypedQuery<Championship> query = em.createQuery(jpql, Championship.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();

@@ -45,7 +45,7 @@ public class EventREST {
         for (Event event : EventDAO.getInstance().findByYear(year)) {
             EventData eventData = new EventData(uriInfo);
 
-            eventData.id = event.getSlug();
+            eventData.id = event.getAlias();
             eventData.name = event.getName();
             eventData.period = new PeriodData();
             eventData.period.beginning = event.getBeginning();
@@ -76,7 +76,7 @@ public class EventREST {
         Event event = loadEventDetails(slug);
         Date now = new Date();
 
-        eventData.id = event.getSlug();
+        eventData.id = event.getAlias();
         eventData.internalId = event.getId();
         eventData.name = event.getName();
         eventData.description = event.getDescription();
@@ -126,7 +126,7 @@ public class EventREST {
             eventData.races = new ArrayList<RaceData>();
             for (Race race : raceDAO.findForEvent(event)) {
                 RaceData raceData = new RaceData();
-                raceData.id = race.getSlug();
+                raceData.id = race.getAlias();
                 raceData.internalId = race.getId();
                 raceData.name = race.getName();
                 raceData.description = race.getDescription();
@@ -136,7 +136,7 @@ public class EventREST {
                 // Sport
 
                 raceData.sport = new SportData();
-                raceData.sport.id = race.getSport().getAcronym();
+                raceData.sport.id = race.getSport().getAlias();
                 raceData.sport.internalId = race.getSport().getId();
                 raceData.sport.name = race.getSport().getName();
 
@@ -149,7 +149,7 @@ public class EventREST {
                 raceData.championships = new ArrayList<ChampionshipData>();
                 for (Championship championship : championshipDAO.findForEvent(race)) {
                     ChampionshipData championshipData = new ChampionshipData();
-                    championshipData.id = championship.getSlug();
+                    championshipData.id = championship.getAlias();
                     championshipData.internalId = championship.getId();
                     championshipData.name = championship.getName();
                     raceData.championships.add(championshipData);
@@ -160,7 +160,8 @@ public class EventREST {
                 raceData.categories = new ArrayList<CategoryData>();
                 for (Category category : categoryDAO.find(race)) {
                     CategoryData categoryData = new CategoryData();
-                    categoryData.id = category.getId();
+                    categoryData.id = category.getAlias();
+                    categoryData.internalId = category.getId();
                     categoryData.name = category.getName();
                     categoryData.description = category.getDescription();
                     raceData.categories.add(categoryData);
@@ -171,7 +172,7 @@ public class EventREST {
                 raceData.kits = new ArrayList<KitData>();
                 for (Kit kit : kitDAO.findForRegistration(race)) {
                     KitData kitData = new KitData();
-                    kitData.id = kit.getSlug();
+                    kitData.id = kit.getAlias();
                     kitData.internalId = kit.getId();
                     kitData.name = kit.getName();
                     kitData.description = kit.getDescription();
@@ -207,7 +208,7 @@ public class EventREST {
                 raceData.modalities = new ArrayList<ModalityData>();
                 for (Modality modality : modalityDAO.findForEvent(race)) {
                     ModalityData modalityData = new ModalityData();
-                    modalityData.id = modality.getAcronym();
+                    modalityData.id = modality.getAlias();
                     modalityData.internalId = modality.getId();
                     modalityData.name = modality.getName();
                     raceData.modalities.add(modalityData);
@@ -262,11 +263,12 @@ public class EventREST {
             data.team.name = registration.getTeamName();
 
             data.category = new CategoryData();
-            data.category.id = registration.getRaceCategory().getCategory().getId();
+            data.category.id = registration.getRaceCategory().getCategory().getAlias();
+            data.category.internalId = registration.getRaceCategory().getCategory().getId();
             data.category.name = registration.getRaceCategory().getCategory().getName();
 
             data.race = new RaceData();
-            data.race.id = registration.getRaceCategory().getRace().getSlug();
+            data.race.id = registration.getRaceCategory().getRace().getAlias();
             data.race.internalId = registration.getRaceCategory().getRace().getId();
             data.race.name = registration.getRaceCategory().getRace().getName();
 
@@ -291,7 +293,6 @@ public class EventREST {
 
         return result.isEmpty() ? null : result;
     }
-
 
 
     @GET

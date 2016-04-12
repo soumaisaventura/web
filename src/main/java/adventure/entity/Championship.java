@@ -9,17 +9,17 @@ public class Championship {
 	@Id
 	private Integer id;
 
-	private String name;
+	private String alias;
 
-	private String slug;
+	private String name;
 
 	public Championship() {
 	}
 
-	public Championship(Integer id, String name, String slug) {
+	public Championship(Integer id, String name, String alias) {
 		setId(id);
 		setName(name);
-		setSlug(slug);
+		setAlias(alias);
 	}
 
 	@Override
@@ -68,11 +68,11 @@ public class Championship {
 		this.name = name;
 	}
 
-	public String getSlug() {
-		return slug;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setSlug(String slug) {
-		this.slug = slug;
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 }

@@ -1,7 +1,6 @@
 package adventure.persistence;
 
 import adventure.entity.Kit;
-import adventure.entity.Modality;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -29,7 +28,7 @@ public class KitDAO implements Serializable {
         jpql += " select ";
         jpql += "    new Kit ( ";
         jpql += "        k.id, ";
-        jpql += "        k.slug, ";
+        jpql += "        k.alias, ";
         jpql += "        k.name, ";
         jpql += "        k.description, ";
         jpql += "        k.price, ";

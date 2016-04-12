@@ -1,14 +1,13 @@
 package adventure.persistence;
 
-import java.util.List;
-
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Event;
 import adventure.entity.Hotspot;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class HotspotDAO extends JPACrud<Hotspot, Integer> {
@@ -20,24 +19,24 @@ public class HotspotDAO extends JPACrud<Hotspot, Integer> {
 	}
 
 	public List<Hotspot> find(Event event) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append("select ");
-		jpql.append("   new Hotspot ( ");
-		jpql.append("       h.id, ");
-		jpql.append("       h.name, ");
-		jpql.append("       h.description, ");
-		jpql.append("       h.coord, ");
-		jpql.append("       h.order, ");
-		jpql.append("       h.main, ");
-		jpql.append("       e.id ");
-		jpql.append("       ) ");
-		jpql.append("  from Hotspot h ");
-		jpql.append("  join h.event e ");
-		jpql.append(" where e = :event ");
-		jpql.append(" order by ");
-		jpql.append(" 		h.order asc ");
+		String jpql = "";
+		jpql += "select ";
+		jpql += "   new Hotspot ( ";
+		jpql += "       h.id, ";
+		jpql += "       h.name, ";
+		jpql += "       h.description, ";
+		jpql += "       h.coord, ";
+		jpql += "       h.order, ";
+		jpql += "       h.main, ";
+		jpql += "       e.id ";
+		jpql += "       ) ";
+		jpql += "  from Hotspot h ";
+		jpql += "  join h.event e ";
+		jpql += " where e = :event ";
+		jpql += " order by ";
+		jpql += " 		h.order asc ";
 
-		TypedQuery<Hotspot> query = getEntityManager().createQuery(jpql.toString(), Hotspot.class);
+		TypedQuery<Hotspot> query = getEntityManager().createQuery(jpql, Hotspot.class);
 		query.setParameter("event", event);
 
 		return query.getResultList();

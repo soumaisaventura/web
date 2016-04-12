@@ -1,14 +1,7 @@
 package adventure.entity;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "race")
@@ -21,7 +14,7 @@ public class Race {
 	@JoinColumn(name = "event_id")
 	private Event event;
 
-	private String slug;
+	private String alias;
 
 	private String name;
 
@@ -50,17 +43,17 @@ public class Race {
 		this.id = id;
 	}
 
-	public Race(Integer id, String slug, String name, String description, Integer distance, Integer sportId,
-			String sportName, String sportAcronym, Date periodBeginning, Date periodEnd, Status status) {
+	public Race(Integer id, String alias, String name, String description, Integer distance, Integer sportId,
+				String sportName, String sportAcronym, Date periodBeginning, Date periodEnd, Status status) {
 		setId(id);
-		setSlug(slug);
+		setAlias(alias);
 		setName(name);
 		setDistance(distance);
 		setDescription(description);
 		setSport(new Sport());
 		getSport().setId(sportId);
 		getSport().setName(sportName);
-		getSport().setAcronym(sportAcronym);
+		getSport().setAlias(sportAcronym);
 		setPeriod(new Period());
 		getPeriod().setBeginning(periodBeginning);
 		getPeriod().setEnd(periodEnd);
@@ -69,29 +62,29 @@ public class Race {
 
 	// Meta OGG
 
-	public Race(Integer id, String name, String slug, String description, Integer eventId, String eventName,
-			String eventSlug, String eventDescription) {
+	public Race(Integer id, String name, String alias, String description, Integer eventId, String eventName,
+				String eventAlias, String eventDescription) {
 		setId(id);
 		setName(name);
-		setSlug(slug);
+		setAlias(alias);
 		setDescription(description);
 
 		setEvent(new Event());
 		getEvent().setId(eventId);
 		getEvent().setName(eventName);
-		getEvent().setSlug(eventSlug);
+		getEvent().setAlias(eventAlias);
 		getEvent().setDescription(eventDescription);
 	}
 
 	// Detail
 
-	public Race(Integer id, String name, String slug, String description, Date periodBeginning, Date periodEnd,
-			Integer eventId, String eventName, String eventSlug, String eventDescription, String eventSite,
-			String eventPaymentAccount, String eventPaymentToken, Integer cityId, String cityName, Integer stateId,
-			String stateName, String stateAbbreviation, Integer statusId, String statusName) {
+	public Race(Integer id, String name, String alias, String description, Date periodBeginning, Date periodEnd,
+				Integer eventId, String eventName, String eventAlias, String eventDescription, String eventSite,
+				String eventPaymentAccount, String eventPaymentToken, Integer cityId, String cityName, Integer stateId,
+				String stateName, String stateAbbreviation, Integer statusId, String statusName) {
 		setId(id);
 		setName(name);
-		setSlug(slug);
+		setAlias(alias);
 		setDescription(description);
 
 		setStatus(new Status());
@@ -105,7 +98,7 @@ public class Race {
 		setEvent(new Event());
 		getEvent().setId(eventId);
 		getEvent().setName(eventName);
-		getEvent().setSlug(eventSlug);
+		getEvent().setAlias(eventAlias);
 		getEvent().setDescription(eventDescription);
 		getEvent().setSite(eventSite);
 
@@ -168,12 +161,12 @@ public class Race {
 		this.event = event;
 	}
 
-	public String getSlug() {
-		return slug;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setSlug(String slug) {
-		this.slug = slug;
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	public String getName() {

@@ -1,15 +1,8 @@
 package adventure.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @IdClass(UserRegistrationPk.class)
@@ -45,7 +38,7 @@ public class UserRegistration {
                             TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
                             String cityName, Integer stateId, String stateAbbreviation, BigDecimal racePrice, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
-                            Integer raceId, String raceSlug, String raceName, Integer categoryId, String categoryName) {
+                            Integer raceId, String raceAlias, String raceName, Integer categoryId, String categoryAlias, String categoryName) {
         setUser(new User());
         getUser().setId(userId);
         getUser().setEmail(userEmail);
@@ -76,11 +69,12 @@ public class UserRegistration {
         getRegistration().setRaceCategory(new RaceCategory());
         getRegistration().getRaceCategory().setRace(new Race());
         getRegistration().getRaceCategory().getRace().setId(raceId);
-        getRegistration().getRaceCategory().getRace().setSlug(raceSlug);
+        getRegistration().getRaceCategory().getRace().setAlias(raceAlias);
         getRegistration().getRaceCategory().getRace().setName(raceName);
 
         getRegistration().getRaceCategory().setCategory(new Category());
         getRegistration().getRaceCategory().getCategory().setId(categoryId);
+        getRegistration().getRaceCategory().getCategory().setAlias(categoryAlias);
         getRegistration().getRaceCategory().getCategory().setName(categoryName);
     }
 

@@ -90,8 +90,8 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private RaceCategory loadRaceCategory(Integer raceId, Integer categoryId) throws Exception {
-        RaceCategory result = RaceCategoryDAO.getInstance().load(raceId, categoryId);
+    private RaceCategory loadRaceCategory(Integer raceId, String categoryAlias) throws Exception {
+        RaceCategory result = RaceCategoryDAO.getInstance().load(raceId, categoryAlias);
 
         if (result == null) {
             throw new UnprocessableEntityException().addViolation("categoryId", "indisponível para esta prova");

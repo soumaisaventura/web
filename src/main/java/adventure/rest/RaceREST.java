@@ -27,7 +27,7 @@ public class RaceREST {
         RaceData data = new RaceData();
         Race race = loadRaceDetails(raceSlug, eventSlug);
 
-        data.id = race.getSlug();
+        data.id = race.getAlias();
         data.internalId = race.getId();
         data.name = race.getName();
         data.description = race.getDescription();
@@ -38,7 +38,7 @@ public class RaceREST {
         data.period.end = race.getPeriod().getEnd();
 
         data.event = new EventData(uriInfo);
-        data.event.id = race.getEvent().getSlug();
+        data.event.id = race.getEvent().getAlias();
         data.event.internalId = race.getEvent().getId();
         data.event.name = race.getEvent().getName();
         data.event.site = race.getEvent().getSite();
@@ -62,7 +62,8 @@ public class RaceREST {
 
         for (Category category : CategoryDAO.getInstance().find(race)) {
             CategoryData categoryData = new CategoryData();
-            categoryData.id = category.getId();
+            categoryData.id = category.getAlias();
+            categoryData.internalId = category.getId();
             categoryData.name = category.getName();
             categoryData.description = category.getDescription();
             categoryData.teamSize = category.getTeamSize();
@@ -84,7 +85,7 @@ public class RaceREST {
 
         for (Kit kit : KitDAO.getInstance().findForRegistration(race)) {
             KitData kitData = new KitData();
-            kitData.id = kit.getSlug();
+            kitData.id = kit.getAlias();
             kitData.internalId = kit.getId();
             kitData.name = kit.getName();
             kitData.description = kit.getDescription();

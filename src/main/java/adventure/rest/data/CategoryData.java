@@ -3,13 +3,13 @@ package adventure.rest.data;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import javax.validation.constraints.NotNull;
-
-@JsonPropertyOrder({"id", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers"})
+@JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers"})
 public class CategoryData {
 
-    @NotNull
-    public Integer id;
+    public String id;
+
+    @JsonProperty("internal_id")
+    public Integer internalId;
 
     public String name;
 

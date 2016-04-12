@@ -14,7 +14,7 @@ public class Kit {
     @JoinColumn(name = "race_id")
     private Race race;
 
-    private String slug;
+    private String alias;
 
     private String name;
 
@@ -26,9 +26,9 @@ public class Kit {
     public Kit() {
     }
 
-    public Kit(Integer id, String slug, String name, String description, BigDecimal price, Integer raceId) {
+    public Kit(Integer id, String alias, String name, String description, BigDecimal price, Integer raceId) {
         setId(id);
-        setSlug(slug);
+        setAlias(alias);
         setName(name);
         setDescription(description);
         setPrice(price);
@@ -69,12 +69,12 @@ public class Kit {
         this.race = race;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getName() {
