@@ -1,11 +1,5 @@
 package adventure.persistence;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Event;
 import adventure.entity.Registration;
 import adventure.entity.User;
@@ -13,6 +7,11 @@ import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.Date;
+import java.util.List;
 
 @Transactional
 public class UserDAO extends JPACrud<User, Integer> {
@@ -24,23 +23,23 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public List<User> findOrganizers(Event event) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select new User ( ");
-		jpql.append(" 	        o.id, ");
-		jpql.append(" 	        case when eo.alternateEmail is null then o.email else eo.alternateEmail end, ");
-		jpql.append(" 	        case when eo.alternateName is null then p.name else eo.alternateName end, ");
-		jpql.append(" 	        p.gender, ");
-		jpql.append(" 	        p.mobile ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from EventOrganizer eo ");
-		jpql.append("   join eo.organizer o, ");
-		jpql.append("        Profile p ");
-		jpql.append("  where o.id = p.id ");
-		jpql.append("    and eo.event = :event ");
-		jpql.append("  order by ");
-		jpql.append("        p.name ");
+		String jpql = "";
+		jpql += " select new User ( ";
+		jpql += " 	        o.id, ";
+		jpql += " 	        case when eo.alternateEmail is null then o.email else eo.alternateEmail end, ";
+		jpql += " 	        case when eo.alternateName is null then p.name else eo.alternateName end, ";
+		jpql += " 	        p.gender, ";
+		jpql += " 	        p.mobile ";
+		jpql += " 	     ) ";
+		jpql += "   from EventOrganizer eo ";
+		jpql += "   join eo.organizer o, ";
+		jpql += "        Profile p ";
+		jpql += "  where o.id = p.id ";
+		jpql += "    and eo.event = :event ";
+		jpql += "  order by ";
+		jpql += "        p.name ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("event", event);
 
 		return query.getResultList();
@@ -73,27 +72,27 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public List<User> search(String filter, List<Integer> excludeIds) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin, ");
-		jpql.append(" 	     u.organizer ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p ");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and u.activation is not null ");
-		jpql.append("    and lower(p.name) like :filter ");
-		jpql.append("    and u.id not in :excludeIds ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new User( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     h.pendencies, ";
+		jpql += " 	     u.admin, ";
+		jpql += " 	     u.organizer ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p ";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h ";
+		jpql += "  where u = h.user ";
+		jpql += "    and u.activation is not null ";
+		jpql += "    and lower(p.name) like :filter ";
+		jpql += "    and u.id not in :excludeIds ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 
 		if (!"%".equals(filter)) {
 			query.setMaxResults(10);
@@ -110,116 +109,116 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public List<User> findByName(String name) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin, ");
-		jpql.append(" 	     u.organizer ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p ");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and lower(p.name) like :name ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new User( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     h.pendencies, ";
+		jpql += " 	     u.admin, ";
+		jpql += " 	     u.organizer ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p ";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h ";
+		jpql += "  where u = h.user ";
+		jpql += "    and lower(p.name) like :name ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("name", name.toLowerCase());
 
 		return query.getResultList();
 	}
 
 	public List<User> findDuplicatesByName() {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select distinct ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.pendencies + h.pendencies, ");
-		jpql.append(" 	     u.creation, ");
-		jpql.append(" 	     case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p ");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h, ");
-		jpql.append("        Profile p2 ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and p.name = p2.name ");
-		jpql.append("    and p.id <> p2.id ");
-		jpql.append("    and p.pendencies + h.pendencies > 0");
-		jpql.append("    and not exists ");
-		jpql.append("        (select _tf.user.id ");
-		jpql.append("           from UserRegistration _tf ");
-		jpql.append("          where _tf.user = u) ");
-		jpql.append("    and not exists ");
-		jpql.append("        (select _eo.organizer.id ");
-		jpql.append("           from EventOrganizer _eo ");
-		jpql.append("          where _eo.organizer = u) ");
-		jpql.append("  order by p.name, ");
-		jpql.append("        (p.pendencies + h.pendencies) desc, ");
-		jpql.append("        case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end, ");
-		jpql.append("        u.creation ");
+		String jpql = "";
+		jpql += " select distinct ";
+		jpql += " 	 new User( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.pendencies + h.pendencies, ";
+		jpql += " 	     u.creation, ";
+		jpql += " 	     case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p ";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h, ";
+		jpql += "        Profile p2 ";
+		jpql += "  where u = h.user ";
+		jpql += "    and p.name = p2.name ";
+		jpql += "    and p.id <> p2.id ";
+		jpql += "    and p.pendencies + h.pendencies > 0";
+		jpql += "    and not exists ";
+		jpql += "        (select _tf.user.id ";
+		jpql += "           from UserRegistration _tf ";
+		jpql += "          where _tf.user = u) ";
+		jpql += "    and not exists ";
+		jpql += "        (select _eo.organizer.id ";
+		jpql += "           from EventOrganizer _eo ";
+		jpql += "          where _eo.organizer = u) ";
+		jpql += "  order by p.name, ";
+		jpql += "        (p.pendencies + h.pendencies) desc, ";
+		jpql += "        case when u.activation is null then to_date ('1900-01-01', 'YYYY-MM-DD') else u.activation end, ";
+		jpql += "        u.creation ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		return query.getResultList();
 	}
 
 	public List<User> findUserRegistrations(Registration registration) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     us.id, ");
-		jpql.append(" 	     us.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.mobile ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from UserRegistration tf ");
-		jpql.append("   join tf.user us, ");
-		jpql.append("        Profile p ");
-		jpql.append("  where us = p.user ");
-		jpql.append("    and tf.registration = :registration ");
-		jpql.append("  order by ");
-		jpql.append("        p.name ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new User( ";
+		jpql += " 	     us.id, ";
+		jpql += " 	     us.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.mobile ";
+		jpql += " 	     ) ";
+		jpql += "   from UserRegistration tf ";
+		jpql += "   join tf.user us, ";
+		jpql += "        Profile p ";
+		jpql += "  where us = p.user ";
+		jpql += "    and tf.registration = :registration ";
+		jpql += "  order by ";
+		jpql += "        p.name ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("registration", registration);
 
 		return query.getResultList();
 	}
 
 	public User loadForAuthentication(String email) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new User( ");
-		jpql.append("        u.id, ");
-		jpql.append("        u.email, ");
-		jpql.append("        u.password, ");
-		jpql.append("        u.activation, ");
-		jpql.append("        u.activationToken, ");
-		jpql.append("        u.passwordResetRequest, ");
-		jpql.append("        u.passwordResetToken, ");
-		jpql.append("        p.name, ");
-		jpql.append("        p.gender, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin, ");
-		jpql.append(" 	     u.organizer ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and u.deleted is null ");
-		jpql.append("    and u.email = :email");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new User( ";
+		jpql += "        u.id, ";
+		jpql += "        u.email, ";
+		jpql += "        u.password, ";
+		jpql += "        u.activation, ";
+		jpql += "        u.activationToken, ";
+		jpql += "        u.passwordResetRequest, ";
+		jpql += "        u.passwordResetToken, ";
+		jpql += "        p.name, ";
+		jpql += "        p.gender, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     h.pendencies, ";
+		jpql += " 	     u.admin, ";
+		jpql += " 	     u.organizer ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h ";
+		jpql += "  where u = h.user ";
+		jpql += "    and u.deleted is null ";
+		jpql += "    and u.email = :email";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("email", email);
 
 		User result;
@@ -232,26 +231,26 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public User loadBasics(Integer id) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin, ");
-		jpql.append(" 	     u.organizer ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and u.deleted is null ");
-		jpql.append("    and u.id = :id");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new User( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     h.pendencies, ";
+		jpql += " 	     u.admin, ";
+		jpql += " 	     u.organizer ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h ";
+		jpql += "  where u = h.user ";
+		jpql += "    and u.deleted is null ";
+		jpql += "    and u.id = :id";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("id", id);
 
 		User result;
@@ -264,26 +263,26 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public User loadBasics(String email) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new User( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     h.pendencies, ");
-		jpql.append(" 	     u.admin, ");
-		jpql.append(" 	     u.organizer ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from Profile p");
-		jpql.append("   join p.user u, ");
-		jpql.append("        Health h ");
-		jpql.append("  where u = h.user ");
-		jpql.append("    and u.deleted is null ");
-		jpql.append("    and u.email = :email");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new User( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     h.pendencies, ";
+		jpql += " 	     u.admin, ";
+		jpql += " 	     u.organizer ";
+		jpql += " 	     ) ";
+		jpql += "   from Profile p";
+		jpql += "   join p.user u, ";
+		jpql += "        Health h ";
+		jpql += "  where u = h.user ";
+		jpql += "    and u.deleted is null ";
+		jpql += "    and u.email = :email";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("email", email);
 
 		User result;
@@ -296,11 +295,11 @@ public class UserDAO extends JPACrud<User, Integer> {
 	}
 
 	public User load(String email) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append("   from User u ");
-		jpql.append("  where u.email = :email ");
+		String jpql = "";
+		jpql += "   from User u ";
+		jpql += "  where u.email = :email ";
 
-		TypedQuery<User> query = getEntityManager().createQuery(jpql.toString(), User.class);
+		TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
 		query.setParameter("email", email);
 
 		User result;

@@ -11,9 +11,9 @@ public class Sport {
 	@Id
 	private Integer id;
 
-	private String name;
+	private String alias;
 
-	private String acronym;
+	private String name;
 
 	public Sport() {
 	}
@@ -64,11 +64,11 @@ public class Sport {
 		this.name = name;
 	}
 
-	public String getAcronym() {
-		return acronym;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
+	public void setAlias(String acronym) {
+		this.alias = acronym;
 	}
 }

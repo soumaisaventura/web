@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="512,700" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="641,820" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -63,7 +63,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="slug">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="20"/>
 	</column>
 	<column name="name" not-null="true">
@@ -87,8 +87,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="uk_category_name" type="uq-constr" table="public.category">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_category_slug" type="uq-constr" table="public.category">
-		<columns names="slug" ref-type="src-columns"/>
+	<constraint name="uk_category_alias" type="uq-constr" table="public.category">
+		<columns names="alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -168,7 +168,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1740" y="746"/>
+	<position x="1733" y="748"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -249,7 +249,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="slug" not-null="true">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="name" not-null="true">
@@ -276,8 +276,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_race" type="pk-constr" table="public.race">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_race_slug" type="uq-constr" table="public.race">
-		<columns names="event_id,slug" ref-type="src-columns"/>
+	<constraint name="uk_race_alias" type="uq-constr" table="public.race">
+		<columns names="event_id,alias" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_race_name" type="uq-constr" table="public.race">
 		<columns names="event_id,name" ref-type="src-columns"/>
@@ -648,7 +648,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2025" y="1068"/>
+	<position x="2027" y="1066"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -739,7 +739,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
 	</column>
-	<column name="acronym" not-null="true">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="3"/>
 	</column>
 	<constraint name="pk_sport" type="pk-constr" table="public.sport">
@@ -748,8 +748,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="uk_sport_name" type="uq-constr" table="public.sport">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_sport_acronym" type="uq-constr" table="public.sport">
-		<columns names="acronym" ref-type="src-columns"/>
+	<constraint name="uk_sport_alias" type="uq-constr" table="public.sport">
+		<columns names="alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -769,7 +769,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="slug" not-null="true">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="name" not-null="true">
@@ -781,8 +781,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="uk_championship_name" type="uq-constr" table="public.championship">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_championship_slug" type="uq-constr" table="public.championship">
-		<columns names="slug" ref-type="src-columns"/>
+	<constraint name="uk_championship_alias" type="uq-constr" table="public.championship">
+		<columns names="alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -842,7 +842,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="slug" not-null="true">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
 	<column name="name" not-null="true">
@@ -884,8 +884,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_event" type="pk-constr" table="public.event">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_event_slug" type="uq-constr" table="public.event">
-		<columns names="slug" ref-type="src-columns"/>
+	<constraint name="uk_event_alias" type="uq-constr" table="public.event">
+		<columns names="alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -905,11 +905,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
+	<column name="alias" not-null="true">
+		<type name="character varying" length="3"/>
+	</column>
 	<column name="name" not-null="true">
 		<type name="character varying" length="50"/>
-	</column>
-	<column name="acronym" not-null="true">
-		<type name="character varying" length="3"/>
 	</column>
 	<column name="icon">
 		<type name="oid"/>
@@ -920,8 +920,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="uk_modality_name" type="uq-constr" table="public.modality">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_modality_acronym" type="uq-constr" table="public.modality">
-		<columns names="acronym" ref-type="src-columns"/>
+	<constraint name="uk_modality_alias" type="uq-constr" table="public.modality">
+		<columns names="alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -981,11 +981,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_event_slug" table="public.event"
+<index name="idx_event_alias" table="public.event"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="slug"/>
+			<column name="alias"/>
 		</idxelement>
 </index>
 
@@ -1053,27 +1053,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
-<index name="idx_race_slug" table="public.race"
+<index name="idx_race_alias" table="public.race"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="slug"/>
+			<column name="alias"/>
 		</idxelement>
 </index>
 
-<index name="idx_sport_acronym" table="public.sport"
+<index name="idx_sport_alias" table="public.sport"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="acronym"/>
+			<column name="alias"/>
 		</idxelement>
 </index>
 
-<index name="idx_modality_acronym" table="public.modality"
+<index name="idx_modality_alias" table="public.modality"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="acronym"/>
+			<column name="alias"/>
 		</idxelement>
 </index>
 
@@ -1576,7 +1576,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1920" y="885"/>
+	<position x="1926" y="882"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1633,7 +1633,7 @@ END
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
-	<column name="slug" not-null="true">
+	<column name="alias" not-null="true">
 		<type name="character varying" length="20"/>
 	</column>
 	<column name="name" not-null="true">
@@ -1657,8 +1657,8 @@ END
 	<constraint name="uk_kit_race_name" type="uq-constr" table="public.kit">
 		<columns names="race_id,name" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="uk_kit_race_slug" type="uq-constr" table="public.kit">
-		<columns names="race_id,slug" ref-type="src-columns"/>
+	<constraint name="uk_kit_race_alias" type="uq-constr" table="public.kit">
+		<columns names="race_id,alias" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -1689,11 +1689,11 @@ END
 		</idxelement>
 </index>
 
-<index name="idx_category_slug" table="public.category"
+<index name="idx_category_alias" table="public.category"
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
-			<column name="slug"/>
+			<column name="alias"/>
 		</idxelement>
 </index>
 
@@ -1975,7 +1975,11 @@ END
 	 custom-color="#285503"
 	 src-table="public.user_registration"
 	 dst-table="public.user_account"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="3.88037" y="-0.199951"/>
+	</label>
+</relationship>
 
 <relationship name="rel_user_registration_registration" type="relfk"
 	 custom-color="#102960"

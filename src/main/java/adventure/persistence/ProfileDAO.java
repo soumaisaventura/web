@@ -1,8 +1,5 @@
 package adventure.persistence;
 
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.util.Misc;
@@ -10,6 +7,9 @@ import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 @Transactional
 public class ProfileDAO extends JPACrud<Profile, User> {
@@ -52,32 +52,32 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 	}
 
 	public Profile loadDetails(User user) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new Profile( ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.rg, ");
-		jpql.append(" 	     p.cpf, ");
-		jpql.append(" 	     p.birthday, ");
-		jpql.append(" 	     p.mobile, ");
-		jpql.append(" 	     p.gender, ");
-		jpql.append(" 	     p.tshirt, ");
-		jpql.append(" 	     p.pendencies, ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     c.id, ");
-		jpql.append(" 	     c.name, ");
-		jpql.append(" 	     s.id, ");
-		jpql.append(" 	     s.name, ");
-		jpql.append(" 	     s.abbreviation ");
-		jpql.append(" 	 ) ");
-		jpql.append("   from Profile p ");
-		jpql.append("   join p.user u ");
-		jpql.append("   left join p.city c ");
-		jpql.append("   left join c.state s ");
-		jpql.append("  where p.user = :user ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new Profile( ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.rg, ";
+		jpql += " 	     p.cpf, ";
+		jpql += " 	     p.birthday, ";
+		jpql += " 	     p.mobile, ";
+		jpql += " 	     p.gender, ";
+		jpql += " 	     p.tshirt, ";
+		jpql += " 	     p.pendencies, ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     c.id, ";
+		jpql += " 	     c.name, ";
+		jpql += " 	     s.id, ";
+		jpql += " 	     s.name, ";
+		jpql += " 	     s.abbreviation ";
+		jpql += " 	 ) ";
+		jpql += "   from Profile p ";
+		jpql += "   join p.user u ";
+		jpql += "   left join p.city c ";
+		jpql += "   left join c.state s ";
+		jpql += "  where p.user = :user ";
 
-		TypedQuery<Profile> query = getEntityManager().createQuery(jpql.toString(), Profile.class);
+		TypedQuery<Profile> query = getEntityManager().createQuery(jpql, Profile.class);
 		query.setParameter("user", user);
 
 		Profile result;

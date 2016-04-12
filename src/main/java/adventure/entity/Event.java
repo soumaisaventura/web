@@ -1,20 +1,10 @@
 package adventure.entity;
 
-import static javax.persistence.TemporalType.DATE;
-
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name = "event")
@@ -23,11 +13,11 @@ public class Event {
 	@Id
 	private Integer id;
 
+	private String alias;
+
 	private String name;
 
 	private String description;
-
-	private String slug;
 
 	@Lob
 	private byte[] banner;
@@ -63,10 +53,10 @@ public class Event {
 		this.id = id;
 	}
 
-	public Event(Integer id, String name, String slug, String description, Date beginning, Date end) {
+	public Event(Integer id, String name, String alias, String description, Date beginning, Date end) {
 		setId(id);
 		setName(name);
-		setSlug(slug);
+		setAlias(alias);
 		setDescription(description);
 		setBeginning(beginning);
 		setEnd(end);
@@ -77,11 +67,11 @@ public class Event {
 		setBanner(banner);
 	}
 
-	public Event(Integer id, String slug, String name, String description, String site, Integer cityId,
-			String cityName, Integer stateId, String stateName, String stateAbbreviation, Date beginnig, Date end,
-			Status status) {
+	public Event(Integer id, String alias, String name, String description, String site, Integer cityId,
+				 String cityName, Integer stateId, String stateName, String stateAbbreviation, Date beginnig, Date end,
+				 Status status) {
 		setId(id);
-		setSlug(slug);
+		setAlias(alias);
 		setName(name);
 		setDescription(description);
 		setSite(site);
@@ -158,12 +148,12 @@ public class Event {
 		this.description = description;
 	}
 
-	public String getSlug() {
-		return slug;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setSlug(String slug) {
-		this.slug = slug;
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	public byte[] getBanner() {

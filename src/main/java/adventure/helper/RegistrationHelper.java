@@ -1,13 +1,12 @@
 package adventure.helper;
 
-import java.util.Calendar;
+import adventure.entity.Registration;
+import adventure.persistence.RegistrationDAO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-
-import adventure.entity.Registration;
-import adventure.persistence.RegistrationDAO;
+import java.util.Calendar;
 
 @Named
 @RequestScoped
@@ -30,7 +29,7 @@ public class RegistrationHelper {
 
 			if (registration != null) {
 				this.title = registration.getRaceCategory().getRace().getEvent().getName();
-				slug = registration.getRaceCategory().getRace().getEvent().getSlug();
+				slug = registration.getRaceCategory().getRace().getEvent().getAlias();
 
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(registration.getRaceCategory().getRace().getEvent().getBeginning());

@@ -11,17 +11,17 @@ public class Modality {
 	@Id
 	private Integer id;
 
-	private String name;
+	private String alias;
 
-	private String acronym;
+	private String name;
 
 	public Modality() {
 	}
 
-	public Modality(Integer id, String name, String acronym) {
+	public Modality(Integer id, String name, String alias) {
 		setId(id);
 		setName(name);
-		setAcronym(acronym);
+		setAlias(alias);
 	}
 
 	@Override
@@ -70,11 +70,11 @@ public class Modality {
 		this.name = name;
 	}
 
-	public String getAcronym() {
-		return acronym;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setAcronym(String acronym) {
-		this.acronym = acronym;
+	public void setAlias(String acronym) {
+		this.alias = acronym;
 	}
 }

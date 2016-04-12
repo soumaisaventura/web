@@ -1,31 +1,29 @@
 package adventure.persistence;
 
+import adventure.entity.*;
+import br.gov.frameworkdemoiselle.template.JPACrud;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import static adventure.entity.EventPaymentType.AUTO;
 import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.entity.Status.OPEN_ID;
 import static javax.persistence.TemporalType.DATE;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
-import adventure.entity.Event;
-import adventure.entity.Race;
-import adventure.entity.RaceCategory;
-import adventure.entity.Registration;
-import adventure.entity.User;
-import adventure.entity.UserRegistration;
-import br.gov.frameworkdemoiselle.template.JPACrud;
-import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
-
 @Transactional
 public class RegistrationDAO extends JPACrud<Registration, Long> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static RegistrationDAO getInstance() {
+		return Beans.getReference(RegistrationDAO.class);
+	}
 
 	@Override
 	public Registration insert(Registration registration) {
@@ -54,67 +52,63 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		return super.update(registration);
 	}
 
-	public static RegistrationDAO getInstance() {
-		return Beans.getReference(RegistrationDAO.class);
-	}
-
 	public Registration loadForDetails(Long id) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Registration( ");
-		jpql.append("        re.id, ");
-		jpql.append("        re.date, ");
-		jpql.append("        re.teamName, ");
-		jpql.append("        re.status, ");
-		jpql.append("        re.payment.code, ");
-		jpql.append("        re.payment.transaction, ");
-		jpql.append("        pe.id, ");
-		jpql.append("        pe.price, ");
-		jpql.append("        su.id, ");
-		jpql.append("        su.email, ");
-		jpql.append("        pr.name, ");
-		jpql.append("        pr.mobile, ");
-		jpql.append("        ra.id, ");
-		jpql.append("        ra.name, ");
-		jpql.append("        ra.description, ");
-		jpql.append("        ra.slug, ");
-		jpql.append("        ra.distance, ");
-		jpql.append("        sa.id, ");
-		jpql.append("        sa.name, ");
-		jpql.append("        ra.period.beginning, ");
-		jpql.append("        ra.period.end, ");
-		jpql.append("        ev.id, ");
-		jpql.append("        ev.name, ");
-		jpql.append("        ev.slug, ");
-		jpql.append("        ev.payment.type, ");
-		jpql.append("        ev.payment.info, ");
-		jpql.append("        ev.payment.account, ");
-		jpql.append("        ev.payment.token, ");
-		// jpql.append("        ev.coords.latitude, ");
-		// jpql.append("        ev.coords.longitude, ");
-		jpql.append("        ci.id, ");
-		jpql.append("        ci.name, ");
-		jpql.append("        st.id, ");
-		jpql.append("        st.name, ");
-		jpql.append("        st.abbreviation, ");
-		jpql.append("        ca.id, ");
-		jpql.append("        ca.name ");
-		jpql.append("        ) ");
-		jpql.append("   from Registration re ");
-		jpql.append("   join re.submitter su ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join re.period pe ");
-		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.status sa ");
-		jpql.append("   join rc.category ca ");
-		jpql.append("   join ra.event ev ");
-		jpql.append("   join ev.city ci ");
-		jpql.append("   join ci.state st, ");
-		jpql.append("        Profile pr ");
-		jpql.append("  where su.id = pr.id ");
-		jpql.append("    and re.id = :id");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new Registration( ";
+		jpql += "        re.id, ";
+		jpql += "        re.date, ";
+		jpql += "        re.teamName, ";
+		jpql += "        re.status, ";
+		jpql += "        re.payment.code, ";
+		jpql += "        re.payment.transaction, ";
+		jpql += "        pe.id, ";
+		jpql += "        pe.price, ";
+		jpql += "        su.id, ";
+		jpql += "        su.email, ";
+		jpql += "        pr.name, ";
+		jpql += "        pr.mobile, ";
+		jpql += "        ra.id, ";
+		jpql += "        ra.name, ";
+		jpql += "        ra.description, ";
+		jpql += "        ra.alias, ";
+		jpql += "        ra.distance, ";
+		jpql += "        sa.id, ";
+		jpql += "        sa.name, ";
+		jpql += "        ra.period.beginning, ";
+		jpql += "        ra.period.end, ";
+		jpql += "        ev.id, ";
+		jpql += "        ev.name, ";
+		jpql += "        ev.alias, ";
+		jpql += "        ev.payment.type, ";
+		jpql += "        ev.payment.info, ";
+		jpql += "        ev.payment.account, ";
+		jpql += "        ev.payment.token, ";
+		// jpql += "        ev.coords.latitude, ";
+		// jpql += "        ev.coords.longitude, ";
+		jpql += "        ci.id, ";
+		jpql += "        ci.name, ";
+		jpql += "        st.id, ";
+		jpql += "        st.name, ";
+		jpql += "        st.abbreviation, ";
+		jpql += "        ca.id, ";
+		jpql += "        ca.name ";
+		jpql += "        ) ";
+		jpql += "   from Registration re ";
+		jpql += "   join re.submitter su ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join re.period pe ";
+		jpql += "   join rc.race ra ";
+		jpql += "   join ra.status sa ";
+		jpql += "   join rc.category ca ";
+		jpql += "   join ra.event ev ";
+		jpql += "   join ev.city ci ";
+		jpql += "   join ci.state st, ";
+		jpql += "        Profile pr ";
+		jpql += "  where su.id = pr.id ";
+		jpql += "    and re.id = :id";
 
-		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("id", id);
 
 		Registration result;
@@ -127,23 +121,23 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	}
 
 	public Registration loadForMeta(Long id) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Registration( ");
-		jpql.append(" 	        re.id, ");
-		jpql.append(" 	        ev.id, ");
-		jpql.append(" 	        ev.name, ");
-		jpql.append(" 	        ev.slug, ");
-		jpql.append(" 	        ev.beginning, ");
-		jpql.append(" 	        ev.end ");
-		jpql.append("        ) ");
-		jpql.append("   from Registration re ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.event ev ");
-		jpql.append("  where re.id = :id");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new Registration( ";
+		jpql += " 	        re.id, ";
+		jpql += " 	        ev.id, ";
+		jpql += " 	        ev.name, ";
+		jpql += " 	        ev.alias, ";
+		jpql += " 	        ev.beginning, ";
+		jpql += " 	        ev.end ";
+		jpql += "        ) ";
+		jpql += "   from Registration re ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join rc.race ra ";
+		jpql += "   join ra.event ev ";
+		jpql += "  where re.id = :id";
 
-		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("id", id);
 
 		Registration result;
@@ -156,64 +150,64 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	}
 
 	public List<Registration> findForUpdatePeriod() {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Registration( ");
-		jpql.append("        re.id, ");
-		jpql.append("        re.date, ");
-		jpql.append("        re.teamName, ");
-		jpql.append("        re.status, ");
-		jpql.append("        re.payment.code, ");
-		jpql.append("        re.payment.transaction, ");
-		jpql.append("        pe.id, ");
-		jpql.append("        pe.price, ");
-		jpql.append("        su.id, ");
-		jpql.append("        su.email, ");
-		jpql.append("        pr.name, ");
-		jpql.append("        pr.mobile, ");
-		jpql.append("        ra.id, ");
-		jpql.append("        ra.name, ");
-		jpql.append("        ra.description, ");
-		jpql.append("        ra.slug, ");
-		jpql.append("        ra.distance, ");
-		jpql.append("        sa.id, ");
-		jpql.append("        sa.name, ");
-		jpql.append("        ra.period.beginning, ");
-		jpql.append("        ra.period.end, ");
-		jpql.append("        ev.id, ");
-		jpql.append("        ev.name, ");
-		jpql.append("        ev.slug, ");
-		jpql.append("        ev.payment.type, ");
-		jpql.append("        ev.payment.info, ");
-		jpql.append("        ev.payment.account, ");
-		jpql.append("        ev.payment.token, ");
-		jpql.append("        ci.id, ");
-		jpql.append("        ci.name, ");
-		jpql.append("        st.id, ");
-		jpql.append("        st.name, ");
-		jpql.append("        st.abbreviation, ");
-		jpql.append("        ca.id, ");
-		jpql.append("        ca.name ");
-		jpql.append("        ) ");
-		jpql.append("   from Registration re ");
-		jpql.append("   join re.submitter su ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join re.period pe ");
-		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.status sa ");
-		jpql.append("   join rc.category ca ");
-		jpql.append("   join ra.event ev ");
-		jpql.append("   join ev.city ci ");
-		jpql.append("   join ci.state st, ");
-		jpql.append("        Profile pr ");
-		jpql.append("  where su.id = pr.id ");
-		jpql.append("    and ev.payment.type = :paymentType ");
-		jpql.append("    and not :date between pe.beginning and pe.end ");
-		jpql.append("    and ra.status.id = :raceOpen ");
-		jpql.append("    and re.status = :status ");
-		jpql.append("    and re.payment.transaction is null ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new Registration( ";
+		jpql += "        re.id, ";
+		jpql += "        re.date, ";
+		jpql += "        re.teamName, ";
+		jpql += "        re.status, ";
+		jpql += "        re.payment.code, ";
+		jpql += "        re.payment.transaction, ";
+		jpql += "        pe.id, ";
+		jpql += "        pe.price, ";
+		jpql += "        su.id, ";
+		jpql += "        su.email, ";
+		jpql += "        pr.name, ";
+		jpql += "        pr.mobile, ";
+		jpql += "        ra.id, ";
+		jpql += "        ra.name, ";
+		jpql += "        ra.description, ";
+		jpql += "        ra.alias, ";
+		jpql += "        ra.distance, ";
+		jpql += "        sa.id, ";
+		jpql += "        sa.name, ";
+		jpql += "        ra.period.beginning, ";
+		jpql += "        ra.period.end, ";
+		jpql += "        ev.id, ";
+		jpql += "        ev.name, ";
+		jpql += "        ev.alias, ";
+		jpql += "        ev.payment.type, ";
+		jpql += "        ev.payment.info, ";
+		jpql += "        ev.payment.account, ";
+		jpql += "        ev.payment.token, ";
+		jpql += "        ci.id, ";
+		jpql += "        ci.name, ";
+		jpql += "        st.id, ";
+		jpql += "        st.name, ";
+		jpql += "        st.abbreviation, ";
+		jpql += "        ca.id, ";
+		jpql += "        ca.name ";
+		jpql += "        ) ";
+		jpql += "   from Registration re ";
+		jpql += "   join re.submitter su ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join re.period pe ";
+		jpql += "   join rc.race ra ";
+		jpql += "   join ra.status sa ";
+		jpql += "   join rc.category ca ";
+		jpql += "   join ra.event ev ";
+		jpql += "   join ev.city ci ";
+		jpql += "   join ci.state st, ";
+		jpql += "        Profile pr ";
+		jpql += "  where su.id = pr.id ";
+		jpql += "    and ev.payment.type = :paymentType ";
+		jpql += "    and not :date between pe.beginning and pe.end ";
+		jpql += "    and ra.status.id = :raceOpen ";
+		jpql += "    and re.status = :status ";
+		jpql += "    and re.payment.transaction is null ";
 
-		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("date", new Date(), DATE);
 		query.setParameter("paymentType", AUTO);
 		query.setParameter("status", PENDENT);
@@ -223,48 +217,49 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	}
 
 	public List<Registration> findToOrganizer(Event event) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append(" 	 new UserRegistration( ");
-		jpql.append(" 	     u.id, ");
-		jpql.append(" 	     u.email, ");
-		jpql.append(" 	     p.name, ");
-		jpql.append(" 	     p.mobile, ");
-		jpql.append(" 	     p.tshirt, ");
-		jpql.append(" 	     p.birthday, ");
-		jpql.append(" 	     p.rg, ");
-		jpql.append(" 	     p.cpf, ");
-		jpql.append(" 	     ci.id, ");
-		jpql.append(" 	     ci.name, ");
-		jpql.append(" 	     st.id, ");
-		jpql.append(" 	     st.abbreviation, ");
-		jpql.append(" 	     tf.racePrice, ");
-		jpql.append(" 	     re.id, ");
-		jpql.append(" 	     re.status, ");
-		jpql.append(" 	     re.teamName, ");
-		jpql.append(" 	     re.date, ");
-		jpql.append(" 	     ra.id, ");
-		jpql.append(" 	     ra.slug, ");
-		jpql.append(" 	     ra.name, ");
-		jpql.append(" 	     ca.id, ");
-		jpql.append(" 	     ca.name ");
-		jpql.append(" 	     ) ");
-		jpql.append("   from UserRegistration tf ");
-		jpql.append("   join tf.user u ");
-		jpql.append("   join tf.registration re ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.event ev ");
-		jpql.append("   join rc.category ca, ");
-		jpql.append("        Profile p ");
-		jpql.append("   join p.city ci ");
-		jpql.append("   join ci.state st ");
-		jpql.append("  where u = p.user ");
-		jpql.append("    and ev = :event ");
-		jpql.append("  order by ");
-		jpql.append("        re.id desc ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += " 	 new UserRegistration( ";
+		jpql += " 	     u.id, ";
+		jpql += " 	     u.email, ";
+		jpql += " 	     p.name, ";
+		jpql += " 	     p.mobile, ";
+		jpql += " 	     p.tshirt, ";
+		jpql += " 	     p.birthday, ";
+		jpql += " 	     p.rg, ";
+		jpql += " 	     p.cpf, ";
+		jpql += " 	     ci.id, ";
+		jpql += " 	     ci.name, ";
+		jpql += " 	     st.id, ";
+		jpql += " 	     st.abbreviation, ";
+		jpql += " 	     tf.racePrice, ";
+		jpql += " 	     re.id, ";
+		jpql += " 	     re.status, ";
+		jpql += " 	     re.teamName, ";
+		jpql += " 	     re.date, ";
+		jpql += " 	     ra.id, ";
+		jpql += " 	     ra.alias, ";
+		jpql += " 	     ra.name, ";
+		jpql += " 	     ca.id, ";
+		jpql += " 	     ca.alias, ";
+		jpql += " 	     ca.name ";
+		jpql += " 	     ) ";
+		jpql += "   from UserRegistration tf ";
+		jpql += "   join tf.user u ";
+		jpql += "   join tf.registration re ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join rc.race ra ";
+		jpql += "   join ra.event ev ";
+		jpql += "   join rc.category ca, ";
+		jpql += "        Profile p ";
+		jpql += "   join p.city ci ";
+		jpql += "   join ci.state st ";
+		jpql += "  where u = p.user ";
+		jpql += "    and ev = :event ";
+		jpql += "  order by ";
+		jpql += "        re.id desc ";
 
-		TypedQuery<UserRegistration> query = getEntityManager().createQuery(jpql.toString(), UserRegistration.class);
+		TypedQuery<UserRegistration> query = getEntityManager().createQuery(jpql, UserRegistration.class);
 		query.setParameter("event", event);
 
 		Registration registration = null;
@@ -284,66 +279,66 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 	}
 
 	public List<Registration> find(User loggedInUser) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select  ");
-		jpql.append("    new Registration( ");
-		jpql.append("        re.id, ");
-		jpql.append("        re.status, ");
-		jpql.append("        re.teamName, ");
-		jpql.append("        ra.id, ");
-		jpql.append("        ra.name, ");
-		jpql.append("        ra.description, ");
-		jpql.append("        ra.slug, ");
-		jpql.append("        ra.period.beginning, ");
-		jpql.append("        ra.period.end, ");
-		jpql.append("        ev.id, ");
-		jpql.append("        ev.name, ");
-		jpql.append("        ev.slug, ");
-		jpql.append("        ci.id, ");
-		jpql.append("        ci.name, ");
-		jpql.append("        st.abbreviation ");
-		jpql.append("    ) ");
-		jpql.append("   from UserRegistration ur ");
-		jpql.append("   join ur.registration re ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join rc.race ra ");
-		jpql.append("   join ra.event ev ");
-		jpql.append("   join ev.city ci ");
-		jpql.append("   join ci.state st ");
-		jpql.append("  where ur.user = :user ");
-		jpql.append("  order by ");
-		jpql.append("        re.date desc ");
+		String jpql = "";
+		jpql += " select  ";
+		jpql += "    new Registration( ";
+		jpql += "        re.id, ";
+		jpql += "        re.status, ";
+		jpql += "        re.teamName, ";
+		jpql += "        ra.id, ";
+		jpql += "        ra.name, ";
+		jpql += "        ra.description, ";
+		jpql += "        ra.alias, ";
+		jpql += "        ra.period.beginning, ";
+		jpql += "        ra.period.end, ";
+		jpql += "        ev.id, ";
+		jpql += "        ev.name, ";
+		jpql += "        ev.alias, ";
+		jpql += "        ci.id, ";
+		jpql += "        ci.name, ";
+		jpql += "        st.abbreviation ";
+		jpql += "    ) ";
+		jpql += "   from UserRegistration ur ";
+		jpql += "   join ur.registration re ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join rc.race ra ";
+		jpql += "   join ra.event ev ";
+		jpql += "   join ev.city ci ";
+		jpql += "   join ci.state st ";
+		jpql += "  where ur.user = :user ";
+		jpql += "  order by ";
+		jpql += "        re.date desc ";
 
-		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("user", loggedInUser);
 
 		return query.getResultList();
 	}
 
 	public List<Registration> findToUser(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select  ");
-		jpql.append("    new Registration( ");
-		jpql.append("        re.id, ");
-		jpql.append("        re.status, ");
-		jpql.append("        re.teamName, ");
-		jpql.append("        ra.id, ");
-		jpql.append("        ra.name ");
-		// jpql.append("        ra.date, ");
-		// jpql.append("        ci.id, ");
-		// jpql.append("        ci.name, ");
-		// jpql.append("        st.abbreviation ");
-		jpql.append("    ) ");
-		jpql.append("   from Registration re ");
-		jpql.append("   join re.raceCategory rc ");
-		jpql.append("   join rc.race ra ");
-		// jpql.append("   left join ra.city ci ");
-		// jpql.append("   left join ci.state st ");
-		jpql.append("  where ra = :race ");
-		jpql.append("  order by ");
-		jpql.append("        re.date ");
+		String jpql = "";
+		jpql += " select  ";
+		jpql += "    new Registration( ";
+		jpql += "        re.id, ";
+		jpql += "        re.status, ";
+		jpql += "        re.teamName, ";
+		jpql += "        ra.id, ";
+		jpql += "        ra.name ";
+		// jpql += "        ra.date, ";
+		// jpql += "        ci.id, ";
+		// jpql += "        ci.name, ";
+		// jpql += "        st.abbreviation ";
+		jpql += "    ) ";
+		jpql += "   from Registration re ";
+		jpql += "   join re.raceCategory rc ";
+		jpql += "   join rc.race ra ";
+		// jpql += "   left join ra.city ci ";
+		// jpql += "   left join ci.state st ";
+		jpql += "  where ra = :race ";
+		jpql += "  order by ";
+		jpql += "        re.date ";
 
-		TypedQuery<Registration> query = getEntityManager().createQuery(jpql.toString(), Registration.class);
+		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();

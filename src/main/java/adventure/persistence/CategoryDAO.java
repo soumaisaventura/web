@@ -1,14 +1,13 @@
 package adventure.persistence;
 
-import java.util.List;
-
-import javax.persistence.TypedQuery;
-
 import adventure.entity.Category;
 import adventure.entity.Race;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
+
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class CategoryDAO extends JPACrud<Category, Integer> {
@@ -20,24 +19,25 @@ public class CategoryDAO extends JPACrud<Category, Integer> {
 	}
 
 	public List<Category> find(Race race) {
-		StringBuffer jpql = new StringBuffer();
-		jpql.append(" select ");
-		jpql.append("    new Category ( ");
-		jpql.append("        c.id, ");
-		jpql.append("        c.name, ");
-		jpql.append("        c.description, ");
-		jpql.append("        c.teamSize, ");
-		jpql.append("        c.minMaleMembers, ");
-		jpql.append("        c.minFemaleMembers ");
-		jpql.append("        ) ");
-		jpql.append("   from RaceCategory rc ");
-		jpql.append("   join rc.category c ");
-		jpql.append("  where rc.race = :race ");
-		jpql.append("  order by ");
-		jpql.append("        c.teamSize desc, ");
-		jpql.append("        c.name ");
+		String jpql = "";
+		jpql += " select ";
+		jpql += "    new Category ( ";
+		jpql += "        c.id, ";
+		jpql += "        c.alias, ";
+		jpql += "        c.name, ";
+		jpql += "        c.description, ";
+		jpql += "        c.teamSize, ";
+		jpql += "        c.minMaleMembers, ";
+		jpql += "        c.minFemaleMembers ";
+		jpql += "        ) ";
+		jpql += "   from RaceCategory rc ";
+		jpql += "   join rc.category c ";
+		jpql += "  where rc.race = :race ";
+		jpql += "  order by ";
+		jpql += "        c.teamSize desc, ";
+		jpql += "        c.name ";
 
-		TypedQuery<Category> query = getEntityManager().createQuery(jpql.toString(), Category.class);
+		TypedQuery<Category> query = getEntityManager().createQuery(jpql, Category.class);
 		query.setParameter("race", race);
 
 		return query.getResultList();
