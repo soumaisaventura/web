@@ -1,5 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap-editable.css" />
@@ -29,13 +29,13 @@
 				<a href="#{request.contextPath}/calendario/#{registrationHelper.getYear(request)}">Calendário #{registrationHelper.getYear(request)}</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}">#{registrationHelper.getTitle(request)}</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}">#{registrationHelper.getTitle(request)}</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}/painel">Painel</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}/painel">Painel</a>
 			</li>
 			<li>
-				<a href="#{request.contextPath}/evento/#{registrationHelper.getSlug(request)}/painel/inscricoes">Inscrições</a>
+				<a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}/painel/inscricoes">Inscrições</a>
 			</li>
 			<li class="active">##{param.inscricao_id}</li>
 		</ol>

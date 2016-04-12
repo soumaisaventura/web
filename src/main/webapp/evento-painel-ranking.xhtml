@@ -1,5 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
 	<ui:define name="css">
 		<link rel="stylesheet" href="#{request.contextPath}/css/evento-painel-ranking.css" />
@@ -23,8 +23,9 @@
 	<ui:define name="breadcrumb">
 		<ol class="breadcrumb">
 			<li><a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a></li>
-			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a></li>
-			<li><a href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}/painel">Painel</a></li>
+			<li><a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
+			</li>
+			<li><a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}/painel">Painel</a></li>
 			<li class="active">Ranking</li>
 		</ol>
 	</ui:define>

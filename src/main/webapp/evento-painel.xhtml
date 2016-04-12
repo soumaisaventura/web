@@ -1,8 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns="http://www.w3.org/1999/xhtml"
+				template="/template/main.xhtml">
 
 	<ui:define name="lib">
 		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
@@ -33,7 +31,7 @@
 				href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
 					#{eventHelper.getYear(request)}</a></li>
 			<li><a
-				href="#{request.contextPath}/evento/#{eventHelper.getSlug(request)}">#{eventHelper.getTitle(request)}</a>
+					href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
 			</li>
 			<li class="active">Painel</li>
 		</ol>

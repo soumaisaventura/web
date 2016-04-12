@@ -10,22 +10,23 @@ import br.gov.frameworkdemoiselle.util.Cache;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
-@Path("events/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}")
+@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/{raceAlias: " + RACE_SLUG_PATTERN + "}")
 public class RaceREST {
 
     @GET
     @Path("summary")
     @Produces("application/json")
-    public RaceData loadSummary(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
+    public RaceData loadSummary(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
                                 @Context UriInfo uriInfo) throws Exception {
         RaceData data = new RaceData();
-        Race race = loadRaceDetails(raceSlug, eventSlug);
+        Race race = loadRaceDetails(raceAlias, eventAlias);
 
         data.id = race.getAlias();
         data.internalId = race.getId();
@@ -55,10 +56,10 @@ public class RaceREST {
     @GET
     @Path("categories")
     @Produces("application/json")
-    public List<CategoryData> findCategories(@PathParam("raceSlug") String raceSlug,
-                                             @PathParam("eventSlug") String eventSlug) throws Exception {
+    public List<CategoryData> findCategories(@PathParam("raceAlias") String raceAlias,
+                                             @PathParam("eventAlias") String eventAlias) throws Exception {
         List<CategoryData> result = new ArrayList<CategoryData>();
-        Race race = loadRaceDetails(raceSlug, eventSlug);
+        Race race = loadRaceDetails(raceAlias, eventAlias);
 
         for (Category category : CategoryDAO.getInstance().find(race)) {
             CategoryData categoryData = new CategoryData();
@@ -78,10 +79,10 @@ public class RaceREST {
     @GET
     @Path("kits")
     @Produces("application/json")
-    public List<KitData> getKits(@PathParam("raceSlug") String raceSlug,
-                                 @PathParam("eventSlug") String eventSlug) throws Exception {
+    public List<KitData> getKits(@PathParam("raceAlias") String raceAlias,
+                                 @PathParam("eventAlias") String eventAlias) throws Exception {
         List<KitData> result = new ArrayList<KitData>();
-        Race race = loadRaceDetails(raceSlug, eventSlug);
+        Race race = loadRaceDetails(raceAlias, eventAlias);
 
         for (Kit kit : KitDAO.getInstance().findForRegistration(race)) {
             KitData kitData = new KitData();
@@ -99,35 +100,32 @@ public class RaceREST {
     @GET
     @Path("order")
     @Produces("application/json")
-    public List<UserData> getOrder(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
-                                   @QueryParam("users_ids") List<Integer> users, @Context UriInfo uriInfo) throws Exception {
-        Race race = loadRaceDetails(raceSlug, eventSlug);
-
+    public BigDecimal getOrder(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
+                               @QueryParam("user_id") Integer userId, @Context UriInfo uriInfo) throws Exception {
+        Race race = loadRaceDetails(raceAlias, eventAlias);
         RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
-        List<UserData> result = new ArrayList<UserData>();
+        User user;
 
-        if (users.isEmpty()) {
-            throw new UnprocessableEntityException().addViolation("users", "parâmetro obrigatório");
+        if (userId == null) {
+            throw new UnprocessableEntityException().addViolation("user_id", "parâmetro obrigatório");
 
-        } else if (period != null) {
-            for (Integer userId : users) {
-                User user = UserDAO.getInstance().loadBasics(userId);
+        } else {
+            user = UserDAO.getInstance().loadBasics(userId);
 
-                if (user == null) {
-                    throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
-                } else {
-                    UserData row = new UserData(uriInfo);
-                    row.id = user.getId();
-                    row.name = user.getProfile().getName();
-                    row.racePrice = period.getPrice();
-                    result.add(row);
-                }
+            if (user == null) {
+                throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
             }
-
-            period.setRace(null);
         }
 
-        return result.isEmpty() ? null : result;
+        BigDecimal result;
+
+        if (period != null) {
+            result = period.getPrice();
+        } else {
+            throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
+        }
+
+        return result;
     }
 
     @GET
@@ -152,8 +150,8 @@ public class RaceREST {
         return null;
     }
 
-    private Race loadRaceDetails(String raceSlug, String eventSlug) throws Exception {
-        Race result = RaceDAO.getInstance().loadForDetail(raceSlug, eventSlug);
+    private Race loadRaceDetails(String raceAlias, String eventAlias) throws Exception {
+        Race result = RaceDAO.getInstance().loadForDetail(raceAlias, eventAlias);
 
         if (result == null) {
             throw new NotFoundException();

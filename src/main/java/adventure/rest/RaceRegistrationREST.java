@@ -25,7 +25,7 @@ import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
-@Path("events/{eventSlug: " + EVENT_SLUG_PATTERN + "}/{raceSlug: " + RACE_SLUG_PATTERN + "}/registrations")
+@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/{raceAlias: " + RACE_SLUG_PATTERN + "}/registrations")
 public class RaceRegistrationREST {
 
     @POST
@@ -34,9 +34,9 @@ public class RaceRegistrationREST {
     @ValidatePayload
     @Produces("text/plain")
     @Consumes("application/json")
-    public String submit(@PathParam("raceSlug") String raceSlug, @PathParam("eventSlug") String eventSlug,
+    public String submit(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
                          RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
-        Race race = loadRace(raceSlug, eventSlug);
+        Race race = loadRace(raceAlias, eventAlias);
         Date date = new Date();
         URI baseUri = uriInfo.getBaseUri().resolve("..");
 
@@ -80,8 +80,8 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private Race loadRace(String raceSlug, String eventSlug) throws Exception {
-        Race result = RaceDAO.getInstance().loadForDetail(raceSlug, eventSlug);
+    private Race loadRace(String raceAlias, String eventAlias) throws Exception {
+        Race result = RaceDAO.getInstance().loadForDetail(raceAlias, eventAlias);
 
         if (result == null) {
             throw new NotFoundException();
