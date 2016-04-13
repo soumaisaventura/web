@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="1190,382" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1186,928" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -168,7 +168,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1739" y="760"/>
+	<position x="1756" y="763"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -304,7 +304,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2284" y="758"/>
+	<position x="2263" y="745"/>
 	<column name="id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -338,10 +338,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="approver_id">
 		<type name="integer"/>
 	</column>
-	<column name="payment_transaction">
+	<column name="payment_transaction_code">
 		<type name="character varying" length="64"/>
 	</column>
-	<column name="payment_code">
+	<column name="payment_checkout_code">
 		<type name="character varying" length="64"/>
 	</column>
 	<column name="race_id_old">
@@ -354,10 +354,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_registration_payment_code" type="uq-constr" table="public.registration">
-		<columns names="payment_code" ref-type="src-columns"/>
+		<columns names="payment_checkout_code" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_registration_payment_transaction" type="uq-constr" table="public.registration">
-		<columns names="payment_transaction" ref-type="src-columns"/>
+		<columns names="payment_transaction_code" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -678,7 +678,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="2102" y="613"/>
+	<position x="2066" y="616"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -1626,7 +1626,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1815" y="601"/>
+	<position x="1760" y="604"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>

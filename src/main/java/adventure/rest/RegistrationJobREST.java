@@ -49,7 +49,7 @@ public class RegistrationJobREST {
             persisted.setPeriod(period);
 
             if (persisted.getPayment() != null) {
-                persisted.getPayment().setCode(null);
+                persisted.getPayment().setCheckoutCode(null);
             }
 
             registrationDAO.update(persisted);

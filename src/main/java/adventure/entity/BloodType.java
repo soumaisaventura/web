@@ -5,31 +5,31 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum BloodType {
 
-	A_POSITIVE("A+"), A_NEGATIVE("A-"), B_POSITIVE("B+"), B_NEGATIVE("B-"), AB_POSITIVE("AB+"), AB_NEGATIVE("AB-"), O_POSITIVE(
-			"O+"), O_NEGATIVE("O-");
+    A_POSITIVE("A+"), A_NEGATIVE("A-"), B_POSITIVE("B+"), B_NEGATIVE("B-"), AB_POSITIVE("AB+"), AB_NEGATIVE("AB-"), O_POSITIVE(
+            "O+"), O_NEGATIVE("O-");
 
-	private final String value;
+    private final String value;
 
-	BloodType(String value) {
-		this.value = value;
-	}
+    BloodType(String value) {
+        this.value = value;
+    }
 
-	@JsonValue
-	public String toString() {
-		return this.value.replaceAll("_POSITIVE", "+").replaceAll("_NEGATIVE", "-");
-	}
+    @JsonCreator
+    public static BloodType fromValue(String value) {
+        BloodType result = null;
 
-	@JsonCreator
-	public static BloodType fromValue(String value) {
-		BloodType result = null;
+        for (BloodType bloodType : values()) {
+            if (bloodType.toString().equalsIgnoreCase(value)) {
+                result = bloodType;
+                break;
+            }
+        }
 
-		for (BloodType bloodType : values()) {
-			if (bloodType.toString().equalsIgnoreCase(value)) {
-				result = bloodType;
-				break;
-			}
-		}
+        return result;
+    }
 
-		return result;
-	}
+    @JsonValue
+    public String toString() {
+        return this.value.replaceAll("_POSITIVE", "+").replaceAll("_NEGATIVE", "-");
+    }
 }

@@ -1,44 +1,44 @@
-$(function() {
-	
-	var eventoId = $("#event_id").val();
-	
-	EventProxy.load(eventoId).done(loadOk);
-	
-	$("#raceId").on("change", function() {
-		var raceId = $(this).val();
-		RaceProxy.findCategories(raceId, eventoId).done(findCategoriesOk);
-	});
-	
-	$("#categoryId").on("change", function() {
-		RegistrationProxy.find(eventoId).done(findOk);
-	});
-	
+$(function () {
+
+    var eventoId = $("#event_id").val();
+
+    EventProxy.load(eventoId).done(loadOk);
+
+    $("#raceId").on("change", function () {
+        var raceId = $(this).val();
+        RaceProxy.findCategories(raceId, eventoId).done(findCategoriesOk);
+    });
+
+    $("#categoryId").on("change", function () {
+        RegistrationProxy.find(eventoId).done(findOk);
+    });
+
 });
 
-function loadOk(event){
-	console.log(event);
-	$("#event-name").text(event.name);
-	$("#location-city").text(App.parseCity(event.location.city));
-	$("#date").text(App.parsePeriod(event.period));
-	
-	$.each(event.races, function(i, race) {
-		var option = new Option(race.name, race	.id);
-		$("#raceId").append(option);
-	});
+function loadOk(event) {
+    console.log(event);
+    $("#event-name").text(event.name);
+    $("#location-city").text(App.parseCity(event.location.city));
+    $("#date").text(App.parsePeriod(event.period));
+
+    $.each(event.races, function (i, race) {
+        var option = new Option(race.name, race.id);
+        $("#raceId").append(option);
+    });
 }
 
-function findCategoriesOk(categories){
-	$.each(categories, function(i, category) {
-		var option = new Option(category.name, category	.id);
-		$("#categoryId").append(option);
-	});
+function findCategoriesOk(categories) {
+    $.each(categories, function (i, category) {
+        var option = new Option(category.name, category.id);
+        $("#categoryId").append(option);
+    });
 }
 
-function findOk(data){
-	console.log(data);
-	
-	var template = $("#rank-template");
-	var rendered = Mustache.render(template.html(), data);
-	console.log(rendered);
-	$('#rank-template').html(rendered);
+function findOk(data) {
+    console.log(data);
+
+    var template = $("#rank-template");
+    var rendered = Mustache.render(template.html(), data);
+    console.log(rendered);
+    $('#rank-template').html(rendered);
 }

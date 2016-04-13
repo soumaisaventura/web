@@ -25,5 +25,4 @@ public class RegistrationData {
     public CategoryData category;
 
     public TeamData team;
-
 }

@@ -55,7 +55,7 @@ public class RegistrationNotificationREST {
 
         getLogger().info("Recebendo [notificationCode=" + code + "] e [notificationType=" + type + "].");
 
-        if ("transaction".equalsIgnoreCase(type)) {
+        if ("transactionCode".equalsIgnoreCase(type)) {
             for (Race race : RaceDAO.getInstance().findOpenAutoPayment()) {
                 Transaction transaction = getBody(code, race);
 
@@ -77,12 +77,12 @@ public class RegistrationNotificationREST {
 
             switch (transaction.status) {
                 case 1: // iniciada
-                    persistedRegistration.getPayment().setTransaction(transaction.code);
+                    persistedRegistration.getPayment().setTransactionCode(transaction.code);
                     dao.update(persistedRegistration);
                     break;
 
                 case 3: // paga
-                    persistedRegistration.getPayment().setTransaction(transaction.code);
+                    persistedRegistration.getPayment().setTransactionCode(transaction.code);
                     persistedRegistration.setStatus(CONFIRMED);
                     persistedRegistration.setDate(new Date());
                     dao.update(persistedRegistration);
@@ -91,7 +91,7 @@ public class RegistrationNotificationREST {
                     break;
 
                 case 7: // cancelada
-                    persistedRegistration.getPayment().setTransaction(null);
+                    persistedRegistration.getPayment().setTransactionCode(null);
                     dao.update(persistedRegistration);
             }
         }
@@ -101,7 +101,7 @@ public class RegistrationNotificationREST {
         Transaction result = null;
 
         if (code != null) {
-            List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+            List<BasicNameValuePair> payload = new ArrayList();
             payload.add(new BasicNameValuePair("email", race.getEvent().getPayment().getAccount()));
             payload.add(new BasicNameValuePair("token", race.getEvent().getPayment().getToken()));
 
@@ -146,10 +146,10 @@ public class RegistrationNotificationREST {
     }
 
     @XmlAccessorType(FIELD)
-    @XmlRootElement(name = "transaction")
+    @XmlRootElement(name = "transactionCode")
     static class Transaction {
 
-        @XmlElement(name = "code")
+        @XmlElement(name = "checkoutCode")
         String code;
 
         @XmlElement(name = "status")

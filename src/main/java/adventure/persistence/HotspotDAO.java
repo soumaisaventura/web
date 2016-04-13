@@ -12,33 +12,33 @@ import java.util.List;
 @Transactional
 public class HotspotDAO extends JPACrud<Hotspot, Integer> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static HotspotDAO getInstance() {
-		return Beans.getReference(HotspotDAO.class);
-	}
+    public static HotspotDAO getInstance() {
+        return Beans.getReference(HotspotDAO.class);
+    }
 
-	public List<Hotspot> find(Event event) {
-		String jpql = "";
-		jpql += "select ";
-		jpql += "   new Hotspot ( ";
-		jpql += "       h.id, ";
-		jpql += "       h.name, ";
-		jpql += "       h.description, ";
-		jpql += "       h.coord, ";
-		jpql += "       h.order, ";
-		jpql += "       h.main, ";
-		jpql += "       e.id ";
-		jpql += "       ) ";
-		jpql += "  from Hotspot h ";
-		jpql += "  join h.event e ";
-		jpql += " where e = :event ";
-		jpql += " order by ";
-		jpql += " 		h.order asc ";
+    public List<Hotspot> find(Event event) {
+        String jpql = "";
+        jpql += "select ";
+        jpql += "   new Hotspot ( ";
+        jpql += "       h.id, ";
+        jpql += "       h.name, ";
+        jpql += "       h.description, ";
+        jpql += "       h.coord, ";
+        jpql += "       h.order, ";
+        jpql += "       h.main, ";
+        jpql += "       e.id ";
+        jpql += "       ) ";
+        jpql += "  from Hotspot h ";
+        jpql += "  join h.event e ";
+        jpql += " where e = :event ";
+        jpql += " order by ";
+        jpql += " 		h.order asc ";
 
-		TypedQuery<Hotspot> query = getEntityManager().createQuery(jpql, Hotspot.class);
-		query.setParameter("event", event);
+        TypedQuery<Hotspot> query = getEntityManager().createQuery(jpql, Hotspot.class);
+        query.setParameter("event", event);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 }

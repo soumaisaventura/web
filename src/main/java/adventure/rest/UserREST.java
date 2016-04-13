@@ -31,7 +31,7 @@ public class UserREST {
     public List<UserData> search(@QueryParam("q") String q, @QueryParam("excludes[]") List<Integer> excludes,
                                  @Context UriInfo uriInfo) throws Exception {
         validate(q);
-        List<UserData> result = new ArrayList<UserData>();
+        List<UserData> result = new ArrayList();
 
         for (User user : UserDAO.getInstance().search(q, excludes)) {
             result.add(new UserData(user, uriInfo));
@@ -83,7 +83,6 @@ public class UserREST {
         credentials.setUsername(email);
 
         Beans.getReference(ActivationSession.class).setToken(token);
-        ;
         Beans.getReference(SecurityContext.class).login();
     }
 }

@@ -14,34 +14,34 @@ import java.util.List;
 @Transactional
 public class ChampionshipDAO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-	public static ChampionshipDAO getInstance() {
-		return Beans.getReference(ChampionshipDAO.class);
-	}
+    public static ChampionshipDAO getInstance() {
+        return Beans.getReference(ChampionshipDAO.class);
+    }
 
-	public List<Championship> findForEvent(Race race) {
-		String jpql = "";
-		jpql += " select ";
-		jpql += "    new Championship ( ";
-		jpql += "        c.id, ";
-		jpql += "        c.name, ";
-		jpql += "        c.alias ";
-		jpql += "        ) ";
-		jpql += "   from ChampionshipRace cr ";
-		jpql += "   join cr.championship c ";
-		jpql += "  where cr.race = :race ";
-		jpql += "  order by ";
-		jpql += "        c.id ";
+    public List<Championship> findForEvent(Race race) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new Championship ( ";
+        jpql += "        c.id, ";
+        jpql += "        c.name, ";
+        jpql += "        c.alias ";
+        jpql += "        ) ";
+        jpql += "   from ChampionshipRace cr ";
+        jpql += "   join cr.championship c ";
+        jpql += "  where cr.race = :race ";
+        jpql += "  order by ";
+        jpql += "        c.id ";
 
-		TypedQuery<Championship> query = em.createQuery(jpql, Championship.class);
-		query.setParameter("race", race);
+        TypedQuery<Championship> query = em.createQuery(jpql, Championship.class);
+        query.setParameter("race", race);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	// TODO: OLD
+    // TODO: OLD
 }

@@ -222,8 +222,7 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
 
 		return query.getResultList();
 	}
-	
-	
+
 
 	public List<EventAnalytic> gerRegistrationByAgeGroup(Event event) {
 		String jpql = "";

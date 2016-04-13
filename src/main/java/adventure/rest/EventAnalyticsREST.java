@@ -35,7 +35,7 @@ public class EventAnalyticsREST {
         Event event = loadEvent(slug);
         checkPermission(event);
 
-        List<EventAnalytic> result = new ArrayList<EventAnalytic>();
+        List<EventAnalytic> result = new ArrayList();
         result = EventAnalyticDAO.getInstance().getGenderQuantity(event);
 
         return result.isEmpty() ? null : result;
@@ -113,7 +113,7 @@ public class EventAnalyticsREST {
     public List<EventRegistrationStatusByDayData> getStatusByDay(@PathParam("slug") String slug) throws Exception {
         Event event = loadEvent(slug);
         checkPermission(event);
-        List<EventRegistrationStatusByDayData> result = new ArrayList<EventRegistrationStatusByDayData>();
+        List<EventRegistrationStatusByDayData> result = new ArrayList();
 
         int pendent = 0;
         int confimed = 0;

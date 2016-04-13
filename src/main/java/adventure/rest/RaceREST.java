@@ -58,7 +58,7 @@ public class RaceREST {
     @Produces("application/json")
     public List<CategoryData> findCategories(@PathParam("raceAlias") String raceAlias,
                                              @PathParam("eventAlias") String eventAlias) throws Exception {
-        List<CategoryData> result = new ArrayList<CategoryData>();
+        List<CategoryData> result = new ArrayList();
         Race race = loadRaceDetails(raceAlias, eventAlias);
 
         for (Category category : CategoryDAO.getInstance().find(race)) {
@@ -81,7 +81,7 @@ public class RaceREST {
     @Produces("application/json")
     public List<KitData> getKits(@PathParam("raceAlias") String raceAlias,
                                  @PathParam("eventAlias") String eventAlias) throws Exception {
-        List<KitData> result = new ArrayList<KitData>();
+        List<KitData> result = new ArrayList();
         Race race = loadRaceDetails(raceAlias, eventAlias);
 
         for (Kit kit : KitDAO.getInstance().findForRegistration(race)) {

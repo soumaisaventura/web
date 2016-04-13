@@ -2,6 +2,7 @@ package adventure.persistence;
 
 import adventure.entity.Kit;
 import adventure.entity.Race;
+import adventure.entity.UserRegistration;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -63,12 +64,39 @@ public class KitDAO implements Serializable {
         jpql += "   join k.race r ";
         jpql += "  where r = :race ";
         jpql += "    and = :kitAlias ";
-        jpql += "  order by ";
-        jpql += "        r.id, ";
-        jpql += "        k.price ";
 
         TypedQuery<Kit> query = em.createQuery(jpql, Kit.class);
         query.setParameter("kitAlias", alias);
+
+        Kit result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
+
+    public Kit loadForRegistration(UserRegistration userRegistration) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new Kit ( ";
+        jpql += "        k.id, ";
+        jpql += "        k.alias, ";
+        jpql += "        k.name, ";
+        jpql += "        k.description, ";
+        jpql += "        k.price, ";
+        jpql += "        r.id ";
+        jpql += "        ) ";
+        jpql += "   from UserRegistration ur ";
+        jpql += "   join ur.kit k ";
+        jpql += "   join k.race r ";
+        jpql += "  where ur.user = :user ";
+        jpql += "    and ur.registration = :registration ";
+
+        TypedQuery<Kit> query = em.createQuery(jpql, Kit.class);
+        query.setParameter("user", userRegistration.getUser());
+        query.setParameter("registration", userRegistration.getRegistration());
 
         Kit result;
         try {

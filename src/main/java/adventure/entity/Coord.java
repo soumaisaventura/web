@@ -1,83 +1,75 @@
 package adventure.entity;
 
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
+import adventure.util.Misc;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
-import br.gov.frameworkdemoiselle.util.Reflections;
+import java.math.BigDecimal;
 
 @Embeddable
 public class Coord {
 
-	@Column(name = "coord_latitude")
-	private BigDecimal latitude;
+    @Column(name = "coord_latitude")
+    private BigDecimal latitude;
 
-	@Column(name = "coord_longitude")
-	private BigDecimal longitude;
+    @Column(name = "coord_longitude")
+    private BigDecimal longitude;
 
-	public boolean isEmpty() {
-		boolean resut = true;
+    public boolean isEmpty() {
+        return Misc.isEmpty(this);
+    }
 
-		for (Field field : Reflections.getNonStaticDeclaredFields(this.getClass())) {
-			resut &= Reflections.getFieldValue(field, this) == null;
-		}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
+        result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
+        return result;
+    }
 
-		return resut;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Coord)) {
+            return false;
+        }
+        Coord other = (Coord) obj;
+        if (latitude == null) {
+            if (other.latitude != null) {
+                return false;
+            }
+        } else if (!latitude.equals(other.latitude)) {
+            return false;
+        }
+        if (longitude == null) {
+            if (other.longitude != null) {
+                return false;
+            }
+        } else if (!longitude.equals(other.longitude)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
-		result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
-		return result;
-	}
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Coord)) {
-			return false;
-		}
-		Coord other = (Coord) obj;
-		if (latitude == null) {
-			if (other.latitude != null) {
-				return false;
-			}
-		} else if (!latitude.equals(other.latitude)) {
-			return false;
-		}
-		if (longitude == null) {
-			if (other.longitude != null) {
-				return false;
-			}
-		} else if (!longitude.equals(other.longitude)) {
-			return false;
-		}
-		return true;
-	}
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
 
-	public BigDecimal getLatitude() {
-		return latitude;
-	}
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
 
-	public void setLatitude(BigDecimal latitude) {
-		this.latitude = latitude;
-	}
-
-	public BigDecimal getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(BigDecimal longitude) {
-		this.longitude = longitude;
-	}
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
 }

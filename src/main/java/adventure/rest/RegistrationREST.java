@@ -2,10 +2,7 @@ package adventure.rest;
 
 import adventure.business.MailBusiness;
 import adventure.entity.*;
-import adventure.persistence.EventDAO;
-import adventure.persistence.RegistrationDAO;
-import adventure.persistence.UserDAO;
-import adventure.persistence.UserRegistrationDAO;
+import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
@@ -51,7 +48,7 @@ public class RegistrationREST {
     @Transactional
     @Produces("application/json")
     public List<RegistrationData> find(@Context UriInfo uriInfo) throws Exception {
-        List<RegistrationData> result = new ArrayList<RegistrationData>();
+        List<RegistrationData> result = new ArrayList();
         User loggedInUser = User.getLoggedIn();
 
         for (Registration registration : RegistrationDAO.getInstance().find(loggedInUser)) {
@@ -97,6 +94,10 @@ public class RegistrationREST {
     @Path("{id: \\d+}")
     @Produces("application/json")
     public RegistrationData load(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
+        UserDAO userDAO = UserDAO.getInstance();
+        UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
+        KitDAO kitDAO = KitDAO.getInstance();
+
         Registration registration = loadRegistrationForDetails(id);
         boolean test = registration.getRaceCategory().getRace().getEvent().isTest();
 
@@ -106,9 +107,11 @@ public class RegistrationREST {
         data.date = registration.getDate();
         data.status = registration.getStatus();
 
-        data.payment = new RegistrationPaymentData();
-        data.payment.code = registration.getPayment().getCode();
-        data.payment.transaction = registration.getPayment().getTransaction();
+        if (!registration.getPayment().isEmpty()) {
+            data.payment = new RegistrationPaymentData();
+            data.payment.checkoutCode = registration.getPayment().getCheckoutCode();
+            data.payment.transactionCode = registration.getPayment().getTransactionCode();
+        }
 
         data.submitter = new UserData(uriInfo);
         data.submitter.id = registration.getSubmitter().getId();
@@ -141,11 +144,6 @@ public class RegistrationREST {
         data.race.event.payment.info = registration.getRaceCategory().getRace().getEvent().getPayment().getInfo();
 
         data.race.event.location = new LocationData();
-        // data.race.event.location.coords = new CoordsData();
-        // data.race.event.location.coords.latitude = registration.getRaceCategory().getRace().getEvent().getCoords()
-        // .getLatitude();
-        // data.race.event.location.coords.longitude = registration.getRaceCategory().getRace().getEvent().getCoords()
-        // .getLongitude();
         data.race.event.location.city = new CityData();
         data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
         data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity().getName();
@@ -153,12 +151,14 @@ public class RegistrationREST {
                 .getAbbreviation();
 
         data.category = new CategoryData();
+        data.category.id = registration.getRaceCategory().getCategory().getAlias();
+        data.category.internalId = registration.getRaceCategory().getCategory().getId();
         data.category.name = registration.getRaceCategory().getCategory().getName();
 
-        List<User> organizers = UserDAO.getInstance().findOrganizers(
+        List<User> organizers = userDAO.findOrganizers(
                 registration.getRaceCategory().getRace().getEvent());
         User loggedInUser = User.getLoggedIn();
-        List<UserRegistration> userRegistrations = UserRegistrationDAO.getInstance().find(registration);
+        List<UserRegistration> userRegistrations = userRegistrationDAO.find(registration);
 
         if (!loggedInUser.getAdmin() && !registration.getSubmitter().equals(loggedInUser)
                 && !userRegistrations.contains(new UserRegistration(registration, loggedInUser))
@@ -166,8 +166,8 @@ public class RegistrationREST {
             throw new ForbiddenException();
         }
 
-        data.race.event.organizers = new ArrayList<UserData>();
-        for (User organizer : UserDAO.getInstance().findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
+        data.race.event.organizers = new ArrayList();
+        for (User organizer : userDAO.findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
             UserData userData = new UserData(uriInfo);
             userData.id = organizer.getId();
             userData.email = organizer.getEmail();
@@ -176,7 +176,7 @@ public class RegistrationREST {
             data.race.event.organizers.add(userData);
         }
 
-        data.team.members = new ArrayList<UserData>();
+        data.team.members = new ArrayList();
         for (UserRegistration userRegistration : userRegistrations) {
             UserData userData = new UserData(uriInfo);
             userData.id = userRegistration.getUser().getId();
@@ -184,6 +184,17 @@ public class RegistrationREST {
             userData.name = userRegistration.getUser().getProfile().getName();
             userData.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
             userData.amount = userRegistration.getAmount();
+
+            Kit kit = kitDAO.loadForRegistration(userRegistration);
+            if (kit != null) {
+                userData.kit = new KitData();
+                userData.kit.id = kit.getAlias();
+                userData.kit.internalId = kit.getId();
+                userData.kit.name = kit.getName();
+                userData.kit.description = kit.getDescription();
+                userData.kit.price = kit.getPrice();
+            }
+
             data.team.members.add(userData);
         }
 
@@ -260,16 +271,16 @@ public class RegistrationREST {
     @Produces("text/plain")
     public Response sendPayment(@PathParam("id") Long id, @Context UriInfo uriInfo) throws Exception {
         Registration registration = loadRegistrationForDetails(id);
-        String code = registration.getPayment().getCode();
+        String checkoutId = registration.getPayment().getCheckoutCode();
         int status;
 
-        if (code == null) {
+        if (checkoutId == null) {
             URI baseUri = uriInfo.getBaseUri().resolve("..");
-            code = createCode(registration, baseUri);
+            checkoutId = checkout(registration, baseUri);
 
             Registration persistedRegistration = RegistrationDAO.getInstance().load(registration.getId());
             persistedRegistration.setPayment(new RegistrationPayment());
-            persistedRegistration.getPayment().setCode(code);
+            persistedRegistration.getPayment().setCheckoutCode(checkoutId);
             RegistrationDAO.getInstance().update(persistedRegistration);
 
             status = 201;
@@ -277,8 +288,8 @@ public class RegistrationREST {
             status = 200;
         }
 
-        URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code);
-        return Response.status(status).location(location).entity(code).build();
+        URI location = URI.create("https://pagseguro.uol.com.br/v2/checkoutCode/payment.html?checkoutId=" + checkoutId);
+        return Response.status(status).location(location).entity(checkoutId).build();
     }
 
     @PUT
@@ -304,8 +315,8 @@ public class RegistrationREST {
                     + " não faz parte da equipe " + registration.getTeamName());
         }
 
-        if (registration.getPayment().getTransaction() != null) {
-            throw new UnprocessableEntityException().addViolation("transaction", "O pagamento já está em andamento");
+        if (registration.getPayment().getTransactionCode() != null) {
+            throw new UnprocessableEntityException().addViolation("transactionCode", "O pagamento já está em andamento");
         }
 
         if (price.doubleValue() < 0) {
@@ -319,7 +330,7 @@ public class RegistrationREST {
         Registration persisted = registrationDAO.load(id);
 
         if (persisted.getPayment() != null) {
-            persisted.getPayment().setCode(null);
+            persisted.getPayment().setCheckoutCode(null);
             registrationDAO.update(persisted);
         }
     }
@@ -354,8 +365,8 @@ public class RegistrationREST {
         registrationDAO.update(persisted);
     }
 
-    private String createCode(Registration registration, URI baseUri) throws Exception {
-        List<BasicNameValuePair> payload = new ArrayList<BasicNameValuePair>();
+    private String checkout(Registration registration, URI baseUri) throws Exception {
+        List<BasicNameValuePair> payload = new ArrayList();
         payload.add(new BasicNameValuePair("email", registration.getRaceCategory().getRace().getEvent().getPayment()
                 .getAccount()));
         payload.add(new BasicNameValuePair("token", registration.getRaceCategory().getRace().getEvent().getPayment()
@@ -386,7 +397,7 @@ public class RegistrationREST {
         payload.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
         payload.add(new BasicNameValuePair("senderEmail", user.getEmail()));
 
-        HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkout/");
+        HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkoutCode/");
         String entity = URLEncodedUtils.format(payload, "UTF-8");
         request.setEntity(new StringEntity(entity));
         request.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8;");

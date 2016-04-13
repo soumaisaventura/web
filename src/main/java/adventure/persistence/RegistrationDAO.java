@@ -60,8 +60,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        re.date, ";
 		jpql += "        re.teamName, ";
 		jpql += "        re.status, ";
-		jpql += "        re.payment.code, ";
-		jpql += "        re.payment.transaction, ";
+		jpql += "        re.payment.checkoutCode, ";
+		jpql += "        re.payment.transactionCode, ";
 		jpql += "        pe.id, ";
 		jpql += "        pe.price, ";
 		jpql += "        su.id, ";
@@ -84,14 +84,13 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        ev.payment.info, ";
 		jpql += "        ev.payment.account, ";
 		jpql += "        ev.payment.token, ";
-		// jpql += "        ev.coords.latitude, ";
-		// jpql += "        ev.coords.longitude, ";
 		jpql += "        ci.id, ";
 		jpql += "        ci.name, ";
 		jpql += "        st.id, ";
 		jpql += "        st.name, ";
 		jpql += "        st.abbreviation, ";
 		jpql += "        ca.id, ";
+		jpql += "        ca.alias, ";
 		jpql += "        ca.name ";
 		jpql += "        ) ";
 		jpql += "   from Registration re ";
@@ -157,8 +156,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        re.date, ";
 		jpql += "        re.teamName, ";
 		jpql += "        re.status, ";
-		jpql += "        re.payment.code, ";
-		jpql += "        re.payment.transaction, ";
+		jpql += "        re.payment.checkoutCode, ";
+		jpql += "        re.payment.transactionCode, ";
 		jpql += "        pe.id, ";
 		jpql += "        pe.price, ";
 		jpql += "        su.id, ";
@@ -187,6 +186,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        st.name, ";
 		jpql += "        st.abbreviation, ";
 		jpql += "        ca.id, ";
+		jpql += "        ca.alias, ";
 		jpql += "        ca.name ";
 		jpql += "        ) ";
 		jpql += "   from Registration re ";
@@ -205,7 +205,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "    and not :date between pe.beginning and pe.end ";
 		jpql += "    and ra.status.id = :raceOpen ";
 		jpql += "    and re.status = :status ";
-		jpql += "    and re.payment.transaction is null ";
+		jpql += "    and re.payment.transactionCode is null ";
 
 		TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
 		query.setParameter("date", new Date(), DATE);
@@ -263,11 +263,11 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		query.setParameter("event", event);
 
 		Registration registration = null;
-		List<Registration> result = new ArrayList<Registration>();
+		List<Registration> result = new ArrayList();
 		for (UserRegistration teamFormation : query.getResultList()) {
 			if (!teamFormation.getRegistration().equals(registration)) {
 				registration = teamFormation.getRegistration();
-				registration.setUserRegistrations(new ArrayList<UserRegistration>());
+				registration.setUserRegistrations(new ArrayList());
 				result.add(registration);
 			}
 

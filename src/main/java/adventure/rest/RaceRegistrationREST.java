@@ -66,7 +66,7 @@ public class RaceRegistrationREST {
         registration.setPeriod(period);
 
         Registration result = RegistrationDAO.getInstance().insert(registration);
-        result.setUserRegistrations(new ArrayList<UserRegistration>());
+        result.setUserRegistrations(new ArrayList());
 
         for (User member : members) {
             User attachedMember = UserDAO.getInstance().load(member.getId());
@@ -110,7 +110,7 @@ public class RaceRegistrationREST {
         UserDAO userDAO = UserDAO.getInstance();
         KitDAO kitDAO = KitDAO.getInstance();
 
-        List<User> result = new ArrayList<User>();
+        List<User> result = new ArrayList();
         UnprocessableEntityException exception = new UnprocessableEntityException();
 
         for (UserData member : members) {

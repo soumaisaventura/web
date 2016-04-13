@@ -40,7 +40,7 @@ public class EventREST {
     @Cache("max-age=28800")
     @Produces("application/json")
     public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
-        List<EventData> result = new ArrayList<EventData>();
+        List<EventData> result = new ArrayList();
 
         for (Event event : EventDAO.getInstance().findByYear(year)) {
             EventData eventData = new EventData(uriInfo);
@@ -96,7 +96,7 @@ public class EventREST {
 
         // Hotspot
 
-        eventData.location.hotspots = new ArrayList<HotspotData>();
+        eventData.location.hotspots = new ArrayList();
         for (Hotspot hotspot : HotspotDAO.getInstance().find(event)) {
             HotspotData hotspotData = new HotspotData();
             hotspotData.id = hotspot.getId();
@@ -123,7 +123,7 @@ public class EventREST {
             CategoryDAO categoryDAO = CategoryDAO.getInstance();
             KitDAO kitDAO = KitDAO.getInstance();
 
-            eventData.races = new ArrayList<RaceData>();
+            eventData.races = new ArrayList();
             for (Race race : raceDAO.findForEvent(event)) {
                 RaceData raceData = new RaceData();
                 raceData.id = race.getAlias();
@@ -146,7 +146,7 @@ public class EventREST {
                 raceData.period.beginning = race.getPeriod().getBeginning();
                 raceData.period.end = race.getPeriod().getEnd();
 
-                raceData.championships = new ArrayList<ChampionshipData>();
+                raceData.championships = new ArrayList();
                 for (Championship championship : championshipDAO.findForEvent(race)) {
                     ChampionshipData championshipData = new ChampionshipData();
                     championshipData.id = championship.getAlias();
@@ -157,7 +157,7 @@ public class EventREST {
 
                 // Categories
 
-                raceData.categories = new ArrayList<CategoryData>();
+                raceData.categories = new ArrayList();
                 for (Category category : categoryDAO.find(race)) {
                     CategoryData categoryData = new CategoryData();
                     categoryData.id = category.getAlias();
@@ -169,7 +169,7 @@ public class EventREST {
 
                 // Kits
 
-                raceData.kits = new ArrayList<KitData>();
+                raceData.kits = new ArrayList();
                 for (Kit kit : kitDAO.findForRegistration(race)) {
                     KitData kitData = new KitData();
                     kitData.id = kit.getAlias();
@@ -183,7 +183,7 @@ public class EventREST {
                 // Registration Period + Prices
 
                 List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
-                raceData.prices = new ArrayList<PeriodData>();
+                raceData.prices = new ArrayList();
                 for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
                     PeriodData periodData = new PeriodData();
                     periodData.id = period.getId();
@@ -205,7 +205,7 @@ public class EventREST {
 
                 // Modalities
 
-                raceData.modalities = new ArrayList<ModalityData>();
+                raceData.modalities = new ArrayList();
                 for (Modality modality : modalityDAO.findForEvent(race)) {
                     ModalityData modalityData = new ModalityData();
                     modalityData.id = modality.getAlias();
@@ -225,7 +225,7 @@ public class EventREST {
 
         // Organizers
 
-        eventData.organizers = new ArrayList<UserData>();
+        eventData.organizers = new ArrayList();
         for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
             UserData organizerData = new UserData(uriInfo);
             organizerData.id = organizer.getId();
@@ -244,7 +244,7 @@ public class EventREST {
     @Produces("application/json")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/registrations")
     public List<RegistrationData> getRegistrations(@PathParam("slug") String slug, @Context UriInfo uriInfo) throws Exception {
-        List<RegistrationData> result = new ArrayList<RegistrationData>();
+        List<RegistrationData> result = new ArrayList();
         Event event = loadEventDetails(slug);
 
         List<User> organizers = UserDAO.getInstance().findOrganizers(event);
@@ -272,7 +272,7 @@ public class EventREST {
             data.race.internalId = registration.getRaceCategory().getRace().getId();
             data.race.name = registration.getRaceCategory().getRace().getName();
 
-            data.team.members = new ArrayList<UserData>();
+            data.team.members = new ArrayList();
             for (UserRegistration teamFormation : registration.getUserRegistrations()) {
                 UserData userData = new UserData(uriInfo);
                 userData.id = teamFormation.getUser().getId();
