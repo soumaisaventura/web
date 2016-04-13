@@ -175,7 +175,7 @@
   							</div>
 						</div>
 						<div class="panel-footer">
-							<button class="btn btn-block btn-primary kit-choice" data-kit-id="{{id}}" data-kit-name="{{name}}" data-member-id="{{memberId}}">Eu quero é este!</button>
+							<button class="btn btn-block btn-primary kit-choice" data-kit-id="{{internal_id}}" data-kit-name="{{name}}" data-member-id="{{memberId}}">Eu quero é este!</button>
 						</div>
 					</div>
 				</div>
@@ -183,18 +183,16 @@
  		</script>
 
 		<script id="member-template" type="text/template">
-			<tr id='member-{{id}}' data-raceprice='{{race_price}}'>
+			<tr id='member-{{id}}' class='member' data-id='{{id}}' data-raceprice='{{race_price}}'>
 				<td class='first-column'>
 					<img class='img-rounded' src='{{picture.thumbnail}}' />
 					&#160;&#160;&#160;{{name}}
 
-					{{#deletable}}
 					<a href='#' class='remove' data-id='{{id}}'>
 						<span class='glyphicon glyphicon-trash' />
 					</a>
-					{{/deletable}}
 					
-					<a href='#' id='kit-{{id}}' class='kit' data-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
+					<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
 				</td>
 				<td class='ammount text-right' nowrap='nowrap' data-ammount='{{race_price}}'>{{formmated_race_price}}</td>
 			</tr>

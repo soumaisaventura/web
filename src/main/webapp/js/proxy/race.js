@@ -26,10 +26,10 @@ var RaceProxy = {
         });
     },
 
-    getOrder: function (raceId, eventId, users) {
+    getOrder: function (raceId, eventId, userId) {
         return $.ajax({
             type: "GET",
-            url: this.url + "/" + eventId + "/" + raceId + "/order?users_ids=" + users
+            url: this.url + "/" + eventId + "/" + raceId + "/order?user_id=" + userId
         });
     }
 };
