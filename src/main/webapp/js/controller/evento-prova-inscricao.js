@@ -108,7 +108,7 @@ $(function() {
 		
 		var registration = {
 				category : {
-					id : $("#category.\\id").val()
+					id : $("#category\\.id").val()
 				},
 				team : {
 					name : $("#team\\.name").val(),
