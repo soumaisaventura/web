@@ -2,12 +2,14 @@ package adventure.rest.data;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
 @JsonPropertyOrder({"id", "internalId", "name", "description", "period", "price"})
 public class KitData {
 
+    @NotEmpty
     public String id;
 
     @JsonProperty("internal_id")

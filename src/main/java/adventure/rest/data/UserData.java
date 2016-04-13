@@ -5,12 +5,15 @@ import adventure.entity.User;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 
 @JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "amount", "kit", "city", "roles", "pendencies"})
 public class UserData {
 
+    @NotNull
     public Integer id;
 
     public String name;
@@ -23,6 +26,7 @@ public class UserData {
 
     public BigDecimal amount;
 
+    @Valid
     public KitData kit;
 
     public CityData city;

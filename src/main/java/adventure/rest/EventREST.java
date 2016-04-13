@@ -63,6 +63,7 @@ public class EventREST {
         return result.isEmpty() ? null : result;
     }
 
+
     @GET
     @Cache("max-age=28800")
     @Produces("application/json")

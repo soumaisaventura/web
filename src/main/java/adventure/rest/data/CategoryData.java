@@ -2,10 +2,12 @@ package adventure.rest.data;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers"})
 public class CategoryData {
 
+    @NotEmpty
     public String id;
 
     @JsonProperty("internal_id")
