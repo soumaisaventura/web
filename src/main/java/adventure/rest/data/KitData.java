@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({"id", "internalId", "name", "description", "period", "price"})
+@JsonPropertyOrder({"id", "internalId", "name", "description", "price"})
 public class KitData {
 
     @NotEmpty

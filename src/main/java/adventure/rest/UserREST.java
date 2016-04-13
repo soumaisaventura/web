@@ -37,7 +37,7 @@ public class UserREST {
             result.add(new UserData(user, uriInfo));
         }
 
-        return result != null ? result : null;
+        return result.isEmpty() ? null : result;
     }
 
     private void validate(String q) throws Exception {

@@ -63,9 +63,10 @@ public class KitDAO implements Serializable {
         jpql += "   from Kit k ";
         jpql += "   join k.race r ";
         jpql += "  where r = :race ";
-        jpql += "    and = :kitAlias ";
+        jpql += "    and k.alias = :kitAlias ";
 
         TypedQuery<Kit> query = em.createQuery(jpql, Kit.class);
+        query.setParameter("race", race);
         query.setParameter("kitAlias", alias);
 
         Kit result;
