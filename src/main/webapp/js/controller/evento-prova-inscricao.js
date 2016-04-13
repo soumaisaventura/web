@@ -19,9 +19,9 @@ $(function() {
 		}
 	});
 	
-	$("#categoryId").focus();
+	$("#category\\.id").focus();
 	
-	$("#categoryId").on("change", function() {
+	$("#category\\.id").on("change", function() {
 		updateTable();
 	});
 	
@@ -108,10 +108,10 @@ $(function() {
 		
 		var registration = {
 				category : {
-					id : $("#categoryId").val()
+					id : $("#category.\\id").val()
 				},
 				team : {
-					name : $("#teamName").val(),
+					name : $("#team\\.name").val(),
 					members : _members 
 				}
 				
@@ -150,11 +150,11 @@ function findCategoriesOk(categories) {
 			var option = new Option(category.name, category.id);
 			$(option).data("teamsize", category.team_size);
 			$(option).data("id", category.id);
-			$("#categoryId").append(option);
+			$("#category\\.id").append(option);
 		});
 
 		if (categories.length === 1 && categories[0].team_size !== 1) {
-			$("#categoryId").val(categories[0].id);
+			$("#category\\.id").val(categories[0].id);
 			$("#pesquisa-atleta").show();
 		}
 	}
@@ -180,7 +180,7 @@ function getOrderOk(_order, _athlete){
 
 function updateTable(){
 	var rowCount = $('#members-list tbody tr').length;
-	var teamsize = $('#categoryId').find('option:selected').data("teamsize");
+	var teamsize = $('#category\\.id').find('option:selected').data("teamsize");
 	if(!rowCount) {
 		$("#pesquisa-atleta").show();
 	} else {
@@ -241,7 +241,7 @@ function shareOnFacebook() {
 	var url = "";
 	url += "http://www.facebook.com/dialog/feed";
 	url += "?app_id=" + $("#facebook-appid").val();
-	url += "&name=" + $("#teamName").val() + " vai para a " + $("#race-name").text() + "!";
+	url += "&name=" + $("#team\\.name").val() + " vai para a " + $("#race-name").text() + "!";
 	url += "&description=Eu inscrevi a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia " + $("#race-date").text() + " em "
 			+ $("#race-city").text() + ".";
 	url += "&link=" + raceUrl;

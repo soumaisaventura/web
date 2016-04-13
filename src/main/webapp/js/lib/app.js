@@ -247,11 +247,15 @@ var App = {
 
 $.ajaxSetup({
 	error : function(request) {
-		App.handle422(request);
-
 		switch (request.status) {
 			case 401:
 				App.handle401(request);
+				break;
+				
+			case 422:
+				console.log('erro 422');
+				console.log(request);
+				App.handle422(request);
 				break;
 
 			case 500:
