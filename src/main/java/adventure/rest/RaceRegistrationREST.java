@@ -100,7 +100,7 @@ public class RaceRegistrationREST {
         RaceCategory result = RaceCategoryDAO.getInstance().load(raceId, categoryAlias);
 
         if (result == null) {
-            throw new UnprocessableEntityException().addViolation("categoryId", "indisponível para esta prova");
+            throw new UnprocessableEntityException().addViolation("category.id", "indisponível para esta prova");
         }
 
         return result;
@@ -210,7 +210,7 @@ public class RaceRegistrationREST {
     }
 
     private String parse(User user) {
-        String result = null;
+        String result;
 
         if (user.equals(User.getLoggedIn())) {
             result = "Você";

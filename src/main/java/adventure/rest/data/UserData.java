@@ -36,6 +36,9 @@ public class UserData {
 
     private PictureData picture;
 
+    public UserData() {
+    }
+
     public UserData(UriInfo uriInfo) {
         this.uriInfo = uriInfo;
     }
