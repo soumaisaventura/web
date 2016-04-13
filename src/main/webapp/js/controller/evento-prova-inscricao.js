@@ -2,118 +2,149 @@ $(function() {
 	moment.locale("pt-br");
 	numeral.language('pt-br');
 	numeral.defaultFormat('0.00');
-
-	var user;
-	var memberIds = [];
+	
+	/* VARIÁVEIS */
+	var user = null;
+	var excludes = [];
 	var eventId = $("#event_id").val();
 	var raceId = $("#race_id").val();
-	var isOrganizer = false;
-
-	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
-	RaceProxy.loadSummary(raceId, eventId).done(loadSummaryOk);
-	RaceProxy.findCategories(raceId, eventId).done(loadCategoriesOk);
 	
 	if (!(user = App.getLoggedInUser())) {
 		App.handle401();
 	}
-
-	EventProxy.load(eventId).done(function(event) {
-		if (user && user.roles && user.roles.organizer && event.organizers && event.organizers.length > 0) {
-			$.each(event.organizers, function(index, value) {
-				if (value.id == user.id) {
-					isOrganizer = true;
-					return false;
-				}
-			});
-		}
-		RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
-			getOrderOk(order, memberIds, isOrganizer);
-		});
-	});
-
+	
 	$('#members-list').footable({
 		breakpoints : {
 			phone : 450
 		}
 	});
-
+	
 	$("#categoryId").focus();
+	
 	$("#categoryId").on("change", function() {
 		updateTable();
 	});
-
+	
 	$("#members_ids").autocomplete({
 		source : function(request, response) {
-			UserProxy.search(request.term, memberIds).done(function(data) {
-				response(convertToLabelValueStructureFromUser(data));
+			UserProxy.search(request.term, excludes).done(function(users) {
+				response(convertToLabelValueStructureFromUser(users));
 			});
 		},
 		minLength : 3,
 		select : function(event, ui) {
-			$("#memberId").val(ui.item.value);
-			$("#members_ids").val(ui.item.label);
-			addAthlete(raceId, eventId, memberIds);
+			var member = ui.item;
+			$("#memberId").val(member.id);
+			$("#members_ids").val(member.label);
+			$("#members_ids-message").hide();
+			
+			if (memberId) {
+				RaceProxy.getOrder(raceId, eventId, member.id).done(function(order) {
+					getOrderOk(order, member);
+				});
+				$("#memberId").val(""); // Limpa o campo
+				$("#members_ids").val(""); // Limpa o campo
+			} else {
+				$("#members_ids-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
+			}
 			return false;
 		},
 		focus : function(event, ui) {
 			$("#memberId").val(ui.item.value);
 			$("#members_ids").val(ui.item.label);
-
 			return false;
 		}
 	}).autocomplete("instance")._renderItem = function(ul, item) {
 		return $("<li></li>").data("data-value", item).append("<img src='" + item.thumbnail + "'> " + item.label).appendTo(ul);
 	};
-
+	
 	$("#members-list").on("click", ".remove", function(e) {
 		e.preventDefault();
 		var teamId = $(this).data("id");
-		memberIds.splice($.inArray(teamId, memberIds), 1);
+		excludes.splice($.inArray(teamId, excludes), 1);
 		var row = $(this).parents('tr:first');
 		$('#members-list').data('footable').removeRow(row);
 		updateTable();
 	});
-
+	
+	$("#kits-modal").on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+	    var memberId = button.data('member-id');
+	    var memberName = button.data('name');
+	    var modal = $(this);
+	    var template = $("#kits-template");
+	    modal.find('.modal-title').text('Escolha o kit de ' + memberName);
+		RaceProxy.findKits(raceId, eventId).done(function(kits){
+			$.each(kits, function(index, kit){
+				kit.memberId = memberId;
+			});
+			var rendered = Mustache.render(template.html(), { "kits" : kits });
+			modal.find('.modal-body > .row').html(rendered);
+		});
+	});
+	
+	$(document).on("click",".kit-choice",function(){
+		var memberId = $(this).data("member-id");
+		$("#kit-" + memberId).data("kit-id", $(this).data("kit-id"));
+		$("#kit-" + memberId).html($(this).data("kit-name"));
+		$('#kits-modal').modal('hide');
+	});
+	
 	$("form").submit(function(event) {
 		event.preventDefault();
 		$("[id$='-message']").hide();
-		var data = {
-			'team_name' : $("#teamName").val(),
-			'category_id' : $("#categoryId").val(),
-			'members_ids' : memberIds
+		
+		var _members = [];
+		
+		$(".member").each(function(){
+			var member = {
+					id : $(this).data("id"),
+					kit : {
+						"id" : $("#kit-" + $(this).data("id")).data("kit-id")
+					}
+			};
+			_members.push(member);
+		});
+		
+		var registration = {
+				category : {
+					id : $("#categoryId").val()
+				},
+				team : {
+					name : $("#teamName").val(),
+					members : _members 
+				}
+				
 		};
-		RaceRegistrationProxy.submitRegistration(raceId, eventId, data).done(registrationOk).fail(App.handle422Global);
+		console.log(JSON.stringify(registration));
+		RaceRegistrationProxy.submitRegistration(raceId, eventId, registration).done(registrationOk).fail(App.handle422Global);
 	});
-	
-	
-	$("#members-list").on("click", ".kit", function(e) {
-		e.preventDefault();
-		RaceProxy.findKits(raceId, eventId).done(findKitsOk);
-	});
-	
+
+	/* AJAX */
+	LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
+	RaceProxy.loadSummary(raceId, eventId).done(loadSummaryOk);
+	RaceProxy.findCategories(raceId, eventId).done(findCategoriesOk);
+	RaceProxy.getOrder(raceId, eventId, user.id).done(function(order) {
+		excludes.push(user.id);
+		getOrderOk(order, user);
+	});	
 });
 
-/* ============================CALLBACK============================ */
-function getOAuthAppIdsOk(data) {
-	$("#facebook-appid").val(data.facebook);
+/* CALLBACKS */
+function getOAuthAppIdsOk(_data) {
+	$("#facebook-appid").val(_data.facebook);
 }
 
-function loadSummaryOk(race) {
-	$("#race-name").text(race.event.name);
-	$("#race-description").text(race.description);
-	$("#race-date").text(App.parsePeriod(race.period));
-	$("#race-city").text(App.parseCity(race.event.location.city));
+function loadSummaryOk(_race) {
+	if (_race) {
+		$("#race-name").text(_race.event.name);
+		$("#race-description").text(_race.description);
+		$("#race-date").text(App.parsePeriod(_race.period));
+		$("#race-city").text(App.parseCity(_race.event.location.city));
+	}
 }
 
-function findKitsOk(kits){
-	var template = $("#kits-template");
-	var rendered = Mustache.render(template.html(), { "kits" : kits });
-
-	swal({  "title": 'HTML example', "html": rendered });
-	//console.log(kits);
-}
-
-function loadCategoriesOk(categories) {
+function findCategoriesOk(categories) {
 	if (categories) {
 		$.each(categories, function(i, category) {
 			var option = new Option(category.name, category.id);
@@ -129,10 +160,14 @@ function loadCategoriesOk(categories) {
 	}
 }
 
-function getOrderOk(order, memberIds, deletable) {
-	if (order) {
-		memberIds.push(order[0].id);
-		addRowOnMemberList(order[0], deletable);
+function getOrderOk(_order, _athlete){
+	if (_order) {
+		_athlete.race_price = _order;
+		_athlete.formmated_race_price = numeral(_order).format();
+		
+		var template = $("#member-template");
+		var rendered = Mustache.render(template.html(), _athlete);
+		$('#members-list').data('footable').appendRow(rendered);
 		
 		updateTable();
 		
@@ -141,15 +176,6 @@ function getOrderOk(order, memberIds, deletable) {
 		var url = $("#event_link").attr("href");
 		window.location.href = url;
 	}
-}
-
-function addRowOnMemberList(athlete, deletable) {
-	athlete.deletable = deletable;
-	athlete.formmated_race_price = numeral(athlete.race_price).format();
-
-	var template = $("#member-template");
-	var rendered = Mustache.render(template.html(), athlete);
-	$('#members-list').data('footable').appendRow(rendered);
 }
 
 function updateTable(){
@@ -178,30 +204,12 @@ function updateTotal() {
 function convertToLabelValueStructureFromUser(data) {
 	var newData = [];
 	$.each(data, function() {
-		newData.push({
-			"label" : this.name,
-			"value" : this.id,
-			"thumbnail" : this.picture.thumbnail
-		});
+		this.label = this.name;
+		this.value = this.id;
+		this.thumbnail = this.picture.thumbnail;
+		newData.push(this);
 	});
 	return newData;
-}
-
-function addAthlete(raceId, eventId, memberIds) {
-	var memberId = $("#memberId");
-	var members_ids = $("#members_ids");
-	$("#members_ids-message").hide();
-
-	if (memberId) {
-		RaceProxy.getOrder(raceId, eventId, memberId.val()).done(function(order) {
-			getOrderOk(order, memberIds, true);
-		});
-		memberId.val(""); // Limpa o campo
-		members_ids.val(""); // Limpa o campo
-	} else {
-		$("#members_ids-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
-		members.focus();
-	}
 }
 
 function registrationOk(data) {
