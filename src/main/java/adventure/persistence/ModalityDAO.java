@@ -35,7 +35,7 @@ public class ModalityDAO implements Serializable {
         jpql += "   join rm.modality m ";
         jpql += "  where rm.race = :race ";
         jpql += "  order by ";
-        jpql += "        m.id ";
+        jpql += "        m.name ";
 
         TypedQuery<Modality> query = em.createQuery(jpql, Modality.class);
         query.setParameter("race", race);
