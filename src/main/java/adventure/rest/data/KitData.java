@@ -1,5 +1,6 @@
 package adventure.rest.data;
 
+import adventure.entity.Kit;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,4 +21,15 @@ public class KitData {
     public String description;
 
     public BigDecimal price;
+
+    public KitData() {
+    }
+
+    public KitData(Kit kit) {
+        this.id = kit.getAlias();
+        this.internalId = kit.getId();
+        this.name = kit.getName();
+        this.description = kit.getDescription();
+        this.price = kit.getPrice();
+    }
 }

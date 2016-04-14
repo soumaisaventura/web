@@ -1,5 +1,6 @@
 package adventure.rest.data;
 
+import adventure.entity.Category;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -25,4 +26,17 @@ public class CategoryData {
 
     @JsonProperty("min_female_members")
     public Integer minFemaleMembers;
+
+    public CategoryData() {
+    }
+
+    public CategoryData(Category category) {
+        this.id = category.getAlias();
+        this.internalId = category.getId();
+        this.name = category.getName();
+        this.description = category.getDescription();
+        this.teamSize = category.getTeamSize();
+        this.minMaleMembers = category.getMinMaleMembers();
+        this.minFemaleMembers = category.getMinFemaleMembers();
+    }
 }

@@ -120,8 +120,12 @@ function loadEventOk(event) {
     if (!event.description) {
         $("#info-section .row").remove();
     }
-
     $("#info-section").show();
+
+    if (event.site) {
+        $("#site").html(App.replaceProtocolByLink(event.site));
+        $("#site-section").show();
+    }
 
     var template;
 
