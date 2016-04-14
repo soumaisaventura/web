@@ -40,8 +40,7 @@ public class KitDAO implements Serializable {
         jpql += "   join k.race r ";
         jpql += "  where r = :race ";
         jpql += "  order by ";
-        jpql += "        r.id, ";
-        jpql += "        k.price ";
+        jpql += "        k.price desc ";
 
         TypedQuery<Kit> query = em.createQuery(jpql, Kit.class);
         query.setParameter("race", race);
