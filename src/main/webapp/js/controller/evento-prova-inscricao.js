@@ -3,7 +3,6 @@ $(function() {
 	numeral.language('pt-br');
 	numeral.defaultFormat('0.00');
 	
-	/* VARIÁVEIS */
 	var user = null;
 	var excludes = [];
 	var eventId = $("#event_id").val();
@@ -90,7 +89,7 @@ $(function() {
 		var orderPrice = memberPrice + kitPrice;
 		
 		$("#kit-" + memberId).data("kit-id", $(this).data("kit-id"));
-		$("#kit-" + memberId).html($(this).data("kit-name"));
+		$("#kit-" + memberId).html($(this).data("kit-name").toLowerCase());
 		
 		$("#amount-" + memberId).html(numeral(orderPrice).format());
 		$("#amount-" + memberId).data("amount", orderPrice);
@@ -121,7 +120,6 @@ $(function() {
 				member.kit = kit;
 			}
 			
-			console.log(member);
 			_members.push(member);
 		});
 		

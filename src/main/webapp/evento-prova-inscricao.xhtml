@@ -96,14 +96,14 @@
 											<small>atleta</small>
 										</th>
 										<th class="text-right col-md-2">
-											<small>inscrição</small>
+											<small>valor</small>
 										</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr id='pesquisa-atleta' hidden="true">
-										<td colspan="2">
+										<td colspan="3">
 											<input type="hidden" id="memberId" />
 											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}"
 												autocomplete="off" />
@@ -111,7 +111,7 @@
 									</tr>
 									<tr>
 										<th class="text-right" nowrap='nowrap'>
-											total a pagar
+											total
 										</th>
 										<th id="total" class="text-right" nowrap='nowrap'></th>
 										<th></th>
@@ -192,7 +192,7 @@
 					<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
 				</td>
 				<td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}' data-amount='{{race_price}}'>{{formmated_race_price}}</td>
-				<td>
+				<td style="padding-right: 0px; padding-left: 0px;">
 					<a href='#' data-id='{{id}}' title='Remover atleta da equipe'>
 						<span class='glyphicon glyphicon-trash' />
 					</a>
