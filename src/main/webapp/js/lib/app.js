@@ -117,8 +117,11 @@ var App = {
 	},
 
 	handle422Global : function(request) {
+		console.log("handle422Global");
+		console.log(request);
+		
 		var messages = "";
-		if (request.status == 422) {
+		if (request.status === 422) {
 			$.each(request.responseJSON, function(i, value) {
 				if (!value.property) {
 					messages += value.message + "\r\n";
@@ -253,8 +256,6 @@ $.ajaxSetup({
 				break;
 				
 			case 422:
-				console.log('erro 422');
-				console.log(request);
 				App.handle422(request);
 				break;
 
