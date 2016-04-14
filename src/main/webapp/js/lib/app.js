@@ -117,9 +117,6 @@ var App = {
 	},
 
 	handle422Global : function(request) {
-		console.log("handle422Global");
-		console.log(request);
-		
 		var messages = "";
 		if (request.status === 422) {
 			$.each(request.responseJSON, function(i, value) {

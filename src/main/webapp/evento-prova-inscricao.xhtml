@@ -189,11 +189,14 @@
 				<td class='first-column'>
 					<img class='img-rounded' src='{{picture.thumbnail}}' />
 					&#160;&#160;&#160;{{name}}
+					
+					{{#raceHasKit}}
 					<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
+					{{/raceHasKit}}
 				</td>
 				<td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}' data-amount='{{race_price}}'>{{formmated_race_price}}</td>
 				<td style="padding-right: 0px; padding-left: 0px;">
-					<a href='#' data-id='{{id}}' title='Remover atleta da equipe'>
+					<a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
 						<span class='glyphicon glyphicon-trash' />
 					</a>
 				</td>

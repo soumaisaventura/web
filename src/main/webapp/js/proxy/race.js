@@ -2,7 +2,7 @@ var RaceProxy = {
 
     url: App.getContextPath() + "/api/events",
 
-    loadSummary: function (raceId, eventId) {
+    load: function (raceId, eventId) {
         return $.ajax({
             type: "GET",
             url: this.url + "/" + eventId + "/races/" + raceId,
