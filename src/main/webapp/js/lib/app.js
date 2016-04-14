@@ -106,8 +106,17 @@ var App = {
 			return text;
 		}
 
-		var email_regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
-		return text.replace(email_regex, '<a href="mailto:$1">$1</a>');
+		var regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+		return text.replace(regex, '<a href="mailto:$1">$1</a>');
+	},
+
+	replaceProtocolByLink: function (text) {
+		if (!text) {
+			return text;
+		}
+
+		var regex = /([a-zA-Z]+:\/\/[a-zA-Z0-9\.\/]+)/gi;
+		return text.replace(regex, '<a href="$1" target="_blank">$1</a>');
 	},
 
 	handle401 : function(request) {
@@ -150,7 +159,7 @@ var App = {
 				$.each(request.responseJSON, function(i, value) {
 					if (id == value.property) {
 						messages.push(value.message);
-						return;
+
 					}
 				});
 
@@ -162,7 +171,7 @@ var App = {
 
 				if (messages.length > 1) {
 					message.empty();
-					var ul = message.append("<ul></ul>")
+					var ul = message.append("<ul></ul>");
 
 					while (messages.length > 0) {
 						ul.append("<li>" + messages.pop() + "</li>");
