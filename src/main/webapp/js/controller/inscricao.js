@@ -58,28 +58,31 @@ function loadOk(registration) {
 
     $("#race-category").text(registration.category.name + " " + registration.race.name);
 
+    var memberTemplate = $('#member-template');
     var user = App.getLoggedInUser();
-
     var isMember = false;
+
     $.each(registration.team.members, function (i, member) {
-        var row = "";
-        row = row.concat("<tr>");
-        row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
-        row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        row = row.concat("<span style='font-size: 1.0em'>" + member.name + "</span>");
-        row = row.concat("<br/>");
-        row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        row = row.concat(member.email);
-        row = row.concat("<br/>");
-        row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        row = row.concat(member.mobile);
-        row = row.concat("</td>");
-        row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-        row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"amount\"}' class='partial editable currency'>"
-            + numeral(member.amount).format() + "</a>");
-        row = row.concat("</td>");
-        row = row.concat("</tr>");
-        $("#team-formation > tbody:last").append(row);
+        // var row = "";
+        // row = row.concat("<tr>");
+        // row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
+        // row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+        // row = row.concat("<span style='font-size: 1.0em'>" + member.name + "</span>");
+        // row = row.concat("<br/>");
+        // row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+        // row = row.concat(member.email);
+        // row = row.concat("<br/>");
+        // row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
+        // row = row.concat(member.mobile);
+        // row = row.concat("</td>");
+        // row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
+        // row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"amount\"}' class='partial editable currency'>"
+        //     + numeral(member.amount).format() + "</a>");
+        // row = row.concat("</td>");
+        // row = row.concat("</tr>");
+
+        var rendered = Mustache.render(memberTemplate.html(), member);
+        $("#team-formation > tbody:last").append(rendered);
 
         if (user && member.id == user.id) {
             isMember = true;

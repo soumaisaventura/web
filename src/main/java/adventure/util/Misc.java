@@ -1,5 +1,6 @@
 package adventure.util;
 
+import adventure.entity.User;
 import adventure.entity.UserRegistration;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
@@ -51,6 +52,17 @@ public final class Misc {
         }
 
         return stringfy(result);
+    }
+
+    public static String simplifyUsername(User user) {
+        String result = null;
+
+        if (user != null && user.getProfile() != null && user.getProfile().getName() != null) {
+            String parts[] = user.getProfile().getName().split(" ");
+            result = parts[0] + (parts.length > 1 ? " " + parts[1] : "") + (parts.length > 2 && parts[1].length() <= 3 ? " " + parts[2] : "");
+        }
+
+        return result;
     }
 
     public static String capitalize(String string) {

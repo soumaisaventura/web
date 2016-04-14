@@ -13,6 +13,7 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -34,10 +35,10 @@ public class RaceRegistrationREST {
     @LoggedIn
     @Transactional
     @ValidatePayload
-    @Produces("text/plain")
     @Consumes("application/json")
-    public String submit(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
-                         RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
+    @Produces("application/json")
+    public Response submit(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
+                           RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
         Race race = loadRace(raceAlias, eventAlias);
         Date date = new Date();
         URI baseUri = uriInfo.getBaseUri().resolve("..");
@@ -49,9 +50,10 @@ public class RaceRegistrationREST {
         validate(raceCategory, members, submitter, data.team.name, baseUri);
 
         Registration result = submit(data, raceCategory, members, date, period, submitter);
-
         MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
-        return result.getFormattedId();
+
+        URI location = uriInfo.getBaseUri().resolve("registrations/" + result.getId());
+        return Response.created(location).entity(result.getFormattedId()).build();
     }
 
     private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
@@ -200,7 +202,7 @@ public class RaceRegistrationREST {
             }
 
             if (member.getKit() == null && !kits.isEmpty()) {
-                exception.addViolation("Escolha o kit de " + parse(member) + ".");
+                exception.addViolation(parse(member) + " está sem kit.");
             }
         }
 

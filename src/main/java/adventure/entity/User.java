@@ -1,5 +1,6 @@
 package adventure.entity;
 
+import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -18,6 +19,9 @@ public class User implements Principal {
     @SequenceGenerator(name = "seq_user", sequenceName = "seq_user", allocationSize = 1)
     @Column(name = "id")
     private Integer id;
+
+    @Transient
+    private String name;
 
     private String email;
 
@@ -128,9 +132,8 @@ public class User implements Principal {
     }
 
     @Override
-    @Transient
     public String getName() {
-        return getProfile() != null ? getProfile().getName() : null;
+        return Misc.simplifyUsername(this);
     }
 
     @Override

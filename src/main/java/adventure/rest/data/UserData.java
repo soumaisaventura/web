@@ -51,7 +51,7 @@ public class UserData {
         this(uriInfo);
 
         this.id = user.getId();
-        this.name = user.getProfile().getName();
+        this.name = user.getName();
         this.gender = user.getProfile().getGender();
         this.mobile = user.getProfile().getMobile();
 
