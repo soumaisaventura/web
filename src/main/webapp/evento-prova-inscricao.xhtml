@@ -98,6 +98,7 @@
 										<th class="text-right col-md-2">
 											<small>inscrição</small>
 										</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tfoot>
@@ -113,6 +114,7 @@
 											total a pagar
 										</th>
 										<th id="total" class="text-right" nowrap='nowrap'></th>
+										<th></th>
 									</tr>
 								</tfoot>
 								<tbody>
@@ -175,7 +177,7 @@
   							</div>
 						</div>
 						<div class="panel-footer">
-							<button class="btn btn-block btn-primary kit-choice" data-kit-id="{{internal_id}}" data-kit-name="{{name}}" data-member-id="{{memberId}}">Eu quero é este!</button>
+							<button class="btn btn-block btn-primary kit-choice" data-kit-id="{{id}}" data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{memberId}}">Eu quero é este!</button>
 						</div>
 					</div>
 				</div>
@@ -187,14 +189,14 @@
 				<td class='first-column'>
 					<img class='img-rounded' src='{{picture.thumbnail}}' />
 					&#160;&#160;&#160;{{name}}
-
-					<a href='#' class='remove' data-id='{{id}}'>
-						<span class='glyphicon glyphicon-trash' />
-					</a>
-					
 					<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
 				</td>
-				<td class='ammount text-right' nowrap='nowrap' data-ammount='{{race_price}}'>{{formmated_race_price}}</td>
+				<td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}' data-amount='{{race_price}}'>{{formmated_race_price}}</td>
+				<td>
+					<a href='#' data-id='{{id}}' title='Remover atleta da equipe'>
+						<span class='glyphicon glyphicon-trash' />
+					</a>
+				</td>
 			</tr>
 		</script>
 	</ui:define>

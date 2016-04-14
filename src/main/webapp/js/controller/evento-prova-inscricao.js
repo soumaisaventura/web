@@ -85,8 +85,17 @@ $(function() {
 	
 	$(document).on("click",".kit-choice",function(){
 		var memberId = $(this).data("member-id");
+		var kitPrice = $(this).data("kit-price");
+		var memberPrice = $("#amount-" + memberId).data("original-amount");
+		var orderPrice = memberPrice + kitPrice;
+		
 		$("#kit-" + memberId).data("kit-id", $(this).data("kit-id"));
 		$("#kit-" + memberId).html($(this).data("kit-name"));
+		
+		$("#amount-" + memberId).html(numeral(orderPrice).format());
+		$("#amount-" + memberId).data("amount", orderPrice);
+		updateTotal();
+		
 		$('#kits-modal').modal('hide');
 	});
 	
@@ -97,12 +106,22 @@ $(function() {
 		var _members = [];
 		
 		$(".member").each(function(){
-			var member = {
-					id : $(this).data("id"),
-					kit : {
-						"id" : $("#kit-" + $(this).data("id")).data("kit-id")
-					}
-			};
+			var memberId = $(this).data("id");
+			var kitId = $("#kit-" + memberId).data("kit-id");
+			
+			var member = {};
+			var kit = {};
+			
+			if (memberId) {
+				member.id = memberId;
+			}
+			
+			if (kitId) {
+				kit.id = kitId;
+				member.kit = kit;
+			}
+			
+			console.log(member);
 			_members.push(member);
 		});
 		
@@ -195,8 +214,8 @@ function updateTable(){
 
 function updateTotal() {
 	var total = 0;
-	$(".ammount").each(function() {
-		total += $(this).data("ammount");
+	$(".amount").each(function() {
+		total += $(this).data("amount");
 	});
 	$("#total").text(numeral(total).format());
 }
