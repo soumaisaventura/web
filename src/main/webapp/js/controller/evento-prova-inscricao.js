@@ -81,6 +81,7 @@ $(function() {
 	    var template = $("#kits-template");
 	    modal.find('.modal-title').text('Escolha o kit de ' + memberName);
 		$.each(race.kits, function(index, kit){
+				kit.description = App.parseText(kit.description);
 				kit.memberId = memberId;
 		});
 		var rendered = Mustache.render(template.html(), { "kits" : race.kits });
