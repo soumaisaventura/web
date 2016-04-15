@@ -101,9 +101,17 @@ var App = {
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
 
-    parseText: function (text) {
+    parseText: function (text, options) {
         if (!text) {
             return text;
+        }
+
+        if (!options) {
+            options = {};
+        }
+
+        if (!options.linebreak) {
+            options.linebreak = "$1<br>";
         }
 
         var regex, newValue;
@@ -116,9 +124,11 @@ var App = {
         newValue = '<a href="mailto:$1">$1</a>';
         text = text.replace(regex, newValue);
 
-        regex = /\n|\r/g;
-        newValue = '<br />';
+        regex = /(.*)\n|\r/gi;
+        newValue = options.linebreak;
         text = text.replace(regex, newValue);
+
+        console.log(text);
 
         return text;
     },
