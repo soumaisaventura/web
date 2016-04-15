@@ -39,6 +39,7 @@ $(function() {
 		minLength : 3,
 		select : function(event, ui) {
 			var member = ui.item;
+			member.raceHasKit = race.hasOwnProperty('kits');
 			$("#memberId").val(member.id);
 			$("#members_ids").val(member.label);
 			$("#members_ids-message").hide();

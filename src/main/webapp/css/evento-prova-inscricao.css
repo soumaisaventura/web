@@ -15,8 +15,13 @@
 	padding-bottom: 20px
 }
 
-.ammount, .first-column, .kit {
+.amount, .first-column, .kit, .trash {
 	vertical-align: middle !important;
+}
+
+.trash {
+	padding-right: 0px;
+	padding-left: 0px;
 }
 
 .kit, .kit:hover {
