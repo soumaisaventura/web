@@ -1,128 +1,137 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:adventure="http://java.sun.com/jsf/composite/adventure" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:adventure="http://java.sun.com/jsf/composite/adventure"
+                xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
-	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/select2.min.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/select2-bootstrap.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
-	</ui:define>
+    <ui:define name="css">
+        <link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/select2.min.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/select2-bootstrap.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css"/>
+    </ui:define>
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/select2.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/select2.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/location.js"></script>
-		<script src="#{request.contextPath}/js/proxy/user-profile.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/location.js"></script>
+        <script src="#{request.contextPath}/js/proxy/user-profile.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/atleta-pessoal.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/atleta-pessoal.js"></script>
+    </ui:define>
 
-	<ui:define name="body">
-		<div class="col-md-6 col-md-offset-4">
-			<div class="row" style="padding-bottom: 20px">
-				<h1>Dados pessoais</h1>
-				<h4>Mantenha seus dados atualizados para se inscrever nas provas</h4>
-			</div>
-		</div>
+    <ui:define name="body">
+        <div class="col-md-6 col-md-offset-4">
+            <div class="row" style="padding-bottom: 20px">
+                <h1>Dados pessoais</h1>
+                <h4>Mantenha seus dados atualizados para se inscrever nas provas</h4>
+            </div>
+        </div>
 
-		<div id="form-section" hidden="true" class="col-md-4 col-md-offset-4">
-			<form>
-				<div class="row">
-					<div class="form-group">
-						<label for="name">Nome *</label>
-						<input id="name" type="text" class="form-control" placeholder="Digite o seu nome" maxlength="#{constants.nameSize}" />
-						<span id="name-message" hidden="true" class="label label-danger" maxlength="#{constants.nameSize}" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="rg">RG *</label>
-						<input id="rg" type="text" class="form-control" placeholder="Digite o seu RG" maxlength="#{constants.rgSize}" />
-						<span id="rg-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="cpf">CPF *</label>
-						<input id="cpf" type="text" class="form-control" placeholder="Digite o seu CPF" maxlength="#{constants.cpfSize}" />
-						<span id="cpf-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="gender">Sexo *</label>
-						<select id="gender" class="form-control">
-							<option disabled="disabled" selected="selected">Escolha o sexo</option>
-							<option value="M">Masculino</option>
-							<option value="F">Feminino</option>
-						</select>
-						<span id="gender-message" hidden="true" class="label label-danger"></span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="birthday">Data de nascimento *</label>
-						<adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year" />
-						<span id="birthday-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="tshirt">Tamanho da camisa *</label>
-						<select id="tshirt" class="form-control">
-							<option disabled="disabled" selected="selected">Escolha o tamanho</option>
-							<option value="PP">PP</option>
-							<option value="P">P</option>
-							<option value="M">M</option>
-							<option value="G">G</option>
-							<option value="GG">GG</option>
-						</select>
-						<span id="tshirt-message" hidden="true" class="label label-danger"></span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="city">Cidade de residência *</label>
-						<input id="city.id" type="hidden" />
-						<input id="city" type="text" class="form-control" placeholder="Cidade de residência" maxlength="#{constants.nameSize}" />
-						<span id="city.id-message" hidden="true" class="label label-danger"></span>
-					</div>
-				</div>
-				<!--
-				<div class="row">
-					<div class="form-group">
-						<label for="city-select">Apenas mais *</label>
-						<span style="display: block;">
-							<select id="city-select" class="form-control" style="width:100%;">
-							</select>
-						</span>
-						<span id="city-select-message" hidden="true" class="label label-danger"></span>
-					</div>
-				</div>
-				-->
-				<div class="row">
-					<div class="form-group">
-						<label for="mobile">Celular ou fixo *</label>
-						<input id="mobile" type="tel" class="form-control" placeholder="Telefone para contato com DDD" maxlength="#{constants.telephoneSize}" />
-						<span id="mobile-message" hidden="true" class="label label-danger"></span>
-					</div>
-				</div>
-				<div class="row" style="margin-bottom: 15px">
-					<div class="form-group">
-						<button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span> Salvar
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</ui:define>
+        <div id="form-section" hidden="true" class="col-md-4 col-md-offset-4">
+            <form>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="name">Nome *</label>
+                        <input id="name" type="text" class="form-control" placeholder="Digite o seu nome"
+                               maxlength="#{constants.nameSize}"/>
+                        <span id="name-message" hidden="true" class="label label-danger"
+                              maxlength="#{constants.nameSize}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="rg">RG *</label>
+                        <input id="rg" type="text" class="form-control" placeholder="Digite o seu RG"
+                               maxlength="#{constants.rgSize}"/>
+                        <span id="rg-message" hidden="true" class="label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="cpf">CPF *</label>
+                        <input id="cpf" type="text" class="form-control" placeholder="Digite o seu CPF"
+                               maxlength="#{constants.cpfSize}"/>
+                        <span id="cpf-message" hidden="true" class="label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="gender">Sexo *</label>
+                        <select id="gender" class="form-control">
+                            <option disabled="disabled" selected="selected">Escolha o sexo</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Feminino</option>
+                        </select>
+                        <span id="gender-message" hidden="true" class="label label-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="birthday">Data de nascimento *</label>
+                        <adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year"/>
+                        <span id="birthday-message" hidden="true" class="label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="tshirt">Tamanho da camisa *</label>
+                        <select id="tshirt" class="form-control">
+                            <option disabled="disabled" selected="selected">Escolha o tamanho</option>
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                        </select>
+                        <span id="tshirt-message" hidden="true" class="label label-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="city">Cidade de residência *</label>
+                        <input id="city.id" type="hidden"/>
+                        <input id="city" type="text" class="form-control" placeholder="Cidade de residência"
+                               maxlength="#{constants.nameSize}"
+                               autocomplete="off" autocapitalize="off" autocorrect="off"/>
+                        <span id="city.id-message" hidden="true" class="label label-danger"></span>
+                    </div>
+                </div>
+                <!--
+                <div class="row">
+                    <div class="form-group">
+                        <label for="city-select">Apenas mais *</label>
+                        <span style="display: block;">
+                            <select id="city-select" class="form-control" style="width:100%;">
+                            </select>
+                        </span>
+                        <span id="city-select-message" hidden="true" class="label label-danger"></span>
+                    </div>
+                </div>
+                -->
+                <div class="row">
+                    <div class="form-group">
+                        <label for="mobile">Celular ou fixo *</label>
+                        <input id="mobile" type="tel" class="form-control" placeholder="Telefone para contato com DDD"
+                               maxlength="#{constants.telephoneSize}"/>
+                        <span id="mobile-message" hidden="true" class="label label-danger"></span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="form-group">
+                        <button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
+                            <span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span>
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ui:define>
 
 </ui:composition>
