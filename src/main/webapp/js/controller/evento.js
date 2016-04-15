@@ -206,7 +206,7 @@ function loadEventOk(event) {
 
             if (race.kits) {
                 $.each(race.kits, function (j, kit) {
-                    kit.description = App.parseText(kit.description + "\n", {linebreak: '•&nbsp;&nbsp;$1<br>'});
+                    kit.parsedDescription = App.parseText(kit.description + "\n", {linebreak: '•&nbsp;&nbsp;$1<br>'});
                 });
             }
 

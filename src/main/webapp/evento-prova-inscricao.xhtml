@@ -1,202 +1,207 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
+                xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
-	<ui:define name="meta-ogg">
-		<meta property="og:title" content="Inscreva-se! #{raceHelper.getTitle(request)}" />
-		<meta property="og:description" content="#{raceHelper.getDescription(request)}" />
-		<meta property="og:image"
-			  content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.alias}/banner"/>
-	</ui:define>
+    <ui:define name="meta-ogg">
+        <meta property="og:title" content="Inscreva-se! #{raceHelper.getTitle(request)}"/>
+        <meta property="og:description" content="#{raceHelper.getDescription(request)}"/>
+        <meta property="og:image"
+              content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.alias}/banner"/>
+    </ui:define>
 
-	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/footable.core.min.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/evento-prova-inscricao.css" />
-		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
-	</ui:define>
+    <ui:define name="css">
+        <link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/footable.core.min.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/evento-prova-inscricao.css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css"/>
+    </ui:define>
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/mustache.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/footable.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/bootbox.js"></script>
-		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/mustache.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/jquery-ui.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/footable.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/bootbox.js"></script>
+        <script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/logon.js"></script>
-		<script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
-		<script src="#{request.contextPath}/js/proxy/event.js"></script>
-		<script src="#{request.contextPath}/js/proxy/race.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/logon.js"></script>
+        <script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
+        <script src="#{request.contextPath}/js/proxy/event.js"></script>
+        <script src="#{request.contextPath}/js/proxy/race.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/evento-prova-inscricao.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/evento-prova-inscricao.js"></script>
+    </ui:define>
 
-	<ui:define name="breadcrumb">
-		<ol class="breadcrumb">
-			<li>
-				<a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário #{eventHelper.getYear(request)}</a>
-			</li>
-			<li>
-				<a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
-			</li>
-			<li class="active">Inscrição</li>
-		</ol>
-	</ui:define>
+    <ui:define name="breadcrumb">
+        <ol class="breadcrumb">
+            <li>
+                <a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
+                    #{eventHelper.getYear(request)}</a>
+            </li>
+            <li>
+                <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
+            </li>
+            <li class="active">Inscrição</li>
+        </ol>
+    </ui:define>
 
-	<ui:define name="body">
-		<form>
-			<input id="event_id" type="hidden" value="#{param.evento_id}" />
-			<input id="race_id" type="hidden" value="#{param.prova_id}" />
+    <ui:define name="body">
+        <form>
+            <input id="event_id" type="hidden" value="#{param.evento_id}"/>
+            <input id="race_id" type="hidden" value="#{param.prova_id}"/>
 
-			<div id="summary-section" hidden="true">
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<h2 id="race-name" class="race-name"></h2>
-						<h4 class="hidden-xs">
-							<span class="glyphicon glyphicon-calendar"></span> <span id="race-date"></span> &#160;&#160; <span
-								class="glyphicon glyphicon-map-marker"></span> <span id="race-city"></span>
-						</h4>
-						<p id="race-description" class="text-justify"></p>
-						<a id="event_link" href="#{request.contextPath}/evento/#{param.evento_id}">ver detalhes desta prova</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<label for="category.id">Categoria *</label>
-						<select id="category.id" class="form-control">
-							<option disabled="disabled" selected="selected">Escolha a categoria</option>
-						</select>
-						<span id="category.id-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-			</div>
+            <div id="summary-section" hidden="true">
+                <div class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <h2 id="race-name" class="race-name"></h2>
+                        <h4 class="hidden-xs">
+                            <span class="glyphicon glyphicon-calendar"></span> <span id="race-date"></span> &#160;&#160; <span
+                                class="glyphicon glyphicon-map-marker"></span> <span id="race-city"></span>
+                        </h4>
+                        <p id="race-description" class="text-justify"></p>
+                        <a id="event_link" href="#{request.contextPath}/evento/#{param.evento_id}">ver detalhes desta
+                            prova</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <label for="category.id">Categoria *</label>
+                        <select id="category.id" class="form-control">
+                            <option disabled="disabled" selected="selected">Escolha a categoria</option>
+                        </select>
+                        <span id="category.id-message" hidden="true" class="label label-danger"/>
+                    </div>
+                </div>
+            </div>
 
-			<div id="members-section" hidden="true">
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<label for="team.name">Nome da equipe *</label>
-						<input type="text" id="team.name" class="form-control" maxlength="#{constants.nameSize}" placeholder="Digite o nome da equipe" />
-						<span id="team.name-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<label>Equipe</label>
-						<div>
-							<table id="members-list" class="table footable toggle-arrow-small toggle-medium">
-								<thead>
-									<tr class="info text-primary">
-										<th class="col-md-10">
-											<small>atleta</small>
-										</th>
-										<th class="text-right col-md-2">
-											<small>valor</small>
-										</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr id='pesquisa-atleta' hidden="true">
-										<td colspan="3">
-											<input type="hidden" id="memberId" />
-											<input type="text" id="members_ids" class="form-control" placeholder="Digite nome do atleta" maxlength="#{constants.nameSize}"
-												autocomplete="off" />
-										</td>
-									</tr>
-									<tr>
-										<th class="text-right" nowrap='nowrap'>
-											total
-										</th>
-										<th id="total" class="text-right" nowrap='nowrap'></th>
-										<th></th>
-									</tr>
-								</tfoot>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+            <div id="members-section" hidden="true">
+                <div class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <label for="team.name">Nome da equipe *</label>
+                        <input type="text" id="team.name" class="form-control" maxlength="#{constants.nameSize}"
+                               placeholder="Digite o nome da equipe"/>
+                        <span id="team.name-message" hidden="true" class="label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <label>Equipe</label>
+                        <div>
+                            <table id="members-list" class="table footable toggle-arrow-small toggle-medium">
+                                <thead>
+                                <tr class="info text-primary">
+                                    <th class="col-md-10">
+                                        <small>atleta</small>
+                                    </th>
+                                    <th class="text-right col-md-2">
+                                        <small>valor</small>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr id='pesquisa-atleta' hidden="true">
+                                    <td colspan="3">
+                                        <input type="hidden" id="memberId"/>
+                                        <input type="text" id="members_ids" class="form-control"
+                                               placeholder="Pesquise pelo nome do atleta"
+                                               maxlength="#{constants.nameSize}"
+                                               autocomplete="off"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right" nowrap='nowrap'>
+                                        total
+                                    </th>
+                                    <th id="total" class="text-right" nowrap='nowrap'></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<div id="members_ids-message" class="alert alert-danger" hidden="true"></div>
-					</div>
-				</div>
-			</div>
+            <div id="submit-button-section" hidden="true">
+                <div class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <p class="text-justify">* Campos de preenchimento obrigatório.</p>
+                    </div>
+                </div>
+                <div id="button-row" class="row">
+                    <div class="form-group col-md-offset-3 col-md-6">
+                        <input id="facebook-appid" type="hidden"/>
+                        <input id="registration-id" type="hidden"/>
+                        <button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-4">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden='true'></span> Inscrever
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
-			<div id="submit-button-section" hidden="true">
-				<div class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<p class="text-justify">* Campos de preenchimento obrigatório.</p>
-					</div>
-				</div>
-				<div id="button-row" class="row">
-					<div class="form-group col-md-offset-3 col-md-6">
-						<input id="facebook-appid" type="hidden" />
-						<input id="registration-id" type="hidden" />
-						<button type="submit" class="btn btn-lg btn-success pull-right col-xs-12 col-md-4">
-							<span class="glyphicon glyphicon-pencil" aria-hidden='true'></span> Inscrever
-						</button>
-					</div>
-				</div>
-			</div>
-		</form>
+        <div id="kits-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row flex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div id="kits-modal" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="row flex">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <script id="kits-template" type="text/template">
+            {{#kits}}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>{{name}} <span class="pull-right text-success">R$ {{price}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-left">
+                            {{{parsedDescription}}}
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-lg btn-block btn-primary kit-choice" data-kit-id="{{id}}"
+                                data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{memberId}}">
+                            Escolher
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{/kits}}
+        </script>
 
-		<script id="kits-template" type="text/template">
-			{{#kits}}
-				<div class="col-md-6">
-					<div class="panel panel-default">
-  						<div class="panel-heading">
-    						<h3>{{name}} <span class="pull-right text-success">R$ {{price}}</span></h3>
-  						</div>
-						<div class="panel-body">
-  							<div class="text-center">
-								{{{parsedDescription}}}
-  							</div>
-						</div>
-						<div class="panel-footer">
-							<button class="btn btn-lg btn-block btn-primary kit-choice" data-kit-id="{{id}}" data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{memberId}}">Escolher</button>
-						</div>
-					</div>
-				</div>
-			{{/kits}}
- 		</script>
+        <script id="member-template" type="text/template">
+            <tr id='member-{{id}}' class='member' data-id='{{id}}' data-raceprice='{{race_price}}'>
+                <td class='first-column'>
+                    <img class='img-rounded' src='{{picture.thumbnail}}'/>
+                    &#160;&#160;&#160;{{name}}
 
-		<script id="member-template" type="text/template">
-			<tr id='member-{{id}}' class='member' data-id='{{id}}' data-raceprice='{{race_price}}'>
-				<td class='first-column'>
-					<img class='img-rounded' src='{{picture.thumbnail}}' />
-					&#160;&#160;&#160;{{name}}
-					
-					{{#raceHasKit}}
-					<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}' data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
-					{{/raceHasKit}}
-				</td>
-				<td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}' data-amount='{{race_price}}'>{{formmated_race_price}}</td>
-				<td class="trash">
-					<a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
-						<span class='glyphicon glyphicon-trash' />
-					</a>
-				</td>
-			</tr>
-		</script>
-	</ui:define>
+                    {{#raceHasKit}}
+                    <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}'
+                       data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
+                    {{/raceHasKit}}
+                </td>
+                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}'
+                    data-amount='{{race_price}}'>{{formmated_race_price}}
+                </td>
+                <td class="trash">
+                    <a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
+                        <span class='glyphicon glyphicon-trash'/>
+                    </a>
+                </td>
+            </tr>
+        </script>
+    </ui:define>
 </ui:composition>

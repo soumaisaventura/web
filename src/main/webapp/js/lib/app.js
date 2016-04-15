@@ -112,6 +112,8 @@ var App = {
 
         if (!options.linebreak) {
             options.linebreak = "$1<br>";
+        } else if (options.linebreak.indexOf("$1") < 0) {
+            options.linebreak = "$1" + options.linebreak;
         }
 
         var regex, newValue;

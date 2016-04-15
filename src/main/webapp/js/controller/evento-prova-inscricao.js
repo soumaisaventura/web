@@ -42,7 +42,6 @@ $(function () {
             member.raceHasKit = race.hasOwnProperty('kits');
             $("#memberId").val(member.id);
             $("#members_ids").val(member.label);
-            $("#members_ids-message").hide();
 
             if (memberId) {
                 RaceProxy.getOrder(raceId, eventId, member.id).done(function (order) {
@@ -50,8 +49,6 @@ $(function () {
                 });
                 $("#memberId").val(""); // Limpa o campo
                 $("#members_ids").val(""); // Limpa o campo
-            } else {
-                $("#members_ids-message").html("Para incluir um atleta na equipe ele precisa se cadastrar no site e ativar a conta.").show();
             }
             return false;
         },
