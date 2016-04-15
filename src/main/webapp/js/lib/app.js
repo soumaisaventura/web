@@ -130,8 +130,6 @@ var App = {
         newValue = options.linebreak;
         text = text.replace(regex, newValue);
 
-        console.log(text);
-
         return text;
     },
 
