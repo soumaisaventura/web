@@ -14,6 +14,5 @@ public class TeamData {
     public String name;
 
     @Valid
-    @NotEmpty
     public List<UserData> members = new ArrayList();
 }

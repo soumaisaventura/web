@@ -104,6 +104,8 @@
                                     <th></th>
                                 </tr>
                                 </thead>
+                                <tbody>
+                                </tbody>
                                 <tfoot>
                                 <tr id='pesquisa-atleta' hidden="true">
                                     <td colspan="3">
@@ -122,8 +124,6 @@
                                     <th></th>
                                 </tr>
                                 </tfoot>
-                                <tbody>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -185,13 +185,22 @@
         <script id="member-template" type="text/template">
             <tr id='member-{{id}}' class='member' data-id='{{id}}' data-raceprice='{{race_price}}'>
                 <td class='first-column'>
-                    <img class='img-rounded' src='{{picture.thumbnail}}'/>
-                    &#160;&#160;&#160;{{name}}
-
-                    {{#raceHasKit}}
-                    <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}'
-                       data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
-                    {{/raceHasKit}}
+                    <table>
+                        <tr>
+                            <td>
+                                <img class='img-rounded' src='{{picture.thumbnail}}'/>
+                            </td>
+                            <td>
+                                {{name}}
+                                <span class="hidden-xs"/>
+                                {{#raceHasKit}}
+                                <br class="visible-xs"/>
+                                <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}'
+                                   data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
+                                {{/raceHasKit}}
+                            </td>
+                        </tr>
+                    </table>
                 </td>
                 <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}'
                     data-amount='{{race_price}}'>{{formmated_race_price}}

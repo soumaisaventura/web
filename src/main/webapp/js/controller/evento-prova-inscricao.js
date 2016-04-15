@@ -134,8 +134,8 @@ $(function () {
                 name: $("#team\\.name").val(),
                 members: _members
             }
-
         };
+
         RaceRegistrationProxy.submitRegistration(raceId, eventId, registration).done(registrationOk).fail(App.handle422Global);
     });
 
@@ -194,8 +194,14 @@ function getOrderOk(_order, _athlete) {
 }
 
 function updateTable() {
-    var rowCount = $('#members-list tbody tr').length;
+    var rowCount = $('#members-list>tbody>tr').length;
+
+    console.log(rowCount);
+
     var teamsize = $('#category\\.id').find('option:selected').data("teamsize");
+
+    console.log(teamsize);
+
     if (!rowCount) {
         $("#pesquisa-atleta").show();
     } else {
