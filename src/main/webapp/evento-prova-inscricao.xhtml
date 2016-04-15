@@ -111,7 +111,7 @@
                                         <input type="text" id="members_ids" class="form-control"
                                                placeholder="Pesquise pelo nome do atleta"
                                                maxlength="#{constants.nameSize}"
-                                               autocomplete="off"/>
+                                               autocomplete="off" autocapitalize="off" autocorrect="off"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -152,7 +152,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="row flex">
+                        <div class="row">
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
 
         <script id="kits-template" type="text/template">
             {{#kits}}
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-12 col-xs-12 kit-item">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3>{{name}} <span class="pull-right text-success">R$ {{price}}</span></h3>

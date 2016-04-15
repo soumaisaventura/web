@@ -38,27 +38,6 @@
 	font-size: 0.8em
 }
 
-.flex, .flex > div[class*='col-'] {  
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex:1 0 auto;
-}
-
-.panel {
-   display: flex;
-   flex-direction:column;
-   align-content:stretch; 
-   margin-bottom: 0px;
-}
-
-.panel-body {
-   display: flex;
-   flex-grow:1;
-}
-
 .panel-body br {
    line-height: 200%;
 }
@@ -66,5 +45,4 @@
 .panel-heading > h3 {
  	margin-top: 5px;
 	margin-bottom: 5px;
-}
 }
