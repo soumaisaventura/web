@@ -78,7 +78,8 @@ public class UserRegistration {
     }
 
     public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,
-                            GenderType profileGender, String profileMobile, BigDecimal amount) {
+                            GenderType profileGender, String profileMobile, BigDecimal amount,
+                            Integer kitId, String kitAlias, String kitName, String kitDescription) {
         setRegistration(new Registration());
         getRegistration().setId(registrationId);
 
@@ -90,6 +91,14 @@ public class UserRegistration {
         getUser().getProfile().setName(profileName);
         getUser().getProfile().setGender(profileGender);
         getUser().getProfile().setMobile(profileMobile);
+
+        if (kitId != null) {
+            setKit(new Kit());
+            getKit().setId(kitId);
+            getKit().setAlias(kitAlias);
+            getKit().setName(kitName);
+            getKit().setDescription(kitDescription);
+        }
 
         setAmount(amount);
     }

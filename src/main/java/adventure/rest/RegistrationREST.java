@@ -385,9 +385,15 @@ public class RegistrationREST {
         for (UserRegistration teamFormation : teamFormations) {
             if (teamFormation.getAmount().doubleValue() > 0) {
                 i++;
+                String itemDescriptionId = "itemDescription" + i;
+                String itemDescriptionValue = "Inscrição de " + teamFormation.getUser().getName();
+
+                if (teamFormation.getKit() != null) {
+                    itemDescriptionValue += " (" + teamFormation.getKit().getName() + ")";
+                }
+
                 payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
-                payload.add(new BasicNameValuePair("itemDescription" + i, "Inscrição de "
-                        + teamFormation.getUser().getName()));
+                payload.add(new BasicNameValuePair(itemDescriptionId, itemDescriptionValue));
                 payload.add(new BasicNameValuePair("itemAmount" + i, numberFormat.format(teamFormation.getAmount())));
                 payload.add(new BasicNameValuePair("itemQuantity" + i, "1"));
             }

@@ -39,24 +39,29 @@ public class UserRegistrationDAO implements Serializable {
 
 	public List<UserRegistration> find(Registration registration) {
 		String jpql = "";
-		jpql += " select ";
-		jpql += " 	 new UserRegistration( ";
-		jpql += " 	     r.id, ";
-		jpql += " 	     u.id, ";
-		jpql += " 	     u.email, ";
-		jpql += " 	     pr.name, ";
-		jpql += " 	     pr.gender, ";
-		jpql += " 	     pr.mobile, ";
-		jpql += " 	     tf.amount ";
-		jpql += " 	     ) ";
-		jpql += "   from UserRegistration tf ";
-		jpql += "   join tf.user u ";
-		jpql += "   join tf.registration r, ";
-		jpql += "        Profile pr ";
-		jpql += "  where u = pr.user ";
-		jpql += "    and r = :registration ";
-		jpql += "  order by ";
-		jpql += "        pr.name ";
+		jpql += "    select ";
+		jpql += "       new UserRegistration( ";
+		jpql += "           r.id, ";
+		jpql += "           u.id, ";
+		jpql += "           u.email, ";
+		jpql += " 	        pr.name, ";
+		jpql += " 	        pr.gender, ";
+		jpql += " 	        pr.mobile, ";
+		jpql += "           tf.amount, ";
+		jpql += "           k.id, ";
+		jpql += "           k.alias, ";
+		jpql += "           k.name, ";
+		jpql += "           k.description ";
+		jpql += "           ) ";
+		jpql += "      from UserRegistration tf ";
+		jpql += " left join Kit k ";
+		jpql += "      join tf.user u ";
+		jpql += "      join tf.registration r, ";
+		jpql += "           Profile pr ";
+		jpql += "     where u = pr.user ";
+		jpql += "       and r = :registration ";
+		jpql += "     order by ";
+		jpql += "           pr.name ";
 
 		TypedQuery<UserRegistration> query = em.createQuery(jpql, UserRegistration.class);
 		query.setParameter("registration", registration);
