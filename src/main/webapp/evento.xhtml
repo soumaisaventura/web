@@ -63,7 +63,7 @@
         <div id="site-section" hidden="true">
             <div class="row">
                 <div class="col-md-offset-2 col-md-8">
-                    <p>Mais informações: <span id="site"/></p>
+                    <p>Site do evento: <a id="site" target="_blank"></a></p>
                 </div>
             </div>
         </div>
@@ -244,7 +244,11 @@
                                 <div class="panel-body">
                                     <ul class="race-list-info">
                                         {{#categories}}
-                                        <li>{{name}}</li>
+                                        <li>
+                                            {{name}}
+                                            <span data-toggle="tooltip" title="{{{description}}}"
+                                                  class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                        </li>
                                         {{/categories}}
                                     </ul>
                                 </div>
@@ -323,7 +327,11 @@
                                 <div class="panel-body">
                                     <ul class="race-list-info">
                                         {{#kits}}
-                                        <li>{{name}}: <span><sup>R$</sup> <strong>+{{price}}</strong>*</span></li>
+                                        <li>
+                                            {{name}}: <sup>R$</sup> <strong>+{{price}}</strong>*
+                                            <span data-toggle="tooltip" title="{{{description}}}"
+                                                  class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                        </li>
                                         {{/kits}}
                                     </ul>
                                 </div>

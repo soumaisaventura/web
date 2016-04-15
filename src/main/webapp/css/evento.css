@@ -100,6 +100,10 @@ html, body {
     margin-top: 10px;
 }
 
+.tooltip-inner {
+    text-align: left;
+}
+
 /* Location */
 #location-title {
     border-top: 1px solid #eee;

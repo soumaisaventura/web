@@ -96,7 +96,7 @@ function loadOk(registration) {
         $(".payment-type").hide();
         $(".payment-type-" + registration.race.event.payment.type).show();
         $('#registration-payment-info').html(
-            registration.race.event.payment.info ? App.replaceEmailByMailTo(registration.race.event.payment.info.replace(/\n|\r/g, '<br>')) : '');
+            registration.race.event.payment.info ? App.parseText(registration.race.event.payment.info) : '');
 
         if (registration.payment) {
             updatePaymentButton(registration.payment.checkout_code, registration.payment.transaction_code);

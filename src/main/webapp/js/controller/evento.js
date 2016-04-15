@@ -123,7 +123,8 @@ function loadEventOk(event) {
     $("#info-section").show();
 
     if (event.site) {
-        $("#site").html(App.replaceProtocolByLink(event.site));
+        $("#site").text(event.site);
+        $("#site").attr("href", event.site);
         $("#site-section").show();
     }
 
@@ -196,8 +197,16 @@ function loadEventOk(event) {
 
             if (race.prices) {
                 $.each(race.prices, function (j, price) {
-                    race.prices[j].beginning = App.moment(price.beginning).format('DD/MM');
-                    race.prices[j].end = App.moment(price.end).format('DD/MM');
+                    price.beginning = App.moment(price.beginning).format('DD/MM');
+                    price.end = App.moment(price.end).format('DD/MM');
+                });
+            }
+
+            // Kits
+
+            if (race.kits) {
+                $.each(race.kits, function (j, kit) {
+                    kit.description = App.parseText(kit.description);
                 });
             }
 
@@ -208,6 +217,8 @@ function loadEventOk(event) {
         // $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
         // $(".race:not(.open)>div:nth-child(2)").remove();
 
+        $('[data-toggle="tooltip"]').tooltip({html: true});
+        // $('[data-toggle="popover"]').popover({html: true});
         $(".end, .closed").html("Inscrições encerradas");
         $(".soon").html("Inscrições em breve");
 
