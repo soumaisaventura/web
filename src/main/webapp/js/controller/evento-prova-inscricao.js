@@ -182,7 +182,7 @@ function getOrderOk(_order, _athlete) {
 
         var template = $("#member-template");
         var rendered = Mustache.render(template.html(), _athlete);
-        $('#members-list').data('footable').appendRow(rendered);
+        $('#members-list > tbody').append(rendered);
 
         updateTable();
 
@@ -195,13 +195,7 @@ function getOrderOk(_order, _athlete) {
 
 function updateTable() {
     var rowCount = $('#members-list>tbody>tr').length;
-
-    console.log(rowCount);
-
     var teamsize = $('#category\\.id').find('option:selected').data("teamsize");
-
-    console.log(teamsize);
-
     if (!rowCount) {
         $("#pesquisa-atleta").show();
     } else {
