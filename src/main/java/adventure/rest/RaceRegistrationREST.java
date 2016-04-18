@@ -28,7 +28,7 @@ import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 import static java.math.BigDecimal.ZERO;
 
-@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/{raceAlias: " + RACE_SLUG_PATTERN + "}/registrations")
+@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/races/{raceAlias: " + RACE_SLUG_PATTERN + "}/registrations")
 public class RaceRegistrationREST {
 
     @POST

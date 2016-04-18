@@ -1,38 +1,51 @@
 #button-row {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.member .first-column table td:first-child {
+    padding-right: 8px;
+}
+
+.member span.hidden-xs {
+    padding-right: 4px;
 }
 
 #members-list {
-	margin-top: 0px;
-	margin-bottom: 5px;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
-#total {
-	font-style: italic;
+#summary-section > row:first {
+    padding-bottom: 20px
 }
 
-#summary-section>row:first {
-	padding-bottom: 20px
+.amount, .first-column, .kit, .trash {
+    vertical-align: middle !important;
 }
 
-.ammount, .first-column, .kit {
-	vertical-align: middle !important;
+.trash {
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .kit, .kit:hover {
-	margin-left: 10px;
-	text-decoration: none;
-	border-bottom: dashed 1px #0088cc;
+    text-decoration: none;
+    border-bottom: dashed 1px #0088cc;
 }
 
 .footable-row-detail-name {
-	padding-left: 46px;
+    padding-left: 46px;
 }
 
 .glyphicon {
-	font-size: 0.8em
+    font-size: 0.8em
 }
 
-.remove {
-	padding-left: 5px;
+.panel-body br {
+    line-height: 200%;
+}
+
+.panel-heading > h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

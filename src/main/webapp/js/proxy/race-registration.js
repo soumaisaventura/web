@@ -5,7 +5,7 @@ var RaceRegistrationProxy = {
     submitRegistration: function (raceId, eventId, data) {
         return $.ajax({
             type: "POST",
-            url: this.url + "/" + eventId + "/" + raceId + "/registrations",
+            url: this.url + "/" + eventId + "/races/" + raceId + "/registrations",
             data: JSON.stringify(data),
             contentType: "application/json",
             beforeSend: function (request) {

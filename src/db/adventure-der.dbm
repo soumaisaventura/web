@@ -1640,7 +1640,7 @@ END
 		<type name="character varying" length="30"/>
 	</column>
 	<column name="description" not-null="true">
-		<type name="character varying" length="50"/>
+		<type name="character varying" length="500"/>
 	</column>
 	<column name="price" not-null="true">
 		<type name="numeric" length="7" precision="2"/>

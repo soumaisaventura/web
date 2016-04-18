@@ -1,6 +1,8 @@
 package adventure.rest;
 
-import adventure.entity.*;
+import adventure.entity.Race;
+import adventure.entity.RegistrationPeriod;
+import adventure.entity.User;
 import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -11,17 +13,15 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
 
-@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/{raceAlias: " + RACE_SLUG_PATTERN + "}")
+@Path("events/{eventAlias: " + EVENT_SLUG_PATTERN + "}/races/{raceAlias: " + RACE_SLUG_PATTERN + "}")
 public class RaceREST {
 
     @GET
-    @Path("summary")
     @Produces("application/json")
     public RaceData loadSummary(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
                                 @Context UriInfo uriInfo) throws Exception {
@@ -50,51 +50,10 @@ public class RaceREST {
         data.event.location.city.name = race.getEvent().getCity().getName();
         data.event.location.city.state = race.getEvent().getCity().getState().getAbbreviation();
 
+        data.parseAndSetCategories(CategoryDAO.getInstance().find(race));
+        data.parseAndSetKits(KitDAO.getInstance().findForRegistration(race));
+
         return data;
-    }
-
-    @GET
-    @Path("categories")
-    @Produces("application/json")
-    public List<CategoryData> findCategories(@PathParam("raceAlias") String raceAlias,
-                                             @PathParam("eventAlias") String eventAlias) throws Exception {
-        List<CategoryData> result = new ArrayList();
-        Race race = loadRaceDetails(raceAlias, eventAlias);
-
-        for (Category category : CategoryDAO.getInstance().find(race)) {
-            CategoryData categoryData = new CategoryData();
-            categoryData.id = category.getAlias();
-            categoryData.internalId = category.getId();
-            categoryData.name = category.getName();
-            categoryData.description = category.getDescription();
-            categoryData.teamSize = category.getTeamSize();
-            categoryData.minMaleMembers = category.getMinMaleMembers();
-            categoryData.minFemaleMembers = category.getMinFemaleMembers();
-            result.add(categoryData);
-        }
-
-        return result.isEmpty() ? null : result;
-    }
-
-    @GET
-    @Path("kits")
-    @Produces("application/json")
-    public List<KitData> getKits(@PathParam("raceAlias") String raceAlias,
-                                 @PathParam("eventAlias") String eventAlias) throws Exception {
-        List<KitData> result = new ArrayList();
-        Race race = loadRaceDetails(raceAlias, eventAlias);
-
-        for (Kit kit : KitDAO.getInstance().findForRegistration(race)) {
-            KitData kitData = new KitData();
-            kitData.id = kit.getAlias();
-            kitData.internalId = kit.getId();
-            kitData.name = kit.getName();
-            kitData.description = kit.getDescription();
-            kitData.price = kit.getPrice();
-            result.add(kitData);
-        }
-
-        return result.isEmpty() ? null : result;
     }
 
     @GET

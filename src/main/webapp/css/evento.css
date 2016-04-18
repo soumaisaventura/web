@@ -1,199 +1,210 @@
 html, body {
-	overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 #banner {
-	border: solid 1px #eee;
+    border: solid 1px #eee;
 }
 
 /* Info */
 #info-section {
-	padding-top: 30px;
+    padding-top: 30px;
 }
 
 #title {
-	margin-top: 0px;
-	margin-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .info-icon {
-	padding-right: 10px;
+    padding-right: 10px;
 }
 
 #description {
-	color: black;
-	font-size: 1.1em;
-	text-align: justify;
-	line-height: 25px;
-	padding-top: 30px;
-	margin-bottom: 0px;
+    color: black;
+    font-size: 1.1em;
+    text-align: justify;
+    line-height: 25px;
+    padding-top: 30px;
+    margin-bottom: 0px;
 }
 
 .painel {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+#site-section p {
+    margin-top: 15px;
+    margin-bottom: 0px;
 }
 
 /* Race */
 #races-section {
-	margin-top: 30px;
+    margin-top: 30px;
 }
 
 .race {
-	padding-top: 30px;
-	padding-bottom: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .race-border {
-	border-top: 1px solid #eee;
+    border-top: 1px solid #eee;
 }
 
 .race-name {
-	margin-top: 0px;
-	line-height: 32px;
+    margin-top: 0px;
+    line-height: 32px;
 }
 
 .race-description {
-	text-align: justify;
+    text-align: justify;
 }
 
 .event-label-danger {
-	font-weight: normal;
-	font-size: 15px;
-	background-color: #fff;
-	color: #d9534f;
-	border: 1px solid #d9534f;
+    font-weight: normal;
+    font-size: 15px;
+    background-color: #fff;
+    color: #d9534f;
+    border: 1px solid #d9534f;
 }
 
 .full-width {
-	display: block;
-	width: 100%;
+    display: block;
+    width: 100%;
 }
 
 .calendar {
-	border: 1px solid #dbdbdb;
-	border-radius: 2px;
-	margin: 0px;
-	padding: 0px;
-	float: left;
-	margin-right: 10px;
-	text-align: center;
-	font-size: 11px;
-	width: 32px;
-	font-size: 11px;
-	margin-right: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 2px;
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 11px;
+    width: 32px;
+    font-size: 11px;
+    margin-right: 10px;
 }
 
 .calendar div:nth-child(1) {
-	background-color: #d9534f;
-	font-size: 0.9em;
-	color: white;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
+    background-color: #d9534f;
+    font-size: 0.9em;
+    color: white;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .see-more {
-	margin-top: 10px;
+    margin-top: 10px;
+}
+
+.tooltip-inner {
+    text-align: left;
 }
 
 /* Location */
 #location-title {
-	border-top: 1px solid #eee;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-top: 23px;
+    border-top: 1px solid #eee;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 23px;
 }
 
 #map {
-	height: 300px;
-	margin-top: 30px;
-	width: auto;
+    height: 300px;
+    margin-top: 30px;
+    width: auto;
 }
 
 #map-legend {
-	padding-top: 28px;
-	padding-bottom: 35px;
+    padding-top: 28px;
+    padding-bottom: 35px;
 }
 
 #map-legend .row {
-	margin-top: 4px;
+    margin-top: 4px;
 }
 
 .map-legend-label {
-	display: inline;
-	padding: .2em .6em .3em;
-	font-size: 75%;
-	font-weight: 550;
-	line-height: 1;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: .25em;
-	background-color: #F7534B;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 550;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #F7534B;
 }
 
 #map-legend .map-legend-label {
-	margin-right: 6px;
+    margin-right: 6px;
 }
 
 #map-legend a {
-	margin-right: 6px;
+    margin-right: 6px;
 }
 
 /* Organizer */
 #organizer-title {
-	border-top: 1px solid #eee;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-top: 30px;
+    border-top: 1px solid #eee;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 30px;
 }
 
 #organizers {
-	margin-top: 30px;
-	text-align: center;
+    margin-top: 30px;
+    text-align: center;
 }
 
 .organizer {
-	display: inline-block;
-	float: none !important;
-	margin-right: -4px;
-	padding-bottom: 15px;
+    display: inline-block;
+    float: none !important;
+    margin-right: -4px;
+    padding-bottom: 15px;
 }
 
-.organizer>div:nth-child(1) {
-	padding-left: 20px;
-	padding-right: 20px;
-	overflow: hidden;
-	position: relative;
+.organizer > div:nth-child(1) {
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: hidden;
+    position: relative;
 }
 
 .organizer-name {
-	font-size: large;
-	padding-top: 15px;
-	padding-bottom: 7px;
+    font-size: large;
+    padding-top: 15px;
+    padding-bottom: 7px;
 }
 
 @media screen and (min-width: 768px) {
-	.vcenter {
-		display: flex;
-		align-items: center;
-		/*
-		display: inline-block;
-		vertical-align: middle;
-		float: none;
-		margin-right: -4px;
-		*/
-	}
+    .vcenter {
+        display: flex;
+        align-items: center;
+        /*
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+        margin-right: -4px;
+        */
+    }
 }
 
 @media screen and (max-width: 320px) {
-	h1 {
-		font-size: 24px;
-	}
-	h2 {
-		font-size: 20px;
-	}
-	#painel {
-		padding-top: 10px;
-		padding-bottom: 10px;
-	}
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    #painel {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }

@@ -158,28 +158,11 @@ public class EventREST {
 
                 // Categories
 
-                raceData.categories = new ArrayList();
-                for (Category category : categoryDAO.find(race)) {
-                    CategoryData categoryData = new CategoryData();
-                    categoryData.id = category.getAlias();
-                    categoryData.internalId = category.getId();
-                    categoryData.name = category.getName();
-                    categoryData.description = category.getDescription();
-                    raceData.categories.add(categoryData);
-                }
+                raceData.parseAndSetCategories(categoryDAO.find(race));
 
                 // Kits
 
-                raceData.kits = new ArrayList();
-                for (Kit kit : kitDAO.findForRegistration(race)) {
-                    KitData kitData = new KitData();
-                    kitData.id = kit.getAlias();
-                    kitData.internalId = kit.getId();
-                    kitData.name = kit.getName();
-                    kitData.description = kit.getDescription();
-                    kitData.price = kit.getPrice();
-                    raceData.kits.add(kitData);
-                }
+                raceData.parseAndSetKits(kitDAO.findForRegistration(race));
 
                 // Registration Period + Prices
 
