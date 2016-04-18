@@ -101,14 +101,29 @@ VALUES (34,
 
 INSERT INTO kit (id,
                  race_id,
-                 slug,
+                 alias,
                  name,
                  description,
                  price)
 VALUES ((SELECT max(id) + 1
          FROM kit),
-        34,
-        'especial',
-        'Kit Especial',
+        64,
+        'mapaextra',
+        'Kit Mapa Extra',
         'Em breve mais informações',
-        60);
+        20);
+
+
+UPDATE user_registration x
+SET kit_id = 5
+WHERE exists(
+    SELECT *
+    FROM user_registration ur, registration r
+    WHERE ur.registration_id = r.id
+          AND kit_id IS NULL
+          AND r.race_id = 63
+          AND ur.user_id = x.user_id
+          AND ur.registration_id = x.registration_id);
+
+
+

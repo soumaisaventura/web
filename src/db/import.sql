@@ -16,8 +16,3 @@ ALTER TABLE public.registration RENAME COLUMN payment_code TO payment_checkout_c
 
 ALTER TABLE public.registration RENAME COLUMN payment_transaction TO payment_transaction_code;
 
-UPDATE period
-SET beginning = '2016-04-01'
-WHERE id = 110;
-
-COMMIT;
