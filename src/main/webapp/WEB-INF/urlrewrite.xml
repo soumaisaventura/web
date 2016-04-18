@@ -62,6 +62,10 @@
         <to>/evento-painel.jsf?evento_id=$1</to>
     </rule>
     <rule>
+        <from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao/(\d+)$</from>
+        <to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2&amp;inscricao_id=$3</to>
+    </rule>
+    <rule>
         <from>^/evento/([\w\d_\-/]+)/([\w\d\-_]+)/inscricao$</from>
         <to>/evento-prova-inscricao.jsf?evento_id=$1&amp;prova_id=$2</to>
     </rule>
