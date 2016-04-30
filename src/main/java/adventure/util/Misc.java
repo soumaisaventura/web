@@ -58,9 +58,11 @@ public final class Misc {
         String result = null;
 
         if (user != null && user.getProfile() != null && user.getProfile().getName() != null) {
-            String parts[] = user.getProfile().getName().split(" ");
-            result = parts[0] + (parts.length > 1 ? " " + parts[1] : "") + (parts.length > 2 && parts[1].length() <= 3 ? " " + parts[2] : "");
+//            String parts[] = user.getProfile().getName().split(" ");
+//            result = parts[0] + (parts.length > 1 ? " " + parts[1] : "") + (parts.length > 2 && parts[1].length() <= 3 ? " " + parts[2] : "");
+            result = user.getProfile().getName();
         }
+
 
         return result;
     }

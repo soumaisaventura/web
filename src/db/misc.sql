@@ -4,7 +4,7 @@ WHERE c.state_id = s.id AND lower(c.name) LIKE '%fortaleza%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%bandeira%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%murilo%';
 
 SELECT *
 FROM profile p
@@ -12,11 +12,11 @@ WHERE lower(p.name) LIKE '%arnaldo%';
 
 SELECT *
 FROM user_account ua
-WHERE ua.email LIKE '%scientiasilva@gmail.com%';
+WHERE ua.email LIKE '%pcv240702@gmail.com%';
 
 SELECT *
 FROM user_account ua
-WHERE id IN (457);
+WHERE id IN (5);
 
 SELECT *
 FROM profile p
@@ -38,11 +38,11 @@ WHERE tf.user_id = p.id
 
 SELECT *
 FROM user_registration tf, profile p
-WHERE tf.user_id = p.id AND tf.registration_id = 543;
+WHERE tf.user_id = p.id AND tf.registration_id = 1243;
 
 UPDATE user_registration
-SET user_id = 302
-WHERE registration_id = 543 AND user_id = 309;
+SET user_id = 89
+WHERE registration_id = 1243 AND user_id = 458;
 
 ----
 
