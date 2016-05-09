@@ -1,10 +1,10 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%fortaleza%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%jaguarari%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%murilo%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%roberto%';
 
 SELECT *
 FROM profile p
@@ -12,7 +12,7 @@ WHERE lower(p.name) LIKE '%arnaldo%';
 
 SELECT *
 FROM user_account ua
-WHERE ua.email LIKE '%pcv240702@gmail.com%';
+WHERE ua.email LIKE '%santiagojulliana@gmail.com%';
 
 SELECT *
 FROM user_account ua
@@ -38,11 +38,11 @@ WHERE tf.user_id = p.id
 
 SELECT *
 FROM user_registration tf, profile p
-WHERE tf.user_id = p.id AND tf.registration_id = 1243;
+WHERE tf.user_id = p.id AND tf.registration_id = 1279;
 
 UPDATE user_registration
-SET user_id = 89
-WHERE registration_id = 1243 AND user_id = 458;
+SET user_id = 2713
+WHERE registration_id = 1279 AND user_id = 109;
 
 ----
 
@@ -72,6 +72,7 @@ WHERE tf.user_id = p.id
       AND re.race_id = ra.id
       AND tf.user_id IN (1309, 1316);
 
-SELECT *
-FROM user_registration tf, profile p
-WHERE tf.user_id = p.id AND tf.registration_id = 543;
+
+select * from period p where p.ending = '2016-05-06';
+
+update period set ending = '2016-05-07' where ending = '2016-05-06';

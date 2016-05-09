@@ -64,9 +64,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (31,
-        805,
-        'Péricles Rodrigues',
+VALUES (20,
+        213,
+        'Henrique Ribeiro',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
@@ -74,7 +74,7 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (34)
+  WHERE r.id IN (38)
         AND c.id IN (1, 8);
 
 INSERT INTO race_modality (race_id, modality_id)
@@ -82,8 +82,8 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (34)
-        AND m.id IN (1, 2, 3, 4, 5, 6);
+  WHERE r.id IN (38)
+        AND m.id IN (1, 2, 6);
 
 -- 54, 58
 
@@ -92,10 +92,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (34,
-        175.00,
-        TO_DATE('16/10/2016', 'DD/MM/YYYY'),
-        TO_DATE('25/10/2016', 'DD/MM/YYYY'),
+VALUES (38,
+        80.00,
+        TO_DATE('06/05/2016', 'DD/MM/YYYY'),
+        TO_DATE('16/06/2016', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 
@@ -107,11 +107,11 @@ INSERT INTO kit (id,
                  price)
 VALUES ((SELECT max(id) + 1
          FROM kit),
-        64,
-        'mapaextra',
-        'Kit Mapa Extra',
-        'Em breve mais informações',
-        20);
+        38,
+        'completo',
+        'Kit Completo',
+        'escrever...',
+        50);
 
 
 UPDATE user_registration x
