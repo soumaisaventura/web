@@ -138,20 +138,21 @@ $(function () {
 
         RaceRegistrationProxy.submitRegistration(raceId, eventId, registration).done(registrationOk).fail(App.handle422Global);
     });
-
 });
 
 /* CALLBACKS */
 function getOAuthAppIdsOk(_data) {
-    $("#facebook-appid").val(_data.facebook);
+    $("body").data("facebook-app-id", _data.facebook);
 }
 
 function loadOk(_race, _user) {
     if (_race) {
         $("#race-name").text(_race.name);
         $("#race-description").text(_race.description);
+
         $("#race-date").text(App.parsePeriod(_race.period));
         $("#race-city").text(App.parseCity(_race.event.location.city));
+        $("body").data("race", _race);
 
         if (_race.categories) {
             $.each(_race.categories, function (i, category) {
@@ -240,7 +241,11 @@ function registrationOk(data) {
                 label: "Compartilhar no Facebook",
                 className: "btn-primary",
                 callback: function () {
-                    shareOnFacebook();
+                    App.shareOnFacebook({
+                        appId: $("body").data("facebook-app-id"),
+                        teamName: $("#team\\.name").val(),
+                        race: $("body").data("race")
+                    });
                     location.href = url;
                 }
             }
@@ -249,20 +254,4 @@ function registrationOk(data) {
             location.href = url;
         }
     });
-}
-
-function shareOnFacebook() {
-    var raceUrl = App.getBaseUrl() + "/prova/" + $("#id").val();
-    var url = "";
-    url += "http://www.facebook.com/dialog/feed";
-    url += "?app_id=" + $("#facebook-appid").val();
-    url += "&name=" + $("#team\\.name").val() + " vai para a " + $("#race-name").text() + "!";
-    url += "&description=Eu inscrevi a minha equipe na prova " + $("#race-name").text() + " que acontecerá no dia " + $("#race-date").text() + " em "
-        + $("#race-city").text() + ".";
-    url += "&link=" + raceUrl;
-    url += "&picture=" + App.getBaseUrl() + "/api/race/" + $("#id").val() + "/banner";
-    url += "&redirect_uri=" + App.getBaseUrl() + "/close";
-    url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
-
-    window.open(url, '_blank');
 }

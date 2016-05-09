@@ -1,10 +1,10 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%jaguarari%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%osa%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%roberto%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%soares%';
 
 SELECT *
 FROM profile p
@@ -38,11 +38,11 @@ WHERE tf.user_id = p.id
 
 SELECT *
 FROM user_registration tf, profile p
-WHERE tf.user_id = p.id AND tf.registration_id = 1279;
+WHERE tf.user_id = p.id AND tf.registration_id = 1311;
 
 UPDATE user_registration
-SET user_id = 2713
-WHERE registration_id = 1279 AND user_id = 109;
+SET user_id = 2741
+WHERE registration_id = 1288 AND user_id = 2754;
 
 ----
 

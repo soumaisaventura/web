@@ -18,6 +18,7 @@
 
     <ui:define name="proxy">
         <script src="#{request.contextPath}/js/proxy/registration.js"></script>
+        <script src="#{request.contextPath}/js/proxy/logon.js"></script>
     </ui:define>
 
     <ui:define name="controller">
@@ -151,16 +152,24 @@
             </div>
 
             <div id="footer-section" hidden="true" class="row text-right"
-                 style="padding-top: 30px; padding-bottom: 20px;">
-                <h5>
-                    Inscrição efetuada por
-                    <br/>
-                    <strong>
-                        <span id="registration-submitter"></span>
-                    </strong>
-                    <br/>
-                    no dia <span id="registration-date"></span>
-                </h5>
+                 style="padding-bottom: 20px;">
+                <div class="col-md-3">
+                    <div class="row">
+                        <a id="facebook-share" class="pull-left" href="#"><img
+                                src="#{request.contextPath}/images/facebook-share.png"/></a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <h5 style="margin-top: 0px;">
+                        Inscrição efetuada por
+                        <br/>
+                        <strong>
+                            <span id="registration-submitter"></span>
+                        </strong>
+                        <br/>
+                        no dia <span id="registration-date"></span>
+                    </h5>
+                </div>
             </div>
         </div>
 

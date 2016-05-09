@@ -265,6 +265,22 @@ var App = {
 
     parseCity: function (city) {
         return city.name + "/" + city.state;
+    },
+
+    shareOnFacebook: function (data) {
+        var raceUrl = App.getBaseUrl() + "/evento/" + data.race.event.id;
+        var url = "";
+        url += "http://www.facebook.com/dialog/feed";
+        url += "?app_id=" + data.appId;
+        url += "&name=" + data.teamName + " vai para a " + data.race.event.name + "!";
+        url += "&description=Eu inscrevi a minha equipe na prova " + data.race.event.name + " que acontecerá " + App.parsePeriod(data.race.period) + " em "
+            + App.parseCity(data.race.event.location.city) + ".";
+        url += "&link=" + raceUrl;
+        url += "&picture=" + raceUrl + "/banner.png";
+        url += "&redirect_uri=" + App.getBaseUrl() + "/close";
+        url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
+
+        window.open(url, '_blank');
     }
 };
 

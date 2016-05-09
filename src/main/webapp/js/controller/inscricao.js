@@ -3,8 +3,21 @@ $(function () {
     numeral.language('pt-br');
     numeral.defaultFormat('0.00');
 
+    $("#facebook-share").click(function (event) {
+        App.shareOnFacebook({
+            appId: $("#facebook-share").data("app-id"),
+            teamName: $("#team-name").text(),
+            race: $(this).data("race")
+        })
+    });
+
+    LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
     RegistrationProxy.load($("#registration").val()).done(loadOk);
 });
+
+function getOAuthAppIdsOk(data) {
+    $("#facebook-share").data("app-id", data.facebook);
+}
 
 function sendPaymentOk(data, status, request) {
     openPaymentFlow(data);
@@ -20,7 +33,6 @@ function sendPaymentFailed(request) {
 }
 
 function updateBreadcrumb(data) {
-
     var user = App.getLoggedInUser();
     var authorized = user ? user.roles.admin : false;
 
@@ -57,6 +69,7 @@ function loadOk(registration) {
     $("#race-section").show();
 
     $("#race-category").text(registration.category.name + " " + registration.race.name);
+    $("#facebook-share").data("race", registration.race);
 
     var memberTemplate = $('#member-template');
     var user = App.getLoggedInUser();
@@ -98,9 +111,12 @@ function loadOk(registration) {
         $('#registration-payment-info').html(
             registration.race.event.payment.info ? App.parseText(registration.race.event.payment.info) : '');
 
+        var checkout_code, transaction_code;
         if (registration.payment) {
-            updatePaymentButton(registration.payment.checkout_code, registration.payment.transaction_code);
+            checkout_code = registration.payment.checkout_code;
+            transaction_code = registration.payment.transaction_code;
         }
+        updatePaymentButton(checkout_code, transaction_code);
 
         $('#payment-section').show();
     }
@@ -238,6 +254,9 @@ function updatePaymentButton(checkoutCode, transactionCode) {
     } else {
         $("#payment-section").show();
     }
+
+    console.log(transactionCode);
+    console.log(checkoutCode);
 
     $("#payment").unbind('click');
     if (transactionCode) {
