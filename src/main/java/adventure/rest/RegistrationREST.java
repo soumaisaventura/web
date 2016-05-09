@@ -288,7 +288,7 @@ public class RegistrationREST {
             status = 200;
         }
 
-        URI location = URI.create("https://pagseguro.uol.com.br/v2/checkoutCode/payment.html?checkoutId=" + checkoutId);
+        URI location = URI.create("https://pagseguro.uol.com.br/v2/checkout/payment.html?checkoutId=" + checkoutId);
         return Response.status(status).location(location).entity(checkoutId).build();
     }
 
@@ -389,7 +389,7 @@ public class RegistrationREST {
                 String itemDescriptionValue = "Inscrição de " + teamFormation.getUser().getName();
 
                 if (teamFormation.getKit() != null) {
-                    itemDescriptionValue += " (" + teamFormation.getKit().getName() + ")";
+                    itemDescriptionValue += " + " + teamFormation.getKit().getName();
                 }
 
                 payload.add(new BasicNameValuePair("itemId" + i, String.valueOf(i)));
@@ -403,7 +403,7 @@ public class RegistrationREST {
         payload.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
         payload.add(new BasicNameValuePair("senderEmail", user.getEmail()));
 
-        HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkoutCode/");
+        HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkout/");
         String entity = URLEncodedUtils.format(payload, "UTF-8");
         request.setEntity(new StringEntity(entity));
         request.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8;");
