@@ -5,7 +5,7 @@
         <meta property="og:title" content="Inscreva-se! #{raceHelper.getTitle(request)}"/>
         <meta property="og:description" content="#{raceHelper.getDescription(request)}"/>
         <meta property="og:image"
-              content="#{applicationConfigHelper.getBaseUrl(request)}/api/event/#{param.alias}/banner"/>
+              content="#{request.contextPath}/evento/#{param.evento_id}/banner.png"/>
     </ui:define>
 
     <ui:define name="css">

@@ -4,8 +4,7 @@
     <ui:define name="meta-ogg">
         <meta property="og:title" content="#{eventHelper.getTitle(request)}"/>
         <meta property="og:description" content="#{eventHelper.getDescription(request)}"/>
-        <meta property="og:image"
-              content="#{applicationConfigHelper.getBaseUrl(request)}/evento/#{param.evento_id}/banner.png"/>
+        <meta property="og:image" content="#{request.contextPath}/evento/#{param.evento_id}/banner.png"/>
     </ui:define>
 
     <ui:define name="lib">

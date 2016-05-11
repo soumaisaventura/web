@@ -5,7 +5,6 @@ import adventure.util.ApplicationConfig;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 @Named
@@ -16,13 +15,6 @@ public class ApplicationConfigHelper implements Serializable {
 
     @Inject
     private ApplicationConfig config;
-
-    public String getBaseUrl(HttpServletRequest request) {
-        return request
-                .getRequestURL()
-                .delete(request.getRequestURL().indexOf(request.getContextPath()) + request.getContextPath().length(),
-                        request.getRequestURL().length()).toString();
-    }
 
     public String getOAuthFacebookId() {
         return config.getOAuthFacebookId();
