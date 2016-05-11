@@ -31,6 +31,8 @@ public class Event {
     @JoinColumn(name = "city_id")
     private City city;
 
+    private Boolean show;
+
     @Transient
     private List<Race> races;
 
@@ -186,6 +188,14 @@ public class Event {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Boolean getShow() {
+        return show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
     }
 
     public List<Race> getRaces() {
