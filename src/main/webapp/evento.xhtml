@@ -104,7 +104,7 @@
             {{#authorized}}
             <div class="row hidden-md hidden-lg painel">
                 <div class="col-md-12">
-                    <a href="#{applicationConfigHelper.getBaseUrl(request)}/evento/#{param.evento_id}/painel"
+                    <a href="#{request.contextPath}/evento/#{param.evento_id}/painel"
                        id="bt-painel" type="button" class="btn btn-lg btn-block btn-warning">
                         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Painel do
                         Organizador
@@ -116,7 +116,7 @@
                     <h1 id="title">{{name}}</h1>
                 </div>
                 <div class="col-md-3 hidden-xs hidden-sm">
-                    <a href="#{applicationConfigHelper.getBaseUrl(request)}/evento/#{param.evento_id}/painel"
+                    <a href="#{request.contextPath}/evento/#{param.evento_id}/painel"
                        id="bt-painel" type="button" class="btn btn-lg btn-block btn-warning">
                         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Painel do
                         Organizador
