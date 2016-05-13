@@ -4,6 +4,7 @@ import adventure.entity.BloodType;
 import adventure.entity.Health;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
+import adventure.rest.data.HealthData;
 import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -54,34 +55,5 @@ public class UserHealthREST {
         HealthDAO.getInstance().update(persisted);
         User.getLoggedIn().setHealth(new Health());
         User.getLoggedIn().getHealth().setPendencies(PendencyCounter.count(persisted));
-    }
-
-    public static class HealthData {
-
-        @NotNull
-        public BloodType bloodType;
-
-        @Size(max = TEXT_SIZE)
-        public String allergy;
-
-        @Size(max = NAME_SIZE)
-        public String healthCareName;
-
-        @Size(max = GENERIC_ID_SIZE)
-        public String healthCareNumber;
-
-        @NotEmpty
-        @Size(max = NAME_SIZE)
-        public String emergencyContactName;
-
-        @NotEmpty
-        @Size(max = TELEPHONE_SIZE)
-        public String emergencyContactPhoneNumber;
-
-        private Integer pendencies;
-
-        public Integer getPendencies() {
-            return pendencies;
-        }
     }
 }

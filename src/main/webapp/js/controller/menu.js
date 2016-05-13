@@ -12,14 +12,14 @@ function loadMenu(user) {
     if (user) {
         $(".loggedout-menu").hide();
         $(".loggedin-menu").show();
-        $("#currentUser").html(user.name);
+        $("#currentUser").html(user.profile.name);
 
-        if (user.pendencies.profile && user.pendencies.profile > 0) {
-            $("#profile-badge").text(user.pendencies.profile);
+        if (user.profile && user.profile.pendencies > 0) {
+            $("#profile-badge").text(user.profile.pendencies);
         }
 
-        if (user.pendencies.health && user.pendencies.health > 0) {
-            $("#health-badge").text(user.pendencies.health);
+        if (user.health && user.health.pendencies > 0) {
+            $("#health-badge").text(user.health.pendencies);
         }
     }
 }

@@ -117,9 +117,9 @@ function getRegistrarionsOk(data, status, request) {
                 registration.team.members.forEach(function (member, i) {
                     amount += member.amount;
                     if (i === 0) {
-                        tr = tr.concat(member.name);
+                        tr = tr.concat(member.profile.name);
                     } else {
-                        tr = tr.concat(" / " + member.name);
+                        tr = tr.concat(" / " + member.profile.name);
                     }
 
                     tr = tr.concat("<span class='email' hidden='true'>" + member.email + "</span>");

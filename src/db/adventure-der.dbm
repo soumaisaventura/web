@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="0,0" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.8.0" last-position="489,648" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -871,6 +871,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="city_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="show" not-null="true" default-value="false">
+		<type name="boolean"/>
 	</column>
 	<column name="_beginning">
 		<type name="date"/>
@@ -1757,6 +1760,14 @@ END
 		</idxelement>
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="date"/>
+		</idxelement>
+</index>
+
+<index name="idx_event_show" table="public.event"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="show"/>
 		</idxelement>
 </index>
 

@@ -144,7 +144,7 @@ function loadEventOk(event) {
     if (event.organizers) {
         $.each(event.organizers, function (i, organizer) {
             var pattern = /[\(\)\- ]/g;
-            organizer.mobile_link = "tel:+55" + organizer.mobile.replace(pattern, "");
+            organizer.profile.mobile_link = "tel:+55" + organizer.profile.mobile.replace(pattern, "");
             var rendered = Mustache.render(template.html(), organizer);
             $('#organizers').append(rendered);
         });

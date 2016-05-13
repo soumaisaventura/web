@@ -45,10 +45,10 @@ function loadOk(data) {
 function updateOk(data) {
     $("[id$='-message']").hide();
     var user = App.getLoggedInUser();
-    user.pendencies.health = null;
+    user.health.pendencies = null;
     App.setLoggedInUser(user);
 
-    if (user.pendencies.profile && user.pendencies.profile > 0) {
+    if (user.profile && user.profile.pendencies > 0) {
         swal({
             title: "Dados salvos",
             text: "Porém você ainda possui pendências nos dados pessoais.",
