@@ -43,8 +43,7 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += "  where r.event = :event ";
         jpql += "  order by ";
         jpql += "        r.period.beginning, ";
-        jpql += "        o.id, ";
-        jpql += "        r.distance desc ";
+        jpql += "        r.id ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
         query.setParameter("event", event);

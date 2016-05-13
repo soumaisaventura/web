@@ -116,8 +116,10 @@ public class RegistrationREST {
         data.submitter = new UserData(uriInfo);
         data.submitter.id = registration.getSubmitter().getId();
         data.submitter.email = registration.getSubmitter().getEmail();
-        data.submitter.name = registration.getSubmitter().getProfile().getName();
-        data.submitter.mobile = test ? TEST_MOBILE : registration.getSubmitter().getProfile().getMobile();
+
+        data.submitter.profile = new ProfileData();
+        data.submitter.profile.name = registration.getSubmitter().getProfile().getName();
+        data.submitter.profile.mobile = test ? TEST_MOBILE : registration.getSubmitter().getProfile().getMobile();
 
         data.team = new TeamData();
         data.team.name = registration.getTeamName();
@@ -171,8 +173,10 @@ public class RegistrationREST {
             UserData userData = new UserData(uriInfo);
             userData.id = organizer.getId();
             userData.email = organizer.getEmail();
-            userData.name = organizer.getProfile().getName();
-            userData.mobile = organizer.getProfile().getMobile();
+
+            userData.profile = new ProfileData();
+            userData.profile.name = organizer.getProfile().getName();
+            userData.profile.mobile = organizer.getProfile().getMobile();
             data.race.event.organizers.add(userData);
         }
 
@@ -181,8 +185,11 @@ public class RegistrationREST {
             UserData userData = new UserData(uriInfo);
             userData.id = userRegistration.getUser().getId();
             userData.email = userRegistration.getUser().getEmail();
-            userData.name = userRegistration.getUser().getProfile().getName();
-            userData.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
+
+            userData.profile = new ProfileData();
+            userData.profile.name = userRegistration.getUser().getProfile().getName();
+            userData.profile.mobile = test ? TEST_MOBILE : userRegistration.getUser().getProfile().getMobile();
+
             userData.amount = userRegistration.getAmount();
 
             Kit kit = kitDAO.loadForRegistration(userRegistration);

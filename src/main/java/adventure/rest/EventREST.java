@@ -213,9 +213,12 @@ public class EventREST {
         for (User organizer : UserDAO.getInstance().findOrganizers(event)) {
             UserData organizerData = new UserData(uriInfo);
             organizerData.id = organizer.getId();
-            organizerData.name = organizer.getProfile().getName();
             organizerData.email = organizer.getEmail();
-            organizerData.mobile = organizer.getProfile().getMobile();
+
+            organizerData.profile = new ProfileData();
+            organizerData.profile.name = organizer.getProfile().getName();
+            organizerData.profile.mobile = organizer.getProfile().getMobile();
+
             eventData.organizers.add(organizerData);
         }
 
@@ -261,12 +264,14 @@ public class EventREST {
                 UserData userData = new UserData(uriInfo);
                 userData.id = teamFormation.getUser().getId();
                 userData.email = teamFormation.getUser().getEmail();
-                userData.name = teamFormation.getUser().getProfile().getName();
-                userData.mobile = teamFormation.getUser().getProfile().getMobile();
 
-                userData.city = new CityData();
-                userData.city.name = teamFormation.getUser().getProfile().getCity().getName();
-                userData.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
+                userData.profile = new ProfileData();
+                userData.profile.name = teamFormation.getUser().getProfile().getName();
+                userData.profile.mobile = teamFormation.getUser().getProfile().getMobile();
+
+                userData.profile.city = new CityData();
+                userData.profile.city.name = teamFormation.getUser().getProfile().getCity().getName();
+                userData.profile.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
 
                 userData.amount = teamFormation.getAmount();
                 data.team.members.add(userData);

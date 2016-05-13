@@ -76,24 +76,6 @@ function loadOk(registration) {
     var isMember = false;
 
     $.each(registration.team.members, function (i, member) {
-        // var row = "";
-        // row = row.concat("<tr>");
-        // row = row.concat("<td class='text-left' style='padding-left: 0px;'>");
-        // row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        // row = row.concat("<span style='font-size: 1.0em'>" + member.name + "</span>");
-        // row = row.concat("<br/>");
-        // row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        // row = row.concat(member.email);
-        // row = row.concat("<br/>");
-        // row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-        // row = row.concat(member.mobile);
-        // row = row.concat("</td>");
-        // row = row.concat("<td class='text-right' nowrap='nowrap' style='vertical-align:middle;'>R$ ");
-        // row = row.concat("<a href='#' data-pk='" + member.id + "' data-params='{property: \"amount\"}' class='partial editable currency'>"
-        //     + numeral(member.amount).format() + "</a>");
-        // row = row.concat("</td>");
-        // row = row.concat("</tr>");
-
         var rendered = Mustache.render(memberTemplate.html(), member);
         $("#team-formation > tbody:last").append(rendered);
 
@@ -127,15 +109,15 @@ function loadOk(registration) {
             var row = "";
             row = row.concat("<div class='col-md-6' style='padding-bottom: 30px;'>");
             row = row.concat("<span class='glyphicon glyphicon-user' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-            row = row.concat(organizer.name);
+            row = row.concat(organizer.profile.name);
             row = row.concat("<br/>");
             row = row.concat("<span class='glyphicon glyphicon-envelope' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
             row = row.concat(organizer.email);
 
-            if (organizer.mobile) {
+            if (organizer.profile.mobile) {
                 row = row.concat("<br/>");
                 row = row.concat("<span class='glyphicon glyphicon-phone' aria-hidden='true' style='font-size: 0.8em'></span>&nbsp;");
-                row = row.concat(organizer.mobile);
+                row = row.concat(organizer.profile.mobile);
             }
 
             if (user && organizer.id == user.id) {
@@ -148,7 +130,7 @@ function loadOk(registration) {
         $("#organizers-section").show();
     }
 
-    $("#registration-submitter").text(registration.submitter.name);
+    $("#registration-submitter").text(registration.submitter.profile.name);
     $("#registration-date").text(moment(registration.date).format('L'));
     $("#footer-section").show();
 

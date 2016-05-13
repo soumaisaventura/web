@@ -2,6 +2,7 @@ package adventure.rest.data;
 
 import adventure.entity.GenderType;
 import adventure.entity.User;
+import adventure.rest.UserHealthREST;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
@@ -16,24 +17,18 @@ public class UserData {
     @NotNull
     public Integer id;
 
-    public String name;
-
-    public GenderType gender;
-
     public String email;
-
-    public String mobile;
 
     public BigDecimal amount;
 
     @Valid
     public KitData kit;
 
-    public CityData city;
-
     public RolesData roles;
 
-    public PendenciesData pendencies;
+    public ProfileData profile;
+
+    public HealthData health;
 
     @JsonIgnore
     private UriInfo uriInfo;
@@ -49,15 +44,20 @@ public class UserData {
 
     public UserData(User user, UriInfo uriInfo) {
         this(uriInfo);
-
         this.id = user.getId();
-        this.name = user.getName();
-        this.gender = user.getProfile().getGender();
-        this.mobile = user.getProfile().getMobile();
 
-        this.pendencies = new PendenciesData();
-        this.pendencies.profile = user.getProfile().getPendencies();
-        this.pendencies.health = user.getHealth().getPendencies();
+        if (user.getProfile() != null) {
+            this.profile = new ProfileData();
+            this.profile.name = user.getProfile().getName();
+            this.profile.gender = user.getProfile().getGender();
+            this.profile.mobile = user.getProfile().getMobile();
+            this.profile.pendencies = user.getProfile().getPendencies();
+        }
+
+        if (user.getHealth() != null && user.getHealth().getPendencies() != null) {
+            this.health = new HealthData();
+            this.health.pendencies = user.getHealth().getPendencies();
+        }
 
         this.roles = new RolesData();
         this.roles.admin = user.getAdmin();

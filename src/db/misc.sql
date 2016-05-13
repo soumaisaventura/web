@@ -1,10 +1,10 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%osa%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%itabaiana%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%soares%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%cunha%';
 
 SELECT *
 FROM profile p
@@ -76,3 +76,6 @@ WHERE tf.user_id = p.id
 select * from period p where p.ending = '2016-05-06';
 
 update period set ending = '2016-05-07' where ending = '2016-05-06';
+
+
+update event set show = true;

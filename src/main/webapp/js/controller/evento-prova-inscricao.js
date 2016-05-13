@@ -220,7 +220,7 @@ function updateTotal() {
 function convertToLabelValueStructureFromUser(data) {
     var newData = [];
     $.each(data, function () {
-        this.label = this.name;
+        this.label = this.profile.name;
         this.value = this.id;
         this.thumbnail = this.picture.thumbnail;
         newData.push(this);
