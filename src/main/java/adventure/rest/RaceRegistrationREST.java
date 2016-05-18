@@ -1,10 +1,11 @@
 package adventure.rest;
 
 import adventure.business.MailBusiness;
+import adventure.business.RegistrationBusiness;
+import adventure.business.UserBusiness;
 import adventure.entity.*;
 import adventure.persistence.*;
-import adventure.rest.data.RaceRegistrationData;
-import adventure.rest.data.UserData;
+import adventure.rest.data.RegistrationData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
@@ -21,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static adventure.entity.GenderType.FEMALE;
-import static adventure.entity.GenderType.MALE;
 import static adventure.entity.RegistrationStatusType.PENDENT;
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 import static adventure.util.Constants.RACE_SLUG_PATTERN;
@@ -38,16 +37,17 @@ public class RaceRegistrationREST {
     @Consumes("application/json")
     @Produces("application/json")
     public Response submit(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
-                           RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
+                           RegistrationData data, @Context UriInfo uriInfo) throws Exception {
         Race race = loadRace(raceAlias, eventAlias);
         Date date = new Date();
         URI baseUri = uriInfo.getBaseUri().resolve("..");
 
         User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
         RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
-        List<User> members = loadMembers(raceCategory.getRace(), data.team.members);
+        List<User> members = UserBusiness.getInstance().loadMembers(raceCategory.getRace(), data.team.members);
         RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
-        validate(raceCategory, members, submitter, data.team.name, baseUri);
+
+        RegistrationBusiness.getInstance().validate(null, raceCategory, data.team.name, members, submitter, baseUri);
 
         Registration result = submit(data, raceCategory, members, date, period, submitter);
         MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
@@ -56,7 +56,7 @@ public class RaceRegistrationREST {
         return Response.created(location).entity(result.getFormattedId()).build();
     }
 
-    private Registration submit(RaceRegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
+    private Registration submit(RegistrationData data, RaceCategory raceCategory, List<User> members, Date date,
                                 RegistrationPeriod period, User submitter) {
         Registration registration = new Registration();
         registration.setTeamName(data.team.name);
@@ -108,47 +108,6 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private List<User> loadMembers(Race race, List<UserData> members) throws Exception {
-        UserDAO userDAO = UserDAO.getInstance();
-        KitDAO kitDAO = KitDAO.getInstance();
-
-        List<User> result = new ArrayList();
-        UnprocessableEntityException exception = new UnprocessableEntityException();
-
-        for (UserData member : members) {
-            User user = userDAO.loadBasics(member.id);
-            Kit kit = null;
-
-            if (user == null) {
-                exception.addViolation("Usuário " + member.id + " inválido.");
-            } else if (result.contains(user)) {
-                exception.addViolation("Usuário " + member.id + " duplicado.");
-            } else {
-                if (member.kit != null) {
-                    kit = kitDAO.loadForRegistration(race, member.kit.id);
-
-                    if (kit == null) {
-                        exception.addViolation("Kit " + member.kit.id + " inválido.");
-                    }
-                }
-
-                user.setKit(kit);
-                result.add(user);
-            }
-        }
-
-        if (!exception.getViolations().isEmpty()) {
-            throw exception;
-        }
-
-        return result;
-    }
-
-
-    private List<Kit> loadKits(Race race) throws Exception {
-        return KitDAO.getInstance().findForRegistration(race);
-    }
-
     private RegistrationPeriod loadPeriod(Race race, Date date) throws Exception {
         RegistrationPeriod result = PeriodDAO.getInstance().load(race, date);
 
@@ -159,77 +118,6 @@ public class RaceRegistrationREST {
 
         if (result == null) {
             throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
-        }
-
-        return result;
-    }
-
-    private void validate(RaceCategory raceCategory, List<User> members, User submitter, String teamName, URI baseUri)
-            throws Exception {
-        int total = members.size();
-        UnprocessableEntityException exception = new UnprocessableEntityException();
-        Category category = raceCategory.getCategory();
-        List<Kit> kits = loadKits(raceCategory.getRace());
-
-        if (total > category.getTeamSize()) {
-            exception.addViolation("Tem muita gente na equipe.");
-        } else if (total < category.getTeamSize()) {
-            exception.addViolation("A equipe está incompleta.");
-        }
-
-        int male = count(members, MALE);
-        if (category.getMinMaleMembers() != null && male < category.getMinMaleMembers()) {
-            exception.addViolation("Falta atleta do sexo masculino.");
-        }
-
-        int female = count(members, FEMALE);
-        if (category.getMinFemaleMembers() != null && female < category.getMinFemaleMembers()) {
-            exception.addViolation("Falta atleta do sexo feminino.");
-        }
-
-        for (User member : members) {
-            UserRegistration formation = UserRegistrationDAO.getInstance().loadForRegistrationSubmissionValidation(
-                    raceCategory.getRace(), member);
-
-            if (formation != null) {
-                exception.addViolation(parse(member) + " já faz parte da equipe "
-                        + formation.getRegistration().getTeamName() + ".");
-            }
-
-            if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
-                exception.addViolation(parse(member) + " possui pendências cadastrais.");
-                MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
-            }
-
-            if (member.getKit() == null && !kits.isEmpty()) {
-                exception.addViolation(parse(member) + " está sem kit.");
-            }
-        }
-
-        if (!exception.getViolations().isEmpty()) {
-            throw exception;
-        }
-    }
-
-    private String parse(User user) {
-        String result;
-
-        if (user.equals(User.getLoggedIn())) {
-            result = "Você";
-        } else {
-            result = user.getName();
-        }
-
-        return result;
-    }
-
-    private int count(List<User> members, GenderType gender) {
-        int result = 0;
-
-        for (User user : members) {
-            if (user.getProfile().getGender() == gender) {
-                result++;
-            }
         }
 
         return result;

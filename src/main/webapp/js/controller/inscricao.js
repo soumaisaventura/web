@@ -76,6 +76,10 @@ function loadOk(registration) {
     var isMember = false;
 
     $.each(registration.team.members, function (i, member) {
+        member.formattedAmount = numeral(member.amount).format();
+
+        console.log(member.formattedAmount);
+        
         var rendered = Mustache.render(memberTemplate.html(), member);
         $("#team-formation > tbody:last").append(rendered);
 

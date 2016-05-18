@@ -1,6 +1,8 @@
 package adventure.rest;
 
 import adventure.business.MailBusiness;
+import adventure.business.RegistrationBusiness;
+import adventure.business.UserBusiness;
 import adventure.entity.*;
 import adventure.persistence.*;
 import adventure.rest.data.*;
@@ -13,6 +15,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -206,6 +209,23 @@ public class RegistrationREST {
         }
 
         return data;
+    }
+
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Path("{id: \\d+}")
+    @Produces("application/json")
+    public void update(@PathParam("id") Long id, RegistrationData data, @Context UriInfo uriInfo) throws Exception {
+        Registration registration = loadRegistrationForDetails(id);
+        URI baseUri = uriInfo.getBaseUri().resolve("..");
+
+        User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
+        RaceCategory raceCategory = loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
+        List<User> members = UserBusiness.getInstance().loadMembers(raceCategory.getRace(), data.team.members);
+
+        RegistrationBusiness.getInstance().validate(id, raceCategory, data.team.name, members, submitter, baseUri);
     }
 
     @POST
@@ -440,6 +460,16 @@ public class RegistrationREST {
         return code;
     }
 
+    private Race loadRace(String raceAlias, String eventAlias) throws Exception {
+        Race result = RaceDAO.getInstance().loadForDetail(raceAlias, eventAlias);
+
+        if (result == null) {
+            throw new NotFoundException();
+        }
+
+        return result;
+    }
+
     private Registration loadRegistrationForDetails(Long id) throws Exception {
         Registration result = RegistrationDAO.getInstance().loadForDetails(id);
 
@@ -450,11 +480,13 @@ public class RegistrationREST {
         return result;
     }
 
-    private Event loadEventDetail(String slug) throws NotFoundException {
-        Event result = EventDAO.getInstance().loadForDetail(slug);
+    private RaceCategory loadRaceCategory(Integer raceId, String categoryAlias) throws Exception {
+        RaceCategory result = RaceCategoryDAO.getInstance().load(raceId, categoryAlias);
+
         if (result == null) {
-            throw new NotFoundException();
+            throw new UnprocessableEntityException().addViolation("category.id", "indisponível para esta prova");
         }
+
         return result;
     }
 
