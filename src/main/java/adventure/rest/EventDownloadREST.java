@@ -4,6 +4,7 @@ import adventure.entity.*;
 import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -106,6 +107,7 @@ public class EventDownloadREST {
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Equipe");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Nome");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("E-mail");
+        createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Kit");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Camisa");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Telefone");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Nascimento");
@@ -178,6 +180,8 @@ public class EventDownloadREST {
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(registration.getTeamName());
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(profile.getName());
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(user.getEmail());
+                createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(user.getKit() != null ? user.getKit().getName() : "");
+
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
                         profile.getTshirt() == null ? "" : profile.getTshirt().name());
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_MOBILE : profile.getMobile());

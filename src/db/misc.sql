@@ -1,10 +1,10 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%osa%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%itabaiana%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%soares%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%cunha%';
 
 SELECT *
 FROM profile p
@@ -73,6 +73,21 @@ WHERE tf.user_id = p.id
       AND tf.user_id IN (1309, 1316);
 
 
-select * from period p where p.ending = '2016-05-06';
+SELECT *
+FROM period p
+WHERE p.race_id = 72;
 
-update period set ending = '2016-05-07' where ending = '2016-05-06';
+UPDATE period
+SET beginning = '2016-06-01'
+WHERE beginning = '2016-05-18';
+
+SELECT count(*)
+FROM registration r
+WHERE r.status = 'CONFIRMED' AND extract(YEAR FROM date) = 2016;
+
+SELECT count(*)
+FROM user_registration ur, registration r
+WHERE ur.registration_id = r.id AND r.status = 'CONFIRMED' AND extract(YEAR FROM date) = 2016;
+
+UPDATE event
+SET show = TRUE;

@@ -34,7 +34,7 @@ public class UserRegistration {
     }
 
     public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
-                            TshirtType profileTshirt, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
+                            TshirtType profileTshirt, Integer kitId, String kitName, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
                             String cityName, Integer stateId, String stateAbbreviation, BigDecimal amount, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
                             Integer raceId, String raceAlias, String raceName, Integer categoryId, String categoryAlias, String categoryName) {
@@ -49,6 +49,12 @@ public class UserRegistration {
         getUser().getProfile().setBirthday(profileBirthday);
         getUser().getProfile().setRg(profileRg);
         getUser().getProfile().setCpf(profileCpf);
+
+        if (getUser().getKit().getId() != null || getUser().getKit().getName() != null) {
+            getUser().setKit(new Kit());
+            getUser().getKit().setId(kitId);
+            getUser().getKit().setName(kitName);
+        }
 
         getUser().getProfile().setCity(new City());
         getUser().getProfile().getCity().setId(cityId);

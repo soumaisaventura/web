@@ -225,6 +225,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += " 	     p.name, ";
 		jpql += " 	     p.mobile, ";
 		jpql += " 	     p.tshirt, ";
+		jpql += " 	     k.id, ";
+		jpql += " 	     k.name, ";
 		jpql += " 	     p.birthday, ";
 		jpql += " 	     p.rg, ";
 		jpql += " 	     p.cpf, ";
@@ -245,6 +247,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += " 	     ca.name ";
 		jpql += " 	     ) ";
 		jpql += "   from UserRegistration tf ";
+		jpql += "   left join tf.kit k ";
 		jpql += "   join tf.user u ";
 		jpql += "   join tf.registration re ";
 		jpql += "   join re.raceCategory rc ";

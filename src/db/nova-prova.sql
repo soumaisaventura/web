@@ -28,16 +28,16 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'eapachallenge/serras/2016',
-  'EAPA Challenge Serras',
+  'brasiliaoutdooradventure/2016',
+  'Brasília Outdoor Adventure',
   NULL,
-  5377,
+  882,
   'MANUAL',
   NULL,
   NULL,
   NULL,
-  '2016-12-11',
-  '2016-12-11',
+  '2016-09-09',
+  '2016-09-11',
   1,
   'Em breve, mais informações sobre o evento.');
 
@@ -54,13 +54,13 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  'trbasic',
-  'Trail Run Basic',
-  34,
-  2,
-  '2016-09-25',
-  '2016-09-25',
-  5,
+  'expedição',
+  'Expedição',
+  36,
+  1,
+  '2016-09-10',
+  '2016-09-11',
+  150,
   1,
   'Em breve mais informações.');
 
@@ -68,9 +68,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (35,
-        998,
-        'Cadu Silva',
+VALUES (36,
+        2891,
+        'Diogo de Sordi',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
@@ -78,8 +78,8 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (71)
-        AND c.id IN (17, 18);
+  WHERE r.id IN (72, 73)
+        AND c.id IN (7, 12);
 
 INSERT INTO race_modality (race_id, modality_id)
   SELECT
@@ -96,17 +96,16 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (71,
-        60.00,
-        --         TO_DATE('06/06/2016', 'DD/MM/YYYY'),
-        --         TO_DATE('31/07/2016', 'DD/MM/YYYY'),
-        TO_DATE('01/08/2016', 'DD/MM/YYYY'),
-        TO_DATE('18/09/2016', 'DD/MM/YYYY'),
+VALUES (73,
+        400.00,
+--                 TO_DATE('18/05/2016', 'DD/MM/YYYY'),
+--                 TO_DATE('01/07/2016', 'DD/MM/YYYY'),
+--         TO_DATE('02/07/2016', 'DD/MM/YYYY'),
+--         TO_DATE('29/07/2016', 'DD/MM/YYYY'),
+        TO_DATE('30/07/2016', 'DD/MM/YYYY'),
+        TO_DATE('06/0/2016', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
-
-R$50 por pessoa – 06/06/2016 a 31/07/2016
-R$60 por pessoa – 01/08/2016 a 18/09/2016
 
 
 INSERT INTO kit (id,
@@ -140,3 +139,4 @@ UPDATE
 SET beginning = '2016-05-11'
 WHERE beginning = '2016-06-06';
 
+delete from race_category where race_id in (72,73) and category_id in (3,4,14,15);
