@@ -1,33 +1,12 @@
 package adventure.rest;
 
-import adventure.business.MailBusiness;
-import adventure.business.RegistrationBusiness;
-import adventure.business.UserBusiness;
-import adventure.entity.*;
-import adventure.persistence.*;
-import adventure.rest.data.*;
-import br.gov.frameworkdemoiselle.ForbiddenException;
-import br.gov.frameworkdemoiselle.HttpViolationException;
-import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
-import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.NameQualifier;
-import br.gov.frameworkdemoiselle.util.Strings;
-import br.gov.frameworkdemoiselle.util.ValidatePayload;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import static adventure.entity.Profile.TEST_MOBILE;
+import static adventure.entity.RegistrationStatusType.CANCELLED;
+import static adventure.entity.RegistrationStatusType.CONFIRMED;
+import static adventure.entity.RegistrationStatusType.PENDENT;
+import static adventure.entity.Status.OPEN_ID;
+import static java.util.Locale.US;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.text.NumberFormat;
@@ -38,10 +17,64 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static adventure.entity.Profile.TEST_MOBILE;
-import static adventure.entity.RegistrationStatusType.*;
-import static adventure.entity.Status.OPEN_ID;
-import static java.util.Locale.US;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import adventure.business.MailBusiness;
+import adventure.business.RegistrationBusiness;
+import adventure.business.UserBusiness;
+import adventure.entity.Kit;
+import adventure.entity.Race;
+import adventure.entity.RaceCategory;
+import adventure.entity.Registration;
+import adventure.entity.RegistrationPayment;
+import adventure.entity.User;
+import adventure.entity.UserRegistration;
+import adventure.persistence.CategoryDAO;
+import adventure.persistence.KitDAO;
+import adventure.persistence.RaceCategoryDAO;
+import adventure.persistence.RaceDAO;
+import adventure.persistence.RegistrationDAO;
+import adventure.persistence.UserDAO;
+import adventure.persistence.UserRegistrationDAO;
+import adventure.rest.data.CategoryData;
+import adventure.rest.data.CityData;
+import adventure.rest.data.EventData;
+import adventure.rest.data.EventPaymentData;
+import adventure.rest.data.KitData;
+import adventure.rest.data.LocationData;
+import adventure.rest.data.PeriodData;
+import adventure.rest.data.ProfileData;
+import adventure.rest.data.RaceData;
+import adventure.rest.data.RegistrationData;
+import adventure.rest.data.RegistrationPaymentData;
+import adventure.rest.data.TeamData;
+import adventure.rest.data.UserData;
+import br.gov.frameworkdemoiselle.ForbiddenException;
+import br.gov.frameworkdemoiselle.HttpViolationException;
+import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
+import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.NameQualifier;
+import br.gov.frameworkdemoiselle.util.Strings;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 
 @Path("registrations")
 public class RegistrationREST {
@@ -134,7 +167,10 @@ public class RegistrationREST {
         data.race.description = registration.getRaceCategory().getRace().getDescription();
         data.race.distance = registration.getRaceCategory().getRace().getDistance();
         data.race.status = registration.getRaceCategory().getRace().getStatus().getName();
-
+        
+        data.race.parseAndSetCategories(CategoryDAO.getInstance().find(registration.getRaceCategory().getRace()));
+        data.race.parseAndSetKits(KitDAO.getInstance().findForRegistration(registration.getRaceCategory().getRace()));
+        
         data.race.period = new PeriodData();
         data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
         data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();

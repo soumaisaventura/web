@@ -59,9 +59,10 @@ $(function () {
                 }
             });
         });
-
     EventProxy.loadSummary(evento_id).done(loadSummaryOk);
-    EventProxy.getRegistrarions(evento_id).done(getRegistrarionsOk);
+    EventProxy.getRegistrarions(evento_id).done(function(data, status, request){
+    	getRegistrarionsOk(data, status, request, evento_id);
+    });
 });
 
 function confirmOk() {
@@ -91,7 +92,7 @@ function loadSummaryOk(event) {
     $("#race-city").text(App.parseCity(event.location.city));
 }
 
-function getRegistrarionsOk(data, status, request) {
+function getRegistrarionsOk(data, status, request, evento_id) {
     switch (request.status) {
         case 204:
             var message = "Nenhuma equipe se inscreveu ainda.";
@@ -105,8 +106,9 @@ function getRegistrarionsOk(data, status, request) {
                 var tr = "";
                 tr = tr.concat("<tr>");
                 tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
+                tr = tr.concat("<h6 style='margin: 5px'><a href='" + App.getContextPath() + "/evento/" + evento_id + "/" + registration.race.id + "/inscricao/" + registration.number + "'>Editar</a></h6>");
                 tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/inscricao/" + registration.number + "'>#"
-                    + registration.number + "</a></h4>");
+                		+ registration.number + "</a></h4>");
                 tr = tr.concat("<span id='registration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";
                 tr = tr.concat("</td>");
                 tr = tr.concat("<td style='vertical-align: top'>");

@@ -70,6 +70,8 @@ function loadOk(registration) {
 
     $("#race-category").text(registration.category.name + " " + registration.race.name);
     $("#facebook-share").data("race", registration.race);
+    
+    $("#edit").attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
 
     var memberTemplate = $('#member-template');
     var user = App.getLoggedInUser();
@@ -77,8 +79,6 @@ function loadOk(registration) {
 
     $.each(registration.team.members, function (i, member) {
         member.formattedAmount = numeral(member.amount).format();
-
-        console.log(member.formattedAmount);
         
         var rendered = Mustache.render(memberTemplate.html(), member);
         $("#team-formation > tbody:last").append(rendered);
@@ -240,9 +240,6 @@ function updatePaymentButton(checkoutCode, transactionCode) {
     } else {
         $("#payment-section").show();
     }
-
-    console.log(transactionCode);
-    console.log(checkoutCode);
 
     $("#payment").unbind('click');
     if (transactionCode) {
