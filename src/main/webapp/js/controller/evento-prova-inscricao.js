@@ -224,6 +224,7 @@ function getOrderOk(order, athlete) {
     if (order) {
         athlete.race_price = order;
         athlete.formmated_race_price = numeral(athlete.amount).format();
+        athlete.kit.name = athlete.kit.name.toLowerCase(); 
 
         var template = $("#member-template");
         var rendered = Mustache.render(template.html(), athlete);
