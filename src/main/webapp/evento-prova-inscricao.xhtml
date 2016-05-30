@@ -31,6 +31,7 @@
         <script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
         <script src="#{request.contextPath}/js/proxy/event.js"></script>
         <script src="#{request.contextPath}/js/proxy/race.js"></script>
+        <script src="#{request.contextPath}/js/proxy/registration.js"></script>
     </ui:define>
 
     <ui:define name="controller">
@@ -54,6 +55,7 @@
         <form>
             <input id="event_id" type="hidden" value="#{param.evento_id}"/>
             <input id="race_id" type="hidden" value="#{param.prova_id}"/>
+            <input id="inscricao_id" type="hidden" value="#{param.inscricao_id}"/>
 
             <div id="summary-section" hidden="true">
                 <div class="row">
@@ -192,18 +194,16 @@
                             </td>
                             <td>
                                 {{profile.name}}<span class="hidden-xs"/>
-                                {{#raceHasKit}}
-                                <br class="visible-xs"/>
-                                <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{name}}'
-                                   data-toggle='modal' data-target='#kits-modal'>escolher kit</a>
-                                {{/raceHasKit}}
+								{{#raceHasKit}}
+									<br class="visible-xs"/>
+										<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{kit.name}}' 
+										 data-toggle='modal' data-target='#kits-modal'>{{#kit}}{{name}}{{/kit}}{{^kit}}escolher kit{{/kit}}</a>
+								{{/raceHasKit}}
                             </td>
                         </tr>
                     </table>
                 </td>
-                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}'
-                    data-amount='{{race_price}}'>{{formmated_race_price}}
-                </td>
+                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{race_price}}' data-amount='{{amount}}'>{{formmated_race_price}}</td>
                 <td class="trash">
                     <a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
                         <span class='glyphicon glyphicon-trash'/>

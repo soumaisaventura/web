@@ -59,6 +59,7 @@
                     <h2>
                         Inscrição #<span id="registration-id"></span>
                     </h2>
+                    <a id="edit" href="">Editar</a>
                     <h5 style="margin-bottom: 0px;">
                         Equipe
                         <a href="#" id="team-name"></a>
@@ -190,7 +191,7 @@
                 <td class="text-right" nowrap="nowrap" style="vertical-align:middle;">
                     R$ <a href="#" data-pk="{{id}}"
                           data-params="{property: &quot;amount&quot;}"
-                          class="partial editable currency editable-click">{{amount}}</a>
+                          class="partial editable currency editable-click">{{formattedAmount}}</a>
                 </td>
             </tr>
         </script>

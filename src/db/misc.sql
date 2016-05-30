@@ -89,5 +89,7 @@ SELECT count(*)
 FROM user_registration ur, registration r
 WHERE ur.registration_id = r.id AND r.status = 'CONFIRMED' AND extract(YEAR FROM date) = 2016;
 
-UPDATE event
-SET show = TRUE;
+
+SELECT *
+FROM user_registration ur
+WHERE ur.registration_id = 1358;

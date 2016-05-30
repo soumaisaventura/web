@@ -50,7 +50,7 @@ public class UserRegistration {
         getUser().getProfile().setRg(profileRg);
         getUser().getProfile().setCpf(profileCpf);
 
-        if (getUser().getKit().getId() != null || getUser().getKit().getName() != null) {
+        if (kitId != null || kitName != null) {
             getUser().setKit(new Kit());
             getUser().getKit().setId(kitId);
             getUser().getKit().setName(kitName);

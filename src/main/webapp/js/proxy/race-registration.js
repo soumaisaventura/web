@@ -15,14 +15,14 @@ var RaceRegistrationProxy = {
     },
 
     formDownload: function (eventId, callback) {
-        this.download(this.url + "/" + eventId + "/registrations/form", callback);
+        this.download(this.getFileName(eventId + "-fichas", ".pdf"), this.url + "/" + eventId + "/registrations/form", callback);
     },
 
     exportDownload: function (eventId, callback) {
-        this.download(this.url + "/" + eventId + "/registrations/export", callback);
+        this.download(this.getFileName(eventId + "-exportacao", ".xlsx"), this.url + "/" + eventId + "/registrations/export", callback);
     },
 
-    download: function (url, callback) {
+    download: function (filename, url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.responseType = 'blob';
@@ -32,12 +32,15 @@ var RaceRegistrationProxy = {
                     type: this.response.type
                 });
 
-                var url = (window.URL || window.webkitURL).createObjectURL(blob);
-                location.href = url;
+                saveAs(blob, filename);
                 callback();
             }
         };
         App.setHeader(xhr);
         xhr.send();
+    },
+
+    getFileName: function (prefix, sufix) {
+        return prefix + moment().format("-YYYYMMDD-HHmmss") + sufix;
     }
 };
