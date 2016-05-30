@@ -47,7 +47,7 @@ public class RaceRegistrationREST {
         RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
         List<User> members = loadMembers(raceCategory.getRace(), data.team.members);
         RegistrationPeriod period = loadPeriod(raceCategory.getRace(), date);
-        validate(raceCategory, members, submitter, data.team.name, baseUri);
+        validate(null, raceCategory, members, submitter, data.team.name, baseUri);
 
         Registration result = submit(data, raceCategory, members, date, period, submitter);
         MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
@@ -164,7 +164,7 @@ public class RaceRegistrationREST {
         return result;
     }
 
-    private void validate(RaceCategory raceCategory, List<User> members, User submitter, String teamName, URI baseUri)
+    private void validate(Long registrationId, RaceCategory raceCategory, List<User> members, User submitter, String teamName, URI baseUri)
             throws Exception {
         int total = members.size();
         UnprocessableEntityException exception = new UnprocessableEntityException();
@@ -191,7 +191,7 @@ public class RaceRegistrationREST {
             UserRegistration formation = UserRegistrationDAO.getInstance().loadForRegistrationSubmissionValidation(
                     raceCategory.getRace(), member);
 
-            if (formation != null) {
+            if (formation != null && !formation.getRegistration().getId().equals(registrationId)) {
                 exception.addViolation(parse(member) + " já faz parte da equipe "
                         + formation.getRegistration().getTeamName() + ".");
             }

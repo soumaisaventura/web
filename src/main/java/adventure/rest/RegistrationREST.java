@@ -13,6 +13,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
 import br.gov.frameworkdemoiselle.util.Strings;
+import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -206,6 +207,27 @@ public class RegistrationREST {
         }
 
         return data;
+    }
+
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("{id: \\d+}")
+    public Response update(@PathParam("id") Long id, RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
+//        Race race = loadRace(raceAlias, eventAlias);
+//        Date date = new Date();
+//        URI baseUri = uriInfo.getBaseUri().resolve("..");
+//
+//        User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
+//        RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
+//        List<User> members = loadMembers(raceCategory.getRace(), data.team.members);
+//
+//        validate(registrationId, raceCategory, members, submitter, data.team.name, baseUri);
+
+        return null;
     }
 
     @POST
