@@ -96,14 +96,14 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (73,
-        400.00,
+VALUES (32,
+        150,
 --                 TO_DATE('18/05/2016', 'DD/MM/YYYY'),
 --                 TO_DATE('01/07/2016', 'DD/MM/YYYY'),
 --         TO_DATE('02/07/2016', 'DD/MM/YYYY'),
 --         TO_DATE('29/07/2016', 'DD/MM/YYYY'),
+        TO_DATE('11/07/2016', 'DD/MM/YYYY'),
         TO_DATE('30/07/2016', 'DD/MM/YYYY'),
-        TO_DATE('06/0/2016', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 

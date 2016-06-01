@@ -139,7 +139,7 @@ function getRegistrarionsOk(data, status, request, evento_id) {
                     tr = tr.concat(" ");
                 }
 
-                if (registration.status == "pendent" || (App.isAdmin() && registration.status == "confirmed")) {
+                if (registration.status == "pendent" || registration.status == "confirmed") {
                     tr = tr.concat("<button type='button' class='cancel btn btn-xs btn-danger' data-registration='" + registration.number
                         + "' data-team-name='" + registration.team.name + "' data-ammount='" + numeral(amount).format()
                         + "' title='Cancelar inscrição'><span class='glyphicon glyphicon-remove' /></button>");

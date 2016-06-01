@@ -274,9 +274,9 @@ public class RegistrationREST {
                 throw new UnprocessableEntityException().addViolation("Esta inscrição já foi cancelada.");
 
             case CONFIRMED:
-                if (!User.getLoggedIn().getAdmin()) {
+                if (!User.getLoggedIn().getAdmin() && !organizers.contains(User.getLoggedIn())) {
                     throw new ForbiddenException()
-                            .addViolation("Somente os administradores podem cancelar uma inscrição já confirmada.");
+                            .addViolation("Somente os organizadores podem cancelar uma inscrição já confirmada.");
                 }
                 break;
 
