@@ -61,6 +61,8 @@ public class RegistrationNotificationREST {
 
                 if (transaction != null) {
                     update(race, transaction, uriInfo);
+                } else {
+                    break;
                 }
             }
         }
@@ -146,10 +148,10 @@ public class RegistrationNotificationREST {
     }
 
     @XmlAccessorType(FIELD)
-    @XmlRootElement(name = "transactionCode")
+    @XmlRootElement(name = "transaction")
     static class Transaction {
 
-        @XmlElement(name = "checkoutCode")
+        @XmlElement(name = "code")
         String code;
 
         @XmlElement(name = "status")
