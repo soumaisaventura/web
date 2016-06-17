@@ -16,19 +16,26 @@ $(function () {
 
     LogonProxy.getOAuthAppIds().done(getOAuthAppIdsOk);
     
-    if(inscricaoId) {
-    	console.log("RegistrationProxy");
-    	RegistrationProxy.load(inscricaoId).done(function(data){
-    		race = data.race;
-    		loadRegistrationOk(data);
-    	});
-    } else {
-    	console.log("RaceProxy");
-    	RaceProxy.load(raceId, eventId).done(function (data) {
-    		race = data;
-            loadRaceOk(race, user, excludes);
-        });
-    }
+    RaceProxy.load(raceId, eventId).done(function (_race) {
+    	race = _race;
+    	loadRaceOk(race, user, excludes);
+    	if (inscricaoId){
+    		RegistrationProxy.load(inscricaoId).done(function(registration){
+        		loadRegistrationOk(registration);
+        		$.each(registration.team.members, function(i, user){
+        			user.raceHasKit = race.hasOwnProperty('kits');
+                	RaceProxy.getOrder(race.id, race.event.id, user.id).done(function (order) {
+                        getOrderOk(order, user);
+                    });
+        		});
+        	});
+    	} else {
+    		RaceProxy.getOrder(race.id, race.event.id, user.id).done(function (order) {
+    			user.amount = order;
+                getOrderOk(order, user);
+            });
+    	}
+    });
 
     $('#members-list').footable({
         breakpoints: {
@@ -55,6 +62,7 @@ $(function () {
 
             if (memberId) {
                 RaceProxy.getOrder(raceId, eventId, member.id).done(function (order) {
+                	member.amount = order;
                     getOrderOk(order, member);
                 });
                 $("#memberId").val(""); // Limpa o campo
@@ -172,30 +180,11 @@ function loadComboCategories(categories){
 }
 
 function loadRegistrationOk(registration){
-
-	var race = registration.race;
-
-	$("#race-name").text(race.name);
-    $("#race-description").text(race.description);
-    $("#race-date").text(App.parsePeriod(race.period));
-    $("#race-city").text(App.parseCity(race.event.location.city));
-    $("body").data("race", race);
-    
-    loadComboCategories(race.categories);
-    $("#category\\.id").val(registration.category.id);
-
     $("#team\\.name").val(registration.team.name);
-    
-    $.each(registration.team.members, function(i, user){
-    	user.raceHasKit = race.hasOwnProperty('kits');
-    	RaceProxy.getOrder(race.id, race.event.id, user.id).done(function (order) {
-    		console.log(order);
-            getOrderOk(order, user);
-        });
-    });
-    
+    $("#category\\.id").val(registration.category.id);
     $("#summary-section, #submit-button-section, #members-section").show();
 }
+
 function loadRaceOk(race, user, excludes) {
     if (race) {
     	
@@ -210,22 +199,24 @@ function loadRaceOk(race, user, excludes) {
         $("body").data("race", race);
 
         loadComboCategories(race.categories);
-        
-        RaceProxy.getOrder(race.id, race.event.id, user.id).done(function (order) {
-            getOrderOk(order, user);
-        });
-
-        $("#summary-section, #submit-button-section, #members-section").show();
     }
 }
 
 function getOrderOk(order, athlete) {
-	console.log(athlete);
-    if (order) {
-        athlete.race_price = order;
-        athlete.formmated_race_price = numeral(athlete.amount).format();
-        athlete.kit.name = athlete.kit.name.toLowerCase(); 
-
+	if (order) {
+        
+		athlete.valor_atual_da_prova = order;
+		
+		if(athlete.hasOwnProperty("amount")){
+        	athlete.valor_formatado = numeral(athlete.amount).format();
+        } else {
+        	athlete.valor_formatado = numeral(order).format();
+        }
+		
+		if (athlete.hasOwnProperty("kit")){
+        	athlete.kit.name = athlete.kit.name.toLowerCase(); 
+        }
+        
         var template = $("#member-template");
         var rendered = Mustache.render(template.html(), athlete);
         $('#members-list > tbody').append(rendered);
@@ -233,9 +224,12 @@ function getOrderOk(order, athlete) {
         updateTable();
 
         $("#summary-section, #submit-button-section, #members-section").show();
+        
     } else {
+    	
         var url = $("#event_link").attr("href");
         window.location.href = url;
+        
     }
 }
 
