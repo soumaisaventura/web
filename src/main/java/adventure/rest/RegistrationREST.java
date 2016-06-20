@@ -1,6 +1,9 @@
 package adventure.rest;
 
 import adventure.business.MailBusiness;
+import adventure.business.RaceBusiness;
+import adventure.business.RegistrationBusiness;
+import adventure.business.UserBusiness;
 import adventure.entity.*;
 import adventure.persistence.*;
 import adventure.rest.data.*;
@@ -216,18 +219,15 @@ public class RegistrationREST {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("{id: \\d+}")
-    public Response update(@PathParam("id") Long id, RaceRegistrationData data, @Context UriInfo uriInfo) throws Exception {
-//        Race race = loadRace(raceAlias, eventAlias);
-//        Date date = new Date();
-//        URI baseUri = uriInfo.getBaseUri().resolve("..");
-//
-//        User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
-//        RaceCategory raceCategory = loadRaceCategory(race.getId(), data.category.id);
-//        List<User> members = loadMembers(raceCategory.getRace(), data.team.members);
-//
-//        validate(registrationId, raceCategory, members, submitter, data.team.name, baseUri);
+    public void update(@PathParam("id") Long id, RegistrationData data, @Context UriInfo uriInfo) throws Exception {
+        Registration registration = loadRegistrationForDetails(id);
+        URI baseUri = uriInfo.getBaseUri().resolve("..");
 
-        return null;
+        User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
+        RaceCategory raceCategory = RaceBusiness.getInstance().loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
+        List<User> members = UserBusiness.getInstance().loadMembers(raceCategory.getRace(), data.team.members);
+
+        RegistrationBusiness.getInstance().validate(id, raceCategory, data.team.name, members, submitter, baseUri);
     }
 
     @POST

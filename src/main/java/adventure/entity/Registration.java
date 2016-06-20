@@ -108,7 +108,7 @@ public class Registration {
                         Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
                         EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
                         String eventPaymentToken, Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-                        Integer categoryId, String categoryAlias, String categoryName) {
+                        Integer categoryId, String categoryAlias, String categoryName, Integer categoryTeamSize) {
         setId(id);
         setDate(date);
         setTeamName(teamName);
@@ -172,6 +172,7 @@ public class Registration {
         getRaceCategory().getCategory().setId(categoryId);
         getRaceCategory().getCategory().setAlias(categoryAlias);
         getRaceCategory().getCategory().setName(categoryName);
+        getRaceCategory().getCategory().setTeamSize(categoryTeamSize);
     }
 
     public String getFormattedId() {

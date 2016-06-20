@@ -106,7 +106,6 @@ function getRegistrarionsOk(data, status, request, evento_id) {
                 var tr = "";
                 tr = tr.concat("<tr>");
                 tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
-                tr = tr.concat("<h6 style='margin: 5px'><a href='" + App.getContextPath() + "/evento/" + evento_id + "/" + registration.race.id + "/inscricao/" + registration.number + "'>Editar</a></h6>");
                 tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/inscricao/" + registration.number + "'>#"
                 		+ registration.number + "</a></h4>");
                 tr = tr.concat("<span id='registration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";

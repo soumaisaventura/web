@@ -49,3 +49,7 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.breadcrumb.organizer, .athlete {
+    display: none;
+}

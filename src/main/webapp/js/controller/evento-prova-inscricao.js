@@ -154,7 +154,13 @@ $(function () {
             }
         };
 
-        RaceRegistrationProxy.submitRegistration(raceId, eventId, registration).done(registrationOk).fail(App.handle422Global);
+
+        if (inscricaoId) {
+            RegistrationProxy.update(inscricaoId, registration).done(updateOk).fail(App.handle422Global);
+        } else {
+            RaceRegistrationProxy.submitRegistration(raceId, eventId, registration).done(registrationOk).fail(App.handle422Global);
+        }
+
     });
 });
 
@@ -172,8 +178,8 @@ function loadComboCategories(categories) {
             $("#category\\.id").append(option);
         });
 
-        if (categories.length === 1 && _race.categories[0].team_size !== 1) {
-            $("#category\\.id").val(_race.categories[0].id);
+        if (categories.length === 1 && categories[0].team_size !== 1) {
+            $("#category\\.id").val(categories[0].id);
             $("#pesquisa-atleta").show();
         }
     }
@@ -187,6 +193,7 @@ function loadRegistrationOk(registration) {
 
 function loadRaceOk(race, user, excludes) {
     if (race) {
+        updateBreadcrumb(race);
 
         user.raceHasKit = race.hasOwnProperty('kits');
         excludes.push(user.id);
@@ -202,9 +209,18 @@ function loadRaceOk(race, user, excludes) {
     }
 }
 
+function updateBreadcrumb(data) {
+    var authorized = App.isAdmin() || App.isOrganizer(data.event.organizers);
+
+    if (authorized) {
+        $(".breadcrumb.organizer").show();
+    } else {
+        $(".breadcrumb.athlete").show();
+    }
+}
+
 function getOrderOk(order, athlete) {
     if (order) {
-
         athlete.valor_atual_da_prova = order;
 
         if (athlete.hasOwnProperty("amount")) {
@@ -267,7 +283,7 @@ function convertToLabelValueStructureFromUser(data) {
             newData.push(this);
         });
     }
-    
+
     return newData;
 }
 
@@ -297,4 +313,8 @@ function registrationOk(data) {
             location.href = url;
         }
     });
+}
+
+function updateOk(data) {
+    alert("sucesso!");
 }

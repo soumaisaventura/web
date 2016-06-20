@@ -28,6 +28,22 @@ var App = {
         return user ? user.roles.admin : false;
     },
 
+    isOrganizer: function (organizers) {
+        result = false;
+        var user = this.getLoggedInUser();
+
+        if (user && user.roles && user.roles.organizer && organizers && organizers.length > 0) {
+            $.each(organizers, function (i, value) {
+                if (user.id === value.id) {
+                    result = true;
+
+                }
+            });
+        }
+
+        return result;
+    },
+
     getGlobalMessage: function (request) {
         var json = JSON.parse(request.responseText);
         return json && json.length == 1 && !json[0].property ? json[0].message : null;

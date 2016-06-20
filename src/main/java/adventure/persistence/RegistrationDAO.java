@@ -91,8 +91,9 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        st.abbreviation, ";
 		jpql += "        ca.id, ";
 		jpql += "        ca.alias, ";
-		jpql += "        ca.name ";
-		jpql += "        ) ";
+        jpql += "        ca.name, ";
+        jpql += "        ca.teamSize ";
+        jpql += "        ) ";
 		jpql += "   from Registration re ";
 		jpql += "   join re.submitter su ";
 		jpql += "   join re.raceCategory rc ";
@@ -187,8 +188,9 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 		jpql += "        st.abbreviation, ";
 		jpql += "        ca.id, ";
 		jpql += "        ca.alias, ";
-		jpql += "        ca.name ";
-		jpql += "        ) ";
+        jpql += "        ca.name, ";
+        jpql += "        ca.teamSize ";
+        jpql += "        ) ";
 		jpql += "   from Registration re ";
 		jpql += "   join re.submitter su ";
 		jpql += "   join re.raceCategory rc ";

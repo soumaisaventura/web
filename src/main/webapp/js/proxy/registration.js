@@ -32,6 +32,18 @@ var RegistrationProxy = {
         });
     },
 
+    update: function (id, data) {
+        return $.ajax({
+            type: "PUT",
+            url: this.url + "/" + id,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            beforeSend: function (request) {
+                App.setHeader(request)
+            }
+        });
+    },
+
     updateAmount: function (id, member, price) {
         return $.ajax({
             type: "PUT",

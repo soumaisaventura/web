@@ -39,24 +39,49 @@
     </ui:define>
 
     <ui:define name="breadcrumb">
-        <ol class="breadcrumb">
-            <li>
-                <a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
-                    #{eventHelper.getYear(request)}</a>
-            </li>
-            <li>
-                <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
-            </li>
-            <h:panelGroup rendered="#{param.inscricao_id == null}">
-                <li class="active">Inscrição</li>
-            </h:panelGroup>
-            <h:panelGroup rendered="#{param.inscricao_id != null}">
+        <h:panelGroup rendered="#{param.inscricao_id == null}">
+            <ol class="breadcrumb">
                 <li>
-                    <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}/#{param.prova_id}/inscricao">Inscrição</a>
+                    <a href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
+                        #{eventHelper.getYear(request)}</a>
                 </li>
-                <li class="active">#{param.inscricao_id}</li>
-            </h:panelGroup>
-        </ol>
+                <li>
+                    <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
+                </li>
+                <li class="active">Inscrição</li>
+            </ol>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{param.inscricao_id != null}">
+            <ol class="breadcrumb organizer">
+                <li>
+                    <a href="#{request.contextPath}/calendario/#{registrationHelper.getYear(request)}">Calendário
+                        #{registrationHelper.getYear(request)}</a>
+                </li>
+                <li>
+                    <a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}">#{registrationHelper.getTitle(request)}</a>
+                </li>
+                <li>
+                    <a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}/painel">Painel</a>
+                </li>
+                <li>
+                    <a href="#{request.contextPath}/evento/#{registrationHelper.getAlias(request)}/painel/inscricoes">Inscrições</a>
+                </li>
+                <li>
+                    <a href="#{request.contextPath}/inscricao/#{param.inscricao_id}">##{param.inscricao_id}</a>
+                </li>
+                <li class="active">Alteração</li>
+            </ol>
+
+            <ol class="breadcrumb athlete">
+                <li>
+                    <a href="#{request.contextPath}/atleta/inscricoes">Minhas inscrições</a>
+                </li>
+                <li>
+                    <a href="#{request.contextPath}/inscricao/#{param.inscricao_id}">##{param.inscricao_id}</a>
+                </li>
+                <li class="active">Alteração</li>
+            </ol>
+        </h:panelGroup>
     </ui:define>
 
     <ui:define name="body">

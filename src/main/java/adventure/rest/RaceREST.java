@@ -17,6 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
@@ -53,6 +54,19 @@ public class RaceREST {
         data.event.location.city.id = race.getEvent().getCity().getId();
         data.event.location.city.name = race.getEvent().getCity().getName();
         data.event.location.city.state = race.getEvent().getCity().getState().getAbbreviation();
+        data.event.organizers = new ArrayList();
+
+        for (User organizer : UserDAO.getInstance().findOrganizers(race.getEvent())) {
+            UserData organizerData = new UserData(uriInfo);
+            organizerData.id = organizer.getId();
+            organizerData.email = organizer.getEmail();
+
+            organizerData.profile = new ProfileData();
+            organizerData.profile.name = organizer.getProfile().getName();
+            organizerData.profile.mobile = organizer.getProfile().getMobile();
+
+            data.event.organizers.add(organizerData);
+        }
 
         data.parseAndSetCategories(CategoryDAO.getInstance().find(race));
         data.parseAndSetKits(KitDAO.getInstance().findForRegistration(race));
