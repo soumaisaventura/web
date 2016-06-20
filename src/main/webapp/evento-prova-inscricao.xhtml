@@ -1,4 +1,4 @@
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
     <ui:define name="meta-ogg">
@@ -47,7 +47,15 @@
             <li>
                 <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
             </li>
-            <li class="active">Inscrição</li>
+            <h:panelGroup rendered="#{param.inscricao_id == null}">
+                <li class="active">Inscrição</li>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{param.inscricao_id != null}">
+                <li>
+                    <a href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}/#{param.prova_id}/inscricao">Inscrição</a>
+                </li>
+                <li class="active">#{param.inscricao_id}</li>
+            </h:panelGroup>
         </ol>
     </ui:define>
 
@@ -194,16 +202,19 @@
                             </td>
                             <td>
                                 {{profile.name}}<span class="hidden-xs"/>
-								{{#raceHasKit}}
-									<br class="visible-xs"/>
-										<a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{kit.name}}' 
-										 data-toggle='modal' data-target='#kits-modal'>{{#kit}}{{name}}{{/kit}}{{^kit}}escolher kit{{/kit}}</a>
-								{{/raceHasKit}}
+                                {{#raceHasKit}}
+                                <br class="visible-xs"/>
+                                <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{kit.name}}'
+                                   data-toggle='modal' data-target='#kits-modal'>{{#kit}}{{name}}{{/kit}}{{^kit}}escolher
+                                    kit{{/kit}}</a>
+                                {{/raceHasKit}}
                             </td>
                         </tr>
                     </table>
                 </td>
-                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap' data-original-amount='{{valor_atual_da_prova}}' data-amount='{{amount}}'>{{valor_formatado}}</td>
+                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap'
+                    data-original-amount='{{valor_atual_da_prova}}' data-amount='{{amount}}'>{{valor_formatado}}
+                </td>
                 <td class="trash">
                     <a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
                         <span class='glyphicon glyphicon-trash'/>

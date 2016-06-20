@@ -43,10 +43,6 @@ public class PeriodDAO implements Serializable {
 
     // TODO: OLD
 
-    public RegistrationPeriod loadCurrent(Race race) throws Exception {
-        return load(race, new Date());
-    }
-
     public RegistrationPeriod load(Race race, Date date) throws Exception {
         String jpql = "";
         jpql += " select p ";

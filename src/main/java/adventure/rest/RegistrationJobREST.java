@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class RegistrationJobREST {
         MailBusiness mailBusiness = MailBusiness.getInstance();
 
         for (Registration registration : expired) {
-            RegistrationPeriod period = periodDAO.loadCurrent(registration.getRaceCategory().getRace());
+            RegistrationPeriod period = periodDAO.load(registration.getRaceCategory().getRace(), new Date());
 
             for (UserRegistration teamFormation : userRegistrationDAO.find(registration)) {
                 UserRegistration persisted = userRegistrationDAO.load(registration, teamFormation.getUser());

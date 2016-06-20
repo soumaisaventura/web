@@ -1,9 +1,13 @@
 package adventure.rest;
 
+import adventure.business.PeriodBusiness;
 import adventure.entity.Race;
 import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
-import adventure.persistence.*;
+import adventure.persistence.CategoryDAO;
+import adventure.persistence.KitDAO;
+import adventure.persistence.RaceDAO;
+import adventure.persistence.UserDAO;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -62,7 +66,7 @@ public class RaceREST {
     public BigDecimal getOrder(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
                                @QueryParam("user_id") Integer userId, @Context UriInfo uriInfo) throws Exception {
         Race race = loadRaceDetails(raceAlias, eventAlias);
-        RegistrationPeriod period = PeriodDAO.getInstance().loadCurrent(race);
+        RegistrationPeriod period = PeriodBusiness.getInstance().loadCurrent(race);
         User user;
 
         if (userId == null) {

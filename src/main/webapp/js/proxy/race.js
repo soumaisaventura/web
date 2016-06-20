@@ -15,7 +15,10 @@ var RaceProxy = {
     getOrder: function (raceId, eventId, userId) {
         return $.ajax({
             type: "GET",
-            url: this.url + "/" + eventId + "/races/" + raceId + "/order?user_id=" + userId
+            url: this.url + "/" + eventId + "/races/" + raceId + "/order?user_id=" + userId,
+            beforeSend: function (request) {
+                App.setHeader(request)
+            }
         });
     }
 };
