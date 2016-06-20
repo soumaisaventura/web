@@ -1,17 +1,14 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%itabaiana%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('Aracaju') || '%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE lower('%Andrade%');
-
-#1783, David de Sousa Viana foi substituído por Kenji Tago
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('cadu') || '%';
 
 UPDATE user_registration
-SET user_id = 185
-WHERE registration_id = 1445 AND user_id = 71;
-
+SET user_id = 3100
+WHERE user_id = 1720 AND registration_id = 1074;
 
 SELECT *
 FROM profile p

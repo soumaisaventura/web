@@ -33,6 +33,9 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
+            <!--
+            <property name="hibernate.dialect" value="adventure.persistence.AppSQLDialect"/>
+            -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
 
