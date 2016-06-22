@@ -216,18 +216,78 @@ public class RegistrationREST {
     @LoggedIn
     @Transactional
     @ValidatePayload
-    @Consumes("application/json")
-    @Produces("application/json")
     @Path("{id: \\d+}")
+    @Consumes("application/json")
     public void update(@PathParam("id") Long id, RegistrationData data, @Context UriInfo uriInfo) throws Exception {
         Registration registration = loadRegistrationForDetails(id);
         URI baseUri = uriInfo.getBaseUri().resolve("..");
 
-        User submitter = UserDAO.getInstance().loadBasics(User.getLoggedIn().getEmail());
-        RaceCategory raceCategory = RaceBusiness.getInstance().loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
-        List<User> members = UserBusiness.getInstance().loadMembers(raceCategory.getRace(), data.team.members);
+        // DAO + Business
+        UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
+        UserDAO userDAO = UserDAO.getInstance();
+        UserBusiness userBusiness = UserBusiness.getInstance();
+        RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+        RegistrationBusiness registrationBusiness = RegistrationBusiness.getInstance();
+        RaceBusiness raceBusiness = RaceBusiness.getInstance();
 
-        RegistrationBusiness.getInstance().validate(id, raceCategory, data.team.name, members, submitter, baseUri);
+        // Security
+        User submitter = userDAO.loadBasics(User.getLoggedIn().getEmail());
+
+        // Validation
+        RaceCategory raceCategory = raceBusiness.loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
+        RegistrationPeriod period = registration.getPeriod();
+        List<User> newMembers = userBusiness.loadMembers(raceCategory.getRace(), data.team.members);
+        registrationBusiness.validate(id, raceCategory, data.team.name, newMembers, submitter, baseUri);
+
+        // Attached
+        Registration attachedRegistration = registrationDAO.load(registration.getId());
+
+        // Category
+        if (!raceCategory.equals(attachedRegistration.getRaceCategory())) {
+            attachedRegistration.setRaceCategory(raceCategory);
+            registrationDAO.update(attachedRegistration);
+        }
+
+        // Team Name
+
+        if (!data.team.name.equals(attachedRegistration.getTeamName())) {
+            attachedRegistration.setTeamName(data.team.name);
+            registrationDAO.update(attachedRegistration);
+        }
+
+        // Members
+        List<User> oldMembers = userDAO.findUserRegistrations(registration);
+
+        List<User> toAdd = new ArrayList<>(newMembers);
+        toAdd.removeAll(oldMembers);
+        for (User user : toAdd) {
+            User attachedUser = userDAO.load(user.getId());
+
+            UserRegistration userRegistration = new UserRegistration();
+            userRegistration.setRegistration(attachedRegistration);
+            userRegistration.setUser(attachedUser);
+            userRegistration.setKit(user.getKit());
+            userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
+
+            userRegistrationDAO.insert(userRegistration);
+        }
+
+        List<User> toRemove = new ArrayList<>(oldMembers);
+        toRemove.removeAll(newMembers);
+        for (User user : toRemove) {
+            userRegistrationDAO.delete(registration, user);
+        }
+
+        List<User> toKeep = new ArrayList<>(newMembers);
+        toKeep.retainAll(oldMembers);
+        for (User user : toKeep) {
+            UserRegistration userRegistration = userRegistrationDAO.load(registration, user);
+
+            if (user.getKit() != null && !user.getKit().equals(userRegistration.getKit())) {
+                userRegistration.setKit(user.getKit());
+                userRegistrationDAO.update(userRegistration);
+            }
+        }
     }
 
     @POST

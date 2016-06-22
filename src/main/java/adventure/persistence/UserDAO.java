@@ -104,9 +104,6 @@ public class UserDAO extends JPACrud<User, Integer> {
         }
 
         String jpqlFilter = Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase().replaceAll(" +", " ").replaceAll(" (.)", "%$1") + "%";
-
-        System.out.println(jpqlFilter);
-        // query.setParameter("filter", Strings.isEmpty(filter) ? "" : filter.replaceAll(" +", " ").replaceAll(" (.)", " & $1"));
         query.setParameter("filter", jpqlFilter);
         query.setParameter("excludeIds", excludeIds);
 
