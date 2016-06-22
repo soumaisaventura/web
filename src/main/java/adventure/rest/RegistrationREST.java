@@ -231,13 +231,18 @@ public class RegistrationREST {
         RaceBusiness raceBusiness = RaceBusiness.getInstance();
 
         // Security
-        User submitter = userDAO.loadBasics(User.getLoggedIn().getEmail());
+        User loggedInUser = userDAO.loadBasics(User.getLoggedIn().getEmail());
+        List<User> organizers = userDAO.findOrganizers(
+                registration.getRaceCategory().getRace().getEvent());
+        if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
+            throw new ForbiddenException();
+        }
 
         // Validation
         RaceCategory raceCategory = raceBusiness.loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
         RegistrationPeriod period = registration.getPeriod();
         List<User> newMembers = userBusiness.loadMembers(raceCategory.getRace(), data.team.members);
-        registrationBusiness.validate(id, raceCategory, data.team.name, newMembers, submitter, baseUri);
+        registrationBusiness.validate(id, raceCategory, data.team.name, newMembers, loggedInUser, baseUri);
 
         // Attached
         Registration attachedRegistration = registrationDAO.load(registration.getId());
@@ -249,7 +254,6 @@ public class RegistrationREST {
         }
 
         // Team Name
-
         if (!data.team.name.equals(attachedRegistration.getTeamName())) {
             attachedRegistration.setTeamName(data.team.name);
             registrationDAO.update(attachedRegistration);
@@ -285,6 +289,7 @@ public class RegistrationREST {
 
             if (user.getKit() != null && !user.getKit().equals(userRegistration.getKit())) {
                 userRegistration.setKit(user.getKit());
+                userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
                 userRegistrationDAO.update(userRegistration);
             }
         }

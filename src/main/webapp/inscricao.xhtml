@@ -59,7 +59,6 @@
                     <h2>
                         Inscrição #<span id="registration-id"></span>
                     </h2>
-                    <a id="edit" href="">Alterar</a>
                     <h5 style="margin-bottom: 0px;">
                         Equipe
                         <a href="#" id="team-name"></a>
@@ -89,7 +88,7 @@
                 <table id="team-formation" class="table" style="margin-bottom: 0px;">
                     <thead>
                     <tr>
-                        <th style="padding-left: 0px; font-weight: 500;">
+                        <th style="padding-left: 0px; font-weight: 500;" colspan="2">
                             <span class="glyphicon glyphicon-th-large" aria-hidden='true'
                                   style="font-size: 0.8em;"></span>
                             <spam id="race-category"></spam>
@@ -99,6 +98,11 @@
                     </thead>
                     <tfoot>
                     <tr>
+                        <th class="text-left" style="font-size: 0.9em;padding-left: 0px;">
+                            <div hidden="true">
+                                <a id="edit">[alterar inscrição]</a>
+                            </div>
+                        </th>
                         <th class="text-right" style="font-size: 0.9em;">
                             <em>total</em>
                         </th>
@@ -176,7 +180,7 @@
 
         <script id="member-template" type="text/template">
             <tr>
-                <td class="text-left" style="padding-left: 0px;">
+                <td class="text-left" style="padding-left: 0px;" colspan="2">
                     <span class="glyphicon glyphicon-user"
                           aria-hidden="true"
                           style="font-size: 0.8em"></span>

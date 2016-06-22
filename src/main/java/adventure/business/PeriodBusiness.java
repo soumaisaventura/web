@@ -4,6 +4,7 @@ import adventure.entity.Race;
 import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
 import adventure.persistence.PeriodDAO;
+import adventure.persistence.UserDAO;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
 
@@ -23,7 +24,10 @@ public class PeriodBusiness {
     public RegistrationPeriod load(Race race, Date date) throws Exception {
         RegistrationPeriod result = PeriodDAO.getInstance().load(race, date);
 
-        if (result == null && User.getLoggedIn() != null && User.getLoggedIn().getAdmin()) {
+        List<User> organizers = UserDAO.getInstance().findOrganizers(race.getEvent());
+        User loggedInUser = User.getLoggedIn();
+
+        if (result == null && loggedInUser != null && (loggedInUser.getAdmin() || organizers.contains(loggedInUser))) {
             List<RegistrationPeriod> periods = PeriodDAO.getInstance().findForEvent(race);
             result = periods != null && !periods.isEmpty() ? periods.get(periods.size() - 1) : null;
         }

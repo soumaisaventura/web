@@ -70,16 +70,19 @@ function loadOk(registration) {
 
     $("#race-category").text(registration.category.name + " " + registration.race.name);
     $("#facebook-share").data("race", registration.race);
-    
-    $("#edit").attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
 
     var memberTemplate = $('#member-template');
     var user = App.getLoggedInUser();
     var isMember = false;
 
+    if (App.isAdmin() || App.isOrganizer(registration.race.event.organizers)) {
+        $("#edit").attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
+        $("#edit").parent().show();
+    }
+
     $.each(registration.team.members, function (i, member) {
         member.formattedAmount = numeral(member.amount).format();
-        
+
         var rendered = Mustache.render(memberTemplate.html(), member);
         $("#team-formation > tbody:last").append(rendered);
 
