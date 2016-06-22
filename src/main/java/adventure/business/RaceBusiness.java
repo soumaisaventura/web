@@ -28,13 +28,23 @@ public class RaceBusiness {
 
     public RegistrationPeriod getPeriod(Date date, List<RegistrationPeriod> periods) {
         RegistrationPeriod result = null;
+        RegistrationPeriod last = null;
 
-        for (int i = 0; i < periods.size(); i++) {
-            RegistrationPeriod period = periods.get(i);
+        if (periods.size() > 0) {
+            last = periods.get(periods.size() - 1);
 
-            if (Dates.between(date, period.getBeginning(), period.getEnd())) {
-                result = period;
-                break;
+            if (Dates.after(date, last.getEnd())) {
+                result = last;
+
+            } else {
+                for (int i = 0; i < periods.size(); i++) {
+                    RegistrationPeriod period = periods.get(i);
+
+                    if (Dates.between(date, period.getBeginning(), period.getEnd())) {
+                        result = period;
+                        break;
+                    }
+                }
             }
         }
 

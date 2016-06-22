@@ -1,13 +1,11 @@
 package adventure.rest;
 
 import adventure.business.PeriodBusiness;
+import adventure.business.RaceBusiness;
 import adventure.entity.Race;
 import adventure.entity.RegistrationPeriod;
 import adventure.entity.User;
-import adventure.persistence.CategoryDAO;
-import adventure.persistence.KitDAO;
-import adventure.persistence.RaceDAO;
-import adventure.persistence.UserDAO;
+import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
@@ -18,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
@@ -54,8 +53,17 @@ public class RaceREST {
         data.event.location.city.id = race.getEvent().getCity().getId();
         data.event.location.city.name = race.getEvent().getCity().getName();
         data.event.location.city.state = race.getEvent().getCity().getState().getAbbreviation();
-        data.event.organizers = new ArrayList();
 
+        List<RegistrationPeriod> periods = PeriodDAO.getInstance().findForEvent(race);
+        RegistrationPeriod currentPrice = RaceBusiness.getInstance().getPeriod(new Date(), periods);
+        if (currentPrice != null) {
+            data.currentPrice = new PeriodData();
+            data.currentPrice.beginning = currentPrice.getBeginning();
+            data.currentPrice.end = currentPrice.getEnd();
+            data.currentPrice.price = currentPrice.getPrice();
+        }
+
+        data.event.organizers = new ArrayList();
         for (User organizer : UserDAO.getInstance().findOrganizers(race.getEvent())) {
             UserData organizerData = new UserData(uriInfo);
             organizerData.id = organizer.getId();
