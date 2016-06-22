@@ -316,5 +316,11 @@ function registrationOk(data) {
 }
 
 function updateOk(data) {
-    alert("sucesso!");
+    swal({
+        title: "Inscrição atualizada com sucesso!",
+        // text: "",
+        type: "success"
+    }, function () {
+        window.location.href = App.getContextPath() + "/inscricao/" + $("#inscricao_id").val();
+    });
 }
