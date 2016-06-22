@@ -102,7 +102,7 @@ public class Registration {
     }
 
     public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCheckoutCode,
-                        String paymentTransactionCode, Integer periodId, BigDecimal periodPrice, Integer submitterId,
+                        String paymentTransactionCode, Integer periodId, BigDecimal periodPrice, Date periodBeginning, Date periodEnd, Integer submitterId,
                         String submitterEmail, String submitterName, String submitterMobile, Integer raceId, String raceName,
                         String raceDescription, String raceAlias, Integer raceDistance, Integer raceStatusId, String raceStatusName,
                         Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
@@ -121,6 +121,8 @@ public class Registration {
         setPeriod(new RegistrationPeriod());
         getPeriod().setId(periodId);
         getPeriod().setPrice(periodPrice);
+        getPeriod().setBeginning(periodBeginning);
+        getPeriod().setEnd(periodEnd);
 
         setSubmitter(new User());
         getSubmitter().setId(submitterId);

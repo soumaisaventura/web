@@ -117,6 +117,11 @@ public class RegistrationREST {
             data.payment.transactionCode = registration.getPayment().getTransactionCode();
         }
 
+        data.referencePrice = new PeriodData();
+        data.referencePrice.price = registration.getPeriod().getPrice();
+        data.referencePrice.beginning = registration.getPeriod().getBeginning();
+        data.referencePrice.end = registration.getPeriod().getEnd();
+
         data.submitter = new UserData(uriInfo);
         data.submitter.id = registration.getSubmitter().getId();
         data.submitter.email = registration.getSubmitter().getEmail();

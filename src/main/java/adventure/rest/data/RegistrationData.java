@@ -1,13 +1,14 @@
 package adventure.rest.data;
 
 import adventure.entity.RegistrationStatusType;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@JsonPropertyOrder({"id", "number", "status", "date", "payment", "submitter", "race", "category", "team"})
+@JsonPropertyOrder({"id", "number", "status", "date", "referencePrice", "payment", "submitter", "race", "category", "team"})
 public class RegistrationData {
 
     public Long id;
@@ -17,6 +18,9 @@ public class RegistrationData {
     public RegistrationStatusType status;
 
     public Date date;
+
+    @JsonProperty("reference_price")
+    public PeriodData referencePrice;
 
     public RegistrationPaymentData payment;
 

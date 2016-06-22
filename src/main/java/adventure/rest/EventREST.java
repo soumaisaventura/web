@@ -179,12 +179,12 @@ public class EventREST {
 
                 // Current Period
 
-                RegistrationPeriod currentPeriod = raceBusiness.getPeriod(now, periods);
-                if (currentPeriod != null) {
-                    raceData.currentPeriod = new PeriodData();
-                    raceData.currentPeriod.beginning = currentPeriod.getBeginning();
-                    raceData.currentPeriod.end = currentPeriod.getEnd();
-                    raceData.currentPeriod.price = currentPeriod.getPrice();
+                RegistrationPeriod currentPrice = raceBusiness.getPeriod(now, periods);
+                if (currentPrice != null) {
+                    raceData.currentPrice = new PeriodData();
+                    raceData.currentPrice.beginning = currentPrice.getBeginning();
+                    raceData.currentPrice.end = currentPrice.getEnd();
+                    raceData.currentPrice.price = currentPrice.getPrice();
                 }
 
                 // Modalities

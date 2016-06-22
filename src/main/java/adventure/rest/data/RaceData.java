@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonPropertyOrder({"id", "internalId", "status", "name", "description", "distance", "period", "event", "sport",
-        "championships", "categories", "kits", "currentPeriod", "prices", "modalities"})
+        "championships", "categories", "kits", "currentPrice", "prices", "modalities"})
 public class RaceData {
 
     public String id;
@@ -37,8 +37,8 @@ public class RaceData {
 
     public List<KitData> kits;
 
-    @JsonProperty("current_period")
-    public PeriodData currentPeriod;
+    @JsonProperty("current_price")
+    public PeriodData currentPrice;
 
     public List<PeriodData> prices;
 
