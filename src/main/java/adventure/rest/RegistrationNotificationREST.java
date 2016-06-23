@@ -61,8 +61,6 @@ public class RegistrationNotificationREST {
 
                 if (transaction != null) {
                     update(race, transaction, uriInfo);
-                } else {
-                    break;
                 }
             }
         }
