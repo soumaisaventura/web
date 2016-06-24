@@ -166,8 +166,8 @@ function loadEventOk(event) {
             race.month = App.moment(race.period.beginning).format('MMM').toUpperCase();
             race.period.date = App.parsePeriod(race.period);
 
-            if (race.current_period) {
-                race.current_period.end = App.moment(race.current_period.end).format('DD [de] MMM');
+            if (race.current_price) {
+                race.current_price.end = App.moment(race.current_price.end).format('DD [de] MMM');
             }
 
             // Status

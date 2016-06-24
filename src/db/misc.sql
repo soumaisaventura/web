@@ -78,8 +78,8 @@ FROM period p
 WHERE p.race_id = 72;
 
 UPDATE period
-SET beginning = '2016-06-01'
-WHERE beginning = '2016-05-18';
+SET ending = TO_DATE('06/09/2016', 'DD/MM/YYYY')
+WHERE id in (132, 133) ;
 
 SELECT count(*)
 FROM registration r
