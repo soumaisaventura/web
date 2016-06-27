@@ -89,7 +89,7 @@ public class User implements Principal {
         getProfile().setName(profileName);
     }
 
-    public User(Integer id, String email, String profileName, GenderType profileGender, Integer profilePendencies,
+    public User(Integer id, String email, String profileName, Date profileBirthday, GenderType profileGender, Integer profilePendencies,
                 Integer healthPendencies, Boolean admin, Boolean organizer) {
         setId(id);
         setEmail(email);
@@ -98,6 +98,7 @@ public class User implements Principal {
 
         setProfile(new Profile());
         getProfile().setName(profileName);
+        getProfile().setBirthday(profileBirthday);
         getProfile().setGender(profileGender);
         getProfile().setPendencies(profilePendencies);
 

@@ -12,36 +12,40 @@ import java.util.List;
 @Transactional
 public class CategoryDAO extends JPACrud<Category, Integer> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static CategoryDAO getInstance() {
-		return Beans.getReference(CategoryDAO.class);
-	}
+    public static CategoryDAO getInstance() {
+        return Beans.getReference(CategoryDAO.class);
+    }
 
-	public List<Category> find(Race race) {
-		String jpql = "";
-		jpql += " select ";
-		jpql += "    new Category ( ";
-		jpql += "        c.id, ";
-		jpql += "        c.alias, ";
-		jpql += "        c.name, ";
-		jpql += "        c.description, ";
-		jpql += "        c.teamSize, ";
-		jpql += "        c.minMaleMembers, ";
-		jpql += "        c.minFemaleMembers ";
-		jpql += "        ) ";
-		jpql += "   from RaceCategory rc ";
-		jpql += "   join rc.category c ";
-		jpql += "  where rc.race = :race ";
-		jpql += "  order by ";
-		jpql += "        c.teamSize desc, ";
-		jpql += "        c.name ";
+    public List<Category> find(Race race) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new Category ( ";
+        jpql += "        c.id, ";
+        jpql += "        c.alias, ";
+        jpql += "        c.name, ";
+        jpql += "        c.description, ";
+        jpql += "        c.teamSize, ";
+        jpql += "        c.minMaleMembers, ";
+        jpql += "        c.minFemaleMembers, ";
+        jpql += "        c.minMemberAge, ";
+        jpql += "        c.maxMemberAge, ";
+        jpql += "        c.minTeamAge, ";
+        jpql += "        c.maxTeamAge ";
+        jpql += "        ) ";
+        jpql += "   from RaceCategory rc ";
+        jpql += "   join rc.category c ";
+        jpql += "  where rc.race = :race ";
+        jpql += "  order by ";
+        jpql += "        c.teamSize desc, ";
+        jpql += "        c.name ";
 
-		TypedQuery<Category> query = getEntityManager().createQuery(jpql, Category.class);
-		query.setParameter("race", race);
+        TypedQuery<Category> query = getEntityManager().createQuery(jpql, Category.class);
+        query.setParameter("race", race);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	// TODO: OLD
+    // TODO: OLD
 }

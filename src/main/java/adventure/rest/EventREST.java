@@ -10,6 +10,7 @@ import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.RequiredRole;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -23,6 +24,7 @@ import org.joda.time.LocalDate;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -158,11 +160,19 @@ public class EventREST {
 
                 // Categories
 
-                raceData.parseAndSetCategories(categoryDAO.find(race));
+                raceData.categories = new ArrayList<>();
+                for (Category category : categoryDAO.find(race)) {
+                    CategoryData categoryData = new CategoryData(category);
+                    raceData.categories.add(categoryData);
+                }
 
                 // Kits
 
-                raceData.parseAndSetKits(kitDAO.findForRegistration(race));
+                raceData.kits = new ArrayList<>();
+                for (Kit kit : kitDAO.findForRegistration(race)) {
+                    KitData kitData = new KitData(kit);
+                    raceData.kits.add(kitData);
+                }
 
                 // Registration Period + Prices
 

@@ -5,7 +5,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers"})
+import javax.persistence.Column;
+
+@JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers", "minMemberAge", "maxMemberAge", "minTeamAge", "maxTeamAge"})
 public class CategoryData {
 
     @NotEmpty
@@ -27,6 +29,18 @@ public class CategoryData {
     @JsonProperty("min_female_members")
     public Integer minFemaleMembers;
 
+    @JsonProperty("min_member_age")
+    private Integer minMemberAge;
+
+    @JsonProperty("max_member_age")
+    private Integer maxMemberAge;
+
+    @JsonProperty("min_team_age")
+    private Integer minTeamAge;
+
+    @JsonProperty("max_team_age")
+    private Integer maxTeamAge;
+
     public CategoryData() {
     }
 
@@ -38,5 +52,9 @@ public class CategoryData {
         this.teamSize = category.getTeamSize();
         this.minMaleMembers = category.getMinMaleMembers();
         this.minFemaleMembers = category.getMinFemaleMembers();
+        this.minMemberAge = category.getMinMemberAge();
+        this.maxMemberAge = category.getMaxMemberAge();
+        this.minTeamAge = category.getMinTeamAge();
+        this.maxTeamAge = category.getMaxTeamAge();
     }
 }

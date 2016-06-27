@@ -94,7 +94,14 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
         jpql += "        ca.id, ";
         jpql += "        ca.alias, ";
         jpql += "        ca.name, ";
-        jpql += "        ca.teamSize ";
+        jpql += "        ca.description, ";
+        jpql += "        ca.teamSize, ";
+        jpql += "        ca.minMaleMembers, ";
+        jpql += "        ca.minFemaleMembers, ";
+        jpql += "        ca.minMemberAge, ";
+        jpql += "        ca.maxMemberAge, ";
+        jpql += "        ca.minTeamAge, ";
+        jpql += "        ca.maxTeamAge ";
         jpql += "        ) ";
         jpql += "   from Registration re ";
         jpql += "   join re.submitter su ";
@@ -193,7 +200,14 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
         jpql += "        ca.id, ";
         jpql += "        ca.alias, ";
         jpql += "        ca.name, ";
-        jpql += "        ca.teamSize ";
+        jpql += "        ca.description, ";
+        jpql += "        ca.teamSize, ";
+        jpql += "        ca.minMaleMembers, ";
+        jpql += "        ca.minFemaleMembers, ";
+        jpql += "        ca.minMemberAge, ";
+        jpql += "        ca.maxMemberAge, ";
+        jpql += "        ca.minTeamAge, ";
+        jpql += "        ca.maxTeamAge ";
         jpql += "        ) ";
         jpql += "   from Registration re ";
         jpql += "   join re.submitter su ";
@@ -248,9 +262,17 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
         jpql += " 	     ra.id, ";
         jpql += " 	     ra.alias, ";
         jpql += " 	     ra.name, ";
-        jpql += " 	     ca.id, ";
-        jpql += " 	     ca.alias, ";
-        jpql += " 	     ca.name ";
+        jpql += "        ca.id, ";
+        jpql += "        ca.alias, ";
+        jpql += "        ca.name, ";
+        jpql += "        ca.description, ";
+        jpql += "        ca.teamSize, ";
+        jpql += "        ca.minMaleMembers, ";
+        jpql += "        ca.minFemaleMembers, ";
+        jpql += "        ca.minMemberAge, ";
+        jpql += "        ca.maxMemberAge, ";
+        jpql += "        ca.minTeamAge, ";
+        jpql += "        ca.maxTeamAge ";
         jpql += " 	     ) ";
         jpql += "   from UserRegistration tf ";
         jpql += "   left join tf.kit k ";
@@ -320,35 +342,6 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
 
         TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
         query.setParameter("user", loggedInUser);
-
-        return query.getResultList();
-    }
-
-    public List<Registration> findToUser(Race race) {
-        String jpql = "";
-        jpql += " select  ";
-        jpql += "    new Registration( ";
-        jpql += "        re.id, ";
-        jpql += "        re.status, ";
-        jpql += "        re.teamName, ";
-        jpql += "        ra.id, ";
-        jpql += "        ra.name ";
-        // jpql += "        ra.date, ";
-        // jpql += "        ci.id, ";
-        // jpql += "        ci.name, ";
-        // jpql += "        st.abbreviation ";
-        jpql += "    ) ";
-        jpql += "   from Registration re ";
-        jpql += "   join re.raceCategory rc ";
-        jpql += "   join rc.race ra ";
-        // jpql += "   left join ra.city ci ";
-        // jpql += "   left join ci.state st ";
-        jpql += "  where ra = :race ";
-        jpql += "  order by ";
-        jpql += "        re.date ";
-
-        TypedQuery<Registration> query = getEntityManager().createQuery(jpql, Registration.class);
-        query.setParameter("race", race);
 
         return query.getResultList();
     }

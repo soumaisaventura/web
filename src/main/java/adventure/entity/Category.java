@@ -29,11 +29,23 @@ public class Category {
     @Column(name = "min_female_members")
     private Integer minFemaleMembers;
 
+    @Column(name = "min_member_age")
+    private Integer minMemberAge;
+
+    @Column(name = "max_member_age")
+    private Integer maxMemberAge;
+
+    @Column(name = "min_team_age")
+    private Integer minTeamAge;
+
+    @Column(name = "max_team_age")
+    private Integer maxTeamAge;
+
     public Category() {
     }
 
     public Category(Integer id, String alias, String name, String description, Integer teamSize, Integer minMaleMembers,
-                    Integer minFemaleMembers) {
+                    Integer minFemaleMembers, Integer minMemberAge, Integer maxMemberAge, Integer minTeamAge, Integer maxTeamAge) {
         setId(id);
         setName(name);
         setAlias(alias);
@@ -41,6 +53,10 @@ public class Category {
         setTeamSize(teamSize);
         setMinMaleMembers(minMaleMembers);
         setMinFemaleMembers(minFemaleMembers);
+        setMinMemberAge(minMemberAge);
+        setMaxMemberAge(maxMemberAge);
+        setMinTeamAge(minTeamAge);
+        setMaxTeamAge(maxTeamAge);
     }
 
     @Override
@@ -127,5 +143,37 @@ public class Category {
 
     public void setMinFemaleMembers(Integer minFemaleMembers) {
         this.minFemaleMembers = minFemaleMembers;
+    }
+
+    public Integer getMinMemberAge() {
+        return minMemberAge;
+    }
+
+    public void setMinMemberAge(Integer minMemberAge) {
+        this.minMemberAge = minMemberAge;
+    }
+
+    public Integer getMaxMemberAge() {
+        return maxMemberAge;
+    }
+
+    public void setMaxMemberAge(Integer maxMemberAge) {
+        this.maxMemberAge = maxMemberAge;
+    }
+
+    public Integer getMinTeamAge() {
+        return minTeamAge;
+    }
+
+    public void setMinTeamAge(Integer minTeamAge) {
+        this.minTeamAge = minTeamAge;
+    }
+
+    public Integer getMaxTeamAge() {
+        return maxTeamAge;
+    }
+
+    public void setMaxTeamAge(Integer maxTeamAge) {
+        this.maxTeamAge = maxTeamAge;
     }
 }

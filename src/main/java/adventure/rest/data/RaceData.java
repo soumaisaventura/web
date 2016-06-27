@@ -43,22 +43,4 @@ public class RaceData {
     public List<PeriodData> prices;
 
     public List<ModalityData> modalities;
-
-    public void parseAndSetKits(List<Kit> kits) {
-        if (kits != null && !kits.isEmpty()) {
-            this.kits = new ArrayList<>();
-            for (Kit kit : kits) {
-                this.kits.add(new KitData(kit));
-            }
-        }
-    }
-
-    public void parseAndSetCategories(List<Category> categories) {
-        if (categories != null && !categories.isEmpty()) {
-            this.categories = new ArrayList<>();
-            for (Category category : categories) {
-                this.categories.add(new CategoryData(category));
-            }
-        }
-    }
 }
