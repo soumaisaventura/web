@@ -1,8 +1,10 @@
 package adventure.rest;
 
 import adventure.entity.City;
+import adventure.entity.Country;
 import adventure.entity.State;
 import adventure.persistence.CityDAO;
+import adventure.persistence.CountryDAO;
 import adventure.persistence.StateDAO;
 import adventure.rest.data.CityData;
 import adventure.rest.data.CountryData;
@@ -18,62 +20,63 @@ import java.util.List;
 @Path("location")
 public class LocationREST {
 
-    /*
-     * TODO Apagar na v2
-     */
-    @Deprecated
     @GET
-    @Path("city")
+    @Path("countries")
     @Produces("application/json")
-    public List<CityData> searchCityOLD(@QueryParam("q") String q) throws Exception {
-        validateOLD(q);
-        List<CityData> result = new ArrayList();
+    public List<CountryData> findCoutries() throws Exception {
+        List<CountryData> result = new ArrayList();
 
-        for (City city : CityDAO.getInstance().search(q)) {
-            result.add(new CityData(city));
+        for (Country country : CountryDAO.getInstance().findAll()) {
+            result.add(new CountryData(country));
         }
 
         return result.isEmpty() ? null : result;
     }
 
-    private void validateOLD(String q) throws Exception {
-        if (Strings.isEmpty(q)) {
-            throw new UnprocessableEntityException().addViolation("q", "parâmetro obrigatório");
-        } else if (q.length() < 3) {
-            throw new UnprocessableEntityException().addViolation("q", "deve possuir 3 ou mais caracteres");
-        }
-    }
-
     @GET
-    @Path("uf")
     @Produces("application/json")
-    public List<State> findStates() throws Exception {
-        return StateDAO.getInstance().findAll();
-    }
+    @Path("countries/{id}/states")
+    public List<StateData> findStates(@PathParam("id") String id) throws Exception {
+        List<StateData> result = new ArrayList();
+        Country country = loadCountry(id);
 
-    @GET
-    @Path("uf/{abbreviation}/cities")
-    @Produces("application/json")
-    public List<CityData> searchCity(@PathParam("abbreviation") String abbreviation) throws Exception {
-        List<CityData> result = new ArrayList();
-        CityData data;
-
-        State state = loadState(abbreviation);
-
-        for (City city : CityDAO.getInstance().find(state)) {
-            data = new CityData();
-            data.id = city.getId();
-            data.name = city.getName();
-            data.state = null;
-
+        for (State state : StateDAO.getInstance().find(country)) {
+            StateData data = new StateData(state);
+            data.country = null;
             result.add(data);
         }
 
         return result.isEmpty() ? null : result;
     }
 
-    private State loadState(String abbreviation) throws Exception {
-        State result = StateDAO.getInstance().load(abbreviation);
+    @GET
+    @Produces("application/json")
+    @Path("countries/{countryId}/states/{stateId}/cities")
+    public List<CityData> findCities(@PathParam("countryId") String countryId, @PathParam("stateId") String stateId) throws Exception {
+        List<CityData> result = new ArrayList();
+        State state = loadState(stateId, countryId);
+
+        for (City city : CityDAO.getInstance().find(state)) {
+            CityData data = new CityData(city);
+            data.state = null;
+            result.add(data);
+        }
+
+        return result.isEmpty() ? null : result;
+    }
+
+    private Country loadCountry(String abbreviation) throws Exception {
+        Country result = CountryDAO.getInstance().load(abbreviation);
+
+        if (result == null) {
+            throw new NotFoundException();
+        }
+
+        return result;
+    }
+
+    private State loadState(String abbreviation, String countryAbbreviation) throws Exception {
+        State result = StateDAO.getInstance().load(abbreviation, countryAbbreviation);
 
         if (result == null) {
             throw new NotFoundException();

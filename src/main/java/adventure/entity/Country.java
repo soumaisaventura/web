@@ -15,6 +15,15 @@ public class Country {
 
     private String abbreviation;
 
+    public Country() {
+    }
+
+    public Country(Integer id, String name, String abbreviation) {
+        setId(id);
+        setName(name);
+        setAbbreviation(abbreviation);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

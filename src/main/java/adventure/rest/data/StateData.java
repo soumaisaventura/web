@@ -1,5 +1,7 @@
 package adventure.rest.data;
 
+import adventure.entity.City;
+import adventure.entity.State;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
@@ -16,4 +18,17 @@ public class StateData {
     public String name;
 
     public CountryData country;
+
+    public StateData() {
+    }
+
+    public StateData(State state) {
+        this.id = state.getAbbreviation();
+        this.internalId = state.getId();
+        this.name = state.getName();
+        this.country = new CountryData();
+        this.country.id = state.getCountry().getAbbreviation();
+        this.country.internalId = state.getCountry().getId();
+        this.country.name = state.getCountry().getName();
+    }
 }

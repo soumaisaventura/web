@@ -1,5 +1,6 @@
 package adventure.persistence;
 
+import adventure.entity.Country;
 import adventure.entity.State;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -18,38 +19,48 @@ public class StateDAO extends JPACrud<State, Integer> {
         return Beans.getReference(StateDAO.class);
     }
 
-
-    @Override
-    public List<State> findAll() {
+    public List<State> find(Country country) {
         String jpql = "";
         jpql += " select ";
         jpql += "    new State( ";
         jpql += "        s.id, ";
         jpql += "        s.name, ";
-        jpql += "        s.abbreviation ";
+        jpql += "        s.abbreviation, ";
+        jpql += "        y.id, ";
+        jpql += "        y.name, ";
+        jpql += "        y.abbreviation ";
         jpql += "        ) ";
         jpql += "   from State s ";
+        jpql += "   join s.country y ";
+        jpql += "  where y = :country ";
         jpql += "  order by s.abbreviation ";
 
         TypedQuery<State> query = getEntityManager().createQuery(jpql, State.class);
+        query.setParameter("country", country);
 
-        return super.findAll();
+        return query.getResultList();
     }
 
-    public State load(String abbreviation) {
+    public State load(String abbreviation, String countryAbbreviation) {
         String jpql = "";
         jpql += " select ";
         jpql += "    new State( ";
         jpql += "        s.id, ";
         jpql += "        s.name, ";
-        jpql += "        s.abbreviation ";
+        jpql += "        s.abbreviation, ";
+        jpql += "        y.id, ";
+        jpql += "        y.name, ";
+        jpql += "        y.abbreviation ";
         jpql += "        ) ";
         jpql += "   from State s ";
-        jpql += "  where s.abbreviation = :abbreviation ";
+        jpql += "   join s.country y ";
+        jpql += "  where y.abbreviation = :countryAbbreviation ";
+        jpql += "    and s.abbreviation = :abbreviation ";
         jpql += "  order by s.abbreviation ";
 
         TypedQuery<State> query = getEntityManager().createQuery(jpql, State.class);
-        query.setParameter("abbreviation", abbreviation);
+        query.setParameter("abbreviation", abbreviation.toUpperCase());
+        query.setParameter("countryAbbreviation", countryAbbreviation.toUpperCase());
 
         State result;
         try {
@@ -58,7 +69,5 @@ public class StateDAO extends JPACrud<State, Integer> {
             result = null;
         }
         return result;
-
     }
-
 }

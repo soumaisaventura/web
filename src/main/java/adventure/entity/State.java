@@ -23,10 +23,14 @@ public class State {
     public State() {
     }
 
-    public State(Integer id, String name, String abbreviation) {
+    public State(Integer id, String name, String abbreviation, Integer countryId, String countryName, String countryAbbreviation) {
         setId(id);
         setName(name);
         setAbbreviation(abbreviation);
+        setCountry(new Country());
+        getCountry().setId(countryId);
+        getCountry().setName(countryName);
+        getCountry().setAbbreviation(countryAbbreviation);
     }
 
     @Override

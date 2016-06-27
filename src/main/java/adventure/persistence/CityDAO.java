@@ -44,26 +44,4 @@ public class CityDAO extends JPACrud<City, Integer> {
 
         return query.getResultList();
     }
-
-    /*
-     * TODO Apagar na v2
-     */
-    @Deprecated
-    public List<City> search(String filter) {
-        String jpql = "";
-        jpql += " select c";
-        jpql += "  from City c ";
-        jpql += "  join c.state s ";
-        jpql += "  join s.country o ";
-        jpql += " where lower(c.name) like :filter ";
-        jpql += " order by ";
-        jpql += "       s.id, ";
-        jpql += "       c.name ";
-
-        TypedQuery<City> query = getEntityManager().createQuery(jpql, City.class);
-        query.setMaxResults(10);
-        query.setParameter("filter", Strings.isEmpty(filter) ? "" : "%" + filter.toLowerCase() + "%");
-
-        return query.getResultList();
-    }
 }
