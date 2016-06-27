@@ -53,12 +53,8 @@ public class EventREST {
             eventData.period.beginning = event.getBeginning();
             eventData.period.end = event.getEnd();
             eventData.status = event.getStatus().getName();
-
             eventData.location = new LocationData();
-            eventData.location.city = new CityData();
-            eventData.location.city.name = event.getCity().getName();
-            eventData.location.city.state = event.getCity().getState().getAbbreviation();
-
+            eventData.location.city = new CityData(event.getCity());
             result.add(eventData);
         }
 
@@ -92,10 +88,7 @@ public class EventREST {
         // Location
 
         eventData.location = new LocationData();
-        eventData.location.city = new CityData();
-        eventData.location.city.id = event.getCity().getId();
-        eventData.location.city.name = event.getCity().getName();
-        eventData.location.city.state = event.getCity().getState().getAbbreviation();
+        eventData.location.city = new CityData(event.getCity());
 
         // Hotspot
 
@@ -275,15 +268,14 @@ public class EventREST {
                 userData.id = teamFormation.getUser().getId();
                 userData.email = teamFormation.getUser().getEmail();
 
+                Profile profile = teamFormation.getUser().getProfile();
                 userData.profile = new ProfileData();
-                userData.profile.name = teamFormation.getUser().getProfile().getName();
-                userData.profile.mobile = teamFormation.getUser().getProfile().getMobile();
-
-                userData.profile.city = new CityData();
-                userData.profile.city.name = teamFormation.getUser().getProfile().getCity().getName();
-                userData.profile.city.state = teamFormation.getUser().getProfile().getCity().getState().getAbbreviation();
+                userData.profile.name = profile.getName();
+                userData.profile.mobile = profile.getMobile();
+                userData.profile.city = new CityData(profile.getCity());
 
                 userData.amount = teamFormation.getAmount();
+
                 data.team.members.add(userData);
             }
 

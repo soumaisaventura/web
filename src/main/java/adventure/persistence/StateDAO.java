@@ -7,6 +7,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Transactional
 public class StateDAO extends JPACrud<State, Integer> {
@@ -15,6 +16,24 @@ public class StateDAO extends JPACrud<State, Integer> {
 
     public static StateDAO getInstance() {
         return Beans.getReference(StateDAO.class);
+    }
+
+
+    @Override
+    public List<State> findAll() {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new State( ";
+        jpql += "        s.id, ";
+        jpql += "        s.name, ";
+        jpql += "        s.abbreviation ";
+        jpql += "        ) ";
+        jpql += "   from State s ";
+        jpql += "  order by s.abbreviation ";
+
+        TypedQuery<State> query = getEntityManager().createQuery(jpql, State.class);
+
+        return super.findAll();
     }
 
     public State load(String abbreviation) {

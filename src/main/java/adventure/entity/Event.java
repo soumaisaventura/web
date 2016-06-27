@@ -69,9 +69,9 @@ public class Event {
         setBanner(banner);
     }
 
-    public Event(Integer id, String alias, String name, String description, String site, Integer cityId,
-                 String cityName, Integer stateId, String stateName, String stateAbbreviation, Date beginnig, Date end,
-                 Status status) {
+    public Event(Integer id, String alias, String name, String description, String site,
+                 Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation,
+                 Date beginnig, Date end, Status status) {
         setId(id);
         setAlias(alias);
         setName(name);
@@ -85,6 +85,10 @@ public class Event {
         getCity().getState().setId(stateId);
         getCity().getState().setName(stateName);
         getCity().getState().setAbbreviation(stateAbbreviation);
+        getCity().getState().setCountry(new Country());
+        getCity().getState().getCountry().setId(countryId);
+        getCity().getState().getCountry().setName(countryName);
+        getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
 
         setBeginning(beginnig);
         setEnd(end);

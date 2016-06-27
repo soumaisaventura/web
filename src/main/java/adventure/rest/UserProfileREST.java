@@ -49,10 +49,7 @@ public class UserProfileREST {
         data.gender = profile.getGender();
         data.tshirt = profile.getTshirt();
         data.pendencies = profile.getPendencies();
-        data.city = new CityData();
-        data.city.id = profile.getCity().getId();
-        data.city.name = profile.getCity().getName();
-        data.city.state = profile.getCity().getState().getAbbreviation();
+        data.city = new CityData(profile.getCity());
 
         return data;
     }

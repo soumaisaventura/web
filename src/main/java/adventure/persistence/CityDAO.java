@@ -20,7 +20,25 @@ public class CityDAO extends JPACrud<City, Integer> {
     }
 
     public List<City> find(State state) {
-        String jpql = "select c from City c where c.state = :state order by c.name";
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new City ( ";
+        jpql += "        c.id, ";
+        jpql += "        c.name, ";
+        jpql += "        s.id, ";
+        jpql += "        s.name, ";
+        jpql += "        s.abbreviation, ";
+        jpql += "        y.id, ";
+        jpql += "        y.name, ";
+        jpql += "        y.abbreviation ";
+        jpql += "        ) ";
+        jpql += "   from City c ";
+        jpql += "   join c.state s ";
+        jpql += "   join s.country y ";
+        jpql += "  where c.state = :state ";
+        jpql += "  order by ";
+        jpql += "        c.name ";
+
         TypedQuery<City> query = getEntityManager().createQuery(jpql, City.class);
         query.setParameter("state", state);
 
@@ -33,14 +51,7 @@ public class CityDAO extends JPACrud<City, Integer> {
     @Deprecated
     public List<City> search(String filter) {
         String jpql = "";
-        jpql += " select ";
-        jpql += " 	new City( ";
-        jpql += " 	    c.id, ";
-        jpql += " 	    c.name, ";
-        jpql += " 	    s.name, ";
-        jpql += " 	    s.abbreviation, ";
-        jpql += " 	    o.name ";
-        jpql += " 	    ) ";
+        jpql += " select c";
         jpql += "  from City c ";
         jpql += "  join c.state s ";
         jpql += "  join s.country o ";

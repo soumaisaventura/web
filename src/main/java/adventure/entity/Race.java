@@ -80,8 +80,9 @@ public class Race {
 
     public Race(Integer id, String name, String alias, String description, Date periodBeginning, Date periodEnd,
                 Integer eventId, String eventName, String eventAlias, String eventDescription, String eventSite,
-                String eventPaymentAccount, String eventPaymentToken, Integer cityId, String cityName, Integer stateId,
-                String stateName, String stateAbbreviation, Integer statusId, String statusName) {
+                String eventPaymentAccount, String eventPaymentToken,
+                Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation,
+                Integer statusId, String statusName) {
         setId(id);
         setName(name);
         setAlias(alias);
@@ -113,6 +114,10 @@ public class Race {
         getEvent().getCity().getState().setId(stateId);
         getEvent().getCity().getState().setName(stateName);
         getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
+        getEvent().getCity().getState().setCountry(new Country());
+        getEvent().getCity().getState().getCountry().setId(countryId);
+        getEvent().getCity().getState().getCountry().setName(countryName);
+        getEvent().getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
     }
 
     @Override

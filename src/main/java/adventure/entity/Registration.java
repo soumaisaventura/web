@@ -71,8 +71,8 @@ public class Registration {
 
     public Registration(Long registrationId, RegistrationStatusType registrationStatus, String reistrationTeamName,
                         Integer raceId, String raceName, String raceDescription, String raceAlias, Date racePeriodBeginning,
-                        Date racePeriodEnd, Integer eventId, String eventName, String eventAlias, Integer cityId, String cityName,
-                        String stateAbbreviation) {
+                        Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
+                        Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation) {
 
         setId(registrationId);
         setStatus(registrationStatus);
@@ -98,7 +98,13 @@ public class Registration {
         getRaceCategory().getRace().getEvent().getCity().setId(cityId);
         getRaceCategory().getRace().getEvent().getCity().setName(cityName);
         getRaceCategory().getRace().getEvent().getCity().setState(new State());
+        getRaceCategory().getRace().getEvent().getCity().getState().setId(stateId);
+        getRaceCategory().getRace().getEvent().getCity().getState().setName(stateName);
         getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
+        getRaceCategory().getRace().getEvent().getCity().getState().setCountry(new Country());
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setId(countryId);
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setName(countryName);
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
     }
 
     public Registration(Long id, Date date, String teamName, RegistrationStatusType status, String paymentCheckoutCode,
@@ -107,7 +113,8 @@ public class Registration {
                         String raceDescription, String raceAlias, Integer raceDistance, Integer raceStatusId, String raceStatusName,
                         Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
                         EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
-                        String eventPaymentToken, Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
+                        String eventPaymentToken,
+                        Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation,
                         Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer categoryMinMemberAge, Integer categoryMaxMemberAge, Integer categoryMinTeamAge, Integer categoryMaxTeamAge) {
         setId(id);
         setDate(date);
@@ -169,6 +176,10 @@ public class Registration {
         getRaceCategory().getRace().getEvent().getCity().getState().setId(stateId);
         getRaceCategory().getRace().getEvent().getCity().getState().setName(stateName);
         getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
+        getRaceCategory().getRace().getEvent().getCity().getState().setCountry(new Country());
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setId(countryId);
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setName(countryName);
+        getRaceCategory().getRace().getEvent().getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
 
         getRaceCategory().setCategory(new Category(categoryId, categoryAlias, categoryName, categoryDescription, categoryTeamSize, categoryMinMaleMembers, categoryMinFemaleMembers, categoryMinMemberAge, categoryMaxMemberAge, categoryMinTeamAge, categoryMaxTeamAge));
     }

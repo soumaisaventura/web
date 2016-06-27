@@ -35,7 +35,7 @@ function findOk(data) {
 
         // event.date = day.locale("pt-br").format("DD [de] MMMM");
         event.date = App.parsePeriod(event.period, true);
-        event.place = event.location.city ? event.location.city.name + "/" + event.location.city.state : "Local não definido";
+        event.place = App.parseCity(event.location.city);
         event.corner = (event.status == "open" ? "inscrições abertas" : (event.status == "closed" ? "inscrições encerradas" : ""));
         event.status = moment().year() !== day.year() && event.status === "end" ? null : event.status;
 

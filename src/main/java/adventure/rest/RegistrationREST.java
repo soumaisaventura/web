@@ -63,28 +63,24 @@ public class RegistrationREST {
             data.team.name = registration.getTeamName();
             data.status = registration.getStatus();
 
+            Race race = registration.getRaceCategory().getRace();
             data.race = new RaceData();
-            data.race.internalId = registration.getRaceCategory().getRace().getId();
-            data.race.id = registration.getRaceCategory().getRace().getAlias();
-            data.race.name = registration.getRaceCategory().getRace().getName();
-            data.race.description = registration.getRaceCategory().getRace().getDescription();
+            data.race.internalId = race.getId();
+            data.race.id = race.getAlias();
+            data.race.name = race.getName();
+            data.race.description = race.getDescription();
 
             data.race.period = new PeriodData();
-            data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
-            data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
+            data.race.period.beginning = race.getPeriod().getBeginning();
+            data.race.period.end = race.getPeriod().getEnd();
 
             data.race.event = new EventData(uriInfo);
-            data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
-            data.race.event.id = registration.getRaceCategory().getRace().getEvent().getAlias();
-            data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
+            data.race.event.internalId = race.getEvent().getId();
+            data.race.event.id = race.getEvent().getAlias();
+            data.race.event.name = race.getEvent().getName();
 
             data.race.event.location = new LocationData();
-            data.race.event.location.city = new CityData();
-            data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
-            data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity()
-                    .getName();
-            data.race.event.location.city.state = registration.getRaceCategory().getRace().getEvent().getCity()
-                    .getState().getAbbreviation();
+            data.race.event.location.city = new CityData(race.getEvent().getCity());
 
             result.add(data);
         }
@@ -133,33 +129,31 @@ public class RegistrationREST {
         data.team = new TeamData();
         data.team.name = registration.getTeamName();
 
+        Race race = registration.getRaceCategory().getRace();
         data.race = new RaceData();
-        data.race.id = registration.getRaceCategory().getRace().getAlias();
-        data.race.internalId = registration.getRaceCategory().getRace().getId();
-        data.race.name = registration.getRaceCategory().getRace().getName();
-        data.race.description = registration.getRaceCategory().getRace().getDescription();
-        data.race.distance = registration.getRaceCategory().getRace().getDistance();
-        data.race.status = registration.getRaceCategory().getRace().getStatus().getName();
+        data.race.id = race.getAlias();
+        data.race.internalId = race.getId();
+        data.race.name = race.getName();
+        data.race.description = race.getDescription();
+        data.race.distance = race.getDistance();
+        data.race.status = race.getStatus().getName();
 
         data.race.period = new PeriodData();
-        data.race.period.beginning = registration.getRaceCategory().getRace().getPeriod().getBeginning();
-        data.race.period.end = registration.getRaceCategory().getRace().getPeriod().getEnd();
+        data.race.period.beginning = race.getPeriod().getBeginning();
+        data.race.period.end = race.getPeriod().getEnd();
 
+        Event event = race.getEvent();
         data.race.event = new EventData(uriInfo);
-        data.race.event.id = registration.getRaceCategory().getRace().getEvent().getAlias();
-        data.race.event.internalId = registration.getRaceCategory().getRace().getEvent().getId();
-        data.race.event.name = registration.getRaceCategory().getRace().getEvent().getName();
+        data.race.event.id = event.getAlias();
+        data.race.event.internalId = event.getId();
+        data.race.event.name = event.getName();
 
         data.race.event.payment = new EventPaymentData();
-        data.race.event.payment.type = registration.getRaceCategory().getRace().getEvent().getPayment().getType();
-        data.race.event.payment.info = registration.getRaceCategory().getRace().getEvent().getPayment().getInfo();
+        data.race.event.payment.type = event.getPayment().getType();
+        data.race.event.payment.info = event.getPayment().getInfo();
 
         data.race.event.location = new LocationData();
-        data.race.event.location.city = new CityData();
-        data.race.event.location.city.id = registration.getRaceCategory().getRace().getEvent().getCity().getId();
-        data.race.event.location.city.name = registration.getRaceCategory().getRace().getEvent().getCity().getName();
-        data.race.event.location.city.state = registration.getRaceCategory().getRace().getEvent().getCity().getState()
-                .getAbbreviation();
+        data.race.event.location.city = new CityData(event.getCity());
 
         data.category = new CategoryData();
         data.category.id = registration.getRaceCategory().getCategory().getAlias();
@@ -167,7 +161,7 @@ public class RegistrationREST {
         data.category.name = registration.getRaceCategory().getCategory().getName();
 
         List<User> organizers = userDAO.findOrganizers(
-                registration.getRaceCategory().getRace().getEvent());
+                event);
         User loggedInUser = User.getLoggedIn();
         List<UserRegistration> userRegistrations = userRegistrationDAO.find(registration);
 
@@ -178,7 +172,7 @@ public class RegistrationREST {
         }
 
         data.race.event.organizers = new ArrayList();
-        for (User organizer : userDAO.findOrganizers(registration.getRaceCategory().getRace().getEvent())) {
+        for (User organizer : userDAO.findOrganizers(event)) {
             UserData userData = new UserData(uriInfo);
             userData.id = organizer.getId();
             userData.email = organizer.getEmail();

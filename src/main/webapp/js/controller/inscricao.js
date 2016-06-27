@@ -65,7 +65,7 @@ function loadOk(registration) {
     $(".race-name").text(registration.race.event.name);
     $("#race-description").text(registration.race.description);
     $("#race-date").text(moment(registration.race.period.beginning).format('LL'));
-    $("#race-city").text(registration.race.event.location.city.name + "/" + registration.race.event.location.city.state);
+    $("#race-city").text(App.parseCity(registration.race.event.location.city));
     $("#race-section").show();
 
     $("#race-category").text(registration.category.name + " " + registration.race.name);

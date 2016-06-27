@@ -68,8 +68,8 @@ public class Profile implements Serializable {
     }
 
     public Profile(String name, String rg, String cpf, Date birthday, String mobile, GenderType gender,
-                   TshirtType tshirt, Integer pendencies, Integer userId, String userEmail, Integer cityId, String cityName,
-                   Integer stateId, String stateName, String stateAbbreviation) {
+                   TshirtType tshirt, Integer pendencies, Integer userId, String userEmail,
+                   Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation) {
         setName(name);
         setRg(rg);
         setCpf(cpf);
@@ -78,9 +78,11 @@ public class Profile implements Serializable {
         setGender(gender);
         setTshirt(tshirt);
         setPendencies(pendencies);
+
         setUser(new User());
         getUser().setId(userId);
         getUser().setEmail(userEmail);
+
         setCity(new City());
         getCity().setId(cityId);
         getCity().setName(cityName);
@@ -88,6 +90,10 @@ public class Profile implements Serializable {
         getCity().getState().setId(stateId);
         getCity().getState().setName(stateName);
         getCity().getState().setAbbreviation(stateAbbreviation);
+        getCity().getState().setCountry(new Country());
+        getCity().getState().getCountry().setId(countryId);
+        getCity().getState().getCountry().setName(countryName);
+        getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
     }
 
     public Profile(User user) {

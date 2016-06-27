@@ -280,7 +280,7 @@ var App = {
     },
 
     parseCity: function (city) {
-        return city.name + "/" + city.state;
+        return city ? city.name + "/" + city.state.id : "Local não definido";
     },
 
     shareOnFacebook: function (data) {

@@ -65,16 +65,20 @@ public class ProfileDAO extends JPACrud<Profile, User> {
         jpql += " 	     p.pendencies, ";
         jpql += " 	     u.id, ";
         jpql += " 	     u.email, ";
-        jpql += " 	     c.id, ";
-        jpql += " 	     c.name, ";
-        jpql += " 	     s.id, ";
-        jpql += " 	     s.name, ";
-        jpql += " 	     s.abbreviation ";
+        jpql += "        c.id, ";
+        jpql += "        c.name, ";
+        jpql += "        s.id, ";
+        jpql += "        s.name, ";
+        jpql += "        s.abbreviation, ";
+        jpql += "        y.id, ";
+        jpql += "        y.name, ";
+        jpql += "        y.abbreviation ";
         jpql += " 	 ) ";
         jpql += "   from Profile p ";
         jpql += "   join p.user u ";
         jpql += "   left join p.city c ";
         jpql += "   left join c.state s ";
+        jpql += "   left join s.country y ";
         jpql += "  where p.user = :user ";
 
         TypedQuery<Profile> query = getEntityManager().createQuery(jpql, Profile.class);
@@ -91,7 +95,11 @@ public class ProfileDAO extends JPACrud<Profile, User> {
 
     @Override
     public Profile load(User user) {
-        String jpql = "from Profile p where p.user = :user";
+        String jpql = "";
+        jpql += " select p ";
+        jpql += "   from Profile p ";
+        jpql += "  where p.user = :user ";
+
         TypedQuery<Profile> query = getEntityManager().createQuery(jpql, Profile.class);
         query.setParameter("user", user);
 

@@ -5,6 +5,8 @@ import adventure.entity.State;
 import adventure.persistence.CityDAO;
 import adventure.persistence.StateDAO;
 import adventure.rest.data.CityData;
+import adventure.rest.data.CountryData;
+import adventure.rest.data.StateData;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Strings;
@@ -26,19 +28,9 @@ public class LocationREST {
     public List<CityData> searchCityOLD(@QueryParam("q") String q) throws Exception {
         validateOLD(q);
         List<CityData> result = new ArrayList();
-        CityData data;
 
         for (City city : CityDAO.getInstance().search(q)) {
-            data = new CityData();
-            data.id = city.getId();
-            data.name = city.getName();
-            data.state = city.getState().getAbbreviation();
-
-            // if (!"brasil".equals(city.getState().getCountry().getName().toLowerCase())) {
-            data.country = city.getState().getCountry().getName();
-            // }
-
-            result.add(data);
+            result.add(new CityData(city));
         }
 
         return result.isEmpty() ? null : result;
@@ -55,7 +47,7 @@ public class LocationREST {
     @GET
     @Path("uf")
     @Produces("application/json")
-    public List<State> loadStates() throws Exception {
+    public List<State> findStates() throws Exception {
         return StateDAO.getInstance().findAll();
     }
 

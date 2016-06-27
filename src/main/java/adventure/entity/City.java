@@ -18,14 +18,17 @@ public class City {
     public City() {
     }
 
-    public City(Integer id, String name, String stateName, String stateAbbreviation, String countryName) {
+    public City(Integer id, String name, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation) {
         setId(id);
         setName(name);
         setState(new State());
+        getState().setId(stateId);
         getState().setName(stateName);
         getState().setAbbreviation(stateAbbreviation);
         getState().setCountry(new Country());
+        getState().getCountry().setId(countryId);
         getState().getCountry().setName(countryName);
+        getState().getCountry().setAbbreviation(countryAbbreviation);
     }
 
     @Override

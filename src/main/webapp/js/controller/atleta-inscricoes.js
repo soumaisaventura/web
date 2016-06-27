@@ -37,7 +37,7 @@ function findOk($data, $status, $request) {
                 td1 += moment(value.race.period.beginning, "YYYY-MM-DD").locale("pt-br").format('LL');
                 td1 += "&nbsp;&nbsp;";
                 td1 += "<span class='glyphicon glyphicon-map-marker' style='font-size: 0.8em'></span> ";
-                td1 += value.race.event.location.city.name + "/" + value.race.event.location.city.state;
+                td1 += App.parseCity(value.race.event.location.city);
                 // td1 += "</h5>";
                 td1 += "<h5 style='padding-top: 5px; margin: 0px;'>";
                 td1 += value.team.name;
