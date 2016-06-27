@@ -1,6 +1,6 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('Aracaju') || '%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('aracaj') || '%';
 
 SELECT *
 FROM profile p, city c
@@ -71,7 +71,6 @@ WHERE tf.user_id = p.id
       AND tf.registration_id = re.id
       AND re.race_id = ra.id
       AND tf.user_id IN (1309, 1316);
-
 
 SELECT *
 FROM period p

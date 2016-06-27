@@ -29,11 +29,16 @@ public class RaceCategoryDAO implements Serializable {
         jpql += " select ";
         jpql += "    new RaceCategory( ";
         jpql += "        c.id, ";
+        jpql += "        c.alias, ";
         jpql += "        c.name, ";
         jpql += "        c.description, ";
         jpql += "        c.teamSize, ";
         jpql += "        c.minMaleMembers, ";
         jpql += "        c.minFemaleMembers, ";
+        jpql += "        c.minMemberAge, ";
+        jpql += "        c.maxMemberAge, ";
+        jpql += "        c.minTeamAge, ";
+        jpql += "        c.maxTeamAge, ";
         jpql += "        r.id, ";
         jpql += "        r.name, ";
         jpql += "        r.period.beginning, ";

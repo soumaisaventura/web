@@ -28,16 +28,16 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'eapachallenge/sup/2016',
-  'EAPA Challenge SUP',
+  'eapachallenge/kids/2016',
+  'EAPA Challenge Kids',
   NULL,
   5353,
   'MANUAL',
   NULL,
   NULL,
   NULL,
-  '2016-08-21',
-  '2016-08-21',
+  '2016-10-12',
+  '2016-10-12',
   1,
   'Em breve, mais informações sobre o evento.');
 
@@ -54,13 +54,13 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  'master',
-  'Mountain Master',
-  35,
-  4,
-  '2016-12-11',
-  '2016-12-11',
-  10,
+  'duadvanced',
+  'Duathlon Kids Advanced (12 a 16 anos de idade)',
+  38,
+  1,
+  '2016-10-12',
+  '2016-10-12',
+  8,
   1,
   'Em breve mais informações.');
 
@@ -68,7 +68,7 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (37,
+VALUES (38,
         998,
         'Cadu Silva',
         NULL);
@@ -78,16 +78,20 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (77)
-        AND c.id IN (9);
+  WHERE r.id IN (79, 81)
+        AND c.id IN (20, 22);
+
+
+DELETE FROM race_category
+WHERE race_id IN (78, 79, 80, 81) AND category_id IN (2, 12);
 
 INSERT INTO race_modality (race_id, modality_id)
   SELECT
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (72, 73)
-        AND m.id IN (1, 2, 3, 6);
+  WHERE r.id IN (80, 81)
+        AND m.id IN (1);
 
 -- 54, 58
 
@@ -96,14 +100,14 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (77,
-        80,
+VALUES (81,
+        90,
         --                 TO_DATE('18/05/2016', 'DD/MM/YYYY'),
---                 TO_DATE('01/07/2016', 'DD/MM/YYYY'),
---         TO_DATE('02/07/2016', 'DD/MM/YYYY'),
---         TO_DATE('29/07/2016', 'DD/MM/YYYY'),
-        TO_DATE('01/10/2016', 'DD/MM/YYYY'),
-        TO_DATE('04/12/2016', 'DD/MM/YYYY'),
+        --                 TO_DATE('01/07/2016', 'DD/MM/YYYY'),
+        --         TO_DATE('02/07/2016', 'DD/MM/YYYY'),
+        --         TO_DATE('29/07/2016', 'DD/MM/YYYY'),
+        TO_DATE('21/08/2016', 'DD/MM/YYYY'),
+        TO_DATE('07/10/2016', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 
@@ -136,7 +140,8 @@ WHERE exists(
 
 UPDATE
   period
-SET beginning = '2016-05-11'
-WHERE beginning = '2016-06-06';
+SET beginning = TO_DATE('26/06/2016', 'DD/MM/YYYY')
+WHERE id IN (144, 145, 146, 147);
 
-delete from race_category where race_id in (72,73) and category_id in (3,4,14,15);
+DELETE FROM race_category
+WHERE race_id IN (72, 73) AND category_id IN (3, 4, 14, 15);

@@ -108,7 +108,7 @@ public class Registration {
                         Date racePeriodBeginning, Date racePeriodEnd, Integer eventId, String eventName, String eventAlias,
                         EventPaymentType eventPaymentType, String eventPaymentInfo, String eventPaymentAccount,
                         String eventPaymentToken, Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation,
-                        Integer categoryId, String categoryAlias, String categoryName, Integer categoryTeamSize) {
+                        Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer categoryMinMemberAge, Integer categoryMaxMemberAge, Integer categoryMinTeamAge, Integer categoryMaxTeamAge) {
         setId(id);
         setDate(date);
         setTeamName(teamName);
@@ -170,11 +170,7 @@ public class Registration {
         getRaceCategory().getRace().getEvent().getCity().getState().setName(stateName);
         getRaceCategory().getRace().getEvent().getCity().getState().setAbbreviation(stateAbbreviation);
 
-        getRaceCategory().setCategory(new Category());
-        getRaceCategory().getCategory().setId(categoryId);
-        getRaceCategory().getCategory().setAlias(categoryAlias);
-        getRaceCategory().getCategory().setName(categoryName);
-        getRaceCategory().getCategory().setTeamSize(categoryTeamSize);
+        getRaceCategory().setCategory(new Category(categoryId, categoryAlias, categoryName, categoryDescription, categoryTeamSize, categoryMinMaleMembers, categoryMinFemaleMembers, categoryMinMemberAge, categoryMaxMemberAge, categoryMinTeamAge, categoryMaxTeamAge));
     }
 
     public String getFormattedId() {

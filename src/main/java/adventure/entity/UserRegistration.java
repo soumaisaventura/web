@@ -37,7 +37,9 @@ public class UserRegistration {
                             TshirtType profileTshirt, Integer kitId, String kitName, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
                             String cityName, Integer stateId, String stateAbbreviation, BigDecimal amount, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
-                            Integer raceId, String raceAlias, String raceName, Integer categoryId, String categoryAlias, String categoryName) {
+                            Integer raceId, String raceAlias, String raceName,
+                            Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers,
+                            Integer categoryMinFemaleMembers, Integer categoryMinMemberAge, Integer categoryMaxMemberAge, Integer categoryMinTeamAge, Integer categoryMaxTeamAge) {
         setUser(new User());
         getUser().setId(userId);
         getUser().setEmail(userEmail);
@@ -77,10 +79,7 @@ public class UserRegistration {
         getRegistration().getRaceCategory().getRace().setAlias(raceAlias);
         getRegistration().getRaceCategory().getRace().setName(raceName);
 
-        getRegistration().getRaceCategory().setCategory(new Category());
-        getRegistration().getRaceCategory().getCategory().setId(categoryId);
-        getRegistration().getRaceCategory().getCategory().setAlias(categoryAlias);
-        getRegistration().getRaceCategory().getCategory().setName(categoryName);
+        getRegistration().getRaceCategory().setCategory(new Category(categoryId, categoryAlias, categoryName, categoryDescription, categoryTeamSize, categoryMinMaleMembers, categoryMinFemaleMembers, categoryMinMemberAge, categoryMaxMemberAge, categoryMinTeamAge, categoryMaxTeamAge));
     }
 
     public UserRegistration(Long registrationId, Integer userId, String userEmail, String profileName,

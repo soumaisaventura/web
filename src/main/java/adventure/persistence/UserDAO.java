@@ -78,6 +78,7 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.id, ";
         jpql += " 	     u.email, ";
         jpql += " 	     p.name, ";
+        jpql += " 	     p.birthday, ";
         jpql += " 	     p.gender, ";
         jpql += " 	     p.pendencies, ";
         jpql += " 	     h.pendencies, ";
@@ -117,6 +118,7 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.id, ";
         jpql += " 	     u.email, ";
         jpql += " 	     p.name, ";
+        jpql += " 	     p.birthday, ";
         jpql += " 	     p.gender, ";
         jpql += " 	     p.pendencies, ";
         jpql += " 	     h.pendencies, ";
@@ -239,6 +241,7 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.id, ";
         jpql += " 	     u.email, ";
         jpql += " 	     p.name, ";
+        jpql += " 	     p.birthday, ";
         jpql += " 	     p.gender, ";
         jpql += " 	     p.pendencies, ";
         jpql += " 	     h.pendencies, ";
@@ -271,6 +274,7 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.id, ";
         jpql += " 	     u.email, ";
         jpql += " 	     p.name, ";
+        jpql += " 	     p.birthday, ";
         jpql += " 	     p.gender, ";
         jpql += " 	     p.pendencies, ";
         jpql += " 	     h.pendencies, ";

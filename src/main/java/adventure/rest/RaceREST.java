@@ -2,9 +2,7 @@ package adventure.rest;
 
 import adventure.business.PeriodBusiness;
 import adventure.business.RaceBusiness;
-import adventure.entity.Race;
-import adventure.entity.RegistrationPeriod;
-import adventure.entity.User;
+import adventure.entity.*;
 import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.NotFoundException;
@@ -76,8 +74,18 @@ public class RaceREST {
             data.event.organizers.add(organizerData);
         }
 
-        data.parseAndSetCategories(CategoryDAO.getInstance().find(race));
-        data.parseAndSetKits(KitDAO.getInstance().findForRegistration(race));
+
+        data.categories = new ArrayList<>();
+        for (Category category : CategoryDAO.getInstance().find(race)) {
+            CategoryData categoryData = new CategoryData(category);
+            data.categories.add(categoryData);
+        }
+
+        data.kits = new ArrayList<>();
+        for (Kit kit : KitDAO.getInstance().findForRegistration(race)) {
+            KitData kitData = new KitData(kit);
+            data.kits.add(kitData);
+        }
 
         return data;
     }

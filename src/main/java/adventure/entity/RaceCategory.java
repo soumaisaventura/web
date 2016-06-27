@@ -21,16 +21,9 @@ public class RaceCategory {
     public RaceCategory() {
     }
 
-    public RaceCategory(Integer categoryId, String categoryName, String categoryDescription, Integer categoryTeamSize,
-                        Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer raceId, String raceName,
-                        Date racePeriodBeginning, Date racePeriodEnd) {
-        setCategory(new Category());
-        getCategory().setId(categoryId);
-        getCategory().setName(categoryName);
-        getCategory().setDescription(categoryDescription);
-        getCategory().setTeamSize(categoryTeamSize);
-        getCategory().setMinMaleMembers(categoryMinMaleMembers);
-        getCategory().setMinFemaleMembers(categoryMinFemaleMembers);
+    public RaceCategory(Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer categoryMinMemberAge, Integer categoryMaxMemberAge, Integer categoryMinTeamAge, Integer categoryMaxTeamAge,
+                        Integer raceId, String raceName, Date racePeriodBeginning, Date racePeriodEnd) {
+        setCategory(new Category(categoryId, categoryAlias, categoryName, categoryDescription, categoryTeamSize, categoryMinMaleMembers, categoryMinFemaleMembers, categoryMinMemberAge, categoryMaxMemberAge, categoryMinTeamAge, categoryMaxTeamAge));
 
         setRace(new Race());
         getRace().setId(raceId);

@@ -1,6 +1,9 @@
 package adventure.entity;
 
+import adventure.util.Dates;
 import adventure.util.PendencyCount;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -89,6 +92,20 @@ public class Profile implements Serializable {
 
     public Profile(User user) {
         this.user = user;
+    }
+
+    public Integer getAge() {
+        return this.getAge(new Date());
+    }
+
+    public Integer getAge(Date date) {
+        Integer result = null;
+
+        if (this.getBirthday() != null) {
+            result = Years.yearsBetween(new LocalDate(this.getBirthday()), new LocalDate(date)).getYears();
+        }
+
+        return result;
     }
 
     @Override
