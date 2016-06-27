@@ -40,6 +40,8 @@ $(function () {
     // return item.name + "/" + item.state;
     // }
     // });
+    
+    /*
     $("#city").autocomplete({
         source: function (request, response) {
             LocationProxy.searchCity(request.term).done(function (data) {
@@ -62,6 +64,16 @@ $(function () {
             return false;
         }
     });
+	*/
+    
+    $("#uf").change(function(){
+    	var data = LocationProxy.searchCityByUf(this.value);
+    	$.each(data, function(i, city){
+    		var option = $('<option />');
+    	    option.attr('value', city.id).text(city.name);
+    	    $('#city').append(option);
+    	}); 
+    });
 
     /**
      * Cadastro dos dados pessoais
@@ -81,8 +93,11 @@ $(function () {
             'birthday': birthday,
             'rg': $("#rg").val(),
             'cpf': $("#cpf").val(),
-            'city': {
-                "id": $("#city\\.id").val()
+//            'city': {
+//                "id": $("#city\\.id").val()
+//            },
+            'city' : {
+            	"id" : $("#city").val()
             },
             'gender': $("#gender").val(),
             'tshirt': $("#tshirt").val(),
@@ -119,12 +134,16 @@ function loadOk(data) {
         $("#tshirt").val(data.tshirt);
     }
 
+
+    /* Tem que corrigir esse trecho para carregar o estado e cidade na edição */
+    /*
     $("#city\\.id").val(data.city.id);
 
     if (data.city.name) {
         $("#city").val(data.city.name + "/" + data.city.state);
     }
-
+	*/
+    
     $("#mobile").val(data.mobile);
     $("#form-section").show();
 }
