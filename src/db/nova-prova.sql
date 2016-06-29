@@ -68,9 +68,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (38,
-        998,
-        'Cadu Silva',
+VALUES (21,
+        1259,
+        'Ana Augusta',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
@@ -78,8 +78,8 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (79, 81)
-        AND c.id IN (20, 22);
+  WHERE r.id IN (39)
+        AND c.id IN (1, 8);
 
 
 DELETE FROM race_category
@@ -90,8 +90,8 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (80, 81)
-        AND m.id IN (1);
+  WHERE r.id IN (39)
+        AND m.id IN (1, 2, 5, 6);
 
 -- 54, 58
 
@@ -100,14 +100,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (81,
-        90,
-        --                 TO_DATE('18/05/2016', 'DD/MM/YYYY'),
-        --                 TO_DATE('01/07/2016', 'DD/MM/YYYY'),
-        --         TO_DATE('02/07/2016', 'DD/MM/YYYY'),
-        --         TO_DATE('29/07/2016', 'DD/MM/YYYY'),
-        TO_DATE('21/08/2016', 'DD/MM/YYYY'),
-        TO_DATE('07/10/2016', 'DD/MM/YYYY'),
+VALUES (39,
+        80,
+        TO_DATE('28/06/2016', 'DD/MM/YYYY'),
+        TO_DATE('10/08/2016', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 

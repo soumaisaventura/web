@@ -2,82 +2,13 @@ $(function () {
     $("#name").focus();
     $("#user-profile-menu-item").addClass("active");
 
-    /**
-     * Inicializa a combos Data de nascimento
-     */
     App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
-    /**
-     * Habilita o autocomplete no campo Cidade de residência
-     */
-
-    // $("#city-select").select2({
-    // ajax : {
-    // url : App.getContextPath() + "/api/location/city",
-    // dataType : 'json',
-    // delay : 250,
-    // data : function(params) {
-    // return {
-    // q : params.term, // search term
-    // page : params.page
-    // };
-    // },
-    // processResults : function(data, page) {
-    // return {
-    // results : data
-    // };
-    // },
-    // cache : true
-    // },
-    // escapeMarkup : function(markup) {
-    // return markup;
-    // },
-    // minimumInputLength : 3,
-    // templateResult : function(item) {
-    // return item.name + "/" + item.state;
-    // },
-    // templateSelection : function(item) {
-    // return item.name + "/" + item.state;
-    // }
-    // });
-    
-    /*
-    $("#city").autocomplete({
-        source: function (request, response) {
-            LocationProxy.searchCity(request.term).done(function (data) {
-                response(convertToLabelValueStructure(data));
-            });
-        },
-        minLength: 3,
-        select: function (event, ui) {
-            $("#city").val(ui.item.label);
-            $("#city\\.id").val(ui.item.value);
-            return false;
-        },
-        change: function (event, ui) {
-            $("#city\\.id").val(ui.item ? ui.item.value : null);
-            return false;
-        },
-        focus: function (event, ui) {
-            $("#city\\.id").val(ui.item.value);
-            $("#city").val(ui.item.label);
-            return false;
-        }
-    });
-	*/
-    
-    $("#uf").change(function(){
-    	var data = LocationProxy.searchCityByUf(this.value);
-    	$.each(data, function(i, city){
-    		var option = $('<option />');
-    	    option.attr('value', city.id).text(city.name);
-    	    $('#city').append(option);
-    	}); 
+    $("#uf").change(function () {
+        // $(".loaded-cities").remove();
+        LocationProxy.findCities("br", this.value).done(loadCitiesOk);
     });
 
-    /**
-     * Cadastro dos dados pessoais
-     */
     $("form").submit(function (event) {
         event.preventDefault();
         $("[id$='-message']").hide();
@@ -93,11 +24,8 @@ $(function () {
             'birthday': birthday,
             'rg': $("#rg").val(),
             'cpf': $("#cpf").val(),
-//            'city': {
-//                "id": $("#city\\.id").val()
-//            },
-            'city' : {
-            	"id" : $("#city").val()
+            'city': {
+                "id": $("#city").val()
             },
             'gender': $("#gender").val(),
             'tshirt': $("#tshirt").val(),
@@ -106,17 +34,9 @@ $(function () {
         UserProfileProxy.update(data).done(updateOk);
     });
 
-    /**
-     * Carrega os dados pessoais
-     */
     UserProfileProxy.load().done(loadOk);
 });
 
-/* ---------------- Funções de Callback ---------------- */
-
-/**
- * Função que carrega os dados pessoais do usuário.
- */
 function loadOk(data) {
     $("#name").val(data.name);
     $("#rg").val(data.rg);
@@ -134,18 +54,57 @@ function loadOk(data) {
         $("#tshirt").val(data.tshirt);
     }
 
+    if (data.city) {
+        $("#uf").append($('<option>', {
+            value: data.city.state.id,
+            text: data.city.state.name,
+            class: "loaded-ufs",
+            selected: true
+        }));
 
-    /* Tem que corrigir esse trecho para carregar o estado e cidade na edição */
-    /*
-    $("#city\\.id").val(data.city.id);
+        $("#city").append($('<option>', {
+            value: data.city.id,
+            text: data.city.name,
+            class: "loaded-cities",
+            selected: true
+        }));
 
-    if (data.city.name) {
-        $("#city").val(data.city.name + "/" + data.city.state);
+        LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
     }
-	*/
-    
+
+    LocationProxy.findStates("br").done(loadUFOk);
+
     $("#mobile").val(data.mobile);
     $("#form-section").show();
+}
+
+function loadUFOk(data) {
+    loadLocation(data, $("#uf"));
+}
+
+function loadCitiesOk(data) {
+    loadLocation(data, $("#city"));
+}
+
+function loadLocation(data, $element) {
+    var selected;
+
+    if ($element.val() != "") {
+        selected = $element.find(":selected");
+    }
+
+    $.each(data, function (i, value) {
+        $element.append($('<option>', {
+            value: value.id,
+            text: value.name,
+            class: "loaded",
+            selected: value.id == $element.val()
+        }));
+    });
+
+    if (selected) {
+        selected.remove();
+    }
 }
 
 function updateOk(data) {
@@ -169,12 +128,6 @@ function updateOk(data) {
     }
 }
 
-/* ---------------- Funções Utilitárias ---------------- */
-
-/**
- * Função utilitária que converte o objeto retornado no suggest para o formato
- * do jqueryUi.
- */
 function convertToLabelValueStructure(data) {
     var newData = [];
     $.each(data, function () {

@@ -60,7 +60,7 @@ $(function () {
             });
         });
     EventProxy.loadSummary(evento_id).done(loadSummaryOk);
-    EventProxy.getRegistrarions(evento_id).done(function(data, status, request){
+    EventProxy.findRegistrations(evento_id).done(function (data, status, request) {
     	getRegistrarionsOk(data, status, request, evento_id);
     });
 });

@@ -16,7 +16,7 @@ var EventProxy = {
         });
     },
 
-    getRegistrarions: function (id) {
+    findRegistrations: function (id) {
         return $.ajax({
             type: "GET",
             url: this.url + "/" + id + "/registrations",

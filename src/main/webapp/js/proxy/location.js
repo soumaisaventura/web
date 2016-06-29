@@ -2,26 +2,17 @@ var LocationProxy = {
 
     url: App.getContextPath() + "/api/location",
 
-    searchCity: function ($filter) {
+    findStates: function (countryId) {
         return $.ajax({
-            url: this.url + "/city",
-            dataType: "json",
-            data: {
-                q: $filter
-            }
+            type: "GET",
+            url: this.url + "/countries/" + countryId + "/states"
         });
     },
-    
-    searchCityByUf: function ($uf) {
-    	return [{"id" : "1", "name" : "Salvador"}, {"id" : "2", "name" : "Feira de Santana"}];
-    	/*
-    	 return $.ajax({
-            url: this.url + "/city",
-            dataType: "json",
-            data: {
-                q: $uf
-            }
+
+    findCities: function (countryId, stateId) {
+        return $.ajax({
+            type: "GET",
+            url: this.url + "/countries/" + countryId + "/states/" + stateId + "/cities"
         });
-        */
     }
 };
