@@ -5,9 +5,9 @@ $(function () {
     App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
     $("#uf").change(function () {
-        // console.log($("#city").children(":disabled").text());
-        $("#city").children(":disabled").prop('selected', true);
-        $("#city").children(":enabled").remove();
+        var $city = $("#city");
+        $city.find(":disabled").prop('selected', true);
+        $city.find(":enabled").remove();
         LocationProxy.findCities("br", this.value).done(loadCitiesOk);
     });
 
@@ -57,18 +57,8 @@ function loadOk(data) {
     }
 
     if (data.city) {
-        $("#uf").append($('<option>', {
-            value: data.city.state.id,
-            text: data.city.state.name,
-            selected: true
-        }));
-
-        $("#city").append($('<option>', {
-            value: data.city.id,
-            text: data.city.name,
-            selected: true
-        }));
-
+        addOption($("#uf"), data.city.state.id, data.city.state.name, true);
+        addOption($("#city"), data.city.id, data.city.name, true);
         LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
     }
 
@@ -76,6 +66,14 @@ function loadOk(data) {
 
     $("#mobile").val(data.mobile);
     $("#form-section").show();
+}
+
+function addOption($element, value, text, selected) {
+    $element.append($('<option>', {
+        value: value,
+        text: text,
+        selected: selected
+    }));
 }
 
 function loadUFOk(data) {
@@ -88,11 +86,13 @@ function loadCitiesOk(data) {
 
 function loadLocation(data, $element) {
     $.each(data, function (i, value) {
-        $element.append($('<option>', {
-            value: value.id,
-            text: value.name,
-            selected: value.id == $element.val()
-        }));
+        var selected = value.id == $element.val();
+
+        if (selected) {
+            $element.find(":selected").remove();
+        }
+
+        addOption($element, value.id, value.name, selected);
     });
 }
 
