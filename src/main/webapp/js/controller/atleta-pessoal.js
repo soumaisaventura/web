@@ -5,7 +5,9 @@ $(function () {
     App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
     $("#uf").change(function () {
-        // $(".loaded-cities").remove();
+        // console.log($("#city").children(":disabled").text());
+        $("#city").children(":disabled").prop('selected', true);
+        $("#city").children(":enabled").remove();
         LocationProxy.findCities("br", this.value).done(loadCitiesOk);
     });
 
@@ -58,14 +60,12 @@ function loadOk(data) {
         $("#uf").append($('<option>', {
             value: data.city.state.id,
             text: data.city.state.name,
-            class: "loaded-ufs",
             selected: true
         }));
 
         $("#city").append($('<option>', {
             value: data.city.id,
             text: data.city.name,
-            class: "loaded-cities",
             selected: true
         }));
 
@@ -87,24 +87,13 @@ function loadCitiesOk(data) {
 }
 
 function loadLocation(data, $element) {
-    var selected;
-
-    if ($element.val() != "") {
-        selected = $element.find(":selected");
-    }
-
     $.each(data, function (i, value) {
         $element.append($('<option>', {
             value: value.id,
             text: value.name,
-            class: "loaded",
             selected: value.id == $element.val()
         }));
     });
-
-    if (selected) {
-        selected.remove();
-    }
 }
 
 function updateOk(data) {
