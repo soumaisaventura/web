@@ -1,25 +1,25 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:composite="http://java.sun.com/jsf/composite" xmlns="http://www.w3.org/1999/xhtml">
 
-	<composite:interface>
-		<composite:attribute name="id" />
-		<composite:attribute name="ufId" />
-		<composite:attribute name="cidadeId" />
-	</composite:interface>
+    <composite:interface>
+        <composite:attribute name="id"/>
+        <composite:attribute name="ufId"/>
+        <composite:attribute name="cidadeId"/>
+    </composite:interface>
 
-	<composite:implementation>
-		<div id="#{cc.attrs.id}" class="form-control" style="padding: 0px; border: 0px;">
-			<div class="col-xs-3" style="padding-left: 0px;">
-				<select id="#{cc.attrs.ufId}" class="form-control" style="width: 100%;">
-					<option disabled="disabled" selected="selected">UF</option>
-				</select>
-			</div>
-			<div class="col-xs-9" style="padding: 0px;">
-				<select id="#{cc.attrs.cidadeId}" class="form-control" style="width: 100%;">
-					<option disabled="disabled" selected="selected">Cidade</option>
-				</select>
-			</div>
-		</div>
-	</composite:implementation>
+    <composite:implementation>
+        <div id="#{cc.attrs.id}" class="form-control" style="padding: 0px; border: 0px;">
+            <div class="col-xs-3" style="padding-left: 0px;">
+                <select id="#{cc.attrs.ufId}" class="form-control" style="width: 100%;">
+                    <option disabled="disabled" selected="selected">UF</option>
+                </select>
+            </div>
+            <div class="col-xs-9" style="padding: 0px;">
+                <select id="#{cc.attrs.cidadeId}" class="form-control" style="width: 100%;">
+                    <option disabled="disabled" selected="selected">Cidade</option>
+                </select>
+            </div>
+        </div>
+    </composite:implementation>
 
 </ui:composition>

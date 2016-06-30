@@ -1,7 +1,6 @@
 package adventure.rest.data;
 
 import adventure.entity.Country;
-import adventure.entity.State;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 

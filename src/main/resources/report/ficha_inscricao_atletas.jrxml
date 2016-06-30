@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
 <!-- 2016-01-22T12:58:39 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ficha_inscricao_atletas" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e00d0737-d98b-45a8-8973-6027f17a191f">
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OpenShift"/>
-	<parameter name="REGISTRATION_ID" class="java.lang.Long" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new Long(104)]]></defaultValueExpression>
-	</parameter>
-	<queryString language="SQL">
-		<![CDATA[SELECT
+<jasperReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ficha_inscricao_atletas" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0"
+              rightMargin="0" topMargin="0" bottomMargin="0" uuid="e00d0737-d98b-45a8-8973-6027f17a191f">
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="OpenShift"/>
+    <parameter name="REGISTRATION_ID" class="java.lang.Long" isForPrompting="false">
+        <defaultValueExpression><![CDATA[new Long(104)]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[SELECT
    us.email AS user_email,
          pr.name AS profile_name,
    substring (pr.gender FOR 1) AS profile_gender,
@@ -39,473 +43,479 @@
          AND prc.state_id = prs.id
          AND us.id = he.id
 order by pr.name]]>
-	</queryString>
-	<field name="profile_name" class="java.lang.String"/>
-	<field name="profile_gender" class="java.lang.String"/>
-	<field name="profile_birthday" class="java.sql.Date"/>
-	<field name="profile_rg" class="java.lang.String"/>
-	<field name="profile_cpf" class="java.lang.String"/>
-	<field name="profile_city_name" class="java.lang.String"/>
-	<field name="profile_state_name" class="java.lang.String"/>
-	<field name="health_allergy" class="java.lang.String"/>
-	<field name="health_blood_type" class="java.lang.String"/>
-	<field name="health_care_name" class="java.lang.String"/>
-	<field name="health_care_number" class="java.lang.String"/>
-	<field name="health_emergency_contact_name" class="java.lang.String"/>
-	<field name="health_emergency_contact_phone" class="java.lang.String"/>
-	<field name="user_email" class="java.lang.String"/>
-	<field name="profile_mobile" class="java.lang.String"/>
-	<field name="profile_tshirt" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<detail>
-		<band height="119" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="37" width="59" height="18" uuid="4e61e9bb-13b0-40fc-9289-85b367ceced8">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Cidade:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="180" y="58" width="375" height="18" uuid="89a1bb1e-0adf-422e-aaf7-b8019df43fa0">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_emergency_contact_phone} !=null ? $F{health_emergency_contact_phone} + " – " + $F{health_emergency_contact_name}: null]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="94" width="91" height="18" uuid="a76b7832-c628-44b4-a648-e30d45a0ff66">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Alergia:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="400" y="37" width="30" height="18" uuid="d2b36967-ca53-4025-91cb-03a1080c9b31">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Tel:]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="330" y="37" width="70" height="18" uuid="20686020-3d60-4c07-a729-85ff9e32a10d">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_birthday}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="430" y="94" width="125" height="18" uuid="efcd09e6-875c-41b3-95e0-34e29beba13e">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_blood_type}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="19" width="59" height="18" uuid="235a38e0-f025-40e0-9836-d0efd2c6519f">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Email:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="400" y="19" width="30" height="18" uuid="adbaa1ae-bbdd-4daa-94dd-c4ee1c13e51d">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[RG:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="291" y="76" width="139" height="18" uuid="82b8764a-3d02-446e-a175-3f27b1da8a63">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Número de registro:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="377" y="19" width="23" height="18" uuid="6421e612-7a1b-435f-9b7b-6be81d54a19e">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_gender}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="59" y="37" width="201" height="18" uuid="68301855-6a20-4f2b-b2e4-23380f18eaf1">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_city_name} != null ? $F{profile_city_name} + "/" + $F{profile_state_name} : null]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="291" y="94" width="139" height="18" uuid="d81b00a2-db2a-47a7-a8c7-523086353df1">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Tipo sanguíneo:]]></text>
-			</staticText>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="430" y="1" width="125" height="18" uuid="bca08359-f217-4d2a-9fa9-483c5e39750e">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_cpf}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="59" y="19" width="271" height="18" uuid="b688cde4-5f08-4e0f-9392-6aefc2b813c8">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{user_email}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="76" width="91" height="18" uuid="31262f3b-1763-47fb-8bef-34f2e6949361">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Plano de saúde:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="59" y="1" width="271" height="18" uuid="475903e5-65f9-4fc1-9932-94123006a72f">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_name}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="58" width="180" height="18" uuid="87cafce6-40de-4fa2-b1e8-29471cc8f4a5">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Em caso de emergência avisar à:]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="91" y="94" width="200" height="18" uuid="85c35a46-296b-4f4d-a3a2-f7bc6f42d15c">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Top">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_allergy} != null ? $F{health_allergy}.replaceAll("\\n", ", ") : null]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="400" y="1" width="30" height="18" uuid="fe6ffda7-7116-437c-af76-617d3bb29d34">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[CPF:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="430" y="76" width="125" height="18" uuid="a7416a60-a57b-403f-9828-721bc2b5ce48">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_care_number}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="430" y="37" width="125" height="18" uuid="a7b1747e-3e11-4145-a804-92da8baa8670">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_mobile}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="1" width="59" height="18" uuid="c74d3db2-7e87-4112-9194-90b5399dc980"/>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Atleta " + $V{COLUMN_COUNT} + ":"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="91" y="76" width="200" height="18" uuid="8d8e4191-b75a-44ff-a011-05ba20ffff00">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{health_care_name}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="260" y="37" width="70" height="18" uuid="e520be2d-291a-4510-a69b-2c23acf597ed">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Nascimento:]]></text>
-			</staticText>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="430" y="19" width="125" height="18" uuid="ffa2dd5b-dd91-44c6-95c5-8c2a48909c0b">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_rg}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="330" y="19" width="47" height="18" uuid="69b01da2-5a18-4c0c-9cd5-ffbc9be4593f">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Sexo:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="330" y="1" width="47" height="18" uuid="e0a5ccdf-b356-4798-8057-5599578f1b77">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<text><![CDATA[Camisa:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="377" y="1" width="23" height="18" uuid="b2b73d00-5110-4575-8318-14edcf2896a1">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.2"/>
-					<leftPen lineWidth="0.2"/>
-					<bottomPen lineWidth="0.2"/>
-					<rightPen lineWidth="0.2"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_tshirt}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
+    </queryString>
+    <field name="profile_name" class="java.lang.String"/>
+    <field name="profile_gender" class="java.lang.String"/>
+    <field name="profile_birthday" class="java.sql.Date"/>
+    <field name="profile_rg" class="java.lang.String"/>
+    <field name="profile_cpf" class="java.lang.String"/>
+    <field name="profile_city_name" class="java.lang.String"/>
+    <field name="profile_state_name" class="java.lang.String"/>
+    <field name="health_allergy" class="java.lang.String"/>
+    <field name="health_blood_type" class="java.lang.String"/>
+    <field name="health_care_name" class="java.lang.String"/>
+    <field name="health_care_number" class="java.lang.String"/>
+    <field name="health_emergency_contact_name" class="java.lang.String"/>
+    <field name="health_emergency_contact_phone" class="java.lang.String"/>
+    <field name="user_email" class="java.lang.String"/>
+    <field name="profile_mobile" class="java.lang.String"/>
+    <field name="profile_tshirt" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <detail>
+        <band height="119" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="37" width="59" height="18" uuid="4e61e9bb-13b0-40fc-9289-85b367ceced8">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Cidade:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="180" y="58" width="375" height="18" uuid="89a1bb1e-0adf-422e-aaf7-b8019df43fa0">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" isBold="false"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{health_emergency_contact_phone} !=null ? $F{health_emergency_contact_phone} + " – " + $F{health_emergency_contact_name}: null]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement stretchType="RelativeToTallestObject" x="0" y="94" width="91" height="18"
+                               uuid="a76b7832-c628-44b4-a648-e30d45a0ff66">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Alergia:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="37" width="30" height="18" uuid="d2b36967-ca53-4025-91cb-03a1080c9b31">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Tel:]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="330" y="37" width="70" height="18" uuid="20686020-3d60-4c07-a729-85ff9e32a10d">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_birthday}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement stretchType="RelativeToTallestObject" x="430" y="94" width="125" height="18"
+                               uuid="efcd09e6-875c-41b3-95e0-34e29beba13e">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{health_blood_type}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="19" width="59" height="18" uuid="235a38e0-f025-40e0-9836-d0efd2c6519f">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Email:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="19" width="30" height="18" uuid="adbaa1ae-bbdd-4daa-94dd-c4ee1c13e51d">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[RG:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="291" y="76" width="139" height="18" uuid="82b8764a-3d02-446e-a175-3f27b1da8a63">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Número de registro:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="377" y="19" width="23" height="18" uuid="6421e612-7a1b-435f-9b7b-6be81d54a19e">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_gender}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="59" y="37" width="201" height="18" uuid="68301855-6a20-4f2b-b2e4-23380f18eaf1">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{profile_city_name} != null ? $F{profile_city_name} + "/" + $F{profile_state_name} : null]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement stretchType="RelativeToTallestObject" x="291" y="94" width="139" height="18"
+                               uuid="d81b00a2-db2a-47a7-a8c7-523086353df1">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Tipo sanguíneo:]]></text>
+            </staticText>
+            <textField pattern="" isBlankWhenNull="true">
+                <reportElement x="430" y="1" width="125" height="18" uuid="bca08359-f217-4d2a-9fa9-483c5e39750e">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_cpf}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="59" y="19" width="271" height="18" uuid="b688cde4-5f08-4e0f-9392-6aefc2b813c8">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{user_email}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="76" width="91" height="18" uuid="31262f3b-1763-47fb-8bef-34f2e6949361">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Plano de saúde:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="59" y="1" width="271" height="18" uuid="475903e5-65f9-4fc1-9932-94123006a72f">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="58" width="180" height="18" uuid="87cafce6-40de-4fa2-b1e8-29471cc8f4a5">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Em caso de emergência avisar à:]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement x="91" y="94" width="200" height="18" uuid="85c35a46-296b-4f4d-a3a2-f7bc6f42d15c">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Top">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{health_allergy} != null ? $F{health_allergy}.replaceAll("\\n", ", ") : null]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="400" y="1" width="30" height="18" uuid="fe6ffda7-7116-437c-af76-617d3bb29d34">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[CPF:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="430" y="76" width="125" height="18" uuid="a7416a60-a57b-403f-9828-721bc2b5ce48">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{health_care_number}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="430" y="37" width="125" height="18" uuid="a7b1747e-3e11-4145-a804-92da8baa8670">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_mobile}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="1" width="59" height="18" uuid="c74d3db2-7e87-4112-9194-90b5399dc980"/>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.2" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Atleta " + $V{COLUMN_COUNT} + ":"]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="91" y="76" width="200" height="18" uuid="8d8e4191-b75a-44ff-a011-05ba20ffff00">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{health_care_name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="260" y="37" width="70" height="18" uuid="e520be2d-291a-4510-a69b-2c23acf597ed">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Nascimento:]]></text>
+            </staticText>
+            <textField pattern="" isBlankWhenNull="true">
+                <reportElement x="430" y="19" width="125" height="18" uuid="ffa2dd5b-dd91-44c6-95c5-8c2a48909c0b">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_rg}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="330" y="19" width="47" height="18" uuid="69b01da2-5a18-4c0c-9cd5-ffbc9be4593f">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Sexo:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="330" y="1" width="47" height="18" uuid="e0a5ccdf-b356-4798-8057-5599578f1b77">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <text><![CDATA[Camisa:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="377" y="1" width="23" height="18" uuid="b2b73d00-5110-4575-8318-14edcf2896a1">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.2"/>
+                    <leftPen lineWidth="0.2"/>
+                    <bottomPen lineWidth="0.2"/>
+                    <rightPen lineWidth="0.2"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_tshirt}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
 </jasperReport>

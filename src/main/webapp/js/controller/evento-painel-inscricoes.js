@@ -61,7 +61,7 @@ $(function () {
         });
     EventProxy.loadSummary(evento_id).done(loadSummaryOk);
     EventProxy.findRegistrations(evento_id).done(function (data, status, request) {
-    	getRegistrarionsOk(data, status, request, evento_id);
+        getRegistrarionsOk(data, status, request, evento_id);
     });
 });
 
@@ -107,7 +107,7 @@ function getRegistrarionsOk(data, status, request, evento_id) {
                 tr = tr.concat("<tr>");
                 tr = tr.concat("<td class='text-left' style='vertical-align: top'>");
                 tr = tr.concat("<h4 style='margin: 5px'><a href='" + App.getContextPath() + "/inscricao/" + registration.number + "'>#"
-                		+ registration.number + "</a></h4>");
+                    + registration.number + "</a></h4>");
                 tr = tr.concat("<span id='registration-status-" + registration.number + "'>" + App.translateStatus(registration.status)) + "</span>";
                 tr = tr.concat("</td>");
                 tr = tr.concat("<td style='vertical-align: top'>");

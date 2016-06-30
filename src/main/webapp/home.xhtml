@@ -1,29 +1,31 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
-	<ui:define name="lib">
-	</ui:define>
+    <ui:define name="lib">
+    </ui:define>
 
-	<ui:define name="proxy">
-	</ui:define>
+    <ui:define name="proxy">
+    </ui:define>
 
-	<ui:define name="controller">
-	</ui:define>
+    <ui:define name="controller">
+    </ui:define>
 
-	<ui:define name="body">
-		<div class="row" style="padding-bottom: 20px">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="jumbotron">
-					<h1>Seja bem-vindo!</h1>
-					<p>Este é o site Sou+ Aventura. Uma maneira unificada de se inscrever nas provas e eventos de Aventura.</p>
-					<p>
-						<a class="btn btn-primary btn-lg" href="#{request.contextPath}/calendario/2016" role="button">
-							<span class="glyphicon glyphicon-search" aria-hidden='true' style="font-size: 0.8em;"></span> Ver provas
-						</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</ui:define>
+    <ui:define name="body">
+        <div class="row" style="padding-bottom: 20px">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="jumbotron">
+                    <h1>Seja bem-vindo!</h1>
+                    <p>Este é o site Sou+ Aventura. Uma maneira unificada de se inscrever nas provas e eventos de
+                        Aventura.</p>
+                    <p>
+                        <a class="btn btn-primary btn-lg" href="#{request.contextPath}/calendario/2016" role="button">
+                            <span class="glyphicon glyphicon-search" aria-hidden='true'
+                                  style="font-size: 0.8em;"></span> Ver provas
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ui:define>
 
 </ui:composition>

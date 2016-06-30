@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
 <!-- 2016-01-22T13:37:36 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
-	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
-	<parameter name="RACE_ID" class="java.lang.Integer" isForPrompting="false">
-		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
-	</parameter>
-	<queryString language="SQL">
-		<![CDATA[SELECT re.id AS registration_id,
+<jasperReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="fichas_inscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20"
+              rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bb8a903-7c80-4a4d-b524-0387d9f766f4">
+    <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
+    <parameter name="RACE_ID" class="java.lang.Integer" isForPrompting="false">
+        <defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[SELECT re.id AS registration_id,
          '#' || LPAD (re.id::text, 4, '0') AS registration_number,
          re.date AS registration_date,
          re.team_number AS team_number,
@@ -49,108 +53,114 @@
          AND ev.city_id = raci.id
          AND raci.state_id = rast.id
 ORDER BY re.id;]]>
-	</queryString>
-	<field name="registration_id" class="java.lang.Long"/>
-	<field name="registration_number" class="java.lang.String"/>
-	<field name="registration_date" class="java.sql.Timestamp"/>
-	<field name="team_number" class="java.lang.String"/>
-	<field name="team_name" class="java.lang.String"/>
-	<field name="team_category_name" class="java.lang.String"/>
-	<field name="team_course_name" class="java.lang.String"/>
-	<field name="race_id" class="java.lang.Integer"/>
-	<field name="race_name" class="java.lang.String"/>
-	<field name="race_date" class="java.sql.Date"/>
-	<field name="race_city_name" class="java.lang.String"/>
-	<field name="race_state_name" class="java.lang.String"/>
-	<group name="Split" isStartNewPage="true">
-		<groupExpression><![CDATA[$F{registration_id}]]></groupExpression>
-		<groupHeader>
-			<band>
-				<property name="local_mesure_unitheight" value="pixel"/>
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			</band>
-		</groupHeader>
-	</group>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<pageHeader>
-		<band height="21" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="279" height="10" uuid="83c2dfc7-d1b5-4f49-a5ba-11d2faa5cbd0"/>
-				<textElement>
-					<font fontName="SansSerif" size="8"/>
-				</textElement>
-				<text><![CDATA[Sou+ Aventura]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="290" y="0" width="264" height="10" uuid="80204b59-c13c-4ecb-8e75-71f1e76acbe2"/>
-				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="8"/>
-				</textElement>
-				<text><![CDATA[http://soumaisaventura.com.br]]></text>
-			</staticText>
-		</band>
-	</pageHeader>
-	<detail>
-		<band height="39" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="555" height="19" uuid="bc98e3a5-6d97-49aa-a6e0-6f8af7118974"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{registration_number} + " – FICHA DE INSCRIÇÃO – " + $F{race_name}.toUpperCase();]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="19" width="555" height="20" uuid="a01ff3c2-36b1-4b3c-8c2c-7cfddc455e52"/>
-				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{team_name} + " – " +$F{team_category_name} + " – " + $F{team_course_name}]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="17">
-			<subreport>
-				<reportElement key="" x="0" y="0" width="555" height="17" uuid="e8864116-5434-49e8-9a19-ed819800bc58"/>
-				<subreportParameter name="REGISTRATION_ID">
-					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="71">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-			<staticText>
-				<reportElement x="0" y="0" width="555" height="25" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
-				<textElement textAlignment="Center">
-					<font fontName="SansSerif" isBold="false"/>
-				</textElement>
-				<text><![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" x="0" y="48" width="555" height="23" uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
-					<property name="local_mesure_unitheight" value="pixel"/>
-				</reportElement>
-				<box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="25" width="555" height="20" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Justified">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:\n" + 
+    </queryString>
+    <field name="registration_id" class="java.lang.Long"/>
+    <field name="registration_number" class="java.lang.String"/>
+    <field name="registration_date" class="java.sql.Timestamp"/>
+    <field name="team_number" class="java.lang.String"/>
+    <field name="team_name" class="java.lang.String"/>
+    <field name="team_category_name" class="java.lang.String"/>
+    <field name="team_course_name" class="java.lang.String"/>
+    <field name="race_id" class="java.lang.Integer"/>
+    <field name="race_name" class="java.lang.String"/>
+    <field name="race_date" class="java.sql.Date"/>
+    <field name="race_city_name" class="java.lang.String"/>
+    <field name="race_state_name" class="java.lang.String"/>
+    <group name="Split" isStartNewPage="true">
+        <groupExpression><![CDATA[$F{registration_id}]]></groupExpression>
+        <groupHeader>
+            <band>
+                <property name="local_mesure_unitheight" value="pixel"/>
+                <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            </band>
+        </groupHeader>
+    </group>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <pageHeader>
+        <band height="21" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="279" height="10" uuid="83c2dfc7-d1b5-4f49-a5ba-11d2faa5cbd0"/>
+                <textElement>
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <text><![CDATA[Sou+ Aventura]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="290" y="0" width="264" height="10" uuid="80204b59-c13c-4ecb-8e75-71f1e76acbe2"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <text><![CDATA[http://soumaisaventura.com.br]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <detail>
+        <band height="39" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="19" uuid="bc98e3a5-6d97-49aa-a6e0-6f8af7118974"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{registration_number} + " – FICHA DE INSCRIÇÃO – " + $F{race_name}.toUpperCase();]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement x="0" y="19" width="555" height="20" uuid="a01ff3c2-36b1-4b3c-8c2c-7cfddc455e52"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{team_name} + " – " +$F{team_category_name} + " – " + $F{team_course_name}]]></textFieldExpression>
+            </textField>
+        </band>
+        <band height="17">
+            <subreport>
+                <reportElement key="" x="0" y="0" width="555" height="17" uuid="e8864116-5434-49e8-9a19-ed819800bc58"/>
+                <subreportParameter name="REGISTRATION_ID">
+                    <subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
+                </subreportParameter>
+                <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                <subreportExpression><![CDATA["report/ficha_inscricao_atletas.jasper"]]></subreportExpression>
+            </subreport>
+        </band>
+        <band height="71">
+            <property name="com.jaspersoft.studio.layout"
+                      value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="25" uuid="e308792c-0b34-40e4-b560-c450b96b6115"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" isBold="false"/>
+                </textElement>
+                <text>
+                    <![CDATA[TERMO DE AUTORIZAÇÃO DE USO DE IMAGEM E VOZ; DE RESPONSABILIDADE E ACORDO DE IMPLICAÇÃO DE RISCOS; E DECLARAÇÃO DE PORTABILIDADE DOS EQUIPAMENTOS OBRIGATÓRIOS]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement positionType="Float" x="0" y="48" width="555" height="23"
+                               uuid="f6b6ec08-da54-439d-bb76-2a0c0d876004">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                </reportElement>
+                <box topPadding="3" leftPadding="4" bottomPadding="3" rightPadding="4">
+                    <topPen lineWidth="0.0"/>
+                    <leftPen lineWidth="0.0"/>
+                    <bottomPen lineWidth="0.0"/>
+                    <rightPen lineWidth="0.0"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$F{race_city_name} + ", " + new SimpleDateFormat("dd 'de' MMMM 'de' yyyy").format($F{race_date})]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="0" y="25" width="555" height="20" uuid="e50ebc04-ed9e-4dff-9eef-1762cabb48c1">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement textAlignment="Justified">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Por este documento em consideração à minha admissão nesta competição, eu, abaixo assinado, reconheço, entendo e concordo que:\n" +
 "1. Os riscos, conhecidos ou não, de acidentes nas modalidades envolvidas nesta competição são significativos, reconheço e assumo total responsabilidade pela minha participação; e\n" +
 "2. Como participante da prova, comprometo-me a respeitar a legislação vigente, seja ela municipal, estadual, ou federal, bem como o regulamento desta competição, assumindo toda e qualquer conseqüência de meus atos no período de duração da prova e naqueles que antecedem e a sucedem; e\n" +
 "3. Declaro que a minha equipe está de posse de todos os itens e/ou equipamentos obrigatórios citados no regulamento da prova. A falta de qualquer dos itens durante a prova, é de total responsabilidade da equipe, isentando de quaisquer prejuízos e/ou responsabilidade, a organização, os apoiadores e demais envolvidos nesta competição, podendo haver penalização, ou a desclassificação da equipe; e\n" +
@@ -163,36 +173,38 @@ ORDER BY re.id;]]>
 "10. A autorização prevista acima não tem limitação de tempo ou de número de vezes, podendo ocorrer no Brasil e/ou no exterior sem que me seja devida, a qualquer tempo e sob qualquer título, pagamento de valor antecipado ou posterior pelo uso de minha imagem e/ou voz; e\n" +
 "11. A presente autorização é concedida em caráter gratuito, não oneroso, irretratável e irrevogável obrigando a mim, meus herdeiros e sucessores a qualquer título;\n" +
 "Após ter lido este termo de Responsabilidade e acordo de implicação de riscos e tendo compreendido-o, entendo que estou desistindo de direitos substanciais através da assinatura do mesmo, a qual faz livre e voluntariamente, sem qualquer coerção, na presença de testemunhas instrumentárias."]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="20">
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-			<subreport overflowType="Stretch">
-				<reportElement key="" positionType="Float" x="0" y="0" width="555" height="20" uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
-				<subreportParameter name="REGISTRATION_ID">
-					<subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["report/ficha_inscricao_assinaturas.jasper"]]></subreportExpression>
-			</subreport>
-		</band>
-	</detail>
-	<pageFooter>
-		<band height="15" splitType="Stretch">
-			<staticText>
-				<reportElement x="290" y="5" width="264" height="10" uuid="39229fc0-4bc5-45dc-a8e1-9c74a7e50ebf"/>
-				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="8"/>
-				</textElement>
-				<text><![CDATA[http://soumaisaventura.com.br]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="5" width="279" height="10" uuid="5b7975e7-9d52-4e31-9f97-4204e54faa1c"/>
-				<textElement>
-					<font fontName="SansSerif" size="8"/>
-				</textElement>
-				<text><![CDATA[Sou+ Aventura]]></text>
-			</staticText>
-		</band>
-	</pageFooter>
+            </textField>
+        </band>
+        <band height="20">
+            <property name="com.jaspersoft.studio.layout"
+                      value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <subreport overflowType="Stretch">
+                <reportElement key="" positionType="Float" x="0" y="0" width="555" height="20"
+                               uuid="b4469dfd-7404-496e-aacd-d49c0fced687"/>
+                <subreportParameter name="REGISTRATION_ID">
+                    <subreportParameterExpression><![CDATA[$F{registration_id}]]></subreportParameterExpression>
+                </subreportParameter>
+                <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                <subreportExpression><![CDATA["report/ficha_inscricao_assinaturas.jasper"]]></subreportExpression>
+            </subreport>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="15" splitType="Stretch">
+            <staticText>
+                <reportElement x="290" y="5" width="264" height="10" uuid="39229fc0-4bc5-45dc-a8e1-9c74a7e50ebf"/>
+                <textElement textAlignment="Right">
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <text><![CDATA[http://soumaisaventura.com.br]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="5" width="279" height="10" uuid="5b7975e7-9d52-4e31-9f97-4204e54faa1c"/>
+                <textElement>
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <text><![CDATA[Sou+ Aventura]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
 </jasperReport>

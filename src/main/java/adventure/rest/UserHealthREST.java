@@ -1,6 +1,5 @@
 package adventure.rest;
 
-import adventure.entity.BloodType;
 import adventure.entity.Health;
 import adventure.entity.User;
 import adventure.persistence.HealthDAO;
@@ -9,13 +8,8 @@ import adventure.util.PendencyCounter;
 import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.ws.rs.*;
-
-import static adventure.util.Constants.*;
 
 @Path("user/health")
 public class UserHealthREST {

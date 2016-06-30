@@ -1,6 +1,5 @@
 package adventure.entity;
 
-import adventure.util.Dates;
 import adventure.util.PendencyCount;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;

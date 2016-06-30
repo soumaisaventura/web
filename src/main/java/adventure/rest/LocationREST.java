@@ -10,10 +10,11 @@ import adventure.rest.data.CityData;
 import adventure.rest.data.CountryData;
 import adventure.rest.data.StateData;
 import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.util.Strings;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,7 +4,6 @@ import adventure.entity.*;
 import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
-import adventure.persistence.UserRegistrationDAO;
 import adventure.util.Dates;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;

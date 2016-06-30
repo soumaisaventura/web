@@ -1,301 +1,312 @@
-DROP FUNCTION IF EXISTS event_status (integer);
+DROP FUNCTION IF EXISTS event_status ( INTEGER );
 
-CREATE OR REPLACE FUNCTION event_status (_event_id integer)
-   RETURNS integer
+CREATE OR REPLACE FUNCTION event_status(_event_id INTEGER)
+  RETURNS INTEGER
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 DECLARE
-   l_race      race%ROWTYPE;
-   status_id   status.id%TYPE;
+  l_race    race%ROWTYPE;
+  status_id status.id%TYPE;
 BEGIN
-   FOR l_race IN SELECT r.*
-                   FROM race r
-                  WHERE r.event_id = _event_id
-   LOOP
-      IF status_id IS NULL OR l_race._status_id < status_id
-      THEN
-         status_id = l_race._status_id;
-      END IF;
-   END LOOP;
+  FOR l_race IN SELECT r.*
+                FROM race r
+                WHERE r.event_id = _event_id
+  LOOP
+    IF status_id IS NULL OR l_race._status_id < status_id
+    THEN
+      status_id = l_race._status_id;
+    END IF;
+  END LOOP;
 
-   IF status_id IS NULL
-   THEN
-      status_id = 1;
-   END IF;
+  IF status_id IS NULL
+  THEN
+    status_id = 1;
+  END IF;
 
-   RETURN status_id;
+  RETURN status_id;
 END
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS race_status (integer, DATE);
+DROP FUNCTION IF EXISTS race_status ( INTEGER, DATE );
 
-CREATE OR REPLACE FUNCTION race_status (_race_id integer, _race_ending DATE)
-   RETURNS integer
+CREATE OR REPLACE FUNCTION race_status(_race_id INTEGER, _race_ending DATE)
+  RETURNS INTEGER
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 DECLARE
-   period      period%ROWTYPE;
-   today       DATE;
-   status_id   status.id%TYPE;
+  period    period%ROWTYPE;
+  today     DATE;
+  status_id status.id%TYPE;
 BEGIN
-   today = CURRENT_DATE;
+  today = CURRENT_DATE;
 
-   IF _race_id IS NULL
-   THEN
-      RETURN NULL;
-   END IF;
+  IF _race_id IS NULL
+  THEN
+    RETURN NULL;
+  END IF;
 
-   SELECT min (p.beginning), max (p.ending)
-     INTO period.beginning, period.ending
-     FROM period p
-    WHERE p.race_id = _race_id;
+  SELECT
+    min(p.beginning),
+    max(p.ending)
+  INTO period.beginning, period.ending
+  FROM period p
+  WHERE p.race_id = _race_id;
 
-   IF period.beginning IS NULL
-   THEN
-      RETURN 1;
-   END IF;
+  IF period.beginning IS NULL
+  THEN
+    RETURN 1;
+  END IF;
 
-   IF today < period.beginning
-   THEN
-      status_id = 1;
-   ELSEIF today >= period.beginning AND today <= period.ending
-   THEN
+  IF today < period.beginning
+  THEN
+    status_id = 1;
+  ELSEIF today >= period.beginning AND today <= period.ending
+    THEN
       status_id = 2;
-   ELSEIF today > period.ending AND today <= _race_ending
-   THEN
+  ELSEIF today > period.ending AND today <= _race_ending
+    THEN
       status_id = 3;
-   ELSEIF today > _race_ending
-   THEN
+  ELSEIF today > _race_ending
+    THEN
       status_id = 4;
-   END IF;
+  END IF;
 
-   RETURN status_id;
+  RETURN status_id;
 END
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 
 SELECT r.*
-  FROM period p, race r, status s
- WHERE     r._status_id = s.id
-       AND p.race_id = r.id                              --AND s.name <> 'end'
-       AND now ()::date BETWEEN p.beginning AND p.ending;
+FROM period p, race r, status s
+WHERE r._status_id = s.id
+      AND p.race_id = r.id                              --AND s.name <> 'end'
+      AND now() :: DATE BETWEEN p.beginning AND p.ending;
 
 DROP FUNCTION IF EXISTS update_statuses ();
 
-CREATE OR REPLACE FUNCTION update_statuses ()
-   RETURNS void
+CREATE OR REPLACE FUNCTION update_statuses()
+  RETURNS VOID
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 DECLARE
-   today       DATE;
-   l_race      race%ROWTYPE;
-   status_id   status.id%TYPE;
+  today     DATE;
+  l_race    race%ROWTYPE;
+  status_id status.id%TYPE;
 BEGIN
-   today = now ()::date;
+  today = now() :: DATE;
 
-   FOR l_race IN SELECT r.*
-                   FROM race r
-   --    IN SELECT DISTINCT r.*
-   --      FROM period p, race r, status s
-   --     WHERE     r._status_id = s.id
-   --     AND p.race_id = r.id
-   --     AND today BETWEEN p.beginning AND p.ending
-   LOOP
-      status_id = race_status (l_race.id, today);
+  FOR l_race IN SELECT r.*
+                FROM race r
+    --    IN SELECT DISTINCT r.*
+    --      FROM period p, race r, status s
+    --     WHERE     r._status_id = s.id
+    --     AND p.race_id = r.id
+    --     AND today BETWEEN p.beginning AND p.ending
+  LOOP
+    status_id = race_status(l_race.id, today);
 
-      IF l_race._status_id <> status_id
-      THEN
-         UPDATE race
-            SET _status_id = status_id
-          WHERE id = l_race.id;
-      END IF;
-   END LOOP;
+    IF l_race._status_id <> status_id
+    THEN
+      UPDATE race
+      SET _status_id = status_id
+      WHERE id = l_race.id;
+    END IF;
+  END LOOP;
 END
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
-SELECT update_statuses ();
+SELECT update_statuses();
 
-CREATE OR REPLACE FUNCTION trg_period_after_all ()
-   RETURNS trigger
+CREATE OR REPLACE FUNCTION trg_period_after_all()
+  RETURNS TRIGGER
 AS
 $func$
 BEGIN
-   IF TG_OP IN ('INSERT', 'UPDATE')
-   THEN
-      UPDATE race
-         SET _status_id = race_status (NEW.race_id, NEW.ending)
-       WHERE id = NEW.race_id;
-   END IF;
+  IF TG_OP IN ('INSERT', 'UPDATE')
+  THEN
+    UPDATE race
+    SET _status_id = race_status(NEW.race_id, NEW.ending)
+    WHERE id = NEW.race_id;
+  END IF;
 
-   IF TG_OP IN ('DELETE', 'UPDATE')
-   THEN
-      UPDATE race
-         SET _status_id = race_status (OLD.race_id, OLD.ending)
-       WHERE id = OLD.race_id;
-   END IF;
+  IF TG_OP IN ('DELETE', 'UPDATE')
+  THEN
+    UPDATE race
+    SET _status_id = race_status(OLD.race_id, OLD.ending)
+    WHERE id = OLD.race_id;
+  END IF;
 
-   RETURN NULL;
+  RETURN NULL;
 END;
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 
 DROP TRIGGER IF EXISTS trg_period_after_all ON period;
 
 CREATE TRIGGER trg_period_after_all
-   AFTER INSERT OR UPDATE OR DELETE
-   ON period
-   FOR EACH ROW
-EXECUTE PROCEDURE trg_period_after_all ();
+AFTER INSERT OR UPDATE OR DELETE
+ON period
+FOR EACH ROW
+EXECUTE PROCEDURE trg_period_after_all();
 
-CREATE OR REPLACE FUNCTION trg_race_after_all ()
-   RETURNS trigger
+CREATE OR REPLACE FUNCTION trg_race_after_all()
+  RETURNS TRIGGER
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 DECLARE
-   l_race         race%ROWTYPE;
-   status_id      event._status_id%TYPE;
-   new_event_id   event.id%TYPE;
-   old_event_id   event.id%TYPE;
+  l_race       race%ROWTYPE;
+  status_id    event._status_id%TYPE;
+  new_event_id event.id%TYPE;
+  old_event_id event.id%TYPE;
 BEGIN
-   IF TG_OP IN ('INSERT', 'UPDATE')
-   THEN
-      UPDATE event
-         SET _status_id = event_status (NEW.event_id),
-             _beginning =
-                (SELECT min (r.beginning)
-                   FROM race r
-                  WHERE r.id = NEW.id),
-             _ending =
-                (SELECT max (r.ending)
-                   FROM race r
-                  WHERE r.id = NEW.id)
-       WHERE id = NEW.event_id;
-   END IF;
+  IF TG_OP IN ('INSERT', 'UPDATE')
+  THEN
+    UPDATE event
+    SET _status_id = event_status(NEW.event_id),
+      _beginning   =
+      (SELECT min(r.beginning)
+       FROM race r
+       WHERE r.id = NEW.id),
+      _ending      =
+      (SELECT max(r.ending)
+       FROM race r
+       WHERE r.id = NEW.id)
+    WHERE id = NEW.event_id;
+  END IF;
 
-   IF TG_OP IN ('DELETE', 'UPDATE')
-   THEN
-      UPDATE event
-         SET _status_id = event_status (OLD.event_id),
-             _beginning =
-                (SELECT min (r.beginning)
-                   FROM race r
-                  WHERE r.id = OLD.id),
-             _ending =
-                (SELECT max (r.ending)
-                   FROM race r
-                  WHERE r.id = OLD.id)
-       WHERE id = OLD.event_id;
-   END IF;
+  IF TG_OP IN ('DELETE', 'UPDATE')
+  THEN
+    UPDATE event
+    SET _status_id = event_status(OLD.event_id),
+      _beginning   =
+      (SELECT min(r.beginning)
+       FROM race r
+       WHERE r.id = OLD.id),
+      _ending      =
+      (SELECT max(r.ending)
+       FROM race r
+       WHERE r.id = OLD.id)
+    WHERE id = OLD.event_id;
+  END IF;
 
-   RETURN NULL;
+  RETURN NULL;
 END;
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trg_race_after_all ON race;
 
 CREATE TRIGGER trg_race_after_all
-   AFTER INSERT OR UPDATE OR DELETE
-   ON race
-   FOR EACH ROW
-EXECUTE PROCEDURE trg_race_after_all ();
+AFTER INSERT OR UPDATE OR DELETE
+ON race
+FOR EACH ROW
+EXECUTE PROCEDURE trg_race_after_all();
 
-CREATE OR REPLACE FUNCTION trg_race_before_update ()
-   RETURNS trigger
+CREATE OR REPLACE FUNCTION trg_race_before_update()
+  RETURNS TRIGGER
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 BEGIN
-   NEW._status_id = race_status (NEW.id, NEW.ending);
-   RETURN NEW;
+  NEW._status_id = race_status(NEW.id, NEW.ending);
+  RETURN NEW;
 END;
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trg_race_before_update ON race;
 
 CREATE TRIGGER trg_race_before_update
-   BEFORE UPDATE
-   ON race
-   FOR EACH ROW
-EXECUTE PROCEDURE trg_race_before_update ();
+BEFORE UPDATE
+ON race
+FOR EACH ROW
+EXECUTE PROCEDURE trg_race_before_update();
 
 ---------------
 
 
-CREATE OR REPLACE FUNCTION trg_event_organizer_after_all ()
-   RETURNS trigger
+CREATE OR REPLACE FUNCTION trg_event_organizer_after_all()
+  RETURNS TRIGGER
 AS
 $func$
-   # VARIABLE_CONFLICT use_variable
+# VARIABLE_CONFLICT use_variable
 BEGIN
-   IF TG_OP IN ('INSERT', 'UPDATE')
-   THEN
-      UPDATE user_account
-         SET _organizer =
-                (SELECT count (*) > 0
-                   FROM event_organizer eo
-                  WHERE eo.organizer_id = NEW.organizer_id)
-       WHERE id = NEW.organizer_id;
-   END IF;
+  IF TG_OP IN ('INSERT', 'UPDATE')
+  THEN
+    UPDATE user_account
+    SET _organizer =
+    (SELECT count(*) > 0
+     FROM event_organizer eo
+     WHERE eo.organizer_id = NEW.organizer_id)
+    WHERE id = NEW.organizer_id;
+  END IF;
 
-   IF TG_OP IN ('DELETE', 'UPDATE')
-   THEN
-      UPDATE user_account
-         SET _organizer =
-                (SELECT count (*) > 0
-                   FROM event_organizer eo
-                  WHERE eo.organizer_id = OLD.organizer_id)
-       WHERE id = OLD.organizer_id;
-   END IF;
+  IF TG_OP IN ('DELETE', 'UPDATE')
+  THEN
+    UPDATE user_account
+    SET _organizer =
+    (SELECT count(*) > 0
+     FROM event_organizer eo
+     WHERE eo.organizer_id = OLD.organizer_id)
+    WHERE id = OLD.organizer_id;
+  END IF;
 
-   RETURN NULL;
+  RETURN NULL;
 END;
 $func$
-   LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 
 DROP TRIGGER IF EXISTS trg_event_organizer_after_all ON event_organizer;
 
 CREATE TRIGGER trg_event_organizer_after_all
-   AFTER INSERT OR UPDATE OR DELETE
-   ON event_organizer
-   FOR EACH ROW
-EXECUTE PROCEDURE trg_event_organizer_after_all ();
+AFTER INSERT OR UPDATE OR DELETE
+ON event_organizer
+FOR EACH ROW
+EXECUTE PROCEDURE trg_event_organizer_after_all();
 
 DROP VIEW IF EXISTS registration_status_by_day;
 
 CREATE OR REPLACE VIEW registration_status_by_day
 AS
-     SELECT da.event_id::integer,
-            da.date::date,
-            sum (CASE WHEN re.status = 'PENDENT' THEN 1 ELSE 0 END)::integer
-               AS pendent,
-            sum (CASE WHEN re.status = 'CONFIRMED' THEN 1 ELSE 0 END)::integer
-               AS confirmed,
-            sum (CASE WHEN re.status = 'CANCELLED' THEN 1 ELSE 0 END)::integer
-               AS cancelled
-       FROM (SELECT ep.event_id,
-                    ra.id AS race_id,
-                    generate_series (ep.beginning, ep.ending, '1 day')::date
-                       AS date
-               FROM (  SELECT ra.event_id,
-                              min (pe.beginning) AS beginning,
-                              GREATEST (max (pe.ending), max (reg.status_date))
-                                 AS ending
-                         FROM period pe, race ra, registration reg
-                        WHERE pe.race_id = ra.id AND ra.id = reg.race_id
-                     GROUP BY ra.event_id) ep,
-                    race ra
-              WHERE ep.event_id = ra.event_id) da
-            LEFT JOIN registration re
-               ON (da.race_id = re.race_id AND da.date = re.status_date::date)
-   GROUP BY da.event_id, da.date;
+  SELECT
+    da.event_id :: INTEGER,
+    da.date :: DATE,
+    sum(CASE WHEN re.status = 'PENDENT'
+      THEN 1
+        ELSE 0 END) :: INTEGER
+      AS pendent,
+    sum(CASE WHEN re.status = 'CONFIRMED'
+      THEN 1
+        ELSE 0 END) :: INTEGER
+      AS confirmed,
+    sum(CASE WHEN re.status = 'CANCELLED'
+      THEN 1
+        ELSE 0 END) :: INTEGER
+      AS cancelled
+  FROM (SELECT
+          ep.event_id,
+          ra.id AS race_id,
+          generate_series(ep.beginning, ep.ending, '1 day') :: DATE
+                AS date
+        FROM (SELECT
+                ra.event_id,
+                min(pe.beginning) AS beginning,
+                GREATEST(max(pe.ending), max(reg.status_date))
+                                  AS ending
+              FROM period pe, race ra, registration reg
+              WHERE pe.race_id = ra.id AND ra.id = reg.race_id
+              GROUP BY ra.event_id) ep,
+          race ra
+        WHERE ep.event_id = ra.event_id) da
+    LEFT JOIN registration re
+      ON (da.race_id = re.race_id AND da.date = re.status_date :: DATE)
+  GROUP BY da.event_id, da.date;

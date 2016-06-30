@@ -5,7 +5,6 @@ import adventure.entity.State;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
-import br.gov.frameworkdemoiselle.util.Strings;
 
 import javax.persistence.TypedQuery;
 import java.util.List;

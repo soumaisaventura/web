@@ -5,8 +5,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-
 @JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers", "minMemberAge", "maxMemberAge", "minTeamAge", "maxTeamAge"})
 public class CategoryData {
 

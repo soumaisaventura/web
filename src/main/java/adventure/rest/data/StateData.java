@@ -1,11 +1,8 @@
 package adventure.rest.data;
 
-import adventure.entity.City;
 import adventure.entity.State;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
-
-import javax.validation.constraints.NotNull;
 
 @JsonPropertyOrder({"id", "internalId", "name", "country"})
 public class StateData {

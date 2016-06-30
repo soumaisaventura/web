@@ -1,32 +1,32 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/registration.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/registration.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/atleta-inscricoes.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/atleta-inscricoes.js"></script>
+    </ui:define>
 
-	<ui:define name="body">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="row" style="padding-bottom: 20px">
-				<h1>Minhas Inscrições</h1>
-				<h4>Acompanhe o andamento das suas inscrições</h4>
-			</div>
-			<div class="row">
-				<table>
-					<table id="resultTable" class="table table-bordered">
-						<tbody></tbody>
-					</table>
-				</table>
-			</div>
-		</div>
-	</ui:define>
+    <ui:define name="body">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="row" style="padding-bottom: 20px">
+                <h1>Minhas Inscrições</h1>
+                <h4>Acompanhe o andamento das suas inscrições</h4>
+            </div>
+            <div class="row">
+                <table>
+                    <table id="resultTable" class="table table-bordered">
+                        <tbody></tbody>
+                    </table>
+                </table>
+            </div>
+        </div>
+    </ui:define>
 
 </ui:composition>

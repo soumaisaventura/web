@@ -1,201 +1,201 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns="http://www.w3.org/1999/xhtml"
-				template="/template/main.xhtml">
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/template/main.xhtml">
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/moment.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/canvasjs.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/jquery.canvasjs.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/FileSaver.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/moment.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/numeral.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/pt-br.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/canvasjs.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/jquery.canvasjs.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/FileSaver.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/event.js"></script>
-		<script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
-		<script src="#{request.contextPath}/js/proxy/event-analytics.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/event.js"></script>
+        <script src="#{request.contextPath}/js/proxy/race-registration.js"></script>
+        <script src="#{request.contextPath}/js/proxy/event-analytics.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/evento-painel.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/evento-painel.js"></script>
+    </ui:define>
 
-	<ui:define name="css">
-		<link rel="stylesheet"
-			href="#{request.contextPath}/css/evento-painel.css" />
-	</ui:define>
+    <ui:define name="css">
+        <link rel="stylesheet"
+              href="#{request.contextPath}/css/evento-painel.css"/>
+    </ui:define>
 
-	<ui:define name="breadcrumb">
-		<ol class="breadcrumb">
-			<li><a
-				href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
-					#{eventHelper.getYear(request)}</a></li>
-			<li><a
-					href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
-			</li>
-			<li class="active">Painel</li>
-		</ol>
-	</ui:define>
+    <ui:define name="breadcrumb">
+        <ol class="breadcrumb">
+            <li><a
+                    href="#{request.contextPath}/calendario/#{eventHelper.getYear(request)}">Calendário
+                #{eventHelper.getYear(request)}</a></li>
+            <li><a
+                    href="#{request.contextPath}/evento/#{eventHelper.getAlias(request)}">#{eventHelper.getTitle(request)}</a>
+            </li>
+            <li class="active">Painel</li>
+        </ol>
+    </ui:define>
 
-	<ui:define name="body">
-		<input id="evento_id" type="hidden" value="#{param.evento_id}" />
+    <ui:define name="body">
+        <input id="evento_id" type="hidden" value="#{param.evento_id}"/>
 
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">Resumo das inscrições**</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-3">
-								<div class="panel panel-info">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-mars fa-4x"></i>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div id="male" class="huge"></div>
-												<div>homens</div>
-											</div>
-										</div>
-									</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Resumo das inscrições**</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-mars fa-4x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div id="male" class="huge"></div>
+                                                <div>homens</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="panel panel-danger">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-venus fa-4x"></i>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div id="female" class="huge"></div>
-												<div>mulheres</div>
-											</div>
-										</div>
-									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-venus fa-4x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div id="female" class="huge"></div>
+                                                <div>mulheres</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="panel panel-success">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<span class="huge"><sup>R$</sup></span>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div id="amount_raised" class="huge"></div>
-												<div>arrecadado</div>
-											</div>
-										</div>
-									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <span class="huge"><sup>R$</sup></span>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div id="amount_raised" class="huge"></div>
+                                                <div>arrecadado</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="panel panel-warning">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<span class="huge"><sup>R$</sup></span>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div id="amount_discounted" class="huge"></div>
-												<div>desconto</div>
-											</div>
-										</div>
-									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <span class="huge"><sup>R$</sup></span>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div id="amount_discounted" class="huge"></div>
+                                                <div>desconto</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<button id="registration-export" class="btn btn-primary btn-lg"
-							data-loading-text="Aguarde...">
-							<span class="glyphicon glyphicon-download-alt"></span> Exportar
-							Excel
-						</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button id="registration-export" class="btn btn-primary btn-lg"
+                                data-loading-text="Aguarde...">
+                            <span class="glyphicon glyphicon-download-alt"></span> Exportar
+                            Excel
+                        </button>
 						
 						<span id="registration-forms-div" hidden="true">
-						<button id="registration-forms"  class="btn btn-primary btn-lg"
-							data-loading-text="Aguarde...">
+						<button id="registration-forms" class="btn btn-primary btn-lg"
+                                data-loading-text="Aguarde...">
 							<span class="glyphicon glyphicon-file"></span> Fichas
 						</button>
 						</span>
 
-						<a
-							href="#{request.contextPath}/evento/#{param.evento_id}/painel/inscricoes"
-							class="btn btn-primary btn-lg"> <span
-							class="glyphicon glyphicon-menu-hamburger"></span> Inscrições
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">Incrições por dia</div>
-					<div class="panel-body">
-						<div id="status-by-day-chart" style="height: 300px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Incrições por status</div>
-					<div class="panel-body">
-						<div id="status-chart" style="height: 300px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Equipes por prova*</div>
-					<div class="panel-body">
-						<div id="race-chart" style="height: 300px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Equipes por categoria*</div>
-					<div class="panel-body">
-						<div id="category-chart" style="height: 300px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Tamanho de camisa*</div>
-					<div class="panel-body">
-						<div id="tshirt-chart" style="height: 300px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Atletas por cidade*</div>
-					<div class="panel-body">
-						<div id="city-chart" style="height: 400px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">Atletas por faixa etária**</div>
-					<div class="panel-body">
-						<div id="age-chart" style="height: 400px; width: 100%;"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<p>* Inscrições confirmadas ou pendentes</p>
-				<p>** Inscrições confirmadas</p>
-			</div>
-		</div>
-	</ui:define>
+                        <a
+                                href="#{request.contextPath}/evento/#{param.evento_id}/painel/inscricoes"
+                                class="btn btn-primary btn-lg"> <span
+                                class="glyphicon glyphicon-menu-hamburger"></span> Inscrições
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Incrições por dia</div>
+                    <div class="panel-body">
+                        <div id="status-by-day-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Incrições por status</div>
+                    <div class="panel-body">
+                        <div id="status-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Equipes por prova*</div>
+                    <div class="panel-body">
+                        <div id="race-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Equipes por categoria*</div>
+                    <div class="panel-body">
+                        <div id="category-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Tamanho de camisa*</div>
+                    <div class="panel-body">
+                        <div id="tshirt-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Atletas por cidade*</div>
+                    <div class="panel-body">
+                        <div id="city-chart" style="height: 400px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Atletas por faixa etária**</div>
+                    <div class="panel-body">
+                        <div id="age-chart" style="height: 400px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <p>* Inscrições confirmadas ou pendentes</p>
+                <p>** Inscrições confirmadas</p>
+            </div>
+        </div>
+    </ui:define>
 
 </ui:composition>

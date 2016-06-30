@@ -33,7 +33,7 @@ $(function () {
             'tshirt': $("#tshirt").val(),
             'mobile': $("#mobile").val()
         };
-        
+
         UserProfileProxy.update(data).done(updateOk);
     });
 

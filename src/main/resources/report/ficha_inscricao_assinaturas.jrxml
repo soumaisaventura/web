@@ -1,60 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
 <!-- 2016-01-22T13:15:00 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ficha_inscricao_assinaturas" pageWidth="555" pageHeight="500" orientation="Landscape" columnWidth="555" columnSpacing="40" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ebcc9be-3aa7-4ee3-9263-8b37e1a4f81b">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<parameter name="REGISTRATION_ID" class="java.lang.Long" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new Long(1)]]></defaultValueExpression>
-	</parameter>
-	<queryString language="SQL">
-		<![CDATA[SELECT pr.name AS profile_name
+<jasperReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ficha_inscricao_assinaturas" pageWidth="555" pageHeight="500" orientation="Landscape"
+              columnWidth="555" columnSpacing="40" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0"
+              uuid="4ebcc9be-3aa7-4ee3-9263-8b37e1a4f81b">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Adventure"/>
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <parameter name="REGISTRATION_ID" class="java.lang.Long" isForPrompting="false">
+        <defaultValueExpression><![CDATA[new Long(1)]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[SELECT pr.name AS profile_name
   FROM user_registration tf, user_account us, profile pr
  WHERE tf.registration_id = $P{REGISTRATION_ID} AND tf.user_id = us.id AND us.id = pr.id
  order by pr.name]]>
-	</queryString>
-	<field name="profile_name" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="55" splitType="Stretch">
-			<property name="local_mesure_unitheight" value="pixel"/>
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
-			<textField>
-				<reportElement x="146" y="40" width="262" height="15" uuid="6f62451e-614b-4bdc-aace-15b7615fb816">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="local_mesure_unitwidth" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.2"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{profile_name}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
+    </queryString>
+    <field name="profile_name" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band splitType="Stretch"/>
+    </title>
+    <pageHeader>
+        <band splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band splitType="Stretch"/>
+    </columnHeader>
+    <detail>
+        <band height="55" splitType="Stretch">
+            <property name="local_mesure_unitheight" value="pixel"/>
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+            <textField>
+                <reportElement x="146" y="40" width="262" height="15" uuid="6f62451e-614b-4bdc-aace-15b7615fb816">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="local_mesure_unitwidth" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="0.2"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{profile_name}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band splitType="Stretch"/>
+    </summary>
 </jasperReport>

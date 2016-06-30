@@ -1,127 +1,128 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns="http://www.w3.org/1999/xhtml"
+>
 
-<f:view contentType="text/html" locale="pt_BR" />
+<f:view contentType="text/html" locale="pt_BR"/>
 
 <h:head profile="http://www.w3.org/2005/10/profile">
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-	<title>#{applicationConfigHelper.appTitle}</title>
-	<link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-	<style>
-		html, body {
-			height: 100%;
-		}
-		
-		.carousel, .item, .active {
-			height: 100%;
-		}
-		
-		.carousel-inner {
-			height: 100%;
-		}
-		
-		.fill {
-			width: 100%;
-			height: 100%;
-			background-position: center;
-			background-size: cover;
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			opacity: 0.6;
-			filter: alpha(opacity = 60); /* For IE8 and earlier */
-		}
-		
-		li {
-			font-family: 'Open Sans';
-		}
-		
-		#logo {
-			color: black;
-			font-weight: bold;
-			text-align: center;
-			font-family: 'Open Sans';
-			font-size: 1.8em;
-			position: absolute;
-			top: 25%;
-			left: 50%;
-			width: 1034px;
-			height: 130px;
-			margin-top: -65px; /* Half the height */
-			margin-left: -517px; /* Half the width */
-		}
-	</style>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>#{applicationConfigHelper.appTitle}</title>
+    <link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        .carousel, .item, .active {
+            height: 100%;
+        }
+
+        .carousel-inner {
+            height: 100%;
+        }
+
+        .fill {
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            opacity: 0.6;
+            filter: alpha(opacity=60); /* For IE8 and earlier */
+        }
+
+        li {
+            font-family: 'Open Sans';
+        }
+
+        #logo {
+            color: black;
+            font-weight: bold;
+            text-align: center;
+            font-family: 'Open Sans';
+            font-size: 1.8em;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            width: 1034px;
+            height: 130px;
+            margin-top: -65px; /* Half the height */
+            margin-left: -517px; /* Half the width */
+        }
+    </style>
 </h:head>
 
 <h:body>
-	<header id="myCarousel" class="carousel slide">
-		<div class="carousel-inner">
-			<div class="item active">
-				<div class="fill img-responsive" style="background-image: url('images/foto01.jpg'); "></div>
-			</div>
-			<div class="item">
-				<div class="fill img-responsive" style="background-image: url('images/foto02.jpg');"></div>
-			</div>
-			<div class="item">
-				<div class="fill img-responsive" style="background-image: url('images/foto03.jpg');"></div>
-			</div>
-		</div>
-	</header>
+    <header id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="fill img-responsive" style="background-image: url('images/foto01.jpg'); "></div>
+            </div>
+            <div class="item">
+                <div class="fill img-responsive" style="background-image: url('images/foto02.jpg');"></div>
+            </div>
+            <div class="item">
+                <div class="fill img-responsive" style="background-image: url('images/foto03.jpg');"></div>
+            </div>
+        </div>
+    </header>
 
-	<nav class="navbar navbar-default navbar-fixed-top" style="background: transparent; border: 0;">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
+    <nav class="navbar navbar-default navbar-fixed-top" style="background: transparent; border: 0;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
 
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav navbar-right" style="font-size: 1.3em;">
-					<li>
-						<a href="#" style="color: black;">
-							<strong>
-								<span class="glyphicon glyphicon-calendar"></span> Calendário 2015
-							</strong>
-						</a>
-					</li>
-					<li>
-						<a href="#" style="color: black;">
-							<strong>
-								<span class="glyphicon glyphicon-log-in"></span> Login
-							</strong>
-						</a>
-					</li>
-					<li>
-						<a href="#" style="color: black;">
-							<strong>
-								<span class="glyphicon glyphicon-user"></span> Registre-se
-							</strong>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	
-	<section id="logo">
-		<img class="img-responsive" src="images/logov2.png"/>
-		<p>Uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia.</p>
-	</section>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right" style="font-size: 1.3em;">
+                    <li>
+                        <a href="#" style="color: black;">
+                            <strong>
+                                <span class="glyphicon glyphicon-calendar"></span> Calendário 2015
+                            </strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" style="color: black;">
+                            <strong>
+                                <span class="glyphicon glyphicon-log-in"></span> Login
+                            </strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" style="color: black;">
+                            <strong>
+                                <span class="glyphicon glyphicon-user"></span> Registre-se
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-	<script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
-	<script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
-	<script>
-		$('.carousel').carousel({
-	    	interval: 5000
-		});
-	</script>
+    <section id="logo">
+        <img class="img-responsive" src="images/logov2.png"/>
+        <p>Uma maneira unificada de se inscrever nas provas de Corrida de Aventura na Bahia.</p>
+    </section>
+
+    <script src="#{request.contextPath}/js/lib/jquery-1.11.2.min.js"></script>
+    <script src="#{request.contextPath}/js/lib/bootstrap.min.js"></script>
+    <script>
+        $('.carousel').carousel({
+            interval: 5000
+        });
+    </script>
 </h:body>
 </html>

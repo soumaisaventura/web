@@ -1,7 +1,6 @@
 package adventure.persistence;
 
 import adventure.entity.Country;
-import adventure.entity.State;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;

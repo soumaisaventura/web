@@ -1,11 +1,8 @@
 package adventure.rest.data;
 
-import adventure.entity.Category;
-import adventure.entity.Kit;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonPropertyOrder({"id", "internalId", "status", "name", "description", "distance", "period", "event", "sport",

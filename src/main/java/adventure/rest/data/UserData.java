@@ -1,8 +1,6 @@
 package adventure.rest.data;
 
-import adventure.entity.GenderType;
 import adventure.entity.User;
-import adventure.rest.UserHealthREST;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
