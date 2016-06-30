@@ -229,18 +229,18 @@
                             </td>
                             <td>
                                 {{profile.name}}<span class="hidden-xs"/>
-                                {{#raceHasKit}}
+                                {{#kit_selection}}
                                 <br class="visible-xs"/>
                                 <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{kit.name}}'
                                    data-toggle='modal' data-target='#kits-modal'>{{#kit}}{{name}}{{/kit}}{{^kit}}escolher
                                     kit{{/kit}}</a>
-                                {{/raceHasKit}}
+                                {{/kit_selection}}
                             </td>
                         </tr>
                     </table>
                 </td>
                 <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap'
-                    data-original-amount='{{valor_atual_da_prova}}' data-amount='{{amount}}'>{{valor_formatado}}
+                    data-original-amount='{{valor_atual_da_prova}}' data-amount='{{amount}}'>{{formmated_ammount}}
                 </td>
                 <td class="trash">
                     <a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
