@@ -166,8 +166,7 @@ var App = {
 
             if (messages) {
                 swal({
-                    title: "Ops!",
-                    text: messages,
+                    title: messages,
                     type: "error",
                     html: true
                 });

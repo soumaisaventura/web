@@ -1,6 +1,6 @@
 $(function () {
-    $("#name").focus();
     $("#user-profile-menu-item").addClass("active");
+    $("#name").focus();
 
     App.loadDateCombos($("#birthday"), $("#birthday-month"), $("#birthday-year"));
 
@@ -62,8 +62,11 @@ function loadOk(data) {
         addOption($("#city"), data.city.id, data.city.name, true);
     }
 
-    LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
     LocationProxy.findStates("br").done(loadUFOk);
+
+    if (data.city && data.city.state) {
+        LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
+    }
 
     $("#mobile").val(data.mobile);
     $("#form-section").show();

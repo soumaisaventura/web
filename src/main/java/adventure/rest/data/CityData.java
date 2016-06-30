@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @JsonPropertyOrder({"id", "name", "state"})
 public class CityData {
 
-    @NotNull(message = "{adventure.validation.constraints.NotNullCityId.message}")
+    @NotNull
     public Integer id;
 
     public String name;

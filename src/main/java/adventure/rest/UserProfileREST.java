@@ -51,6 +51,10 @@ public class UserProfileREST {
         data.pendencies = profile.getPendencies();
         data.city = new CityData(profile.getCity());
 
+        if (data.city.id == null) {
+            data.city = null;
+        }
+
         return data;
     }
 

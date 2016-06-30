@@ -34,8 +34,9 @@ public class UserRegistration {
     }
 
     public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
-                            TshirtType profileTshirt, Integer kitId, String kitName, Date profileBirthday, String profileRg, String profileCpf, Integer cityId,
-                            String cityName, Integer stateId, String stateAbbreviation, BigDecimal amount, Long registrationId,
+                            TshirtType profileTshirt, Integer kitId, String kitName, Date profileBirthday, String profileRg, String profileCpf,
+                            Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation,
+                            BigDecimal amount, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
                             Integer raceId, String raceAlias, String raceName,
                             Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers,
@@ -63,7 +64,12 @@ public class UserRegistration {
         getUser().getProfile().getCity().setName(cityName);
         getUser().getProfile().getCity().setState(new State());
         getUser().getProfile().getCity().getState().setId(stateId);
+        getUser().getProfile().getCity().getState().setName(stateName);
         getUser().getProfile().getCity().getState().setAbbreviation(stateAbbreviation);
+        getUser().getProfile().getCity().getState().setCountry(new Country());
+        getUser().getProfile().getCity().getState().getCountry().setId(countryId);
+        getUser().getProfile().getCity().getState().getCountry().setName(countryName);
+        getUser().getProfile().getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
 
         setAmount(amount);
 

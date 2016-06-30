@@ -33,7 +33,10 @@ $(function () {
  * Funçao que carrega os dados médicos do usuário.
  */
 function loadOk(data) {
-    $("#bloodType").val(data.bloodType);
+    if (data.bloodType) {
+        $("#bloodType").val(data.bloodType);
+    }
+
     $("#allergy").val(data.allergy);
     $("#healthCareName").val(data.healthCareName);
     $("#healthCareNumber").val(data.healthCareNumber);
