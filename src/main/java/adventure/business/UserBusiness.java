@@ -35,7 +35,7 @@ public class UserBusiness {
             if (user == null) {
                 exception.addViolation("Usuário " + member.id + " inválido.");
             } else if (result.contains(user)) {
-                exception.addViolation("Usuário " + member.id + " duplicado.");
+                exception.addViolation("Usuário " + user.getName() + " duplicado.");
             } else {
                 if (member.kit != null) {
                     kit = kitDAO.loadForRegistration(race, member.kit.id);

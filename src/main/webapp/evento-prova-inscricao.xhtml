@@ -105,11 +105,12 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-offset-3 col-md-6">
-                        <label for="category.id">Categoria *</label>
-                        <select id="category.id" class="form-control">
+                        <label for="category-id">Categoria *</label>
+                        <select id="category-id" class="form-control">
                             <option disabled="disabled" selected="selected">Escolha a categoria</option>
                         </select>
                         <span id="category.id-message" hidden="true" class="label label-danger"/>
+                        <span data-for="category-id" data-property="category.id" class="message label label-danger"/>
                     </div>
                 </div>
             </div>
@@ -117,10 +118,10 @@
             <div id="members-section" hidden="true">
                 <div class="row">
                     <div class="form-group col-md-offset-3 col-md-6">
-                        <label for="team.name">Nome da equipe *</label>
-                        <input type="text" id="team.name" class="form-control" maxlength="#{constants.nameSize}"
+                        <label for="team-name">Nome da equipe *</label>
+                        <input type="text" id="team-name" class="form-control" maxlength="#{constants.nameSize}"
                                placeholder="Digite o nome da equipe"/>
-                        <span id="team.name-message" hidden="true" class="label label-danger"/>
+                        <span data-for="team-name" data-property="team.name" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">

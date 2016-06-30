@@ -1,49 +1,50 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/user.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/user.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/atleta-ativacao.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/atleta-ativacao.js"></script>
+    </ui:define>
 
-	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
-	</ui:define>
+    <ui:define name="css">
+        <link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css"/>
+    </ui:define>
 
-	<ui:define name="body">
-		<div class="col-md-6 col-md-offset-4">
-			<div class="row" style="padding-bottom: 20px">
-				<h1>Confirmação</h1>
-				<h4>Para fazer login, confirme seu e-mail</h4>
-			</div>
-		</div>
+    <ui:define name="body">
+        <div class="col-md-6 col-md-offset-4">
+            <div class="row" style="padding-bottom: 20px">
+                <h1>Confirmação</h1>
+                <h4>Para fazer login, confirme seu e-mail</h4>
+            </div>
+        </div>
 
-		<div class="col-md-4 col-md-offset-4">
-			<div class="row" style="padding-bottom: 20px"></div>
-			<form role="form">
-				<div class="row">
-					<div class="form-group">
-						<label for="email">E-mail</label>
-						<input id="email" type="email" class="form-control" maxlength="#{constants.emailSize}" />
-						<span id="email-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<input id="global" type="hidden" />
-						<button type="submit" class="btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirmar
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</ui:define>
+        <div class="col-md-4 col-md-offset-4">
+            <div class="row" style="padding-bottom: 20px"></div>
+            <form role="form">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" class="form-control" maxlength="#{constants.emailSize}"/>
+                        <span data-for="email" data-property="email" class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <input id="global" type="hidden"/>
+                        <button type="submit" class="btn btn-lg btn-success">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ui:define>
 </ui:composition>

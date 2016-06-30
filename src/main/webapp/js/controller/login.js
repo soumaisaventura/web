@@ -6,7 +6,7 @@ $(function () {
 
     $("form").submit(function (event) {
         event.preventDefault();
-        $("[id$='-message']").hide();
+        $(".message").hide();
 
         var data = {
             'username': $("#username").val().trim(),
@@ -53,7 +53,7 @@ function loadFacebookOk(response) {
     $("#facebook-login").removeAttr("disabled");
 
     $("#facebook-login").click(function () {
-        $("[id$='-message']").hide();
+        $(".message").hide();
         showModal();
 
         FB.login(facebookLogin, {
@@ -86,7 +86,7 @@ function loadGoogleOk() {
     $("#google-login")
         .click(
             function () {
-                $("[id$='-message']").hide();
+                $(".message").hide();
                 showModal();
 
                 gapi.auth

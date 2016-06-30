@@ -177,45 +177,64 @@ var App = {
 
     handle422: function (request) {
         if (request.status == 422) {
-            var elements = $("form input, form select, form textarea").get().reverse();
+            var elements = $(".message[data-property]").get().reverse();
 
-            $(elements).each(function () {
-                var id = $(this).attr('id');
-                var messages = [];
+            $(elements).hide().each(function (i, element) {
+                var $element = $(element);
+                var property_data = $element.data("property");
+                var for_data = $element.data("for");
 
-                $.each(request.responseJSON, function (i, value) {
-                    if (id == value.property) {
-                        messages.push(value.message);
-
+                $.each(request.responseJSON, function (j, value) {
+                    if (value.property == property_data) {
+                        $element.html(value.message).show();
+                        $("#" + for_data.replace(".", "\\.")).focus();
                     }
                 });
-
-                if (!id) {
-                    return;
-                }
-
-                var message = $("#" + id.replace(".", "\\.") + "-message");
-
-                if (messages.length > 1) {
-                    message.empty();
-                    var ul = message.append("<ul></ul>");
-
-                    while (messages.length > 0) {
-                        ul.append("<li>" + messages.pop() + "</li>");
-                    }
-
-                    message.show();
-                    $(this).focus();
-
-                } else if (messages.length == 1) {
-                    message.html(messages.pop()).show();
-                    $(this).focus();
-
-                } else {
-                    message.hide();
-                }
             });
         }
+
+        /*
+         if (request.status == 422) {
+         var elements = $("form input, form select, form textarea").get().reverse();
+
+         $(elements).each(function () {
+         var id = $(this).attr('id');
+         var messages = [];
+
+         $.each(request.responseJSON, function (i, value) {
+         if (id == value.property) {
+         messages.push(value.message);
+
+         }
+         });
+
+         if (!id) {
+         return;
+         }
+
+         var message = $("#" + id.replace(".", "\\.") + "-message");
+
+         if (messages.length > 1) {
+         message.empty();
+         var ul = message.append("<ul></ul>");
+
+         while (messages.length > 0) {
+         ul.append("<li>" + messages.pop() + "</li>");
+         }
+
+         message.show();
+         $(this).focus();
+
+         } else if (messages.length == 1) {
+         message.html(messages.pop()).show();
+         $(this).focus();
+
+         } else {
+         message.hide();
+         }
+         });
+         }
+         */
     },
 
     handle500: function (request) {

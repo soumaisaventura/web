@@ -13,7 +13,7 @@ $(function () {
 
     $("form").submit(function (event) {
         event.preventDefault();
-        $("[id$='-message']").hide();
+        $(".message").hide();
 
         var birthday = "";
 
@@ -33,6 +33,7 @@ $(function () {
             'tshirt': $("#tshirt").val(),
             'mobile': $("#mobile").val()
         };
+        
         UserProfileProxy.update(data).done(updateOk);
     });
 
@@ -57,11 +58,11 @@ function loadOk(data) {
     }
 
     if (data.city) {
-        addOption($("#uf"), data.city.state.id, data.city.state.name, true);
+        addOption($("#uf"), data.city.state.id, data.city.state.id, true);
         addOption($("#city"), data.city.id, data.city.name, true);
-        LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
     }
 
+    LocationProxy.findCities("br", data.city.state.id).done(loadCitiesOk);
     LocationProxy.findStates("br").done(loadUFOk);
 
     $("#mobile").val(data.mobile);
@@ -77,6 +78,10 @@ function addOption($element, value, text, selected) {
 }
 
 function loadUFOk(data) {
+    $.each(data, function (i, value) {
+        value.name = value.id;
+    });
+
     loadLocation(data, $("#uf"));
 }
 
@@ -97,7 +102,7 @@ function loadLocation(data, $element) {
 }
 
 function updateOk(data) {
-    $("[id$='-message']").hide();
+    $(".message").hide();
     var user = App.getLoggedInUser();
     user.profile.pendencies = null;
     user.name = $("#name").val();

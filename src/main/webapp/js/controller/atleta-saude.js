@@ -7,7 +7,7 @@ $(function () {
      */
     $("form").submit(function (event) {
         event.preventDefault();
-        $("[id$='-message']").hide();
+        $(".message").hide();
 
         var data = {
             'bloodType': $("#bloodType").val(),
@@ -43,7 +43,7 @@ function loadOk(data) {
 }
 
 function updateOk(data) {
-    $("[id$='-message']").hide();
+    $(".message").hide();
     var user = App.getLoggedInUser();
     user.health.pendencies = null;
     App.setLoggedInUser(user);

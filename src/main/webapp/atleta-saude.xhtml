@@ -1,104 +1,115 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
-	<ui:define name="css">
-		<link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css" />
-	</ui:define>
+    <ui:define name="css">
+        <link rel="stylesheet" href="#{request.contextPath}/css/sweet-alert.css"/>
+    </ui:define>
 
-	<ui:define name="lib">
-		<script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
-		<script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
-	</ui:define>
+    <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/jquery.mask.min.js"></script>
+        <script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
+    </ui:define>
 
-	<ui:define name="proxy">
-		<script src="#{request.contextPath}/js/proxy/user-health.js"></script>
-	</ui:define>
+    <ui:define name="proxy">
+        <script src="#{request.contextPath}/js/proxy/user-health.js"></script>
+    </ui:define>
 
-	<ui:define name="controller">
-		<script src="#{request.contextPath}/js/controller/atleta-saude.js"></script>
-	</ui:define>
+    <ui:define name="controller">
+        <script src="#{request.contextPath}/js/controller/atleta-saude.js"></script>
+    </ui:define>
 
-	<ui:define name="body">
-		<div class="col-md-6 col-md-offset-4">
-			<div class="row" style="padding-bottom: 20px">
-				<h1>Dados de saúde</h1>
-				<h4>Em caso de acidente utilizaremos estas informações</h4>
-			</div>
-		</div>
+    <ui:define name="body">
+        <div class="col-md-6 col-md-offset-4">
+            <div class="row" style="padding-bottom: 20px">
+                <h1>Dados de saúde</h1>
+                <h4>Em caso de acidente utilizaremos estas informações</h4>
+            </div>
+        </div>
 
-		<div id="form-section" hidden="true" class="col-md-4 col-md-offset-4">
-			<form>
-				<div class="row" style="padding-bottom: 20px">
-					<h3>Informações básicas</h3>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="bloodType">Tipo sanguíneo *</label>
-						<select id="bloodType" class="form-control">
-							<option disabled="disabled" selected="selected">Selecione o tipo sanguíneo</option>
-							<option value="A+">A+</option>
-							<option value="A-">A-</option>
-							<option value="B+">B+</option>
-							<option value="B-">B-</option>
-							<option value="AB+">AB+</option>
-							<option value="AB-">AB-</option>
-							<option value="O+">O+</option>
-							<option value="O-">O-</option>
-						</select>
-						<span id="bloodType-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="allergy">Alergias</label>
-						<textarea id="allergy" type="text" class="form-control" rows="4" placeholder="Informe suas alergias" maxlength="#{constants.textSize}"></textarea>
-						<span id="allergy-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row" style="padding-bottom: 20px">
-					<h3>Plano de saúde</h3>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="healthCareName">Nome do plano</label>
-						<input id="healthCareName" type="text" class="form-control" placeholder="Digite o nome do plano" maxlength="#{constants.nameSize}" />
-						<span id="healthCareName-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="healthCareNumber">Número da carteira</label>
-						<input id="healthCareNumber" type="text" class="form-control" placeholder="Digite o número da carteira" maxlength="#{constants.genericIdSize}" />
-						<span id="healthCareNumber-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row" style="padding-bottom: 20px">
-					<h3>Contato para emergências</h3>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="emergencyContactName">Nome *</label>
-						<input id="emergencyContactName" type="text" class="form-control" placeholder="Digite o nome do contato" maxlength="#{constants.nameSize}" />
-						<span id="emergencyContactName-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group">
-						<label for="emergencyContactPhoneNumber">Celular ou fixo *</label>
-						<input id="emergencyContactPhoneNumber" type="tel" class="form-control" placeholder="Telefone do contato com DDD"
-							maxlength="#{constants.telephoneSize}" />
-						<span id="emergencyContactPhoneNumber-message" hidden="true" class="label label-danger" />
-					</div>
-				</div>
-				<div class="row" style="margin-bottom: 15px">
-					<div class="form-group">
-						<button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
-							<span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span> Salvar
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</ui:define>
+        <div id="form-section" hidden="true" class="col-md-4 col-md-offset-4">
+            <form>
+                <div class="row" style="padding-bottom: 20px">
+                    <h3>Informações básicas</h3>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="bloodType">Tipo sanguíneo *</label>
+                        <select id="bloodType" class="form-control">
+                            <option disabled="disabled" selected="selected">Selecione o tipo sanguíneo</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <span data-for="bloodType" data-property="bloodType" class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="allergy">Alergias</label>
+                        <textarea id="allergy" type="text" class="form-control" rows="4"
+                                  placeholder="Informe suas alergias" maxlength="#{constants.textSize}"></textarea>
+                        <span data-for="allergy" data-property="allergy" class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px">
+                    <h3>Plano de saúde</h3>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="healthCareName">Nome do plano</label>
+                        <input id="healthCareName" type="text" class="form-control" placeholder="Digite o nome do plano"
+                               maxlength="#{constants.nameSize}"/>
+                        <span data-for="healthCareName" data-property="healthCareName"
+                              class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="healthCareNumber">Número da carteira</label>
+                        <input id="healthCareNumber" type="text" class="form-control"
+                               placeholder="Digite o número da carteira" maxlength="#{constants.genericIdSize}"/>
+                        <span data-for="healthCareNumber" data-property="healthCareNumber"
+                              class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 20px">
+                    <h3>Contato para emergências</h3>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="emergencyContactName">Nome *</label>
+                        <input id="emergencyContactName" type="text" class="form-control"
+                               placeholder="Digite o nome do contato" maxlength="#{constants.nameSize}"/>
+                        <span data-for="emergencyContactName" data-property="emergencyContactName"
+                              class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="emergencyContactPhoneNumber">Celular ou fixo *</label>
+                        <input id="emergencyContactPhoneNumber" type="tel" class="form-control"
+                               placeholder="Telefone do contato com DDD"
+                               maxlength="#{constants.telephoneSize}"/>
+                        <span data-for="emergencyContactPhoneNumber" data-property="emergencyContactPhoneNumber"
+                              class="message label label-danger"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="form-group">
+                        <button type="submit" class="col-xs-12 col-md-4 btn btn-lg btn-success">
+                            <span class="glyphicon glyphicon-edit" aria-hidden='true' style="font-size: 0.8em;"></span>
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ui:define>
 
 </ui:composition>

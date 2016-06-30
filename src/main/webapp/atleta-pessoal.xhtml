@@ -40,8 +40,7 @@
                         <label for="name">Nome *</label>
                         <input id="name" type="text" class="form-control" placeholder="Digite o seu nome"
                                maxlength="#{constants.nameSize}"/>
-                        <span id="name-message" hidden="true" class="label label-danger"
-                              maxlength="#{constants.nameSize}"/>
+                        <span data-for="name" data-property="name" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +48,7 @@
                         <label for="rg">RG *</label>
                         <input id="rg" type="text" class="form-control" placeholder="Digite o seu RG"
                                maxlength="#{constants.rgSize}"/>
-                        <span id="rg-message" hidden="true" class="label label-danger"/>
+                        <span data-for="rg" data-property="rg" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
@@ -57,7 +56,7 @@
                         <label for="cpf">CPF *</label>
                         <input id="cpf" type="text" class="form-control" placeholder="Digite o seu CPF"
                                maxlength="#{constants.cpfSize}"/>
-                        <span id="cpf-message" hidden="true" class="label label-danger"/>
+                        <span data-for="cpf" data-property="cpf" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
@@ -68,14 +67,14 @@
                             <option value="M">Masculino</option>
                             <option value="F">Feminino</option>
                         </select>
-                        <span id="gender-message" hidden="true" class="label label-danger"></span>
+                        <span data-for="gender" data-property="gender" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <label for="birthday">Data de nascimento *</label>
                         <adventure:calendar dayId="birthday" monthId="birthday-month" yearId="birthday-year"/>
-                        <span id="birthday-message" hidden="true" class="label label-danger"/>
+                        <span data-for="birthday" data-property="birthday" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
@@ -89,45 +88,34 @@
                             <option value="G">G</option>
                             <option value="GG">GG</option>
                         </select>
-                        <span id="tshirt-message" hidden="true" class="label label-danger"></span>
+                        <span data-for="tshirt" data-property="tshirt" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label for="uf">UF *</label>
-                        <select id="uf" class="form-control">
-                            <option value="" disabled="disabled" selected="selected">Selecione</option>
-                        </select>
-                        <span id="uf.message" hidden="true" class="label label-danger"></span>
+                        <label for="location">Cidade de residência *</label>
+                        <div id="location" class="form-control" style="padding: 0px; border: 0px;">
+                            <div class="col-xs-3" style="padding-left: 0px;">
+                                <select id="uf" class="form-control">
+                                    <option value="" disabled="disabled" selected="selected">UF</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-9" style="padding: 0px;">
+                                <select id="city" class="form-control">
+                                    <option value="" disabled="disabled" selected="selected">Cidade</option>
+                                </select>
+                            </div>
+                        </div>
+                        <span data-for="uf" data-property="state.id" class="message label label-danger"/>
+                        <span data-for="city" data-property="city.id" class="message label label-danger"/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="city">Cidade de residência *</label>
-                        <select id="city" class="form-control">
-                            <option value="" disabled="disabled" selected="selected">Selecione</option>
-                        </select>
-                        <span id="city.message" hidden="true" class="label label-danger"></span>
-                    </div>
-                </div>
-                <!--
-                <div class="row">
-                    <div class="form-group">
-                        <label for="city-select">Apenas mais *</label>
-                        <span style="display: block;">
-                            <select id="city-select" class="form-control" style="width:100%;">
-                            </select>
-                        </span>
-                        <span id="city-select-message" hidden="true" class="label label-danger"></span>
-                    </div>
-                </div>
-                -->
                 <div class="row">
                     <div class="form-group">
                         <label for="mobile">Celular ou fixo *</label>
                         <input id="mobile" type="tel" class="form-control" placeholder="Telefone para contato com DDD"
                                maxlength="#{constants.telephoneSize}"/>
-                        <span id="mobile-message" hidden="true" class="label label-danger"></span>
+                        <span data-for="mobile" data-property="mobile" class="message label label-danger"/>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 15px">

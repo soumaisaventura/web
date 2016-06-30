@@ -3,7 +3,7 @@ $(function () {
 
     $("form").submit(function (event) {
         event.preventDefault();
-        $("[id$='-message']").hide();
+        $(".message").hide();
 
         var data = {
             'email': $("#email").val(),

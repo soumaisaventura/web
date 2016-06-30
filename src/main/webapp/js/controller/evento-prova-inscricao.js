@@ -43,7 +43,7 @@ $(function () {
         }
     });
 
-    $("#category\\.id").on("change", function () {
+    $("#category-id").on("change", function () {
         updateTable();
     });
 
@@ -121,7 +121,7 @@ $(function () {
 
     $("form").submit(function (event) {
         event.preventDefault();
-        $("[id$='-message']").hide();
+        $(".message").hide();
 
         var _members = [];
 
@@ -146,10 +146,10 @@ $(function () {
 
         var registration = {
             category: {
-                id: $("#category\\.id").val()
+                id: $("#category-id").val()
             },
             team: {
-                name: $("#team\\.name").val(),
+                name: $("#team-name").val(),
                 members: _members
             }
         };
@@ -175,19 +175,19 @@ function loadComboCategories(categories) {
             var option = new Option(category.name, category.id);
             $(option).data("teamsize", category.team_size);
             $(option).data("id", category.id);
-            $("#category\\.id").append(option);
+            $("#category-id").append(option);
         });
 
         if (categories.length === 1 && categories[0].team_size !== 1) {
-            $("#category\\.id").val(categories[0].id);
+            $("#category-id").val(categories[0].id);
             $("#pesquisa-atleta").show();
         }
     }
 }
 
 function loadRegistrationOk(registration) {
-    $("#team\\.name").val(registration.team.name);
-    $("#category\\.id").val(registration.category.id);
+    $("#team-name").val(registration.team.name);
+    $("#category-id").val(registration.category.id);
     $("#summary-section, #submit-button-section, #members-section").show();
 }
 
@@ -251,7 +251,7 @@ function getOrderOk(order, athlete) {
 
 function updateTable() {
     var rowCount = $('#members-list>tbody>tr').length;
-    var teamsize = $('#category\\.id').find('option:selected').data("teamsize");
+    var teamsize = $('#category-id').find('option:selected').data("teamsize");
     if (!rowCount) {
         $("#pesquisa-atleta").show();
     } else {
@@ -288,7 +288,7 @@ function convertToLabelValueStructureFromUser(data) {
 }
 
 function registrationOk(data) {
-    $("[id$='-message']").hide();
+    $(".message").hide();
     var url = App.getContextPath() + "/inscricao/" + data;
 
     bootbox.dialog({
@@ -302,7 +302,7 @@ function registrationOk(data) {
                 callback: function () {
                     App.shareOnFacebook({
                         appId: $("body").data("facebook-app-id"),
-                        teamName: $("#team\\.name").val(),
+                        teamName: $("#team-name").val(),
                         race: $("body").data("race")
                     });
                     location.href = url;

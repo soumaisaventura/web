@@ -1,41 +1,41 @@
 @font-face {
-	font-family: 'Lato';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Lato Regular'), local('Lato Regular'),
-		url('../fonts/Lato-Regular.ttf') format('truetype');
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Lato Regular'), local('Lato Regular'),
+    url('../fonts/Lato-Regular.ttf') format('truetype');
 }
 
 * {
-	font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 @media screen and (max-width: 768px) {
-	.container {
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-	.page-header {
-		margin-top: 0px;
-	}
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .page-header {
+        margin-top: 0px;
+    }
 }
 
 .container-fluid {
-	padding: 0px;
+    padding: 0px;
 }
 
-html,body {
-	height: 100%;
+html, body {
+    height: 100%;
 }
 
 body {
-	padding-top: 70px;
+    padding-top: 70px;
 }
 
-input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button
-	{
-	-webkit-appearance: none;
-	margin: 0;
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /*
@@ -51,61 +51,61 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 */
 .login-or {
-	position: relative;
-	font-size: 18px;
-	color: #aaa;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .span-or {
-	display: block;
-	position: absolute;
-	left: 50%;
-	top: -2px;
-	margin-left: -25px;
-	background-color: #fff;
-	width: 50px;
-	text-align: center;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 50px;
+    text-align: center;
 }
 
 .hr-or {
-	background-color: #cdcdcd;
-	height: 1px;
-	margin-top: 0px !important;
-	margin-bottom: 0px !important;
+    background-color: #cdcdcd;
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
 }
 
 .label {
-	border-radius: 0em;
+    border-radius: 0em;
 }
 
 .label-as-badge {
-	border-radius: 1em;
+    border-radius: 1em;
 }
 
 .jumbotron {
-	background-color: white;
+    background-color: white;
 }
 
 .ui-menu-item {
-	height: 38px;
+    height: 38px;
 }
 
 .navbar-default {
-	background-color: white;
-	border-color: white;
-	border-bottom-color: #F0F0F0;
+    background-color: white;
+    border-color: white;
+    border-bottom-color: #F0F0F0;
 }
 
 .rounded {
-	border-radius: 6px;
+    border-radius: 6px;
 }
 
 .glyphicon {
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 /*
@@ -117,17 +117,21 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 */
 .footer {
-	padding-top: 100px;
-	margin-top: 50px;
-	background-color: #dbdbdb;
+    padding-top: 100px;
+    margin-top: 50px;
+    background-color: #dbdbdb;
 }
 
-.footer>.row {
-	height: 200px;
+.footer > .row {
+    height: 200px;
 }
 
 /* Painel */
 
 .huge {
     font-size: 40px;
+}
+
+.message {
+    display: none;
 }
