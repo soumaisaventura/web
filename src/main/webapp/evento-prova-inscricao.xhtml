@@ -143,7 +143,7 @@
                                 <tbody>
                                 </tbody>
                                 <tfoot>
-                                <tr id='pesquisa-atleta' hidden="true">
+                                <tr id='search-member-section' hidden="true">
                                     <td colspan="3">
                                         <input type="hidden" id="memberId"/>
                                         <input type="text" id="members_ids" class="form-control"
@@ -197,30 +197,28 @@
         </div>
 
         <script id="kits-template" type="text/template">
-            {{#kits}}
-            <div class="col-md-6 col-sm-12 col-xs-12 kit-item">
+            {{#.}}
+            <div class="kit-item col-md-6 col-sm-12 col-xs-12"
+                 data-kit-id="{{id}}" data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{member_id}}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3>{{name}} <span class="pull-right text-success">R$ {{price}}</span></h3>
                     </div>
                     <div class="panel-body">
                         <div class="text-left">
-                            {{{parsedDescription}}}
+                            {{{parsed_description}}}
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button class="btn btn-lg btn-block btn-primary kit-choice" data-kit-id="{{id}}"
-                                data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{memberId}}">
-                            Escolher
-                        </button>
+                        <button class="btn btn-lg btn-block btn-primary">Escolher</button>
                     </div>
                 </div>
             </div>
-            {{/kits}}
+            {{/.}}
         </script>
 
         <script id="member-template" type="text/template">
-            <tr id='member-{{id}}' class='member' data-id='{{id}}' data-raceprice='{{race_price}}'>
+            <tr class="member" data-id="{{id}}" data-name="{{name}}" data-amount="{{amount}}" data-kit-id="{{kit.id}}">
                 <td class='first-column'>
                     <table>
                         <tr>
@@ -231,19 +229,17 @@
                                 {{profile.name}}<span class="hidden-xs"/>
                                 {{#kit_selection}}
                                 <br class="visible-xs"/>
-                                <a href='#' id='kit-{{id}}' class='kit' data-member-id='{{id}}' data-name='{{kit.name}}'
-                                   data-toggle='modal' data-target='#kits-modal'>{{#kit}}{{name}}{{/kit}}{{^kit}}escolher
-                                    kit{{/kit}}</a>
+                                <a href='#' class='kit' data-toggle='modal' data-target='#kits-modal'>
+                                    {{#kit}}{{name}}{{/kit}}{{^kit}}escolher kit{{/kit}}
+                                </a>
                                 {{/kit_selection}}
                             </td>
                         </tr>
                     </table>
                 </td>
-                <td id='amount-{{id}}' class='amount text-right' nowrap='nowrap'
-                    data-original-amount='{{valor_atual_da_prova}}' data-amount='{{amount}}'>{{formmated_ammount}}
-                </td>
+                <td class='amount text-right' nowrap='nowrap'>{{formmated_ammount}}</td>
                 <td class="trash">
-                    <a href='#' data-id='{{id}}' class='remove' title='Remover atleta da equipe'>
+                    <a href='#' class='remove' title='Remover atleta da equipe'>
                         <span class='glyphicon glyphicon-trash'/>
                     </a>
                 </td>

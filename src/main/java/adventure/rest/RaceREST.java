@@ -1,18 +1,15 @@
 package adventure.rest;
 
-import adventure.business.PeriodBusiness;
 import adventure.business.RaceBusiness;
 import adventure.entity.*;
 import adventure.persistence.*;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Cache;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -85,37 +82,6 @@ public class RaceREST {
         }
 
         return data;
-    }
-
-    @GET
-    @Path("order")
-    @Produces("application/json")
-    public BigDecimal getOrder(@PathParam("raceAlias") String raceAlias, @PathParam("eventAlias") String eventAlias,
-                               @QueryParam("user_id") Integer userId, @Context UriInfo uriInfo) throws Exception {
-        Race race = loadRaceDetails(raceAlias, eventAlias);
-        RegistrationPeriod period = PeriodBusiness.getInstance().loadCurrent(race);
-        User user;
-
-        if (userId == null) {
-            throw new UnprocessableEntityException().addViolation("user_id", "parâmetro obrigatório");
-
-        } else {
-            user = UserDAO.getInstance().loadBasics(userId);
-
-            if (user == null) {
-                throw new UnprocessableEntityException().addViolation("users", "usuário inválido");
-            }
-        }
-
-        BigDecimal result;
-
-        if (period != null) {
-            result = period.getPrice();
-        } else {
-            throw new UnprocessableEntityException().addViolation("Fora do período de inscrição.");
-        }
-
-        return result;
     }
 
     @GET
