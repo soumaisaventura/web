@@ -225,7 +225,7 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
         jpql += "   join rc.category ca ";
         jpql += "   join ra.event ev ";
         jpql += "   join ev.city c ";
-        jpql += "   join c.state s, ";
+        jpql += "   join c.state s ";
         jpql += "   join s.country y, ";
         jpql += "        Profile pr ";
         jpql += "  where su.id = pr.id ";

@@ -69,8 +69,8 @@ INSERT INTO event_organizer (event_id,
                              alternate_name,
                              alternate_email)
 VALUES (21,
-        1259,
-        'Ana Augusta',
+        831,
+        'Siulle Cunha',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)

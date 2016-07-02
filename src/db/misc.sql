@@ -4,7 +4,7 @@ WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('sobra') || '%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('augusta') || '%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('aurelio') || '%';
 
 UPDATE user_registration
 SET user_id = 3114
@@ -20,7 +20,7 @@ WHERE ua.email LIKE '%cfautomoveis@hotmail.com%';
 
 SELECT *
 FROM user_account ua
-WHERE id IN (5);
+WHERE id IN (2675);
 
 SELECT *
 FROM profile p
@@ -38,7 +38,7 @@ FROM user_registration tf,
 WHERE tf.user_id = p.id
       AND tf.registration_id = re.id
       AND re.race_id = ra.id
-      AND tf.user_id IN (1309, 1316);
+      AND tf.user_id IN (2637);
 
 SELECT *
 FROM user_registration tf, profile p
