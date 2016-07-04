@@ -75,9 +75,10 @@ function loadOk(registration) {
     var user = App.getLoggedInUser();
     var isMember = false;
 
-    if (App.isAdmin() || App.isOrganizer(registration.race.event.organizers)) {
-        $("#edit").attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
-        $("#edit").parent().show();
+    if ((App.isAdmin() || App.isOrganizer(registration.race.event.organizers)) && (registration.payment == null || !registration.payment.transaction_code)) {
+        var $edit = $("#edit");
+        $edit.attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
+        $edit.parent().show();
     }
 
     $.each(registration.team.members, function (i, member) {

@@ -43,6 +43,7 @@ public class UserData {
     public UserData(User user, UriInfo uriInfo) {
         this(uriInfo);
         this.id = user.getId();
+        this.email = user.getEmail();
 
         if (user.getProfile() != null) {
             this.profile = new ProfileData();

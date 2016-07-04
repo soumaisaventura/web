@@ -12,9 +12,7 @@ function loadMenu(user) {
     if (user) {
         $(".loggedout-menu").hide();
         $(".loggedin-menu").show();
-        $("#currentUser").html("<img style='width: 20px; margin-right: 5px;' src='" + user.picture.thumbnail + "'/>" + user.profile.short_name);
-
-        console.log(user);
+        $("#currentUser").html("<span title='" + user.email + "'><img style='width: 20px; margin-right: 5px;' src='" + user.picture.thumbnail + "'/>" + user.profile.short_name + "</span>");
 
         if (user.profile && user.profile.pendencies > 0) {
             $("#profile-badge").text(user.profile.pendencies);

@@ -5,7 +5,10 @@ import adventure.business.RaceBusiness;
 import adventure.business.RegistrationBusiness;
 import adventure.business.UserBusiness;
 import adventure.entity.*;
-import adventure.persistence.*;
+import adventure.persistence.KitDAO;
+import adventure.persistence.RegistrationDAO;
+import adventure.persistence.UserDAO;
+import adventure.persistence.UserRegistrationDAO;
 import adventure.rest.data.*;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.HttpViolationException;
@@ -237,7 +240,7 @@ public class RegistrationREST {
             throw new ForbiddenException();
         }
 
-        // Validation
+        // Pre Validation
         RaceCategory raceCategory = raceBusiness.loadRaceCategory(registration.getRaceCategory().getRace().getId(), data.category.id);
         RegistrationPeriod period = registration.getPeriod();
         List<User> newMembers = userBusiness.loadMembers(raceCategory.getRace(), data.team.members);
@@ -245,6 +248,9 @@ public class RegistrationREST {
 
         // Attached
         Registration attachedRegistration = registrationDAO.load(registration.getId());
+
+        // Pos Validation
+        validatePaymentTransaction(attachedRegistration, null);
 
         // Category
         if (!raceCategory.equals(attachedRegistration.getRaceCategory())) {
@@ -260,6 +266,7 @@ public class RegistrationREST {
 
         // Members
         List<User> oldMembers = userDAO.findUserRegistrations(registration);
+        boolean clearPaymentCode = false;
 
         List<User> toAdd = new ArrayList<>(newMembers);
         toAdd.removeAll(oldMembers);
@@ -273,12 +280,14 @@ public class RegistrationREST {
             userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
 
             userRegistrationDAO.insert(userRegistration);
+            clearPaymentCode = true;
         }
 
         List<User> toRemove = new ArrayList<>(oldMembers);
         toRemove.removeAll(newMembers);
         for (User user : toRemove) {
             userRegistrationDAO.delete(registration, user);
+            clearPaymentCode = true;
         }
 
         List<User> toKeep = new ArrayList<>(newMembers);
@@ -290,7 +299,12 @@ public class RegistrationREST {
                 userRegistration.setKit(user.getKit());
                 userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
                 userRegistrationDAO.update(userRegistration);
+                clearPaymentCode = true;
             }
+        }
+
+        if (clearPaymentCode && attachedRegistration.getPayment() != null) {
+            attachedRegistration.getPayment().setCheckoutCode(null);
         }
     }
 
@@ -397,34 +411,41 @@ public class RegistrationREST {
         List<User> organizers = UserDAO.getInstance().findOrganizers(race.getEvent());
         User member = loadMember(memberId);
         User loggedInUser = User.getLoggedIn();
+        UserRegistrationDAO userRegistrationDAO = UserRegistrationDAO.getInstance();
 
         if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser)) {
             throw new ForbiddenException();
         }
 
-        UserRegistration teamFormation = UserRegistrationDAO.getInstance().load(registration, member);
+        UserRegistration teamFormation = userRegistrationDAO.load(registration, member);
         if (teamFormation == null) {
             throw new UnprocessableEntityException().addViolation("member", member.getProfile().getName()
                     + " não faz parte da equipe " + registration.getTeamName());
         }
 
-        if (registration.getPayment().getTransactionCode() != null) {
-            throw new UnprocessableEntityException().addViolation("transactionCode", "O pagamento já está em andamento");
-        }
+        validatePaymentTransaction(registration, "transactionCode");
 
         if (price.doubleValue() < 0) {
             throw new UnprocessableEntityException().addViolation("price", "Valor inválido");
         }
 
-        teamFormation.setAmount(price);
-        UserRegistrationDAO.getInstance().update(teamFormation);
+        if (!price.equals(teamFormation.getAmount())) {
+            teamFormation.setAmount(price);
+            userRegistrationDAO.update(teamFormation);
 
-        RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
-        Registration persisted = registrationDAO.load(id);
+            RegistrationDAO registrationDAO = RegistrationDAO.getInstance();
+            Registration persisted = registrationDAO.load(id);
 
-        if (persisted.getPayment() != null) {
-            persisted.getPayment().setCheckoutCode(null);
-            registrationDAO.update(persisted);
+            if (persisted.getPayment() != null) {
+                persisted.getPayment().setCheckoutCode(null);
+                registrationDAO.update(persisted);
+            }
+        }
+    }
+
+    private void validatePaymentTransaction(Registration registration, String property) throws Exception {
+        if (registration.getPayment() != null && registration.getPayment().getTransactionCode() != null) {
+            throw new UnprocessableEntityException().addViolation(property, "O pagamento já está em andamento");
         }
     }
 
@@ -519,7 +540,6 @@ public class RegistrationREST {
             String message = "Falha na comunicação com o PagSeguro.";
             Logger logger = Beans.getReference(Logger.class, new NameQualifier(RegistrationREST.class.getName()));
             logger.severe(message + ":" + response.toString());
-            System.out.println(response.toString());
             throw new HttpViolationException(502).addViolation(message);
         }
 
@@ -533,14 +553,6 @@ public class RegistrationREST {
             throw new NotFoundException();
         }
 
-        return result;
-    }
-
-    private Event loadEventDetail(String slug) throws NotFoundException {
-        Event result = EventDAO.getInstance().loadForDetail(slug);
-        if (result == null) {
-            throw new NotFoundException();
-        }
         return result;
     }
 

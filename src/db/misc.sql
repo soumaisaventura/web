@@ -90,5 +90,5 @@ WHERE ur.registration_id = r.id AND r.status = 'CONFIRMED' AND extract(YEAR FROM
 
 
 SELECT *
-FROM user_registration ur
-WHERE ur.registration_id = 1358;
+FROM registration r
+WHERE r.id in (1534);

@@ -5,6 +5,7 @@ import adventure.entity.Race;
 import adventure.entity.Registration;
 import adventure.persistence.RaceDAO;
 import adventure.persistence.RegistrationDAO;
+import br.gov.frameworkdemoiselle.HttpViolationException;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.NameQualifier;
@@ -75,6 +76,8 @@ public class RegistrationNotificationREST {
             URI baseUri = uriInfo.getBaseUri().resolve("..");
             Registration persistedRegistration = dao.load(transaction.reference);
 
+            validate(persistedRegistration);
+
             switch (transaction.status) {
                 case 1: // iniciada
                     persistedRegistration.getPayment().setTransactionCode(transaction.code);
@@ -94,6 +97,14 @@ public class RegistrationNotificationREST {
                     persistedRegistration.getPayment().setTransactionCode(null);
                     dao.update(persistedRegistration);
             }
+        }
+    }
+
+    private void validate(Registration registration) throws Exception {
+        if (registration.getPayment() == null || registration.getPayment().getCheckoutCode() == null) {
+            String message = "A inscrição #" + registration.getFormattedId() + " (" + registration.getRaceCategory().getRace().getEvent().getName() + ") não fez checkout no PagSeguro previamente.";
+            logger.severe(message);
+            throw new HttpViolationException(424).addViolation(message);
         }
     }
 
