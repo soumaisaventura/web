@@ -200,7 +200,7 @@ function updateSearchSection() {
     var currentTeamSize = $(".member").length;
     var $section = $("#search-member-section");
 
-    if (categoryTeamSize > currentTeamSize) {
+    if (currentTeamSize == 0 || categoryTeamSize > currentTeamSize) {
         $section.show();
     } else {
         $section.hide();

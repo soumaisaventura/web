@@ -108,7 +108,8 @@ function updateOk(data) {
     $(".message").hide();
     var user = App.getLoggedInUser();
     user.profile.pendencies = null;
-    user.name = $("#name").val();
+    user.profile.name = $("#name").val();
+    user.profile.short_name = $("#name").val().split(" ")[0];
     App.setLoggedInUser(user);
 
     if (user.health && user.health.pendencies > 0) {
@@ -123,15 +124,4 @@ function updateOk(data) {
     } else {
         App.restoreSavedLocation();
     }
-}
-
-function convertToLabelValueStructure(data) {
-    var newData = [];
-    $.each(data, function () {
-        newData.push({
-            "label": this.name + "/" + this.state,
-            "value": this.id
-        });
-    });
-    return newData;
 }

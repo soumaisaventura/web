@@ -9,13 +9,19 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.UriInfo;
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({"id", "name", "gender", "email", "picture", "mobile", "amount", "kit", "city", "roles", "pendencies"})
+@JsonPropertyOrder({"id", "email", "picture", "profile", "health", "amount", "kit", "roles"})
 public class UserData {
 
     @NotNull
     public Integer id;
 
     public String email;
+
+    private PictureData picture;
+
+    public ProfileData profile;
+
+    public HealthData health;
 
     public BigDecimal amount;
 
@@ -24,14 +30,8 @@ public class UserData {
 
     public RolesData roles;
 
-    public ProfileData profile;
-
-    public HealthData health;
-
     @JsonIgnore
     private UriInfo uriInfo;
-
-    private PictureData picture;
 
     public UserData() {
     }

@@ -214,9 +214,6 @@ function loadEventOk(event) {
             $('#races-section').append(rendered);
         });
 
-        // $(".race:not(.open)>div:nth-child(1)").removeClass("col-md-8").addClass("col-md-12");
-        // $(".race:not(.open)>div:nth-child(2)").remove();
-
         $('[data-toggle="tooltip"]').tooltip({html: true});
         // $('[data-toggle="popover"]').popover({html: true});
         $(".end, .closed").html("Inscrições encerradas");
