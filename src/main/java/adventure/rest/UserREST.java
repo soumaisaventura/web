@@ -34,7 +34,7 @@ public class UserREST {
         List<UserData> result = new ArrayList();
 
         for (User user : UserDAO.getInstance().search(q, excludes)) {
-            result.add(new UserData(user, uriInfo));
+            result.add(new UserData(user, uriInfo, true));
         }
 
         return result.isEmpty() ? null : result;
@@ -69,7 +69,7 @@ public class UserREST {
         URI baseUri = uriInfo.getBaseUri().resolve("..");
         MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
 
-        return new UserData(User.getLoggedIn(), uriInfo);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     private void validate(String token, User user) throws Exception {

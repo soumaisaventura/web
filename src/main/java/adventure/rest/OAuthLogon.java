@@ -70,7 +70,7 @@ public abstract class OAuthLogon {
             login(oauth.getEmail());
         }
 
-        return new UserData(User.getLoggedIn(), uriInfo);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     protected void login(String username) {

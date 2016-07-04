@@ -40,27 +40,32 @@ public class UserData {
         this.uriInfo = uriInfo;
     }
 
-    public UserData(User user, UriInfo uriInfo) {
+    public UserData(User user, UriInfo uriInfo, boolean publicInfo) {
         this(uriInfo);
         this.id = user.getId();
-        this.email = user.getEmail();
+
+        if (!publicInfo) {
+            this.email = user.getEmail();
+            this.roles = new RolesData();
+            this.roles.admin = user.getAdmin();
+            this.roles.organizer = user.getOrganizer();
+
+            if (user.getHealth() != null && user.getHealth().getPendencies() != null) {
+                this.health = new HealthData();
+                this.health.pendencies = user.getHealth().getPendencies();
+            }
+        }
 
         if (user.getProfile() != null) {
             this.profile = new ProfileData();
             this.profile.name = user.getProfile().getName();
-            this.profile.gender = user.getProfile().getGender();
-            this.profile.mobile = user.getProfile().getMobile();
-            this.profile.pendencies = user.getProfile().getPendencies();
-        }
 
-        if (user.getHealth() != null && user.getHealth().getPendencies() != null) {
-            this.health = new HealthData();
-            this.health.pendencies = user.getHealth().getPendencies();
+            if (!publicInfo) {
+                this.profile.gender = user.getProfile().getGender();
+                this.profile.mobile = user.getProfile().getMobile();
+                this.profile.pendencies = user.getProfile().getPendencies();
+            }
         }
-
-        this.roles = new RolesData();
-        this.roles.admin = user.getAdmin();
-        this.roles.organizer = user.getOrganizer();
     }
 
     public PictureData getPicture() {

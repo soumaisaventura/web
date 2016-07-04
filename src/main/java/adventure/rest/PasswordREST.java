@@ -68,7 +68,7 @@ public class PasswordREST {
             }
         }
 
-        return new UserData(User.getLoggedIn(), uriInfo);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     private void login(String email, String password) {

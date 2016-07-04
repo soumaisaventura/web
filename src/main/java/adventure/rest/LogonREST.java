@@ -29,7 +29,7 @@ public class LogonREST {
         SecurityContext securityContext = Beans.getReference(SecurityContext.class);
         securityContext.login();
 
-        return new UserData(User.getLoggedIn(), uriInfo);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     @GET
