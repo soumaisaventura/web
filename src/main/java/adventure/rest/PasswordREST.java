@@ -5,7 +5,6 @@ import adventure.entity.User;
 import adventure.persistence.UserDAO;
 import adventure.rest.data.UserData;
 import adventure.security.Passwords;
-import adventure.validator.ExistentUserEmail;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
@@ -30,6 +29,12 @@ public class PasswordREST {
     @Consumes("application/json")
     public void recovery(RecoveryData data, @Context UriInfo uriInfo) throws Exception {
         URI baseUri = uriInfo.getBaseUri().resolve("..");
+        User user = UserDAO.getInstance().load(data.email);
+
+        if (user == null) {
+            throw new UnprocessableEntityException().addViolation("email", "e-mail não cadastrado");
+        }
+
         MailBusiness.getInstance().sendResetPasswordMail(data.email.trim().toLowerCase(), baseUri);
     }
 
@@ -83,7 +88,6 @@ public class PasswordREST {
 
         @Email
         @NotEmpty
-        @ExistentUserEmail
         public String email;
     }
 

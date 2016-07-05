@@ -6,11 +6,14 @@ import adventure.entity.User;
 import adventure.persistence.KitDAO;
 import adventure.persistence.UserDAO;
 import adventure.rest.data.UserData;
+import adventure.security.Passwords;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.math.BigDecimal.ZERO;
@@ -20,6 +23,43 @@ public class UserBusiness {
     public static UserBusiness getInstance() {
         return Beans.getReference(UserBusiness.class);
     }
+
+    @Transactional
+    public String updateActivationToken(String email) {
+        UserDAO userDAO = UserDAO.getInstance();
+        User user = userDAO.load(email);
+        String token;
+
+        if (user.getActivationToken() == null) {
+            token = Passwords.randomToken();
+            user.setActivationToken(token);
+            userDAO.update(user);
+        } else {
+            token = user.getActivationToken();
+        }
+
+
+        return token;
+    }
+
+    @Transactional
+    public String updateResetToken(String email) {
+        UserDAO userDAO = UserDAO.getInstance();
+        User user = userDAO.load(email);
+        String token;
+
+        if (user.getPasswordResetToken() == null) {
+            token = Passwords.randomToken();
+            user.setPasswordResetToken(token);
+            user.setPasswordResetRequest(new Date());
+            userDAO.update(user);
+        } else {
+            token = user.getPasswordResetToken();
+        }
+
+        return token;
+    }
+
 
     public List<User> loadMembers(Race race, List<UserData> members) throws Exception {
         UserDAO userDAO = UserDAO.getInstance();

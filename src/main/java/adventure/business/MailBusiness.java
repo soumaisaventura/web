@@ -4,7 +4,6 @@ import adventure.entity.*;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
-import adventure.security.Passwords;
 import adventure.util.ApplicationConfig;
 import adventure.util.Dates;
 import adventure.util.Misc;
@@ -41,18 +40,8 @@ public class MailBusiness implements Serializable {
     @Asynchronous
     public void sendUserActivation(final String email, final URI baseUri) throws Exception {
         beforeAsync();
-        UserDAO userDAO = UserDAO.getInstance();
-        User user = userDAO.loadForAuthentication(email);
-        final String token;
-
-        if (user.getActivationToken() == null) {
-            token = Passwords.randomToken();
-            User persisted = userDAO.load(user.getId());
-            persisted.setActivationToken(token);
-            userDAO.update(persisted);
-        } else {
-            token = user.getActivationToken();
-        }
+        User user = UserDAO.getInstance().loadForAuthentication(email);
+        String token = UserBusiness.getInstance().updateActivationToken(email);
 
         String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
         content = clearContent(content);
@@ -84,19 +73,8 @@ public class MailBusiness implements Serializable {
     @Asynchronous
     public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
         beforeAsync();
-        UserDAO userDAO = UserDAO.getInstance();
-        User user = userDAO.loadForAuthentication(email);
-        final String token;
-
-        if (user.getPasswordResetToken() == null) {
-            token = Passwords.randomToken();
-            User persisted = userDAO.load(user.getId());
-            persisted.setPasswordResetToken(Passwords.hash(token, persisted.getEmail()));
-            persisted.setPasswordResetRequest(new Date());
-            userDAO.update(persisted);
-        } else {
-            token = user.getPasswordResetToken();
-        }
+        User user = UserDAO.getInstance().loadForAuthentication(email);
+        String token = UserBusiness.getInstance().updateResetToken(email);
 
         String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-creation.html"));
         content = clearContent(content);
@@ -111,19 +89,8 @@ public class MailBusiness implements Serializable {
     @Asynchronous
     public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
         beforeAsync();
-        UserDAO userDAO = UserDAO.getInstance();
-        User user = userDAO.loadForAuthentication(email);
-        final String token;
-
-        if (user.getPasswordResetToken() == null) {
-            token = Passwords.randomToken();
-            User persisted = userDAO.load(user.getId());
-            persisted.setPasswordResetToken(token);
-            persisted.setPasswordResetRequest(new Date());
-            userDAO.update(persisted);
-        } else {
-            token = user.getPasswordResetToken();
-        }
+        User user = UserDAO.getInstance().loadForAuthentication(email);
+        String token = UserBusiness.getInstance().updateResetToken(email);
 
         String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-recovery.html"));
         content = clearContent(content);
@@ -377,6 +344,6 @@ public class MailBusiness implements Serializable {
     }
 
     private void beforeAsync() throws Exception {
-        Thread.sleep(300);
+        // Thread.sleep(300);
     }
 }

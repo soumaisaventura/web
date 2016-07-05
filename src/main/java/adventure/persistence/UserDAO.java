@@ -248,12 +248,12 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.admin, ";
         jpql += " 	     u.organizer ";
         jpql += " 	     ) ";
-        jpql += "   from Profile p";
+        jpql += "   from Profile p ";
         jpql += "   join p.user u, ";
         jpql += "        Health h ";
         jpql += "  where u = h.user ";
         jpql += "    and u.deleted is null ";
-        jpql += "    and u.id = :id";
+        jpql += "    and u.id = :id ";
 
         TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
         query.setParameter("id", id);
@@ -281,12 +281,12 @@ public class UserDAO extends JPACrud<User, Integer> {
         jpql += " 	     u.admin, ";
         jpql += " 	     u.organizer ";
         jpql += " 	     ) ";
-        jpql += "   from Profile p";
+        jpql += "   from Profile p ";
         jpql += "   join p.user u, ";
         jpql += "        Health h ";
         jpql += "  where u = h.user ";
         jpql += "    and u.deleted is null ";
-        jpql += "    and u.email = :email";
+        jpql += "    and u.email = :email ";
 
         TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
         query.setParameter("email", email);
@@ -302,6 +302,7 @@ public class UserDAO extends JPACrud<User, Integer> {
 
     public User load(String email) {
         String jpql = "";
+        jpql += " select u ";
         jpql += "   from User u ";
         jpql += "  where u.email = :email ";
 

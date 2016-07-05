@@ -7,21 +7,17 @@ import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.security.TokenAuthenticator;
 import br.gov.frameworkdemoiselle.util.Beans;
 
-import javax.inject.Inject;
 import java.security.Principal;
 
 public class Authenticator extends TokenAuthenticator {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private UserDAO userDAO;
-
     @Override
     protected Principal customAuthentication() throws Exception {
-        Principal result = null;
+        Principal result;
         Credentials credentials = Beans.getReference(Credentials.class);
-        User user = userDAO.loadForAuthentication(credentials.getUsername());
+        User user = UserDAO.getInstance().loadForAuthentication(credentials.getUsername());
 
         if (user != null && (isOAuthLogin() || isUserLogin(user, credentials))) {
             result = user;
@@ -52,7 +48,7 @@ public class Authenticator extends TokenAuthenticator {
     }
 
     private boolean doesPasswordMatch(User user, Credentials credentials) {
-        boolean result = false;
+        boolean result;
 
         if (user.getPassword() == null) {
             throw new PasswordNotDefinedException();

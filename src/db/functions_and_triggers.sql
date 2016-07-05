@@ -310,3 +310,44 @@ AS
     LEFT JOIN registration re
       ON (da.race_id = re.race_id AND da.date = re.status_date :: DATE)
   GROUP BY da.event_id, da.date;
+
+-- NÃO USAR ESTRA TRIGGER. ESTÁ EM FASE EXPERIMENTAL E TALVEZ NÃO SEJA NECESSÁRIA
+
+CREATE OR REPLACE FUNCTION trg_user_account_before_update()
+  RETURNS TRIGGER
+AS
+$func$
+# VARIABLE_CONFLICT use_variable
+DECLARE
+  activation_token     user_account.activation_token%TYPE;
+  password_reset_token user_account.password_reset_token%TYPE;
+BEGIN
+  SELECT
+    ua.activation_token,
+    ua.password_reset_token
+  INTO activation_token, password_reset_token
+  FROM user_account ua
+  WHERE ua.email = NEW.email;
+
+  IF NEW.activation_token IS NOT NULL AND activation_token IS NOT NULL
+  THEN
+    NEW.activation_token = activation_token;
+  END IF;
+
+  IF NEW.password_reset_token IS NOT NULL AND password_reset_token IS NOT NULL
+  THEN
+    NEW.password_reset_token = password_reset_token;
+  END IF;
+
+  RETURN NEW;
+END;
+$func$
+LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_user_account_before_update ON user_account;
+
+CREATE TRIGGER trg_user_account_before_update
+BEFORE UPDATE
+ON user_account
+FOR EACH ROW
+EXECUTE PROCEDURE trg_user_account_before_update();
