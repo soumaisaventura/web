@@ -81,7 +81,7 @@ public class RaceRegistrationREST {
         userRegistration.setRegistration(registration);
         userRegistration.setUser(user);
         userRegistration.setKit(kit);
-        userRegistration.setAmount(period.getPrice().add(UserBusiness.getInstance().getKitPrice(user)));
+        userRegistration.setAmount(period.getPrice().add(KitBusiness.getInstance().getPrice(kit)));
 
         return UserRegistrationDAO.getInstance().insert(userRegistration);
     }

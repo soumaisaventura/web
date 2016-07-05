@@ -1,9 +1,6 @@
 package adventure.rest;
 
-import adventure.business.MailBusiness;
-import adventure.business.RaceBusiness;
-import adventure.business.RegistrationBusiness;
-import adventure.business.UserBusiness;
+import adventure.business.*;
 import adventure.entity.*;
 import adventure.persistence.KitDAO;
 import adventure.persistence.RegistrationDAO;
@@ -265,6 +262,7 @@ public class RegistrationREST {
         }
 
         // Members
+        KitBusiness kitBusiness = KitBusiness.getInstance();
         List<User> oldMembers = userDAO.findUserRegistrations(registration);
         boolean clearPaymentCode = false;
 
@@ -277,7 +275,7 @@ public class RegistrationREST {
             userRegistration.setRegistration(attachedRegistration);
             userRegistration.setUser(attachedUser);
             userRegistration.setKit(user.getKit());
-            userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
+            userRegistration.setAmount(period.getPrice().add(kitBusiness.getPrice(user.getKit())));
 
             userRegistrationDAO.insert(userRegistration);
             clearPaymentCode = true;
@@ -297,7 +295,7 @@ public class RegistrationREST {
 
             if (user.getKit() != null && !user.getKit().equals(userRegistration.getKit())) {
                 userRegistration.setKit(user.getKit());
-                userRegistration.setAmount(period.getPrice().add(userBusiness.getKitPrice(user)));
+                userRegistration.setAmount(period.getPrice().add(kitBusiness.getPrice(user.getKit())));
                 userRegistrationDAO.update(userRegistration);
                 clearPaymentCode = true;
             }

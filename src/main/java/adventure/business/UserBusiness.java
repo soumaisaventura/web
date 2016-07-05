@@ -11,12 +11,9 @@ import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static java.math.BigDecimal.ZERO;
 
 public class UserBusiness {
 
@@ -95,9 +92,5 @@ public class UserBusiness {
         }
 
         return result;
-    }
-
-    public BigDecimal getKitPrice(User user) {
-        return user.getKit() == null ? ZERO : user.getKit().getPrice();
     }
 }
