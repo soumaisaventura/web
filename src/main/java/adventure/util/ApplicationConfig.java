@@ -9,7 +9,11 @@ public class ApplicationConfig {
 
     @NotEmpty
     @Name("app.title")
-    private String appTitle = "Adventure";
+    private String appTitle = "Sou+ Aventura";
+
+    @NotEmpty
+    @Name("app.email")
+    private String appEmail = "contato@soumaisaventura.com.br";
 
     @NotEmpty
     @Name("mail.smtp.host")
@@ -51,6 +55,10 @@ public class ApplicationConfig {
 
     public String getAppTitle() {
         return appTitle;
+    }
+
+    public String getAppEmail() {
+        return appEmail;
     }
 
     public String getMailSmtpHost() {

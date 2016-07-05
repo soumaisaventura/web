@@ -66,7 +66,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Demoiselle dependencies -->
+        <!-- Demoiselle -->
         <dependency>
             <groupId>br.gov.frameworkdemoiselle</groupId>
             <artifactId>demoiselle-jpa</artifactId>
@@ -93,13 +93,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- EJB -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -178,42 +171,42 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Mail dependencies -->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Cache dependencies -->
+        <!-- Cache -->
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Image manipulation -->
+        <!-- Image -->
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
 
-        <!-- EJB dependencies for Mail and Cache usages -->
-        <!--
+        <!-- Templates -->
+        <dependency>
+            <groupId>com.samskivert</groupId>
+            <artifactId>jmustache</artifactId>
+            <version>1.12</version>
+        </dependency>
+
+        <!-- EJB -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Mail -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
             <scope>provided</scope>
         </dependency>
-        -->
 
-        <!-- OAuth2 dependencies -->
+        <!-- OAuth2 -->
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-oauth2</artifactId>

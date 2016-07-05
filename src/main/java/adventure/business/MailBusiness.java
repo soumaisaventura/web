@@ -10,6 +10,8 @@ import adventure.util.Misc;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -19,11 +21,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URI;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static javax.mail.Message.RecipientType.TO;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
@@ -39,18 +41,27 @@ public class MailBusiness implements Serializable {
 
     @Asynchronous
     public void sendUserActivation(final String email, final URI baseUri) throws Exception {
-        beforeAsync();
+//        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateActivationToken(email);
 
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
-        content = clearContent(content);
-        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("atleta/ativacao?token=" + token).toString() + "$2");
-        send("Confirmação de e-mail", content, "text/html", email);
+//        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
+//        content = clearContent(content);
+//        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
+//        content = content.replace("{appName}", "Sou+ Aventura");
+//        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
+//        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
+//                "$1" + baseUri.resolve("atleta/ativacao?token=" + token).toString() + "$2");
+
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("user", user);
+        context.put("token", token);
+        context.put("url", baseUri.resolve("atleta/ativacao?token=" + token).toString());
+
+        String content = parse("mail-templates/activation.txt", context);
+
+        send("Confirmação de e-mail", content, "text/plain", email);
     }
 
     @Asynchronous
@@ -309,6 +320,8 @@ public class MailBusiness implements Serializable {
         message.setRecipients(TO, to);
         message.setContent(content, type);
 
+        System.out.println("\n" + content);
+
         Transport.send(message);
     }
 
@@ -345,5 +358,15 @@ public class MailBusiness implements Serializable {
 
     private void beforeAsync() throws Exception {
         // Thread.sleep(300);
+    }
+
+    private String parse(String file, Map<String, Object> context) throws IOException {
+        context.put("config", getConfig());
+
+        InputStream inputStream = Reflections.getResourceAsStream(file);
+        String source = Strings.parse(inputStream);
+        Template template = Mustache.compiler().compile(source);
+
+        return template.execute(context);
     }
 }
