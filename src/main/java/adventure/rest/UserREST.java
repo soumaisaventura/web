@@ -67,7 +67,7 @@ public class UserREST {
         userDAO.update(persisted);
 
         URI baseUri = uriInfo.getBaseUri().resolve("..");
-        MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+        MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
         return new UserData(User.getLoggedIn(), uriInfo, false);
     }

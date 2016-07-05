@@ -1,0 +1,12 @@
+Bem-vindo!
+
+
+{{user.profile.name}}, o seu cadastro no {{config.appTitle}} foi concluído com sucesso. Sabemos que você não esquecerá o endereço, mas não custa nada lembrar:
+{{{url1}}}
+
+Aproveite para completar os seus dados clicando no link a baixo. É importante, simples e rápido:
+{{{url2}}}
+
+
+{{config.appTitle}}
+{{config.appEmail}}

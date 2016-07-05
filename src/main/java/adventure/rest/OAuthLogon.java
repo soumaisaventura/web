@@ -51,7 +51,7 @@ public abstract class OAuthLogon {
 
             URI baseUri = uriInfo.getBaseUri().resolve("..");
             login(oauth.getEmail());
-            MailBusiness.getInstance().sendWelcome(User.getLoggedIn(), baseUri);
+            MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
         } else if (persisted.getActivation() == null) {
             oauth.setActivation(new Date());

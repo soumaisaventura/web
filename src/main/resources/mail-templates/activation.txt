@@ -4,7 +4,7 @@ Confirmação de e-mail
 {{user.profile.name}}, o site {{config.appTitle}} recebeu o seu pedido de cadastro. Nele você poderá fazer suas inscrições nas melhores provas de Aventura.
 
 Falta pouco para concluir o seu cadastro. Basta clicar no link a baixo e seguir as instruções:
-{{url}}
+{{{url}}}
 
 
 {{config.appTitle}}

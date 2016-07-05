@@ -12,6 +12,7 @@ import br.gov.frameworkdemoiselle.util.Reflections;
 import br.gov.frameworkdemoiselle.util.Strings;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import org.apache.commons.io.IOUtils;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -41,18 +42,8 @@ public class MailBusiness implements Serializable {
 
     @Asynchronous
     public void sendUserActivation(final String email, final URI baseUri) throws Exception {
-//        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateActivationToken(email);
-
-//        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/activation.html"));
-//        content = clearContent(content);
-//        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-//        content = content.replace("{appName}", "Sou+ Aventura");
-//        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-//        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-//                "$1" + baseUri.resolve("atleta/ativacao?token=" + token).toString() + "$2");
-
 
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
@@ -60,57 +51,47 @@ public class MailBusiness implements Serializable {
         context.put("url", baseUri.resolve("atleta/ativacao?token=" + token).toString());
 
         String content = parse("mail-templates/activation.txt", context);
-
         send("Confirmação de e-mail", content, "text/plain", email);
     }
 
     @Asynchronous
-    public void sendWelcome(User user, URI baseUri) throws Exception {
-        beforeAsync();
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/welcome.html"));
-        content = clearContent(content);
-        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">url1.url1)", "$1" + baseUri.toString() + "$2");
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\")", "$1"
-                + baseUri.resolve("atleta/pessoal").toString() + "$2");
-        content = content.replace("url1.url1",
-                baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
-                        : baseUri.toString());
-        send("Seja bem-vindo!", content, "text/html", user.getEmail());
+    public void sendWelcome(String email, URI baseUri) throws Exception {
+        User user = UserDAO.getInstance().loadForAuthentication(email);
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("user", user);
+        context.put("url1", baseUri.toString());
+        context.put("url2", baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
+                : baseUri.toString());
+
+        String content = parse("mail-templates/welcome.txt", context);
+        send("Seja bem-vindo!", content, "text/plain", email);
     }
 
     @Asynchronous
     public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
-        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateResetToken(email);
 
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-creation.html"));
-        content = clearContent(content);
-        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("senha/redefinicao?token=" + token).toString() + "$2");
-        send("Criação de senha", content, "text/html", email);
+        Map<String, Object> context = new HashMap<>();
+        context.put("user", user);
+        context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
+
+        String content = parse("mail-templates/password-creation.txt", context);
+        send("Criação de senha", content, "text/plain", email);
     }
 
     @Asynchronous
     public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
-        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateResetToken(email);
 
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/password-recovery.html"));
-        content = clearContent(content);
-        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("senha/redefinicao?token=" + token).toString() + "$2");
-        send("Recuperação de senha", content, "text/html", email);
+        Map<String, Object> context = new HashMap<>();
+        context.put("user", user);
+        context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
+
+        String content = parse("mail-templates/password-recovery.txt", context);
+        send("Recuperação de senha", content, "text/plain", email);
     }
 
     @Asynchronous
@@ -320,8 +301,6 @@ public class MailBusiness implements Serializable {
         message.setRecipients(TO, to);
         message.setContent(content, type);
 
-        System.out.println("\n" + content);
-
         Transport.send(message);
     }
 
@@ -364,7 +343,7 @@ public class MailBusiness implements Serializable {
         context.put("config", getConfig());
 
         InputStream inputStream = Reflections.getResourceAsStream(file);
-        String source = Strings.parse(inputStream);
+        String source = IOUtils.toString(inputStream, "UTF-8");
         Template template = Mustache.compiler().compile(source);
 
         return template.execute(context);
