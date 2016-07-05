@@ -42,6 +42,7 @@ public class MailBusiness implements Serializable {
 
     @Asynchronous
     public void sendUserActivation(final String email, final URI baseUri) throws Exception {
+        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateActivationToken(email);
 
@@ -50,19 +51,20 @@ public class MailBusiness implements Serializable {
         context.put("token", token);
         context.put("url", baseUri.resolve("atleta/ativacao?token=" + token).toString());
 
-        String content = parse("mail-templates/activation.txt", context);
+        String content = parse("mail-templates/account-activation.txt", context);
         send("Confirmação de e-mail", content, "text/plain", email);
     }
 
     @Asynchronous
     public void sendWelcome(String email, URI baseUri) throws Exception {
+        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
 
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
-        context.put("url1", baseUri.toString());
-        context.put("url2", baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
+        context.put("url1", baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
                 : baseUri.toString());
+        context.put("url2", baseUri.resolve("atleta/pessoal").toString());
 
         String content = parse("mail-templates/welcome.txt", context);
         send("Seja bem-vindo!", content, "text/plain", email);
@@ -70,6 +72,7 @@ public class MailBusiness implements Serializable {
 
     @Asynchronous
     public void sendPasswordCreationMail(final String email, final URI baseUri) throws Exception {
+        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateResetToken(email);
 
@@ -83,6 +86,7 @@ public class MailBusiness implements Serializable {
 
     @Asynchronous
     public void sendResetPasswordMail(final String email, final URI baseUri) throws Exception {
+        beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
         String token = UserBusiness.getInstance().updateResetToken(email);
 
@@ -95,16 +99,16 @@ public class MailBusiness implements Serializable {
     }
 
     @Asynchronous
-    public void sendAccountRemoval(User user, String dupEmail) throws Exception {
+    public void sendAccountRemoval(final String email, final String dupEmail) throws Exception {
         beforeAsync();
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/account-removal.html"));
-        content = clearContent(content);
-        content = content.replace("{name}", escapeHtml(user.getProfile().getName()));
-        content = content.replace("{email}", dupEmail);
-        content = content.replace("{originalEmail}", user.getEmail());
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        send("Remoção de conta", content, "text/html", dupEmail);
+        User user = UserDAO.getInstance().loadForAuthentication(email);
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("user", user);
+        context.put("dupEmail", dupEmail);
+
+        String content = parse("mail-templates/account-removal.txt", context);
+        send("Remoção de conta", content, "text/plain", email);
     }
 
     @Asynchronous
@@ -336,7 +340,7 @@ public class MailBusiness implements Serializable {
     }
 
     private void beforeAsync() throws Exception {
-        // Thread.sleep(300);
+        Thread.sleep(300);
     }
 
     private String parse(String file, Map<String, Object> context) throws IOException {

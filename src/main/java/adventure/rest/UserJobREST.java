@@ -65,7 +65,7 @@ public class UserJobREST {
                         User original = persistedByName.get(0);
 
                         for (String email : dups) {
-                            mailBusiness.sendAccountRemoval(original, email);
+                            mailBusiness.sendAccountRemoval(original.getEmail(), email);
                         }
 
                         getLogger().info(
