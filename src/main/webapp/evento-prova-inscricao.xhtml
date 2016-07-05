@@ -199,7 +199,8 @@
         <script id="kits-template" type="text/template">
             {{#.}}
             <div class="kit-item col-md-6 col-sm-12 col-xs-12"
-                 data-kit-id="{{id}}" data-kit-name="{{name}}" data-kit-price="{{price}}" data-member-id="{{member_id}}">
+                 data-kit-id="{{id}}" data-kit-name="{{name}}" data-kit-price="{{price}}"
+                 data-member-id="{{member_id}}">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3>{{name}} <span class="pull-right text-success">R$ {{price}}</span></h3>
@@ -208,9 +209,9 @@
                         <div class="text-left">
                             {{{parsed_description}}}
                         </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-lg btn-block btn-primary">Escolher</button>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-lg btn-block btn-primary">Escolher</button>
+                        </div>
                     </div>
                 </div>
             </div>

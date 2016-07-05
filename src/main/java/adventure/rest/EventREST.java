@@ -328,7 +328,7 @@ public class EventREST {
         }
 
         InputStream inputStream = file.getBody(InputStream.class, null);
-        EventBusiness.getInstance().updateBanner(event, inputStream);
+        EventBusiness.getInstance().updateBanner(event, new Picture(inputStream, "image/png"));
     }
 
     private void checkPermission(Event event) throws ForbiddenException {

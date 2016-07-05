@@ -1,5 +1,6 @@
 package adventure.business;
 
+import adventure.entity.Picture;
 import adventure.entity.Profile;
 import adventure.persistence.ProfileDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -14,7 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.net.URL;
 
 import static adventure.util.Constants.USER_PHOTO_HEIGHT;
@@ -31,28 +31,27 @@ public class ProfileBusiness {
     @Asynchronous
     @Transactional
     public void updatePicture(Integer profileId, String pictureUrl) throws Exception {
-        InputStream inputStream = getPicture(new URL(pictureUrl));
-
-        if (inputStream != null) {
-            updatePicture(profileId, inputStream);
-        }
+        Picture picture = getPicture(new URL(pictureUrl));
+        updatePicture(profileId, picture);
     }
 
     @Transactional
-    public void updatePicture(Integer profileId, InputStream inputStream) throws Exception {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Thumbnails.of(inputStream).crop(CENTER).size(USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT).keepAspectRatio(true)
-                .toOutputStream(outputStream);
-        byte image[] = outputStream.toByteArray();
+    public void updatePicture(Integer profileId, Picture picture) throws Exception {
+        if (picture != null && picture.getInputStream() != null) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            Thumbnails.of(picture.getInputStream()).crop(CENTER).size(USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT)
+                    .keepAspectRatio(true).outputFormat("jpg").toOutputStream(outputStream);
+            byte image[] = outputStream.toByteArray();
 
-        ProfileDAO profileDAO = ProfileDAO.getInstance();
-        Profile profile = profileDAO.load(profileId);
-        profile.setPicture(image);
-        profileDAO.update(profile);
+            ProfileDAO profileDAO = ProfileDAO.getInstance();
+            Profile profile = profileDAO.load(profileId);
+            profile.setPicture(image);
+            profileDAO.update(profile);
+        }
     }
 
-    private InputStream getPicture(URL url) throws Exception {
-        InputStream result = null;
+    private Picture getPicture(URL url) throws Exception {
+        Picture picture = null;
 
         if (url != null) {
             HttpGet request = new HttpGet(url.toString());
@@ -61,17 +60,18 @@ public class ProfileBusiness {
             int status = response.getStatusLine().getStatusCode();
 
             if (status == 301 || status == 302) {
-                Header[] headers = response.getHeaders("Location");
-                String location = headers.length > 0 ? headers[0].getValue() : null;
-                result = getPicture(new URL(location));
+                String location = getHeader("Location", response);
+                picture = getPicture(new URL(location));
             } else if (status == 200) {
-                result = response.getEntity().getContent();
-            } else {
-                result = null;
+                picture = new Picture(response.getEntity().getContent(), getHeader("Content-Type", response));
             }
         }
 
-        return result;
+        return picture;
     }
 
+    private String getHeader(String key, HttpResponse response) {
+        Header[] headers = response.getHeaders(key);
+        return headers.length > 0 ? headers[0].getValue() : null;
+    }
 }

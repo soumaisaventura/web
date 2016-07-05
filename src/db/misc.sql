@@ -4,7 +4,7 @@ WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('sobra') || '%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('aurelio') || '%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('Lavinas') || '%';
 
 UPDATE user_registration
 SET user_id = 3114
@@ -88,7 +88,31 @@ SELECT count(*)
 FROM user_registration ur, registration r
 WHERE ur.registration_id = r.id AND r.status = 'CONFIRMED' AND extract(YEAR FROM date) = 2016;
 
+SELECT *
+FROM user_registration ur, registration r
+WHERE ur.registration_id = r.id AND r.id IN (1055) AND ur.user_id IN (2);
 
 SELECT *
 FROM registration r
-WHERE r.id in (1534);
+WHERE r.id IN (1534);
+
+SELECT picture
+FROM profile
+WHERE id = 71;
+
+SELECT ENCODE(data, 'base64')
+FROM pg_largeobject
+WHERE LOID = 21607;
+
+
+CREATE EXTENSION unaccent;
+
+CREATE EXTENSION fuzzystrmatch;
+
+CREATE EXTENSION tsearch2;
+
+SELECT *
+FROM pg_available_extensions;
+
+
+SELECT unaccent('ão');

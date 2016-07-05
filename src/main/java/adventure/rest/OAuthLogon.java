@@ -96,6 +96,7 @@ public abstract class OAuthLogon {
         protected Created(User user, String pictureUrl) {
             this.user = user;
             this.pictureUrl = pictureUrl;
+            System.out.println("usuario " + user.getName() + " [" + user.getEmail() + "] " + pictureUrl);
         }
     }
 }

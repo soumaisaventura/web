@@ -2,6 +2,7 @@ package adventure.rest;
 
 import adventure.business.ImageBusiness;
 import adventure.business.ProfileBusiness;
+import adventure.entity.Picture;
 import adventure.entity.Profile;
 import adventure.entity.User;
 import adventure.persistence.CityDAO;
@@ -100,7 +101,7 @@ public class UserProfileREST {
         }
 
         InputStream inputStream = file.getBody(InputStream.class, null);
-        ProfileBusiness.getInstance().updatePicture(id, inputStream);
+        ProfileBusiness.getInstance().updatePicture(id, new Picture(inputStream, "image/jpg"));
     }
 
     private void checkPermission(Profile profile) throws ForbiddenException {
