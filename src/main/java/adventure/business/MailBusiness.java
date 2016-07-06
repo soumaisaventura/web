@@ -16,10 +16,8 @@ import org.apache.commons.io.IOUtils;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
@@ -28,6 +26,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.*;
 
+import static adventure.entity.GenderType.FEMALE;
 import static javax.mail.Message.RecipientType.TO;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
@@ -52,7 +51,7 @@ public class MailBusiness implements Serializable {
         context.put("url", baseUri.resolve("atleta/ativacao?token=" + token).toString());
 
         String content = parse("mail-templates/account-activation.txt", context);
-        send("Confirmação de e-mail", content, "text/plain", email);
+        send("Confirmação de e-mail", content, "text/plain", new InternetAddress(email));
     }
 
     @Asynchronous
@@ -60,14 +59,15 @@ public class MailBusiness implements Serializable {
         beforeAsync();
         User user = UserDAO.getInstance().loadForAuthentication(email);
 
+        String oa = user.getProfile().getGender() == FEMALE ? "a" : "o";
+
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
-        context.put("url1", baseUri.toString().endsWith("/") ? baseUri.toString().substring(0, baseUri.toString().length() - 1)
-                : baseUri.toString());
-        context.put("url2", baseUri.resolve("atleta/pessoal").toString());
+        context.put("oa", oa);
+        context.put("url", baseUri.resolve("atleta/pessoal").toString());
 
         String content = parse("mail-templates/welcome.txt", context);
-        send("Seja bem-vindo!", content, "text/plain", email);
+        send("Seja bem-vind" + oa + "!", content, "text/plain", new InternetAddress(email));
     }
 
     @Asynchronous
@@ -81,7 +81,7 @@ public class MailBusiness implements Serializable {
         context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
 
         String content = parse("mail-templates/password-creation.txt", context);
-        send("Criação de senha", content, "text/plain", email);
+        send("Criação de senha", content, "text/plain", new InternetAddress(email));
     }
 
     @Asynchronous
@@ -95,7 +95,7 @@ public class MailBusiness implements Serializable {
         context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
 
         String content = parse("mail-templates/password-recovery.txt", context);
-        send("Recuperação de senha", content, "text/plain", email);
+        send("Recuperação de senha", content, "text/plain", new InternetAddress(email));
     }
 
     @Asynchronous
@@ -108,47 +108,41 @@ public class MailBusiness implements Serializable {
         context.put("dupEmail", dupEmail);
 
         String content = parse("mail-templates/account-removal.txt", context);
-        send("Remoção de conta", content, "text/plain", email);
+        send("Remoção de conta", content, "text/plain", new InternetAddress(email));
     }
 
-    @Asynchronous
-    public void sendRegistrationCreation(Registration registration, URI baseUri) throws Exception {
-        beforeAsync();
-        List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
-        registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
-        Race race = registration.getRaceCategory().getRace();
+    private Address[] getAddress(List<UserRegistration> userRegistrations) throws AddressException {
+        List<Address> addresses = new ArrayList<>();
 
-        String content = Strings.parse(Reflections.getResourceAsStream("mail-templates/registration-creation.html"));
-        content = clearContent(content);
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
-        content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
-        content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
-        content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
-        content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
-        content = content.replace("{registrationId}", registration.getFormattedId());
-        content = content.replace("{registrationDate}", Dates.parse(registration.getDate()));
-        content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-        content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
-        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
-
-        String replacement = "";
-        for (User organizer : UserDAO.getInstance().findOrganizers(race.getEvent())) {
-            replacement += "\n$1" + organizer.getProfile().getName() + "; tel: " + organizer.getProfile().getMobile()
-                    + "; " + organizer.getEmail() + "$2\r";
+        for (UserRegistration userRegistration : userRegistrations) {
+            addresses.add(new InternetAddress(userRegistration.getUser().getEmail()));
         }
-        content = content.replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", replacement);
+
+        return addresses.toArray(new Address[0]);
+    }
+
+
+    @Asynchronous
+    public void sendRegistrationCreation(final Long registrationId, final URI baseUri) throws Exception {
+        beforeAsync();
+        Registration registration = RegistrationBusiness.getInstance().loadForDetails(registrationId);
+        List<UserRegistration> userRegistrations = registration.getUserRegistrations();
+        Race race = registration.getRaceCategory().getRace();
+        Event event = race.getEvent();
+
+        registration.setTeamName(registration.getTeamName().toUpperCase());
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("registration", registration);
+        context.put("team", Misc.stringfy(userRegistrations));
+        context.put("raceDate", Dates.parse(race.getPeriod().getBeginning()));
+        context.put("url", baseUri.resolve("inscricao/" + registration.getFormattedId()).toString());
 
         String subject = "Pedido de inscrição";
         subject += " #" + registration.getFormattedId();
-        subject += " – " + race.getEvent().getName();
-
-        for (UserRegistration member : members) {
-            send(subject, content, "text/html", member.getUser().getEmail());
-        }
+        subject += " – " + event.getName();
+        String content = parse("mail-templates/registration-creation.txt", context);
+        send(subject, content, "text/plain", getAddress(userRegistrations));
     }
 
     @Asynchronous
@@ -176,7 +170,7 @@ public class MailBusiness implements Serializable {
         String subject = "Tentativa de inscrição";
         subject += " – " + race.getEvent().getName();
 
-        send(subject, content, "text/html", member.getEmail());
+        send(subject, content, "text/html", new InternetAddress(member.getEmail()));
     }
 
     @Asynchronous
@@ -196,7 +190,7 @@ public class MailBusiness implements Serializable {
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
                 "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
         content = content.replace("{registrationId}", registration.getFormattedId());
-        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
+        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
         content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
         content = content.replace("{newPeriodEnd}", Dates.parse(newPeriodEnd));
         content = content
@@ -207,7 +201,7 @@ public class MailBusiness implements Serializable {
         subject += " – " + race.getEvent().getName();
 
         for (UserRegistration member : members) {
-            send(subject, content, "text/html", member.getUser().getEmail());
+            send(subject, content, "text/html", new InternetAddress(member.getUser().getEmail()));
         }
     }
 
@@ -229,7 +223,7 @@ public class MailBusiness implements Serializable {
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
                 "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
         content = content.replace("{registrationId}", registration.getFormattedId());
-        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
+        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
         content = content
                 .replaceAll("(<ul.+)\\{organizerInfo\\}(.+ul>)", escapeHtml(getOrganizerInfo(race.getEvent())));
 
@@ -238,7 +232,7 @@ public class MailBusiness implements Serializable {
         subject += " – " + race.getEvent().getName();
 
         for (UserRegistration member : members) {
-            send(subject, content, "text/html", member.getUser().getEmail());
+            send(subject, content, "text/html", new InternetAddress(member.getUser().getEmail()));
         }
     }
 
@@ -275,14 +269,14 @@ public class MailBusiness implements Serializable {
         content = content.replace("{registrationId}", registration.getFormattedId());
         content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
         content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
-        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfyTeamFormation(members)));
+        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
 
         String subject = "Confirmação da inscrição";
         subject += " #" + registration.getFormattedId();
         subject += " – " + race.getEvent().getName();
 
         for (UserRegistration member : members) {
-            send(subject, content, "text/html", member.getUser().getEmail());
+            send(subject, content, "text/html", new InternetAddress(member.getUser().getEmail()));
         }
 
         // if (!members.contains(creator)) {
@@ -294,7 +288,7 @@ public class MailBusiness implements Serializable {
         return content.replaceAll("<div id=\"campaign\">.+</div>", "");
     }
 
-    private void send(final String subject, final String content, final String type, final String to) throws Exception {
+    private void send(final String subject, final String content, final String type, final Address... to) throws Exception {
         ApplicationConfig config = getConfig();
         final String PREFIX = config.getAppTitle() + " – ";
         final String SUFIX = "";

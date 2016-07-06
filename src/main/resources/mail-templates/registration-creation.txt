@@ -1,0 +1,27 @@
+Olá, {{team}},
+
+
+Recebemos o pedido de inscrição da sua equipe {{registration.teamName}}:
+
+Prova: {{registration.raceCategory.race.event.name}} / {{registration.raceCategory.race.name}}
+Categoria: {{registration.raceCategory.category.name}}
+Local: {{registration.raceCategory.race.event.city.name}}/{{registration.raceCategory.race.event.city.state.abbreviation}}
+Data: {{raceDate}}
+
+OBS: A inscrição só será confirmada após a IDENTIFICAÇÃO do pagamento.
+
+Para mais detalhes sobre o pedido, equipe e forma de pagamento, clique no link a baixo:
+{{{url}}}
+
+
+Em caso de dúvidas sobre a prova, fale diretamente com os organizadores:
+
+{{#registration.raceCategory.race.event.organizers}}
+{{profile.name}}
+{{email}}
++55 {{profile.mobile}}
+
+{{/registration.raceCategory.race.event.organizers}}
+
+{{config.appTitle}}
+{{config.appEmail}}

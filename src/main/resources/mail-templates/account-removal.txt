@@ -1,7 +1,7 @@
-Remoção de conta
+{{user.profile.name}},
 
 
-{{user.profile.name}}, identificamos que a conta associada ao e-mail {{dupEmail}} é uma duplicata e por isso ela foi removida.
+Identificamos que a conta associada ao e-mail {{dupEmail}} é uma duplicata e por isso ela foi removida.
 
 Não precisa se preocupar, mantivemos intacta a conta que você mais usa: {{user.email}}
 

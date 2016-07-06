@@ -48,6 +48,9 @@ public class Event {
     @JoinColumn(name = "_status_id")
     private Status status;
 
+    @Transient
+    private List<User> organizers;
+
     public Event() {
     }
 
@@ -232,5 +235,13 @@ public class Event {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<User> getOrganizers() {
+        return organizers;
+    }
+
+    public void setOrganizers(List<User> organizers) {
+        this.organizers = organizers;
     }
 }

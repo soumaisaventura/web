@@ -72,7 +72,7 @@ public class RaceRegistrationREST {
             result.getUserRegistrations().add(userRegistration);
         }
 
-        MailBusiness.getInstance().sendRegistrationCreation(result, baseUri);
+        MailBusiness.getInstance().sendRegistrationCreation(result.getId(), baseUri);
         return result;
     }
 

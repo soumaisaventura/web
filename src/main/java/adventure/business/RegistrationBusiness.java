@@ -2,6 +2,8 @@ package adventure.business;
 
 import adventure.entity.*;
 import adventure.persistence.KitDAO;
+import adventure.persistence.RegistrationDAO;
+import adventure.persistence.UserDAO;
 import adventure.persistence.UserRegistrationDAO;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -17,6 +19,16 @@ public class RegistrationBusiness {
 
     public static RegistrationBusiness getInstance() {
         return Beans.getReference(RegistrationBusiness.class);
+    }
+
+    public Registration loadForDetails(Long id) {
+        Registration registration = RegistrationDAO.getInstance().loadForDetails(id);
+        registration.setUserRegistrations(UserRegistrationDAO.getInstance().find(registration));
+        Race race = registration.getRaceCategory().getRace();
+        Event event = race.getEvent();
+        event.setOrganizers(UserDAO.getInstance().findOrganizers(event));
+
+        return registration;
     }
 
     public void validate(Long id, RaceCategory raceCategory, String teamName, List<User> members, User submitter, URI baseUri)

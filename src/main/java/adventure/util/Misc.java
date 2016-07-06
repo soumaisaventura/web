@@ -27,7 +27,7 @@ public final class Misc {
         }
     }
 
-    private static String stringfy(List<String> members) {
+    private static String stringfyMembers(List<String> members) {
         String memberNames = "";
         for (int i = 0; i < members.size(); i++) {
             String separator;
@@ -45,13 +45,13 @@ public final class Misc {
         return memberNames;
     }
 
-    public static String stringfyTeamFormation(List<UserRegistration> members) {
+    public static String stringfy(List<UserRegistration> members) {
         List<String> result = new ArrayList();
         for (UserRegistration teamFormation : members) {
             result.add(teamFormation.getUser().getProfile().getName());
         }
 
-        return stringfy(result);
+        return stringfyMembers(result);
     }
 
     public static String simplifyUsername(User user) {

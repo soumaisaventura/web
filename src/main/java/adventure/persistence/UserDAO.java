@@ -173,7 +173,7 @@ public class UserDAO extends JPACrud<User, Integer> {
         return query.getResultList();
     }
 
-    public List<User> findUserRegistrations(Registration registration) {
+    public List<User> findMembers(Registration registration) {
         String jpql = "";
         jpql += " select ";
         jpql += " 	 new User( ";

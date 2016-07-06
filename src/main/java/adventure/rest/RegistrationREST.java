@@ -263,7 +263,7 @@ public class RegistrationREST {
 
         // Members
         KitBusiness kitBusiness = KitBusiness.getInstance();
-        List<User> oldMembers = userDAO.findUserRegistrations(registration);
+        List<User> oldMembers = userDAO.findMembers(registration);
         boolean clearPaymentCode = false;
 
         List<User> toAdd = new ArrayList<>(newMembers);
@@ -456,7 +456,7 @@ public class RegistrationREST {
         Registration registration = loadRegistrationForDetails(id);
         Race race = registration.getRaceCategory().getRace();
         List<User> organizers = UserDAO.getInstance().findOrganizers(race.getEvent());
-        List<User> team = UserDAO.getInstance().findUserRegistrations(registration);
+        List<User> team = UserDAO.getInstance().findMembers(registration);
         User loggedInUser = User.getLoggedIn();
 
         if (!loggedInUser.getAdmin() && !organizers.contains(loggedInUser) && !team.contains(loggedInUser)) {

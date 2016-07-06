@@ -1,11 +1,10 @@
-Bem-vindo!
+Bem-vind{{oa}}, {{user.profile.name}}!
 
 
-{{user.profile.name}}, o seu cadastro no {{config.appTitle}} foi concluído com sucesso. Sabemos que você não esquecerá o endereço, mas não custa nada lembrar:
-{{{url1}}}
+O seu cadastro no {{config.appTitle}} foi concluído com sucesso.
 
 Aproveite para completar os seus dados clicando no link a baixo. É importante, simples e rápido:
-{{{url2}}}
+{{{url}}}
 
 
 {{config.appTitle}}
