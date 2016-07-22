@@ -56,11 +56,16 @@ function submit(event) {
         }
     };
 
+    var $button = $("button[type='submit']").attr("disabled", "disabled");
     var registrationId = getRegistrationId();
     if (registrationId) {
-        RegistrationProxy.update(registrationId, registration).done(updateOk).fail(App.handle422Global);
+        RegistrationProxy.update(registrationId, registration).done(updateOk).fail(App.handle422Global).always(function () {
+            $button.removeAttr("disabled");
+        });
     } else {
-        RaceRegistrationProxy.submitRegistration(getRace().id, getEventId(), registration).done(registrationOk).fail(App.handle422Global);
+        RaceRegistrationProxy.submitRegistration(getRace().id, getEventId(), registration).done(registrationOk).fail(App.handle422Global).always(function () {
+            $button.removeAttr("disabled");
+        });
     }
 }
 

@@ -24,8 +24,6 @@ public class FacebookLogonREST extends OAuthLogon {
         HttpClient client = new DefaultHttpClient();
 
         String newUrl = "https://graph.facebook.com/me?access_token=" + code;
-
-        client = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(newUrl);
 
         ResponseHandler<String> responseHandler = new BasicResponseHandler();

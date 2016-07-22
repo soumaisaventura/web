@@ -116,3 +116,34 @@ FROM pg_available_extensions;
 
 
 SELECT unaccent('ão');
+
+UPDATE registration
+SET payment_transaction_code = NULL
+WHERE id = 1558;
+
+SELECT *
+FROM registration
+WHERE id = 1558;
+
+SELECT
+  p.mobile,
+  c.name
+FROM profile p, city c
+WHERE p.city_id = c.id AND
+      p.mobile !~ '^\(\d{2}\) \d{4,5}-\d{4}$';
+
+SELECT mobile
+FROM profile
+WHERE mobile !~ '^\(\d{2}\) \d{4}-\d{4}$';
+
+UPDATE profile
+SET mobile = '(' || SUBSTRING(mobile, 1, 2) || ') ' || SUBSTRING(mobile, 3, 4) || '-' || SUBSTRING(mobile, 7, 4)
+WHERE mobile ~ '^\d{10}$';
+
+UPDATE
+  profile
+SET mobile = SUBSTRING(mobile, 1, 5) || '9' || SUBSTRING(mobile, 6, 10)
+WHERE mobile ~ '^\(\d{2}\) \d{4}-\d{4}$' AND
+      SUBSTRING(mobile, 2, 2) IN
+      ('61', '62', '64', '63', '65', '66', '67', '68', '69', '21', '22', '24', '27', '28', '91', '93', '94', '92', '97', '95', '96', '98', '99', '12', '13', '14', '15', '16', '17', '18', '19', '31', '32', '33', '34', '35', '37', '38', '71', '73', '74', '75', '77', '79', '81', '87', '82', '83', '84', '85', '88', '89');
+--'41', '42', '43', '44', '45', '46', '47', '48', '49', '51', '53', '54', '55'
