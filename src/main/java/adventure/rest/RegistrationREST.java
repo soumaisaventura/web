@@ -442,7 +442,7 @@ public class RegistrationREST {
     }
 
     private void validatePaymentTransaction(Registration registration, String property) throws Exception {
-        if (registration.getPayment() != null && registration.getPayment().getTransactionCode() != null) {
+        if (registration.getStatus() == PENDENT && registration.getPayment() != null && registration.getPayment().getTransactionCode() != null) {
             throw new UnprocessableEntityException().addViolation(property, "O pagamento já está em andamento");
         }
     }

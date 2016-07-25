@@ -75,7 +75,7 @@ function loadOk(registration) {
     var user = App.getLoggedInUser();
     var isMember = false;
 
-    if ((App.isAdmin() || App.isOrganizer(registration.race.event.organizers)) && (registration.payment == null || !registration.payment.transaction_code)) {
+    if ((App.isAdmin() || App.isOrganizer(registration.race.event.organizers)) && (registration.status != 'pendent' || registration.payment == null || !registration.payment.transaction_code)) {
         var $edit = $("#edit");
         $edit.attr("href", App.getContextPath() + "/evento/" + registration.race.event.id + "/" + registration.race.id + "/inscricao/" + registration.number);
         $edit.parent().show();

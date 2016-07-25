@@ -1,6 +1,6 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('sobra') || '%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('anguera') || '%';
 
 SELECT *
 FROM profile p, city c
@@ -123,7 +123,7 @@ WHERE id = 1558;
 
 SELECT *
 FROM registration
-WHERE id = 1558;
+WHERE id = 1615;
 
 SELECT
   p.mobile,
