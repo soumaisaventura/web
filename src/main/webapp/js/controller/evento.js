@@ -177,6 +177,11 @@ function loadEventOk(event) {
                     race.status_button = true;
                     break;
 
+                case 'suspended':
+                    race.status_button = false;
+                    race.status_class = "danger";
+                    break;
+
                 case 'end':
                     race.status_button = false;
                     race.status_class = "danger";
@@ -217,6 +222,7 @@ function loadEventOk(event) {
         $('[data-toggle="tooltip"]').tooltip({html: true});
         // $('[data-toggle="popover"]').popover({html: true});
         $(".end, .closed").html("Inscrições encerradas");
+        $(".suspended").html("Inscrições suspensas");
         $(".soon").html("Inscrições em breve");
 
         // $(".hint-end, .hint-closed, .hint-soon").remove();

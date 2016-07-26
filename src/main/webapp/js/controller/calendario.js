@@ -36,8 +36,21 @@ function findOk(data) {
         // event.date = day.locale("pt-br").format("DD [de] MMMM");
         event.date = App.parsePeriod(event.period, true);
         event.place = App.parseCity(event.location.city);
-        event.corner = (event.status == "open" ? "inscrições abertas" : (event.status == "closed" ? "inscrições encerradas" : ""));
         event.status = moment().year() !== day.year() && event.status === "end" ? null : event.status;
+
+        switch (event.status) {
+            case "open":
+                event.corner = "inscrições abertas";
+                break;
+            case "suspended":
+                event.corner = "inscrições suspensas";
+                break;
+            case "closed":
+                event.corner = "inscrições encerradas";
+                break;
+            default:
+                event.corner = "";
+        }
 
         var rendered = Mustache.render(template.html(), event);
         $('#open-events').append(rendered);

@@ -58,6 +58,10 @@ img.responsive, img.main-col-images {
     background-color: #055C27;
 }
 
+.suspended {
+    background-color: #950F09;
+}
+
 .closed {
     background-color: #950F09;
 }

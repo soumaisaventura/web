@@ -31,15 +31,16 @@ LANGUAGE plpgsql;
 
 DROP FUNCTION IF EXISTS race_status ( INTEGER, DATE );
 
-CREATE OR REPLACE FUNCTION race_status(_race_id INTEGER, _race_ending DATE)
+CREATE OR REPLACE FUNCTION race_status(_race_id INTEGER, _when DATE)
   RETURNS INTEGER
 AS
 $func$
 # VARIABLE_CONFLICT use_variable
 DECLARE
-  period    period%ROWTYPE;
-  today     DATE;
-  status_id status.id%TYPE;
+  period            period%ROWTYPE;
+  today             DATE;
+  status_id         status.id%TYPE;
+  current_status_id status.id%TYPE;
 BEGIN
   today = CURRENT_DATE;
 
@@ -55,6 +56,11 @@ BEGIN
   FROM period p
   WHERE p.race_id = _race_id;
 
+  SELECT r._status_id
+  INTO current_status_id
+  FROM race r
+  WHERE r.id = _race_id;
+
   IF period.beginning IS NULL
   THEN
     RETURN 1;
@@ -66,12 +72,12 @@ BEGIN
   ELSEIF today >= period.beginning AND today <= period.ending
     THEN
       status_id = 2;
-  ELSEIF today > period.ending AND today <= _race_ending
-    THEN
-      status_id = 3;
-  ELSEIF today > _race_ending
+  ELSEIF today > period.ending AND today <= _when
     THEN
       status_id = 4;
+  ELSEIF today > _when
+    THEN
+      status_id = 5;
   END IF;
 
   RETURN status_id;
@@ -102,15 +108,10 @@ BEGIN
 
   FOR l_race IN SELECT r.*
                 FROM race r
-    --    IN SELECT DISTINCT r.*
-    --      FROM period p, race r, status s
-    --     WHERE     r._status_id = s.id
-    --     AND p.race_id = r.id
-    --     AND today BETWEEN p.beginning AND p.ending
   LOOP
     status_id = race_status(l_race.id, today);
 
-    IF l_race._status_id <> status_id
+    IF l_race._status_id <> 3 AND l_race._status_id <> status_id
     THEN
       UPDATE race
       SET _status_id = status_id
@@ -146,7 +147,6 @@ BEGIN
 END;
 $func$
 LANGUAGE plpgsql;
-
 
 DROP TRIGGER IF EXISTS trg_period_after_all ON period;
 
@@ -210,13 +210,19 @@ ON race
 FOR EACH ROW
 EXECUTE PROCEDURE trg_race_after_all();
 
+DROP FUNCTION IF EXISTS trg_race_before_update();
+
 CREATE OR REPLACE FUNCTION trg_race_before_update()
   RETURNS TRIGGER
 AS
 $func$
 # VARIABLE_CONFLICT use_variable
 BEGIN
-  NEW._status_id = race_status(NEW.id, NEW.ending);
+  IF NEW._status_id <> 3
+  THEN
+    NEW._status_id = race_status(NEW.id, NEW.ending);
+  END IF;
+
   RETURN NEW;
 END;
 $func$
@@ -351,3 +357,6 @@ BEFORE UPDATE
 ON user_account
 FOR EACH ROW
 EXECUTE PROCEDURE trg_user_account_before_update();
+
+UPDATE race
+SET _status_id = NULL;
