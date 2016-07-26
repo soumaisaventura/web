@@ -43,7 +43,7 @@ function findOk(data) {
                 event.corner = "inscrições abertas";
                 break;
             case "suspended":
-                event.corner = "inscrições suspensas";
+                event.corner = "inscrições esgotadas";
                 break;
             case "closed":
                 event.corner = "inscrições encerradas";
