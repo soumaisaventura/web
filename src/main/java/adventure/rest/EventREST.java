@@ -23,6 +23,7 @@ import org.joda.time.LocalDate;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -286,12 +287,22 @@ public class EventREST {
 
     @GET
     @Produces("image/png")
-    @Cache("max-age=604800000")
+    @Cache("max-age=60")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-    public byte[] getBanner(@PathParam("slug") String slug, @QueryParam("width") Integer width,
-                            @Context ServletContext context) throws Exception {
+    public Response getBanner(@PathParam("slug") String slug, @HeaderParam("If-None-Match") String tag,
+                              @QueryParam("width") Integer width, @Context ServletContext context) throws Exception {
         Event event = loadEventBanner(slug);
-        return ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
+        String persistedTag = event.getBannerTag() == null ? "empty" : event.getBannerTag();
+        Response response;
+
+        if (persistedTag.equals(tag)) {
+            response = Response.notModified(persistedTag).build();
+        } else {
+            byte[] entity = ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
+            response = Response.ok(entity).tag(persistedTag).build();
+        }
+
+        return response;
     }
 
     private byte[] loadBanner(Event event, ServletContext context) throws Exception {

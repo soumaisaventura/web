@@ -22,6 +22,9 @@ public class Event {
     @Lob
     private byte[] banner;
 
+    @Column(name = "banner_tag")
+    private String bannerTag;
+
     private String site;
 
     @Embedded
@@ -67,9 +70,10 @@ public class Event {
         setEnd(end);
     }
 
-    public Event(Integer id, byte[] banner) {
+    public Event(Integer id, byte[] banner, String bannerTag) {
         setId(id);
         setBanner(banner);
+        setBannerTag(bannerTag);
     }
 
     public Event(Integer id, String alias, String name, String description, String site,
@@ -171,6 +175,14 @@ public class Event {
 
     public void setBanner(byte[] banner) {
         this.banner = banner;
+    }
+
+    public String getBannerTag() {
+        return bannerTag;
+    }
+
+    public void setBannerTag(String bannerTag) {
+        this.bannerTag = bannerTag;
     }
 
     public String getSite() {

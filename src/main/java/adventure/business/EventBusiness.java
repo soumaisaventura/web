@@ -6,6 +6,7 @@ import adventure.persistence.EventDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -26,8 +27,10 @@ public class EventBusiness {
             Thumbnails.of(picture.getInputStream()).crop(CENTER).size(EVENT_BANNER_WIDTH, EVENT_BANNER_HEIGHT)
                     .keepAspectRatio(true).outputFormat("png").toOutputStream(outputStream);
             byte image[] = outputStream.toByteArray();
+            String tag = DigestUtils.md5Hex(image);
 
             event.setBanner(image);
+            event.setBannerTag(tag);
             EventDAO.getInstance().update(event);
         }
     }
