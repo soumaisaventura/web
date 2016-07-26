@@ -29,9 +29,9 @@ END
 $func$
 LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS race_status ( INTEGER, DATE );
+DROP FUNCTION IF EXISTS race_status ( INTEGER );
 
-CREATE OR REPLACE FUNCTION race_status(_race_id INTEGER, _when DATE)
+CREATE OR REPLACE FUNCTION race_status(_race_id INTEGER)
   RETURNS INTEGER
 AS
 $func$
@@ -39,6 +39,8 @@ $func$
 DECLARE
   period            period%ROWTYPE;
   today             DATE;
+  race_beginning    race.beginning%TYPE;
+  race_ending       race.ending%TYPE;
   status_id         status.id%TYPE;
   current_status_id status.id%TYPE;
 BEGIN
@@ -56,8 +58,11 @@ BEGIN
   FROM period p
   WHERE p.race_id = _race_id;
 
-  SELECT r._status_id
-  INTO current_status_id
+  SELECT
+    r._status_id,
+    r.beginning,
+    r.ending
+  INTO current_status_id, race_beginning, race_ending
   FROM race r
   WHERE r.id = _race_id;
 
@@ -66,16 +71,28 @@ BEGIN
     RETURN 1;
   END IF;
 
+  -- Antes do período de inscrições
   IF today < period.beginning
   THEN
     status_id = 1;
+
+    -- Dentro do período de inscrições
   ELSEIF today >= period.beginning AND today <= period.ending
     THEN
-      status_id = 2;
-  ELSEIF today > period.ending AND today <= _when
+      IF current_status_id = 3
+      THEN
+        status_id = 3;
+      ELSE
+        status_id = 2;
+      END IF;
+
+      -- Após o período de inscrições, mas a prova não aconteceu ainda
+  ELSEIF today > period.ending AND today <= race_beginning
     THEN
       status_id = 4;
-  ELSEIF today > _when
+
+      -- A prova já aconteceu
+  ELSEIF today > race_ending
     THEN
       status_id = 5;
   END IF;
@@ -100,18 +117,15 @@ AS
 $func$
 # VARIABLE_CONFLICT use_variable
 DECLARE
-  today     DATE;
   l_race    race%ROWTYPE;
   status_id status.id%TYPE;
 BEGIN
-  today = now() :: DATE;
-
   FOR l_race IN SELECT r.*
                 FROM race r
   LOOP
-    status_id = race_status(l_race.id, today);
+    status_id = race_status(l_race.id);
 
-    IF l_race._status_id <> 3 AND l_race._status_id <> status_id
+    IF l_race._status_id <> status_id
     THEN
       UPDATE race
       SET _status_id = status_id
@@ -132,14 +146,14 @@ BEGIN
   IF TG_OP IN ('INSERT', 'UPDATE')
   THEN
     UPDATE race
-    SET _status_id = race_status(NEW.race_id, NEW.ending)
+    SET _status_id = race_status(NEW.race_id)
     WHERE id = NEW.race_id;
   END IF;
 
   IF TG_OP IN ('DELETE', 'UPDATE')
   THEN
     UPDATE race
-    SET _status_id = race_status(OLD.race_id, OLD.ending)
+    SET _status_id = race_status(OLD.race_id)
     WHERE id = OLD.race_id;
   END IF;
 
@@ -218,11 +232,7 @@ AS
 $func$
 # VARIABLE_CONFLICT use_variable
 BEGIN
-  IF NEW._status_id <> 3
-  THEN
-    NEW._status_id = race_status(NEW.id, NEW.ending);
-  END IF;
-
+  --NEW._status_id = race_status(NEW.id, NEW.ending);
   RETURN NEW;
 END;
 $func$
