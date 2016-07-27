@@ -19,11 +19,13 @@ import java.text.SimpleDateFormat;
 @Path("logon/oauth/facebook")
 public class FacebookLogonREST extends OAuthLogon {
 
+    private final String API_VERSION = "v2.3";
+
     @Override
     protected Created createUser(String code) throws Exception {
         HttpClient client = new DefaultHttpClient();
 
-        String newUrl = "https://graph.facebook.com/me?access_token=" + code;
+        String newUrl = "https://graph.facebook.com/" + API_VERSION + "/me?access_token=" + code;
         HttpGet httpget = new HttpGet(newUrl);
 
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -40,8 +42,6 @@ public class FacebookLogonREST extends OAuthLogon {
 
         Profile profile = new Profile();
         profile.setName(rootNode.get("name").asText());
-        // profile.setPicture(getPicture("http://graph.facebook.com/" + asText(rootNode.get("id"))
-        // + "/picture?height=372&width=372&redirect=true"));
 
         // TODO Tratar gender null;
 
@@ -64,7 +64,7 @@ public class FacebookLogonREST extends OAuthLogon {
 
         client.getConnectionManager().shutdown();
 
-        return new Created(user, "http://graph.facebook.com/" + user.getFacebookId()
+        return new Created(user, "http://graph.facebook.com/" + API_VERSION + "/" + user.getFacebookId()
                 + "/picture?height=372&width=372&redirect=true");
     }
 

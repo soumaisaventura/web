@@ -31,7 +31,7 @@ function loadFacebook(appId) {
             status: true,
             cookie: false,
             xfbml: true,
-            version: 'v2.0'
+            version: 'v2.3'
         });
 
         FB.getLoginStatus(loadFacebookOk);
@@ -44,7 +44,7 @@ function loadFacebook(appId) {
         }
         js = d.createElement(s);
         js.id = id;
-        js.src = "//connect.facebook.net/pt_BR/all.js";
+        js.src = "//connect.facebook.net/pt_BR/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 }
