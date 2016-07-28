@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="403,277" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="407,237" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -1321,23 +1321,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<definition><![CDATA[# ver direto no banco de dados]]></definition>
 </function>
 
-<function name="trg_race_before_update"
-		window-func="false"
-		returns-setof="false"
-		behavior-type="CALLED ON NULL INPUT"
-		function-type="VOLATILE"
-		security-type="SECURITY INVOKER"
-		execution-cost="100"
-		row-amount="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<language name="plpgsql" protected="true" sql-disabled="true"/>
-	<return-type>
-	<type name="trigger"/>
-	</return-type>
-	<definition><![CDATA[# ver direto no banco de dados]]></definition>
-</function>
-
 <trigger name="trg_period_after_all" firing-type="AFTER" per-line="true" constraint="false"
 	 ins-event="true" del-event="true" upd-event="true" trunc-event="false"
 	 table="public.period">
@@ -1348,12 +1331,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 ins-event="true" del-event="true" upd-event="true" trunc-event="false"
 	 table="public.race">
 		<function signature="public.trg_race_after_all()"/>
-</trigger>
-
-<trigger name="trg_race_before_update" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="public.race">
-		<function signature="public.trg_race_before_update()"/>
 </trigger>
 
 <index name="idx_event_beginning" table="public.event"

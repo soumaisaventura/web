@@ -122,10 +122,11 @@ function loadRaceOk(data) {
     $("#race-city").text(App.parseCity(data.event.location.city));
 
     $.each(data.categories, function (i, value) {
+        var enabled = App.isAdmin() || App.isOrganizer(data.event.organizers);
         var option = $('<option>', {
             value: value.id,
             text: value.name + (value.vacant ? "" : " (ESGOTADO)"),
-            disabled: !value.vacant
+            disabled: !enabled && !value.vacant
         });
         $("#category-id").append(option.data("team-size", value.team_size));
     });
