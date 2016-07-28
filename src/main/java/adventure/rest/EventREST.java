@@ -115,7 +115,7 @@ public class EventREST {
             ChampionshipDAO championshipDAO = ChampionshipDAO.getInstance();
             PeriodDAO periodDAO = PeriodDAO.getInstance();
             ModalityDAO modalityDAO = ModalityDAO.getInstance();
-            CategoryDAO categoryDAO = CategoryDAO.getInstance();
+            RaceCategoryDAO raceCategoryDAO = RaceCategoryDAO.getInstance();
             KitDAO kitDAO = KitDAO.getInstance();
 
             eventData.races = new ArrayList();
@@ -153,8 +153,8 @@ public class EventREST {
                 // Categories
 
                 raceData.categories = new ArrayList<>();
-                for (Category category : categoryDAO.find(race)) {
-                    CategoryData categoryData = new CategoryData(category);
+                for (RaceCategory raceCategory : raceCategoryDAO.find(race)) {
+                    CategoryData categoryData = new CategoryData(raceCategory.getCategory(), raceCategory.getVacant());
                     raceData.categories.add(categoryData);
                 }
 

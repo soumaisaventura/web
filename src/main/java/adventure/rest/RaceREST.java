@@ -68,10 +68,9 @@ public class RaceREST {
             data.event.organizers.add(organizerData);
         }
 
-
         data.categories = new ArrayList<>();
-        for (Category category : CategoryDAO.getInstance().find(race)) {
-            CategoryData categoryData = new CategoryData(category);
+        for (RaceCategory raceCategory : RaceCategoryDAO.getInstance().find(race)) {
+            CategoryData categoryData = new CategoryData(raceCategory.getCategory(), raceCategory.getVacant());
             data.categories.add(categoryData);
         }
 

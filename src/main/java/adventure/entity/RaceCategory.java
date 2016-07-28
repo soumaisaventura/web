@@ -18,11 +18,14 @@ public class RaceCategory {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "_vacant")
+    private Boolean vacant;
+
     public RaceCategory() {
     }
 
     public RaceCategory(Integer categoryId, String categoryAlias, String categoryName, String categoryDescription, Integer categoryTeamSize, Integer categoryMinMaleMembers, Integer categoryMinFemaleMembers, Integer categoryMinMemberAge, Integer categoryMaxMemberAge, Integer categoryMinTeamAge, Integer categoryMaxTeamAge,
-                        Integer raceId, String raceName, Date racePeriodBeginning, Date racePeriodEnd) {
+                        Integer raceId, String raceName, Date racePeriodBeginning, Date racePeriodEnd, Boolean vacant) {
         setCategory(new Category(categoryId, categoryAlias, categoryName, categoryDescription, categoryTeamSize, categoryMinMaleMembers, categoryMinFemaleMembers, categoryMinMemberAge, categoryMaxMemberAge, categoryMinTeamAge, categoryMaxTeamAge));
 
         setRace(new Race());
@@ -31,6 +34,8 @@ public class RaceCategory {
         getRace().setPeriod(new Period());
         getRace().getPeriod().setBeginning(racePeriodBeginning);
         getRace().getPeriod().setEnd(racePeriodEnd);
+
+        setVacant(vacant);
     }
 
     @Override
@@ -85,5 +90,13 @@ public class RaceCategory {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Boolean getVacant() {
+        return vacant;
+    }
+
+    public void setVacant(Boolean show) {
+        this.vacant = show;
     }
 }

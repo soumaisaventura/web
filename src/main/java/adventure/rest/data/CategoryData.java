@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers", "minMemberAge", "maxMemberAge", "minTeamAge", "maxTeamAge"})
+@JsonPropertyOrder({"id", "internalId", "name", "description", "teamSize", "minMaleMembers", "minFemaleMembers", "minMemberAge", "maxMemberAge", "minTeamAge", "maxTeamAge", "vacant"})
 public class CategoryData {
 
     @NotEmpty
@@ -28,21 +28,23 @@ public class CategoryData {
     public Integer minFemaleMembers;
 
     @JsonProperty("min_member_age")
-    private Integer minMemberAge;
+    public Integer minMemberAge;
 
     @JsonProperty("max_member_age")
-    private Integer maxMemberAge;
+    public Integer maxMemberAge;
 
     @JsonProperty("min_team_age")
-    private Integer minTeamAge;
+    public Integer minTeamAge;
 
     @JsonProperty("max_team_age")
-    private Integer maxTeamAge;
+    public Integer maxTeamAge;
+
+    public Boolean vacant;
 
     public CategoryData() {
     }
 
-    public CategoryData(Category category) {
+    public CategoryData(Category category, Boolean vacant) {
         this.id = category.getAlias();
         this.internalId = category.getId();
         this.name = category.getName();
@@ -54,5 +56,6 @@ public class CategoryData {
         this.maxMemberAge = category.getMaxMemberAge();
         this.minTeamAge = category.getMinTeamAge();
         this.maxTeamAge = category.getMaxTeamAge();
+        this.vacant = vacant;
     }
 }

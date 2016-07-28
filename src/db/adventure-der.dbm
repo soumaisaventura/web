@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="320,703" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="403,277" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -300,12 +300,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="561.685" y="329.341"/>
+	<position x="555.531" y="317.803"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
 	<column name="category_id" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="_vacant" not-null="true" default-value="true">
+		<type name="boolean"/>
 	</column>
 	<constraint name="pk_race_category" type="pk-constr" table="public.race_category">
 		<columns names="race_id,category_id" ref-type="src-columns"/>
@@ -1281,9 +1284,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<parameter name="_race_id">
 		<type name="integer"/>
 	</parameter>
-	<parameter name="_race_ending">
-		<type name="date"/>
-	</parameter>
 	<definition><![CDATA[# ver direto no banco de dados]]></definition>
 </function>
 
@@ -1783,6 +1783,14 @@ END
 	 index-type="btree" factor="0">
 		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
 			<column name="show"/>
+		</idxelement>
+</index>
+
+<index name="idx_race_category_vacant" table="public.race_category"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="_vacant"/>
 		</idxelement>
 </index>
 

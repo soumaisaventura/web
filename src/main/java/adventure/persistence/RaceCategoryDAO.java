@@ -1,5 +1,6 @@
 package adventure.persistence;
 
+import adventure.entity.Race;
 import adventure.entity.RaceCategory;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.util.List;
 
 @Transactional
 public class RaceCategoryDAO implements Serializable {
@@ -21,8 +23,6 @@ public class RaceCategoryDAO implements Serializable {
     public static RaceCategoryDAO getInstance() {
         return Beans.getReference(RaceCategoryDAO.class);
     }
-
-    // Registration
 
     public RaceCategory load(Integer raceId, String categoryAlias) throws Exception {
         String jpql = "";
@@ -42,7 +42,8 @@ public class RaceCategoryDAO implements Serializable {
         jpql += "        r.id, ";
         jpql += "        r.name, ";
         jpql += "        r.period.beginning, ";
-        jpql += "        r.period.end ";
+        jpql += "        r.period.end, ";
+        jpql += "        rc.vacant ";
         jpql += "        ) ";
         jpql += "   from RaceCategory rc ";
         jpql += "   join rc.race r ";
@@ -63,5 +64,41 @@ public class RaceCategoryDAO implements Serializable {
         }
 
         return result;
+    }
+
+    public List<RaceCategory> find(Race race) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new RaceCategory( ";
+        jpql += "        c.id, ";
+        jpql += "        c.alias, ";
+        jpql += "        c.name, ";
+        jpql += "        c.description, ";
+        jpql += "        c.teamSize, ";
+        jpql += "        c.minMaleMembers, ";
+        jpql += "        c.minFemaleMembers, ";
+        jpql += "        c.minMemberAge, ";
+        jpql += "        c.maxMemberAge, ";
+        jpql += "        c.minTeamAge, ";
+        jpql += "        c.maxTeamAge, ";
+        jpql += "        r.id, ";
+        jpql += "        r.name, ";
+        jpql += "        r.period.beginning, ";
+        jpql += "        r.period.end, ";
+        jpql += "        rc.vacant ";
+        jpql += "        ) ";
+        jpql += "   from RaceCategory rc ";
+        jpql += "   join rc.race r ";
+        jpql += "   join rc.category c ";
+        jpql += "  where r = :race ";
+        jpql += "  order by ";
+        jpql += "        c.teamSize desc, ";
+        jpql += "        c.name ";
+
+        TypedQuery<RaceCategory> query = em.createQuery(jpql, RaceCategory.class);
+        query.setParameter("race", race);
+
+        return query.getResultList();
+
     }
 }

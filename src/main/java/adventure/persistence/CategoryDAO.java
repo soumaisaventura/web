@@ -18,6 +18,7 @@ public class CategoryDAO extends JPACrud<Category, Integer> {
         return Beans.getReference(CategoryDAO.class);
     }
 
+    @Deprecated
     public List<Category> find(Race race) {
         String jpql = "";
         jpql += " select ";

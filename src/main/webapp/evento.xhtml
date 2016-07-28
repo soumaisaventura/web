@@ -244,8 +244,9 @@
                                     <ul class="race-list-info">
                                         {{#categories}}
                                         <li>
-                                            {{name}}
-                                            <span data-toggle="tooltip" title="{{{description}}}"
+                                            {{name}}{{^vacant}} (ESGOTADO){{/vacant}}
+                                            <span data-toggle="tooltip"
+                                                  title="{{{description}}}{{^vacant}} (VAGAS ESGOTADAS){{/vacant}}"
                                                   class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                         </li>
                                         {{/categories}}

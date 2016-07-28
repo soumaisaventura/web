@@ -124,7 +124,8 @@ function loadRaceOk(data) {
     $.each(data.categories, function (i, value) {
         var option = $('<option>', {
             value: value.id,
-            text: value.name
+            text: value.name + (value.vacant ? "" : " (ESGOTADO)"),
+            disabled: !value.vacant
         });
         $("#category-id").append(option.data("team-size", value.team_size));
     });
