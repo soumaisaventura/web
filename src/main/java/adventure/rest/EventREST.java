@@ -47,6 +47,7 @@ public class EventREST {
             EventData eventData = new EventData(uriInfo);
 
             eventData.id = event.getAlias();
+            eventData.internalId = event.getId();
             eventData.name = event.getName();
             eventData.period = new PeriodData();
             eventData.period.beginning = event.getBeginning();

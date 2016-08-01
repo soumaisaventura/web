@@ -1,6 +1,6 @@
 SELECT *
 FROM city c, state s
-WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('anguera') || '%';
+WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('senhor') || '%';
 
 SELECT *
 FROM profile p, city c
@@ -100,6 +100,12 @@ SELECT picture
 FROM profile
 WHERE id = 71;
 
+-- federados
+
+SELECT *
+FROM championship;
+
+
 SELECT ENCODE(data, 'base64')
 FROM pg_largeobject
 WHERE LOID = 21607;
@@ -148,4 +154,18 @@ WHERE mobile ~ '^\(\d{2}\) \d{4}-\d{4}$' AND
       ('61', '62', '64', '63', '65', '66', '67', '68', '69', '21', '22', '24', '27', '28', '91', '93', '94', '92', '97', '95', '96', '98', '99', '12', '13', '14', '15', '16', '17', '18', '19', '31', '32', '33', '34', '35', '37', '38', '71', '73', '74', '75', '77', '79', '81', '87', '82', '83', '84', '85', '88', '89');
 --'41', '42', '43', '44', '45', '46', '47', '48', '49', '51', '53', '54', '55'
 
-update race set _status_id = 5 where id = 39;
+UPDATE race
+SET _status_id = 5
+WHERE id = 39;
+
+
+SELECT
+  e.name,
+  r.*
+FROM event e, race r
+WHERE r.event_id = e.id
+ORDER BY e._beginning, r.name;
+
+SELECT *
+FROM race
+WHERE id IN (31, 65);

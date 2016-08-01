@@ -42,8 +42,8 @@ function findOk(data) {
             case "open":
                 event.corner = "inscrições abertas";
                 break;
-            case "suspended":
-                event.corner = "inscrições esgotadas";
+            case "no_vacancy":
+                event.corner = "vagas esgotadas";
                 break;
             case "closed":
                 event.corner = "inscrições encerradas";

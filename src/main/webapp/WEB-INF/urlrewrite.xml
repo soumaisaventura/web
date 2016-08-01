@@ -138,6 +138,12 @@
         <to>/inscricao.jsf?inscricao_id=$1</to>
     </rule>
 
+    <!-- /integracao -->
+
+    <rule>
+        <from>^/integracao/pagseguro$</from>
+        <to>/api/registration/notification</to>
+    </rule>
 
     <!-- Experimentos -->
     <rule>
