@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="601,854" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="0,0" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -221,9 +221,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="picture">
 		<type name="oid"/>
 	</column>
-	<column name="picture_hash">
-		<type name="character varying" length="32"/>
-	</column>
 	<column name="gender" not-null="true">
 		<type name="character varying" length="20"/>
 	</column>
@@ -247,6 +244,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="pendencies" not-null="true">
 		<type name="integer"/>
+	</column>
+	<column name="_picture_hash" not-null="true">
+		<type name="character varying" length="32"/>
 	</column>
 	<constraint name="pk_profile" type="pk-constr" table="public.profile">
 		<columns names="id" ref-type="src-columns"/>
@@ -872,9 +872,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="banner">
 		<type name="oid"/>
 	</column>
-	<column name="banner_hash">
-		<type name="character varying" length="32"/>
-	</column>
 	<column name="site">
 		<type name="character varying" length="255"/>
 	</column>
@@ -904,6 +901,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="_status_id" not-null="true">
 		<type name="integer" length="6"/>
+	</column>
+	<column name="_banner_hash" not-null="true">
+		<type name="character varying" length="32"/>
 	</column>
 	<constraint name="pk_event" type="pk-constr" table="public.event">
 		<columns names="id" ref-type="src-columns"/>
@@ -1773,6 +1773,29 @@ END
 			<column name="_vacant"/>
 		</idxelement>
 </index>
+
+<function name="trg_event_before_insert_update"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[# ver direto no banco de dados]]></definition>
+</function>
+
+<trigger name="trg_event_before_insert_update" firing-type="BEFORE" per-line="false" constraint="false"
+	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.event">
+		<function signature="public.trg_event_before_insert_update()"/>
+</trigger>
 
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">

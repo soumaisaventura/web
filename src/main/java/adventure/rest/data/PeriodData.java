@@ -1,5 +1,6 @@
 package adventure.rest.data;
 
+import adventure.entity.RegistrationPeriod;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import java.math.BigDecimal;
@@ -17,4 +18,13 @@ public class PeriodData {
     public Date end;
 
     public BigDecimal price;
+
+    public PeriodData() {
+    }
+
+    public PeriodData(RegistrationPeriod period) {
+        beginning = period.getBeginning();
+        end = period.getEnd();
+        price = period.getPrice();
+    }
 }

@@ -61,10 +61,9 @@ public class UserProfileREST {
     @Produces("image/jpeg")
     @Cache("max-age=60")
     public Response getPicture(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag, @Context ServletContext context) throws Exception {
-        Profile profile = loadProfile(id);
-        String persistedTag = profile.getPictureHash() == null ? "empty" : profile.getPictureHash();
-
         Response response;
+        Profile profile = loadProfile(id);
+        String persistedTag = profile.getPictureHash();
 
         if (persistedTag.equals(tag)) {
             response = Response.notModified(persistedTag).build();
@@ -81,10 +80,9 @@ public class UserProfileREST {
     @Produces("image/jpeg")
     @Cache("max-age=604800000")
     public Response getThumbnail(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag, @Context ServletContext context) throws Exception {
-        Profile profile = loadProfile(id);
-        String persistedTag = profile.getPictureHash() == null ? "empty" : profile.getPictureHash();
-
         Response response;
+        Profile profile = loadProfile(id);
+        String persistedTag = profile.getPictureHash();
 
         if (persistedTag.equals(tag)) {
             response = Response.notModified(persistedTag).build();

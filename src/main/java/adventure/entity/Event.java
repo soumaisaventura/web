@@ -22,7 +22,7 @@ public class Event {
     @Lob
     private byte[] banner;
 
-    @Column(name = "banner_hash")
+    @Column(name = "_banner_hash")
     private String bannerHash;
 
     private String site;

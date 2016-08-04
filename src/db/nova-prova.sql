@@ -28,7 +28,7 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'probike/2016',
+  'probike/2016_',
   'Pró Bike',
   NULL,
   650,

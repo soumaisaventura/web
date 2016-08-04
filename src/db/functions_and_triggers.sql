@@ -248,6 +248,34 @@ EXECUTE PROCEDURE trg_race_before_update();
 
 ---------------
 
+DROP FUNCTION IF EXISTS trg_event_before_insert_update();
+
+CREATE OR REPLACE FUNCTION trg_event_before_insert_update()
+  RETURNS TRIGGER
+AS
+$func$
+# VARIABLE_CONFLICT use_variable
+BEGIN
+  IF TG_OP IN ('INSERT', 'UPDATE')
+  THEN
+    NEW._banner_hash = md5(CASE WHEN NEW.banner IS NOT NULL
+      THEN lo_get(NEW.banner)
+                           ELSE '' END);
+  END IF;
+
+  RETURN NEW;
+END;
+$func$
+LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_event_before_insert_update ON event;
+
+CREATE TRIGGER trg_event_before_insert_update
+BEFORE INSERT OR UPDATE
+ON event
+FOR EACH ROW
+EXECUTE PROCEDURE trg_event_before_insert_update();
+
 
 CREATE OR REPLACE FUNCTION trg_event_organizer_after_all()
   RETURNS TRIGGER

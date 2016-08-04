@@ -49,10 +49,7 @@ public class RaceREST {
         List<RegistrationPeriod> periods = PeriodDAO.getInstance().findForEvent(race);
         RegistrationPeriod currentPrice = RaceBusiness.getInstance().getPeriod(new Date(), periods);
         if (currentPrice != null) {
-            data.currentPrice = new PeriodData();
-            data.currentPrice.beginning = currentPrice.getBeginning();
-            data.currentPrice.end = currentPrice.getEnd();
-            data.currentPrice.price = currentPrice.getPrice();
+            data.currentPrice = new PeriodData(currentPrice);
         }
 
         data.event.organizers = new ArrayList();

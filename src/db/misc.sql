@@ -169,8 +169,7 @@ SELECT *
 FROM race
 WHERE id IN (31, 65);
 
-ALTER TABLE event
-  RENAME banner_tag TO banner_hash;
 
-ALTER TABLE public.profile
-  ADD COLUMN picture_hash CHARACTER VARYING(32);
+
+
+

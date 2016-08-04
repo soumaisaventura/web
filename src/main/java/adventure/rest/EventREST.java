@@ -181,10 +181,7 @@ public class EventREST {
 
                 RegistrationPeriod currentPrice = raceBusiness.getPeriod(now, periods);
                 if (currentPrice != null) {
-                    raceData.currentPrice = new PeriodData();
-                    raceData.currentPrice.beginning = currentPrice.getBeginning();
-                    raceData.currentPrice.end = currentPrice.getEnd();
-                    raceData.currentPrice.price = currentPrice.getPrice();
+                    raceData.currentPrice = new PeriodData(currentPrice);
                 }
 
                 // Modalities
@@ -289,9 +286,9 @@ public class EventREST {
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
     public Response getBanner(@PathParam("slug") String slug, @HeaderParam("If-None-Match") String tag,
                               @QueryParam("width") Integer width, @Context ServletContext context) throws Exception {
-        Event event = loadEventBanner(slug);
-        String persistedTag = event.getBannerHash() == null ? "empty" : event.getBannerHash();
         Response response;
+        Event event = loadEventBanner(slug);
+        String persistedTag = event.getBannerHash();
 
         if (persistedTag.equals(tag)) {
             response = Response.notModified(persistedTag).build();

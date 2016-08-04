@@ -36,7 +36,7 @@ public class Profile implements Serializable {
     @Lob
     private byte[] picture;
 
-    @Column(name = "picture_hash")
+    @Column(name = "_picture_hash")
     private String pictureHash;
 
     @PendencyCount
