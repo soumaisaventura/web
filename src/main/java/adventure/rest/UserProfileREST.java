@@ -100,7 +100,7 @@ public class UserProfileREST {
     @Transactional
     @ValidatePayload
     @Path("{id: \\d+}/picture")
-    @Consumes("multipart/form-data")
+    @Consumes("image/jpeg")
     public void setPicture(@PathParam("id") Integer id, @NotEmpty InputStream inputStream) throws Exception {
         Profile profile = loadProfile(id);
         checkPermission(profile);

@@ -1,8 +1,18 @@
+SELECT md5(oidsend(banner))
+FROM event
+WHERE id = 21;
+
+
+ALTER TABLE event
+  RENAME COLUMN _banner_hash TO banner_hash;
+
+
+ALTER TABLE profile
+  RENAME COLUMN _picture_hash TO picture_hash;
+
+
 ALTER TABLE event
   RENAME COLUMN banner_hash TO _banner_hash;
-
--- select * from event;
--- select * from profile;
 
 ALTER TABLE profile
   RENAME COLUMN picture_hash TO _picture_hash;
@@ -10,13 +20,13 @@ ALTER TABLE profile
 UPDATE event
 SET _banner_hash =
 md5(CASE WHEN banner IS NOT NULL
-  THEN lo_get(banner)
+  THEN oidsend(banner)
     ELSE '' END);
 
 UPDATE profile
 SET _picture_hash =
 md5(CASE WHEN picture IS NOT NULL
-  THEN lo_get(picture)
+  THEN oidsend(picture)
     ELSE '' END);
 
 ALTER TABLE event
@@ -34,7 +44,7 @@ BEGIN
   IF TG_OP IN ('INSERT', 'UPDATE')
   THEN
     NEW._banner_hash = md5(CASE WHEN NEW.banner IS NOT NULL
-      THEN lo_get(NEW.banner)
+      THEN oidsend(NEW.banner)
                            ELSE '' END);
   END IF;
 

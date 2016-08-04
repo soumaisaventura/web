@@ -315,7 +315,7 @@ public class EventREST {
     @LoggedIn
     @Transactional
     @ValidatePayload
-    @Consumes("multipart/form-data")
+    @Consumes("image/png")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
     public void setBanner(@PathParam("slug") String slug, @NotEmpty InputStream inputStream) throws Exception {
         Event event = loadEvent(slug);

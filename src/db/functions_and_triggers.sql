@@ -259,7 +259,7 @@ BEGIN
   IF TG_OP IN ('INSERT', 'UPDATE')
   THEN
     NEW._banner_hash = md5(CASE WHEN NEW.banner IS NOT NULL
-      THEN lo_get(NEW.banner)
+      THEN oidsend(NEW.banner)
                            ELSE '' END);
   END IF;
 
