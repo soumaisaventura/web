@@ -158,7 +158,6 @@ UPDATE race
 SET _status_id = 5
 WHERE id = 39;
 
-
 SELECT
   e.name,
   r.*
@@ -169,3 +168,9 @@ ORDER BY e._beginning, r.name;
 SELECT *
 FROM race
 WHERE id IN (31, 65);
+
+ALTER TABLE event
+  RENAME banner_tag TO banner_hash;
+
+ALTER TABLE public.profile
+  ADD COLUMN picture_hash CHARACTER VARYING(32);

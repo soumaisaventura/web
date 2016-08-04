@@ -36,6 +36,9 @@ public class Profile implements Serializable {
     @Lob
     private byte[] picture;
 
+    @Column(name = "picture_hash")
+    private String pictureHash;
+
     @PendencyCount
     private String rg;
 
@@ -167,6 +170,14 @@ public class Profile implements Serializable {
         this.picture = picture;
     }
 
+    public String getPictureHash() {
+        return pictureHash;
+    }
+
+    public void setPictureHash(String pictureHash) {
+        this.pictureHash = pictureHash;
+    }
+
     public String getRg() {
         return rg;
     }
@@ -230,5 +241,4 @@ public class Profile implements Serializable {
     public void setPendencies(Integer pendencies) {
         this.pendencies = pendencies;
     }
-
 }

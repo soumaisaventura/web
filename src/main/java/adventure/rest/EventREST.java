@@ -15,8 +15,6 @@ import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
@@ -29,7 +27,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
 
@@ -293,7 +290,7 @@ public class EventREST {
     public Response getBanner(@PathParam("slug") String slug, @HeaderParam("If-None-Match") String tag,
                               @QueryParam("width") Integer width, @Context ServletContext context) throws Exception {
         Event event = loadEventBanner(slug);
-        String persistedTag = event.getBannerTag() == null ? "empty" : event.getBannerTag();
+        String persistedTag = event.getBannerHash() == null ? "empty" : event.getBannerHash();
         Response response;
 
         if (persistedTag.equals(tag)) {
@@ -323,23 +320,14 @@ public class EventREST {
     @ValidatePayload
     @Consumes("multipart/form-data")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
-    public void setBanner(@PathParam("slug") String slug, @NotEmpty MultipartFormDataInput input) throws Exception {
+    public void setBanner(@PathParam("slug") String slug, @NotEmpty InputStream inputStream) throws Exception {
         Event event = loadEvent(slug);
         checkPermission(event);
 
-        InputPart file = null;
-        Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
-
-        for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
-            file = entry.getValue().get(0);
-            break;
+        if (inputStream == null) {
+            throw new UnprocessableEntityException().addViolation("arquivo obrigatório");
         }
 
-        if (file == null) {
-            throw new UnprocessableEntityException().addViolation("banner", "campo obrigatório");
-        }
-
-        InputStream inputStream = file.getBody(InputStream.class, null);
         EventBusiness.getInstance().updateBanner(event, new Picture(inputStream, "image/png"));
     }
 

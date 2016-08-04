@@ -6,6 +6,7 @@ import adventure.persistence.ProfileDAO;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -42,10 +43,12 @@ public class ProfileBusiness {
             Thumbnails.of(picture.getInputStream()).crop(CENTER).size(USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT)
                     .keepAspectRatio(true).outputFormat("jpg").toOutputStream(outputStream);
             byte image[] = outputStream.toByteArray();
+            String hash = DigestUtils.md5Hex(image);
 
             ProfileDAO profileDAO = ProfileDAO.getInstance();
             Profile profile = profileDAO.load(profileId);
             profile.setPicture(image);
+            profile.setPictureHash(hash);
             profileDAO.update(profile);
         }
     }

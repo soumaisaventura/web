@@ -19,15 +19,12 @@ import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 
 import static adventure.util.Constants.USER_PHOTO_WIDTH;
 import static adventure.util.Constants.USER_THUMBNAIL_WIDTH;
@@ -62,20 +59,42 @@ public class UserProfileREST {
     @GET
     @Path("{id: \\d+}/picture")
     @Produces("image/jpeg")
-    @Cache("max-age=604800000")
-    public byte[] getPicture(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
+    @Cache("max-age=60")
+    public Response getPicture(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag, @Context ServletContext context) throws Exception {
         Profile profile = loadProfile(id);
-        return loadPicture(profile, context);
+        String persistedTag = profile.getPictureHash() == null ? "empty" : profile.getPictureHash();
+
+        Response response;
+
+        if (persistedTag.equals(tag)) {
+            response = Response.notModified(persistedTag).build();
+        } else {
+            byte[] entity = loadPicture(profile, context);
+            response = Response.ok(entity).tag(persistedTag).build();
+        }
+
+        return response;
     }
 
     @GET
     @Path("{id: \\d+}/thumbnail")
     @Produces("image/jpeg")
     @Cache("max-age=604800000")
-    public byte[] getThumbnail(@PathParam("id") Integer id, @Context ServletContext context) throws Exception {
+    public Response getThumbnail(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag, @Context ServletContext context) throws Exception {
         Profile profile = loadProfile(id);
-        return ImageBusiness.getInstance()
-                .resize(loadPicture(profile, context), USER_PHOTO_WIDTH, USER_THUMBNAIL_WIDTH);
+        String persistedTag = profile.getPictureHash() == null ? "empty" : profile.getPictureHash();
+
+        Response response;
+
+        if (persistedTag.equals(tag)) {
+            response = Response.notModified(persistedTag).build();
+        } else {
+            byte[] entity = ImageBusiness.getInstance()
+                    .resize(loadPicture(profile, context), USER_PHOTO_WIDTH, USER_THUMBNAIL_WIDTH);
+            response = Response.ok(entity).tag(persistedTag).build();
+        }
+
+        return response;
     }
 
     @PUT
@@ -84,23 +103,14 @@ public class UserProfileREST {
     @ValidatePayload
     @Path("{id: \\d+}/picture")
     @Consumes("multipart/form-data")
-    public void setPicture(@PathParam("id") Integer id, @NotEmpty MultipartFormDataInput input) throws Exception {
+    public void setPicture(@PathParam("id") Integer id, @NotEmpty InputStream inputStream) throws Exception {
         Profile profile = loadProfile(id);
         checkPermission(profile);
 
-        InputPart file = null;
-        Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
-
-        for (Map.Entry<String, List<InputPart>> entry : formDataMap.entrySet()) {
-            file = entry.getValue().get(0);
-            break;
+        if (inputStream == null) {
+            throw new UnprocessableEntityException().addViolation("arquivo obrigatório");
         }
 
-        if (file == null) {
-            throw new UnprocessableEntityException().addViolation("file", "campo obrigatório");
-        }
-
-        InputStream inputStream = file.getBody(InputStream.class, null);
         ProfileBusiness.getInstance().updatePicture(id, new Picture(inputStream, "image/jpg"));
     }
 

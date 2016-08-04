@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="407,237" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="601,854" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -220,6 +220,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="picture">
 		<type name="oid"/>
+	</column>
+	<column name="picture_hash">
+		<type name="character varying" length="32"/>
 	</column>
 	<column name="gender" not-null="true">
 		<type name="character varying" length="20"/>
@@ -869,7 +872,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="banner">
 		<type name="oid"/>
 	</column>
-	<column name="banner_tag">
+	<column name="banner_hash">
 		<type name="character varying" length="32"/>
 	</column>
 	<column name="site">

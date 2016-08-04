@@ -22,8 +22,8 @@ public class Event {
     @Lob
     private byte[] banner;
 
-    @Column(name = "banner_tag")
-    private String bannerTag;
+    @Column(name = "banner_hash")
+    private String bannerHash;
 
     private String site;
 
@@ -70,10 +70,10 @@ public class Event {
         setEnd(end);
     }
 
-    public Event(Integer id, byte[] banner, String bannerTag) {
+    public Event(Integer id, byte[] banner, String bannerHash) {
         setId(id);
         setBanner(banner);
-        setBannerTag(bannerTag);
+        setBannerHash(bannerHash);
     }
 
     public Event(Integer id, String alias, String name, String description, String site,
@@ -177,12 +177,12 @@ public class Event {
         this.banner = banner;
     }
 
-    public String getBannerTag() {
-        return bannerTag;
+    public String getBannerHash() {
+        return bannerHash;
     }
 
-    public void setBannerTag(String bannerTag) {
-        this.bannerTag = bannerTag;
+    public void setBannerHash(String bannerHash) {
+        this.bannerHash = bannerHash;
     }
 
     public String getSite() {

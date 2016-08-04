@@ -24,13 +24,14 @@ public class EventBusiness {
     public void updateBanner(Event event, Picture picture) throws Exception {
         if (picture != null && picture.getInputStream() != null) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
             Thumbnails.of(picture.getInputStream()).crop(CENTER).size(EVENT_BANNER_WIDTH, EVENT_BANNER_HEIGHT)
                     .keepAspectRatio(true).outputFormat("png").toOutputStream(outputStream);
             byte image[] = outputStream.toByteArray();
-            String tag = DigestUtils.md5Hex(image);
+            String hash = DigestUtils.md5Hex(image);
 
             event.setBanner(image);
-            event.setBannerTag(tag);
+            event.setBannerHash(hash);
             EventDAO.getInstance().update(event);
         }
     }
