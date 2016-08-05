@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="0,0" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1175,1099" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -211,7 +211,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1099.49" y="810.549"/>
+	<position x="1033.34" y="810.549"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -856,7 +856,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="646.154" y="667.692"/>
+	<position x="619.231" y="667.692"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1795,6 +1795,29 @@ END
 	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
 	 table="public.event">
 		<function signature="public.trg_event_before_insert_update()"/>
+</trigger>
+
+<function name="trg_profile_before_insert_update"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[/* olhar direto no banco */]]></definition>
+</function>
+
+<trigger name="trg_profile_before_insert_update" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.profile">
+		<function signature="public.trg_profile_before_insert_update()"/>
 </trigger>
 
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
