@@ -277,6 +277,35 @@ FOR EACH ROW
 EXECUTE PROCEDURE trg_event_before_insert_update();
 
 
+DROP FUNCTION IF EXISTS trg_profile_before_insert_update();
+
+CREATE OR REPLACE FUNCTION trg_profile_before_insert_update()
+  RETURNS TRIGGER
+AS
+$func$
+# VARIABLE_CONFLICT use_variable
+BEGIN
+  IF TG_OP IN ('INSERT', 'UPDATE')
+  THEN
+    NEW._picture_hash = md5(CASE WHEN NEW.picture IS NOT NULL
+      THEN oidsend(NEW.picture)
+                            ELSE '' END);
+  END IF;
+
+  RETURN NEW;
+END;
+$func$
+LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_profile_before_insert_update ON profile;
+
+CREATE TRIGGER trg_profile_before_insert_update
+BEFORE INSERT OR UPDATE
+ON profile
+FOR EACH ROW
+EXECUTE PROCEDURE trg_profile_before_insert_update();
+
+
 CREATE OR REPLACE FUNCTION trg_event_organizer_after_all()
   RETURNS TRIGGER
 AS
