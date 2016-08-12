@@ -166,9 +166,9 @@ public class EventREST {
 
                 // Registration Period + Prices
 
-                List<RegistrationPeriod> periods = periodDAO.findForEvent(race);
+                List<RegistrationPeriod> periods = periodDAO.find(race);
                 raceData.prices = new ArrayList();
-                for (RegistrationPeriod period : periodDAO.findForEvent(race)) {
+                for (RegistrationPeriod period : periodDAO.find(race)) {
                     PeriodData periodData = new PeriodData();
                     periodData.id = period.getId();
                     periodData.beginning = period.getBeginning();

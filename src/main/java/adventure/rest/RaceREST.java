@@ -46,7 +46,7 @@ public class RaceREST {
         data.event.location = new LocationData();
         data.event.location.city = new CityData(race.getEvent().getCity());
 
-        List<RegistrationPeriod> periods = PeriodDAO.getInstance().findForEvent(race);
+        List<RegistrationPeriod> periods = PeriodDAO.getInstance().find(race);
         RegistrationPeriod currentPrice = RaceBusiness.getInstance().getPeriod(new Date(), periods);
         if (currentPrice != null) {
             data.currentPrice = new PeriodData(currentPrice);

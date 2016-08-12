@@ -27,7 +27,7 @@ public class PeriodDAO implements Serializable {
         return Beans.getReference(PeriodDAO.class);
     }
 
-    public List<RegistrationPeriod> findForEvent(Race race) {
+    public List<RegistrationPeriod> find(Race race) {
         String jpql = "";
         jpql += " select p ";
         jpql += "   from RegistrationPeriod p ";
@@ -65,19 +65,4 @@ public class PeriodDAO implements Serializable {
         }
         return result;
     }
-
-    // public List<RegistrationPeriod> find(Race race) throws Exception {
-    // String jpql = "";
-    // jpql += " select p ";
-    // jpql += "   from RegistrationPeriod p ";
-    // jpql += "   join p.race r ";
-    // jpql += "  where r = :race ";
-    // jpql += "  order by ";
-    // jpql += "        p.beginning ";
-    //
-    // TypedQuery<RegistrationPeriod> query = em.createQuery(jpql, RegistrationPeriod.class);
-    // query.setParameter("race", race);
-    //
-    // return query.getResultList();
-    // }
 }
