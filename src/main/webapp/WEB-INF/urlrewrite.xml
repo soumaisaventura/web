@@ -45,10 +45,12 @@
 
     <!-- /evento -->
 
+    <!--
     <rule>
         <from>^/evento/.+$</from>
         <set type="response-header" name="Cache-Control">max-age=86400</set>
     </rule>
+    -->
     <rule>
         <from>^/evento/([\w\d_\-/]+)/painel/ranking$</from>
         <to>/evento-painel-ranking.jsf?evento_id=$1</to>

@@ -22,6 +22,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -282,22 +283,27 @@ public class EventREST {
 
     @GET
     @Produces("image/png")
-    @Cache("max-age=60")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}/banner")
     public Response getBanner(@PathParam("slug") String slug, @HeaderParam("If-None-Match") String tag,
                               @QueryParam("width") Integer width, @Context ServletContext context) throws Exception {
-        Response response;
+        ResponseBuilder builder;
         Event event = loadEventBanner(slug);
         String persistedTag = event.getBannerHash();
 
         if (persistedTag.equals(tag)) {
-            response = Response.notModified(persistedTag).build();
+            builder = Response.notModified(persistedTag);
         } else {
             byte[] entity = ImageBusiness.getInstance().resize(loadBanner(event, context), 750, width);
-            response = Response.ok(entity).tag(persistedTag).build();
+            builder = Response.ok(entity).tag(persistedTag);
         }
 
-        return response;
+        if (event.getStatus().getId() == Status.END_ID) {
+            builder.header("Cache-Control", "max-age=31536000");
+        } else {
+            builder.header("Cache-Control", "max-age=300");
+        }
+
+        return builder.build();
     }
 
     private byte[] loadBanner(Event event, ServletContext context) throws Exception {

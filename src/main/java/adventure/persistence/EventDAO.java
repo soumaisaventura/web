@@ -143,7 +143,8 @@ public class EventDAO extends JPACrud<Event, Integer> {
         jpql += "    new Event( ";
         jpql += " 	     e.id, ";
         jpql += " 	     e.banner, ";
-        jpql += " 	     e.bannerHash ";
+        jpql += " 	     e.bannerHash, ";
+        jpql += " 	     e.status ";
         jpql += " 	     ) ";
         jpql += "   from Event e ";
         jpql += "  where e.alias = :alias ";
