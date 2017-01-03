@@ -46,7 +46,9 @@ public class EventDAO extends JPACrud<Event, Integer> {
         jpql += "  where year(e.beginning) = :year ";
         jpql += "    and e.show = true ";
         jpql += "  order by ";
-        jpql += "        e.beginning ";
+        jpql += "        e.beginning, ";
+        jpql += " 	     e.end, ";
+        jpql += " 	     e.id ";
 
         TypedQuery<Event> query = getEntityManager().createQuery(jpql, Event.class);
         query.setParameter("year", year);

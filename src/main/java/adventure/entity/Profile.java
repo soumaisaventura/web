@@ -1,27 +1,16 @@
 package adventure.entity;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.TemporalType.DATE;
-
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-
+import adventure.util.PendencyCount;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
-import adventure.util.PendencyCount;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name = "profile")
@@ -77,11 +66,11 @@ public class Profile implements Serializable {
 
 	private Integer pendencies;
 
-	@Column(name = "national_id")
-	private String nationalId;
+    @Column(name = "orienteering_national_id")
+    private String nationalId;
 
-	@Column(name = "sicard_number")
-	private String sicardNumber;
+    @Column(name = "orienteering_sicard_number")
+    private String sicardNumber;
 
 	public Profile() {
 	}
