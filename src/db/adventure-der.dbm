@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.0" last-position="446,0" last-zoom="1.3"
+<dbmodel pgmodeler-ver="0.8.0" last-position="1086,600" last-zoom="1.3"
 	 default-schema="public" default-owner="postgres">
 <database name="soumaisaventura" encoding="UTF8" lc-collate="pt_BR" lc-ctype="pt_BR">
 	<role name="postgres"/>
@@ -180,7 +180,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="686.081" y="158.828"/>
+	<position x="686.081" y="161.905"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -309,7 +309,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="573.223" y="313.188"/>
+	<position x="560.146" y="317.034"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -411,7 +411,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="User"/>
-	<position x="1413.77" y="463.883"/>
+	<position x="1411.46" y="468.498"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -672,7 +672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1115.49" y="481.318"/>
+	<position x="1099.34" y="479.78"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -702,7 +702,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1501.39" y="11.5017"/>
+	<position x="1496.01" y="26.8863"/>
 	<column name="registration_id" not-null="true">
 		<type name="bigint"/>
 	</column>
@@ -789,7 +789,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Sport"/>
-	<position x="8.05844" y="267.692"/>
+	<position x="9.5969" y="245.384"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -822,7 +822,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="0.439372" y="118.168"/>
+	<position x="3.5163" y="113.553"/>
 	<column name="championship_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -959,7 +959,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="226.154" y="627.692"/>
+	<position x="217.692" y="624.615"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1143,7 +1143,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="993.443" y="655.86"/>
+	<position x="1018.83" y="650.476"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1234,7 +1234,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="366.154" y="507.692"/>
+	<position x="351.539" y="506.154"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1580,7 +1580,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Event"/>
-	<position x="446.154" y="1027.69"/>
+	<position x="446.154" y="1033.07"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1630,7 +1630,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="680.512" y="1.53846"/>
+	<position x="681.282" y="5.38462"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1716,7 +1716,7 @@ END
 	<schema name="public"/>
 	<role name="postgres"/>
 	<tag name="Registration"/>
-	<position x="1326.01" y="202.564"/>
+	<position x="1316.78" y="202.564"/>
 	<column name="id" not-null="true">
 		<type name="uuid"/>
 	</column>
