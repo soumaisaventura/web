@@ -72,7 +72,9 @@ public class ProfileDAO extends JPACrud<Profile, User> {
         jpql += "        s.abbreviation, ";
         jpql += "        y.id, ";
         jpql += "        y.name, ";
-        jpql += "        y.abbreviation ";
+        jpql += "        y.abbreviation, ";
+        jpql += "        p.nationalId, ";
+        jpql += "        p.sicardNumber ";
         jpql += " 	 ) ";
         jpql += "   from Profile p ";
         jpql += "   join p.user u ";
