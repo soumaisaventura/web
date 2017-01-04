@@ -2,7 +2,6 @@ package adventure.entity;
 
 import adventure.util.PendencyCount;
 import org.joda.time.LocalDate;
-import org.joda.time.Years;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -110,7 +109,8 @@ public class Profile implements Serializable {
         Integer result = null;
 
         if (this.getBirthday() != null) {
-            result = Years.yearsBetween(new LocalDate(this.getBirthday()), new LocalDate(date)).getYears();
+            //result = Years.yearsBetween(new LocalDate(this.getBirthday()), new LocalDate(date)).getYears();
+            result = new LocalDate(date).getYear() - new LocalDate(this.getBirthday()).getYear();
         }
 
         return result;
