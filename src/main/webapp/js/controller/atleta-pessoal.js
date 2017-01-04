@@ -32,9 +32,9 @@ $(function () {
             'gender': $("#gender").val(),
             'tshirt': $("#tshirt").val(),
             'mobile': $("#mobile").val(),
-            'orienteering' : {
-             			'national_id': $("#national_id").val(),
-             			'sicard_number': $("#sicard_number").val()
+            'orienteering': {
+                'national_id': $("#national_id").val(),
+                'sicard_number': $("#sicard_number").val()
             }
         };
 
@@ -74,9 +74,9 @@ function loadOk(data) {
 
     $("#mobile").val(data.mobile);
     $("#form-section").show();
-    
+
     $("#national_id").val(data.orienteering.national_id);
- 			$("#sicard_number").val(data.orienteering.sicard_number);
+    $("#sicard_number").val(data.orienteering.sicard_number);
 }
 
 function addOption($element, value, text, selected) {

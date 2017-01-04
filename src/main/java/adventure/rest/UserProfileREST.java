@@ -33,159 +33,159 @@ import static adventure.util.Constants.USER_THUMBNAIL_WIDTH;
 @Path("user/profile")
 public class UserProfileREST {
 
-	@GET
-	@LoggedIn
-	@Produces("application/json")
-	public ProfileData load() throws Exception {
-		Profile profile = loadProfileDetails(User.getLoggedIn());
+    @GET
+    @LoggedIn
+    @Produces("application/json")
+    public ProfileData load() throws Exception {
+        Profile profile = loadProfileDetails(User.getLoggedIn());
 
-		ProfileData data = new ProfileData();
-		data.name = profile.getName();
-		data.rg = profile.getRg();
-		data.cpf = profile.getCpf();
-		data.birthday = profile.getBirthday();
-		data.mobile = profile.getMobile();
-		data.gender = profile.getGender();
-		data.tshirt = profile.getTshirt();
-		data.pendencies = profile.getPendencies();
-		data.city = new CityData(profile.getCity());
+        ProfileData data = new ProfileData();
+        data.name = profile.getName();
+        data.rg = profile.getRg();
+        data.cpf = profile.getCpf();
+        data.birthday = profile.getBirthday();
+        data.mobile = profile.getMobile();
+        data.gender = profile.getGender();
+        data.tshirt = profile.getTshirt();
+        data.pendencies = profile.getPendencies();
+        data.city = new CityData(profile.getCity());
 
-		if (data.city.id == null) {
-			data.city = null;
-		}
+        if (data.city.id == null) {
+            data.city = null;
+        }
 
-		data.orienteeringData = new OrienteeringData();
-		data.orienteeringData.nationalId = profile.getNationalId();
-		data.orienteeringData.sicardNumber = profile.getSicardNumber();
-		
-		return data;
-	}
+        data.orienteeringData = new OrienteeringData();
+        data.orienteeringData.nationalId = profile.getNationalId();
+        data.orienteeringData.sicardNumber = profile.getSicardNumber();
 
-	@GET
-	@Path("{id: \\d+}/picture")
-	@Produces("image/jpeg")
-	@Cache("max-age=60")
-	public Response getPicture(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag,
-			@Context ServletContext context) throws Exception {
-		Response response;
-		Profile profile = loadProfile(id);
-		String persistedTag = profile.getPictureHash();
+        return data;
+    }
 
-		if (persistedTag.equals(tag)) {
-			response = Response.notModified(persistedTag).build();
-		} else {
-			byte[] entity = loadPicture(profile, context);
-			response = Response.ok(entity).tag(persistedTag).build();
-		}
+    @GET
+    @Path("{id: \\d+}/picture")
+    @Produces("image/jpeg")
+    @Cache("max-age=60")
+    public Response getPicture(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag,
+                               @Context ServletContext context) throws Exception {
+        Response response;
+        Profile profile = loadProfile(id);
+        String persistedTag = profile.getPictureHash();
 
-		return response;
-	}
+        if (persistedTag.equals(tag)) {
+            response = Response.notModified(persistedTag).build();
+        } else {
+            byte[] entity = loadPicture(profile, context);
+            response = Response.ok(entity).tag(persistedTag).build();
+        }
 
-	@GET
-	@Path("{id: \\d+}/thumbnail")
-	@Produces("image/jpeg")
-	@Cache("max-age=604800000")
-	public Response getThumbnail(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag,
-			@Context ServletContext context) throws Exception {
-		Response response;
-		Profile profile = loadProfile(id);
-		String persistedTag = profile.getPictureHash();
+        return response;
+    }
 
-		if (persistedTag.equals(tag)) {
-			response = Response.notModified(persistedTag).build();
-		} else {
-			byte[] entity = ImageBusiness.getInstance().resize(loadPicture(profile, context), USER_PHOTO_WIDTH,
-					USER_THUMBNAIL_WIDTH);
-			response = Response.ok(entity).tag(persistedTag).build();
-		}
+    @GET
+    @Path("{id: \\d+}/thumbnail")
+    @Produces("image/jpeg")
+    @Cache("max-age=604800000")
+    public Response getThumbnail(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag,
+                                 @Context ServletContext context) throws Exception {
+        Response response;
+        Profile profile = loadProfile(id);
+        String persistedTag = profile.getPictureHash();
 
-		return response;
-	}
+        if (persistedTag.equals(tag)) {
+            response = Response.notModified(persistedTag).build();
+        } else {
+            byte[] entity = ImageBusiness.getInstance().resize(loadPicture(profile, context), USER_PHOTO_WIDTH,
+                    USER_THUMBNAIL_WIDTH);
+            response = Response.ok(entity).tag(persistedTag).build();
+        }
 
-	@PUT
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Path("{id: \\d+}/picture")
-	@Consumes("image/jpeg")
-	public void setPicture(@PathParam("id") Integer id, @NotEmpty InputStream inputStream) throws Exception {
-		Profile profile = loadProfile(id);
-		checkPermission(profile);
+        return response;
+    }
 
-		if (inputStream == null) {
-			throw new UnprocessableEntityException().addViolation("arquivo obrigatório");
-		}
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Path("{id: \\d+}/picture")
+    @Consumes("image/jpeg")
+    public void setPicture(@PathParam("id") Integer id, @NotEmpty InputStream inputStream) throws Exception {
+        Profile profile = loadProfile(id);
+        checkPermission(profile);
 
-		ProfileBusiness.getInstance().updatePicture(id, new Picture(inputStream, "image/jpg"));
-	}
+        if (inputStream == null) {
+            throw new UnprocessableEntityException().addViolation("arquivo obrigatório");
+        }
 
-	private void checkPermission(Profile profile) throws ForbiddenException {
-		if (!User.getLoggedIn().getAdmin() && !profile.getUser().getId().equals(User.getLoggedIn().getId())) {
-			throw new ForbiddenException();
-		}
-	}
+        ProfileBusiness.getInstance().updatePicture(id, new Picture(inputStream, "image/jpg"));
+    }
 
-	@PUT
-	@LoggedIn
-	@Transactional
-	@ValidatePayload
-	@Consumes("application/json")
-	public void update(ProfileData data) throws Exception {
-		Profile persisted = loadProfile(User.getLoggedIn());
-		persisted.setName(data.name);
-		persisted.setRg(data.rg);
-		persisted.setCpf(data.cpf);
-		persisted.setBirthday(data.birthday);
-		persisted.setMobile(data.mobile);
-		persisted.setGender(data.gender);
-		persisted.setTshirt(data.tshirt);
-		persisted.setCity(CityDAO.getInstance().load(data.city.id));
-		persisted.setNationalId(data.orienteeringData.nationalId);
-		persisted.setSicardNumber(data.orienteeringData.sicardNumber);
+    private void checkPermission(Profile profile) throws ForbiddenException {
+        if (!User.getLoggedIn().getAdmin() && !profile.getUser().getId().equals(User.getLoggedIn().getId())) {
+            throw new ForbiddenException();
+        }
+    }
 
-		ProfileDAO.getInstance().update(persisted);
-		User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
-	}
+    @PUT
+    @LoggedIn
+    @Transactional
+    @ValidatePayload
+    @Consumes("application/json")
+    public void update(ProfileData data) throws Exception {
+        Profile persisted = loadProfile(User.getLoggedIn());
+        persisted.setName(data.name);
+        persisted.setRg(data.rg);
+        persisted.setCpf(data.cpf);
+        persisted.setBirthday(data.birthday);
+        persisted.setMobile(data.mobile);
+        persisted.setGender(data.gender);
+        persisted.setTshirt(data.tshirt);
+        persisted.setCity(CityDAO.getInstance().load(data.city.id));
+        persisted.setNationalId(data.orienteeringData.nationalId);
+        persisted.setSicardNumber(data.orienteeringData.sicardNumber);
 
-	private Profile loadProfile(Integer id) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().load(id);
+        ProfileDAO.getInstance().update(persisted);
+        User.getLoggedIn().getProfile().setPendencies(PendencyCounter.count(persisted));
+    }
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+    private Profile loadProfile(Integer id) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().load(id);
 
-		return result;
-	}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-	private Profile loadProfile(User user) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().load(user);
+        return result;
+    }
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+    private Profile loadProfile(User user) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().load(user);
 
-		return result;
-	}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-	private Profile loadProfileDetails(User user) throws NotFoundException {
-		Profile result = ProfileDAO.getInstance().loadDetails(user);
+        return result;
+    }
 
-		if (result == null) {
-			throw new NotFoundException();
-		}
+    private Profile loadProfileDetails(User user) throws NotFoundException {
+        Profile result = ProfileDAO.getInstance().loadDetails(user);
 
-		return result;
-	}
+        if (result == null) {
+            throw new NotFoundException();
+        }
 
-	private byte[] loadPicture(Profile profile, ServletContext context) throws Exception {
-		byte[] result = profile.getPicture();
+        return result;
+    }
 
-		if (result == null) {
-			InputStream in = context.getResourceAsStream(
-					"/images/foto_anonimo_" + profile.getGender().toString().toLowerCase() + ".jpg");
-			result = IOUtils.toByteArray(in);
-		}
+    private byte[] loadPicture(Profile profile, ServletContext context) throws Exception {
+        byte[] result = profile.getPicture();
 
-		return result;
-	}
+        if (result == null) {
+            InputStream in = context.getResourceAsStream(
+                    "/images/foto_anonimo_" + profile.getGender().toString().toLowerCase() + ".jpg");
+            result = IOUtils.toByteArray(in);
+        }
+
+        return result;
+    }
 }

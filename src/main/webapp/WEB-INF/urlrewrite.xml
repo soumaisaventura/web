@@ -28,6 +28,11 @@
         <to>/signup.jsf</to>
         <set type="response-header" name="Cache-Control">max-age=86400</set>
     </rule>
+    <rule>
+        <from>^/privacidade/politica$</from>
+        <to>/politica-privacidade.html</to>
+        <set type="response-header" name="Cache-Control">max-age=86400</set>
+    </rule>
 
     <!-- /calendario -->
 
