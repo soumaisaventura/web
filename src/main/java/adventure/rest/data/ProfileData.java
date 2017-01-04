@@ -17,22 +17,13 @@ import java.util.Date;
 
 import static adventure.util.Constants.*;
 
-@JsonPropertyOrder({"name", "shortName", "rg", "cpf", "gender", "birthday", "tshirt", "city", "mobile", "pendencies",
-        "orienteering"})
+@JsonPropertyOrder({"name", "shortName", "gender", "birthday", "tshirt", "city", "mobile", "pendencies",
+        "rg", "cpf", "orienteering"})
 public class ProfileData {
 
     @NotEmpty
     @Size(max = NAME_SIZE)
     public String name;
-
-    @NotEmpty
-    @Length(max = RG_SIZE)
-    public String rg;
-
-    @Cpf
-    @NotEmpty
-    @Length(max = CPF_SIZE)
-    public String cpf;
 
     @NotNull
     public GenderType gender;
@@ -54,6 +45,13 @@ public class ProfileData {
 
     public Integer pendencies;
 
+    @Length(max = RG_SIZE)
+    public String rg;
+
+    @Cpf
+    @Length(max = CPF_SIZE)
+    public String cpf;
+
     @JsonProperty("orienteering")
     public OrienteeringData orienteeringData;
 
@@ -61,5 +59,4 @@ public class ProfileData {
     public String getShortName() {
         return !Strings.isEmpty(name) ? name.split(" ")[0] : null;
     }
-
 }
