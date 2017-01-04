@@ -11,8 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 import static adventure.entity.EventPaymentType.AUTO;
-import static adventure.entity.Status.CLOSED_ID;
-import static adventure.entity.Status.OPEN_ID;
+import static adventure.entity.Status.*;
 
 @Transactional
 public class RaceDAO extends JPACrud<Race, Integer> {
@@ -168,12 +167,13 @@ public class RaceDAO extends JPACrud<Race, Integer> {
         jpql += "   join c.state s ";
         jpql += "   join s.country y ";
         jpql += "  where e.payment.type = :eventPaymentType ";
-        jpql += "    and a.id in (:raceOpenStatusId, :raceClosedStatusId) ";
+        jpql += "    and a.id in (:raceOpenStatusId, :raceClosedStatusId, :raceNoVacancyStatusId) ";
 
         TypedQuery<Race> query = getEntityManager().createQuery(jpql, Race.class);
         query.setParameter("eventPaymentType", AUTO);
         query.setParameter("raceOpenStatusId", OPEN_ID);
         query.setParameter("raceClosedStatusId", CLOSED_ID);
+        query.setParameter("raceNoVacancyStatusId", NO_VACANCY_ID);
 
         return query.getResultList();
     }

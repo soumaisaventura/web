@@ -58,3 +58,8 @@ BEFORE INSERT OR UPDATE
 ON event
 FOR EACH ROW
 EXECUTE PROCEDURE trg_event_before_insert_update();
+
+ALTER TABLE public.profile
+  ADD COLUMN national_id varchar(20);
+ALTER TABLE public.profile
+  ADD COLUMN sicard_number varchar(20);

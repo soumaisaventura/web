@@ -70,10 +70,11 @@ public class Event {
         setEnd(end);
     }
 
-    public Event(Integer id, byte[] banner, String bannerHash) {
+    public Event(Integer id, byte[] banner, String bannerHash, Status status) {
         setId(id);
         setBanner(banner);
         setBannerHash(bannerHash);
+        setStatus(status);
     }
 
     public Event(Integer id, String alias, String name, String description, String site,

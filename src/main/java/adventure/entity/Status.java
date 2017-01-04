@@ -12,9 +12,11 @@ public class Status {
 
     public static final Integer OPEN_ID = 2;
 
-    public static final Integer CLOSED_ID = 3;
+    public static final Integer NO_VACANCY_ID = 3;
 
-    public static final Integer END_ID = 4;
+    public static final Integer CLOSED_ID = 4;
+
+    public static final Integer END_ID = 5;
 
     @Id
     private Integer id;

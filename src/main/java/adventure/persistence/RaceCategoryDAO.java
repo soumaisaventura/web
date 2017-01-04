@@ -101,6 +101,12 @@ public class RaceCategoryDAO implements Serializable {
         jpql += "  where r = :race ";
         jpql += "  order by ";
         jpql += "        c.teamSize desc, ";
+        jpql += "        (case when c.minFemaleMembers is null then 0 else c.minFemaleMembers end) desc, ";
+        jpql += "        (case when c.minMaleMembers is null then 0 else c.minMaleMembers end) desc, ";
+        jpql += "        (case when c.minMemberAge is null then 0 else c.minMemberAge end) desc, ";
+        jpql += "        (case when c.maxMemberAge is null then 0 else c.maxMemberAge end) desc, ";
+        jpql += "        (case when c.minTeamAge is null then 0 else c.minTeamAge end) desc, ";
+        jpql += "        (case when c.maxTeamAge is null then 0 else c.maxTeamAge end) desc, ";
         jpql += "        c.name ";
 
         TypedQuery<RaceCategory> query = em.createQuery(jpql, RaceCategory.class);
