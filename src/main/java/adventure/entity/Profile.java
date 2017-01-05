@@ -39,12 +39,6 @@ public class Profile implements Serializable {
     private String pictureHash;
 
     @PendencyCount
-    private String rg;
-
-    @PendencyCount
-    private String cpf;
-
-    @PendencyCount
     @Temporal(DATE)
     private Date birthday;
 
@@ -63,13 +57,17 @@ public class Profile implements Serializable {
     @JoinColumn(name = "city_id")
     private City city;
 
-    private Integer pendencies;
+    private String rg;
+
+    private String cpf;
 
     @Column(name = "orienteering_national_id")
     private String nationalId;
 
     @Column(name = "orienteering_sicard_number")
     private String sicardNumber;
+
+    private Integer pendencies;
 
     public Profile() {
     }
@@ -188,22 +186,6 @@ public class Profile implements Serializable {
         this.pictureHash = pictureHash;
     }
 
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
@@ -244,12 +226,20 @@ public class Profile implements Serializable {
         this.city = city;
     }
 
-    public Integer getPendencies() {
-        return pendencies;
+    public String getRg() {
+        return rg;
     }
 
-    public void setPendencies(Integer pendencies) {
-        this.pendencies = pendencies;
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getNationalId() {
@@ -268,4 +258,11 @@ public class Profile implements Serializable {
         this.sicardNumber = sicardNumber;
     }
 
+    public Integer getPendencies() {
+        return pendencies;
+    }
+
+    public void setPendencies(Integer pendencies) {
+        this.pendencies = pendencies;
+    }
 }
