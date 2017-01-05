@@ -158,19 +158,17 @@ public class EventAnalyticDAO extends JPACrud<Race, Integer> {
         jpql += " select ";
         jpql += "    new adventure.entity.EventAnalytic( ";
         jpql += "          'amount_raised', ";
-        jpql += "           cast(sum(ur.amount) + sum(case when k is null then 0 else k.price end) as long) ";
+        jpql += "           cast(sum(ur.amount) as long) ";
         jpql += "        ) ";
         jpql += "   from UserRegistration ur ";
-        jpql += "   left join ur.kit k ";
         jpql += "   join ur.registration re ";
         jpql += "   join re.raceCategory rc ";
         jpql += "   join rc.race ra ";
-        jpql += "   join ra.event ev ";
-        jpql += "  where ev = :event ";
+        jpql += "  where ra.event.id = :eventId ";
         jpql += "    and re.status = :status ";
 
         TypedQuery<EventAnalytic> query = getEntityManager().createQuery(jpql, EventAnalytic.class);
-        query.setParameter("event", event);
+        query.setParameter("eventId", event.getId());
         query.setParameter("status", CONFIRMED);
 
         return query.getResultList();
