@@ -71,7 +71,5 @@ function getColor(status) {
             color = 'c5c5c5'
     }
 
-    console.log('___' + color);
-
     return color;
 }

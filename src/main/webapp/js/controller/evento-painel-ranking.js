@@ -16,7 +16,6 @@ $(function () {
 });
 
 function loadOk(event) {
-    console.log(event);
     $("#event-name").text(event.name);
     $("#location-city").text(App.parseCity(event.location.city));
     $("#date").text(App.parsePeriod(event.period));
@@ -35,10 +34,7 @@ function findCategoriesOk(categories) {
 }
 
 function findOk(data) {
-    console.log(data);
-
     var template = $("#rank-template");
     var rendered = Mustache.render(template.html(), data);
-    console.log(rendered);
     $('#rank-template').html(rendered);
 }

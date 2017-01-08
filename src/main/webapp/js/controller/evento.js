@@ -172,8 +172,6 @@ function loadEventOk(event) {
 
             // Status
 
-            console.log(race.status);
-
             switch (race.status) {
                 case 'open':
                     race.status_button = true;

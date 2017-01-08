@@ -1,6 +1,7 @@
 package adventure.rest;
 
 import adventure.entity.*;
+import adventure.entity.Profile;
 import adventure.persistence.EventDAO;
 import adventure.persistence.RegistrationDAO;
 import adventure.persistence.UserDAO;

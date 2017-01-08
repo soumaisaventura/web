@@ -80,7 +80,6 @@ function loadGoogle(appId) {
 }
 
 function loadGoogleOk() {
-    console.log($("#google-login"));
     $("#google-login").removeAttr("disabled");
 
     $("#google-login")

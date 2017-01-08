@@ -4,7 +4,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 
 @JsonPropertyOrder({"photo", "thumbnail"})
 public class PictureData {
@@ -20,11 +19,11 @@ public class PictureData {
         this.uriInfo = uriInfo;
     }
 
-    public URI getPhoto() {
-        return userData.id != null ? uriInfo.getBaseUri().resolve("../usuario/" + userData.id + "/foto.jpg") : null;
+    public String getPhoto() {
+        return userData.id != null ? uriInfo.getBaseUri().resolve("../usuario/" + userData.id + "/foto.jpg").getPath() : null;
     }
 
-    public URI getThumbnail() {
-        return userData.id != null ? uriInfo.getBaseUri().resolve("../usuario/" + userData.id + "/minifoto.jpg") : null;
+    public String getThumbnail() {
+        return userData.id != null ? uriInfo.getBaseUri().resolve("../usuario/" + userData.id + "/minifoto.jpg").getPath() : null;
     }
 }

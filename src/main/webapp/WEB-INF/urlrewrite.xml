@@ -4,7 +4,12 @@
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
-    <!-- / -->
+    <rule>
+        <condition name="x-forwarded-proto" operator="notequal">https</condition>
+        <condition name="host" operator="equal">www.soumaisaventura.com.br</condition>
+        <from>^/(.*)</from>
+        <to type="permanent-redirect" last="true">https://www.soumaisaventura.com.br/$1</to>
+    </rule>
 
     <rule>
         <from>^/$</from>

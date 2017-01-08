@@ -5,7 +5,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.List;
 
 @JsonPropertyOrder({"id", "internal_id", "status", "name", "description", "banner", "site", "period", "location",
@@ -42,7 +41,7 @@ public class EventData {
         this.uriInfo = uriInfo;
     }
 
-    public URI getBanner() {
-        return this.id != null ? uriInfo.getBaseUri().resolve("../evento/" + this.id + "/banner.png") : null;
+    public String getBanner() {
+        return this.id != null ? uriInfo.getBaseUri().resolve("../evento/" + this.id + "/banner.png").getPath() : null;
     }
 }
