@@ -19,6 +19,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import static adventure.util.Constants.EVENT_SLUG_PATTERN;
@@ -38,7 +40,14 @@ public class EventREST {
     @Path("year/{year : \\d+}")
     @Cache("max-age=28800")
     @Produces("application/json")
-    public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo) throws Exception {
+    public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo, @Context HttpServletRequest request) throws Exception {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            System.out.println("[" + headerName + "]: " + request.getHeader(headerName));
+        }
+
+
         List<EventData> result = new ArrayList();
 
         for (Event event : EventDAO.getInstance().findByYear(year)) {
