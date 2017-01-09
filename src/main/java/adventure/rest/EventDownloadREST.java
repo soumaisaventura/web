@@ -113,6 +113,8 @@ public class EventDownloadREST {
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Nascimento");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("RG");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("CPF");
+        createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("CBO (orientação)");
+        createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("SiCard (orientação)");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Estado");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Cidade");
         createStyleCell(rAtletas, cAtletasIdx++, titleStyle).setCellValue("Inscrição (R$)");
@@ -190,6 +192,9 @@ public class EventDownloadREST {
                         Dates.parse(test ? TEST_BIRTHDAY : profile.getBirthday()));
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_RG : profile.getRg());
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_CPF : profile.getCpf());
+
+                createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_NUMBER : profile.getNationalId());
+                createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(test ? TEST_NUMBER : profile.getSicardNumber());
 
                 createStyleCell(rAtletas, cAtletasIdx++, style).setCellValue(
                         profile.getCity().getState().getAbbreviation());

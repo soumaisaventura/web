@@ -16,13 +16,15 @@ import static javax.persistence.TemporalType.DATE;
 @SuppressWarnings("serial")
 public class Profile implements Serializable {
 
-    public static final String TEST_MOBILE = "(te) stest-este";
+    public static final String TEST_MOBILE = "(00) 00000-0000";
 
     public static final Date TEST_BIRTHDAY = new Date(0);
 
-    public static final String TEST_RG = "testeste-st";
+    public static final String TEST_RG = "00000000-00";
 
-    public static final String TEST_CPF = "tes.tes.tes-te";
+    public static final String TEST_CPF = "000.000.000-00";
+
+    public static final String TEST_NUMBER = "000";
 
     @Id
     @OneToOne

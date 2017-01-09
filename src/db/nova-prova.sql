@@ -73,9 +73,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (42,
-        8,
-        'Gustavo Chagas',
+VALUES (47,
+        55,
+        'Daniel Cardoso',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
