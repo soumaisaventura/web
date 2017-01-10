@@ -48,7 +48,7 @@ public class MailBusiness implements Serializable {
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
         context.put("token", token);
-        context.put("url", baseUri.resolve("atleta/ativacao?token=" + token).toString());
+        context.put("url", parseURL(baseUri.resolve("atleta/ativacao?token=" + token).toString()));
 
         String content = parse("mail-templates/account-activation.txt", context);
         send("Confirmação de e-mail", content, "text/plain", new InternetAddress(email));
@@ -64,7 +64,7 @@ public class MailBusiness implements Serializable {
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
         context.put("oa", oa);
-        context.put("url", baseUri.resolve("atleta/pessoal").toString());
+        context.put("url", parseURL(baseUri.resolve("atleta/pessoal").toString()));
 
         String content = parse("mail-templates/welcome.txt", context);
         send("Seja bem-vind" + oa + "!", content, "text/plain", new InternetAddress(email));
@@ -78,7 +78,7 @@ public class MailBusiness implements Serializable {
 
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
-        context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
+        context.put("url", parseURL(baseUri.resolve("senha/redefinicao?token=" + token).toString()));
 
         String content = parse("mail-templates/password-creation.txt", context);
         send("Criação de senha", content, "text/plain", new InternetAddress(email));
@@ -92,7 +92,7 @@ public class MailBusiness implements Serializable {
 
         Map<String, Object> context = new HashMap<>();
         context.put("user", user);
-        context.put("url", baseUri.resolve("senha/redefinicao?token=" + token).toString());
+        context.put("url", parseURL(baseUri.resolve("senha/redefinicao?token=" + token).toString()));
 
         String content = parse("mail-templates/password-recovery.txt", context);
         send("Recuperação de senha", content, "text/plain", new InternetAddress(email));
@@ -136,7 +136,7 @@ public class MailBusiness implements Serializable {
         context.put("registration", registration);
         context.put("team", Misc.stringfy(userRegistrations));
         context.put("raceDate", Dates.parse(race.getPeriod().getBeginning()));
-        context.put("url", baseUri.resolve("inscricao/" + registration.getFormattedId()).toString());
+        context.put("url", parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()));
 
         String subject = "Pedido de inscrição";
         subject += " #" + registration.getFormattedId();
@@ -165,7 +165,7 @@ public class MailBusiness implements Serializable {
         content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
         content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("atleta/" + pendency + "$2"));
+                "$1" + parseURL(baseUri.resolve("atleta/" + pendency + "$2").toString()));
 
         String subject = "Tentativa de inscrição";
         subject += " – " + race.getEvent().getName();
@@ -188,7 +188,7 @@ public class MailBusiness implements Serializable {
         content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
         content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+                "$1" + parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()) + "$2");
         content = content.replace("{registrationId}", registration.getFormattedId());
         content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
         content = content.replace("{newPeriodBegining}", Dates.parse(newPeriodBegining));
@@ -221,7 +221,7 @@ public class MailBusiness implements Serializable {
         content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
         content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+                "$1" + parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()) + "$2");
         content = content.replace("{registrationId}", registration.getFormattedId());
         content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
         content = content
@@ -265,7 +265,7 @@ public class MailBusiness implements Serializable {
         content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
         content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
         content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + baseUri.resolve("inscricao/" + registration.getFormattedId()).toString() + "$2");
+                "$1" + parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()) + "$2");
         content = content.replace("{registrationId}", registration.getFormattedId());
         content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
         content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
@@ -345,5 +345,9 @@ public class MailBusiness implements Serializable {
         Template template = Mustache.compiler().compile(source);
 
         return template.execute(context);
+    }
+
+    private String parseURL(String url) {
+        return url.replaceAll("http://", "https://");
     }
 }
