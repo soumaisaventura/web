@@ -36,6 +36,7 @@ public class UserRegistration {
     public UserRegistration(Integer userId, String userEmail, String profileName, String profileMobile,
                             TshirtType profileTshirt, Integer kitId, String kitName, Date profileBirthday, String profileRg, String profileCpf,
                             Integer cityId, String cityName, Integer stateId, String stateName, String stateAbbreviation, Integer countryId, String countryName, String countryAbbreviation,
+                            String nationalId, String sicardNumber,
                             BigDecimal amount, Long registrationId,
                             RegistrationStatusType registrationStatus, String registrationTeamName, Date registrationDate,
                             Integer raceId, String raceAlias, String raceName,
@@ -70,6 +71,8 @@ public class UserRegistration {
         getUser().getProfile().getCity().getState().getCountry().setId(countryId);
         getUser().getProfile().getCity().getState().getCountry().setName(countryName);
         getUser().getProfile().getCity().getState().getCountry().setAbbreviation(countryAbbreviation);
+        getUser().getProfile().setNationalId(nationalId);
+        getUser().getProfile().setSicardNumber(sicardNumber);
 
         setAmount(amount);
 
