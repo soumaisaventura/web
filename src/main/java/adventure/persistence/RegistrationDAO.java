@@ -266,6 +266,8 @@ public class RegistrationDAO extends JPACrud<Registration, Long> {
         jpql += "        y.id, ";
         jpql += "        y.name, ";
         jpql += "        y.abbreviation, ";
+        jpql += "        p.nationalId, ";
+        jpql += "        p.sicardNumber, ";
         jpql += " 	     tf.amount, ";
         jpql += " 	     re.id, ";
         jpql += " 	     re.status, ";
