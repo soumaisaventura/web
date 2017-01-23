@@ -221,9 +221,9 @@ function loadEventOk(event) {
 
         $('[data-toggle="tooltip"]').tooltip({html: true});
         // $('[data-toggle="popover"]').popover({html: true});
-        $(".end, .closed").html("Inscrições encerradas");
-        $(".no_vacancy").html("Vagas esgotadas");
-        $(".soon").html("Inscrições em breve");
+        $(".end, .closed").html("Encerrado");
+        $(".no_vacancy").html("Esgotado");
+        $(".soon").html("Em breve");
 
         // $(".hint-end, .hint-closed, .hint-soon").remove();
     }
