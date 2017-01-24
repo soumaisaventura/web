@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.2" last-position="550,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.2" last-position="625,480" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <role name="adminft3dl4v"
       superuser="true"
@@ -26,7 +26,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1322" y="480"/>
+	<position x="1313" y="507"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -74,7 +74,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="city">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1697" y="1002"/>
+	<position x="1694" y="978"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -92,7 +92,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="country">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="2053" y="813"/>
+	<position x="2046" y="807"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -143,7 +143,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="period">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1337" y="179"/>
+	<position x="1345" y="185"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -173,7 +173,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1638" y="705"/>
+	<position x="1642" y="713"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -269,7 +269,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="race_category">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1368" y="342"/>
+	<position x="1363" y="349"/>
 	<column name="race_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -363,7 +363,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="state">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="2052" y="982"/>
+	<position x="2042" y="966"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -665,7 +665,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sport">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="834" y="594"/>
+	<position x="845" y="595"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -768,7 +768,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="event">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1241" y="801"/>
+	<position x="1256" y="808"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1013,7 +1013,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="event_organizer">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1635" y="478"/>
+	<position x="1649" y="469"/>
 	<column name="event_id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1102,7 +1102,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="status">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="956" y="810"/>
+	<position x="951" y="728"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1429,7 +1429,7 @@ END
 <view name="registration_status_by_day">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="598" y="947"/>
+	<position x="608" y="925"/>
 	<reference>
 		<expression><![CDATA[SELECT da.event_id, da.date, (sum(CASE WHEN ((re.status)::text = 'PENDENT'::text) THEN 1 ELSE 0 END))::integer AS pendent, (sum(CASE WHEN ((re.status)::text = 'CONFIRMED'::text) THEN 1 ELSE 0 END))::integer AS confirmed, (sum(CASE WHEN ((re.status)::text = 'CANCELLED'::text) THEN 1 ELSE 0 END))::integer AS cancelled FROM ((SELECT ep.event_id, ra.id AS race_id, (generate_series((ep.beginning)::timestamp without time zone, ep.ending, '1 day'::interval))::date AS date FROM (SELECT ra.event_id, min(pe.beginning) AS beginning, GREATEST((max(pe.ending))::timestamp without time zone, max(reg.status_date)) AS ending FROM period pe, race ra, registration reg WHERE ((pe.race_id = ra.id) AND (ra.id = reg.race_id)) GROUP BY ra.event_id) ep, race ra WHERE (ep.event_id = ra.event_id)) da LEFT JOIN registration re ON (((da.race_id = re.race_id) AND (da.date = (re.status_date)::date)))) GROUP BY da.event_id, da.date;]]></expression>
 	</reference>
@@ -1438,7 +1438,7 @@ END
 <table name="hotspot">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="954" y="950"/>
+	<position x="942" y="867"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1487,7 +1487,7 @@ END
 <table name="kit">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1325" y="5"/>
+	<position x="1342" y="6"/>
 	<column name="id" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1832,6 +1832,35 @@ END;
 	<schema name="pg_catalog"/>
 </extension>
 
+<table name="event_link">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="960" y="1060"/>
+	<column name="id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="15"/>
+	</column>
+	<column name="url">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="event_id" not-null="true">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_event_link" type="pk-constr" table="public.event_link">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="idx_event_link_event" table="public.event_link"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="event_id"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_city_state" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.state" table="public.city">
 	<columns names="state_id" ref-type="src-columns"/>
@@ -2012,6 +2041,12 @@ END;
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_event_link_event" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.event" table="public.event_link">
+	<columns names="event_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_city_state" type="relfk"
 	 custom-color="#176f4d"
 	 src-table="public.city"
@@ -2184,6 +2219,11 @@ END;
 	 custom-color="#247b67"
 	 src-table="public.kit"
 	 dst-table="public.race"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_event_link_event" type="relfk"
+	 src-table="public.event_link"
+	 dst-table="public.event"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

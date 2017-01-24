@@ -6,35 +6,35 @@
     <persistence-unit name="pu" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
 
-        <class>adventure.entity.User</class>
-        <class>adventure.entity.Profile</class>
-        <class>adventure.entity.Health</class>
-        <class>adventure.entity.Event</class>
-        <class>adventure.entity.EventOrganizer</class>
-        <class>adventure.entity.EventRegistrationStatusByDay</class>
-        <class>adventure.entity.Hotspot</class>
-        <class>adventure.entity.Race</class>
-        <class>adventure.entity.RaceModality</class>
-        <class>adventure.entity.RaceCategory</class>
-        <class>adventure.entity.Kit</class>
-        <class>adventure.entity.Status</class>
-        <class>adventure.entity.Championship</class>
-        <class>adventure.entity.ChampionshipRace</class>
-        <class>adventure.entity.Sport</class>
-        <class>adventure.entity.Modality</class>
-        <class>adventure.entity.RegistrationPeriod</class>
-        <class>adventure.entity.Category</class>
-        <class>adventure.entity.Registration</class>
-        <class>adventure.entity.UserRegistration</class>
-        <class>adventure.entity.Country</class>
-        <class>adventure.entity.State</class>
-        <class>adventure.entity.City</class>
+        <class>core.entity.User</class>
+        <class>core.entity.Profile</class>
+        <class>core.entity.Health</class>
+        <class>core.entity.Event</class>
+        <class>core.entity.EventOrganizer</class>
+        <class>core.entity.EventRegistrationStatusByDay</class>
+        <class>core.entity.Hotspot</class>
+        <class>core.entity.Race</class>
+        <class>core.entity.RaceModality</class>
+        <class>core.entity.RaceCategory</class>
+        <class>core.entity.Kit</class>
+        <class>core.entity.Status</class>
+        <class>core.entity.Championship</class>
+        <class>core.entity.ChampionshipRace</class>
+        <class>core.entity.Sport</class>
+        <class>core.entity.Modality</class>
+        <class>core.entity.RegistrationPeriod</class>
+        <class>core.entity.Category</class>
+        <class>core.entity.Registration</class>
+        <class>core.entity.UserRegistration</class>
+        <class>core.entity.Country</class>
+        <class>core.entity.State</class>
+        <class>core.entity.City</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <!--
-            <property name="hibernate.dialect" value="adventure.persistence.AppSQLDialect"/>
+            <property name="hibernate.dialect" value="temp.persistence.AppSQLDialect"/>
             -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.transaction.jta.platform"
