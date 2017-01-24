@@ -65,13 +65,9 @@ public class RegistrationBusiness {
             UserRegistration formation = UserRegistrationDAO.getInstance().loadForRegistrationSubmissionValidation(
                     raceCategory.getRace(), member);
 
-            Integer memberAge = member.getProfile().getAge(raceDate);
-            if (category.getMinMemberAge() != null && category.getMaxMemberAge() != null && (memberAge < category.getMinMemberAge() || memberAge > category.getMaxMemberAge())) {
-                exception.addViolation(parse(member) + " não tem idade entre " + category.getMinMemberAge() + " e " + category.getMaxMemberAge() + " anos.");
-            } else if (category.getMinMemberAge() != null && category.getMaxMemberAge() == null && memberAge < category.getMinMemberAge()) {
-                exception.addViolation(parse(member) + " não tem pelo menos " + category.getMinMemberAge() + " anos.");
-            } else if (category.getMinMemberAge() == null && category.getMaxMemberAge() != null && memberAge > category.getMaxMemberAge()) {
-                exception.addViolation(parse(member) + " tem mais de " + category.getMaxMemberAge() + " anos.");
+            if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
+                exception.addViolation(parse(member) + " possui pendências cadastrais.");
+                MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
             }
 
             if (formation != null && !formation.getRegistration().getId().equals(id)) {
@@ -79,9 +75,15 @@ public class RegistrationBusiness {
                         + formation.getRegistration().getTeamName() + ".");
             }
 
-            if (member.getProfile().getPendencies() > 0 || member.getHealth().getPendencies() > 0) {
-                exception.addViolation(parse(member) + " possui pendências cadastrais.");
-                MailBusiness.getInstance().sendRegistrationFailed(member, submitter, raceCategory, teamName, baseUri);
+            Integer memberAge = member.getProfile().getAge(raceDate);
+            if (memberAge != null) {
+                if (category.getMinMemberAge() != null && category.getMaxMemberAge() != null && (memberAge < category.getMinMemberAge() || memberAge > category.getMaxMemberAge())) {
+                    exception.addViolation(parse(member) + " não tem idade entre " + category.getMinMemberAge() + " e " + category.getMaxMemberAge() + " anos.");
+                } else if (category.getMinMemberAge() != null && category.getMaxMemberAge() == null && memberAge < category.getMinMemberAge()) {
+                    exception.addViolation(parse(member) + " não tem pelo menos " + category.getMinMemberAge() + " anos.");
+                } else if (category.getMinMemberAge() == null && category.getMaxMemberAge() != null && memberAge > category.getMaxMemberAge()) {
+                    exception.addViolation(parse(member) + " tem mais de " + category.getMaxMemberAge() + " anos.");
+                }
             }
 
             if (member.getKit() == null && !kits.isEmpty()) {
