@@ -8,7 +8,7 @@ import core.entity.Race;
 import core.entity.User;
 import core.persistence.KitDAO;
 import core.persistence.UserDAO;
-import rest.data.UserData;
+import rest.v1.data.UserData;
 import temp.security.Passwords;
 
 import java.util.ArrayList;

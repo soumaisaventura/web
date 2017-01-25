@@ -1,6 +1,6 @@
 package temp.client;
 
-import rest.SignUpREST.SignUpData;
+import rest.v1.SignUpREST.SignUpData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
