@@ -3,15 +3,18 @@
                 xmlns="http://www.w3.org/1999/xhtml" template="/template/main.xhtml">
 
     <ui:define name="lib">
+        <script src="#{request.contextPath}/js/lib/spin.min.js"></script>
         <script src="#{request.contextPath}/js/lib/sweet-alert.min.js"></script>
     </ui:define>
 
     <ui:define name="proxy">
         <script src="#{request.contextPath}/js/proxy/signup.js"></script>
+        <script src="#{request.contextPath}/js/proxy/logon.js"></script>
     </ui:define>
 
     <ui:define name="controller">
         <script src="#{request.contextPath}/js/controller/signup.js"></script>
+        <script src="#{request.contextPath}/js/controller/login-oauth.js"></script>
     </ui:define>
 
     <ui:define name="css">
@@ -19,13 +22,29 @@
     </ui:define>
 
     <ui:define name="body">
-        <div class="col-md-6 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4">
             <div class="row" style="padding-bottom: 20px">
                 <h1>Registre-se</h1>
                 <h4>Crie sua conta para se inscrever nas provas</h4>
             </div>
-        </div>
-        <div class="col-md-4 col-md-offset-4">
+            <div class="row" style="padding-bottom: 10px">
+                <div class="col-xs-6 col-sm-6 col-md-6" style="padding-left: 0px;">
+                    <a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block" disabled="disabled">
+                        <small class="hidden-xs">usando</small>
+                        Facebook</a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6" style="padding-right: 0px;">
+                    <a id="google-login" href="#" class="btn btn-lg btn-danger btn-block" disabled="disabled">
+                        <small class="hidden-xs">ou</small>
+                        Google</a>
+                </div>
+            </div>
+
+            <div class="login-or" style="padding-bottom: 20px">
+                <hr class="hr-or"/>
+                <span class="span-or">ou</span>
+            </div>
+
             <form role="form">
                 <div class="row">
                     <div class="form-group">
@@ -72,10 +91,14 @@
                 <div class="row">
                     <div class="form-group">
                         <input id="global" type="hidden"/>
-                        <button type="submit" class="btn btn-lg btn-success">
+                        <button type="submit" class="btn btn-lg btn-success col-xs-12 col-md-5">
                             <span class="glyphicon glyphicon-check" aria-hidden='true' style="font-size: 0.8em;"></span>
                             Registrar
                         </button>
+                        <div class="col-xs-12 col-md-7" style="padding-right: 0px;">
+                            <a href="#{request.contextPath}/privacidade/politica" class="pull-right">política de
+                                privacidade</a>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

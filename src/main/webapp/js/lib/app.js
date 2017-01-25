@@ -314,7 +314,7 @@ var App = {
         url += "&redirect_uri=" + App.getBaseUrl() + "/close";
         url += "&actions=[{ name: 'Quero me inscrever agora mesmo!', link: '" + raceUrl + "/inscricao' }]";
 
-        window.open(url, '_blank');
+        window.open(encodeURI(url), '_blank');
     }
 };
 

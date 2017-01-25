@@ -1,3 +1,5 @@
+var googleAppId;
+
 $(function () {
     $("#name").focus();
     $("#signup-menu-item").addClass("active");

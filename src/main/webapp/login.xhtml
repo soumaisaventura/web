@@ -12,6 +12,7 @@
 
     <ui:define name="controller">
         <script src="#{request.contextPath}/js/controller/login.js"></script>
+        <script src="#{request.contextPath}/js/controller/login-oauth.js"></script>
     </ui:define>
 
     <ui:define name="css">
@@ -26,10 +27,14 @@
             </div>
             <div class="row" style="padding-bottom: 10px">
                 <div class="col-xs-6 col-sm-6 col-md-6" style="padding-left: 0px;">
-                    <a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block" disabled="disabled">Facebook</a>
+                    <a id="facebook-login" href="#" class="btn btn-lg btn-primary btn-block" disabled="disabled">
+                        <small class="hidden-xs">usando</small>
+                        Facebook</a>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6" style="padding-right: 0px;">
-                    <a id="google-login" href="#" class="btn btn-lg btn-danger btn-block" disabled="disabled">Google</a>
+                    <a id="google-login" href="#" class="btn btn-lg btn-danger btn-block" disabled="disabled">
+                        <small class="hidden-xs">ou</small>
+                        Google</a>
                 </div>
             </div>
 
@@ -63,7 +68,7 @@
                     <button type="submit" class="btn btn-lg btn-success col-xs-12 col-md-5">
                         <span class="glyphicon glyphicon-ok" aria-hidden='true' style="font-size: 0.8em;"/> Entrar
                     </button>
-                    <div class="col-xs-12 col-md-7">
+                    <div class="col-xs-12 col-md-7" style="padding-right: 0px;">
                         <a href="#{request.contextPath}/privacidade/politica" class="pull-right">política de
                             privacidade</a>
                     </div>
