@@ -1,4 +1,4 @@
-package temp.util;
+package core.util;
 
 import br.gov.frameworkdemoiselle.util.Reflections;
 

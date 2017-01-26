@@ -1,4 +1,4 @@
-package temp.util;
+package core.util;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

@@ -1,6 +1,6 @@
 package html;
 
-import temp.util.ApplicationConfig;
+import core.util.ApplicationConfig;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

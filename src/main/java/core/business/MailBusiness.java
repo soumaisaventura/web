@@ -9,10 +9,10 @@ import core.entity.*;
 import core.persistence.RegistrationDAO;
 import core.persistence.UserDAO;
 import core.persistence.UserRegistrationDAO;
+import core.util.ApplicationConfig;
 import core.util.Dates;
 import core.util.Misc;
 import org.apache.commons.io.IOUtils;
-import temp.util.ApplicationConfig;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;

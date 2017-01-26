@@ -1,6 +1,6 @@
 package core.entity;
 
-import temp.util.PendencyCount;
+import core.util.PendencyCount;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

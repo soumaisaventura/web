@@ -14,12 +14,12 @@ import core.entity.Profile;
 import core.entity.User;
 import core.persistence.CityDAO;
 import core.persistence.ProfileDAO;
+import core.util.PendencyCounter;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import rest.v1.data.CityData;
 import rest.v1.data.OrienteeringData;
 import rest.v1.data.ProfileData;
-import temp.util.PendencyCounter;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;

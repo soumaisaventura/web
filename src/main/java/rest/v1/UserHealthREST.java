@@ -6,8 +6,8 @@ import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.entity.Health;
 import core.entity.User;
 import core.persistence.HealthDAO;
+import core.util.PendencyCounter;
 import rest.v1.data.HealthData;
-import temp.util.PendencyCounter;
 
 import javax.ws.rs.*;
 

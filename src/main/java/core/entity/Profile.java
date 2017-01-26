@@ -1,7 +1,7 @@
 package core.entity;
 
+import core.util.PendencyCount;
 import org.joda.time.LocalDate;
-import temp.util.PendencyCount;
 
 import javax.persistence.*;
 import java.io.Serializable;

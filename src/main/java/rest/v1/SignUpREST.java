@@ -13,7 +13,7 @@ import core.entity.User;
 import core.persistence.HealthDAO;
 import core.persistence.ProfileDAO;
 import core.persistence.UserDAO;
-import core.validator.UniqueUserEmail;
+import core.util.UniqueUserEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import temp.security.Passwords;

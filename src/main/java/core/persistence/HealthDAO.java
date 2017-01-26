@@ -5,7 +5,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
 import core.entity.Health;
 import core.entity.User;
-import temp.util.PendencyCounter;
+import core.util.PendencyCounter;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

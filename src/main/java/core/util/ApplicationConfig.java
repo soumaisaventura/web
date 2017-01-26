@@ -1,7 +1,8 @@
-package temp.util;
+package core.util;
 
 import br.gov.frameworkdemoiselle.annotation.Name;
 import br.gov.frameworkdemoiselle.configuration.Configuration;
+import br.gov.frameworkdemoiselle.util.Beans;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Configuration(resource = "application")
@@ -52,6 +53,10 @@ public class ApplicationConfig {
     @NotEmpty
     @Name("analytics.google.id")
     private String analyticsGoogleId;
+
+    public static ApplicationConfig getInstance() {
+        return Beans.getReference(ApplicationConfig.class);
+    }
 
     public String getAppTitle() {
         return appTitle;

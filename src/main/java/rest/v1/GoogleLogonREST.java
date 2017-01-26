@@ -12,7 +12,7 @@ import com.google.api.services.oauth2.model.Userinfo;
 import core.entity.GenderType;
 import core.entity.Profile;
 import core.entity.User;
-import temp.util.ApplicationConfig;
+import core.util.ApplicationConfig;
 
 import javax.ws.rs.Path;
 

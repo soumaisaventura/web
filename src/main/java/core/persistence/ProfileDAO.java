@@ -6,7 +6,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import core.entity.Profile;
 import core.entity.User;
 import core.util.Misc;
-import temp.util.PendencyCounter;
+import core.util.PendencyCounter;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

@@ -1,4 +1,4 @@
-package core.validator;
+package core.util;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

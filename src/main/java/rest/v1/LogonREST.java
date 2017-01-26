@@ -5,10 +5,10 @@ import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.entity.User;
+import core.util.ApplicationConfig;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import rest.v1.data.UserData;
-import temp.util.ApplicationConfig;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;

@@ -1,4 +1,4 @@
-package core.validator;
+package core.util;
 
 import br.gov.frameworkdemoiselle.util.Strings;
 import core.persistence.UserDAO;
