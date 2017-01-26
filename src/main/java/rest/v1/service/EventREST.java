@@ -1,9 +1,8 @@
-package rest.v1;
+package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -16,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import rest.security.LoggedIn;
 import rest.v1.data.*;
 
 import javax.servlet.ServletContext;

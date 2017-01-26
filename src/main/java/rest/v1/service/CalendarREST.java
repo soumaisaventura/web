@@ -1,4 +1,4 @@
-package rest.v1;
+package rest.v1.service;
 
 import core.entity.Event;
 import core.persistence.EventDAO;

@@ -1,4 +1,4 @@
-package rest.v1;
+package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.security.SecurityContext;

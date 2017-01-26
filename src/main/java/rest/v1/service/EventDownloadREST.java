@@ -1,8 +1,7 @@
-package rest.v1;
+package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.util.Reflections;
 import core.entity.*;
 import core.persistence.EventDAO;
@@ -15,6 +14,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import rest.security.LoggedIn;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

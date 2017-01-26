@@ -1,7 +1,6 @@
-package rest.v1;
+package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.business.*;
@@ -10,6 +9,7 @@ import core.persistence.RaceDAO;
 import core.persistence.RegistrationDAO;
 import core.persistence.UserDAO;
 import core.persistence.UserRegistrationDAO;
+import rest.security.LoggedIn;
 import rest.v1.data.RegistrationData;
 
 import javax.ws.rs.*;

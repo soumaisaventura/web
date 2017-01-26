@@ -1,4 +1,4 @@
-package rest.provider;
+package rest.exception;
 
 import org.codehaus.jackson.JsonProcessingException;
 

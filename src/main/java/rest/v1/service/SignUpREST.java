@@ -1,6 +1,5 @@
-package rest.v1;
+package rest.v1.service;
 
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Beans;
@@ -16,6 +15,7 @@ import core.persistence.UserDAO;
 import core.util.UniqueUserEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import rest.security.LoggedIn;
 import temp.security.Passwords;
 
 import javax.validation.constraints.NotNull;

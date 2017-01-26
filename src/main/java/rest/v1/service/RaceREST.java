@@ -1,4 +1,4 @@
-package rest.v1;
+package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.util.Cache;

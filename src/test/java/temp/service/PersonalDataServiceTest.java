@@ -76,9 +76,9 @@
 //		personalData.setMunicipio(municipio);
 //		personalData.setUf(uf);
 //
-//		ObjectMapper mapper = new ObjectMapper();
+//		ObjectMapper exception = new ObjectMapper();
 //		try {
-//			System.out.println(mapper.writeValueAsString(personalData));
+//			System.out.println(exception.writeValueAsString(personalData));
 //		} catch (Exception e1) {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();

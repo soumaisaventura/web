@@ -1,4 +1,4 @@
-package rest.provider;
+package rest.exception;
 
 import br.gov.frameworkdemoiselle.security.Credentials;
 import br.gov.frameworkdemoiselle.util.Beans;
