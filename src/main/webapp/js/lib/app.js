@@ -73,20 +73,29 @@ var App = {
     loginOk: function (data, status, request) {
         App.setToken(data);
 
+        var user;
 
+        var base64 = data.split("\.")[1];
+        user = JSON.parse(atob(base64));
+        user.picture = {
+            picture: App.getContextPath() + "/usuario/" + user.sub + "/foto.jpg",
+            thumbnail: App.getContextPath() + "/usuario/" + user.sub + "/minifoto.jpg"
+        };
 
-        App.setLoggedInUser(data);
+        App.setLoggedInUser(user);
 
         var url;
         var pendencies = false;
 
-        if (data.profile && data.profile.pendencies > 0) {
-            url = App.getContextPath() + "/user/profile";
-            pendencies = true;
+        if (user.pendencies) {
+            if (user.pendencies.profile > 0) {
+                url = App.getContextPath() + "/user/profile";
+                pendencies = true;
 
-        } else if (data.health && data.health.pendencies > 0) {
-            url = App.getContextPath() + "/user/health";
-            pendencies = true;
+            } else if (user.pendencies.health > 0) {
+                url = App.getContextPath() + "/user/health";
+                pendencies = true;
+            }
         }
 
         if (pendencies) {
