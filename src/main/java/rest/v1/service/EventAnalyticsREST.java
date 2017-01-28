@@ -2,6 +2,7 @@ package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import core.entity.Event;
 import core.entity.EventAnalytic;
 import core.entity.EventRegistrationStatusByDay;
@@ -10,7 +11,6 @@ import core.persistence.EventAnalyticDAO;
 import core.persistence.EventDAO;
 import core.persistence.UserDAO;
 import core.util.Dates;
-import rest.security.LoggedIn;
 import rest.v1.data.EventRegistrationStatusByDayData;
 import rest.v1.data.EventRegistrationStatusByDayData.Status;
 

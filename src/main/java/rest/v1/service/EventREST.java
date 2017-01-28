@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.*;
 
 import javax.servlet.ServletContext;

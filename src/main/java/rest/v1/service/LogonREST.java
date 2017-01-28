@@ -1,14 +1,11 @@
 package rest.v1.service;
 
-import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
-import core.entity.User;
+import core.security.Authenticator;
 import core.util.ApplicationConfig;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import rest.v1.data.UserData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -20,16 +17,20 @@ public class LogonREST {
     @POST
     @ValidatePayload
     @Consumes("application/json")
-    @Produces("application/json")
-    public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-        Credentials credentials = Beans.getReference(Credentials.class);
-        credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
-        credentials.setPassword(data.password != null ? data.password.trim() : null);
+    @Produces("text/plain")
+    public String login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+//        Credentials credentials = Beans.getReference(Credentials.class);
+//        credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
+//        credentials.setPassword(data.password != null ? data.password.trim() : null);
 
-        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-        securityContext.login();
+        String token = Authenticator.getInstance().authenticate(data.username, data.password);
 
-        return new UserData(User.getLoggedIn(), uriInfo, false);
+
+//        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
+//        securityContext.login();
+
+//        return new UserData(User.getLoggedIn(), uriInfo, false);
+        return token;
     }
 
     @GET

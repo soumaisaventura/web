@@ -33,16 +33,16 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'np5',
-  '5ª Noite do Perrengue',
+  'desafiodapedrabranca/2017',
+  'Desafio da Pedra Branca',
   NULL,
-  5571,
+  3658,
   'MANUAL',
   NULL,
   NULL,
   NULL,
-  '2017-03-11',
-  '2017-03-12',
+  '2017-04-02',
+  '2017-04-02',
   1,
   'Em breve, mais informações sobre o evento.');
 
@@ -59,13 +59,13 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  '80km',
-  '80km',
-  42,
+  'aventura',
+  'Aventura 25km',
+  58,
   1,
-  '2017-03-11',
-  '2017-03-12',
-  80,
+  '2017-04-02',
+  '2017-04-02',
+  25,
   1,
   'Em breve mais informações.');
 
@@ -73,9 +73,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (47,
-        55,
-        'Daniel Cardoso',
+VALUES (58,
+        4661,
+        'Cleber Saito',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
@@ -83,8 +83,8 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (89, 90)
-        AND c.id IN (2, 4, 3);
+  WHERE r.id IN (110)
+        AND c.id IN (3);
 
 
 DELETE FROM race_category
@@ -95,16 +95,16 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (90)
-        AND m.id IN (13);
+  WHERE r.id IN (1)
+        AND m.id IN (7);
 
 INSERT INTO championship_race (race_id, championship_id)
   SELECT
     r.id AS race_id,
     c.id AS championship_id
   FROM race r, championship c
-  WHERE r.id IN (90)
-        AND c.id IN (13, 14);
+  WHERE r.id IN (110)
+        AND c.id IN (22);
 
 -- 54, 58
 
@@ -113,10 +113,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (90,
-        160,
-        TO_DATE('11/02/2017', 'DD/MM/YYYY'),
-        TO_DATE('10/03/2017', 'DD/MM/YYYY'),
+VALUES (1,
+        74,
+        TO_DATE('23/01/2017', 'DD/MM/YYYY'),
+        TO_DATE('12/02/2017', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 

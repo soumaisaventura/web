@@ -1,6 +1,6 @@
 var App = {
 
-    tokenKey: "Token",
+    tokenKey: "Bearer",
 
     userKey: "User",
 
@@ -71,7 +71,10 @@ var App = {
     },
 
     loginOk: function (data, status, request) {
-        App.setToken(request.getResponseHeader('Set-Token'));
+        App.setToken(data);
+
+
+
         App.setLoggedInUser(data);
 
         var url;
@@ -100,7 +103,7 @@ var App = {
     },
 
     setHeader: function (request) {
-        request.setRequestHeader("Authorization", "Token " + App.getToken());
+        request.setRequestHeader("Authorization", this.tokenKey + " " + App.getToken());
     },
 
     getBaseUrl: function () {

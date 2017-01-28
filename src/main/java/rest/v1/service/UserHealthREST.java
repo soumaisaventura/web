@@ -6,7 +6,7 @@ import core.entity.Health;
 import core.entity.User;
 import core.persistence.HealthDAO;
 import core.util.PendencyCounter;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.HealthData;
 
 import javax.ws.rs.*;

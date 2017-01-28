@@ -22,7 +22,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.*;
 
 import javax.ws.rs.*;

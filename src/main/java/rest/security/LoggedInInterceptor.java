@@ -36,10 +36,20 @@
  */
 package rest.security;
 
+import br.gov.frameworkdemoiselle.security.LoggedIn;
+import br.gov.frameworkdemoiselle.util.Beans;
+import core.entity.User;
+import core.security.Authenticator;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
 @LoggedIn
 @Interceptor
@@ -47,8 +57,45 @@ public class LoggedInInterceptor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String AUTH_SCHEMA = "Bearer";
+
     @AroundInvoke
     public Object manage(final InvocationContext ic) throws Exception {
+        Authenticator authenticator = Authenticator.getInstance();
+        User loggedIn = authenticator.getLoggedIn();
+
+        if (loggedIn == null) {
+            String token = getToken();
+            authenticator.authenticate(token);
+        }
+
         return ic.proceed();
+    }
+
+    private String getToken() {
+        String result = null;
+
+        HttpServletRequest request = Beans.getReference(HttpServletRequest.class);
+        String header = request.getHeader("Authorization");
+
+        if (header != null && !header.isEmpty()) {
+            result = extractToken(header);
+        }
+
+        return result;
+    }
+
+    private String extractToken(String header) {
+        String result = null;
+
+        String regexp = "^" + AUTH_SCHEMA + "[ \\n]+(.+)$";
+        Pattern pattern = Pattern.compile(regexp, CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(header);
+
+        if (matcher.matches()) {
+            result = matcher.group(1);
+        }
+
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package core.entity;
 
+import br.gov.frameworkdemoiselle.util.Strings;
 import core.util.PendencyCount;
 import org.joda.time.LocalDate;
 
@@ -124,6 +125,11 @@ public class Profile implements Serializable {
         }
 
         return result;
+    }
+
+    @Transient
+    public String getShortName() {
+        return !Strings.isEmpty(name) ? name.split(" ")[0] : null;
     }
 
     @Override

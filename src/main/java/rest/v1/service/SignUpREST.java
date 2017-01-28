@@ -15,7 +15,7 @@ import core.persistence.UserDAO;
 import core.util.UniqueUserEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import temp.security.Passwords;
 
 import javax.validation.constraints.NotNull;

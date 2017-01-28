@@ -16,7 +16,7 @@ import core.persistence.ProfileDAO;
 import core.util.PendencyCounter;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.CityData;
 import rest.v1.data.OrienteeringData;
 import rest.v1.data.ProfileData;

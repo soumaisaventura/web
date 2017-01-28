@@ -9,7 +9,7 @@ import core.persistence.RaceDAO;
 import core.persistence.RegistrationDAO;
 import core.persistence.UserDAO;
 import core.persistence.UserRegistrationDAO;
-import rest.security.LoggedIn;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.RegistrationData;
 
 import javax.ws.rs.*;

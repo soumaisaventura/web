@@ -20,9 +20,6 @@ public class User implements Principal {
     @Column(name = "id")
     private Integer id;
 
-    @Transient
-    private String name;
-
     private String email;
 
     private String password;
