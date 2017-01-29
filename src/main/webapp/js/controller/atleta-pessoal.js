@@ -114,7 +114,7 @@ function loadLocation(data, $element) {
 function updateOk(data) {
     $(".message").hide();
     var user = App.getLoggedInUser();
-    user.profile.pendencies = null;
+    user.pendencies.profile = null;
     user.name = $("#name").val().split(" ")[0];
     App.setLoggedInUser(user);
 

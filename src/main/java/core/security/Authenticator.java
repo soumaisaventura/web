@@ -2,8 +2,10 @@ package core.security;
 
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.util.Beans;
+import core.entity.Profile;
 import core.entity.User;
 import core.persistence.UserDAO;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import temp.security.PasswordNotDefinedException;
@@ -11,6 +13,7 @@ import temp.security.Passwords;
 import temp.security.UnconfirmedUserException;
 
 import javax.enterprise.context.RequestScoped;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +32,7 @@ public class Authenticator {
 
         if (user != null) {
             if (doesPasswordMatch(user, password)) {
-                loggedIn = user;
+                setLoggedIn(user);
                 token = createToken(user);
             }
         } else {
@@ -40,16 +43,37 @@ public class Authenticator {
     }
 
     public void authenticate(String token) {
-        //UserDAO.getInstance().lo
+        Claims claims = Jwts.parser()
+                .setSigningKey("secret".getBytes())
+                .parseClaimsJws(token)
+                .getBody();
+
+        setLoggedIn(parse(claims));
+    }
+
+    private User parse(Claims claims) {
+        User result = null;
+
+        if (claims != null) {
+            result = new User();
+            result.setId(Integer.parseInt(claims.getSubject()));
+            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
+            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
+
+            result.setProfile(new Profile());
+            result.getProfile().setName(claims.get("name", String.class));
+        }
+
+        return result;
     }
 
     public User getLoggedIn() {
         return loggedIn;
     }
 
-//    public void setLoggedIn(User user) {
-//        loggedIn = user;
-//    }
+    private void setLoggedIn(User user) {
+        loggedIn = user;
+    }
 
     private boolean doesPasswordMatch(User user, String password) {
         boolean result;
@@ -71,7 +95,6 @@ public class Authenticator {
     private String createToken(User user) {
         String token;
 
-//        try {
         Map<String, Boolean> roles = new HashMap();
         roles.put("admin", user.getAdmin());
         roles.put("organizer", user.getOrganizer());
@@ -82,23 +105,11 @@ public class Authenticator {
 
         token = Jwts.builder()
                 .setSubject(user.getId().toString())
+                .setIssuedAt(new Date())
                 .claim("name", user.getProfile().getShortName())
                 .claim("roles", roles)
                 .claim("pendencies", pendencies)
                 .signWith(SignatureAlgorithm.HS256, "secret".getBytes()).compact();
-
-//            token = JWT.create()
-//                    .withSubject(user.getId().toString())
-//                    .withClaim("name", user.getProfile().getShortName())
-//                    .withClaim("admin", user.getAdmin())
-//                    .withClaim("organizer", user.getOrganizer())
-//                    .withClaim("profile_pendencies", user.getProfile().getPendencies())
-//                    .withClaim("health_pendencies", user.getHealth().getPendencies())
-//                    .sign(Algorithm.HMAC256("secret"));
-
-//        } catch (UnsupportedEncodingException cause) {
-//            throw new AuthenticationException(cause);
-//        }
 
         return token;
     }

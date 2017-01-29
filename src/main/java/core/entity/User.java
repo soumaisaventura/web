@@ -1,7 +1,6 @@
 package core.entity;
 
-import br.gov.frameworkdemoiselle.security.SecurityContext;
-import br.gov.frameworkdemoiselle.util.Beans;
+import core.security.Authenticator;
 import core.util.Misc;
 
 import javax.persistence.*;
@@ -126,7 +125,7 @@ public class User implements Principal {
     }
 
     public static User getLoggedIn() {
-        return (User) Beans.getReference(SecurityContext.class).getUser();
+        return Authenticator.getInstance().getLoggedIn();
     }
 
     @Override

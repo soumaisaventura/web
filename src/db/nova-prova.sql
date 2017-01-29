@@ -33,16 +33,16 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'desafiodapedrabranca/2017',
-  'Desafio da Pedra Branca',
+  'madnessrace/2017/etapa1',
+  'Madness Race',
   NULL,
-  3658,
+  411,
   'MANUAL',
   NULL,
   NULL,
   NULL,
-  '2017-04-02',
-  '2017-04-02',
+  '2017-05-27',
+  '2017-05-27',
   1,
   'Em breve, mais informações sobre o evento.');
 
