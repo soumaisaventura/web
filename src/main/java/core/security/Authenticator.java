@@ -5,6 +5,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import core.entity.Profile;
 import core.entity.User;
 import core.persistence.UserDAO;
+import core.util.ApplicationConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -60,8 +61,10 @@ public class Authenticator {
 
     public void authenticate(String token) {
         try {
+            ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
+
             Claims claims = Jwts.parser()
-                    .setSigningKey("secret".getBytes())
+                    .setSigningKey(config.getJwtSignKey().getBytes())
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -133,6 +136,8 @@ public class Authenticator {
         pendencies.put("profile", user.getProfile().getPendencies());
         pendencies.put("health", user.getHealth().getPendencies());
 
+        ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
+
         token = Jwts.builder()
                 .setSubject(user.getId().toString())
                 .setIssuedAt(new Date())
@@ -140,7 +145,7 @@ public class Authenticator {
                 .claim("name", user.getProfile().getShortName())
                 .claim("roles", roles)
                 .claim("pendencies", pendencies)
-                .signWith(SignatureAlgorithm.HS256, "secret".getBytes()).compact();
+                .signWith(SignatureAlgorithm.HS256, config.getJwtSignKey().getBytes()).compact();
 
         return token;
     }

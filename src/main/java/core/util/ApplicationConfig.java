@@ -16,6 +16,10 @@ public class ApplicationConfig {
     private String appEmail = "contato@soumaisaventura.com.br";
 
     @NotEmpty
+    @Name("jwt.sign.key")
+    private String jwtSignKey;
+
+    @NotEmpty
     @Name("mail.smtp.host")
     private String mailSmtpHost;
 
@@ -55,6 +59,10 @@ public class ApplicationConfig {
 
     public String getAppTitle() {
         return appTitle;
+    }
+
+    public String getJwtSignKey() {
+        return jwtSignKey;
     }
 
     public String getAppEmail() {
