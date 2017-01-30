@@ -5,7 +5,10 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import core.entity.Profile;
 import core.entity.User;
 import core.persistence.UserDAO;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import temp.security.PasswordNotDefinedException;
 import temp.security.Passwords;
 import temp.security.UnconfirmedUserException;
@@ -64,7 +67,7 @@ public class Authenticator {
 
             setLoggedIn(parse(claims));
 
-        } catch (SignatureException | ExpiredJwtException cause) {
+        } catch (JwtException cause) {
             throw new InvalidCredentialsException("Token inválido");
         }
     }

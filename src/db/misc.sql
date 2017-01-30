@@ -4,7 +4,7 @@ WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('humildes') || '%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('luiz') || '%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('adriano') || '%';
 
 UPDATE user_registration
 SET user_id = 3114

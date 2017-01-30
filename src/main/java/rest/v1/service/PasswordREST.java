@@ -1,17 +1,14 @@
 package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.business.MailBusiness;
 import core.entity.User;
 import core.persistence.UserDAO;
+import core.security.Authenticator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import rest.v1.data.UserData;
 import temp.security.Passwords;
 
 import javax.ws.rs.*;
@@ -42,10 +39,11 @@ public class PasswordREST {
     @Transactional
     @ValidatePayload
     @Path("reset/{token}")
+    @Produces("text/plain")
     @Consumes("application/json")
-    @Produces("application/json")
-    public UserData reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+    public String reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
             throws Exception {
+        String authToken;
         UserDAO dao = UserDAO.getInstance();
         User persisted = dao.load(data.email.trim().toLowerCase());
 
@@ -65,7 +63,7 @@ public class PasswordREST {
             }
 
             dao.update(persisted);
-            login(persisted.getEmail(), data.newPassword.trim());
+            authToken = Authenticator.getInstance().authenticate(persisted.getEmail(), data.newPassword.trim());
 
             if (wasActivated) {
                 URI baseUri = uriInfo.getBaseUri().resolve("..");
@@ -73,15 +71,7 @@ public class PasswordREST {
             }
         }
 
-        return new UserData(User.getLoggedIn(), uriInfo, false);
-    }
-
-    private void login(String email, String password) {
-        Credentials credentials = Beans.getReference(Credentials.class);
-        credentials.setUsername(email);
-        credentials.setPassword(password);
-
-        Beans.getReference(SecurityContext.class).login();
+        return authToken;
     }
 
     public static class RecoveryData {

@@ -59,13 +59,13 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  'aventura',
-  'Aventura 25km',
-  58,
-  1,
-  '2017-04-02',
-  '2017-04-02',
-  25,
+  '5km',
+  'Percurso de 5km',
+  59,
+  9,
+  '2017-05-27',
+  '2017-05-27',
+  5,
   1,
   'Em breve mais informações.');
 
@@ -73,9 +73,9 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (58,
-        4661,
-        'Cleber Saito',
+VALUES (59,
+        4881,
+        'Adriano Lima',
         NULL);
 
 INSERT INTO race_category (race_id, category_id)
@@ -83,8 +83,8 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (110)
-        AND c.id IN (3);
+  WHERE r.id IN (112)
+        AND c.id IN (211);
 
 
 DELETE FROM race_category
@@ -95,8 +95,8 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (1)
-        AND m.id IN (7);
+  WHERE r.id IN (112)
+        AND m.id IN (15);
 
 INSERT INTO championship_race (race_id, championship_id)
   SELECT
@@ -113,10 +113,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (1,
-        74,
-        TO_DATE('23/01/2017', 'DD/MM/YYYY'),
-        TO_DATE('12/02/2017', 'DD/MM/YYYY'),
+VALUES (112,
+        100,
+        TO_DATE('03/04/2017', 'DD/MM/YYYY'),
+        TO_DATE('20/05/2017', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 

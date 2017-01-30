@@ -12,9 +12,9 @@ import core.entity.User;
 import core.persistence.HealthDAO;
 import core.persistence.ProfileDAO;
 import core.persistence.UserDAO;
+import core.security.Authenticator;
 import core.util.Misc;
 import org.hibernate.validator.constraints.NotEmpty;
-import rest.v1.data.UserData;
 import temp.security.OAuthSession;
 
 import javax.ws.rs.Consumes;
@@ -32,9 +32,10 @@ public abstract class OAuthLogon {
     @POST
     @Transactional
     @ValidatePayload
+    @Produces("text/plain")
     @Consumes("application/json")
-    @Produces("application/json")
-    public UserData login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+    public String login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+        String token = null;
         UserDAO userDAO = UserDAO.getInstance();
         ProfileDAO profileDAO = ProfileDAO.getInstance();
 
@@ -50,7 +51,7 @@ public abstract class OAuthLogon {
             HealthDAO.getInstance().insert(new Health(oauth));
 
             URI baseUri = uriInfo.getBaseUri().resolve("..");
-            login(oauth.getEmail());
+            token = Authenticator.getInstance().authenticate(oauth);
             MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
         } else if (persisted.getActivation() == null) {
@@ -67,10 +68,10 @@ public abstract class OAuthLogon {
             profileDAO.update(persisted.getProfile());
             ProfileBusiness.getInstance().updatePicture(persisted.getId(), created.pictureUrl);
 
-            login(oauth.getEmail());
+            token = Authenticator.getInstance().authenticate(oauth);
         }
 
-        return new UserData(User.getLoggedIn(), uriInfo, false);
+        return token;
     }
 
     protected void login(String username) {
