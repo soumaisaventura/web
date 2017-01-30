@@ -21,22 +21,22 @@
     <rule>
         <from>^/inicio$</from>
         <to>/home.jsf</to>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/login$</from>
         <to>/login.jsf</to>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/registro$</from>
         <to>/signup.jsf</to>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/privacidade/politica$</from>
         <to>/politica-privacidade.html</to>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
 
     <!-- /calendario -->
@@ -50,7 +50,7 @@
     <rule>
         <from>^/calendario/(\d+)$</from>
         <to>/calendario.jsf?ano=$1</to>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
 
     <!-- /evento -->
@@ -58,7 +58,7 @@
     <!--
     <rule>
         <from>^/evento/.+$</from>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     -->
     <rule>
@@ -94,7 +94,7 @@
 
     <rule>
         <from>^/usuario/(.)$</from>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/usuario/(\d+)/foto.jpg$</from>
@@ -109,7 +109,7 @@
 
     <rule>
         <from>^/atleta/.+$</from>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/atleta/ativacao$</from>
@@ -132,7 +132,7 @@
 
     <rule>
         <from>^/senha/.+$</from>
-        <set type="response-header" name="Cache-Control">max-age=86400</set>
+        <set type="response-header" name="Cache-Control">max-age=300</set>
     </rule>
     <rule>
         <from>^/senha/recuperacao$</from>

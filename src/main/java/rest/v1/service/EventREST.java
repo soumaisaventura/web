@@ -3,6 +3,7 @@ package rest.v1.service;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -15,7 +16,6 @@ import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.*;
 
 import javax.servlet.ServletContext;
@@ -37,7 +37,7 @@ public class EventREST {
 
     @GET
     @Path("year/{year : \\d+}")
-    @Cache("max-age=28800")
+    @Cache("max-age=300")
     @Produces("application/json")
     public List<EventData> year(@PathParam("year") Integer year, @Context UriInfo uriInfo, @Context HttpServletRequest request) throws Exception {
         List<EventData> result = new ArrayList();
@@ -62,7 +62,7 @@ public class EventREST {
 
 
     @GET
-    @Cache("max-age=28800")
+    @Cache("max-age=300")
     @Produces("application/json")
     @Path("{slug: " + EVENT_SLUG_PATTERN + "}")
     public EventData load(@PathParam("slug") String slug, @QueryParam("summary") boolean summary,

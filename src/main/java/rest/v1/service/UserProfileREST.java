@@ -3,6 +3,7 @@ package rest.v1.service;
 import br.gov.frameworkdemoiselle.ForbiddenException;
 import br.gov.frameworkdemoiselle.NotFoundException;
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Cache;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
@@ -16,7 +17,6 @@ import core.persistence.ProfileDAO;
 import core.util.PendencyCounter;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.CityData;
 import rest.v1.data.OrienteeringData;
 import rest.v1.data.ProfileData;
@@ -84,7 +84,7 @@ public class UserProfileREST {
     @GET
     @Path("{id: \\d+}/thumbnail")
     @Produces("image/jpeg")
-    @Cache("max-age=604800000")
+    @Cache("max-age=300")
     public Response getThumbnail(@PathParam("id") Integer id, @HeaderParam("If-None-Match") String tag,
                                  @Context ServletContext context) throws Exception {
         Response response;

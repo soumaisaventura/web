@@ -1,13 +1,15 @@
 package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.NotFoundException;
-import br.gov.frameworkdemoiselle.util.Cache;
 import core.business.RaceBusiness;
 import core.entity.*;
 import core.persistence.*;
 import rest.v1.data.*;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
@@ -78,28 +80,6 @@ public class RaceREST {
         }
 
         return data;
-    }
-
-    @GET
-    @Path("ranking")
-    @Cache("max-age=28800")
-    @Produces("application/json")
-    public List<RankingData> getRanking() {
-        return null;
-    }
-
-    @POST
-    @Path("ranking")
-    @Consumes("application/json")
-    public void setRanking(List<RankingData> datas) {
-    }
-
-    @GET
-    @Path("ranking/category")
-    @Cache("max-age=28800")
-    @Produces("application/json")
-    public List<RankingData> getRankingCatgegory() {
-        return null;
     }
 
     private Race loadRaceDetails(String raceAlias, String eventAlias) throws Exception {
