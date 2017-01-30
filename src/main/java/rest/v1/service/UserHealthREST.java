@@ -1,12 +1,12 @@
 package rest.v1.service;
 
+import br.gov.frameworkdemoiselle.security.LoggedIn;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.entity.Health;
 import core.entity.User;
 import core.persistence.HealthDAO;
 import core.util.PendencyCounter;
-import br.gov.frameworkdemoiselle.security.LoggedIn;
 import rest.v1.data.HealthData;
 
 import javax.ws.rs.*;
