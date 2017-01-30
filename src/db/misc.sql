@@ -175,7 +175,7 @@ SELECT
   aux.qtd,
   (SELECT count(*)
    FROM user_account _u
-   WHERE _u.email LIKE '%' || aux.provider AND (_u.facebook_id IS NOT NULL)) AS qtd_
+   WHERE _u.email LIKE '%' || aux.provider AND (_u.facebook_id IS NOT NULL OR _u.google_id IS NOT NULL)) AS qtd_
 FROM (
        SELECT
          split_part(email, '@', 2) AS provider,
