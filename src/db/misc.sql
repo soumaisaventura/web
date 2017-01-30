@@ -185,3 +185,12 @@ FROM (
          split_part(email, '@', 2)) aux
 ORDER BY aux.qtd DESC;
 
+SELECT
+  count(_u.facebook_id) AS facebook,
+  count(_u.google_id)   AS google
+FROM user_account _u;
+
+
+SELECT count(*) AS active
+FROM user_account
+WHERE activation IS NOT NULL;

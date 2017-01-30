@@ -32,12 +32,12 @@ public class Authenticator {
         String token = null;
         User user = UserDAO.getInstance().loadForAuthentication(username);
 
-        if (user != null) {
-            if (doesPasswordMatch(user, password)) {
-                setLoggedIn(user);
-                token = createToken(user);
-            }
-        } else {
+        if (user != null && doesPasswordMatch(user, password)) {
+            setLoggedIn(user);
+            token = createToken(user);
+        }
+
+        if (token == null) {
             throw new InvalidCredentialsException();
         }
 
@@ -45,14 +45,15 @@ public class Authenticator {
     }
 
     public String authenticate(User user) {
-        String token;
+        String token = null;
 
         if (user != null) {
             user = UserDAO.getInstance().loadForAuthentication(user.getEmail());
             setLoggedIn(user);
             token = createToken(user);
+        }
 
-        } else {
+        if (token == null) {
             throw new InvalidCredentialsException();
         }
 
@@ -73,31 +74,6 @@ public class Authenticator {
         } catch (JwtException cause) {
             throw new InvalidCredentialsException("Token inválido");
         }
-    }
-
-    private User parse(Claims claims) {
-        User result = null;
-
-        if (claims != null) {
-            result = new User();
-            result.setId(Integer.parseInt(claims.getSubject()));
-            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
-            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
-
-            result.setProfile(new Profile());
-            result.getProfile().setName(claims.get("name", String.class));
-        }
-
-        return result;
-    }
-
-    private Claims parse(User user) {
-        Claims claims = Jwts.claims();
-
-        if (user != null) {
-        }
-
-        return claims;
     }
 
     public User getLoggedIn() {
@@ -139,14 +115,47 @@ public class Authenticator {
         ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
 
         token = Jwts.builder()
-                .setSubject(user.getId().toString())
-                .setIssuedAt(new Date())
-                //.setExpiration(new Date())
-                .claim("name", user.getProfile().getShortName())
-                .claim("roles", roles)
-                .claim("pendencies", pendencies)
+                .setClaims(parse(user))
                 .signWith(SignatureAlgorithm.HS256, config.getJwtSignKey().getBytes()).compact();
 
         return token;
+    }
+
+    private User parse(Claims claims) {
+        User result = null;
+
+        if (claims != null) {
+            result = new User();
+            result.setId(Integer.parseInt(claims.getSubject()));
+            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
+            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
+
+            result.setProfile(new Profile());
+            result.getProfile().setName(claims.get("name", String.class));
+        }
+
+        return result;
+    }
+
+    private Claims parse(User user) {
+        Claims claims = Jwts.claims();
+
+        if (user != null) {
+            Map<String, Boolean> roles = new HashMap();
+            roles.put("admin", user.getAdmin());
+            roles.put("organizer", user.getOrganizer());
+
+            Map<String, Integer> pendencies = new HashMap();
+            pendencies.put("profile", user.getProfile().getPendencies());
+            pendencies.put("health", user.getHealth().getPendencies());
+
+            claims.setSubject(user.getId().toString());
+            claims.setIssuedAt(new Date());
+            claims.put("name", user.getProfile().getShortName());
+            claims.put("roles", roles);
+            claims.put("pendencies", pendencies);
+        }
+
+        return claims;
     }
 }
