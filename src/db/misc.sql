@@ -170,6 +170,18 @@ FROM race
 WHERE id IN (31, 65);
 
 
-
-
+SELECT
+  aux.provider,
+  aux.qtd,
+  (SELECT count(*)
+   FROM user_account _u
+   WHERE _u.email LIKE '%' || aux.provider AND (_u.facebook_id IS NOT NULL)) AS qtd_
+FROM (
+       SELECT
+         split_part(email, '@', 2) AS provider,
+         count(*)                  AS qtd
+       FROM user_account
+       GROUP BY
+         split_part(email, '@', 2)) aux
+ORDER BY aux.qtd DESC;
 
