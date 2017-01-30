@@ -1,17 +1,14 @@
 package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.UnprocessableEntityException;
-import br.gov.frameworkdemoiselle.security.Credentials;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.Strings;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.business.MailBusiness;
 import core.entity.User;
 import core.persistence.UserDAO;
+import core.security.Authenticator;
 import rest.v1.data.UserData;
-import temp.security.ActivationSession;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -50,25 +47,25 @@ public class UserREST {
     @POST
     @Transactional
     @ValidatePayload
+    @Produces("text/plain")
     @Path("activation/{token}")
     @Consumes("application/json")
-    @Produces("application/json")
-    public UserData activate(@PathParam("token") String token, SignUpREST.ActivationData data, @Context UriInfo uriInfo)
+    public String activate(@PathParam("token") String token, SignUpREST.ActivationData data, @Context UriInfo uriInfo)
             throws Exception {
         UserDAO userDAO = UserDAO.getInstance();
         User persisted = userDAO.load(data.email);
         validate(token, persisted);
 
-        login(persisted.getEmail(), token);
-
         persisted.setActivationToken(null);
         persisted.setActivation(new Date());
         userDAO.update(persisted);
 
+        String authToken = Authenticator.getInstance().authenticate(persisted);
+
         URI baseUri = uriInfo.getBaseUri().resolve("..");
         MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
-        return new UserData(User.getLoggedIn(), uriInfo, false);
+        return authToken;
     }
 
     private void validate(String token, User user) throws Exception {
@@ -77,11 +74,11 @@ public class UserREST {
         }
     }
 
-    private void login(String email, String token) {
-        Credentials credentials = Beans.getReference(Credentials.class);
-        credentials.setUsername(email);
-
-        Beans.getReference(ActivationSession.class).setToken(token);
-        Beans.getReference(SecurityContext.class).login();
-    }
+//    private void login(String email, String token) {
+//        Credentials credentials = Beans.getReference(Credentials.class);
+//        credentials.setUsername(email);
+//
+//        Beans.getReference(ActivationSession.class).setToken(token);
+//        Beans.getReference(SecurityContext.class).login();
+//    }
 }

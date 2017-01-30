@@ -5,9 +5,7 @@ import br.gov.frameworkdemoiselle.util.Beans;
 import core.entity.Profile;
 import core.entity.User;
 import core.persistence.UserDAO;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import temp.security.PasswordNotDefinedException;
 import temp.security.Passwords;
 import temp.security.UnconfirmedUserException;
@@ -42,13 +40,33 @@ public class Authenticator {
         return token;
     }
 
-    public void authenticate(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey("secret".getBytes())
-                .parseClaimsJws(token)
-                .getBody();
+    public String authenticate(User user) {
+        String token;
 
-        setLoggedIn(parse(claims));
+        if (user != null) {
+            user = UserDAO.getInstance().loadForAuthentication(user.getEmail());
+            setLoggedIn(user);
+            token = createToken(user);
+
+        } else {
+            throw new InvalidCredentialsException();
+        }
+
+        return token;
+    }
+
+    public void authenticate(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey("secret".getBytes())
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            setLoggedIn(parse(claims));
+
+        } catch (SignatureException | ExpiredJwtException cause) {
+            throw new InvalidCredentialsException("Token inválido");
+        }
     }
 
     private User parse(Claims claims) {
@@ -67,12 +85,21 @@ public class Authenticator {
         return result;
     }
 
+    private Claims parse(User user) {
+        Claims claims = Jwts.claims();
+
+        if (user != null) {
+        }
+
+        return claims;
+    }
+
     public User getLoggedIn() {
         return loggedIn;
     }
 
     private void setLoggedIn(User user) {
-        loggedIn = user;
+        this.loggedIn = user;
     }
 
     private boolean doesPasswordMatch(User user, String password) {
@@ -106,6 +133,7 @@ public class Authenticator {
         token = Jwts.builder()
                 .setSubject(user.getId().toString())
                 .setIssuedAt(new Date())
+                //.setExpiration(new Date())
                 .claim("name", user.getProfile().getShortName())
                 .claim("roles", roles)
                 .claim("pendencies", pendencies)

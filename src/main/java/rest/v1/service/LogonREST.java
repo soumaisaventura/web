@@ -16,21 +16,10 @@ public class LogonREST {
 
     @POST
     @ValidatePayload
-    @Consumes("application/json")
     @Produces("text/plain")
+    @Consumes("application/json")
     public String login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-//        Credentials credentials = Beans.getReference(Credentials.class);
-//        credentials.setUsername(data.username != null ? data.username.trim().toLowerCase() : null);
-//        credentials.setPassword(data.password != null ? data.password.trim() : null);
-
-        String token = Authenticator.getInstance().authenticate(data.username, data.password);
-
-
-//        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-//        securityContext.login();
-
-//        return new UserData(User.getLoggedIn(), uriInfo, false);
-        return token;
+        return Authenticator.getInstance().authenticate(data.username, data.password);
     }
 
     @GET
