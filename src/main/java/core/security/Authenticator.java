@@ -10,12 +10,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.joda.time.DateTime;
 import temp.security.PasswordNotDefinedException;
 import temp.security.Passwords;
 import temp.security.UnconfirmedUserException;
 
 import javax.enterprise.context.RequestScoped;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,12 +126,13 @@ public class Authenticator {
 
         if (claims != null) {
             result = new User();
-            result.setId(Integer.parseInt(claims.getSubject()));
-            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
-            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
-
+            result.setId(claims.get("id", Integer.class));
             result.setProfile(new Profile());
             result.getProfile().setName(claims.get("name", String.class));
+            result.setEmail(claims.get("email", String.class));
+
+            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
+            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
         }
 
         return result;
@@ -149,9 +150,14 @@ public class Authenticator {
             pendencies.put("profile", user.getProfile().getPendencies());
             pendencies.put("health", user.getHealth().getPendencies());
 
-            claims.setSubject(user.getId().toString());
-            claims.setIssuedAt(new Date());
+            claims.setIssuer("sou+aventura");
+
+            DateTime now = new DateTime();
+            claims.setIssuedAt(now.toDate());
+            claims.setExpiration(now.plusDays(30).toDate());
+            claims.put("id", user.getId());
             claims.put("name", user.getProfile().getShortName());
+            claims.put("email", user.getEmail());
             claims.put("roles", roles);
             claims.put("pendencies", pendencies);
         }

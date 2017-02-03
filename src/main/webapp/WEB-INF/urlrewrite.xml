@@ -9,7 +9,7 @@
     <rule>
         <condition name="x-forwarded-proto" operator="equal">^http$</condition>
         <condition name="host" operator="equal">www.soumaisaventura.com.br</condition>
-        <from>^/(.*)</from>
+        <from>^/(.*)$</from>
         <to type="permanent-redirect" last="true">https://www.soumaisaventura.com.br/$1</to>
     </rule>
 
