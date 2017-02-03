@@ -126,7 +126,7 @@ public class Authenticator {
 
         if (claims != null) {
             result = new User();
-            result.setId(claims.get("id", Integer.class));
+            result.setId(Integer.parseInt(claims.getSubject()));
             result.setProfile(new Profile());
             result.getProfile().setName(claims.get("name", String.class));
             result.setEmail(claims.get("email", String.class));
@@ -155,7 +155,7 @@ public class Authenticator {
             DateTime now = new DateTime();
             claims.setIssuedAt(now.toDate());
             claims.setExpiration(now.plusDays(30).toDate());
-            claims.put("id", user.getId());
+            claims.setSubject(user.getId().toString());
             claims.put("name", user.getProfile().getShortName());
             claims.put("email", user.getEmail());
             claims.put("roles", roles);

@@ -74,10 +74,10 @@ var App = {
         var user;
         var parts = data.split("\.");
 
-        console.log(data);
-
         if (parts && parts.length == 3) {
             user = JSON.parse(atob(parts[1]));
+
+            user.id = user.sub;
             user.picture = {
                 picture: App.getContextPath() + "/usuario/" + user.sub + "/foto.jpg",
                 thumbnail: App.getContextPath() + "/usuario/" + user.sub + "/minifoto.jpg"
@@ -213,49 +213,6 @@ var App = {
                 });
             });
         }
-
-        /*
-         if (request.status == 422) {
-         var elements = $("form input, form select, form textarea").get().reverse();
-
-         $(elements).each(function () {
-         var id = $(this).attr('id');
-         var messages = [];
-
-         $.each(request.responseJSON, function (i, value) {
-         if (id == value.property) {
-         messages.push(value.message);
-
-         }
-         });
-
-         if (!id) {
-         return;
-         }
-
-         var message = $("#" + id.replace(".", "\\.") + "-message");
-
-         if (messages.length > 1) {
-         message.empty();
-         var ul = message.append("<ul></ul>");
-
-         while (messages.length > 0) {
-         ul.append("<li>" + messages.pop() + "</li>");
-         }
-
-         message.show();
-         $(this).focus();
-
-         } else if (messages.length == 1) {
-         message.html(messages.pop()).show();
-         $(this).focus();
-
-         } else {
-         message.hide();
-         }
-         });
-         }
-         */
     },
 
     handle500: function (request) {
