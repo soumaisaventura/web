@@ -142,7 +142,12 @@ function loadRaceOk(data) {
 }
 
 function loadNewRegistration(race) {
-    addMember(App.getLoggedInUser(), race.current_price.price, null);
+    var user = App.getLoggedInUser();
+    if (!user) {
+        App.handle401();
+    }
+
+    addMember(user, race.current_price.price, null);
     $("#members-section").show();
     $("#submit-button-section").show();
 }
@@ -160,6 +165,8 @@ function loadRegistrationOk(registration) {
 }
 
 function addMember(member, amount, kit) {
+    console.log(member);
+
     member.formmated_ammount = numeral(amount).format();
     member.kit_selection = isKitEnabledForRace();
     member.amount = amount;

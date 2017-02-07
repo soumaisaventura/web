@@ -78,6 +78,10 @@ var App = {
             user = JSON.parse(atob(parts[1]));
 
             user.id = user.sub;
+            user.profile = {
+                name: user.name
+            };
+
             user.picture = {
                 picture: App.getContextPath() + "/usuario/" + user.sub + "/foto.jpg",
                 thumbnail: App.getContextPath() + "/usuario/" + user.sub + "/minifoto.jpg"
@@ -171,7 +175,7 @@ var App = {
         return text;
     },
 
-    handle401: function (request) {
+    handle401: function () {
         this.clearAuthentication();
         this.saveLocation(location.href);
         location.href = App.getContextPath() + "/login";
@@ -301,7 +305,7 @@ $.ajaxSetup({
     error: function (request) {
         switch (request.status) {
             case 401:
-                App.handle401(request);
+                App.handle401();
                 break;
 
             case 422:

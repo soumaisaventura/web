@@ -150,7 +150,7 @@ public class Authenticator {
             pendencies.put("profile", user.getProfile().getPendencies());
             pendencies.put("health", user.getHealth().getPendencies());
 
-            claims.setIssuer("sou+aventura");
+            claims.setIssuer("soumaisaventura.com.br");
 
             DateTime now = new DateTime();
             claims.setIssuedAt(now.toDate());
