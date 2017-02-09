@@ -121,11 +121,16 @@ function loadRaceOk(data) {
     $("#race-date").text(App.parsePeriod(data.period));
     $("#race-city").text(App.parseCity(data.event.location.city));
 
+    var enabled;
+    var option;
+    var showDescription;
     $.each(data.categories, function (i, value) {
-        var enabled = App.isAdmin() || App.isOrganizer(data.event.organizers);
-        var option = $('<option>', {
+        enabled = App.isAdmin() || App.isOrganizer(data.event.organizers);
+        showDescription = value.name.match(/[0-9A-Z]/g).length > value.name.length / 2;
+
+        option = $('<option>', {
             value: value.id,
-            text: value.name + (value.vacant ? "" : " (ESGOTADO)"),
+            text: value.name + (showDescription ? " – " + value.description : "" ) + (value.vacant ? "" : " (ESGOTADO)"),
             disabled: !enabled && !value.vacant
         });
         $("#category-id").append(option.data("team-size", value.team_size));

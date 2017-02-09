@@ -2,6 +2,7 @@ package core.business;
 
 import br.gov.frameworkdemoiselle.util.Beans;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.tasks.UnsupportedFormatException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,9 +17,14 @@ public class ImageBusiness {
         byte[] result = image;
 
         if (image != null && width != null && width < defaultWidth) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
-            result = out.toByteArray();
+            try {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                Thumbnails.of(new ByteArrayInputStream(result)).scale((double) width / defaultWidth).toOutputStream(out);
+                result = out.toByteArray();
+
+            } catch (UnsupportedFormatException cause) {
+                result = image;
+            }
         }
 
         return result;
