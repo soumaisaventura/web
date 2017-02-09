@@ -512,8 +512,9 @@ public class RegistrationREST {
         }
 
         User user = User.getLoggedIn();
-        payload.add(new BasicNameValuePair("senderName", user.getProfile().getName()));
+        payload.add(new BasicNameValuePair("senderName", user.getProfile().getName() + " (logado)"));
         payload.add(new BasicNameValuePair("senderEmail", user.getEmail()));
+        payload.add(new BasicNameValuePair("shippingAddressRequired", "false"));
 
         HttpPost request = new HttpPost("https://ws.pagseguro.uol.com.br/v2/checkout/");
         String entity = URLEncodedUtils.format(payload, "UTF-8");

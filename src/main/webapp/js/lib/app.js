@@ -29,7 +29,7 @@ var App = {
     },
 
     isOrganizer: function (organizers) {
-        result = false;
+        var result = false;
         var user = this.getLoggedInUser();
 
         if (user && user.roles && user.roles.organizer && organizers && organizers.length > 0) {
@@ -77,7 +77,7 @@ var App = {
         if (parts && parts.length == 3) {
             user = JSON.parse(atob(parts[1]));
 
-            user.id = user.sub;
+            user.id = parseInt(user.sub);
             user.profile = {
                 name: user.name
             };

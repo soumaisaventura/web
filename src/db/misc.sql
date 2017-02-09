@@ -20,7 +20,7 @@ WHERE ua.email LIKE '%luizsemlimite%';
 
 SELECT *
 FROM user_account ua
-WHERE id IN (1753);
+WHERE id IN (9);
 
 SELECT *
 FROM profile p
