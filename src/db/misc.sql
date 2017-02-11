@@ -194,3 +194,9 @@ FROM user_account _u;
 SELECT count(*) AS active
 FROM user_account
 WHERE activation IS NOT NULL;
+
+
+SELECT *
+FROM registration
+WHERE payment_transaction_code IS NOT NULL
+      AND status = 'pendent';

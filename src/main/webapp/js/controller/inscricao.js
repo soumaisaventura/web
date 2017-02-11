@@ -95,7 +95,7 @@ function loadOk(registration) {
     updateTotal();
     $("#team-section").show();
 
-    if (registration.status == 'pendent') {
+    if (registration.status != 'cancelled') {
         $(".payment-type").hide();
         $(".payment-type-" + registration.race.event.payment.type).show();
         $('#registration-payment-info').html(
@@ -239,14 +239,19 @@ function updateTotal() {
 }
 
 function updatePaymentButton(checkoutCode, transactionCode) {
-    if ($("#payment-ammount").data("value") == 0 || $("#race-status").data('status') != 'pendent') {
+    var status = $("#race-status").data('status');
+    if (status == 'cancelled') {
         $("#payment-section").hide();
     } else {
         $("#payment-section").show();
     }
 
     $("#payment").unbind('click');
-    if (transactionCode) {
+    if (status == 'confirmed') {
+        $("#payment-alert").hide();
+        $("#payment").attr("disabled", true);
+
+    } else if (transactionCode) {
         $("#payment-alert").show();
         $("#payment").attr("disabled", true);
 
