@@ -75,7 +75,8 @@ var App = {
         var parts = data.split("\.");
 
         if (parts && parts.length == 3) {
-            user = JSON.parse(atob(parts[1]));
+            //user = JSON.parse(atob(parts[1]));
+        				user = jwt_decode(data);
 
             user.id = parseInt(user.sub);
             user.profile = {
