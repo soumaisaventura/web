@@ -200,3 +200,21 @@ SELECT *
 FROM registration
 WHERE payment_transaction_code IS NOT NULL
       AND status = 'pendent';
+
+SELECT
+  r.id,
+  ur.amount,
+  p.price,
+  k.price,
+  p.beginning,
+  p.ending
+FROM registration r, user_registration ur, race a, event e, period p, kit k
+WHERE r.id = ur.registration_id
+      AND r.status = 'CONFIRMED'
+      AND r.race_id = a.id
+      AND a.event_id = e.id
+      AND e.id = 53
+      AND r.period_id = p.id
+      AND ur.kit_id = k.id
+      AND ur.amount <> p.price + k.price
+ORDER BY p.beginning, ur.amount;
