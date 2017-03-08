@@ -71,58 +71,31 @@ var App = {
     },
 
     loginOk: function (data, status, request) {
-        var user;
-        var parts = data.split("\.");
+        App.setToken(request.getResponseHeader('X-Token'));
+        App.setLoggedInUser(data);
 
-        if (parts && parts.length == 3) {
-            //user = JSON.parse(atob(parts[1]));
-        				user = jwt_decode(data);
+        var url;
+        var pendencies = false;
 
-            user.id = parseInt(user.sub);
-            user.profile = {
-                name: user.name
-            };
+        if (data.profile && data.profile.pendencies > 0) {
+            url = App.getContextPath() + "/user/profile";
+            pendencies = true;
 
-            user.picture = {
-                picture: App.getContextPath() + "/usuario/" + user.sub + "/foto.jpg",
-                thumbnail: App.getContextPath() + "/usuario/" + user.sub + "/minifoto.jpg"
-            };
-
-            App.setToken(data);
-            App.setLoggedInUser(user);
-
-        } else {
-            App.setToken(null);
-            App.setLoggedInUser(null);
-            alert("Falha no processo de login. Por favor, informe ao administrator pelo e-mail contato@soumaisaventura.com.br");
+        } else if (data.health && data.health.pendencies > 0) {
+            url = App.getContextPath() + "/user/health";
+            pendencies = true;
         }
 
-        if (user) {
-            var url;
-            var pendencies = false;
-
-            if (user.pendencies) {
-                if (user.pendencies.profile > 0) {
-                    url = App.getContextPath() + "/user/profile";
-                    pendencies = true;
-
-                } else if (user.pendencies.health > 0) {
-                    url = App.getContextPath() + "/user/health";
-                    pendencies = true;
-                }
-            }
-
-            if (pendencies) {
-                swal({
-                    title: "Dados cadastrais incompletos",
-                    text: "Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
-                    type: "warning"
-                }, function () {
-                    window.location.href = url;
-                });
-            } else {
-                App.restoreSavedLocation();
-            }
+        if (pendencies) {
+            swal({
+                title: "Dados cadastrais incompletos",
+                text: "Para se inscrever nas provas você precisa resolver isso. É fácil e rápido!",
+                type: "warning"
+            }, function () {
+                window.location.href = url;
+            });
+        } else {
+            App.restoreSavedLocation();
         }
     },
 

@@ -9,13 +9,17 @@ import core.persistence.UserDAO;
 import core.security.Authenticator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import rest.v1.data.UserData;
 import temp.security.Passwords;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.Date;
+
+import static rest.v1.service.LogonREST.TOKEN_RESPONSE_HEADER;
 
 @Path("password")
 public class PasswordREST {
@@ -39,9 +43,9 @@ public class PasswordREST {
     @Transactional
     @ValidatePayload
     @Path("reset/{token}")
-    @Produces("text/plain")
     @Consumes("application/json")
-    public String reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo)
+    @Produces("application/json")
+    public UserData reset(@PathParam("token") String token, PerformResetData data, @Context UriInfo uriInfo, @Context HttpServletResponse response)
             throws Exception {
         String authToken;
         UserDAO dao = UserDAO.getInstance();
@@ -71,7 +75,8 @@ public class PasswordREST {
             }
         }
 
-        return authToken;
+        response.setHeader(TOKEN_RESPONSE_HEADER, authToken);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     public static class RecoveryData {

@@ -2,11 +2,14 @@ package rest.v1.service;
 
 import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
+import core.entity.User;
 import core.security.Authenticator;
 import core.util.ApplicationConfig;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import rest.v1.data.UserData;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -14,12 +17,16 @@ import javax.ws.rs.core.UriInfo;
 @Path("logon")
 public class LogonREST {
 
+    public static final String TOKEN_RESPONSE_HEADER = "X-Token";
+
     @POST
     @ValidatePayload
-    @Produces("text/plain")
+    @Produces("application/json")
     @Consumes("application/json")
-    public String login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
-        return Authenticator.getInstance().authenticate(data.username, data.password);
+    public UserData login(CredentialsData data, @Context UriInfo uriInfo, @Context HttpServletResponse response) throws Exception {
+        String token = Authenticator.getInstance().authenticate(data.username, data.password);
+        response.setHeader(TOKEN_RESPONSE_HEADER, token);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     @GET

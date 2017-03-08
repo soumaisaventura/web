@@ -2,7 +2,6 @@ package core.security;
 
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.util.Beans;
-import core.entity.Profile;
 import core.entity.User;
 import core.persistence.UserDAO;
 import core.util.ApplicationConfig;
@@ -16,8 +15,6 @@ import temp.security.Passwords;
 import temp.security.UnconfirmedUserException;
 
 import javax.enterprise.context.RequestScoped;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequestScoped
 public class Authenticator {
@@ -102,37 +99,18 @@ public class Authenticator {
     }
 
     private String createToken(User user) {
-        String token;
-
-        Map<String, Boolean> roles = new HashMap();
-        roles.put("admin", user.getAdmin());
-        roles.put("organizer", user.getOrganizer());
-
-        Map<String, Integer> pendencies = new HashMap();
-        pendencies.put("profile", user.getProfile().getPendencies());
-        pendencies.put("health", user.getHealth().getPendencies());
-
         ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
-
-        token = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(parse(user))
                 .signWith(SignatureAlgorithm.HS256, config.getJwtSignKey().getBytes()).compact();
-
-        return token;
     }
 
     private User parse(Claims claims) {
         User result = null;
 
         if (claims != null) {
-            result = new User();
-            result.setId(Integer.parseInt(claims.getSubject()));
-            result.setProfile(new Profile());
-            result.getProfile().setName(claims.get("name", String.class));
-            result.setEmail(claims.get("email", String.class));
-
-            result.setAdmin(Boolean.parseBoolean(claims.get("roles", Map.class).get("admin").toString()));
-            result.setOrganizer(Boolean.parseBoolean(claims.get("roles", Map.class).get("organizer").toString()));
+            Integer id = Integer.parseInt(claims.getSubject());
+            result = UserDAO.getInstance().loadForAuthentication(id);
         }
 
         return result;
@@ -142,24 +120,11 @@ public class Authenticator {
         Claims claims = Jwts.claims();
 
         if (user != null) {
-            Map<String, Boolean> roles = new HashMap();
-            roles.put("admin", user.getAdmin());
-            roles.put("organizer", user.getOrganizer());
-
-            Map<String, Integer> pendencies = new HashMap();
-            pendencies.put("profile", user.getProfile().getPendencies());
-            pendencies.put("health", user.getHealth().getPendencies());
-
-            claims.setIssuer("soumaisaventura.com.br");
-
             DateTime now = new DateTime();
             claims.setIssuedAt(now.toDate());
             claims.setExpiration(now.plusDays(30).toDate());
             claims.setSubject(user.getId().toString());
-            claims.put("name", user.getProfile().getShortName());
-            claims.put("email", user.getEmail());
-            claims.put("roles", roles);
-            claims.put("pendencies", pendencies);
+            claims.setIssuer("soumaisaventura.com.br");
         }
 
         return claims;

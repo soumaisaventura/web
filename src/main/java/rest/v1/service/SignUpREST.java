@@ -1,9 +1,6 @@
 package rest.v1.service;
 
-import br.gov.frameworkdemoiselle.security.LoggedIn;
-import br.gov.frameworkdemoiselle.security.SecurityContext;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Beans;
 import br.gov.frameworkdemoiselle.util.ValidatePayload;
 import core.business.MailBusiness;
 import core.entity.GenderType;
@@ -21,7 +18,6 @@ import temp.security.Passwords;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -52,15 +48,6 @@ public class SignUpREST {
 
         URI baseUri = uriInfo.getBaseUri().resolve("..");
         MailBusiness.getInstance().sendUserActivation(user.getEmail(), baseUri);
-    }
-
-    @DELETE
-    @LoggedIn
-    @Transactional
-    public void quit() {
-        SecurityContext securityContext = Beans.getReference(SecurityContext.class);
-        User user = (User) securityContext.getUser();
-        UserDAO.getInstance().delete(user.getId());
     }
 
     public static class SignUpData {

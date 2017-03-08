@@ -114,11 +114,12 @@ function loadLocation(data, $element) {
 function updateOk(data) {
     $(".message").hide();
     var user = App.getLoggedInUser();
-    user.pendencies.profile = null;
-    user.name = $("#name").val().split(" ")[0];
+    user.profile.pendencies = null;
+    user.profile.name = $("#name").val();
+    user.profile.short_name = $("#name").val().split(" ")[0];
     App.setLoggedInUser(user);
 
-    if (user.pendencies && user.pendencies.health > 0) {
+    if (user.health && user.health.pendencies > 0) {
         swal({
             title: "Dados salvos",
             text: "Porém você ainda possui pendências nos dados de saúde.",

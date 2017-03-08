@@ -15,8 +15,10 @@ import core.persistence.UserDAO;
 import core.security.Authenticator;
 import core.util.Misc;
 import org.hibernate.validator.constraints.NotEmpty;
+import rest.v1.data.UserData;
 import temp.security.OAuthSession;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
@@ -25,6 +27,8 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.Date;
 
+import static rest.v1.service.LogonREST.TOKEN_RESPONSE_HEADER;
+
 public abstract class OAuthLogon {
 
     protected abstract Created createUser(String code) throws Exception;
@@ -32,9 +36,9 @@ public abstract class OAuthLogon {
     @POST
     @Transactional
     @ValidatePayload
-    @Produces("text/plain")
+    @Produces("application/json")
     @Consumes("application/json")
-    public String login(CredentialsData data, @Context UriInfo uriInfo) throws Exception {
+    public UserData login(CredentialsData data, @Context UriInfo uriInfo, @Context HttpServletResponse response) throws Exception {
         String token = null;
         UserDAO userDAO = UserDAO.getInstance();
         ProfileDAO profileDAO = ProfileDAO.getInstance();
@@ -52,6 +56,7 @@ public abstract class OAuthLogon {
 
             URI baseUri = uriInfo.getBaseUri().resolve("..");
             token = Authenticator.getInstance().authenticate(oauth);
+
             MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
         } else if (persisted.getActivation() == null) {
@@ -71,7 +76,8 @@ public abstract class OAuthLogon {
             token = Authenticator.getInstance().authenticate(oauth);
         }
 
-        return token;
+        response.setHeader(TOKEN_RESPONSE_HEADER, token);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     protected void login(String username) {

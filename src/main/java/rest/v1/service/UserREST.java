@@ -10,6 +10,7 @@ import core.persistence.UserDAO;
 import core.security.Authenticator;
 import rest.v1.data.UserData;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -17,6 +18,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static rest.v1.service.LogonREST.TOKEN_RESPONSE_HEADER;
 
 @Path("user")
 public class UserREST {
@@ -47,10 +50,10 @@ public class UserREST {
     @POST
     @Transactional
     @ValidatePayload
-    @Produces("text/plain")
     @Path("activation/{token}")
     @Consumes("application/json")
-    public String activate(@PathParam("token") String token, SignUpREST.ActivationData data, @Context UriInfo uriInfo)
+    @Produces("application/json")
+    public UserData activate(@PathParam("token") String token, SignUpREST.ActivationData data, @Context UriInfo uriInfo, @Context HttpServletResponse response)
             throws Exception {
         UserDAO userDAO = UserDAO.getInstance();
         User persisted = userDAO.load(data.email);
@@ -65,7 +68,8 @@ public class UserREST {
         URI baseUri = uriInfo.getBaseUri().resolve("..");
         MailBusiness.getInstance().sendWelcome(User.getLoggedIn().getEmail(), baseUri);
 
-        return authToken;
+        response.setHeader(TOKEN_RESPONSE_HEADER, authToken);
+        return new UserData(User.getLoggedIn(), uriInfo, false);
     }
 
     private void validate(String token, User user) throws Exception {

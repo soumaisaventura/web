@@ -234,6 +234,43 @@ public class UserDAO extends JPACrud<User, Integer> {
         return result;
     }
 
+    public User loadForAuthentication(Integer id) {
+        String jpql = "";
+        jpql += " select ";
+        jpql += "    new User( ";
+        jpql += "        u.id, ";
+        jpql += "        u.email, ";
+        jpql += "        u.password, ";
+        jpql += "        u.activation, ";
+        jpql += "        u.activationToken, ";
+        jpql += "        u.passwordResetRequest, ";
+        jpql += "        u.passwordResetToken, ";
+        jpql += "        p.name, ";
+        jpql += "        p.gender, ";
+        jpql += " 	     p.pendencies, ";
+        jpql += " 	     h.pendencies, ";
+        jpql += " 	     u.admin, ";
+        jpql += " 	     u.organizer ";
+        jpql += " 	     ) ";
+        jpql += "   from Profile p";
+        jpql += "   join p.user u, ";
+        jpql += "        Health h ";
+        jpql += "  where u = h.user ";
+        jpql += "    and u.deleted is null ";
+        jpql += "    and u.id = :id";
+
+        TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
+        query.setParameter("id", id);
+
+        User result;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException cause) {
+            result = null;
+        }
+        return result;
+    }
+
     public User loadBasics(Integer id) {
         String jpql = "";
         jpql += " select ";
