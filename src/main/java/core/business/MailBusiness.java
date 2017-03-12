@@ -247,41 +247,26 @@ public class MailBusiness implements Serializable {
     }
 
     @Asynchronous
-    public void sendRegistrationConfirmation(Registration registration, URI baseUri) throws Exception {
+    public void sendRegistrationConfirmation(final Long registrationId, URI baseUri) throws Exception {
         beforeAsync();
-        // User creator = userDAO.loadBasics(registration.getSubmitter().getEmail());
-        List<UserRegistration> members = UserRegistrationDAO.getInstance().find(registration);
-        registration = RegistrationDAO.getInstance().loadForDetails(registration.getId());
+        Registration registration = RegistrationBusiness.getInstance().loadForDetails(registrationId);
+        List<UserRegistration> userRegistrations = registration.getUserRegistrations();
         Race race = registration.getRaceCategory().getRace();
+        Event event = race.getEvent();
 
-        String content = Strings
-                .parse(Reflections.getResourceAsStream("mail-templates/registration-confirmation.html"));
-        content = clearContent(content);
-        content = content.replace("{appName}", "Sou+ Aventura");
-        content = content.replace("{appAdminMail}", "contato@soumaisaventura.com.br");
-        content = content.replace("{registrationTeamName}", escapeHtml(registration.getTeamName()));
-        content = content.replace("{raceName}", escapeHtml(race.getEvent().getName()));
-        content = content.replace("{raceCity}", escapeHtml(race.getEvent().getCity().getName()));
-        content = content.replace("{raceState}", race.getEvent().getCity().getState().getAbbreviation());
-        content = content.replace("{raceDate}", Dates.parse(race.getPeriod().getBeginning()));
-        content = content.replaceAll("(href=\")https?://[\\w\\./-]+/(\">)",
-                "$1" + parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()) + "$2");
-        content = content.replace("{registrationId}", registration.getFormattedId());
-        content = content.replace("{categoryName}", escapeHtml(registration.getRaceCategory().getCategory().getName()));
-        content = content.replace("{courseName}", registration.getRaceCategory().getRace().getName());
-        content = content.replace("{teamFormation}", escapeHtml(Misc.stringfy(members)));
+        registration.setTeamName(registration.getTeamName().toUpperCase());
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("registration", registration);
+        context.put("team", Misc.stringfy(userRegistrations));
+        context.put("raceDate", Dates.parse(race.getPeriod().getBeginning()));
+        context.put("url", parseURL(baseUri.resolve("inscricao/" + registration.getFormattedId()).toString()));
 
         String subject = "Confirmação da inscrição";
         subject += " #" + registration.getFormattedId();
-        subject += " – " + race.getEvent().getName();
-
-        for (UserRegistration member : members) {
-            send(subject, content, "text/html", new InternetAddress(member.getUser().getEmail()));
-        }
-
-        // if (!members.contains(creator)) {
-        // send(subject, content, "text/html", creator.getEmail());
-        // }
+        subject += " – " + event.getName();
+        String content = parse("mail-templates/registration-confirmation.txt", context);
+        send(subject, content, "text/plain", getAddress(userRegistrations));
     }
 
     private String clearContent(String content) {

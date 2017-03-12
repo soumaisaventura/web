@@ -329,7 +329,7 @@ public class RegistrationREST {
         RegistrationDAO.getInstance().update(registration);
 
         URI baseUri = uriInfo.getBaseUri().resolve("..");
-        MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
+        MailBusiness.getInstance().sendRegistrationConfirmation(registration.getId(), baseUri);
     }
 
     @POST

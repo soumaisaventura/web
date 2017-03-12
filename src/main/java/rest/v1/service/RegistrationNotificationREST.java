@@ -90,7 +90,7 @@ public class RegistrationNotificationREST {
                     persistedRegistration.setDate(new Date());
                     dao.update(persistedRegistration);
 
-                    MailBusiness.getInstance().sendRegistrationConfirmation(registration, baseUri);
+                    MailBusiness.getInstance().sendRegistrationConfirmation(registration.getId(), baseUri);
                     break;
 
                 case 7: // cancelada

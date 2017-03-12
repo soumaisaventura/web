@@ -1,0 +1,18 @@
+Parabéns, {{team}},
+
+
+A inscrição da sua equipe {{team}} foi confirmada agora há pouco:
+
+Prova: {{registration.raceCategory.race.event.name}} / {{registration.raceCategory.race.name}}
+Categoria: {{registration.raceCategory.category.name}}
+Local: {{registration.raceCategory.race.event.city.name}}/{{registration.raceCategory.race.event.city.state.abbreviation}}
+Data: {{raceDate}}
+
+Para mais detalhes sobre da inscrição, clique no link a baixo:
+{{{url}}}
+
+Foco nos treinos! Além de manter a sua saúde em dia ainda vai te ajudar a se divertir muito mais na prova. Esperamos vocês no check-in.
+
+
+{{config.appTitle}}
+{{config.appEmail}}

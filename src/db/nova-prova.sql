@@ -59,8 +59,8 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  '5km',
-  'Percurso de 5km',
+  'individual',
+  'Individual',
   59,
   9,
   '2017-05-27',
@@ -83,8 +83,8 @@ INSERT INTO race_category (race_id, category_id)
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (112)
-        AND c.id IN (211);
+  WHERE r.id IN (116)
+        AND c.id IN (9);
 
 
 DELETE FROM race_category
@@ -95,7 +95,7 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (112)
+  WHERE r.id IN (116)
         AND m.id IN (15);
 
 INSERT INTO championship_race (race_id, championship_id)
@@ -113,8 +113,8 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (112,
-        100,
+VALUES (116,
+        170,
         TO_DATE('03/04/2017', 'DD/MM/YYYY'),
         TO_DATE('20/05/2017', 'DD/MM/YYYY'),
         (SELECT max(id) + 1

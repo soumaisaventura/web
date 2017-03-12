@@ -4,7 +4,7 @@ WHERE c.state_id = s.id AND lower(c.name) LIKE '%' || lower('humildes') || '%';
 
 SELECT *
 FROM profile p, city c
-WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('adriano') || '%';
+WHERE p.city_id = c.id AND lower(p.name) LIKE '%' || lower('Moraes') || '%';
 
 UPDATE user_registration
 SET user_id = 3114
@@ -16,7 +16,7 @@ WHERE lower(p.name) LIKE '%arnaldo%';
 
 SELECT *
 FROM user_account ua
-WHERE ua.email LIKE '%luizsemlimite%';
+WHERE ua.email LIKE '%vhmoreau@pq.cnpq.br%';
 
 SELECT *
 FROM user_account ua
