@@ -1,4 +1,4 @@
-package temp.security;
+package core.security;
 
 import br.gov.frameworkdemoiselle.security.AuthenticationException;
 

@@ -7,10 +7,10 @@ import core.business.MailBusiness;
 import core.entity.User;
 import core.persistence.UserDAO;
 import core.security.Authenticator;
+import core.security.Passwords;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import rest.v1.data.UserData;
-import temp.security.Passwords;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;

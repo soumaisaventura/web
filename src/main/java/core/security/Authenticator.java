@@ -2,6 +2,7 @@ package core.security;
 
 import br.gov.frameworkdemoiselle.security.InvalidCredentialsException;
 import br.gov.frameworkdemoiselle.util.Beans;
+import br.gov.frameworkdemoiselle.util.Strings;
 import core.entity.User;
 import core.persistence.UserDAO;
 import core.util.ApplicationConfig;
@@ -10,9 +11,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
-import temp.security.PasswordNotDefinedException;
-import temp.security.Passwords;
-import temp.security.UnconfirmedUserException;
 
 import javax.enterprise.context.RequestScoped;
 
@@ -58,17 +56,27 @@ public class Authenticator {
     }
 
     public void authenticate(String token) {
-        try {
-            ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
+        boolean failed = false;
 
-            Claims claims = Jwts.parser()
-                    .setSigningKey(config.getJwtSignKey().getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
+        if (!Strings.isEmpty(token)) {
+            try {
+                ApplicationConfig config = Beans.getReference(ApplicationConfig.class);
 
-            setLoggedIn(parse(claims));
+                Claims claims = Jwts.parser()
+                        .setSigningKey(config.getJwtSignKey().getBytes())
+                        .parseClaimsJws(token)
+                        .getBody();
 
-        } catch (JwtException cause) {
+                setLoggedIn(parse(claims));
+
+            } catch (JwtException cause) {
+                failed = true;
+            }
+        } else {
+            failed = true;
+        }
+
+        if (failed) {
             throw new InvalidCredentialsException("Token inválido");
         }
     }

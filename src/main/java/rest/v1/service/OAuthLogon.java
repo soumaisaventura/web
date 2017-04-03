@@ -13,10 +13,10 @@ import core.persistence.HealthDAO;
 import core.persistence.ProfileDAO;
 import core.persistence.UserDAO;
 import core.security.Authenticator;
+import core.security.OAuthSession;
 import core.util.Misc;
 import org.hibernate.validator.constraints.NotEmpty;
 import rest.v1.data.UserData;
-import temp.security.OAuthSession;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;

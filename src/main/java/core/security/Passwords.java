@@ -1,4 +1,4 @@
-package temp.security;
+package core.security;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.RandomStringUtils;

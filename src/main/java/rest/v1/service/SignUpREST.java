@@ -10,10 +10,10 @@ import core.entity.User;
 import core.persistence.HealthDAO;
 import core.persistence.ProfileDAO;
 import core.persistence.UserDAO;
+import core.security.Passwords;
 import core.util.UniqueUserEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import temp.security.Passwords;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;

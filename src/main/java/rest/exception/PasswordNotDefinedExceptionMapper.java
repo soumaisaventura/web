@@ -2,7 +2,7 @@ package rest.exception;
 
 import br.gov.frameworkdemoiselle.security.Credentials;
 import core.business.MailBusiness;
-import temp.security.PasswordNotDefinedException;
+import core.security.PasswordNotDefinedException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

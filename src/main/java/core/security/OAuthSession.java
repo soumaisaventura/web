@@ -1,4 +1,4 @@
-package temp.security;
+package core.security;
 
 import javax.enterprise.context.RequestScoped;
 
