@@ -33,16 +33,16 @@ INSERT INTO event (id,
 VALUES (
   (SELECT max(id) + 1
    FROM event),
-  'madnessrace/2017/etapa1',
-  'Madness Race',
+  'guarini/2017/desafio',
+  'Desafio Guarini de Trekking',
   NULL,
-  411,
+  5593,
   'MANUAL',
   NULL,
   NULL,
   NULL,
-  '2017-05-27',
-  '2017-05-27',
+  '2017-05-20',
+  '2017-05-20',
   1,
   'Em breve, mais informações sobre o evento.');
 
@@ -59,13 +59,13 @@ INSERT INTO race (id,
 VALUES (
   (SELECT max(id) + 1
    FROM race),
-  'individual',
-  'Individual',
-  59,
-  9,
-  '2017-05-27',
-  '2017-05-27',
+  'extreme',
+  'Extreme',
+  62,
   5,
+  '2017-05-20',
+  '2017-05-20',
+  25,
   1,
   'Em breve mais informações.');
 
@@ -73,18 +73,18 @@ INSERT INTO event_organizer (event_id,
                              organizer_id,
                              alternate_name,
                              alternate_email)
-VALUES (59,
-        4881,
-        'Adriano Lima',
-        NULL);
+VALUES (62,
+        5504,
+        'Fernanda Cavalcante',
+        'guarini.contato@gmail.com');
 
 INSERT INTO race_category (race_id, category_id)
   SELECT
     r.id AS race_id,
     c.id AS category_id
   FROM race r, category c
-  WHERE r.id IN (116)
-        AND c.id IN (9);
+  WHERE r.id IN (126, 127, 128)
+        AND c.id IN (1);
 
 
 DELETE FROM race_category
@@ -95,8 +95,8 @@ INSERT INTO race_modality (race_id, modality_id)
     r.id AS race_id,
     m.id AS modality_id
   FROM race r, modality m
-  WHERE r.id IN (116)
-        AND m.id IN (15);
+  WHERE r.id IN (126, 127, 128)
+        AND m.id IN (2, 6);
 
 INSERT INTO championship_race (race_id, championship_id)
   SELECT
@@ -113,10 +113,10 @@ INSERT INTO period (race_id,
                     beginning,
                     ending,
                     id)
-VALUES (116,
-        170,
-        TO_DATE('03/04/2017', 'DD/MM/YYYY'),
-        TO_DATE('20/05/2017', 'DD/MM/YYYY'),
+VALUES (128,
+        55,
+        TO_DATE('06/05/2017', 'DD/MM/YYYY'),
+        TO_DATE('12/05/2017', 'DD/MM/YYYY'),
         (SELECT max(id) + 1
          FROM period));
 
@@ -129,11 +129,11 @@ INSERT INTO kit (id,
                  price)
 VALUES ((SELECT max(id) + 1
          FROM kit),
-        38,
-        'completo',
-        'Kit Completo',
-        'escrever...',
-        50);
+        128,
+        'mapaextra',
+        'Kit Mapa Extra',
+        '1 mapa extra\n+Itens do kit básico',
+        25);
 
 
 UPDATE user_registration x
